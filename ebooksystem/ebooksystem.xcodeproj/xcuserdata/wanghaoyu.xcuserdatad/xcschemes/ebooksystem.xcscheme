@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "069077D919CFD58900CD9C3D"
-               BuildableName = "asdasdas.app"
-               BlueprintName = "asdasdas"
-               ReferencedContainer = "container:asdasdas.xcodeproj">
+               BlueprintIdentifier = "0690781419CFD62700CD9C3D"
+               BuildableName = "ebooksystem.app"
+               BlueprintName = "ebooksystem"
+               ReferencedContainer = "container:ebooksystem.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -32,20 +32,20 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "069077F419CFD58900CD9C3D"
-               BuildableName = "asdasdasTests.xctest"
-               BlueprintName = "asdasdasTests"
-               ReferencedContainer = "container:asdasdas.xcodeproj">
+               BlueprintIdentifier = "0690783419CFD62700CD9C3D"
+               BuildableName = "ebooksystemTests.xctest"
+               BlueprintName = "ebooksystemTests"
+               ReferencedContainer = "container:ebooksystem.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "069077D919CFD58900CD9C3D"
-            BuildableName = "asdasdas.app"
-            BlueprintName = "asdasdas"
-            ReferencedContainer = "container:asdasdas.xcodeproj">
+            BlueprintIdentifier = "0690781419CFD62700CD9C3D"
+            BuildableName = "ebooksystem.app"
+            BlueprintName = "ebooksystem"
+            ReferencedContainer = "container:ebooksystem.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </TestAction>
@@ -61,10 +61,10 @@
       <BuildableProductRunnable>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "069077D919CFD58900CD9C3D"
-            BuildableName = "asdasdas.app"
-            BlueprintName = "asdasdas"
-            ReferencedContainer = "container:asdasdas.xcodeproj">
+            BlueprintIdentifier = "0690781419CFD62700CD9C3D"
+            BuildableName = "ebooksystem.app"
+            BlueprintName = "ebooksystem"
+            ReferencedContainer = "container:ebooksystem.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -79,10 +79,10 @@
       <BuildableProductRunnable>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "069077D919CFD58900CD9C3D"
-            BuildableName = "asdasdas.app"
-            BlueprintName = "asdasdas"
-            ReferencedContainer = "container:asdasdas.xcodeproj">
+            BlueprintIdentifier = "0690781419CFD62700CD9C3D"
+            BuildableName = "ebooksystem.app"
+            BlueprintName = "ebooksystem"
+            ReferencedContainer = "container:ebooksystem.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

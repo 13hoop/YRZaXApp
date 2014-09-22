@@ -1,18 +1,18 @@
 //
-//  asdasdasTests.m
-//  asdasdasTests
+//  ebooksystemTests.m
+//  ebooksystemTests
 //
 //  Created by wanghaoyu on 14-9-22.
-//  Copyright (c) 2014年 好雨知时节. All rights reserved.
+//  Copyright (c) 2014年 sanweishuku. All rights reserved.
 //
 
 #import <XCTest/XCTest.h>
 
-@interface asdasdasTests : XCTestCase
+@interface ebooksystemTests : XCTestCase
 
 @end
 
-@implementation asdasdasTests
+@implementation ebooksystemTests
 
 - (void)setUp
 {

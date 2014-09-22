@@ -4,7 +4,7 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>asdasdas.xcscheme</key>
+		<key>ebooksystem.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>0</integer>
@@ -12,12 +12,12 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>069077D919CFD58900CD9C3D</key>
+		<key>0690781419CFD62700CD9C3D</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>069077F419CFD58900CD9C3D</key>
+		<key>0690783419CFD62700CD9C3D</key>
 		<dict>
 			<key>primary</key>
 			<true/>

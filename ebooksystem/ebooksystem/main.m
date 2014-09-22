@@ -1,9 +1,9 @@
 //
 //  main.m
-//  asdasdas
+//  ebooksystem
 //
 //  Created by wanghaoyu on 14-9-22.
-//  Copyright (c) 2014年 好雨知时节. All rights reserved.
+//  Copyright (c) 2014年 sanweishuku. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
