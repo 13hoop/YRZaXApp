@@ -10,6 +10,7 @@
 #import "CustomUpview.h"
 #import "CustomDownview.h"
 #import "MoreViewController.h"
+#import "MobClick.h"
 @interface MainViewController ()<CustomUpviewDelegate>
 
 @property(nonatomic,strong)CustomUpview *customUpView;
@@ -63,6 +64,17 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [MobClick beginLogPageView:@"PageMain"];
+}
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [MobClick endLogPageView:@"PageMain"];
+}
+
 
 
 @end

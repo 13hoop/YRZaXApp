@@ -30,6 +30,7 @@
 		0690786219D0108300CD9C3D /* CustomNavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 0690786119D0108300CD9C3D /* CustomNavigationBar.m */; };
 		0690786619D02D2300CD9C3D /* CustomMoreView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0690786519D02D2300CD9C3D /* CustomMoreView.m */; };
 		06A8660E19D14473000BEAA7 /* 2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 06A8660D19D14473000BEAA7 /* 2@2x.png */; };
+		06AA7CA419D3EB9E00CCA0CB /* CustomTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 06AA7CA319D3EB9E00CCA0CB /* CustomTableViewCell.m */; };
 		06AAA8D319D2B83A0052BB1D /* libUMFeedback.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 06AAA8D019D2B83A0052BB1D /* libUMFeedback.a */; };
 		06AAA8D419D2B83A0052BB1D /* umFeedback.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 06AAA8D119D2B83A0052BB1D /* umFeedback.bundle */; };
 		06AAA8D619D2B8610052BB1D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06AAA8D519D2B8610052BB1D /* QuartzCore.framework */; };
@@ -63,6 +64,10 @@
 		06AAA91819D2B8B90052BB1D /* UMFeedbackTableViewCellRight.m in Sources */ = {isa = PBXBuildFile; fileRef = 06AAA8F919D2B8B90052BB1D /* UMFeedbackTableViewCellRight.m */; };
 		06AAA91919D2B8B90052BB1D /* UMFeedbackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06AAA8FB19D2B8B90052BB1D /* UMFeedbackViewController.m */; };
 		06AAA91A19D2B8B90052BB1D /* UMFeedbackViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06AAA8FC19D2B8B90052BB1D /* UMFeedbackViewController.xib */; };
+		06B7F85A19D4FAA70017EA4D /* AboutUsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06B7F85919D4FAA70017EA4D /* AboutUsViewController.m */; };
+		06B7F85D19D502240017EA4D /* CustomAboutUsview.m in Sources */ = {isa = PBXBuildFile; fileRef = 06B7F85C19D502240017EA4D /* CustomAboutUsview.m */; };
+		06B7F86119D53ACF0017EA4D /* libMobClickLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 06B7F85F19D53ACF0017EA4D /* libMobClickLibrary.a */; };
+		06B7F86319D53AF50017EA4D /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 06B7F86219D53AF50017EA4D /* libz.dylib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -94,20 +99,22 @@
 		0690783F19CFD62700CD9C3D /* ebooksystemTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ebooksystemTests-Info.plist"; sourceTree = "<group>"; };
 		0690784119CFD62700CD9C3D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		0690784319CFD62700CD9C3D /* ebooksystemTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ebooksystemTests.m; sourceTree = "<group>"; };
-		0690784D19CFE63F00CD9C3D /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MainViewController.h; path = ../MainViewController.h; sourceTree = "<group>"; };
-		0690784E19CFE63F00CD9C3D /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MainViewController.m; path = ../MainViewController.m; sourceTree = "<group>"; };
-		0690785319CFE8D500CD9C3D /* CustomUpview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomUpview.h; sourceTree = "<group>"; };
-		0690785419CFE8D500CD9C3D /* CustomUpview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomUpview.m; sourceTree = "<group>"; };
+		0690784D19CFE63F00CD9C3D /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MainViewController.h; path = ../../MainViewController.h; sourceTree = "<group>"; };
+		0690784E19CFE63F00CD9C3D /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MainViewController.m; path = ../../MainViewController.m; sourceTree = "<group>"; };
+		0690785319CFE8D500CD9C3D /* CustomUpview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CustomUpview.h; path = ../../view/CustomUpview.h; sourceTree = "<group>"; };
+		0690785419CFE8D500CD9C3D /* CustomUpview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CustomUpview.m; path = ../../view/CustomUpview.m; sourceTree = "<group>"; };
 		0690785619CFEB2800CD9C3D /* 1.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 1.jpeg; sourceTree = "<group>"; };
-		0690785819CFF0B000CD9C3D /* MoreViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoreViewController.h; sourceTree = "<group>"; };
-		0690785919CFF0B000CD9C3D /* MoreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MoreViewController.m; sourceTree = "<group>"; };
-		0690785B19CFF23300CD9C3D /* CustomDownview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomDownview.h; sourceTree = "<group>"; };
-		0690785C19CFF23300CD9C3D /* CustomDownview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomDownview.m; sourceTree = "<group>"; };
+		0690785819CFF0B000CD9C3D /* MoreViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MoreViewController.h; path = ../../controller/MoreViewController.h; sourceTree = "<group>"; };
+		0690785919CFF0B000CD9C3D /* MoreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MoreViewController.m; path = ../../controller/MoreViewController.m; sourceTree = "<group>"; };
+		0690785B19CFF23300CD9C3D /* CustomDownview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CustomDownview.h; path = ../../view/CustomDownview.h; sourceTree = "<group>"; };
+		0690785C19CFF23300CD9C3D /* CustomDownview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CustomDownview.m; path = ../../view/CustomDownview.m; sourceTree = "<group>"; };
 		0690786019D0108300CD9C3D /* CustomNavigationBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomNavigationBar.h; sourceTree = "<group>"; };
 		0690786119D0108300CD9C3D /* CustomNavigationBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomNavigationBar.m; sourceTree = "<group>"; };
-		0690786419D02D2300CD9C3D /* CustomMoreView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomMoreView.h; sourceTree = "<group>"; };
-		0690786519D02D2300CD9C3D /* CustomMoreView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomMoreView.m; sourceTree = "<group>"; };
+		0690786419D02D2300CD9C3D /* CustomMoreView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CustomMoreView.h; path = ../../view/CustomMoreView.h; sourceTree = "<group>"; };
+		0690786519D02D2300CD9C3D /* CustomMoreView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CustomMoreView.m; path = ../../view/CustomMoreView.m; sourceTree = "<group>"; };
 		06A8660D19D14473000BEAA7 /* 2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "2@2x.png"; sourceTree = "<group>"; };
+		06AA7CA219D3EB9E00CCA0CB /* CustomTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CustomTableViewCell.h; path = ../../view/CustomTableViewCell.h; sourceTree = "<group>"; };
+		06AA7CA319D3EB9E00CCA0CB /* CustomTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CustomTableViewCell.m; path = ../../view/CustomTableViewCell.m; sourceTree = "<group>"; };
 		06AAA8D019D2B83A0052BB1D /* libUMFeedback.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libUMFeedback.a; sourceTree = "<group>"; };
 		06AAA8D119D2B83A0052BB1D /* umFeedback.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = umFeedback.bundle; sourceTree = "<group>"; };
 		06AAA8D219D2B83A0052BB1D /* UMFeedback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMFeedback.h; sourceTree = "<group>"; };
@@ -147,6 +154,13 @@
 		06AAA8FA19D2B8B90052BB1D /* UMFeedbackViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMFeedbackViewController.h; sourceTree = "<group>"; };
 		06AAA8FB19D2B8B90052BB1D /* UMFeedbackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UMFeedbackViewController.m; sourceTree = "<group>"; };
 		06AAA8FC19D2B8B90052BB1D /* UMFeedbackViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UMFeedbackViewController.xib; sourceTree = "<group>"; };
+		06B7F85819D4FAA70017EA4D /* AboutUsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutUsViewController.h; sourceTree = "<group>"; };
+		06B7F85919D4FAA70017EA4D /* AboutUsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutUsViewController.m; sourceTree = "<group>"; };
+		06B7F85B19D502240017EA4D /* CustomAboutUsview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomAboutUsview.h; sourceTree = "<group>"; };
+		06B7F85C19D502240017EA4D /* CustomAboutUsview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomAboutUsview.m; sourceTree = "<group>"; };
+		06B7F85F19D53ACF0017EA4D /* libMobClickLibrary.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libMobClickLibrary.a; sourceTree = "<group>"; };
+		06B7F86019D53ACF0017EA4D /* MobClick.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MobClick.h; sourceTree = "<group>"; };
+		06B7F86219D53AF50017EA4D /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -154,11 +168,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				06B7F86319D53AF50017EA4D /* libz.dylib in Frameworks */,
 				06AAA8D619D2B8610052BB1D /* QuartzCore.framework in Frameworks */,
 				0690781B19CFD62700CD9C3D /* CoreGraphics.framework in Frameworks */,
 				06AAA8D319D2B83A0052BB1D /* libUMFeedback.a in Frameworks */,
 				0690781F19CFD62700CD9C3D /* CoreData.framework in Frameworks */,
 				0690781D19CFD62700CD9C3D /* UIKit.framework in Frameworks */,
+				06B7F86119D53ACF0017EA4D /* libMobClickLibrary.a in Frameworks */,
 				0690781919CFD62700CD9C3D /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -199,6 +215,7 @@
 		0690781719CFD62700CD9C3D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				06B7F86219D53AF50017EA4D /* libz.dylib */,
 				06AAA8D519D2B8610052BB1D /* QuartzCore.framework */,
 				0690781819CFD62700CD9C3D /* Foundation.framework */,
 				0690781A19CFD62700CD9C3D /* CoreGraphics.framework */,
@@ -212,9 +229,10 @@
 		0690782019CFD62700CD9C3D /* ebooksystem */ = {
 			isa = PBXGroup;
 			children = (
-				0690785219CFE81A00CD9C3D /* controller */,
+				06B7F84D19D4F6110017EA4D /* ebooksystemMore */,
+				0690785219CFE81A00CD9C3D /* ebooksystemMain */,
 				0690785019CFE67A00CD9C3D /* model */,
-				0690785119CFE67A00CD9C3D /* view */,
+				0690785119CFE67A00CD9C3D /* commonView */,
 				0690782919CFD62700CD9C3D /* AppDelegate.h */,
 				0690782A19CFD62700CD9C3D /* AppDelegate.m */,
 				0690782F19CFD62700CD9C3D /* Images.xcassets */,
@@ -227,7 +245,6 @@
 		0690782119CFD62700CD9C3D /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				06AAA8CF19D2B8060052BB1D /* umeng */,
 				06A8660D19D14473000BEAA7 /* 2@2x.png */,
 				0690785619CFEB2800CD9C3D /* 1.jpeg */,
 				0690782219CFD62700CD9C3D /* ebooksystem-Info.plist */,
@@ -263,45 +280,24 @@
 			path = model;
 			sourceTree = "<group>";
 		};
-		0690785119CFE67A00CD9C3D /* view */ = {
+		0690785119CFE67A00CD9C3D /* commonView */ = {
 			isa = PBXGroup;
 			children = (
 				0690786319D0113600CD9C3D /* common */,
-				0690785F19D00FC600CD9C3D /* main */,
-				0690785E19D00FAC00CD9C3D /* more */,
 			);
+			name = commonView;
 			path = view;
 			sourceTree = "<group>";
 		};
-		0690785219CFE81A00CD9C3D /* controller */ = {
+		0690785219CFE81A00CD9C3D /* ebooksystemMain */ = {
 			isa = PBXGroup;
 			children = (
-				0690784D19CFE63F00CD9C3D /* MainViewController.h */,
-				0690784E19CFE63F00CD9C3D /* MainViewController.m */,
-				0690785819CFF0B000CD9C3D /* MoreViewController.h */,
-				0690785919CFF0B000CD9C3D /* MoreViewController.m */,
+				06B7F85119D4F7B10017EA4D /* ebooksystemMainView */,
+				06B7F85219D4F7B10017EA4D /* ebooksystemMainviewController */,
+				06B7F85319D4F7B10017EA4D /* ebooksystemMainviewModel */,
 			);
+			name = ebooksystemMain;
 			path = controller;
-			sourceTree = "<group>";
-		};
-		0690785E19D00FAC00CD9C3D /* more */ = {
-			isa = PBXGroup;
-			children = (
-				0690786419D02D2300CD9C3D /* CustomMoreView.h */,
-				0690786519D02D2300CD9C3D /* CustomMoreView.m */,
-			);
-			name = more;
-			sourceTree = "<group>";
-		};
-		0690785F19D00FC600CD9C3D /* main */ = {
-			isa = PBXGroup;
-			children = (
-				0690785319CFE8D500CD9C3D /* CustomUpview.h */,
-				0690785419CFE8D500CD9C3D /* CustomUpview.m */,
-				0690785B19CFF23300CD9C3D /* CustomDownview.h */,
-				0690785C19CFF23300CD9C3D /* CustomDownview.m */,
-			);
-			name = main;
 			sourceTree = "<group>";
 		};
 		0690786319D0113600CD9C3D /* common */ = {
@@ -313,18 +309,19 @@
 			name = common;
 			sourceTree = "<group>";
 		};
-		06AAA8CF19D2B8060052BB1D /* umeng */ = {
+		06AAA8CF19D2B8060052BB1D /* ebooksystemFeedback */ = {
 			isa = PBXGroup;
 			children = (
-				06AAA8D719D2B8B90052BB1D /* chat */,
+				06AAA8D719D2B8B90052BB1D /* ebooksystemFeedbackChat */,
 				06AAA8D019D2B83A0052BB1D /* libUMFeedback.a */,
 				06AAA8D119D2B83A0052BB1D /* umFeedback.bundle */,
 				06AAA8D219D2B83A0052BB1D /* UMFeedback.h */,
 			);
-			name = umeng;
+			name = ebooksystemFeedback;
+			path = ../..;
 			sourceTree = "<group>";
 		};
-		06AAA8D719D2B8B90052BB1D /* chat */ = {
+		06AAA8D719D2B8B90052BB1D /* ebooksystemFeedbackChat */ = {
 			isa = PBXGroup;
 			children = (
 				06AAA8D819D2B8B90052BB1D /* EGO_Refresh */,
@@ -340,6 +337,7 @@
 				06AAA8FB19D2B8B90052BB1D /* UMFeedbackViewController.m */,
 				06AAA8FC19D2B8B90052BB1D /* UMFeedbackViewController.xib */,
 			);
+			name = ebooksystemFeedbackChat;
 			path = chat;
 			sourceTree = "<group>";
 		};
@@ -380,6 +378,118 @@
 				06AAA8F219D2B8B90052BB1D /* umeng_logo.png */,
 			);
 			path = Images;
+			sourceTree = "<group>";
+		};
+		06B7F84D19D4F6110017EA4D /* ebooksystemMore */ = {
+			isa = PBXGroup;
+			children = (
+				06B7F85E19D53AC20017EA4D /* ebooksystemUpdate */,
+				06B7F85519D4FA000017EA4D /* ebooksystemAboutUs */,
+				06B7F85419D4F8EF0017EA4D /* ebooksystemFeedback */,
+				06B7F85019D4F7400017EA4D /* ebooksystemMoreView */,
+				06B7F84F19D4F7010017EA4D /* ebooksystemMoreviewModel */,
+				06B7F84E19D4F6BA0017EA4D /* ebooksystemMoreviewController */,
+			);
+			path = ebooksystemMore;
+			sourceTree = "<group>";
+		};
+		06B7F84E19D4F6BA0017EA4D /* ebooksystemMoreviewController */ = {
+			isa = PBXGroup;
+			children = (
+				0690785819CFF0B000CD9C3D /* MoreViewController.h */,
+				0690785919CFF0B000CD9C3D /* MoreViewController.m */,
+			);
+			path = ebooksystemMoreviewController;
+			sourceTree = "<group>";
+		};
+		06B7F84F19D4F7010017EA4D /* ebooksystemMoreviewModel */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ebooksystemMoreviewModel;
+			sourceTree = "<group>";
+		};
+		06B7F85019D4F7400017EA4D /* ebooksystemMoreView */ = {
+			isa = PBXGroup;
+			children = (
+				0690786419D02D2300CD9C3D /* CustomMoreView.h */,
+				0690786519D02D2300CD9C3D /* CustomMoreView.m */,
+			);
+			path = ebooksystemMoreView;
+			sourceTree = "<group>";
+		};
+		06B7F85119D4F7B10017EA4D /* ebooksystemMainView */ = {
+			isa = PBXGroup;
+			children = (
+				0690785319CFE8D500CD9C3D /* CustomUpview.h */,
+				0690785419CFE8D500CD9C3D /* CustomUpview.m */,
+				0690785B19CFF23300CD9C3D /* CustomDownview.h */,
+				0690785C19CFF23300CD9C3D /* CustomDownview.m */,
+				06AA7CA219D3EB9E00CCA0CB /* CustomTableViewCell.h */,
+				06AA7CA319D3EB9E00CCA0CB /* CustomTableViewCell.m */,
+			);
+			path = ebooksystemMainView;
+			sourceTree = "<group>";
+		};
+		06B7F85219D4F7B10017EA4D /* ebooksystemMainviewController */ = {
+			isa = PBXGroup;
+			children = (
+				0690784D19CFE63F00CD9C3D /* MainViewController.h */,
+				0690784E19CFE63F00CD9C3D /* MainViewController.m */,
+			);
+			path = ebooksystemMainviewController;
+			sourceTree = "<group>";
+		};
+		06B7F85319D4F7B10017EA4D /* ebooksystemMainviewModel */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ebooksystemMainviewModel;
+			sourceTree = "<group>";
+		};
+		06B7F85419D4F8EF0017EA4D /* ebooksystemFeedback */ = {
+			isa = PBXGroup;
+			children = (
+				06AAA8CF19D2B8060052BB1D /* ebooksystemFeedback */,
+			);
+			name = ebooksystemFeedback;
+			path = ebooksystemFeedBack;
+			sourceTree = "<group>";
+		};
+		06B7F85519D4FA000017EA4D /* ebooksystemAboutUs */ = {
+			isa = PBXGroup;
+			children = (
+				06B7F85719D4FA690017EA4D /* ebooksystemAboutUsView */,
+				06B7F85619D4FA4E0017EA4D /* ebooksystemAboutUsController */,
+			);
+			path = ebooksystemAboutUs;
+			sourceTree = "<group>";
+		};
+		06B7F85619D4FA4E0017EA4D /* ebooksystemAboutUsController */ = {
+			isa = PBXGroup;
+			children = (
+				06B7F85819D4FAA70017EA4D /* AboutUsViewController.h */,
+				06B7F85919D4FAA70017EA4D /* AboutUsViewController.m */,
+			);
+			path = ebooksystemAboutUsController;
+			sourceTree = "<group>";
+		};
+		06B7F85719D4FA690017EA4D /* ebooksystemAboutUsView */ = {
+			isa = PBXGroup;
+			children = (
+				06B7F85B19D502240017EA4D /* CustomAboutUsview.h */,
+				06B7F85C19D502240017EA4D /* CustomAboutUsview.m */,
+			);
+			path = ebooksystemAboutUsView;
+			sourceTree = "<group>";
+		};
+		06B7F85E19D53AC20017EA4D /* ebooksystemUpdate */ = {
+			isa = PBXGroup;
+			children = (
+				06B7F85F19D53ACF0017EA4D /* libMobClickLibrary.a */,
+				06B7F86019D53ACF0017EA4D /* MobClick.h */,
+			);
+			path = ebooksystemUpdate;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -509,15 +619,18 @@
 				0690782E19CFD62700CD9C3D /* ebooksystem.xcdatamodeld in Sources */,
 				0690785A19CFF0B000CD9C3D /* MoreViewController.m in Sources */,
 				0690782B19CFD62700CD9C3D /* AppDelegate.m in Sources */,
+				06B7F85A19D4FAA70017EA4D /* AboutUsViewController.m in Sources */,
 				06AAA8FD19D2B8B90052BB1D /* UMEGORefreshTableHeaderView.m in Sources */,
 				06AAA91919D2B8B90052BB1D /* UMFeedbackViewController.m in Sources */,
 				0690785519CFE8D500CD9C3D /* CustomUpview.m in Sources */,
 				0690786619D02D2300CD9C3D /* CustomMoreView.m in Sources */,
+				06AA7CA419D3EB9E00CCA0CB /* CustomTableViewCell.m in Sources */,
 				0690782719CFD62700CD9C3D /* main.m in Sources */,
 				06AAA91519D2B8B90052BB1D /* UMContactViewController.m in Sources */,
 				06AAA91719D2B8B90052BB1D /* UMFeedbackTableViewCellLeft.m in Sources */,
 				0690785D19CFF23300CD9C3D /* CustomDownview.m in Sources */,
 				06AAA91819D2B8B90052BB1D /* UMFeedbackTableViewCellRight.m in Sources */,
+				06B7F85D19D502240017EA4D /* CustomAboutUsview.m in Sources */,
 				0690784F19CFE63F00CD9C3D /* MainViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -641,6 +754,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/ebooksystem",
+					"$(PROJECT_DIR)/ebooksystem/ebooksystemMore/ebooksystemUpdate",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
@@ -658,6 +772,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/ebooksystem",
+					"$(PROJECT_DIR)/ebooksystem/ebooksystemMore/ebooksystemUpdate",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;

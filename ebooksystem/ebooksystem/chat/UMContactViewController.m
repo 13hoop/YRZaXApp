@@ -7,7 +7,8 @@
 //
 
 #import "UMContactViewController.h"
-
+#import "MobClick.h"
+#define SCREEN_HEIGHT 480
 @implementation UMContactViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
@@ -47,6 +48,14 @@
 -(IBAction)okButton:(id)sender
 {
     [self updateContactInfo];
+    NSUserDefaults *userInfo=[NSUserDefaults standardUserDefaults];
+    [userInfo setObject:self.nameText.text forKey:@"userName"];
+    [userInfo setObject:self.date.text forKey:@"SchoolDate"];
+    [userInfo setObject:self.contactInfo.text forKey:@"userContact"];
+    [userInfo setObject:self.email.text forKey:@"userEmail"];
+    [userInfo setObject:self.project.text forKey:@"chooseProject"];
+    
+    
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -61,28 +70,34 @@
     self.project.delegate=self;
     
 }
+//还需要修改一下
 -(void)textFieldDidBeginEditing:(UITextField *)textField
 {
-//#ifdef __IPHONE_5_0
-//    
-//    float version = [[[UIDevice currentDevice] systemVersion] floatValue];
-//    
-//    if (version >= 5.0) {
-//        
-//        //不作处理
-//        
-//    }
-//    else
-//    {
-//        if (textField.tag==1002) {
-//            self.backgroundView.frame=CGRectMake(0, -100, 320, 417);
-//        }
-//    }
-//    NSLog(@"version====%f",version);
-//#endif
-    if (textField.tag==1002) {
-        self.backgroundView.frame=CGRectMake(0, -40, 320, 417);
+    CGFloat height=[self screenHeight];
+    if (height>480) {
+        if (textField.tag) {
+            if (textField.tag==1003 || textField.tag==1004) {
+                self.backgroundView.frame=CGRectMake(0, 30, 320, 568-64);
+            }
+        }
     }
+    else
+    {
+        if (textField.tag==1001) {
+            self.backgroundView.frame=CGRectMake(0, 20, 320, 417);
+        }
+        if (textField.tag==1002 ||textField.tag==1003 || textField.tag==1004) {
+            self.backgroundView.frame=CGRectMake(0, -43, 320, 417);
+        }
+    }
+    
+}
+-(CGFloat)screenHeight
+{
+    CGRect rect=[UIScreen mainScreen].bounds;
+    CGSize size=rect.size;
+    CGFloat height=size.height;
+    return height;
 }
 -(BOOL)textFieldShouldReturn:(UITextField *)textField
 {
@@ -99,6 +114,22 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [MobClick beginLogPageView:@"PageContact"];
+    NSUserDefaults *user=[NSUserDefaults standardUserDefaults];
+    self.nameText.text=[user valueForKey:@"userName"];
+    self.date.text=[user valueForKey:@"SchoolDate"];
+    self.contactInfo.text=[user valueForKey:@"userContact"];
+    self.email.text=[user valueForKey:@"userEmail"];
+    self.project.text=[user valueForKey:@"chooseProject"];
+}
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [MobClick endLogPageView:@"PageContact"];
 }
 
 @end

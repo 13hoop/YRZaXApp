@@ -10,7 +10,7 @@
 #import "UMFeedbackTableViewCellLeft.h"
 #import "UMFeedbackTableViewCellRight.h"
 #import "UMContactViewController.h"
-
+#import "MobClick.h"
 #define TOP_MARGIN 20.0f
 #define kNavigationBar_ToolBarBackGroundColor  [UIColor colorWithRed:0.149020 green:0.149020 blue:0.149020 alpha:1.0]
 #define kContactViewBackgroundColor  [UIColor colorWithRed:0.078 green:0.584 blue:0.97 alpha:1.0]
@@ -37,6 +37,8 @@ static UITapGestureRecognizer *tapRecognizer;
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+        //设置一下bool值，在完善信息处使用
+        self.isSelected=YES;
     }
     return self;
 }
@@ -66,17 +68,20 @@ static UITapGestureRecognizer *tapRecognizer;
 
 - (void)setupTableView {
     _tableViewTopMargin = self.navigationController.navigationBar.frame.size.height;
-
+    //从本地取到bool值
     BOOL contactViewHide = [[[NSUserDefaults standardUserDefaults] objectForKey:@"UMFB_ShowContactView"] boolValue];
 
     if (!contactViewHide) {
         _tableViewTopMargin = 88.0f;
         UILabel *title = (UILabel *) [self.mContactView viewWithTag:11];
         title.text = NSLocalizedString(@"您的联系方式", @"您的联系方式");
-        //在本地存储决定是否展示联系人视图的BOOL
+        //第一次置为NO,第二次置为YES,为YES时置反就成了NO
         [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithBool:YES] forKey:@"UMFB_ShowContactView"];
     } else {
         _tableViewTopMargin = 0;
+        //判断是否是第一次登陆，若是第一次登陆则显示联系人试图，否则隐藏
+        //给用户选择是否要是选择自己的信息-只需修改UMFB_ShowContactView为NO即可
+        
         [self.mContactView removeFromSuperview];
     }
 
@@ -161,6 +166,7 @@ static UITapGestureRecognizer *tapRecognizer;
     [self setFeedbackClient];
     [self updateTableView:nil];
     [self handleKeyboard];
+    [self setAddContactButton];
 
     UITapGestureRecognizer *singleFingerTap = [[UITapGestureRecognizer alloc] initWithTarget:self
                                                                                       action:@selector(handleSingleTap:)];
@@ -220,7 +226,34 @@ static UITapGestureRecognizer *tapRecognizer;
     backBtn.frame = CGRectMake(0, 0, 51.0f, self.navigationController.navigationBar.frame.size.height * 0.7);
     backBtn.autoresizingMask = UIViewAutoresizingFlexibleHeight;
 }
+-(void)setAddContactButton
+{
+    UIButton *contactButton=[UIButton buttonWithType:UIButtonTypeCustom];
+    [contactButton addTarget:self action:@selector(showContactview:) forControlEvents:UIControlEventTouchUpInside];
+    [contactButton setTitle:NSLocalizedString(@"完善信息", @"完善信息") forState:UIControlStateNormal];
+    [contactButton setTitle:NSLocalizedString(@"下次再说", @"下次再说") forState:UIControlStateSelected];
+    contactButton.titleLabel.font=[UIFont systemFontOfSize:12.0f];
+    contactButton.frame=CGRectMake(0, self.navigationController.navigationBar.frame.size.width-51.0f, 51.0f, self.navigationController.navigationBar.frame.size.height*0.7);
+    UIBarButtonItem *contactButtonItem=[[UIBarButtonItem alloc] initWithCustomView:contactButton];
+    self.navigationItem.rightBarButtonItem=contactButtonItem;
+    contactButton.autoresizingMask = UIViewAutoresizingFlexibleHeight;
+    
+}
+-(void)showContactview:(UIButton*)btn
+{
+    if (self.isSelected) {
+        [self.view addSubview:self.mContactView];
+        [btn setTitle:@"下次再说" forState:UIControlStateNormal];
+    }
+    else
+    {
+        [self.mContactView removeFromSuperview];
+        [btn setTitle:@"完善信息" forState:UIControlStateNormal];
+    }
 
+     self.isSelected=! self.isSelected;
+    NSLog(@"点击了，点击了");
+}
 - (void)didTapAnywhere:(UITapGestureRecognizer *)recognizer {
     [self.mTextField resignFirstResponder];
 }
@@ -373,7 +406,7 @@ static UITapGestureRecognizer *tapRecognizer;
 }
 
 #pragma mark ContactViewController中的代理方法 delegate method
-
+//更新mContentview上的内容
 - (void)updateContactInfo:(UMContactViewController *)controller contactInfo:(NSString *)info  andWithReamrkInfo:(NSString *)remarkInfo{
     if ([info length]) {
         self.mContactInfo = info;
@@ -490,5 +523,12 @@ static UITapGestureRecognizer *tapRecognizer;
 -(void)viewWillAppear:(BOOL)animated
 {
     self.navigationController.navigationBarHidden=NO;
+    [super viewWillAppear:animated];
+    [MobClick beginLogPageView:@"PageFeedback"];
+}
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [MobClick endLogPageView:@"PageFeedback"];
 }
 @end

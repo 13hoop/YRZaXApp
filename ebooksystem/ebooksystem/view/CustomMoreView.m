@@ -32,6 +32,7 @@
     [self addSubview:self.table];
     self.table.delegate=self;
     self.table.dataSource=self;
+    self.table.bounces=NO;
 }
 #pragma mark table的代理
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -55,6 +56,8 @@
 }
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    //cancle selected effect
+   
     NSInteger section=indexPath.section;
     NSInteger row=indexPath.row;
     static NSString *CellIdentifier = @"Cell";
@@ -131,6 +134,7 @@
 #pragma mark 段头的height和title
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
+   
     if (section==1)
     {
         return 60.0;
@@ -159,6 +163,8 @@
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    //cancel selected effect
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
     [self.more_delegate getSelectIndexPath:indexPath];
     
     if (indexPath.section==2)

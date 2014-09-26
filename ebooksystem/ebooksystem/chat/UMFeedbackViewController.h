@@ -27,6 +27,6 @@
 @property(nonatomic, retain) UIBarButtonItem *mSendItem;
 @property(nonatomic, retain) NSArray *mFeedbackData;
 @property(nonatomic, copy) NSString *appkey;
-
+@property(nonatomic,assign)BOOL isSelected;
 - (IBAction)sendFeedback:(id)sender;
 @end

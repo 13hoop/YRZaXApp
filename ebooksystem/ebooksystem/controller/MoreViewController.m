@@ -11,6 +11,8 @@
 #import "CustomMoreView.h"
 #import "MainViewController.h"
 #import "UMFeedbackViewController.h"
+#import "AboutUsViewController.h"
+#import "MobClick.h"
 #define UMENG_APPKEY @"5420c86efd98c51541017684"
 @interface MoreViewController ()<CustomNavigationBarDelegate,CustomMoreViewDelegate>
 @property(nonatomic,strong)CustomNavigationBar *navBar;
@@ -79,11 +81,19 @@
             else
             {
                 if (row==1) {
+                    
                     //软件更新
+                    [MobClick checkUpdate:@"新版本" cancelButtonTitle:@"稍后更新" otherButtonTitles:@"立即更新"];
+                    //软件更新自定义
+                    [MobClick checkUpdateWithDelegate:self selector:@selector(appUpdate:)];
+                    
                 }
                 else
                 {
                     //关于
+                    AboutUsViewController *aboutUsview=[[AboutUsViewController alloc] init];
+                    [self.navigationController pushViewController:aboutUsview animated:YES];
+
                 }
                 
             }
@@ -107,15 +117,31 @@
     [self.navigationController pushViewController:feedbackViewController animated:YES];
 }
 
+//自动更新会将这个方法作为参数传到mobclick中
+
+- (void)appUpdate:(NSDictionary *)appInfo
+{
+    //在这里面修改cell上面的lable的显示
+    //定制alertView在这里面实现
+    NSLog(@"appInfo==%@",appInfo);
+    
+}
+
 -(void)viewWillAppear:(BOOL)animated
 {
     self.navigationController.navigationBarHidden=YES;
+    [super viewWillAppear:animated];
+    [MobClick beginLogPageView:@"PageMore"];
+}
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [MobClick endLogPageView:@"PageMore"];
 }
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
 
 @end
