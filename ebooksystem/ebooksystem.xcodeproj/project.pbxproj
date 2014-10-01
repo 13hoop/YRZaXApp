@@ -25,49 +25,26 @@
 		0690785719CFEB2800CD9C3D /* 1.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 0690785619CFEB2800CD9C3D /* 1.jpeg */; };
 		06A8660E19D14473000BEAA7 /* 2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 06A8660D19D14473000BEAA7 /* 2@2x.png */; };
 		06AAA8D619D2B8610052BB1D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06AAA8D519D2B8610052BB1D /* QuartzCore.framework */; };
-		06B1E20919D64D5300732768 /* UMEGORefreshTableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 06B1E1E319D64D5300732768 /* UMEGORefreshTableHeaderView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		06B1E20A19D64D5300732768 /* background@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 06B1E1E519D64D5300732768 /* background@2x.png */; };
-		06B1E20B19D64D5300732768 /* blueArrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 06B1E1E619D64D5300732768 /* blueArrow.png */; };
-		06B1E20C19D64D5300732768 /* blueArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 06B1E1E719D64D5300732768 /* blueArrow@2x.png */; };
-		06B1E20D19D64D5300732768 /* icon_rightArrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 06B1E1E819D64D5300732768 /* icon_rightArrow@2x.png */; };
-		06B1E20E19D64D5300732768 /* icon_rightArrow_selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 06B1E1E919D64D5300732768 /* icon_rightArrow_selected@2x.png */; };
-		06B1E20F19D64D5300732768 /* item_cancel@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 06B1E1EA19D64D5300732768 /* item_cancel@2x.png */; };
-		06B1E21019D64D5300732768 /* item_cancel_selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 06B1E1EB19D64D5300732768 /* item_cancel_selected@2x.png */; };
-		06B1E21119D64D5300732768 /* item_ok@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 06B1E1EC19D64D5300732768 /* item_ok@2x.png */; };
-		06B1E21219D64D5300732768 /* item_ok_selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 06B1E1ED19D64D5300732768 /* item_ok_selected@2x.png */; };
-		06B1E21319D64D5300732768 /* messages_left_bubble@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 06B1E1EE19D64D5300732768 /* messages_left_bubble@2x.png */; };
-		06B1E21419D64D5300732768 /* messages_right_bubble@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 06B1E1EF19D64D5300732768 /* messages_right_bubble@2x.png */; };
-		06B1E21519D64D5300732768 /* messages_tableview_background.png in Resources */ = {isa = PBXBuildFile; fileRef = 06B1E1F019D64D5300732768 /* messages_tableview_background.png */; };
-		06B1E21619D64D5300732768 /* messages_tableview_background@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 06B1E1F119D64D5300732768 /* messages_tableview_background@2x.png */; };
-		06B1E21719D64D5300732768 /* messages_toolbar_background.png in Resources */ = {isa = PBXBuildFile; fileRef = 06B1E1F219D64D5300732768 /* messages_toolbar_background.png */; };
-		06B1E21819D64D5300732768 /* messages_toolbar_background@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 06B1E1F319D64D5300732768 /* messages_toolbar_background@2x.png */; };
-		06B1E21919D64D5300732768 /* nav_bar_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 06B1E1F419D64D5300732768 /* nav_bar_bg@2x.png */; };
-		06B1E21A19D64D5300732768 /* nav_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 06B1E1F519D64D5300732768 /* nav_bg.png */; };
-		06B1E21B19D64D5300732768 /* nav_btn_bg.png in Resources */ = {isa = PBXBuildFile; fileRef = 06B1E1F619D64D5300732768 /* nav_btn_bg.png */; };
-		06B1E21C19D64D5300732768 /* nav_btn_bg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 06B1E1F719D64D5300732768 /* nav_btn_bg@2x.png */; };
-		06B1E21D19D64D5300732768 /* nav_btn_bg_lighted@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 06B1E1F819D64D5300732768 /* nav_btn_bg_lighted@2x.png */; };
-		06B1E21E19D64D5300732768 /* send@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 06B1E1F919D64D5300732768 /* send@2x.png */; };
-		06B1E21F19D64D5300732768 /* send_selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 06B1E1FA19D64D5300732768 /* send_selected@2x.png */; };
-		06B1E22019D64D5300732768 /* umeng_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 06B1E1FB19D64D5300732768 /* umeng_logo.png */; };
-		06B1E22119D64D5300732768 /* UMContactViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06B1E1FD19D64D5300732768 /* UMContactViewController.m */; };
-		06B1E22219D64D5300732768 /* UMContactViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06B1E1FE19D64D5300732768 /* UMContactViewController.xib */; };
-		06B1E22319D64D5300732768 /* UMFeedbackTableViewCellLeft.m in Sources */ = {isa = PBXBuildFile; fileRef = 06B1E20019D64D5300732768 /* UMFeedbackTableViewCellLeft.m */; };
-		06B1E22419D64D5300732768 /* UMFeedbackTableViewCellRight.m in Sources */ = {isa = PBXBuildFile; fileRef = 06B1E20219D64D5300732768 /* UMFeedbackTableViewCellRight.m */; };
-		06B1E22519D64D5300732768 /* UMFeedbackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06B1E20419D64D5300732768 /* UMFeedbackViewController.m */; };
-		06B1E22619D64D5300732768 /* UMFeedbackViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06B1E20519D64D5300732768 /* UMFeedbackViewController.xib */; };
-		06B1E22719D64D5300732768 /* libUMFeedback.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 06B1E20619D64D5300732768 /* libUMFeedback.a */; };
-		06B1E22819D64D5300732768 /* umFeedback.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 06B1E20719D64D5300732768 /* umFeedback.bundle */; };
-		06B1E22C19D64D8200732768 /* CustomMoreView.m in Sources */ = {isa = PBXBuildFile; fileRef = 06B1E22B19D64D8200732768 /* CustomMoreView.m */; };
-		06B1E23019D64DAB00732768 /* MoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06B1E22F19D64DAB00732768 /* MoreViewController.m */; };
-		06B1E23819D64DDD00732768 /* CustomDownview.m in Sources */ = {isa = PBXBuildFile; fileRef = 06B1E23319D64DDD00732768 /* CustomDownview.m */; };
-		06B1E23919D64DDD00732768 /* CustomTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 06B1E23519D64DDD00732768 /* CustomTableViewCell.m */; };
-		06B1E23A19D64DDD00732768 /* CustomUpview.m in Sources */ = {isa = PBXBuildFile; fileRef = 06B1E23719D64DDD00732768 /* CustomUpview.m */; };
-		06B1E23E19D64DF000732768 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06B1E23D19D64DF000732768 /* MainViewController.m */; };
-		06B7F85A19D4FAA70017EA4D /* AboutUsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06B7F85919D4FAA70017EA4D /* AboutUsViewController.m */; };
-		06B7F85D19D502240017EA4D /* CustomAboutUsview.m in Sources */ = {isa = PBXBuildFile; fileRef = 06B7F85C19D502240017EA4D /* CustomAboutUsview.m */; };
-		06B7F86119D53ACF0017EA4D /* libMobClickLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 06B7F85F19D53ACF0017EA4D /* libMobClickLibrary.a */; };
 		06B7F86319D53AF50017EA4D /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 06B7F86219D53AF50017EA4D /* libz.dylib */; };
-		06B7FCD219D57BC20017EA4D /* CustomNavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 06B7FCD119D57BC20017EA4D /* CustomNavigationBar.m */; };
+		71860B7919DC221E00D01AA9 /* CustomDownview.m in Sources */ = {isa = PBXBuildFile; fileRef = 71860B7419DC221E00D01AA9 /* CustomDownview.m */; };
+		71860B7A19DC221E00D01AA9 /* CustomTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 71860B7619DC221E00D01AA9 /* CustomTableViewCell.m */; };
+		71860B7B19DC221E00D01AA9 /* CustomUpview.m in Sources */ = {isa = PBXBuildFile; fileRef = 71860B7819DC221E00D01AA9 /* CustomUpview.m */; };
+		71860B7E19DC223700D01AA9 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 71860B7D19DC223700D01AA9 /* MainViewController.m */; };
+		71860B8619DC22EB00D01AA9 /* CustomNavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 71860B8519DC22EB00D01AA9 /* CustomNavigationBar.m */; };
+		71860B9319DC31A200D01AA9 /* CustomMoreView.m in Sources */ = {isa = PBXBuildFile; fileRef = 71860B9219DC31A200D01AA9 /* CustomMoreView.m */; };
+		71860B9619DC31B200D01AA9 /* MoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 71860B9519DC31B200D01AA9 /* MoreViewController.m */; };
+		71860B9C19DC322A00D01AA9 /* CustomAboutUsview.m in Sources */ = {isa = PBXBuildFile; fileRef = 71860B9B19DC322A00D01AA9 /* CustomAboutUsview.m */; };
+		71860B9F19DC323900D01AA9 /* AboutUsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 71860B9E19DC323900D01AA9 /* AboutUsViewController.m */; };
+		71860BB519DC34BC00D01AA9 /* UMEGORefreshTableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 71860BB419DC34BC00D01AA9 /* UMEGORefreshTableHeaderView.m */; };
+		71860BBA19DC354D00D01AA9 /* UMFeedbackTableViewCellLeft.m in Sources */ = {isa = PBXBuildFile; fileRef = 71860BB719DC354D00D01AA9 /* UMFeedbackTableViewCellLeft.m */; };
+		71860BBB19DC354D00D01AA9 /* UMFeedbackTableViewCellRight.m in Sources */ = {isa = PBXBuildFile; fileRef = 71860BB919DC354D00D01AA9 /* UMFeedbackTableViewCellRight.m */; };
+		71860BC219DC357300D01AA9 /* UMContactViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 71860BBD19DC357300D01AA9 /* UMContactViewController.m */; };
+		71860BC319DC357300D01AA9 /* UMContactViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71860BBE19DC357300D01AA9 /* UMContactViewController.xib */; };
+		71860BC419DC357300D01AA9 /* UMFeedbackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 71860BC019DC357300D01AA9 /* UMFeedbackViewController.m */; };
+		71860BC519DC357300D01AA9 /* UMFeedbackViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71860BC119DC357300D01AA9 /* UMFeedbackViewController.xib */; };
+		71860BC819DC36D300D01AA9 /* depends in Resources */ = {isa = PBXBuildFile; fileRef = 71860BC719DC36D300D01AA9 /* depends */; };
+		71860BCD19DC438A00D01AA9 /* libMobClickLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 71860BCB19DC438A00D01AA9 /* libMobClickLibrary.a */; };
+		71860BCE19DC438A00D01AA9 /* libUMFeedback.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 71860BCC19DC438A00D01AA9 /* libUMFeedback.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -102,65 +79,42 @@
 		0690785619CFEB2800CD9C3D /* 1.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 1.jpeg; sourceTree = "<group>"; };
 		06A8660D19D14473000BEAA7 /* 2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "2@2x.png"; sourceTree = "<group>"; };
 		06AAA8D519D2B8610052BB1D /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
-		06B1E1E219D64D5300732768 /* UMEGORefreshTableHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMEGORefreshTableHeaderView.h; sourceTree = "<group>"; };
-		06B1E1E319D64D5300732768 /* UMEGORefreshTableHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UMEGORefreshTableHeaderView.m; sourceTree = "<group>"; };
-		06B1E1E519D64D5300732768 /* background@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "background@2x.png"; sourceTree = "<group>"; };
-		06B1E1E619D64D5300732768 /* blueArrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blueArrow.png; sourceTree = "<group>"; };
-		06B1E1E719D64D5300732768 /* blueArrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "blueArrow@2x.png"; sourceTree = "<group>"; };
-		06B1E1E819D64D5300732768 /* icon_rightArrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_rightArrow@2x.png"; sourceTree = "<group>"; };
-		06B1E1E919D64D5300732768 /* icon_rightArrow_selected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_rightArrow_selected@2x.png"; sourceTree = "<group>"; };
-		06B1E1EA19D64D5300732768 /* item_cancel@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "item_cancel@2x.png"; sourceTree = "<group>"; };
-		06B1E1EB19D64D5300732768 /* item_cancel_selected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "item_cancel_selected@2x.png"; sourceTree = "<group>"; };
-		06B1E1EC19D64D5300732768 /* item_ok@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "item_ok@2x.png"; sourceTree = "<group>"; };
-		06B1E1ED19D64D5300732768 /* item_ok_selected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "item_ok_selected@2x.png"; sourceTree = "<group>"; };
-		06B1E1EE19D64D5300732768 /* messages_left_bubble@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "messages_left_bubble@2x.png"; sourceTree = "<group>"; };
-		06B1E1EF19D64D5300732768 /* messages_right_bubble@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "messages_right_bubble@2x.png"; sourceTree = "<group>"; };
-		06B1E1F019D64D5300732768 /* messages_tableview_background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = messages_tableview_background.png; sourceTree = "<group>"; };
-		06B1E1F119D64D5300732768 /* messages_tableview_background@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "messages_tableview_background@2x.png"; sourceTree = "<group>"; };
-		06B1E1F219D64D5300732768 /* messages_toolbar_background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = messages_toolbar_background.png; sourceTree = "<group>"; };
-		06B1E1F319D64D5300732768 /* messages_toolbar_background@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "messages_toolbar_background@2x.png"; sourceTree = "<group>"; };
-		06B1E1F419D64D5300732768 /* nav_bar_bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "nav_bar_bg@2x.png"; sourceTree = "<group>"; };
-		06B1E1F519D64D5300732768 /* nav_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = nav_bg.png; sourceTree = "<group>"; };
-		06B1E1F619D64D5300732768 /* nav_btn_bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = nav_btn_bg.png; sourceTree = "<group>"; };
-		06B1E1F719D64D5300732768 /* nav_btn_bg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "nav_btn_bg@2x.png"; sourceTree = "<group>"; };
-		06B1E1F819D64D5300732768 /* nav_btn_bg_lighted@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "nav_btn_bg_lighted@2x.png"; sourceTree = "<group>"; };
-		06B1E1F919D64D5300732768 /* send@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "send@2x.png"; sourceTree = "<group>"; };
-		06B1E1FA19D64D5300732768 /* send_selected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "send_selected@2x.png"; sourceTree = "<group>"; };
-		06B1E1FB19D64D5300732768 /* umeng_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = umeng_logo.png; sourceTree = "<group>"; };
-		06B1E1FC19D64D5300732768 /* UMContactViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMContactViewController.h; sourceTree = "<group>"; };
-		06B1E1FD19D64D5300732768 /* UMContactViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UMContactViewController.m; sourceTree = "<group>"; };
-		06B1E1FE19D64D5300732768 /* UMContactViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UMContactViewController.xib; sourceTree = "<group>"; };
-		06B1E1FF19D64D5300732768 /* UMFeedbackTableViewCellLeft.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMFeedbackTableViewCellLeft.h; sourceTree = "<group>"; };
-		06B1E20019D64D5300732768 /* UMFeedbackTableViewCellLeft.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UMFeedbackTableViewCellLeft.m; sourceTree = "<group>"; };
-		06B1E20119D64D5300732768 /* UMFeedbackTableViewCellRight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMFeedbackTableViewCellRight.h; sourceTree = "<group>"; };
-		06B1E20219D64D5300732768 /* UMFeedbackTableViewCellRight.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UMFeedbackTableViewCellRight.m; sourceTree = "<group>"; };
-		06B1E20319D64D5300732768 /* UMFeedbackViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMFeedbackViewController.h; sourceTree = "<group>"; };
-		06B1E20419D64D5300732768 /* UMFeedbackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UMFeedbackViewController.m; sourceTree = "<group>"; };
-		06B1E20519D64D5300732768 /* UMFeedbackViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UMFeedbackViewController.xib; sourceTree = "<group>"; };
-		06B1E20619D64D5300732768 /* libUMFeedback.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libUMFeedback.a; sourceTree = "<group>"; };
-		06B1E20719D64D5300732768 /* umFeedback.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = umFeedback.bundle; sourceTree = "<group>"; };
-		06B1E20819D64D5300732768 /* UMFeedback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMFeedback.h; sourceTree = "<group>"; };
-		06B1E22A19D64D8200732768 /* CustomMoreView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomMoreView.h; sourceTree = "<group>"; };
-		06B1E22B19D64D8200732768 /* CustomMoreView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomMoreView.m; sourceTree = "<group>"; };
-		06B1E22E19D64DAB00732768 /* MoreViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoreViewController.h; sourceTree = "<group>"; };
-		06B1E22F19D64DAB00732768 /* MoreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MoreViewController.m; sourceTree = "<group>"; };
-		06B1E23219D64DDD00732768 /* CustomDownview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomDownview.h; sourceTree = "<group>"; };
-		06B1E23319D64DDD00732768 /* CustomDownview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomDownview.m; sourceTree = "<group>"; };
-		06B1E23419D64DDD00732768 /* CustomTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomTableViewCell.h; sourceTree = "<group>"; };
-		06B1E23519D64DDD00732768 /* CustomTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomTableViewCell.m; sourceTree = "<group>"; };
-		06B1E23619D64DDD00732768 /* CustomUpview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomUpview.h; sourceTree = "<group>"; };
-		06B1E23719D64DDD00732768 /* CustomUpview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomUpview.m; sourceTree = "<group>"; };
-		06B1E23C19D64DF000732768 /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
-		06B1E23D19D64DF000732768 /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
-		06B7F85819D4FAA70017EA4D /* AboutUsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutUsViewController.h; sourceTree = "<group>"; };
-		06B7F85919D4FAA70017EA4D /* AboutUsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutUsViewController.m; sourceTree = "<group>"; };
-		06B7F85B19D502240017EA4D /* CustomAboutUsview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomAboutUsview.h; sourceTree = "<group>"; };
-		06B7F85C19D502240017EA4D /* CustomAboutUsview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomAboutUsview.m; sourceTree = "<group>"; };
-		06B7F85F19D53ACF0017EA4D /* libMobClickLibrary.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libMobClickLibrary.a; sourceTree = "<group>"; };
-		06B7F86019D53ACF0017EA4D /* MobClick.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MobClick.h; sourceTree = "<group>"; };
 		06B7F86219D53AF50017EA4D /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
-		06B7FCD019D57BC20017EA4D /* CustomNavigationBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomNavigationBar.h; sourceTree = "<group>"; };
-		06B7FCD119D57BC20017EA4D /* CustomNavigationBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomNavigationBar.m; sourceTree = "<group>"; };
+		71860B7319DC221E00D01AA9 /* CustomDownview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CustomDownview.h; path = src/main/view/CustomDownview.h; sourceTree = "<group>"; };
+		71860B7419DC221E00D01AA9 /* CustomDownview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CustomDownview.m; path = src/main/view/CustomDownview.m; sourceTree = "<group>"; };
+		71860B7519DC221E00D01AA9 /* CustomTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CustomTableViewCell.h; path = src/main/view/CustomTableViewCell.h; sourceTree = "<group>"; };
+		71860B7619DC221E00D01AA9 /* CustomTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CustomTableViewCell.m; path = src/main/view/CustomTableViewCell.m; sourceTree = "<group>"; };
+		71860B7719DC221E00D01AA9 /* CustomUpview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CustomUpview.h; path = src/main/view/CustomUpview.h; sourceTree = "<group>"; };
+		71860B7819DC221E00D01AA9 /* CustomUpview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CustomUpview.m; path = src/main/view/CustomUpview.m; sourceTree = "<group>"; };
+		71860B7C19DC223700D01AA9 /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MainViewController.h; path = src/main/controller/MainViewController.h; sourceTree = "<group>"; };
+		71860B7D19DC223700D01AA9 /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MainViewController.m; path = src/main/controller/MainViewController.m; sourceTree = "<group>"; };
+		71860B8419DC22EB00D01AA9 /* CustomNavigationBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CustomNavigationBar.h; path = src/common/view/CustomNavigationBar.h; sourceTree = "<group>"; };
+		71860B8519DC22EB00D01AA9 /* CustomNavigationBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CustomNavigationBar.m; path = src/common/view/CustomNavigationBar.m; sourceTree = "<group>"; };
+		71860B9119DC31A200D01AA9 /* CustomMoreView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CustomMoreView.h; path = src/menu/menu/view/CustomMoreView.h; sourceTree = "<group>"; };
+		71860B9219DC31A200D01AA9 /* CustomMoreView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CustomMoreView.m; path = src/menu/menu/view/CustomMoreView.m; sourceTree = "<group>"; };
+		71860B9419DC31B200D01AA9 /* MoreViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MoreViewController.h; path = src/menu/menu/controller/MoreViewController.h; sourceTree = "<group>"; };
+		71860B9519DC31B200D01AA9 /* MoreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MoreViewController.m; path = src/menu/menu/controller/MoreViewController.m; sourceTree = "<group>"; };
+		71860B9A19DC322A00D01AA9 /* CustomAboutUsview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CustomAboutUsview.h; path = src/menu/about/view/CustomAboutUsview.h; sourceTree = "<group>"; };
+		71860B9B19DC322A00D01AA9 /* CustomAboutUsview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CustomAboutUsview.m; path = src/menu/about/view/CustomAboutUsview.m; sourceTree = "<group>"; };
+		71860B9D19DC323900D01AA9 /* AboutUsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AboutUsViewController.h; path = src/menu/about/controller/AboutUsViewController.h; sourceTree = "<group>"; };
+		71860B9E19DC323900D01AA9 /* AboutUsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AboutUsViewController.m; path = src/menu/about/controller/AboutUsViewController.m; sourceTree = "<group>"; };
+		71860BB319DC34BC00D01AA9 /* UMEGORefreshTableHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UMEGORefreshTableHeaderView.h; path = src/menu/feedback/chat/view/ego_refresh/UMEGORefreshTableHeaderView.h; sourceTree = "<group>"; };
+		71860BB419DC34BC00D01AA9 /* UMEGORefreshTableHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UMEGORefreshTableHeaderView.m; path = src/menu/feedback/chat/view/ego_refresh/UMEGORefreshTableHeaderView.m; sourceTree = "<group>"; };
+		71860BB619DC354D00D01AA9 /* UMFeedbackTableViewCellLeft.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UMFeedbackTableViewCellLeft.h; path = src/menu/feedback/chat/view/UMFeedbackTableViewCellLeft.h; sourceTree = "<group>"; };
+		71860BB719DC354D00D01AA9 /* UMFeedbackTableViewCellLeft.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UMFeedbackTableViewCellLeft.m; path = src/menu/feedback/chat/view/UMFeedbackTableViewCellLeft.m; sourceTree = "<group>"; };
+		71860BB819DC354D00D01AA9 /* UMFeedbackTableViewCellRight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UMFeedbackTableViewCellRight.h; path = src/menu/feedback/chat/view/UMFeedbackTableViewCellRight.h; sourceTree = "<group>"; };
+		71860BB919DC354D00D01AA9 /* UMFeedbackTableViewCellRight.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UMFeedbackTableViewCellRight.m; path = src/menu/feedback/chat/view/UMFeedbackTableViewCellRight.m; sourceTree = "<group>"; };
+		71860BBC19DC357300D01AA9 /* UMContactViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UMContactViewController.h; path = src/menu/feedback/chat/controller/UMContactViewController.h; sourceTree = "<group>"; };
+		71860BBD19DC357300D01AA9 /* UMContactViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UMContactViewController.m; path = src/menu/feedback/chat/controller/UMContactViewController.m; sourceTree = "<group>"; };
+		71860BBE19DC357300D01AA9 /* UMContactViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = UMContactViewController.xib; path = src/menu/feedback/chat/controller/UMContactViewController.xib; sourceTree = "<group>"; };
+		71860BBF19DC357300D01AA9 /* UMFeedbackViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UMFeedbackViewController.h; path = src/menu/feedback/chat/controller/UMFeedbackViewController.h; sourceTree = "<group>"; };
+		71860BC019DC357300D01AA9 /* UMFeedbackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UMFeedbackViewController.m; path = src/menu/feedback/chat/controller/UMFeedbackViewController.m; sourceTree = "<group>"; };
+		71860BC119DC357300D01AA9 /* UMFeedbackViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = UMFeedbackViewController.xib; path = src/menu/feedback/chat/controller/UMFeedbackViewController.xib; sourceTree = "<group>"; };
+		71860BC719DC36D300D01AA9 /* depends */ = {isa = PBXFileReference; lastKnownFileType = folder; path = depends; sourceTree = "<group>"; };
+		71860BC919DC383800D01AA9 /* MobClick.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MobClick.h; path = src/menu/update/MobClick.h; sourceTree = "<group>"; };
+		71860BCA19DC3EF900D01AA9 /* UMFeedback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UMFeedback.h; path = src/menu/feedback/UMFeedback.h; sourceTree = "<group>"; };
+		71860BCB19DC438A00D01AA9 /* libMobClickLibrary.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMobClickLibrary.a; path = ebooksystem/depends/umeng/libMobClickLibrary.a; sourceTree = "<group>"; };
+		71860BCC19DC438A00D01AA9 /* libUMFeedback.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libUMFeedback.a; path = ebooksystem/depends/umeng/libUMFeedback.a; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -168,13 +122,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				71860BCD19DC438A00D01AA9 /* libMobClickLibrary.a in Frameworks */,
+				71860BCE19DC438A00D01AA9 /* libUMFeedback.a in Frameworks */,
 				06B7F86319D53AF50017EA4D /* libz.dylib in Frameworks */,
 				06AAA8D619D2B8610052BB1D /* QuartzCore.framework in Frameworks */,
 				0690781B19CFD62700CD9C3D /* CoreGraphics.framework in Frameworks */,
 				0690781F19CFD62700CD9C3D /* CoreData.framework in Frameworks */,
-				06B1E22719D64D5300732768 /* libUMFeedback.a in Frameworks */,
 				0690781D19CFD62700CD9C3D /* UIKit.framework in Frameworks */,
-				06B7F86119D53ACF0017EA4D /* libMobClickLibrary.a in Frameworks */,
 				0690781919CFD62700CD9C3D /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -215,6 +169,8 @@
 		0690781719CFD62700CD9C3D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				71860BCB19DC438A00D01AA9 /* libMobClickLibrary.a */,
+				71860BCC19DC438A00D01AA9 /* libUMFeedback.a */,
 				06B7F86219D53AF50017EA4D /* libz.dylib */,
 				06AAA8D519D2B8610052BB1D /* QuartzCore.framework */,
 				0690781819CFD62700CD9C3D /* Foundation.framework */,
@@ -229,10 +185,9 @@
 		0690782019CFD62700CD9C3D /* ebooksystem */ = {
 			isa = PBXGroup;
 			children = (
-				06B7FCCE19D57BC20017EA4D /* commonView */,
-				06B7F84D19D4F6110017EA4D /* ebooksystemMore */,
-				0690785219CFE81A00CD9C3D /* ebooksystemMain */,
-				0690785019CFE67A00CD9C3D /* model */,
+				71860B6A19DC204C00D01AA9 /* src */,
+				71860B6B19DC205500D01AA9 /* doc */,
+				71860BC719DC36D300D01AA9 /* depends */,
 				0690782919CFD62700CD9C3D /* AppDelegate.h */,
 				0690782A19CFD62700CD9C3D /* AppDelegate.m */,
 				0690782F19CFD62700CD9C3D /* Images.xcassets */,
@@ -273,222 +228,194 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		0690785019CFE67A00CD9C3D /* model */ = {
+		71860B6A19DC204C00D01AA9 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				71860B7F19DC228400D01AA9 /* common */,
+				71860B6D19DC21D000D01AA9 /* main */,
+				71860B8719DC230400D01AA9 /* menu */,
 			);
-			path = model;
+			name = src;
 			sourceTree = "<group>";
 		};
-		0690785219CFE81A00CD9C3D /* ebooksystemMain */ = {
+		71860B6B19DC205500D01AA9 /* doc */ = {
 			isa = PBXGroup;
 			children = (
-				06B1E23B19D64DF000732768 /* ebooksystemMainviewController */,
-				06B1E23119D64DDD00732768 /* ebooksystemMainView */,
-				06B7F85319D4F7B10017EA4D /* ebooksystemMainviewModel */,
 			);
-			name = ebooksystemMain;
-			path = controller;
+			name = doc;
 			sourceTree = "<group>";
 		};
-		06B1E1DF19D64D5300732768 /* ebooksystemFeedback */ = {
+		71860B6D19DC21D000D01AA9 /* main */ = {
 			isa = PBXGroup;
 			children = (
-				06B1E1E019D64D5300732768 /* ebooksystemFeedbackChat */,
-				06B1E20619D64D5300732768 /* libUMFeedback.a */,
-				06B1E20719D64D5300732768 /* umFeedback.bundle */,
-				06B1E20819D64D5300732768 /* UMFeedback.h */,
+				71860B7119DC21FE00D01AA9 /* view */,
+				71860B7219DC220500D01AA9 /* controller */,
 			);
-			path = ebooksystemFeedback;
+			name = main;
 			sourceTree = "<group>";
 		};
-		06B1E1E019D64D5300732768 /* ebooksystemFeedbackChat */ = {
+		71860B7119DC21FE00D01AA9 /* view */ = {
 			isa = PBXGroup;
 			children = (
-				06B1E1E119D64D5300732768 /* EGO_Refresh */,
-				06B1E1E419D64D5300732768 /* Images */,
-				06B1E1FC19D64D5300732768 /* UMContactViewController.h */,
-				06B1E1FD19D64D5300732768 /* UMContactViewController.m */,
-				06B1E1FE19D64D5300732768 /* UMContactViewController.xib */,
-				06B1E1FF19D64D5300732768 /* UMFeedbackTableViewCellLeft.h */,
-				06B1E20019D64D5300732768 /* UMFeedbackTableViewCellLeft.m */,
-				06B1E20119D64D5300732768 /* UMFeedbackTableViewCellRight.h */,
-				06B1E20219D64D5300732768 /* UMFeedbackTableViewCellRight.m */,
-				06B1E20319D64D5300732768 /* UMFeedbackViewController.h */,
-				06B1E20419D64D5300732768 /* UMFeedbackViewController.m */,
-				06B1E20519D64D5300732768 /* UMFeedbackViewController.xib */,
+				71860B7319DC221E00D01AA9 /* CustomDownview.h */,
+				71860B7419DC221E00D01AA9 /* CustomDownview.m */,
+				71860B7519DC221E00D01AA9 /* CustomTableViewCell.h */,
+				71860B7619DC221E00D01AA9 /* CustomTableViewCell.m */,
+				71860B7719DC221E00D01AA9 /* CustomUpview.h */,
+				71860B7819DC221E00D01AA9 /* CustomUpview.m */,
 			);
-			path = ebooksystemFeedbackChat;
+			name = view;
 			sourceTree = "<group>";
 		};
-		06B1E1E119D64D5300732768 /* EGO_Refresh */ = {
+		71860B7219DC220500D01AA9 /* controller */ = {
 			isa = PBXGroup;
 			children = (
-				06B1E1E219D64D5300732768 /* UMEGORefreshTableHeaderView.h */,
-				06B1E1E319D64D5300732768 /* UMEGORefreshTableHeaderView.m */,
+				71860B7C19DC223700D01AA9 /* MainViewController.h */,
+				71860B7D19DC223700D01AA9 /* MainViewController.m */,
 			);
-			path = EGO_Refresh;
+			name = controller;
 			sourceTree = "<group>";
 		};
-		06B1E1E419D64D5300732768 /* Images */ = {
+		71860B7F19DC228400D01AA9 /* common */ = {
 			isa = PBXGroup;
 			children = (
-				06B1E1E519D64D5300732768 /* background@2x.png */,
-				06B1E1E619D64D5300732768 /* blueArrow.png */,
-				06B1E1E719D64D5300732768 /* blueArrow@2x.png */,
-				06B1E1E819D64D5300732768 /* icon_rightArrow@2x.png */,
-				06B1E1E919D64D5300732768 /* icon_rightArrow_selected@2x.png */,
-				06B1E1EA19D64D5300732768 /* item_cancel@2x.png */,
-				06B1E1EB19D64D5300732768 /* item_cancel_selected@2x.png */,
-				06B1E1EC19D64D5300732768 /* item_ok@2x.png */,
-				06B1E1ED19D64D5300732768 /* item_ok_selected@2x.png */,
-				06B1E1EE19D64D5300732768 /* messages_left_bubble@2x.png */,
-				06B1E1EF19D64D5300732768 /* messages_right_bubble@2x.png */,
-				06B1E1F019D64D5300732768 /* messages_tableview_background.png */,
-				06B1E1F119D64D5300732768 /* messages_tableview_background@2x.png */,
-				06B1E1F219D64D5300732768 /* messages_toolbar_background.png */,
-				06B1E1F319D64D5300732768 /* messages_toolbar_background@2x.png */,
-				06B1E1F419D64D5300732768 /* nav_bar_bg@2x.png */,
-				06B1E1F519D64D5300732768 /* nav_bg.png */,
-				06B1E1F619D64D5300732768 /* nav_btn_bg.png */,
-				06B1E1F719D64D5300732768 /* nav_btn_bg@2x.png */,
-				06B1E1F819D64D5300732768 /* nav_btn_bg_lighted@2x.png */,
-				06B1E1F919D64D5300732768 /* send@2x.png */,
-				06B1E1FA19D64D5300732768 /* send_selected@2x.png */,
-				06B1E1FB19D64D5300732768 /* umeng_logo.png */,
+				71860B8319DC22DC00D01AA9 /* view */,
 			);
-			path = Images;
+			name = common;
 			sourceTree = "<group>";
 		};
-		06B1E22919D64D8200732768 /* ebooksystemMoreView */ = {
+		71860B8319DC22DC00D01AA9 /* view */ = {
 			isa = PBXGroup;
 			children = (
-				06B1E22A19D64D8200732768 /* CustomMoreView.h */,
-				06B1E22B19D64D8200732768 /* CustomMoreView.m */,
+				71860B8419DC22EB00D01AA9 /* CustomNavigationBar.h */,
+				71860B8519DC22EB00D01AA9 /* CustomNavigationBar.m */,
 			);
-			path = ebooksystemMoreView;
+			name = view;
 			sourceTree = "<group>";
 		};
-		06B1E22D19D64DAB00732768 /* ebooksystemMoreviewController */ = {
+		71860B8719DC230400D01AA9 /* menu */ = {
 			isa = PBXGroup;
 			children = (
-				06B1E22E19D64DAB00732768 /* MoreViewController.h */,
-				06B1E22F19D64DAB00732768 /* MoreViewController.m */,
+				71860BA419DC330500D01AA9 /* feedback */,
+				71860BA019DC32ED00D01AA9 /* update */,
+				71860B9719DC31CD00D01AA9 /* about */,
+				71860B9019DC318B00D01AA9 /* menu */,
 			);
-			path = ebooksystemMoreviewController;
+			name = menu;
 			sourceTree = "<group>";
 		};
-		06B1E23119D64DDD00732768 /* ebooksystemMainView */ = {
+		71860B8819DC30EF00D01AA9 /* controller */ = {
 			isa = PBXGroup;
 			children = (
-				06B1E23219D64DDD00732768 /* CustomDownview.h */,
-				06B1E23319D64DDD00732768 /* CustomDownview.m */,
-				06B1E23419D64DDD00732768 /* CustomTableViewCell.h */,
-				06B1E23519D64DDD00732768 /* CustomTableViewCell.m */,
-				06B1E23619D64DDD00732768 /* CustomUpview.h */,
-				06B1E23719D64DDD00732768 /* CustomUpview.m */,
+				71860B9419DC31B200D01AA9 /* MoreViewController.h */,
+				71860B9519DC31B200D01AA9 /* MoreViewController.m */,
 			);
-			name = ebooksystemMainView;
-			path = ebooksystem/ebooksystemMain/ebooksystemMainView;
-			sourceTree = SOURCE_ROOT;
-		};
-		06B1E23B19D64DF000732768 /* ebooksystemMainviewController */ = {
-			isa = PBXGroup;
-			children = (
-				06B1E23C19D64DF000732768 /* MainViewController.h */,
-				06B1E23D19D64DF000732768 /* MainViewController.m */,
-			);
-			name = ebooksystemMainviewController;
-			path = ebooksystem/ebooksystemMain/ebooksystemMainviewController;
-			sourceTree = SOURCE_ROOT;
-		};
-		06B7F84D19D4F6110017EA4D /* ebooksystemMore */ = {
-			isa = PBXGroup;
-			children = (
-				06B1E22D19D64DAB00732768 /* ebooksystemMoreviewController */,
-				06B1E22919D64D8200732768 /* ebooksystemMoreView */,
-				06B7F85E19D53AC20017EA4D /* ebooksystemUpdate */,
-				06B7F85519D4FA000017EA4D /* ebooksystemAboutUs */,
-				06B7F85419D4F8EF0017EA4D /* ebooksystemFeedback */,
-				06B7F84F19D4F7010017EA4D /* ebooksystemMoreviewModel */,
-			);
-			path = ebooksystemMore;
+			name = controller;
 			sourceTree = "<group>";
 		};
-		06B7F84F19D4F7010017EA4D /* ebooksystemMoreviewModel */ = {
+		71860B8C19DC312F00D01AA9 /* view */ = {
 			isa = PBXGroup;
 			children = (
+				71860B9119DC31A200D01AA9 /* CustomMoreView.h */,
+				71860B9219DC31A200D01AA9 /* CustomMoreView.m */,
 			);
-			path = ebooksystemMoreviewModel;
+			name = view;
 			sourceTree = "<group>";
 		};
-		06B7F85319D4F7B10017EA4D /* ebooksystemMainviewModel */ = {
+		71860B9019DC318B00D01AA9 /* menu */ = {
 			isa = PBXGroup;
 			children = (
+				71860B8C19DC312F00D01AA9 /* view */,
+				71860B8819DC30EF00D01AA9 /* controller */,
 			);
-			path = ebooksystemMainviewModel;
+			name = menu;
 			sourceTree = "<group>";
 		};
-		06B7F85419D4F8EF0017EA4D /* ebooksystemFeedback */ = {
+		71860B9719DC31CD00D01AA9 /* about */ = {
 			isa = PBXGroup;
 			children = (
-				06B1E1DF19D64D5300732768 /* ebooksystemFeedback */,
+				71860B9819DC31D200D01AA9 /* view */,
+				71860B9919DC31D700D01AA9 /* controller */,
 			);
-			name = ebooksystemFeedback;
-			path = ebooksystemFeedBack;
+			name = about;
 			sourceTree = "<group>";
 		};
-		06B7F85519D4FA000017EA4D /* ebooksystemAboutUs */ = {
+		71860B9819DC31D200D01AA9 /* view */ = {
 			isa = PBXGroup;
 			children = (
-				06B7F85719D4FA690017EA4D /* ebooksystemAboutUsView */,
-				06B7F85619D4FA4E0017EA4D /* ebooksystemAboutUsController */,
+				71860B9A19DC322A00D01AA9 /* CustomAboutUsview.h */,
+				71860B9B19DC322A00D01AA9 /* CustomAboutUsview.m */,
 			);
-			path = ebooksystemAboutUs;
+			name = view;
 			sourceTree = "<group>";
 		};
-		06B7F85619D4FA4E0017EA4D /* ebooksystemAboutUsController */ = {
+		71860B9919DC31D700D01AA9 /* controller */ = {
 			isa = PBXGroup;
 			children = (
-				06B7F85819D4FAA70017EA4D /* AboutUsViewController.h */,
-				06B7F85919D4FAA70017EA4D /* AboutUsViewController.m */,
+				71860B9D19DC323900D01AA9 /* AboutUsViewController.h */,
+				71860B9E19DC323900D01AA9 /* AboutUsViewController.m */,
 			);
-			path = ebooksystemAboutUsController;
+			name = controller;
 			sourceTree = "<group>";
 		};
-		06B7F85719D4FA690017EA4D /* ebooksystemAboutUsView */ = {
+		71860BA019DC32ED00D01AA9 /* update */ = {
 			isa = PBXGroup;
 			children = (
-				06B7F85B19D502240017EA4D /* CustomAboutUsview.h */,
-				06B7F85C19D502240017EA4D /* CustomAboutUsview.m */,
+				71860BC919DC383800D01AA9 /* MobClick.h */,
 			);
-			path = ebooksystemAboutUsView;
+			name = update;
 			sourceTree = "<group>";
 		};
-		06B7F85E19D53AC20017EA4D /* ebooksystemUpdate */ = {
+		71860BA419DC330500D01AA9 /* feedback */ = {
 			isa = PBXGroup;
 			children = (
-				06B7F85F19D53ACF0017EA4D /* libMobClickLibrary.a */,
-				06B7F86019D53ACF0017EA4D /* MobClick.h */,
+				71860BCA19DC3EF900D01AA9 /* UMFeedback.h */,
+				71860BAA19DC337100D01AA9 /* chat */,
 			);
-			path = ebooksystemUpdate;
+			name = feedback;
 			sourceTree = "<group>";
 		};
-		06B7FCCE19D57BC20017EA4D /* commonView */ = {
+		71860BAA19DC337100D01AA9 /* chat */ = {
 			isa = PBXGroup;
 			children = (
-				06B7FCCF19D57BC20017EA4D /* common */,
+				71860BB119DC349400D01AA9 /* view */,
+				71860BB219DC349A00D01AA9 /* controller */,
 			);
-			path = commonView;
+			name = chat;
 			sourceTree = "<group>";
 		};
-		06B7FCCF19D57BC20017EA4D /* common */ = {
+		71860BAC19DC33D700D01AA9 /* ego_refresh */ = {
 			isa = PBXGroup;
 			children = (
-				06B7FCD019D57BC20017EA4D /* CustomNavigationBar.h */,
-				06B7FCD119D57BC20017EA4D /* CustomNavigationBar.m */,
+				71860BB319DC34BC00D01AA9 /* UMEGORefreshTableHeaderView.h */,
+				71860BB419DC34BC00D01AA9 /* UMEGORefreshTableHeaderView.m */,
 			);
-			path = common;
+			name = ego_refresh;
+			sourceTree = "<group>";
+		};
+		71860BB119DC349400D01AA9 /* view */ = {
+			isa = PBXGroup;
+			children = (
+				71860BAC19DC33D700D01AA9 /* ego_refresh */,
+				71860BB619DC354D00D01AA9 /* UMFeedbackTableViewCellLeft.h */,
+				71860BB719DC354D00D01AA9 /* UMFeedbackTableViewCellLeft.m */,
+				71860BB819DC354D00D01AA9 /* UMFeedbackTableViewCellRight.h */,
+				71860BB919DC354D00D01AA9 /* UMFeedbackTableViewCellRight.m */,
+			);
+			name = view;
+			sourceTree = "<group>";
+		};
+		71860BB219DC349A00D01AA9 /* controller */ = {
+			isa = PBXGroup;
+			children = (
+				71860BBC19DC357300D01AA9 /* UMContactViewController.h */,
+				71860BBD19DC357300D01AA9 /* UMContactViewController.m */,
+				71860BBE19DC357300D01AA9 /* UMContactViewController.xib */,
+				71860BBF19DC357300D01AA9 /* UMFeedbackViewController.h */,
+				71860BC019DC357300D01AA9 /* UMFeedbackViewController.m */,
+				71860BC119DC357300D01AA9 /* UMFeedbackViewController.xib */,
+			);
+			name = controller;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -566,36 +493,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				06B1E21019D64D5300732768 /* item_cancel_selected@2x.png in Resources */,
-				06B1E21719D64D5300732768 /* messages_toolbar_background.png in Resources */,
-				06B1E21C19D64D5300732768 /* nav_btn_bg@2x.png in Resources */,
+				71860BC319DC357300D01AA9 /* UMContactViewController.xib in Resources */,
+				71860BC519DC357300D01AA9 /* UMFeedbackViewController.xib in Resources */,
 				0690782519CFD62700CD9C3D /* InfoPlist.strings in Resources */,
-				06B1E22619D64D5300732768 /* UMFeedbackViewController.xib in Resources */,
-				06B1E21E19D64D5300732768 /* send@2x.png in Resources */,
-				06B1E22219D64D5300732768 /* UMContactViewController.xib in Resources */,
-				06B1E21619D64D5300732768 /* messages_tableview_background@2x.png in Resources */,
 				06A8660E19D14473000BEAA7 /* 2@2x.png in Resources */,
-				06B1E21B19D64D5300732768 /* nav_btn_bg.png in Resources */,
-				06B1E21319D64D5300732768 /* messages_left_bubble@2x.png in Resources */,
-				06B1E21219D64D5300732768 /* item_ok_selected@2x.png in Resources */,
-				06B1E21819D64D5300732768 /* messages_toolbar_background@2x.png in Resources */,
+				71860BC819DC36D300D01AA9 /* depends in Resources */,
 				0690785719CFEB2800CD9C3D /* 1.jpeg in Resources */,
-				06B1E20F19D64D5300732768 /* item_cancel@2x.png in Resources */,
-				06B1E21519D64D5300732768 /* messages_tableview_background.png in Resources */,
-				06B1E20C19D64D5300732768 /* blueArrow@2x.png in Resources */,
-				06B1E20E19D64D5300732768 /* icon_rightArrow_selected@2x.png in Resources */,
-				06B1E22019D64D5300732768 /* umeng_logo.png in Resources */,
-				06B1E21A19D64D5300732768 /* nav_bg.png in Resources */,
-				06B1E22819D64D5300732768 /* umFeedback.bundle in Resources */,
-				06B1E20D19D64D5300732768 /* icon_rightArrow@2x.png in Resources */,
-				06B1E21419D64D5300732768 /* messages_right_bubble@2x.png in Resources */,
-				06B1E20B19D64D5300732768 /* blueArrow.png in Resources */,
-				06B1E20A19D64D5300732768 /* background@2x.png in Resources */,
 				0690783019CFD62700CD9C3D /* Images.xcassets in Resources */,
-				06B1E21119D64D5300732768 /* item_ok@2x.png in Resources */,
-				06B1E21F19D64D5300732768 /* send_selected@2x.png in Resources */,
-				06B1E21D19D64D5300732768 /* nav_btn_bg_lighted@2x.png in Resources */,
-				06B1E21919D64D5300732768 /* nav_bar_bg@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -615,22 +519,22 @@
 			buildActionMask = 2147483647;
 			files = (
 				0690782E19CFD62700CD9C3D /* ebooksystem.xcdatamodeld in Sources */,
-				06B1E22419D64D5300732768 /* UMFeedbackTableViewCellRight.m in Sources */,
-				06B1E20919D64D5300732768 /* UMEGORefreshTableHeaderView.m in Sources */,
+				71860BC219DC357300D01AA9 /* UMContactViewController.m in Sources */,
+				71860B7919DC221E00D01AA9 /* CustomDownview.m in Sources */,
+				71860BB519DC34BC00D01AA9 /* UMEGORefreshTableHeaderView.m in Sources */,
+				71860BBB19DC354D00D01AA9 /* UMFeedbackTableViewCellRight.m in Sources */,
+				71860B9C19DC322A00D01AA9 /* CustomAboutUsview.m in Sources */,
+				71860B9319DC31A200D01AA9 /* CustomMoreView.m in Sources */,
+				71860BBA19DC354D00D01AA9 /* UMFeedbackTableViewCellLeft.m in Sources */,
+				71860B7E19DC223700D01AA9 /* MainViewController.m in Sources */,
+				71860B9F19DC323900D01AA9 /* AboutUsViewController.m in Sources */,
 				0690782B19CFD62700CD9C3D /* AppDelegate.m in Sources */,
-				06B7F85A19D4FAA70017EA4D /* AboutUsViewController.m in Sources */,
-				06B1E22C19D64D8200732768 /* CustomMoreView.m in Sources */,
-				06B1E22119D64D5300732768 /* UMContactViewController.m in Sources */,
-				06B1E23E19D64DF000732768 /* MainViewController.m in Sources */,
-				06B7FCD219D57BC20017EA4D /* CustomNavigationBar.m in Sources */,
-				06B1E23019D64DAB00732768 /* MoreViewController.m in Sources */,
-				06B1E22319D64D5300732768 /* UMFeedbackTableViewCellLeft.m in Sources */,
-				06B1E23819D64DDD00732768 /* CustomDownview.m in Sources */,
+				71860B7A19DC221E00D01AA9 /* CustomTableViewCell.m in Sources */,
+				71860B9619DC31B200D01AA9 /* MoreViewController.m in Sources */,
+				71860B7B19DC221E00D01AA9 /* CustomUpview.m in Sources */,
 				0690782719CFD62700CD9C3D /* main.m in Sources */,
-				06B7F85D19D502240017EA4D /* CustomAboutUsview.m in Sources */,
-				06B1E23A19D64DDD00732768 /* CustomUpview.m in Sources */,
-				06B1E23919D64DDD00732768 /* CustomTableViewCell.m in Sources */,
-				06B1E22519D64D5300732768 /* UMFeedbackViewController.m in Sources */,
+				71860B8619DC22EB00D01AA9 /* CustomNavigationBar.m in Sources */,
+				71860BC419DC357300D01AA9 /* UMFeedbackViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -753,8 +657,8 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/ebooksystem",
-					"$(PROJECT_DIR)/ebooksystem/ebooksystemMore/ebooksystemUpdate",
-					"$(PROJECT_DIR)/ebooksystem/ebooksystemMore/ebooksystemFeedBack/ebooksystemFeedback",
+					"$(PROJECT_DIR)/ebooksystem/depends/**",
+					"$(PROJECT_DIR)/ebooksystem/depends/umeng",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
@@ -772,8 +676,8 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/ebooksystem",
-					"$(PROJECT_DIR)/ebooksystem/ebooksystemMore/ebooksystemUpdate",
-					"$(PROJECT_DIR)/ebooksystem/ebooksystemMore/ebooksystemFeedBack/ebooksystemFeedback",
+					"$(PROJECT_DIR)/ebooksystem/depends/**",
+					"$(PROJECT_DIR)/ebooksystem/depends/umeng",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;

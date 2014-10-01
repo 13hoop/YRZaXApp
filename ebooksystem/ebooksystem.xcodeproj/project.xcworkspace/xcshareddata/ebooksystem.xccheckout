@@ -5,36 +5,36 @@
 	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
 	<false/>
 	<key>IDESourceControlProjectIdentifier</key>
-	<string>280C8D8E-83BA-4C0C-B2DB-845E8F6B4724</string>
+	<string>9BF71D1F-A969-4BF2-9C3E-F036A0A4010E</string>
 	<key>IDESourceControlProjectName</key>
 	<string>ebooksystem</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>CDA12BA0-97F0-4522-836C-9152080AD151</key>
-		<string>ssh://118.244.235.155:22000/home/git/repositories/app-ios-ebooksystem.git</string>
+		<key>FD67C150-572A-4232-8010-42AAFEDBD6FD</key>
+		<string>ssh://118.244.235.155:22000/app-ios-ebooksystem.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>ebooksystem/ebooksystem.xcodeproj/project.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>CDA12BA0-97F0-4522-836C-9152080AD151</key>
+		<key>FD67C150-572A-4232-8010-42AAFEDBD6FD</key>
 		<string>../../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>ssh://118.244.235.155:22000/home/git/repositories/app-ios-ebooksystem.git</string>
+	<string>ssh://118.244.235.155:22000/app-ios-ebooksystem.git</string>
 	<key>IDESourceControlProjectVersion</key>
 	<integer>110</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>CDA12BA0-97F0-4522-836C-9152080AD151</string>
+	<string>FD67C150-572A-4232-8010-42AAFEDBD6FD</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>CDA12BA0-97F0-4522-836C-9152080AD151</string>
+			<string>FD67C150-572A-4232-8010-42AAFEDBD6FD</string>
 			<key>IDESourceControlWCCName</key>
-			<string>asdasdas</string>
+			<string>app-ios-ebooksystem</string>
 		</dict>
 	</array>
 </dict>
