@@ -19,6 +19,6 @@
 
 @property(nonatomic,strong)NSString *title;
 
-@property(nonatomic,strong)id <CustomNavigationBarDelegate> customNav_delegate;
+@property(nonatomic,weak)id <CustomNavigationBarDelegate> customNav_delegate;
 
 @end

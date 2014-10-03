@@ -17,6 +17,6 @@
 @interface CustomMoreView : UIView
 
 @property(nonatomic,strong)NSString *balance;
-@property(nonatomic,strong)id <CustomMoreViewDelegate>more_delegate;
+@property(nonatomic,weak)id <CustomMoreViewDelegate>more_delegate;
 
 @end

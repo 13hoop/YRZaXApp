@@ -13,6 +13,7 @@
 #import "UMFeedbackViewController.h"
 #import "AboutUsViewController.h"
 #import "MobClick.h"
+#import "LoginViewController.h"
 #define UMENG_APPKEY @"5420c86efd98c51541017684"
 @interface MoreViewController ()<CustomNavigationBarDelegate,CustomMoreViewDelegate>
 @property(nonatomic,strong)CustomNavigationBar *navBar;
@@ -67,6 +68,11 @@
     switch (section) {
         case 0:
             //进入到登陆界面
+            if (row==0) {
+                LoginViewController *login=[[LoginViewController alloc] init];
+                [self.navigationController pushViewController:login animated:YES];
+                
+            }
             break;
         case 1:
             if (row==0) {

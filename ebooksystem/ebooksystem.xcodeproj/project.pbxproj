@@ -24,6 +24,13 @@
 		0690784419CFD62700CD9C3D /* ebooksystemTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0690784319CFD62700CD9C3D /* ebooksystemTests.m */; };
 		0690785719CFEB2800CD9C3D /* 1.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 0690785619CFEB2800CD9C3D /* 1.jpeg */; };
 		06A8660E19D14473000BEAA7 /* 2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 06A8660D19D14473000BEAA7 /* 2@2x.png */; };
+		06AA2F3819DED44F00C104E4 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06AA2F2F19DED44F00C104E4 /* LoginViewController.m */; };
+		06AA2F3919DED44F00C104E4 /* CustomLoginModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 06AA2F3219DED44F00C104E4 /* CustomLoginModel.m */; };
+		06AA2F3A19DED44F00C104E4 /* CustomLoginNavgationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 06AA2F3519DED44F00C104E4 /* CustomLoginNavgationBar.m */; };
+		06AA2F3B19DED44F00C104E4 /* CustomLoginView.m in Sources */ = {isa = PBXBuildFile; fileRef = 06AA2F3719DED44F00C104E4 /* CustomLoginView.m */; };
+		06AA2F4519DED47500C104E4 /* RegisterModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 06AA2F3F19DED47500C104E4 /* RegisterModel.m */; };
+		06AA2F4619DED47500C104E4 /* RegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06AA2F4119DED47500C104E4 /* RegisterViewController.m */; };
+		06AA2F4719DED47500C104E4 /* CustomRegisterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 06AA2F4419DED47500C104E4 /* CustomRegisterView.m */; };
 		06AAA8D619D2B8610052BB1D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06AAA8D519D2B8610052BB1D /* QuartzCore.framework */; };
 		06B7F86319D53AF50017EA4D /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 06B7F86219D53AF50017EA4D /* libz.dylib */; };
 		71860B7919DC221E00D01AA9 /* CustomDownview.m in Sources */ = {isa = PBXBuildFile; fileRef = 71860B7419DC221E00D01AA9 /* CustomDownview.m */; };
@@ -78,6 +85,20 @@
 		0690784319CFD62700CD9C3D /* ebooksystemTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ebooksystemTests.m; sourceTree = "<group>"; };
 		0690785619CFEB2800CD9C3D /* 1.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 1.jpeg; sourceTree = "<group>"; };
 		06A8660D19D14473000BEAA7 /* 2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "2@2x.png"; sourceTree = "<group>"; };
+		06AA2F2E19DED44F00C104E4 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
+		06AA2F2F19DED44F00C104E4 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
+		06AA2F3119DED44F00C104E4 /* CustomLoginModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomLoginModel.h; sourceTree = "<group>"; };
+		06AA2F3219DED44F00C104E4 /* CustomLoginModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomLoginModel.m; sourceTree = "<group>"; };
+		06AA2F3419DED44F00C104E4 /* CustomLoginNavgationBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomLoginNavgationBar.h; sourceTree = "<group>"; };
+		06AA2F3519DED44F00C104E4 /* CustomLoginNavgationBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomLoginNavgationBar.m; sourceTree = "<group>"; };
+		06AA2F3619DED44F00C104E4 /* CustomLoginView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomLoginView.h; sourceTree = "<group>"; };
+		06AA2F3719DED44F00C104E4 /* CustomLoginView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomLoginView.m; sourceTree = "<group>"; };
+		06AA2F3E19DED47500C104E4 /* RegisterModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegisterModel.h; sourceTree = "<group>"; };
+		06AA2F3F19DED47500C104E4 /* RegisterModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegisterModel.m; sourceTree = "<group>"; };
+		06AA2F4019DED47500C104E4 /* RegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegisterViewController.h; sourceTree = "<group>"; };
+		06AA2F4119DED47500C104E4 /* RegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegisterViewController.m; sourceTree = "<group>"; };
+		06AA2F4319DED47500C104E4 /* CustomRegisterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomRegisterView.h; sourceTree = "<group>"; };
+		06AA2F4419DED47500C104E4 /* CustomRegisterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomRegisterView.m; sourceTree = "<group>"; };
 		06AAA8D519D2B8610052BB1D /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		06B7F86219D53AF50017EA4D /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		71860B7319DC221E00D01AA9 /* CustomDownview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CustomDownview.h; path = src/main/view/CustomDownview.h; sourceTree = "<group>"; };
@@ -228,6 +249,76 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		06AA2F2C19DED44F00C104E4 /* login */ = {
+			isa = PBXGroup;
+			children = (
+				06AA2F2D19DED44F00C104E4 /* controller */,
+				06AA2F3019DED44F00C104E4 /* model */,
+				06AA2F3319DED44F00C104E4 /* view */,
+			);
+			name = login;
+			path = src/menu/login;
+			sourceTree = "<group>";
+		};
+		06AA2F2D19DED44F00C104E4 /* controller */ = {
+			isa = PBXGroup;
+			children = (
+				06AA2F2E19DED44F00C104E4 /* LoginViewController.h */,
+				06AA2F2F19DED44F00C104E4 /* LoginViewController.m */,
+			);
+			path = controller;
+			sourceTree = "<group>";
+		};
+		06AA2F3019DED44F00C104E4 /* model */ = {
+			isa = PBXGroup;
+			children = (
+				06AA2F3119DED44F00C104E4 /* CustomLoginModel.h */,
+				06AA2F3219DED44F00C104E4 /* CustomLoginModel.m */,
+			);
+			path = model;
+			sourceTree = "<group>";
+		};
+		06AA2F3319DED44F00C104E4 /* view */ = {
+			isa = PBXGroup;
+			children = (
+				06AA2F3419DED44F00C104E4 /* CustomLoginNavgationBar.h */,
+				06AA2F3519DED44F00C104E4 /* CustomLoginNavgationBar.m */,
+				06AA2F3619DED44F00C104E4 /* CustomLoginView.h */,
+				06AA2F3719DED44F00C104E4 /* CustomLoginView.m */,
+			);
+			path = view;
+			sourceTree = "<group>";
+		};
+		06AA2F3C19DED47500C104E4 /* register */ = {
+			isa = PBXGroup;
+			children = (
+				06AA2F3D19DED47500C104E4 /* model */,
+				06AA2F4019DED47500C104E4 /* RegisterViewController.h */,
+				06AA2F4119DED47500C104E4 /* RegisterViewController.m */,
+				06AA2F4219DED47500C104E4 /* view */,
+			);
+			name = register;
+			path = src/menu/register;
+			sourceTree = "<group>";
+		};
+		06AA2F3D19DED47500C104E4 /* model */ = {
+			isa = PBXGroup;
+			children = (
+				06AA2F3E19DED47500C104E4 /* RegisterModel.h */,
+				06AA2F3F19DED47500C104E4 /* RegisterModel.m */,
+			);
+			path = model;
+			sourceTree = "<group>";
+		};
+		06AA2F4219DED47500C104E4 /* view */ = {
+			isa = PBXGroup;
+			children = (
+				06AA2F4319DED47500C104E4 /* CustomRegisterView.h */,
+				06AA2F4419DED47500C104E4 /* CustomRegisterView.m */,
+			);
+			path = view;
+			sourceTree = "<group>";
+		};
 		71860B6A19DC204C00D01AA9 /* src */ = {
 			isa = PBXGroup;
 			children = (
@@ -296,6 +387,8 @@
 		71860B8719DC230400D01AA9 /* menu */ = {
 			isa = PBXGroup;
 			children = (
+				06AA2F3C19DED47500C104E4 /* register */,
+				06AA2F2C19DED44F00C104E4 /* login */,
 				71860BA419DC330500D01AA9 /* feedback */,
 				71860BA019DC32ED00D01AA9 /* update */,
 				71860B9719DC31CD00D01AA9 /* about */,
@@ -520,17 +613,24 @@
 			files = (
 				0690782E19CFD62700CD9C3D /* ebooksystem.xcdatamodeld in Sources */,
 				71860BC219DC357300D01AA9 /* UMContactViewController.m in Sources */,
+				06AA2F4719DED47500C104E4 /* CustomRegisterView.m in Sources */,
 				71860B7919DC221E00D01AA9 /* CustomDownview.m in Sources */,
 				71860BB519DC34BC00D01AA9 /* UMEGORefreshTableHeaderView.m in Sources */,
 				71860BBB19DC354D00D01AA9 /* UMFeedbackTableViewCellRight.m in Sources */,
 				71860B9C19DC322A00D01AA9 /* CustomAboutUsview.m in Sources */,
 				71860B9319DC31A200D01AA9 /* CustomMoreView.m in Sources */,
 				71860BBA19DC354D00D01AA9 /* UMFeedbackTableViewCellLeft.m in Sources */,
+				06AA2F3919DED44F00C104E4 /* CustomLoginModel.m in Sources */,
 				71860B7E19DC223700D01AA9 /* MainViewController.m in Sources */,
+				06AA2F4519DED47500C104E4 /* RegisterModel.m in Sources */,
+				06AA2F4619DED47500C104E4 /* RegisterViewController.m in Sources */,
 				71860B9F19DC323900D01AA9 /* AboutUsViewController.m in Sources */,
+				06AA2F3B19DED44F00C104E4 /* CustomLoginView.m in Sources */,
 				0690782B19CFD62700CD9C3D /* AppDelegate.m in Sources */,
+				06AA2F3819DED44F00C104E4 /* LoginViewController.m in Sources */,
 				71860B7A19DC221E00D01AA9 /* CustomTableViewCell.m in Sources */,
 				71860B9619DC31B200D01AA9 /* MoreViewController.m in Sources */,
+				06AA2F3A19DED44F00C104E4 /* CustomLoginNavgationBar.m in Sources */,
 				71860B7B19DC221E00D01AA9 /* CustomUpview.m in Sources */,
 				0690782719CFD62700CD9C3D /* main.m in Sources */,
 				71860B8619DC22EB00D01AA9 /* CustomNavigationBar.m in Sources */,
