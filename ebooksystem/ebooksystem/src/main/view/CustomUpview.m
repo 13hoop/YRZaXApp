@@ -44,7 +44,7 @@
     [view addSubview:moreBtn];
     //添加下面的Imageview
     UIImageView *imageview=[[UIImageView alloc] initWithFrame:CGRectMake(0, 44, 320, self.frame.size.height-44)];
-    imageview.image=[UIImage imageNamed:@"1.jpeg"];
+    imageview.image=[UIImage imageNamed:@"subject_banner.jpeg"];
     [backgoundView addSubview:imageview];
     [self addSubview:backgoundView];
     
