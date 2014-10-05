@@ -12,6 +12,7 @@
 @property(nonatomic,strong)UITableView *table;
 @property(nonatomic,strong)UILabel *lable;
 @property(nonatomic,strong)UILabel *upDateLable;
+
 @end
 
 @implementation CustomMoreView
@@ -70,8 +71,18 @@
     }
     switch (section) {
         case 0:
-            cell.textLabel.text=@"登录";
+//            cell.textLabel.text=@"登录";
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            //在这里创建一个lable，这是加到了table上，而不是在cell定制时添加的。
+            //现在想改变这个textlable.text
+            self.userNameLable=[[UILabel alloc] initWithFrame:CGRectMake(15, 0, 100, cell.frame.size.height)];
+            self.userNameLable.textAlignment=UITextAlignmentLeft;
+            self.userNameLable.text=@"登录";
+            self.userNameLable.font=[UIFont systemFontOfSize:14.0f];
+            self.userNameLable.textColor=[UIColor lightGrayColor];
+            [cell addSubview:self.userNameLable];
+            [self addObserver:self forKeyPath:@"userName" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:NULL];
+            
             break;
         case 1:
             if (row==0)
@@ -178,11 +189,17 @@
 
 
 #pragma mark kvo的观察方法
+//监听方法只能写一个
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
     if ([keyPath isEqualToString:@"balance"]) {
         self.lable.text=[self valueForKeyPath:@"balance"];
     }
+    
+    if ([keyPath isEqualToString:@"userName"]) {
+        self.userNameLable.text=[[NSUserDefaults standardUserDefaults] objectForKey:@"userInfoName"];
+    }
+
 }
 
 @end

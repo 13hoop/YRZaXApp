@@ -43,6 +43,13 @@
         text.font=[UIFont systemFontOfSize:13.0f];
         text.placeholder=[placeHolderArr objectAtIndex:i];
         text.tag=1000+i;
+        //开启一键轻触功能
+        text.clearsOnBeginEditing=YES;
+        text.clearButtonMode=UITextFieldViewModeAlways;
+        text.rightViewMode=UITextFieldViewModeAlways;
+        //屏蔽首字母大写
+        text.autocapitalizationType = UITextAutocapitalizationTypeNone;
+
         text.delegate=self;
         [self addSubview:text];
     }
