@@ -9,11 +9,12 @@
 #import "MoreViewController.h"
 #import "CustomNavigationBar.h"
 #import "CustomMoreView.h"
-#import "MainViewController.h"
+//#import "MainViewController.h"
 #import "UMFeedbackViewController.h"
 #import "AboutUsViewController.h"
 #import "MobClick.h"
 
+#import "LoginViewController.h"
 #define UMENG_APPKEY @"5420c86efd98c51541017684"
 
 @interface MoreViewController ()<CustomNavigationBarDelegate,CustomMoreViewDelegate>
@@ -85,6 +86,22 @@
     switch (section) {
         case 0:
             //进入到登陆界面
+            if (row==0) {
+//                if ([[NSUserDefaults standardUserDefaults] objectForKey:@"userInfoName"]!=NULL) {
+//                    //进入到用户信息界面,
+//                    //只要登陆成功了，本地就会存储相关的用户名和密码
+//                    //因此需要退出登录时把本地的数据置为空
+//                    NSLog(@"您已经登录，您的用户名是");
+//                }
+//                else
+//                {
+                    LoginViewController *login=[[LoginViewController alloc] init];
+                    [self.navigationController pushViewController:login animated:YES];
+                    
+
+//                }
+                
+                            }
             break;
         case 1:
             if (row == 0) {
@@ -138,7 +155,5 @@
     NSLog(@"appInfo==%@",appInfo);
     
 }
-
-
 
 @end

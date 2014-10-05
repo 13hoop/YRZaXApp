@@ -35,7 +35,7 @@
     //需要修改为图片
     self.backgroundView.backgroundColor=[UIColor blackColor];
     //创建标题
-    self.titleLable=[[UILabel alloc] initWithFrame:CGRectMake((self.backgroundView.frame.size.width-60)/2,0, 60, 44)];
+    self.titleLable=[[UILabel alloc] initWithFrame:CGRectMake((self.backgroundView.frame.size.width-60)/2,0, 80, 44)];
     self.titleLable.textColor=[UIColor whiteColor];
     self.titleLable.font=[UIFont systemFontOfSize:16.0f];
     //使用kvo来得到值

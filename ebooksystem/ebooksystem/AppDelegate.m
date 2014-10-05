@@ -7,7 +7,7 @@
 //
 
 #import "AppDelegate.h"
-#import "MainViewController.h"
+//#import "MainViewController.h"
 #import "MobClick.h"
 #define UMENG_APPKEY @"5420c86efd98c51541017684"
 @implementation AppDelegate
@@ -19,22 +19,22 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
-    UIColor *color = [UIColor colorWithRed:107/255.0f green:211/255.0f blue:217/255.0f alpha:1.0f];
-    [[UINavigationBar appearance] setBarTintColor:color];
+//    UIColor *color = [UIColor colorWithRed:107/255.0f green:211/255.0f blue:217/255.0f alpha:1.0f];
+//    [[UINavigationBar appearance] setBarTintColor:color];
     return YES;
     
-    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    // Override point for customization after application launch.
-    self.window.backgroundColor = [UIColor whiteColor];
-    
-    MainViewController *main=[[MainViewController alloc] init];
-    
-    UINavigationController *navigation=[[UINavigationController alloc] initWithRootViewController:main];
-    [self UmengMethod];
-    self.window.rootViewController=navigation;
-    
-    [self.window makeKeyAndVisible];
-    return YES;
+//    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+//    // Override point for customization after application launch.
+//    self.window.backgroundColor = [UIColor whiteColor];
+//    
+//    MainViewController *main=[[MainViewController alloc] init];
+//    
+//    UINavigationController *navigation=[[UINavigationController alloc] initWithRootViewController:main];
+//    [self UmengMethod];
+//    self.window.rootViewController=navigation;
+//    
+//    [self.window makeKeyAndVisible];
+//    return YES;
 }
 -(void)UmengMethod
 {
