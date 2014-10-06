@@ -17,7 +17,10 @@
 #import "QBTitleView.h"
 #import "UIImage+tintedImage.h"
 
+#import "KnowledgeManager.h"
 
+
+#define IS_TEST_MODE 1
 #define UIColorFromRGB(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 
 
@@ -154,21 +157,17 @@
     self.navigationController.navigationBarHidden = YES;
     //    self.navigationController.navigationBar.barTintColor = UIColorFromRGB(0x067AB5);
     
-    UIColor *color = [UIColor colorWithRed:107/255.0f green:211/255.0f blue:217/255.0f alpha:1.0f];
-    [[UINavigationBar appearance] setBarTintColor:color];
-    
-    //    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 170, 44)];
-    //    imageView.image = [UIImage imageNamed:[[Config instance].drawableConfig getImageFullPath:@"main_portal_logo.png"]];
-    //    self.navigationItem.titleView = imageView;
-    
-    // 在导航栏中添加"咋学"图片
-    QBTitleView *titleView = [[QBTitleView alloc] initWithFrame:CGRectMake(0, 0, 170, 44)];
-    titleView.delegate = self;
-    titleView.image = [UIImage imageNamed:[[Config instance].drawableConfig getImageFullPath:@"main_portal_logo.png"]];
-    titleView.highlightedImage = [[UIImage imageNamed:[[Config instance].drawableConfig getImageFullPath:@"main_portal_logo.png"]] tintedImageUsingColor:[UIColor colorWithWhite:0.2 alpha:0.5]];
-    //    titleView.title = @"ZaXue";
-    
-    self.navigationItem.titleView = titleView;
+//    UIColor *color = [UIColor colorWithRed:107/255.0f green:211/255.0f blue:217/255.0f alpha:1.0f];
+//    [[UINavigationBar appearance] setBarTintColor:color];
+//    
+//    // 在导航栏中添加"咋学"图片
+//    QBTitleView *titleView = [[QBTitleView alloc] initWithFrame:CGRectMake(0, 0, 170, 44)];
+//    titleView.delegate = self;
+//    titleView.image = [UIImage imageNamed:[[Config instance].drawableConfig getImageFullPath:@"main_portal_logo.png"]];
+//    titleView.highlightedImage = [[UIImage imageNamed:[[Config instance].drawableConfig getImageFullPath:@"main_portal_logo.png"]] tintedImageUsingColor:[UIColor colorWithWhite:0.2 alpha:0.5]];
+//    //    titleView.title = @"ZaXue";
+//    
+//    self.navigationItem.titleView = titleView;
 }
 
 // update title bar
@@ -193,7 +192,9 @@
     {
         UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
         backButton.frame = CGRectMake(10, 0, 40, 44);
-        [backButton setTitle:@"" forState:UIControlStateNormal];
+        
+        NSString *backButtonTitle = (IS_TEST_MODE ? @"测试" : @"");
+        [backButton setTitle:backButtonTitle forState:UIControlStateNormal];
         backButton.titleLabel.font=[UIFont systemFontOfSize:12.0f];
         [backButton addTarget:self action:@selector(backButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
         
@@ -264,6 +265,11 @@
 
 #pragma mark - actions
 - (IBAction)backButtonPressed:(id)sender {
+    if (IS_TEST_MODE) {
+        [[KnowledgeManager instance] test];
+        return;
+    }
+    
     [self.navigationController popViewControllerAnimated:YES];
 }
 

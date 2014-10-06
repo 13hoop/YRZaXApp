@@ -14,4 +14,7 @@
 // singleton
 + (KnowledgeManager *)instance;
 
+// test
+- (void)test;
+
 @end

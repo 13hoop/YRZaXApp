@@ -14,7 +14,6 @@
 		0690782519CFD62700CD9C3D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0690782319CFD62700CD9C3D /* InfoPlist.strings */; };
 		0690782719CFD62700CD9C3D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0690782619CFD62700CD9C3D /* main.m */; };
 		0690782B19CFD62700CD9C3D /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0690782A19CFD62700CD9C3D /* AppDelegate.m */; };
-		0690782E19CFD62700CD9C3D /* ebooksystem.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0690782C19CFD62700CD9C3D /* ebooksystem.xcdatamodeld */; };
 		0690783019CFD62700CD9C3D /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0690782F19CFD62700CD9C3D /* Images.xcassets */; };
 		0690783719CFD62700CD9C3D /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0690783619CFD62700CD9C3D /* XCTest.framework */; };
 		0690783819CFD62700CD9C3D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0690781819CFD62700CD9C3D /* Foundation.framework */; };
@@ -82,6 +81,13 @@
 		710C036D19E1C96900C27A33 /* SecurityUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 710C036B19E1C96900C27A33 /* SecurityUtil.m */; };
 		710C037319E1C98B00C27A33 /* NSString+MD5Addition.m in Sources */ = {isa = PBXBuildFile; fileRef = 710C037019E1C98B00C27A33 /* NSString+MD5Addition.m */; };
 		710C037419E1C98B00C27A33 /* UIDevice+IdentifierAddition.m in Sources */ = {isa = PBXBuildFile; fileRef = 710C037219E1C98B00C27A33 /* UIDevice+IdentifierAddition.m */; };
+		710C038B19E2458C00C27A33 /* assets in Resources */ = {isa = PBXBuildFile; fileRef = 710C038A19E2458C00C27A33 /* assets */; };
+		710C038E19E2644900C27A33 /* PathUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 710C038D19E2644900C27A33 /* PathUtil.m */; };
+		710C039219E2E45C00C27A33 /* ebooksystem.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 710C039019E2E45C00C27A33 /* ebooksystem.xcdatamodeld */; };
+		710C039C19E2ECA400C27A33 /* KnowledgeMeta.m in Sources */ = {isa = PBXBuildFile; fileRef = 710C039B19E2ECA400C27A33 /* KnowledgeMeta.m */; };
+		710C039F19E2EDB700C27A33 /* KnowledgeMetaEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 710C039E19E2EDB700C27A33 /* KnowledgeMetaEntity.m */; };
+		710C03A219E2EDB800C27A33 /* KnowledgeSearchEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 710C03A119E2EDB800C27A33 /* KnowledgeSearchEntity.m */; };
+		710C03A519E2F38E00C27A33 /* KnowledgeSearchReverseInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 710C03A419E2F38E00C27A33 /* KnowledgeSearchReverseInfo.m */; };
 		71860B8619DC22EB00D01AA9 /* CustomNavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 71860B8519DC22EB00D01AA9 /* CustomNavigationBar.m */; };
 		71860B9319DC31A200D01AA9 /* CustomMoreView.m in Sources */ = {isa = PBXBuildFile; fileRef = 71860B9219DC31A200D01AA9 /* CustomMoreView.m */; };
 		71860B9619DC31B200D01AA9 /* MoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 71860B9519DC31B200D01AA9 /* MoreViewController.m */; };
@@ -136,7 +142,6 @@
 		0690782819CFD62700CD9C3D /* ebooksystem-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ebooksystem-Prefix.pch"; sourceTree = "<group>"; };
 		0690782919CFD62700CD9C3D /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		0690782A19CFD62700CD9C3D /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		0690782D19CFD62700CD9C3D /* ebooksystem.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ebooksystem.xcdatamodel; sourceTree = "<group>"; };
 		0690782F19CFD62700CD9C3D /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		0690783519CFD62700CD9C3D /* ebooksystemTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ebooksystemTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0690783619CFD62700CD9C3D /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
@@ -257,6 +262,19 @@
 		710C037019E1C98B00C27A33 /* NSString+MD5Addition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+MD5Addition.m"; path = "depends/UIDevice-with-UniqueIdentifier-for-iOS-5/NSString+MD5Addition.m"; sourceTree = "<group>"; };
 		710C037119E1C98B00C27A33 /* UIDevice+IdentifierAddition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIDevice+IdentifierAddition.h"; path = "depends/UIDevice-with-UniqueIdentifier-for-iOS-5/UIDevice+IdentifierAddition.h"; sourceTree = "<group>"; };
 		710C037219E1C98B00C27A33 /* UIDevice+IdentifierAddition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIDevice+IdentifierAddition.m"; path = "depends/UIDevice-with-UniqueIdentifier-for-iOS-5/UIDevice+IdentifierAddition.m"; sourceTree = "<group>"; };
+		710C038A19E2458C00C27A33 /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; path = assets; sourceTree = "<group>"; };
+		710C038C19E2644900C27A33 /* PathUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PathUtil.h; path = src/util/PathUtil.h; sourceTree = "<group>"; };
+		710C038D19E2644900C27A33 /* PathUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PathUtil.m; path = src/util/PathUtil.m; sourceTree = "<group>"; };
+		710C039119E2E45C00C27A33 /* ebooksystem_v1.0.0.0.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ebooksystem_v1.0.0.0.xcdatamodel; sourceTree = "<group>"; };
+		710C039919E2EB8500C27A33 /* ebooksystem_v1.0.0.1.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ebooksystem_v1.0.0.1.xcdatamodel; sourceTree = "<group>"; };
+		710C039A19E2ECA400C27A33 /* KnowledgeMeta.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KnowledgeMeta.h; path = src/knowledge/KnowledgeMeta.h; sourceTree = "<group>"; };
+		710C039B19E2ECA400C27A33 /* KnowledgeMeta.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KnowledgeMeta.m; path = src/knowledge/KnowledgeMeta.m; sourceTree = "<group>"; };
+		710C039D19E2EDB700C27A33 /* KnowledgeMetaEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KnowledgeMetaEntity.h; path = src/data/model/KnowledgeMetaEntity.h; sourceTree = "<group>"; };
+		710C039E19E2EDB700C27A33 /* KnowledgeMetaEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KnowledgeMetaEntity.m; path = src/data/model/KnowledgeMetaEntity.m; sourceTree = "<group>"; };
+		710C03A019E2EDB800C27A33 /* KnowledgeSearchEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KnowledgeSearchEntity.h; path = src/data/model/KnowledgeSearchEntity.h; sourceTree = "<group>"; };
+		710C03A119E2EDB800C27A33 /* KnowledgeSearchEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KnowledgeSearchEntity.m; path = src/data/model/KnowledgeSearchEntity.m; sourceTree = "<group>"; };
+		710C03A319E2F38E00C27A33 /* KnowledgeSearchReverseInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KnowledgeSearchReverseInfo.h; path = src/knowledge/KnowledgeSearchReverseInfo.h; sourceTree = "<group>"; };
+		710C03A419E2F38E00C27A33 /* KnowledgeSearchReverseInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KnowledgeSearchReverseInfo.m; path = src/knowledge/KnowledgeSearchReverseInfo.m; sourceTree = "<group>"; };
 		71860B8419DC22EB00D01AA9 /* CustomNavigationBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CustomNavigationBar.h; path = src/common/view/CustomNavigationBar.h; sourceTree = "<group>"; };
 		71860B8519DC22EB00D01AA9 /* CustomNavigationBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CustomNavigationBar.m; path = src/common/view/CustomNavigationBar.m; sourceTree = "<group>"; };
 		71860B9119DC31A200D01AA9 /* CustomMoreView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CustomMoreView.h; path = src/menu/menu/view/CustomMoreView.h; sourceTree = "<group>"; };
@@ -390,9 +408,9 @@
 				71860B6A19DC204C00D01AA9 /* src */,
 				71860C1019DE941700D01AA9 /* depends */,
 				71860BD119DC4E3200D01AA9 /* doc */,
+				710C038A19E2458C00C27A33 /* assets */,
 				710C02C019E054B700C27A33 /* res */,
 				0690782F19CFD62700CD9C3D /* Images.xcassets */,
-				0690782C19CFD62700CD9C3D /* ebooksystem.xcdatamodeld */,
 				0690782119CFD62700CD9C3D /* Supporting Files */,
 			);
 			path = ebooksystem;
@@ -640,13 +658,24 @@
 			name = "UIDevice-with-UniqueIdentifier-for-iOS-5";
 			sourceTree = "<group>";
 		};
+		710C038F19E2E40B00C27A33 /* model */ = {
+			isa = PBXGroup;
+			children = (
+				710C03A019E2EDB800C27A33 /* KnowledgeSearchEntity.h */,
+				710C03A119E2EDB800C27A33 /* KnowledgeSearchEntity.m */,
+				710C039D19E2EDB700C27A33 /* KnowledgeMetaEntity.h */,
+				710C039E19E2EDB700C27A33 /* KnowledgeMetaEntity.m */,
+			);
+			name = model;
+			sourceTree = "<group>";
+		};
 		71860B6A19DC204C00D01AA9 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				71860BDA19DC6D1B00D01AA9 /* data */,
 				71860B7F19DC228400D01AA9 /* common */,
 				71860BDF19DC73C200D01AA9 /* config */,
 				71860BDB19DC6D3900D01AA9 /* knowledge */,
-				71860BDA19DC6D1B00D01AA9 /* data */,
 				71860BD319DC4E5C00D01AA9 /* download */,
 				710C02AD19E038F000C27A33 /* subject */,
 				71860B8719DC230400D01AA9 /* menu */,
@@ -812,6 +841,8 @@
 		71860BDA19DC6D1B00D01AA9 /* data */ = {
 			isa = PBXGroup;
 			children = (
+				710C039019E2E45C00C27A33 /* ebooksystem.xcdatamodeld */,
+				710C038F19E2E40B00C27A33 /* model */,
 			);
 			name = data;
 			sourceTree = "<group>";
@@ -819,6 +850,10 @@
 		71860BDB19DC6D3900D01AA9 /* knowledge */ = {
 			isa = PBXGroup;
 			children = (
+				710C039A19E2ECA400C27A33 /* KnowledgeMeta.h */,
+				710C039B19E2ECA400C27A33 /* KnowledgeMeta.m */,
+				710C03A319E2F38E00C27A33 /* KnowledgeSearchReverseInfo.h */,
+				710C03A419E2F38E00C27A33 /* KnowledgeSearchReverseInfo.m */,
 				71860BDC19DC6DA500D01AA9 /* KnowledgeManager.h */,
 				71860BDD19DC6DA500D01AA9 /* KnowledgeManager.m */,
 				71860C0419DE543000D01AA9 /* knowledge_download */,
@@ -882,6 +917,8 @@
 			children = (
 				71860C0C19DE8DE600D01AA9 /* UUIDUtil.h */,
 				71860C0D19DE8DE600D01AA9 /* UUIDUtil.m */,
+				710C038C19E2644900C27A33 /* PathUtil.h */,
+				710C038D19E2644900C27A33 /* PathUtil.m */,
 			);
 			name = util;
 			sourceTree = "<group>";
@@ -1046,6 +1083,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				710C038B19E2458C00C27A33 /* assets in Resources */,
 				71860C5A19DE953500D01AA9 /* umeng in Resources */,
 				71860BC319DC357300D01AA9 /* UMContactViewController.xib in Resources */,
 				710C033619E1C8E600C27A33 /* LICENSE in Resources */,
@@ -1082,7 +1120,6 @@
 				71860BFD19DE50C300D01AA9 /* IADownloadManager.m in Sources */,
 				710C036C19E1C96900C27A33 /* NSData+AES.m in Sources */,
 				710C031319E1C8B600C27A33 /* UIRefreshControl+AFNetworking.m in Sources */,
-				0690782E19CFD62700CD9C3D /* ebooksystem.xcdatamodeld in Sources */,
 				71860BC219DC357300D01AA9 /* UMContactViewController.m in Sources */,
 				71860BFE19DE50C300D01AA9 /* IADownloadOperation.m in Sources */,
 				710C02BA19E0457A00C27A33 /* SubjectTableViewCell.m in Sources */,
@@ -1100,6 +1137,8 @@
 				71860C0A19DE546700D01AA9 /* KnowledgeDownloadItem.m in Sources */,
 				710C030F19E1C8B600C27A33 /* UIAlertView+AFNetworking.m in Sources */,
 				71860BE319DC754C00D01AA9 /* Config.m in Sources */,
+				710C03A519E2F38E00C27A33 /* KnowledgeSearchReverseInfo.m in Sources */,
+				710C039219E2E45C00C27A33 /* ebooksystem.xcdatamodeld in Sources */,
 				710C02D919E1ACAF00C27A33 /* QBTitleView.m in Sources */,
 				710C02E119E1C60800C27A33 /* CustomLoginModel.m in Sources */,
 				71860B9C19DC322A00D01AA9 /* CustomAboutUsview.m in Sources */,
@@ -1113,6 +1152,7 @@
 				710C032A19E1C8D000C27A33 /* AFHTTPSessionManager.m in Sources */,
 				71860BE919DC7B4300D01AA9 /* KnowledgeDataConfig.m in Sources */,
 				710C031019E1C8B600C27A33 /* UIButton+AFNetworking.m in Sources */,
+				710C039F19E2EDB700C27A33 /* KnowledgeMetaEntity.m in Sources */,
 				71860BFC19DE50C300D01AA9 /* IADownloadHandler.m in Sources */,
 				710C032E19E1C8D000C27A33 /* AFURLRequestSerialization.m in Sources */,
 				71860C0719DE544D00D01AA9 /* KnowledgeDownloadManager.m in Sources */,
@@ -1128,6 +1168,7 @@
 				710C02C719E189A200C27A33 /* DrawableConfig.m in Sources */,
 				710C032B19E1C8D000C27A33 /* AFNetworkReachabilityManager.m in Sources */,
 				710C035C19E1C90E00C27A33 /* SBJsonUTF8Stream.m in Sources */,
+				710C03A219E2EDB800C27A33 /* KnowledgeSearchEntity.m in Sources */,
 				710C035319E1C90E00C27A33 /* SBJsonParser.m in Sources */,
 				0690782B19CFD62700CD9C3D /* AppDelegate.m in Sources */,
 				710C030E19E1C8B600C27A33 /* UIActivityIndicatorView+AFNetworking.m in Sources */,
@@ -1138,6 +1179,7 @@
 				710C02E619E1C61A00C27A33 /* CustomLoginNavgationBar.m in Sources */,
 				710C032819E1C8D000C27A33 /* AFHTTPRequestOperation.m in Sources */,
 				710C032C19E1C8D000C27A33 /* AFSecurityPolicy.m in Sources */,
+				710C038E19E2644900C27A33 /* PathUtil.m in Sources */,
 				710C035219E1C90E00C27A33 /* NSObject+SBJson.m in Sources */,
 				710C031219E1C8B600C27A33 /* UIProgressView+AFNetworking.m in Sources */,
 				71860B9619DC31B200D01AA9 /* MoreViewController.m in Sources */,
@@ -1149,6 +1191,7 @@
 				710C033019E1C8D000C27A33 /* AFURLSessionManager.m in Sources */,
 				710C035719E1C90E00C27A33 /* SBJsonStreamParserState.m in Sources */,
 				0690782719CFD62700CD9C3D /* main.m in Sources */,
+				710C039C19E2ECA400C27A33 /* KnowledgeMeta.m in Sources */,
 				710C02F119E1C67A00C27A33 /* RegisterModel.m in Sources */,
 				710C02DA19E1ACAF00C27A33 /* UIImage+tintedImage.m in Sources */,
 				71860B8619DC22EB00D01AA9 /* CustomNavigationBar.m in Sources */,
@@ -1385,13 +1428,15 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		0690782C19CFD62700CD9C3D /* ebooksystem.xcdatamodeld */ = {
+		710C039019E2E45C00C27A33 /* ebooksystem.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				0690782D19CFD62700CD9C3D /* ebooksystem.xcdatamodel */,
+				710C039919E2EB8500C27A33 /* ebooksystem_v1.0.0.1.xcdatamodel */,
+				710C039119E2E45C00C27A33 /* ebooksystem_v1.0.0.0.xcdatamodel */,
 			);
-			currentVersion = 0690782D19CFD62700CD9C3D /* ebooksystem.xcdatamodel */;
-			path = ebooksystem.xcdatamodeld;
+			currentVersion = 710C039119E2E45C00C27A33 /* ebooksystem_v1.0.0.0.xcdatamodel */;
+			name = ebooksystem.xcdatamodeld;
+			path = src/data/ebooksystem.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};

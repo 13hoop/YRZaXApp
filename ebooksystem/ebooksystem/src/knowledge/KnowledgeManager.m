@@ -8,6 +8,7 @@
 
 #import "KnowledgeManager.h"
 #import "Config.h"
+#import "PathUtil.h"
 
 
 
@@ -19,6 +20,18 @@
 // init
 - (BOOL)initKnowledgeData:(KnowledgeDataInitMode)mode;
 - (BOOL)initKnowledgeUpdater:(int)updateIntervalInMs;
+
+- (BOOL)knowledgeDataInited;
+- (BOOL)updateKnowledgeDataInitFlag:(BOOL)value;
+
+// 将assets目录下的knowledge data拷贝到目标路径
+- (BOOL)copyAssetsKnowledgeData;
+
+// copy data files
+- (BOOL)copyFilesFromPath:(NSString *)fromPath toPath:(NSString *)toPath;
+
+// register data files
+- (BOOL)registerDataFiles;
 
 @end
 
@@ -39,7 +52,7 @@
     return sharedInstance;
 }
 
-#pragma mark - init
+#pragma mark - init knowledge data
 - (BOOL)initKnowledgeData:(KnowledgeDataInitMode)mode {
     switch(mode) {
         case KNOWLEDGE_DATA_INIT_MODE_NONE:
@@ -47,6 +60,7 @@
         case KNOWLEDGE_DATA_INIT_MODE_ASYNC:
             break;
         case KNOWLEDGE_DATA_INIT_MODE_SYNC:
+            [self initKnowledgeDataSync];
             break;
         default:
             break;
@@ -55,8 +69,62 @@
     return TRUE;
 }
 
+- (BOOL)initKnowledgeDataSync {
+    BOOL shouldInit = ![self knowledgeDataInited];
+    if (shouldInit) {
+        [self copyAssetsKnowledgeData];
+        [self registerDataFiles];
+        [self updateKnowledgeDataInitFlag:YES];
+    }
+    
+    return YES;
+}
+
+- (BOOL)knowledgeDataInited {
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    BOOL knowledgeInited = [userDefaults boolForKey:[Config instance].knowledgeDataConfig.keyForKnowledgeDataInitedFlag];
+    return knowledgeInited;
+}
+
+- (BOOL)updateKnowledgeDataInitFlag:(BOOL)value {
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setBool:value forKey:[Config instance].knowledgeDataConfig.keyForKnowledgeDataInitedFlag];
+    return YES;
+}
+
+#pragma mark - copy data files
+// 将assets目录下的knowledge data拷贝到目标路径
+- (BOOL)copyAssetsKnowledgeData {
+    NSString *knowledgeDataRootPathInAssets = [Config instance].knowledgeDataConfig.knowledgeDataRootPathInAssets;
+    NSString *knowledgeDataRootPathInDocuments = [Config instance].knowledgeDataConfig.knowledgeDataRootPathInDocuments;
+    
+    BOOL ret = [PathUtil copyFilesFromPath:(NSString *)knowledgeDataRootPathInAssets toPath:(NSString *)knowledgeDataRootPathInDocuments];
+    
+    return ret;
+}
+
+#pragma mark - register data files
+- (BOOL)registerDataFiles {
+    NSString *knowledgeDataRootPathInDocuments = [Config instance].knowledgeDataConfig.knowledgeDataRootPathInDocuments;
+    
+    // 遍历meta.json
+    // 转为KnowledgeMeta
+    // 存到db
+    return YES;
+}
+
+#pragma mark - init knowledge updater
 - (BOOL)initKnowledgeUpdater:(int)updateIntervalInMs {
+    
     return TRUE;
+}
+
+
+#pragma mark -
+#pragma mark - test
+- (void)test {
+    NSLog(@"[KnowledgeManager - test()], starting...");
+    NSLog(@"[KnowledgeManager - test()], end");
 }
 
 @end
