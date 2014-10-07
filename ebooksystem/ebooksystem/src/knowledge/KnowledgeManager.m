@@ -9,6 +9,7 @@
 #import "KnowledgeManager.h"
 #import "Config.h"
 #import "PathUtil.h"
+#import "KnowledgeMetaManager.h"
 
 
 
@@ -45,8 +46,8 @@
     static dispatch_once_t predicate;
     dispatch_once(&predicate, ^{
         sharedInstance = [[self alloc] init];
-        [sharedInstance initKnowledgeData:[Config instance].knowledgeDataConfig.knowledgeDataInitMode];
-        [sharedInstance initKnowledgeUpdater:[Config instance].knowledgeDataConfig.knowledgeUpdateCheckIntervalInMs];
+        [sharedInstance initKnowledgeData:[[Config instance] knowledgeDataConfig].knowledgeDataInitMode];
+        [sharedInstance initKnowledgeUpdater:[[Config instance] knowledgeDataConfig].knowledgeUpdateCheckIntervalInMs];
     });
     
     return sharedInstance;
@@ -82,21 +83,21 @@
 
 - (BOOL)knowledgeDataInited {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    BOOL knowledgeInited = [userDefaults boolForKey:[Config instance].knowledgeDataConfig.keyForKnowledgeDataInitedFlag];
+    BOOL knowledgeInited = [userDefaults boolForKey:[[Config instance] knowledgeDataConfig].keyForKnowledgeDataInitedFlag];
     return knowledgeInited;
 }
 
 - (BOOL)updateKnowledgeDataInitFlag:(BOOL)value {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    [userDefaults setBool:value forKey:[Config instance].knowledgeDataConfig.keyForKnowledgeDataInitedFlag];
+    [userDefaults setBool:value forKey:[[Config instance] knowledgeDataConfig].keyForKnowledgeDataInitedFlag];
     return YES;
 }
 
 #pragma mark - copy data files
 // 将assets目录下的knowledge data拷贝到目标路径
 - (BOOL)copyAssetsKnowledgeData {
-    NSString *knowledgeDataRootPathInAssets = [Config instance].knowledgeDataConfig.knowledgeDataRootPathInAssets;
-    NSString *knowledgeDataRootPathInDocuments = [Config instance].knowledgeDataConfig.knowledgeDataRootPathInDocuments;
+    NSString *knowledgeDataRootPathInAssets = [[Config instance] knowledgeDataConfig].knowledgeDataRootPathInAssets;
+    NSString *knowledgeDataRootPathInDocuments = [[Config instance] knowledgeDataConfig].knowledgeDataRootPathInDocuments;
     
     BOOL ret = [PathUtil copyFilesFromPath:(NSString *)knowledgeDataRootPathInAssets toPath:(NSString *)knowledgeDataRootPathInDocuments];
     
@@ -105,11 +106,40 @@
 
 #pragma mark - register data files
 - (BOOL)registerDataFiles {
-    NSString *knowledgeDataRootPathInDocuments = [Config instance].knowledgeDataConfig.knowledgeDataRootPathInDocuments;
+    NSString *knowledgeDataRootPathInDocuments = [[Config instance] knowledgeDataConfig].knowledgeDataRootPathInDocuments;
     
     // 遍历meta.json
-    // 转为KnowledgeMeta
-    // 存到db
+    NSDirectoryEnumerator *dirEnum = [[NSFileManager defaultManager] enumeratorAtPath:knowledgeDataRootPathInDocuments];
+    NSString *path = nil;
+    while ((path = [dirEnum nextObject]) != nil) {
+        NSString *fullPath = [NSString stringWithFormat:@"%@/%@", knowledgeDataRootPathInDocuments, path];
+        
+        BOOL isDir = NO;
+        BOOL exists = [[NSFileManager defaultManager] fileExistsAtPath:fullPath isDirectory:&isDir];
+        if (isDir) {
+            continue;
+        }
+        
+        // 若为meta.json
+        if ([fullPath hasSuffix:@"meta.json"]) {
+            // 构造KnowledgeMeta对象
+            NSArray *knowledgeMetas = [[KnowledgeMetaManager instance] loadKnowledgeMeta:fullPath];
+            if (knowledgeMetas == nil || knowledgeMetas.count <= 0) {
+                continue;
+            }
+            
+            for (id obj in knowledgeMetas) {
+                KnowledgeMeta *knowledgeMeta = (KnowledgeMeta *)obj;
+                if (knowledgeMeta == nil) {
+                    continue;
+                }
+                
+                // 保存到db
+                [[KnowledgeMetaManager instance] saveKnowledgeMeta:knowledgeMeta];
+            }
+        }
+    }
+    
     return YES;
 }
 
@@ -124,6 +154,10 @@
 #pragma mark - test
 - (void)test {
     NSLog(@"[KnowledgeManager - test()], starting...");
+    
+    [self copyAssetsKnowledgeData];
+    [self registerDataFiles];
+    
     NSLog(@"[KnowledgeManager - test()], end");
 }
 

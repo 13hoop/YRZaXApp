@@ -12,7 +12,6 @@
 
 @interface KnowledgeMetaEntity : NSManagedObject
 
-@property (nonatomic, retain) NSNumber * pkId;
 @property (nonatomic, retain) NSString * dataId;
 @property (nonatomic, retain) NSString * dataNameEn;
 @property (nonatomic, retain) NSString * dataNameCh;

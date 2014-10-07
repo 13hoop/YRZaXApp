@@ -17,8 +17,6 @@
 @interface KnowledgeMeta : NSObject
 
 #pragma mark - properties
-// 在sqlite中的主键id
-@property (nonatomic, assign) NSUInteger pkId;
 
 @property (nonatomic, copy) NSString *dataId;
 @property (nonatomic, copy) NSString *dataNameEn;
@@ -36,8 +34,8 @@
 @property (nonatomic, copy) NSString *parentNameEn;
 @property (nonatomic, copy) NSString *parentNameCh;
 
-@property (nonatomic, copy) NSString *childIds;
-@property (nonatomic, copy) NSString *siblingIds;
+@property (nonatomic, copy) NSArray *childIds;
+@property (nonatomic, copy) NSArray *siblingIds;
 
 @property (nonatomic, copy) NSString *nodeContentDir;
 
@@ -60,10 +58,15 @@
 // 由KnowledgeMetaEntity转为KnowledgeMeta
 + (KnowledgeMeta *)fromKnowledgeMetaEntity:(KnowledgeMetaEntity *)knowledgeMetaEntity;
 
-// 由KnowledgeMeta转为KnowledgeMetaEntity
-- (KnowledgeMetaEntity *)toKnowledgeMetaEntity;
+// 将KnowledgeMeta各属性赋予KnowledgeMetaEntity
+- (BOOL)setValuesForEntity:(NSManagedObject *)knowledgeMetaEntity;
 
-// 由KnowledgeMeta转为KnowledgeSearchEntity
-- (NSArray *)toKnowledgeSearchEntity;
+//// 由KnowledgeMeta转为KnowledgeSearchEntity
+//- (NSArray *)toKnowledgeSearchEntity;
+
+// 将json字符串解析为KnowledgeMeta对象
++ (KnowledgeMeta *)parseJsonString:(NSString *)json;
+
+
 
 @end

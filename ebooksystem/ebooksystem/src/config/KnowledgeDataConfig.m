@@ -70,8 +70,8 @@
 }
 
 - (KnowledgeDataInitMode)knowledgeDataInitMode {
-    //    return KNOWLEDGE_DATA_INIT_MODE_NONE;
-    return KNOWLEDGE_DATA_INIT_MODE_SYNC;
+    return KNOWLEDGE_DATA_INIT_MODE_NONE;
+//    return KNOWLEDGE_DATA_INIT_MODE_SYNC;
 }
 
 - (int)knowledgeUpdateCheckIntervalInMs {

@@ -11,7 +11,6 @@
 
 @implementation KnowledgeSearchEntity
 
-@dynamic pkId;
 @dynamic searchId;
 @dynamic dataId;
 @dynamic dataNameEn;

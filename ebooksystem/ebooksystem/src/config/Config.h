@@ -13,17 +13,18 @@
 
 @interface Config : NSObject
 
-#pragma mark - knowledge data
-// knowledge data config
-@property(nonatomic, strong) KnowledgeDataConfig* knowledgeDataConfig;
-
-#pragma mark - drawable
-// drawable config
-@property(nonatomic, strong) DrawableConfig* drawableConfig;
 
 #pragma mark - singleton
 // singleton
 + (Config *)instance;
+
+#pragma mark - knowledge data
+// knowledge data config
+- (KnowledgeDataConfig *)knowledgeDataConfig;
+
+#pragma mark - drawable
+// drawable config
+- (DrawableConfig *)drawableConfig;
 
 
 @end

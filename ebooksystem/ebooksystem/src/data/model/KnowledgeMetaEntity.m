@@ -11,7 +11,6 @@
 
 @implementation KnowledgeMetaEntity
 
-@dynamic pkId;
 @dynamic dataId;
 @dynamic dataNameEn;
 @dynamic dataNameCh;

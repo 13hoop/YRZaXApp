@@ -10,8 +10,6 @@
 
 @implementation Config
 
-@synthesize knowledgeDataConfig = _knowledgeDataConfig;
-@synthesize drawableConfig = _drawableConfig;
 
 #pragma mark - singleton
 + (Config *)instance {
@@ -26,20 +24,12 @@
 
 #pragma mark - knowledge data config
 - (KnowledgeDataConfig *)knowledgeDataConfig {
-    if (_knowledgeDataConfig == nil) {
-        _knowledgeDataConfig = [KnowledgeDataConfig instance];
-    }
-    
-    return _knowledgeDataConfig;
+    return [KnowledgeDataConfig instance];
 }
 
 #pragma mark - drawable config
 - (DrawableConfig *)drawableConfig {
-    if (_drawableConfig == nil) {
-        _drawableConfig = [DrawableConfig instance];
-    }
-    
-    return _drawableConfig;
+    return [DrawableConfig instance];
 }
 
 @end

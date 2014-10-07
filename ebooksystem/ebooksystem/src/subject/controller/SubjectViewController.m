@@ -116,7 +116,7 @@
     englishSubject.subjectId = @"subject_english_id";
     englishSubject.name = @"英语";
     englishSubject.desc = @"关联词汇分组式记忆，历年真题碎片化讲解。考什么学什么，帮你减轻考研英语压力。";
-    englishSubject.coverImage = [[Config instance].drawableConfig getImageFullPath:@"index_english_cover.png"];
+    englishSubject.coverImage = [[[Config instance] drawableConfig] getImageFullPath:@"index_english_cover.png"];
     
     [self.subjects addObject:englishSubject];
     
@@ -125,7 +125,7 @@
     politicsSubject.subjectId = @"subject_english_id";
     politicsSubject.name = @"政治";
     politicsSubject.desc = @"重要考点习题，疑难知识点精讲。第一款权威考研政治APP。形势与政策、20天20题即将上线，敬请期待。";
-    politicsSubject.coverImage = [[Config instance].drawableConfig getImageFullPath:@"index_politics_cover.png"];
+    politicsSubject.coverImage = [[[Config instance] drawableConfig] getImageFullPath:@"index_politics_cover.png"];
     
     [self.subjects addObject:politicsSubject];
 }
@@ -135,7 +135,7 @@
     [self.bannerView setFrame:CGRectMake(0, 0, self.view.frame.size.width, 260)];
     
     UIImageView *bannerImageView = [[UIImageView alloc] initWithFrame:self.bannerView.frame];
-    bannerImageView.image = [UIImage imageNamed:[[Config instance].drawableConfig getImageFullPath:@"index_video_banner.png"]];
+    bannerImageView.image = [UIImage imageNamed:[[[Config instance] drawableConfig] getImageFullPath:@"index_video_banner.png"]];
     [self.bannerView addSubview:bannerImageView];
 }
 
@@ -184,8 +184,8 @@
     //// 标题栏中部
     {
         titleBar.titleText = @"";
-        titleBar.titleImage = [UIImage imageNamed:[[Config instance].drawableConfig getImageFullPath:@"main_portal_logo.png"]];
-        titleBar.titleHighlightedImage = [[UIImage imageNamed:[[Config instance].drawableConfig getImageFullPath:@"main_portal_logo.png"]] tintedImageUsingColor:[UIColor colorWithWhite:0.2 alpha:0.5]];
+        titleBar.titleImage = [UIImage imageNamed:[[[Config instance] drawableConfig] getImageFullPath:@"main_portal_logo.png"]];
+        titleBar.titleHighlightedImage = [[UIImage imageNamed:[[[Config instance] drawableConfig] getImageFullPath:@"main_portal_logo.png"]] tintedImageUsingColor:[UIColor colorWithWhite:0.2 alpha:0.5]];
     }
     
     //// 标题栏左侧
@@ -204,7 +204,7 @@
     //// 标题栏右侧
     {
         UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(statusBarRect.size.width - 28, 15, 16, 14)];
-        imageView.image = [UIImage imageNamed:[[Config instance].drawableConfig getImageFullPath:@"main_portal_top_menu.png"]];
+        imageView.image = [UIImage imageNamed:[[[Config instance] drawableConfig] getImageFullPath:@"main_portal_top_menu.png"]];
         imageView.userInteractionEnabled = YES;
         UITapGestureRecognizer *singleTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(menuButtonPressed:)];
         [imageView addGestureRecognizer:singleTap];

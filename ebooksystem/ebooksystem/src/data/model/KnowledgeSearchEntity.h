@@ -12,7 +12,6 @@
 
 @interface KnowledgeSearchEntity : NSManagedObject
 
-@property (nonatomic, retain) NSNumber * pkId;
 @property (nonatomic, retain) NSString * searchId;
 @property (nonatomic, retain) NSString * dataId;
 @property (nonatomic, retain) NSString * dataNameEn;

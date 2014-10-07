@@ -88,6 +88,8 @@
 		710C039F19E2EDB700C27A33 /* KnowledgeMetaEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 710C039E19E2EDB700C27A33 /* KnowledgeMetaEntity.m */; };
 		710C03A219E2EDB800C27A33 /* KnowledgeSearchEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 710C03A119E2EDB800C27A33 /* KnowledgeSearchEntity.m */; };
 		710C03A519E2F38E00C27A33 /* KnowledgeSearchReverseInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 710C03A419E2F38E00C27A33 /* KnowledgeSearchReverseInfo.m */; };
+		710C03A819E397B200C27A33 /* KnowledgeMetaManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 710C03A719E397B200C27A33 /* KnowledgeMetaManager.m */; };
+		7159EC5719E4373C00288CF2 /* CoreDataUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 7159EC5619E4373C00288CF2 /* CoreDataUtil.m */; };
 		71860B8619DC22EB00D01AA9 /* CustomNavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 71860B8519DC22EB00D01AA9 /* CustomNavigationBar.m */; };
 		71860B9319DC31A200D01AA9 /* CustomMoreView.m in Sources */ = {isa = PBXBuildFile; fileRef = 71860B9219DC31A200D01AA9 /* CustomMoreView.m */; };
 		71860B9619DC31B200D01AA9 /* MoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 71860B9519DC31B200D01AA9 /* MoreViewController.m */; };
@@ -275,6 +277,10 @@
 		710C03A119E2EDB800C27A33 /* KnowledgeSearchEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KnowledgeSearchEntity.m; path = src/data/model/KnowledgeSearchEntity.m; sourceTree = "<group>"; };
 		710C03A319E2F38E00C27A33 /* KnowledgeSearchReverseInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KnowledgeSearchReverseInfo.h; path = src/knowledge/KnowledgeSearchReverseInfo.h; sourceTree = "<group>"; };
 		710C03A419E2F38E00C27A33 /* KnowledgeSearchReverseInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KnowledgeSearchReverseInfo.m; path = src/knowledge/KnowledgeSearchReverseInfo.m; sourceTree = "<group>"; };
+		710C03A619E397B200C27A33 /* KnowledgeMetaManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KnowledgeMetaManager.h; path = src/knowledge/KnowledgeMetaManager.h; sourceTree = "<group>"; };
+		710C03A719E397B200C27A33 /* KnowledgeMetaManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KnowledgeMetaManager.m; path = src/knowledge/KnowledgeMetaManager.m; sourceTree = "<group>"; };
+		7159EC5519E4373C00288CF2 /* CoreDataUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CoreDataUtil.h; path = src/util/CoreDataUtil.h; sourceTree = "<group>"; };
+		7159EC5619E4373C00288CF2 /* CoreDataUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CoreDataUtil.m; path = src/util/CoreDataUtil.m; sourceTree = "<group>"; };
 		71860B8419DC22EB00D01AA9 /* CustomNavigationBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CustomNavigationBar.h; path = src/common/view/CustomNavigationBar.h; sourceTree = "<group>"; };
 		71860B8519DC22EB00D01AA9 /* CustomNavigationBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CustomNavigationBar.m; path = src/common/view/CustomNavigationBar.m; sourceTree = "<group>"; };
 		71860B9119DC31A200D01AA9 /* CustomMoreView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CustomMoreView.h; path = src/menu/menu/view/CustomMoreView.h; sourceTree = "<group>"; };
@@ -852,6 +858,8 @@
 			children = (
 				710C039A19E2ECA400C27A33 /* KnowledgeMeta.h */,
 				710C039B19E2ECA400C27A33 /* KnowledgeMeta.m */,
+				710C03A619E397B200C27A33 /* KnowledgeMetaManager.h */,
+				710C03A719E397B200C27A33 /* KnowledgeMetaManager.m */,
 				710C03A319E2F38E00C27A33 /* KnowledgeSearchReverseInfo.h */,
 				710C03A419E2F38E00C27A33 /* KnowledgeSearchReverseInfo.m */,
 				71860BDC19DC6DA500D01AA9 /* KnowledgeManager.h */,
@@ -919,6 +927,8 @@
 				71860C0D19DE8DE600D01AA9 /* UUIDUtil.m */,
 				710C038C19E2644900C27A33 /* PathUtil.h */,
 				710C038D19E2644900C27A33 /* PathUtil.m */,
+				7159EC5519E4373C00288CF2 /* CoreDataUtil.h */,
+				7159EC5619E4373C00288CF2 /* CoreDataUtil.m */,
 			);
 			name = util;
 			sourceTree = "<group>";
@@ -1161,6 +1171,7 @@
 				710C035919E1C90E00C27A33 /* SBJsonStreamWriterAccumulator.m in Sources */,
 				710C032D19E1C8D000C27A33 /* AFURLConnectionOperation.m in Sources */,
 				710C02E719E1C61A00C27A33 /* CustomLoginView.m in Sources */,
+				710C03A819E397B200C27A33 /* KnowledgeMetaManager.m in Sources */,
 				710C031119E1C8B600C27A33 /* UIImageView+AFNetworking.m in Sources */,
 				710C02F719E1C6A100C27A33 /* RegisterViewController.m in Sources */,
 				710C037319E1C98B00C27A33 /* NSString+MD5Addition.m in Sources */,
@@ -1191,6 +1202,7 @@
 				710C033019E1C8D000C27A33 /* AFURLSessionManager.m in Sources */,
 				710C035719E1C90E00C27A33 /* SBJsonStreamParserState.m in Sources */,
 				0690782719CFD62700CD9C3D /* main.m in Sources */,
+				7159EC5719E4373C00288CF2 /* CoreDataUtil.m in Sources */,
 				710C039C19E2ECA400C27A33 /* KnowledgeMeta.m in Sources */,
 				710C02F119E1C67A00C27A33 /* RegisterModel.m in Sources */,
 				710C02DA19E1ACAF00C27A33 /* UIImage+tintedImage.m in Sources */,

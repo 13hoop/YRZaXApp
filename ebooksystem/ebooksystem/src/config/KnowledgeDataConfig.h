@@ -13,13 +13,13 @@
 
 #pragma mark - properties
 // knowledge data init mode
-@property(nonatomic, assign) NSString *keyForKnowledgeDataInitedFlag;
+@property(nonatomic, copy) NSString *keyForKnowledgeDataInitedFlag;
 
 // knowledge data root path in assets
-@property(nonatomic, assign) NSString *knowledgeDataRootPathInAssets;
+@property(nonatomic, copy) NSString *knowledgeDataRootPathInAssets;
 
 // knowledge data root path in sandbox
-@property(nonatomic, assign) NSString *knowledgeDataRootPathInDocuments;
+@property(nonatomic, copy) NSString *knowledgeDataRootPathInDocuments;
 
 // knowledge data init mode
 @property(nonatomic, assign) KnowledgeDataInitMode knowledgeDataInitMode;
