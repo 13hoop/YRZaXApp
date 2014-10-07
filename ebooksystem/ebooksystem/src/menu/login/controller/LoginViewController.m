@@ -17,6 +17,10 @@
 #import "UIDevice+IdentifierAddition.h"
 #import "SBJson.h"
 //#import "AFHTTPClient.h"
+#import "AFNetworking.h"
+#import "UIKit+AFNetworking.h"
+#import "AFHTTPRequestOperation.h"
+
 #import "MoreViewController.h"
 #import "CustomMoreView.h"
 
@@ -118,7 +122,7 @@
     
     
 }
-//测试使用，调这个方法
+
 -(void)btnDown:(NSString*)jsonString andWithId:(NSString *)device_id andWithUserModel:(CustomLoginModel*)model
 {
 //    //@"c":@"passportctrl",@"m":@"login",
@@ -159,6 +163,44 @@
 //    } failure:^(AFHTTPRequestOperation *operation,NSError *error){
 //        NSLog(@"登陆失败");
 //    }];
+    AFHTTPRequestOperationManager *manager=[AFHTTPRequestOperationManager manager];
+    manager.responseSerializer.acceptableContentTypes=[NSSet setWithObject:@"text/html"];
+    NSDictionary *parameters=@{@"encrypt_method":@"2",@"encrypt_key_type":@"2",@"user_name":self.userName,@"device_id":device_id,@"data":jsonString};
+    [manager POST:@"http://s-115744.gotocdn.com:8296/index.php?c=passportctrl&m=login" parameters:parameters success:^(AFHTTPRequestOperation *operation,id responsrObject){
+               NSDictionary *dic=responsrObject;
+                NSLog(@"dic=====%@",dic);
+                NSString *dataStr=dic[@"data"];
+                NSData *dataData=[dataStr dataUsingEncoding:NSUTF8StringEncoding];
+                NSDictionary *data=[NSJSONSerialization JSONObjectWithData:dataData options:0 error:nil];
+                //*********测试********
+                NSLog(@"登陆成功服务器返回的信息msg===%@",data[@"msg"]);
+              if ([data[@"msg"] isEqualToString:@"success"]) {
+                    NSLog(@"登录成功");
+                    //登录成功后要把数据保存在本地，在用户信息中可以读取这些数据，并返回到更多页面
+                    NSUserDefaults *userDefaults=[NSUserDefaults standardUserDefaults];
+                    [userDefaults setObject:model.userName forKey:@"userInfoName"];
+                    [userDefaults setObject:model.passWord forKey:@"userinfoPassword"];
+                    [userDefaults synchronize];
+                    NSLog(@"model.user===%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"userInfoName"]);
+        
+                    //这样修改不了，上个视图中的值，而是新实例化了一个对象，把值赋值给了这个新的对象，再返回到原来的页面就不会有变化。----怎么办？
+                    //实例化自定义的视图，为了改变视图里面的userName属性值，目的就是为了修改登录的值
+                    CustomMoreView *moreview=[[CustomMoreView alloc] init];
+                    moreview.userName=[[NSUserDefaults standardUserDefaults] objectForKey:@"userInfoName"];
+                    NSLog(@"使用kvo后，给赋值%@",moreview.userName);
+                    [self.navigationController popViewControllerAnimated:YES];
+                    }
+                else
+                {
+                    //弹出对话框来显示提示用户错误信息
+                    NSLog(@"登陆失败服务器返回的信息msg===%@",data[@"msg"]);
+        
+               }
+        //        NSLog(@"str==%@",[[NSString alloc] initWithData:responsrObject encoding:NSUTF8StringEncoding]);
+            } failure:^(AFHTTPRequestOperation *operation,NSError *error){
+                NSLog(@"登陆失败");
+            }];
+    
 }
 
 

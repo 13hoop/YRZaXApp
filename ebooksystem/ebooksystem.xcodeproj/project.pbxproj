@@ -22,6 +22,9 @@
 		0690784219CFD62700CD9C3D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0690784019CFD62700CD9C3D /* InfoPlist.strings */; };
 		0690784419CFD62700CD9C3D /* ebooksystemTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0690784319CFD62700CD9C3D /* ebooksystemTests.m */; };
 		06A8660E19D14473000BEAA7 /* 2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 06A8660D19D14473000BEAA7 /* 2@2x.png */; };
+		06A91D0419E392AA0028F4B1 /* CustomLogoutView.m in Sources */ = {isa = PBXBuildFile; fileRef = 06A91D0319E392AA0028F4B1 /* CustomLogoutView.m */; };
+		06A91D0919E392FF0028F4B1 /* LogoutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06A91D0819E392FF0028F4B1 /* LogoutViewController.m */; };
+		06A91D0C19E39A790028F4B1 /* LogoutModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 06A91D0B19E39A790028F4B1 /* LogoutModel.m */; };
 		06AAA8D619D2B8610052BB1D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06AAA8D519D2B8610052BB1D /* QuartzCore.framework */; };
 		06B7F86319D53AF50017EA4D /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 06B7F86219D53AF50017EA4D /* libz.dylib */; };
 		710C02B119E0394100C27A33 /* SubjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 710C02B019E0394100C27A33 /* SubjectViewController.m */; };
@@ -102,7 +105,6 @@
 		71860BC519DC357300D01AA9 /* UMFeedbackViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71860BC119DC357300D01AA9 /* UMFeedbackViewController.xib */; };
 		71860BCD19DC438A00D01AA9 /* libMobClickLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 71860BCB19DC438A00D01AA9 /* libMobClickLibrary.a */; };
 		71860BCE19DC438A00D01AA9 /* libUMFeedback.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 71860BCC19DC438A00D01AA9 /* libUMFeedback.a */; };
-		71860BD219DC4E3200D01AA9 /* doc in Resources */ = {isa = PBXBuildFile; fileRef = 71860BD119DC4E3200D01AA9 /* doc */; };
 		71860BDE19DC6DA500D01AA9 /* KnowledgeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 71860BDD19DC6DA500D01AA9 /* KnowledgeManager.m */; };
 		71860BE319DC754C00D01AA9 /* Config.m in Sources */ = {isa = PBXBuildFile; fileRef = 71860BE219DC754C00D01AA9 /* Config.m */; };
 		71860BE919DC7B4300D01AA9 /* KnowledgeDataConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 71860BE819DC7B4300D01AA9 /* KnowledgeDataConfig.m */; };
@@ -149,6 +151,12 @@
 		0690784119CFD62700CD9C3D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		0690784319CFD62700CD9C3D /* ebooksystemTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ebooksystemTests.m; sourceTree = "<group>"; };
 		06A8660D19D14473000BEAA7 /* 2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "2@2x.png"; sourceTree = "<group>"; };
+		06A91D0219E392AA0028F4B1 /* CustomLogoutView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomLogoutView.h; sourceTree = "<group>"; };
+		06A91D0319E392AA0028F4B1 /* CustomLogoutView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomLogoutView.m; sourceTree = "<group>"; };
+		06A91D0719E392FF0028F4B1 /* LogoutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LogoutViewController.h; sourceTree = "<group>"; };
+		06A91D0819E392FF0028F4B1 /* LogoutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LogoutViewController.m; sourceTree = "<group>"; };
+		06A91D0A19E39A790028F4B1 /* LogoutModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LogoutModel.h; sourceTree = "<group>"; };
+		06A91D0B19E39A790028F4B1 /* LogoutModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LogoutModel.m; sourceTree = "<group>"; };
 		06AAA8D519D2B8610052BB1D /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		06B7F86219D53AF50017EA4D /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		710C02AF19E0394100C27A33 /* SubjectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SubjectViewController.h; path = src/subject/controller/SubjectViewController.h; sourceTree = "<group>"; };
@@ -301,7 +309,6 @@
 		71860BCA19DC3EF900D01AA9 /* UMFeedback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UMFeedback.h; path = src/menu/feedback/UMFeedback.h; sourceTree = "<group>"; };
 		71860BCB19DC438A00D01AA9 /* libMobClickLibrary.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMobClickLibrary.a; path = ebooksystem/depends/umeng/libMobClickLibrary.a; sourceTree = "<group>"; };
 		71860BCC19DC438A00D01AA9 /* libUMFeedback.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libUMFeedback.a; path = ebooksystem/depends/umeng/libUMFeedback.a; sourceTree = "<group>"; };
-		71860BD119DC4E3200D01AA9 /* doc */ = {isa = PBXFileReference; lastKnownFileType = folder; path = doc; sourceTree = "<group>"; };
 		71860BDC19DC6DA500D01AA9 /* KnowledgeManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KnowledgeManager.h; path = src/knowledge/KnowledgeManager.h; sourceTree = "<group>"; };
 		71860BDD19DC6DA500D01AA9 /* KnowledgeManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KnowledgeManager.m; path = src/knowledge/KnowledgeManager.m; sourceTree = "<group>"; };
 		71860BE119DC754C00D01AA9 /* Config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Config.h; path = src/config/Config.h; sourceTree = "<group>"; };
@@ -407,7 +414,6 @@
 				710C02A819DE985200C27A33 /* storyboard */,
 				71860B6A19DC204C00D01AA9 /* src */,
 				71860C1019DE941700D01AA9 /* depends */,
-				71860BD119DC4E3200D01AA9 /* doc */,
 				710C038A19E2458C00C27A33 /* assets */,
 				710C02C019E054B700C27A33 /* res */,
 				0690782F19CFD62700CD9C3D /* Images.xcassets */,
@@ -447,6 +453,46 @@
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
+		};
+		06A91CF619E38AC30028F4B1 /* logout */ = {
+			isa = PBXGroup;
+			children = (
+				06A91D0619E392C50028F4B1 /* controller */,
+				06A91D0519E392B50028F4B1 /* model */,
+				06A91D0119E392AA0028F4B1 /* view */,
+			);
+			path = logout;
+			sourceTree = "<group>";
+		};
+		06A91D0119E392AA0028F4B1 /* view */ = {
+			isa = PBXGroup;
+			children = (
+				06A91D0219E392AA0028F4B1 /* CustomLogoutView.h */,
+				06A91D0319E392AA0028F4B1 /* CustomLogoutView.m */,
+			);
+			name = view;
+			path = ebooksystem/src/menu/logout/view;
+			sourceTree = SOURCE_ROOT;
+		};
+		06A91D0519E392B50028F4B1 /* model */ = {
+			isa = PBXGroup;
+			children = (
+				06A91D0A19E39A790028F4B1 /* LogoutModel.h */,
+				06A91D0B19E39A790028F4B1 /* LogoutModel.m */,
+			);
+			name = model;
+			path = ebooksystem/src/menu/logout/model;
+			sourceTree = SOURCE_ROOT;
+		};
+		06A91D0619E392C50028F4B1 /* controller */ = {
+			isa = PBXGroup;
+			children = (
+				06A91D0719E392FF0028F4B1 /* LogoutViewController.h */,
+				06A91D0819E392FF0028F4B1 /* LogoutViewController.m */,
+			);
+			name = controller;
+			path = ebooksystem/src/menu/logout/controller;
+			sourceTree = SOURCE_ROOT;
 		};
 		710C02A819DE985200C27A33 /* storyboard */ = {
 			isa = PBXGroup;
@@ -706,6 +752,7 @@
 		71860B8719DC230400D01AA9 /* menu */ = {
 			isa = PBXGroup;
 			children = (
+				06A91CF619E38AC30028F4B1 /* logout */,
 				710C02EB19E1C63400C27A33 /* register */,
 				710C02DB19E1C5CD00C27A33 /* login */,
 				71860BA419DC330500D01AA9 /* feedback */,
@@ -1088,7 +1135,6 @@
 				71860BC319DC357300D01AA9 /* UMContactViewController.xib in Resources */,
 				710C033619E1C8E600C27A33 /* LICENSE in Resources */,
 				710C02FA19E1C8A200C27A33 /* LICENSE in Resources */,
-				71860BD219DC4E3200D01AA9 /* doc in Resources */,
 				710C02C119E054B700C27A33 /* res in Resources */,
 				71860BC519DC357300D01AA9 /* UMFeedbackViewController.xib in Resources */,
 				710C02BD19E0547600C27A33 /* storyboard_main_iphone.storyboard in Resources */,
@@ -1128,6 +1174,7 @@
 				710C036719E1C95800C27A33 /* NSString+Hashing.m in Sources */,
 				710C030D19E1C8B600C27A33 /* AFNetworkActivityIndicatorManager.m in Sources */,
 				710C035519E1C90E00C27A33 /* SBJsonStreamParserAccumulator.m in Sources */,
+				06A91D0C19E39A790028F4B1 /* LogoutModel.m in Sources */,
 				710C033519E1C8E600C27A33 /* EGOCache.m in Sources */,
 				71860C0019DE50C300D01AA9 /* IASequentialDownloadManager.m in Sources */,
 				71860BB519DC34BC00D01AA9 /* UMEGORefreshTableHeaderView.m in Sources */,
@@ -1138,6 +1185,7 @@
 				710C030F19E1C8B600C27A33 /* UIAlertView+AFNetworking.m in Sources */,
 				71860BE319DC754C00D01AA9 /* Config.m in Sources */,
 				710C03A519E2F38E00C27A33 /* KnowledgeSearchReverseInfo.m in Sources */,
+				06A91D0919E392FF0028F4B1 /* LogoutViewController.m in Sources */,
 				710C039219E2E45C00C27A33 /* ebooksystem.xcdatamodeld in Sources */,
 				710C02D919E1ACAF00C27A33 /* QBTitleView.m in Sources */,
 				710C02E119E1C60800C27A33 /* CustomLoginModel.m in Sources */,
@@ -1193,6 +1241,7 @@
 				0690782719CFD62700CD9C3D /* main.m in Sources */,
 				710C039C19E2ECA400C27A33 /* KnowledgeMeta.m in Sources */,
 				710C02F119E1C67A00C27A33 /* RegisterModel.m in Sources */,
+				06A91D0419E392AA0028F4B1 /* CustomLogoutView.m in Sources */,
 				710C02DA19E1ACAF00C27A33 /* UIImage+tintedImage.m in Sources */,
 				71860B8619DC22EB00D01AA9 /* CustomNavigationBar.m in Sources */,
 				71860BC419DC357300D01AA9 /* UMFeedbackViewController.m in Sources */,
