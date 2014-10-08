@@ -92,6 +92,8 @@
 		710C03A219E2EDB800C27A33 /* KnowledgeSearchEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 710C03A119E2EDB800C27A33 /* KnowledgeSearchEntity.m */; };
 		710C03A519E2F38E00C27A33 /* KnowledgeSearchReverseInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 710C03A419E2F38E00C27A33 /* KnowledgeSearchReverseInfo.m */; };
 		710C03A819E397B200C27A33 /* KnowledgeMetaManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 710C03A719E397B200C27A33 /* KnowledgeMetaManager.m */; };
+		7134FB2019E4D952004AB7A8 /* KnowledgeDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7134FB1F19E4D952004AB7A8 /* KnowledgeDataManager.m */; };
+		7134FB2319E4DE4E004AB7A8 /* KnowledgeSearchManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7134FB2219E4DE4E004AB7A8 /* KnowledgeSearchManager.m */; };
 		7159EC5719E4373C00288CF2 /* CoreDataUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 7159EC5619E4373C00288CF2 /* CoreDataUtil.m */; };
 		71860B8619DC22EB00D01AA9 /* CustomNavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 71860B8519DC22EB00D01AA9 /* CustomNavigationBar.m */; };
 		71860B9319DC31A200D01AA9 /* CustomMoreView.m in Sources */ = {isa = PBXBuildFile; fileRef = 71860B9219DC31A200D01AA9 /* CustomMoreView.m */; };
@@ -287,6 +289,10 @@
 		710C03A419E2F38E00C27A33 /* KnowledgeSearchReverseInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KnowledgeSearchReverseInfo.m; path = src/knowledge/KnowledgeSearchReverseInfo.m; sourceTree = "<group>"; };
 		710C03A619E397B200C27A33 /* KnowledgeMetaManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KnowledgeMetaManager.h; path = src/knowledge/KnowledgeMetaManager.h; sourceTree = "<group>"; };
 		710C03A719E397B200C27A33 /* KnowledgeMetaManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KnowledgeMetaManager.m; path = src/knowledge/KnowledgeMetaManager.m; sourceTree = "<group>"; };
+		7134FB1E19E4D952004AB7A8 /* KnowledgeDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KnowledgeDataManager.h; path = src/knowledge/KnowledgeDataManager.h; sourceTree = "<group>"; };
+		7134FB1F19E4D952004AB7A8 /* KnowledgeDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KnowledgeDataManager.m; path = src/knowledge/KnowledgeDataManager.m; sourceTree = "<group>"; };
+		7134FB2119E4DE4E004AB7A8 /* KnowledgeSearchManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KnowledgeSearchManager.h; path = src/knowledge/KnowledgeSearchManager.h; sourceTree = "<group>"; };
+		7134FB2219E4DE4E004AB7A8 /* KnowledgeSearchManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KnowledgeSearchManager.m; path = src/knowledge/KnowledgeSearchManager.m; sourceTree = "<group>"; };
 		7159EC5519E4373C00288CF2 /* CoreDataUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CoreDataUtil.h; path = src/util/CoreDataUtil.h; sourceTree = "<group>"; };
 		7159EC5619E4373C00288CF2 /* CoreDataUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CoreDataUtil.m; path = src/util/CoreDataUtil.m; sourceTree = "<group>"; };
 		71860B8419DC22EB00D01AA9 /* CustomNavigationBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CustomNavigationBar.h; path = src/common/view/CustomNavigationBar.h; sourceTree = "<group>"; };
@@ -907,6 +913,10 @@
 				710C039B19E2ECA400C27A33 /* KnowledgeMeta.m */,
 				710C03A619E397B200C27A33 /* KnowledgeMetaManager.h */,
 				710C03A719E397B200C27A33 /* KnowledgeMetaManager.m */,
+				7134FB1E19E4D952004AB7A8 /* KnowledgeDataManager.h */,
+				7134FB1F19E4D952004AB7A8 /* KnowledgeDataManager.m */,
+				7134FB2119E4DE4E004AB7A8 /* KnowledgeSearchManager.h */,
+				7134FB2219E4DE4E004AB7A8 /* KnowledgeSearchManager.m */,
 				710C03A319E2F38E00C27A33 /* KnowledgeSearchReverseInfo.h */,
 				710C03A419E2F38E00C27A33 /* KnowledgeSearchReverseInfo.m */,
 				71860BDC19DC6DA500D01AA9 /* KnowledgeManager.h */,
@@ -1212,11 +1222,13 @@
 				710C031019E1C8B600C27A33 /* UIButton+AFNetworking.m in Sources */,
 				710C039F19E2EDB700C27A33 /* KnowledgeMetaEntity.m in Sources */,
 				71860BFC19DE50C300D01AA9 /* IADownloadHandler.m in Sources */,
+				7134FB2019E4D952004AB7A8 /* KnowledgeDataManager.m in Sources */,
 				710C032E19E1C8D000C27A33 /* AFURLRequestSerialization.m in Sources */,
 				71860C0719DE544D00D01AA9 /* KnowledgeDownloadManager.m in Sources */,
 				710C032F19E1C8D000C27A33 /* AFURLResponseSerialization.m in Sources */,
 				71860B9F19DC323900D01AA9 /* AboutUsViewController.m in Sources */,
 				710C035919E1C90E00C27A33 /* SBJsonStreamWriterAccumulator.m in Sources */,
+				7134FB2319E4DE4E004AB7A8 /* KnowledgeSearchManager.m in Sources */,
 				710C032D19E1C8D000C27A33 /* AFURLConnectionOperation.m in Sources */,
 				710C02E719E1C61A00C27A33 /* CustomLoginView.m in Sources */,
 				710C03A819E397B200C27A33 /* KnowledgeMetaManager.m in Sources */,

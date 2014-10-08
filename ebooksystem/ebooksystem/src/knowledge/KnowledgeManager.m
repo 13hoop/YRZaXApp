@@ -7,9 +7,17 @@
 //
 
 #import "KnowledgeManager.h"
+
 #import "Config.h"
-#import "PathUtil.h"
+
+#import "KnowledgeMetaEntity.h"
+#import "KnowledgeSearchEntity.h"
 #import "KnowledgeMetaManager.h"
+#import "KnowledgeDataManager.h"
+#import "KnowledgeSearchManager.h"
+
+#import "PathUtil.h"
+#import "CoreDataUtil.h"
 
 
 
@@ -149,6 +157,84 @@
     return TRUE;
 }
 
+#pragma mark - methods for js call
+// get page path
+- (NSString *)getPagePath:(NSString *)dataId {
+    NSArray *metaArray = [[KnowledgeMetaManager instance] getKnowledgeMetaWithDataId:dataId andDataType:DATA_TYPE_DATA_SOURCE];
+    if (metaArray == nil || metaArray.count <= 0) {
+        return nil;
+    }
+    
+    // 返回首个
+    for (id obj in metaArray) {
+        KnowledgeMetaEntity *knowledgeMetaEntity = (KnowledgeMetaEntity *)obj;
+        if (knowledgeMetaEntity == nil) {
+            continue;
+        }
+        
+        NSString *knowledgeDataRootPathInDocuments = [[Config instance] knowledgeDataConfig].knowledgeDataRootPathInDocuments;
+        NSString *fullFilePath = [NSString stringWithFormat:@"%@/%@", knowledgeDataRootPathInDocuments, knowledgeMetaEntity.dataPath];
+        return fullFilePath;
+    }
+    
+    return nil;
+}
+
+// get data
+- (NSString *)getData:(NSString *)dataId {
+    NSArray *metaArray = [[KnowledgeMetaManager instance] getKnowledgeMetaWithDataId:dataId andDataType:DATA_TYPE_DATA_SOURCE];
+    if (metaArray == nil || metaArray.count <= 0) {
+        return nil;
+    }
+    
+    for (id obj in metaArray) {
+        KnowledgeMetaEntity *knowledgeMetaEntity = (KnowledgeMetaEntity *)obj;
+        if (knowledgeMetaEntity == nil) {
+            continue;
+        }
+        
+        return [[KnowledgeDataManager instance] loadKnowledgeData:knowledgeMetaEntity];
+    }
+    
+    return nil;
+}
+
+// search data
+- (NSString *)searchData:(NSString *)searchId {
+    NSArray *knowledgeSearchEntities = [[KnowledgeSearchManager instance] searchData:searchId];
+    if (knowledgeSearchEntities == nil || knowledgeSearchEntities.count <= 0) {
+        return nil;
+    }
+    
+    NSMutableString *searchResult = [[NSMutableString alloc] init];
+    [searchResult appendString:@"["];
+    
+    BOOL isFirst = YES;
+    for (id obj in knowledgeSearchEntities) {
+        KnowledgeSearchEntity *knowledgeSearchEntity = (KnowledgeSearchEntity *)obj;
+        if (knowledgeSearchEntity == nil || knowledgeSearchEntity.dataId == nil || knowledgeSearchEntity.dataId.length <= 0) {
+            continue;
+        }
+        
+        NSString *data = [self getData:knowledgeSearchEntity.dataId];
+        if (data == nil || data.length <= 0) {
+            continue;
+        }
+        
+        if (isFirst) {
+            isFirst = NO;
+        }
+        else {
+            [searchResult appendString:@","];
+        }
+        [searchResult appendString:data];
+    }
+    
+    [searchResult appendString:@"]"];
+    
+    return searchResult;
+}
+
 
 #pragma mark -
 #pragma mark - test
@@ -157,6 +243,14 @@
     
     [self copyAssetsKnowledgeData];
     [self registerDataFiles];
+    
+    NSString *dataIdForPagePath = @"3b7942bf7d9f8a80dc3b7e43539ee40e";
+    NSString *dataId = @"2a8ceed5e71a0ff16bafc9f082bceeec";
+    NSString *searchId = @"210101";
+    
+    NSString *pagePath = [self getPagePath:dataIdForPagePath];
+    NSString *data = [self getData:dataId];
+    NSString *searchResult = [self searchData:searchId];
     
     NSLog(@"[KnowledgeManager - test()], end");
 }

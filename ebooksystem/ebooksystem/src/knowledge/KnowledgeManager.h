@@ -14,6 +14,17 @@
 // singleton
 + (KnowledgeManager *)instance;
 
+#pragma mark - methods for js call
+// get page path
+- (NSString *)getPagePath:(NSString *)dataId;
+
+// get data
+- (NSString *)getData:(NSString *)dataId;
+
+// search data
+- (NSString *)searchData:(NSString *)searchId;
+
+#pragma mark - test
 // test
 - (void)test;
 

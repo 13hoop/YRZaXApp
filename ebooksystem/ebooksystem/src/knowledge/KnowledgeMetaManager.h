@@ -7,6 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "KnowledgeDataTypes.h"
+
 
 @class KnowledgeMeta;
 
@@ -22,5 +24,8 @@
 
 // save knowledge meta
 - (BOOL)saveKnowledgeMeta:(KnowledgeMeta *)knowledgeMeta;
+
+// get knowledge metas
+- (NSArray *)getKnowledgeMetaWithDataId:(NSString *)dataId andDataType:(DataType)dataType;
 
 @end
