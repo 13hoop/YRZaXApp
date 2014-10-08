@@ -29,11 +29,10 @@
         <attribute name="dataId" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="dataNameCh" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="dataNameEn" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="pkId" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="searchId" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
         <element name="KnowledgeMetaEntity" positionX="-63" positionY="-18" width="128" height="390"/>
-        <element name="KnowledgeSearchEntity" positionX="-54" positionY="144" width="128" height="118"/>
+        <element name="KnowledgeSearchEntity" positionX="-54" positionY="144" width="128" height="105"/>
     </elements>
 </model>

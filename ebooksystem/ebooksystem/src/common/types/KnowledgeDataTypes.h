@@ -21,7 +21,8 @@ typedef enum {
  * App中涉及的数据类型
  */
 typedef enum {
-    DATA_TYPE_UNKNOWN, DATA_TYPE_META, // meta数据
+    DATA_TYPE_UNKNOWN = -1,
+    DATA_TYPE_META, // meta数据
     DATA_TYPE_DATA_SOURCE, // data数据, 用作app的数据源
     DATA_TYPE_RENDER, // render数据, 用来对数据源进行渲染. e.g, html, css, js, etc.
     DATA_TYPE_DATA_UGC // 用户产生的数据, 如学习记录等
@@ -32,7 +33,8 @@ typedef enum {
  *
  */
 typedef enum {
-    DATA_STORAGE_TYPE_UNKNOWN, DATA_STORAGE_APP_ASSETS, // 数据存储于app的assets中
+    DATA_STORAGE_TYPE_UNKNOWN = -1,
+    DATA_STORAGE_APP_ASSETS, // 数据存储于app的assets中
     DATA_STORAGE_APP_RAW, // 数据存储于app的raw中
     DATA_STORAGE_SHARED_PREFERENCE, // 数据存储于sharedPreferences中
     DATA_STORAGE_SQLITE, // 数据存储于sqlite中
@@ -48,7 +50,7 @@ typedef enum {
  */
 typedef enum {
 //    @SerializedName("0")
-    DATA_PATH_TYPE_FILE, // meta.json中记录的path为文件系统中的路径
+    DATA_PATH_TYPE_FILE = 0, // meta.json中记录的path为文件系统中的路径
 } DataPathType;
 
 /**
@@ -56,7 +58,7 @@ typedef enum {
  *
  */
 typedef enum {
-    DATA_STATUS_UNKNOWN, // 未知
+    DATA_STATUS_UNKNOWN = -1, // 未知
     DATA_STATUS_AVAIL, // 可用
     DATA_STATUS_UPDATING, // 更新中
     DATA_STATUS_UPDATED // 已更新
@@ -68,7 +70,7 @@ typedef enum {
  */
 typedef enum {
 //    @SerializedName("0")
-    DATA_UPDATE_TYPE_NODE, // 节点更新
+    DATA_UPDATE_TYPE_NODE = 0, // 节点更新
 //    @SerializedName("1")
     DATA_UPDATE_TYPE_NODE_AND_CHILDREN // 节点及其所有子节点均需更新
 } DataUpdateType;
@@ -78,7 +80,7 @@ typedef enum {
  *
  */
 typedef enum {
-    DATA_OPERATION_TYPE_ADD_OR_REPLACE, // 增加/替换
+    DATA_OPERATION_TYPE_ADD_OR_REPLACE = 0, // 增加/替换
     DATA_OPERATION_TYPE_DELETE // 删除
 } DataOperationType;
 

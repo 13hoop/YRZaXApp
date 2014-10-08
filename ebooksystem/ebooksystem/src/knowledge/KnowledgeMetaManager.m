@@ -104,7 +104,7 @@
         [fetchRequest setEntity:entity];
         
         // Predicate
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"dataId==%@", knowledgeMeta.dataId];
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"dataId==%@ and dataType=%@", knowledgeMeta.dataId, [NSNumber numberWithInteger:knowledgeMeta.dataType]];
         [fetchRequest setPredicate:predicate];
         
         NSError *error = nil;
