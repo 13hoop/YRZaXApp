@@ -34,9 +34,6 @@
 		710C02BD19E0547600C27A33 /* storyboard_main_iphone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 710C02BC19E0547600C27A33 /* storyboard_main_iphone.storyboard */; };
 		710C02C119E054B700C27A33 /* res in Resources */ = {isa = PBXBuildFile; fileRef = 710C02C019E054B700C27A33 /* res */; };
 		710C02C719E189A200C27A33 /* DrawableConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 710C02C619E189A200C27A33 /* DrawableConfig.m */; };
-		710C02D819E1ACAF00C27A33 /* BaseTitleBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 710C02D319E1ACAF00C27A33 /* BaseTitleBar.m */; };
-		710C02D919E1ACAF00C27A33 /* QBTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 710C02D519E1ACAF00C27A33 /* QBTitleView.m */; };
-		710C02DA19E1ACAF00C27A33 /* UIImage+tintedImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 710C02D719E1ACAF00C27A33 /* UIImage+tintedImage.m */; };
 		710C02E119E1C60800C27A33 /* CustomLoginModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 710C02E019E1C60800C27A33 /* CustomLoginModel.m */; };
 		710C02E619E1C61A00C27A33 /* CustomLoginNavgationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 710C02E319E1C61A00C27A33 /* CustomLoginNavgationBar.m */; };
 		710C02E719E1C61A00C27A33 /* CustomLoginView.m in Sources */ = {isa = PBXBuildFile; fileRef = 710C02E519E1C61A00C27A33 /* CustomLoginView.m */; };
@@ -95,6 +92,12 @@
 		7134FB2019E4D952004AB7A8 /* KnowledgeDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7134FB1F19E4D952004AB7A8 /* KnowledgeDataManager.m */; };
 		7134FB2319E4DE4E004AB7A8 /* KnowledgeSearchManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7134FB2219E4DE4E004AB7A8 /* KnowledgeSearchManager.m */; };
 		7159EC5719E4373C00288CF2 /* CoreDataUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 7159EC5619E4373C00288CF2 /* CoreDataUtil.m */; };
+		715EE96E19E526D7005A4F78 /* CommonWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 715EE96D19E526D7005A4F78 /* CommonWebViewController.m */; };
+		715EE97719E52749005A4F78 /* BaseTitleBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 715EE97219E52749005A4F78 /* BaseTitleBar.m */; };
+		715EE97819E52749005A4F78 /* QBTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 715EE97419E52749005A4F78 /* QBTitleView.m */; };
+		715EE97919E52749005A4F78 /* UIImage+tintedImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 715EE97619E52749005A4F78 /* UIImage+tintedImage.m */; };
+		715EE97E19E594D9005A4F78 /* WebViewJavascriptBridge.js.txt in Resources */ = {isa = PBXBuildFile; fileRef = 715EE97C19E594D9005A4F78 /* WebViewJavascriptBridge.js.txt */; };
+		715EE97F19E594D9005A4F78 /* WebViewJavascriptBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 715EE97D19E594D9005A4F78 /* WebViewJavascriptBridge.m */; };
 		71860B8619DC22EB00D01AA9 /* CustomNavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 71860B8519DC22EB00D01AA9 /* CustomNavigationBar.m */; };
 		71860B9319DC31A200D01AA9 /* CustomMoreView.m in Sources */ = {isa = PBXBuildFile; fileRef = 71860B9219DC31A200D01AA9 /* CustomMoreView.m */; };
 		71860B9619DC31B200D01AA9 /* MoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 71860B9519DC31B200D01AA9 /* MoreViewController.m */; };
@@ -174,12 +177,6 @@
 		710C02C019E054B700C27A33 /* res */ = {isa = PBXFileReference; lastKnownFileType = folder; path = res; sourceTree = "<group>"; };
 		710C02C519E189A200C27A33 /* DrawableConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DrawableConfig.h; path = src/config/DrawableConfig.h; sourceTree = "<group>"; };
 		710C02C619E189A200C27A33 /* DrawableConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DrawableConfig.m; path = src/config/DrawableConfig.m; sourceTree = "<group>"; };
-		710C02D219E1ACAF00C27A33 /* BaseTitleBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BaseTitleBar.h; path = src/common/view/titlebar/BaseTitleBar.h; sourceTree = "<group>"; };
-		710C02D319E1ACAF00C27A33 /* BaseTitleBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BaseTitleBar.m; path = src/common/view/titlebar/BaseTitleBar.m; sourceTree = "<group>"; };
-		710C02D419E1ACAF00C27A33 /* QBTitleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = QBTitleView.h; path = src/common/view/titlebar/QBTitleView.h; sourceTree = "<group>"; };
-		710C02D519E1ACAF00C27A33 /* QBTitleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = QBTitleView.m; path = src/common/view/titlebar/QBTitleView.m; sourceTree = "<group>"; };
-		710C02D619E1ACAF00C27A33 /* UIImage+tintedImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIImage+tintedImage.h"; path = "src/common/view/titlebar/UIImage+tintedImage.h"; sourceTree = "<group>"; };
-		710C02D719E1ACAF00C27A33 /* UIImage+tintedImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIImage+tintedImage.m"; path = "src/common/view/titlebar/UIImage+tintedImage.m"; sourceTree = "<group>"; };
 		710C02DF19E1C60800C27A33 /* CustomLoginModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CustomLoginModel.h; path = src/menu/login/model/CustomLoginModel.h; sourceTree = "<group>"; };
 		710C02E019E1C60800C27A33 /* CustomLoginModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CustomLoginModel.m; path = src/menu/login/model/CustomLoginModel.m; sourceTree = "<group>"; };
 		710C02E219E1C61A00C27A33 /* CustomLoginNavgationBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CustomLoginNavgationBar.h; path = src/menu/login/view/CustomLoginNavgationBar.h; sourceTree = "<group>"; };
@@ -295,6 +292,17 @@
 		7134FB2219E4DE4E004AB7A8 /* KnowledgeSearchManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KnowledgeSearchManager.m; path = src/knowledge/KnowledgeSearchManager.m; sourceTree = "<group>"; };
 		7159EC5519E4373C00288CF2 /* CoreDataUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CoreDataUtil.h; path = src/util/CoreDataUtil.h; sourceTree = "<group>"; };
 		7159EC5619E4373C00288CF2 /* CoreDataUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CoreDataUtil.m; path = src/util/CoreDataUtil.m; sourceTree = "<group>"; };
+		715EE96C19E526D7005A4F78 /* CommonWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CommonWebViewController.h; path = src/common/web/controller/CommonWebViewController.h; sourceTree = "<group>"; };
+		715EE96D19E526D7005A4F78 /* CommonWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CommonWebViewController.m; path = src/common/web/controller/CommonWebViewController.m; sourceTree = "<group>"; };
+		715EE97119E52749005A4F78 /* BaseTitleBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BaseTitleBar.h; path = src/common/titlebar/BaseTitleBar.h; sourceTree = "<group>"; };
+		715EE97219E52749005A4F78 /* BaseTitleBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BaseTitleBar.m; path = src/common/titlebar/BaseTitleBar.m; sourceTree = "<group>"; };
+		715EE97319E52749005A4F78 /* QBTitleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = QBTitleView.h; path = src/common/titlebar/QBTitleView.h; sourceTree = "<group>"; };
+		715EE97419E52749005A4F78 /* QBTitleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = QBTitleView.m; path = src/common/titlebar/QBTitleView.m; sourceTree = "<group>"; };
+		715EE97519E52749005A4F78 /* UIImage+tintedImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIImage+tintedImage.h"; path = "src/common/titlebar/UIImage+tintedImage.h"; sourceTree = "<group>"; };
+		715EE97619E52749005A4F78 /* UIImage+tintedImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIImage+tintedImage.m"; path = "src/common/titlebar/UIImage+tintedImage.m"; sourceTree = "<group>"; };
+		715EE97B19E594D9005A4F78 /* WebViewJavascriptBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WebViewJavascriptBridge.h; path = depends/WebViewJavascriptBridge/WebViewJavascriptBridge.h; sourceTree = "<group>"; };
+		715EE97C19E594D9005A4F78 /* WebViewJavascriptBridge.js.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = WebViewJavascriptBridge.js.txt; path = depends/WebViewJavascriptBridge/WebViewJavascriptBridge.js.txt; sourceTree = "<group>"; };
+		715EE97D19E594D9005A4F78 /* WebViewJavascriptBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WebViewJavascriptBridge.m; path = depends/WebViewJavascriptBridge/WebViewJavascriptBridge.m; sourceTree = "<group>"; };
 		71860B8419DC22EB00D01AA9 /* CustomNavigationBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CustomNavigationBar.h; path = src/common/view/CustomNavigationBar.h; sourceTree = "<group>"; };
 		71860B8519DC22EB00D01AA9 /* CustomNavigationBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CustomNavigationBar.m; path = src/common/view/CustomNavigationBar.m; sourceTree = "<group>"; };
 		71860B9119DC31A200D01AA9 /* CustomMoreView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CustomMoreView.h; path = src/menu/menu/view/CustomMoreView.h; sourceTree = "<group>"; };
@@ -555,12 +563,12 @@
 		710C02D119E1AC9C00C27A33 /* titlebar */ = {
 			isa = PBXGroup;
 			children = (
-				710C02D219E1ACAF00C27A33 /* BaseTitleBar.h */,
-				710C02D319E1ACAF00C27A33 /* BaseTitleBar.m */,
-				710C02D419E1ACAF00C27A33 /* QBTitleView.h */,
-				710C02D519E1ACAF00C27A33 /* QBTitleView.m */,
-				710C02D619E1ACAF00C27A33 /* UIImage+tintedImage.h */,
-				710C02D719E1ACAF00C27A33 /* UIImage+tintedImage.m */,
+				715EE97119E52749005A4F78 /* BaseTitleBar.h */,
+				715EE97219E52749005A4F78 /* BaseTitleBar.m */,
+				715EE97319E52749005A4F78 /* QBTitleView.h */,
+				715EE97419E52749005A4F78 /* QBTitleView.m */,
+				715EE97519E52749005A4F78 /* UIImage+tintedImage.h */,
+				715EE97619E52749005A4F78 /* UIImage+tintedImage.m */,
 			);
 			name = titlebar;
 			sourceTree = "<group>";
@@ -727,6 +735,33 @@
 			name = model;
 			sourceTree = "<group>";
 		};
+		715EE96F19E526E1005A4F78 /* web */ = {
+			isa = PBXGroup;
+			children = (
+				715EE97019E526E6005A4F78 /* controller */,
+			);
+			name = web;
+			sourceTree = "<group>";
+		};
+		715EE97019E526E6005A4F78 /* controller */ = {
+			isa = PBXGroup;
+			children = (
+				715EE96C19E526D7005A4F78 /* CommonWebViewController.h */,
+				715EE96D19E526D7005A4F78 /* CommonWebViewController.m */,
+			);
+			name = controller;
+			sourceTree = "<group>";
+		};
+		715EE97A19E594C6005A4F78 /* WebViewJavascriptBridge */ = {
+			isa = PBXGroup;
+			children = (
+				715EE97B19E594D9005A4F78 /* WebViewJavascriptBridge.h */,
+				715EE97C19E594D9005A4F78 /* WebViewJavascriptBridge.js.txt */,
+				715EE97D19E594D9005A4F78 /* WebViewJavascriptBridge.m */,
+			);
+			name = WebViewJavascriptBridge;
+			sourceTree = "<group>";
+		};
 		71860B6A19DC204C00D01AA9 /* src */ = {
 			isa = PBXGroup;
 			children = (
@@ -746,6 +781,8 @@
 			isa = PBXGroup;
 			children = (
 				71860BE419DC77A600D01AA9 /* types */,
+				710C02D119E1AC9C00C27A33 /* titlebar */,
+				715EE96F19E526E1005A4F78 /* web */,
 				71860B8319DC22DC00D01AA9 /* view */,
 			);
 			name = common;
@@ -754,7 +791,6 @@
 		71860B8319DC22DC00D01AA9 /* view */ = {
 			isa = PBXGroup;
 			children = (
-				710C02D119E1AC9C00C27A33 /* titlebar */,
 				71860B8419DC22EB00D01AA9 /* CustomNavigationBar.h */,
 				71860B8519DC22EB00D01AA9 /* CustomNavigationBar.m */,
 			);
@@ -993,6 +1029,7 @@
 		71860C1019DE941700D01AA9 /* depends */ = {
 			isa = PBXGroup;
 			children = (
+				715EE97A19E594C6005A4F78 /* WebViewJavascriptBridge */,
 				710C036E19E1C97A00C27A33 /* UIDevice-with-UniqueIdentifier-for-iOS-5 */,
 				710C035E19E1C92000C27A33 /* Security */,
 				710C033819E1C8F200C27A33 /* SBJson */,
@@ -1155,6 +1192,7 @@
 				71860BC319DC357300D01AA9 /* UMContactViewController.xib in Resources */,
 				710C033619E1C8E600C27A33 /* LICENSE in Resources */,
 				710C02FA19E1C8A200C27A33 /* LICENSE in Resources */,
+				715EE97E19E594D9005A4F78 /* WebViewJavascriptBridge.js.txt in Resources */,
 				710C02C119E054B700C27A33 /* res in Resources */,
 				71860BC519DC357300D01AA9 /* UMFeedbackViewController.xib in Resources */,
 				710C02BD19E0547600C27A33 /* storyboard_main_iphone.storyboard in Resources */,
@@ -1190,7 +1228,6 @@
 				71860BFE19DE50C300D01AA9 /* IADownloadOperation.m in Sources */,
 				710C02BA19E0457A00C27A33 /* SubjectTableViewCell.m in Sources */,
 				710C032919E1C8D000C27A33 /* AFHTTPRequestOperationManager.m in Sources */,
-				710C02D819E1ACAF00C27A33 /* BaseTitleBar.m in Sources */,
 				710C036719E1C95800C27A33 /* NSString+Hashing.m in Sources */,
 				710C030D19E1C8B600C27A33 /* AFNetworkActivityIndicatorManager.m in Sources */,
 				710C035519E1C90E00C27A33 /* SBJsonStreamParserAccumulator.m in Sources */,
@@ -1198,16 +1235,17 @@
 				710C033519E1C8E600C27A33 /* EGOCache.m in Sources */,
 				71860C0019DE50C300D01AA9 /* IASequentialDownloadManager.m in Sources */,
 				71860BB519DC34BC00D01AA9 /* UMEGORefreshTableHeaderView.m in Sources */,
+				715EE97919E52749005A4F78 /* UIImage+tintedImage.m in Sources */,
 				71860BDE19DC6DA500D01AA9 /* KnowledgeManager.m in Sources */,
 				71860BBB19DC354D00D01AA9 /* UMFeedbackTableViewCellRight.m in Sources */,
 				710C035B19E1C90E00C27A33 /* SBJsonTokeniser.m in Sources */,
 				71860C0A19DE546700D01AA9 /* KnowledgeDownloadItem.m in Sources */,
 				710C030F19E1C8B600C27A33 /* UIAlertView+AFNetworking.m in Sources */,
 				71860BE319DC754C00D01AA9 /* Config.m in Sources */,
+				715EE97F19E594D9005A4F78 /* WebViewJavascriptBridge.m in Sources */,
 				710C03A519E2F38E00C27A33 /* KnowledgeSearchReverseInfo.m in Sources */,
 				06A91D0919E392FF0028F4B1 /* LogoutViewController.m in Sources */,
 				710C039219E2E45C00C27A33 /* ebooksystem.xcdatamodeld in Sources */,
-				710C02D919E1ACAF00C27A33 /* QBTitleView.m in Sources */,
 				710C02E119E1C60800C27A33 /* CustomLoginModel.m in Sources */,
 				71860B9C19DC322A00D01AA9 /* CustomAboutUsview.m in Sources */,
 				710C035819E1C90E00C27A33 /* SBJsonStreamWriter.m in Sources */,
@@ -1218,7 +1256,9 @@
 				710C02B519E03E4F00C27A33 /* KnowledgeSubject.m in Sources */,
 				71860BBA19DC354D00D01AA9 /* UMFeedbackTableViewCellLeft.m in Sources */,
 				710C032A19E1C8D000C27A33 /* AFHTTPSessionManager.m in Sources */,
+				715EE97819E52749005A4F78 /* QBTitleView.m in Sources */,
 				71860BE919DC7B4300D01AA9 /* KnowledgeDataConfig.m in Sources */,
+				715EE97719E52749005A4F78 /* BaseTitleBar.m in Sources */,
 				710C031019E1C8B600C27A33 /* UIButton+AFNetworking.m in Sources */,
 				710C039F19E2EDB700C27A33 /* KnowledgeMetaEntity.m in Sources */,
 				71860BFC19DE50C300D01AA9 /* IADownloadHandler.m in Sources */,
@@ -1256,6 +1296,7 @@
 				71860B9619DC31B200D01AA9 /* MoreViewController.m in Sources */,
 				710C02F419E1C68E00C27A33 /* CustomRegisterView.m in Sources */,
 				710C035419E1C90E00C27A33 /* SBJsonStreamParser.m in Sources */,
+				715EE96E19E526D7005A4F78 /* CommonWebViewController.m in Sources */,
 				710C036D19E1C96900C27A33 /* SecurityUtil.m in Sources */,
 				710C035D19E1C90E00C27A33 /* SBJsonWriter.m in Sources */,
 				71860BFF19DE50C300D01AA9 /* IASequentialDownloadHandler.m in Sources */,
@@ -1266,7 +1307,6 @@
 				710C039C19E2ECA400C27A33 /* KnowledgeMeta.m in Sources */,
 				710C02F119E1C67A00C27A33 /* RegisterModel.m in Sources */,
 				06A91D0419E392AA0028F4B1 /* CustomLogoutView.m in Sources */,
-				710C02DA19E1ACAF00C27A33 /* UIImage+tintedImage.m in Sources */,
 				71860B8619DC22EB00D01AA9 /* CustomNavigationBar.m in Sources */,
 				71860BC419DC357300D01AA9 /* UMFeedbackViewController.m in Sources */,
 			);

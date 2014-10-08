@@ -11,9 +11,9 @@
 #import "KnowledgeSubject.h"
 #import "SubjectTableViewCell.h"
 #import "MoreViewController.h"
+#import "CommonWebViewController.h"
 
 #import "BaseTitleBar.h"
-
 #import "QBTitleView.h"
 #import "UIImage+tintedImage.h"
 
@@ -122,7 +122,7 @@
     
     // potilics
     KnowledgeSubject *politicsSubject = [[KnowledgeSubject alloc] init];
-    politicsSubject.subjectId = @"subject_english_id";
+    politicsSubject.subjectId = @"subject_politics_id";
     politicsSubject.name = @"政治";
     politicsSubject.desc = @"重要考点习题，疑难知识点精讲。第一款权威考研政治APP。形势与政策、20天20题即将上线，敬请期待。";
     politicsSubject.coverImage = [[[Config instance] drawableConfig] getImageFullPath:@"index_politics_cover.png"];
@@ -260,7 +260,18 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    //    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    // todo: 根据iphone还是ipad来查找不同的storyboard
+    UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"storyboard_main_iphone" bundle:nil];
+    
+    CommonWebViewController *commonWebViewController = [storyBoard instantiateViewControllerWithIdentifier:@"common_web_view_controller"];
+    if (commonWebViewController == nil) {
+        return;
+    }
+    
+    KnowledgeSubject *subject = [self.subjects objectAtIndex:indexPath.row];
+    commonWebViewController.knowledgeSubject = subject;
+    
+    [self.navigationController pushViewController:commonWebViewController animated:YES];
 }
 
 #pragma mark - actions
