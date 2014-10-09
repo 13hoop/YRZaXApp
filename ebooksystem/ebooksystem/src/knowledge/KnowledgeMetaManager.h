@@ -19,12 +19,14 @@
 #pragma mark - singleton
 + (KnowledgeMetaManager *)instance;
 
+#pragma mark - load & save
 // load knowledge meta
 - (NSArray *)loadKnowledgeMeta:(NSString *)fullFilePath;
 
 // save knowledge meta
 - (BOOL)saveKnowledgeMeta:(KnowledgeMeta *)knowledgeMeta;
 
+#pragma mark - getter
 // get knowledge metas
 - (NSArray *)getKnowledgeMetaWithDataId:(NSString *)dataId andDataType:(DataType)dataType;
 

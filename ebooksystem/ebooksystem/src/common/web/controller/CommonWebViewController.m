@@ -8,21 +8,16 @@
 
 #import "CommonWebViewController.h"
 
+#import "Config.h"
+
 #import "KnowledgeSubject.h"
 
-#import "BaseTitleBar.h"
-#import "QBTitleView.h"
-#import "UIImage+tintedImage.h"
+#import "KnowledgeManager.h"
+#import "StatisticsManager.h"
 
 #import "WebViewJavascriptBridge.h"
 
-#import "Config.h"
 
-
-
-
-@import JavaScriptCore;
-@import ObjectiveC;
 
 
 @interface CommonWebViewController () <UIWebViewDelegate>
@@ -32,15 +27,15 @@
 
 #pragma mark - properties
 // bridge between webview and js
-@property (nonatomic, copy) WebViewJavascriptBridge *bridge;
+@property (nonatomic, copy) WebViewJavascriptBridge *javascriptBridge;
 
 
 #pragma mark - methods
+// 初始化webView
+- (BOOL)initWebView;
+
 // 更新webview
 - (BOOL)updateWebView;
-
-// webView与objC交互测试
-- (BOOL)testWebView;
 
 // 注入对象, 方法等到页面中
 - (BOOL)injectJS;
@@ -56,28 +51,30 @@
 
 @implementation CommonWebViewController
 
-@synthesize bridge = _bridge;
+@synthesize javascriptBridge = _javascriptBridge;
 
 @synthesize knowledgeSubject = _knowledgeSubject;
 
 
 #pragma mark - properties
 // bridge between webview and js
-- (WebViewJavascriptBridge *)bridge {
-    if (_bridge == nil) {
-        _bridge = [WebViewJavascriptBridge bridgeForWebView:self.webView
+- (WebViewJavascriptBridge *)javascriptBridge {
+    if (_javascriptBridge == nil) {
+        _javascriptBridge = [WebViewJavascriptBridge bridgeForWebView:self.webView
                                                     handler:^(id data, WVJBResponseCallback responseCallback) {
                                                         NSLog(@"Received message from javascript: %@", data);
-                                                        responseCallback(@"Right back atcha");
+                                                        responseCallback(@"'response data from obj-c'");
                                                     }];
+//        [self initWebView];
     }
     
-    return _bridge;
+    return _javascriptBridge;
 }
 
 - (void)setKnowledgeSubject:(KnowledgeSubject *)knowledgeSubject {
     _knowledgeSubject = knowledgeSubject;
 }
+
 
 #pragma mark - app events
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -92,19 +89,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
     
+    [self initWebView];
     [self updateWebView];
-    
-//    [self testWebView];
-    
-    // 向页面注入js
-    [self injectJS];
-    
-    //    KnowledgeSubject *subject = [self.subjects objectAtIndex:indexPath.row];
-    //    if (subject.subjectId  @"subject_politics_id";) {
-    //        <#statements#>
-    //    }
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -139,9 +126,99 @@
 }
 
 #pragma mark - web view methods
+- (BOOL)initWebView {
+    self.webView.delegate = self.javascriptBridge;
+    
+    // 注册obj-c方法, 供js调用
+    // test method
+    [self.javascriptBridge registerHandler:@"testObjCCallback" handler:^(id data, WVJBResponseCallback responseCallback) {
+        NSLog(@"CommonWebViewController::testObjcCallback() called: %@", data);
+        
+        if (responseCallback != nil) {
+            responseCallback(@"Response from testObjcCallback");
+        }
+    }];
+    
+    // goBack()
+    [self.javascriptBridge registerHandler:@"goBack" handler:^(id data, WVJBResponseCallback responseCallback) {
+        NSLog(@"CommonWebViewController::goBack() called: %@", data);
+        [self.navigationController popViewControllerAnimated:YES];
+    }];
+    
+    // getNodeDataById()
+    [self.javascriptBridge registerHandler:@"getNodeDataById" handler:^(id dataId, WVJBResponseCallback responseCallback) {
+        NSLog(@"CommonWebViewController::getNodeDataById() called: %@", dataId);
+        
+        if (responseCallback != nil) {
+            NSString *data = [[KnowledgeManager instance] getData:dataId];
+            responseCallback(data);
+        }
+    }];
+    
+    // hasNodeDownloaded()
+    [self.javascriptBridge registerHandler:@"hasNodeDownloaded" handler:^(id dataId, WVJBResponseCallback responseCallback) {
+        NSLog(@"CommonWebViewController::hasNodeDownloaded() called: %@", dataId);
+        
+        NSString *pagePath = [[KnowledgeManager instance] getPagePath:dataId];
+        BOOL downloaded = (pagePath == nil || pagePath.length <= 0 ? NO : YES);
+        
+        if (responseCallback != nil) {
+            responseCallback(downloaded ? @"1" : @"0");
+        }
+    }];
+    
+    // tryDownloadNodeById()
+    [self.javascriptBridge registerHandler:@"tryDownloadNodeById" handler:^(id dataId, WVJBResponseCallback responseCallback) {
+        NSLog(@"CommonWebViewController::tryDownloadNodeById() called: %@", dataId);
+        
+        NSString *pagePath = [[KnowledgeManager instance] getPagePath:dataId];
+        BOOL downloaded = (pagePath == nil || pagePath.length <= 0 ? NO : YES);
+        
+        if (responseCallback != nil) {
+            responseCallback(downloaded ? @"1" : @"0");
+        }
+    }];
+    
+    // showPageById()
+    [self.javascriptBridge registerHandler:@"showPageById" handler:^(id data, WVJBResponseCallback responseCallback) {
+        NSLog(@"CommonWebViewController::showPageById() called: %@", data);
+        
+        NSString *pageID = [data objectForKey:@"pageID"];
+        NSDictionary *args = [data objectForKey:@"args"];
+        NSDictionary *postArgsStr = [data objectForKey:@"postArgsStr"];
+        
+        // todo: do real work
+    }];
+    
+    // pageStatistic()
+    [self.javascriptBridge registerHandler:@"pageStatistic" handler:^(id data, WVJBResponseCallback responseCallback) {
+        NSLog(@"CommonWebViewController::pageStatistic() called: %@", data);
+        
+        NSString *eventName = [data objectForKey:@"eventName"];
+        NSDictionary *args = [data objectForKey:@"args"];
+        
+        [[StatisticsManager instance] pageStatisticWithEvent:eventName andArgs:args];
+    }];
+    
+    // 发送消息给 html
+    //    [self.javascriptBridge send:@"Well hello there"];
+    //    [self.javascriptBridge send:[NSDictionary dictionaryWithObject:@"Foo" forKey:@"Bar"]];
+    //    [self.javascriptBridge send:@"Give me a response, will you?" responseCallback:^(id responseData) {
+    //        NSLog(@"ObjC got its response! %@", responseData);
+    //    }];
+    
+    // 调用js中的方法
+//    [self.javascriptBridge callHandler:@"showAlert" data:@"alert message from oc"];
+//    [self.javascriptBridge callHandler:@"getCurrentPageUrl" data:@"xxxx" responseCallback:^(id responseData){
+//        NSLog(@"ObjC got its response: %@", responseData);
+//    }];
+    
+    return YES;
+}
+
 // 更新webview
 - (BOOL)updateWebView {
-    self.webView.delegate = self;
+//    self.webView.delegate = self;
     
     NSString *knowledgeDataRootPathInAssets = [[Config instance] knowledgeDataConfig].knowledgeDataRootPathInAssets;
     NSString *knowledgeDataRootPathInDocuments = [[Config instance] knowledgeDataConfig].knowledgeDataRootPathInDocuments;
@@ -172,59 +249,12 @@
     return YES;
 }
 
-- (BOOL)testWebView {
-    // set up a full-screen UIWebView
-    UIView *view = self.view;
-    UIWebView *webView = [[UIWebView alloc] init];
-    [view addSubview:webView];
-    
-    // 偏移
-//    webView.translatesAutoresizingMaskIntoConstraints = view.translatesAutoresizingMaskIntoConstraints = NO;
-//    for (NSString *fitFormat in @[@"H:|-0-[webView]-0-|", @"V:|-0-[webView]-0-|"]) {
-//        [view addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:fitFormat options:0 metrics:nil views:NSDictionaryOfVariableBindings(webView)]];
-//    }
-    
-    JSContext *ctx = [webView valueForKeyPath:@"documentView.webView.mainFrame.javaScriptContext"];
-    NSAssert([ctx isKindOfClass:[JSContext class]], @"could not find context in web view");
-    [ctx evaluateScript:@"console.log(‘this is a log message that goes nowhere :(‘)"];
-    ctx[@"console"][@"log"] = ^(JSValue *msg) {
-        NSLog(@"JavaScript %@ log message: %@", [JSContext currentContext], msg);
-    };
-    [ctx evaluateScript:@"console.log(‘this is a log message that goes to my Xcode debug console :)’)"];
-    
-    JSValue *style = ctx[@"document"][@"body"][@"style"]; // yes, thus works: KVC FTW!
-    NSAssert(style, @"there should be a style element in the document body");
-    // set up the body’s style so all CSS changes are animated
-    NSTimeInterval colorChangeInterval = 1.0;
-    style[@"transition-timing-function"] = @"linear";
-    style[@"transition-delay"] = @(0);
-    style[@"transition-duration"] = [NSString stringWithFormat:@"%@s", @(colorChangeInterval)];
-    // this sets up a JavaScript-function-to-Cocoa-block bridge
-    ctx[@"setRandomColor"] = ^() {
-        style[@"background"] = [NSString stringWithFormat:@"hsl(%@, %@, %@)", @(arc4random() % 255), @"50%", @"50%"];
-        NSLog(@"fading to color: %@", style[@"background"]); // notably, this will not output hsl format, but instead rgb format like: “rgb(63, 191, 179)”
-    };
-    JSValue *setColorFunction = ctx[@"setRandomColor"];
-    NSAssert([setColorFunction isObject], @"it was a block, but now it should be a bridged JSValue function object");
-    // we can call our background-setting code directly via JavaScript
-    [setColorFunction callWithArguments:nil];
-    JSValue *setIntervalFunction = ctx[@"setInterval"]; // grab the built-in setInterval repeating timer function
-    NSAssert([setIntervalFunction isObject], @"setInterval should have been a function object");
-    // now set up a repeating timer in JavaScript that calls our background-changing Cocoa function
-    [setIntervalFunction callWithArguments:@[setColorFunction, @(colorChangeInterval * 1000.)]];
-    
-    return YES;
+#pragma mark - WebViewJavascriptBridge delegate methods
+- (void)javascriptBridge:(WebViewJavascriptBridge *)bridge receivedMessage:(NSString *)message fromWebView:(UIWebView *)webView
+{
+    NSLog(@"MyJavascriptBridgeDelegate received message: %@", message);
 }
 
-// 注入对象, 方法等到页面中
-- (BOOL)injectJS {
-    //    NSString *filePath = [[NSBundle mainBundle] pathForResource:@"test" ofType:@"js"];
-    //    NSString *jsString = [[NSString alloc] initWithContentsOfFile:filePath];
-    //    [self.webView stringByEvaluatingJavaScriptFromString:jsString];
-    //
-    //    xx
-    return YES;
-}
 
 #pragma mark - web view delegate
 

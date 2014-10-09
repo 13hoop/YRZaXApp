@@ -98,6 +98,9 @@
 		715EE97919E52749005A4F78 /* UIImage+tintedImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 715EE97619E52749005A4F78 /* UIImage+tintedImage.m */; };
 		715EE97E19E594D9005A4F78 /* WebViewJavascriptBridge.js.txt in Resources */ = {isa = PBXBuildFile; fileRef = 715EE97C19E594D9005A4F78 /* WebViewJavascriptBridge.js.txt */; };
 		715EE97F19E594D9005A4F78 /* WebViewJavascriptBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = 715EE97D19E594D9005A4F78 /* WebViewJavascriptBridge.m */; };
+		715EE98319E6CF8C005A4F78 /* StatisticsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 715EE98219E6CF8C005A4F78 /* StatisticsManager.m */; };
+		715EE98719E6D84A005A4F78 /* UserManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 715EE98619E6D84A005A4F78 /* UserManager.m */; };
+		715EE98A19E6D8D9005A4F78 /* UserInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 715EE98919E6D8D9005A4F78 /* UserInfo.m */; };
 		71860B8619DC22EB00D01AA9 /* CustomNavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 71860B8519DC22EB00D01AA9 /* CustomNavigationBar.m */; };
 		71860B9319DC31A200D01AA9 /* CustomMoreView.m in Sources */ = {isa = PBXBuildFile; fileRef = 71860B9219DC31A200D01AA9 /* CustomMoreView.m */; };
 		71860B9619DC31B200D01AA9 /* MoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 71860B9519DC31B200D01AA9 /* MoreViewController.m */; };
@@ -303,6 +306,12 @@
 		715EE97B19E594D9005A4F78 /* WebViewJavascriptBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WebViewJavascriptBridge.h; path = depends/WebViewJavascriptBridge/WebViewJavascriptBridge.h; sourceTree = "<group>"; };
 		715EE97C19E594D9005A4F78 /* WebViewJavascriptBridge.js.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = WebViewJavascriptBridge.js.txt; path = depends/WebViewJavascriptBridge/WebViewJavascriptBridge.js.txt; sourceTree = "<group>"; };
 		715EE97D19E594D9005A4F78 /* WebViewJavascriptBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WebViewJavascriptBridge.m; path = depends/WebViewJavascriptBridge/WebViewJavascriptBridge.m; sourceTree = "<group>"; };
+		715EE98119E6CF8C005A4F78 /* StatisticsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StatisticsManager.h; path = src/statistics/StatisticsManager.h; sourceTree = "<group>"; };
+		715EE98219E6CF8C005A4F78 /* StatisticsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StatisticsManager.m; path = src/statistics/StatisticsManager.m; sourceTree = "<group>"; };
+		715EE98519E6D84A005A4F78 /* UserManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserManager.h; path = src/user/UserManager.h; sourceTree = "<group>"; };
+		715EE98619E6D84A005A4F78 /* UserManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserManager.m; path = src/user/UserManager.m; sourceTree = "<group>"; };
+		715EE98819E6D8D9005A4F78 /* UserInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserInfo.h; path = src/user/UserInfo.h; sourceTree = "<group>"; };
+		715EE98919E6D8D9005A4F78 /* UserInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserInfo.m; path = src/user/UserInfo.m; sourceTree = "<group>"; };
 		71860B8419DC22EB00D01AA9 /* CustomNavigationBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CustomNavigationBar.h; path = src/common/view/CustomNavigationBar.h; sourceTree = "<group>"; };
 		71860B8519DC22EB00D01AA9 /* CustomNavigationBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CustomNavigationBar.m; path = src/common/view/CustomNavigationBar.m; sourceTree = "<group>"; };
 		71860B9119DC31A200D01AA9 /* CustomMoreView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CustomMoreView.h; path = src/menu/menu/view/CustomMoreView.h; sourceTree = "<group>"; };
@@ -762,16 +771,38 @@
 			name = WebViewJavascriptBridge;
 			sourceTree = "<group>";
 		};
+		715EE98019E6CF51005A4F78 /* statistics */ = {
+			isa = PBXGroup;
+			children = (
+				715EE98119E6CF8C005A4F78 /* StatisticsManager.h */,
+				715EE98219E6CF8C005A4F78 /* StatisticsManager.m */,
+			);
+			name = statistics;
+			sourceTree = "<group>";
+		};
+		715EE98419E6D81C005A4F78 /* user */ = {
+			isa = PBXGroup;
+			children = (
+				715EE98819E6D8D9005A4F78 /* UserInfo.h */,
+				715EE98919E6D8D9005A4F78 /* UserInfo.m */,
+				715EE98519E6D84A005A4F78 /* UserManager.h */,
+				715EE98619E6D84A005A4F78 /* UserManager.m */,
+			);
+			name = user;
+			sourceTree = "<group>";
+		};
 		71860B6A19DC204C00D01AA9 /* src */ = {
 			isa = PBXGroup;
 			children = (
 				71860BDA19DC6D1B00D01AA9 /* data */,
 				71860B7F19DC228400D01AA9 /* common */,
 				71860BDF19DC73C200D01AA9 /* config */,
+				715EE98419E6D81C005A4F78 /* user */,
 				71860BDB19DC6D3900D01AA9 /* knowledge */,
 				71860BD319DC4E5C00D01AA9 /* download */,
 				710C02AD19E038F000C27A33 /* subject */,
 				71860B8719DC230400D01AA9 /* menu */,
+				715EE98019E6CF51005A4F78 /* statistics */,
 				71860C0B19DE8DA000D01AA9 /* util */,
 			);
 			name = src;
@@ -1228,6 +1259,7 @@
 				71860BFE19DE50C300D01AA9 /* IADownloadOperation.m in Sources */,
 				710C02BA19E0457A00C27A33 /* SubjectTableViewCell.m in Sources */,
 				710C032919E1C8D000C27A33 /* AFHTTPRequestOperationManager.m in Sources */,
+				715EE98A19E6D8D9005A4F78 /* UserInfo.m in Sources */,
 				710C036719E1C95800C27A33 /* NSString+Hashing.m in Sources */,
 				710C030D19E1C8B600C27A33 /* AFNetworkActivityIndicatorManager.m in Sources */,
 				710C035519E1C90E00C27A33 /* SBJsonStreamParserAccumulator.m in Sources */,
@@ -1254,6 +1286,7 @@
 				710C031419E1C8B600C27A33 /* UIWebView+AFNetworking.m in Sources */,
 				71860B9319DC31A200D01AA9 /* CustomMoreView.m in Sources */,
 				710C02B519E03E4F00C27A33 /* KnowledgeSubject.m in Sources */,
+				715EE98319E6CF8C005A4F78 /* StatisticsManager.m in Sources */,
 				71860BBA19DC354D00D01AA9 /* UMFeedbackTableViewCellLeft.m in Sources */,
 				710C032A19E1C8D000C27A33 /* AFHTTPSessionManager.m in Sources */,
 				715EE97819E52749005A4F78 /* QBTitleView.m in Sources */,
@@ -1297,6 +1330,7 @@
 				710C02F419E1C68E00C27A33 /* CustomRegisterView.m in Sources */,
 				710C035419E1C90E00C27A33 /* SBJsonStreamParser.m in Sources */,
 				715EE96E19E526D7005A4F78 /* CommonWebViewController.m in Sources */,
+				715EE98719E6D84A005A4F78 /* UserManager.m in Sources */,
 				710C036D19E1C96900C27A33 /* SecurityUtil.m in Sources */,
 				710C035D19E1C90E00C27A33 /* SBJsonWriter.m in Sources */,
 				71860BFF19DE50C300D01AA9 /* IASequentialDownloadHandler.m in Sources */,
