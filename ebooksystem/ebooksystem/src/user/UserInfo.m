@@ -11,8 +11,8 @@
 @implementation UserInfo
 
 
-@synthesize userName;
-@synthesize nickName;
+@synthesize username;
+@synthesize nickname;
 @synthesize password;
 @synthesize email;
 @synthesize balance;

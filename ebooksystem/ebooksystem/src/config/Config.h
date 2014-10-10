@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import "KnowledgeDataConfig.h"
 #import "DrawableConfig.h"
+#import "WebConfig.h"
+
 
 
 @interface Config : NSObject
@@ -26,5 +28,8 @@
 // drawable config
 - (DrawableConfig *)drawableConfig;
 
+#pragma mark - web
+// web config
+- (WebConfig *)webConfig;
 
 @end

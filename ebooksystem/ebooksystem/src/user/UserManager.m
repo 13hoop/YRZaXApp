@@ -8,8 +8,6 @@
 
 #import "UserManager.h"
 
-#import "UserInfo.h"
-
 
 
 @implementation UserManager
@@ -31,7 +29,7 @@
 - (UserInfo *)getCurUser {
     // todo: do real work
     UserInfo *userInfo = [[UserInfo alloc] init];
-    userInfo.userName = @"user_reg";
+    userInfo.username = @"user_reg";
     userInfo.password = @"b";
     
     return userInfo;

@@ -9,6 +9,10 @@
 #ifndef ebooksystem_KnowledgeDataTypes_h
 #define ebooksystem_KnowledgeDataTypes_h
 
+#import "JSONModel.h"
+
+
+#pragma mark - enums
 // types
 // 数据初始化模式
 typedef enum {
@@ -83,5 +87,120 @@ typedef enum {
     DATA_OPERATION_TYPE_ADD_OR_REPLACE = 0, // 增加/替换
     DATA_OPERATION_TYPE_DELETE // 删除
 } DataOperationType;
+
+
+#pragma mark - AppRequest
+/**
+ * 数据下载请求
+ */
+@interface DataDownloadRequestInfo : JSONModel
+
+@property (nonatomic, copy) NSString *dataId;
+
+@end
+
+/**
+ * 本地数据信息
+ */
+@interface DataInfo : JSONModel
+
+@property (nonatomic, copy) NSString *dataId;
+@property (nonatomic, copy) NSString *curVersion;
+
+@end
+
+/**
+ * 数据更新请求
+ */
+@interface DataUpdateRequestInfo : JSONModel
+
+// 本地数据信息集合
+@property (nonatomic, copy) NSArray *dataInfo;
+
+@end
+
+
+
+#pragma mark - ServerResponse
+/**
+ * 关于data信息的服务器响应
+ */
+@interface ServerResponseDataInfo : JSONModel
+
+@property (nonatomic, assign) NSInteger status;
+@property (nonatomic, copy) NSString *message;
+@property (nonatomic, copy) NSString *dataId;
+// 数据最新版本号
+@property (nonatomic, copy) NSString *dataVersion;
+// 数据下载地址
+@property (nonatomic, copy) NSString *downloadUrl;
+// 数据包解密密钥
+@property (nonatomic, copy) NSString *decryptKey;
+// 版本说明信息
+@property (nonatomic, copy) NSString *updateInfo;
+// 数据发布时间
+@property (nonatomic, copy) NSDate *releaseTime;
+
+
+@end
+
+/**
+ * 关于data更新详情的服务器响应
+ */
+@interface ServerResponseUpdateInfoDetail : JSONModel
+
+@property (nonatomic, copy) NSString *dataId;
+// 数据当前版本号
+@property (nonatomic, copy) NSString *curVersion;
+// 数据最新版本号
+@property (nonatomic, copy) NSString *latestVersion;
+// 数据下载地址
+@property (nonatomic, copy) NSString *downloadUrl;
+// 数据包解密密钥
+@property (nonatomic, copy) NSString *decryptKey;
+
+// 版本说明信息
+@property (nonatomic, copy) NSString *updateType;
+// 版本说明信息
+@property (nonatomic, copy) NSString *updateInfo;
+// 数据发布时间
+@property (nonatomic, copy) NSDate *releaseTime;
+
+
+@end
+
+/**
+ * 关于data更新的服务器响应
+ */
+@interface ServerResponseUpdateInfo : JSONModel
+
+@property (nonatomic, assign) NSInteger status;
+@property (nonatomic, copy) NSString *message;
+@property (nonatomic, copy) NSArray *details;
+
+@end
+
+/**
+ * 关于data的服务器响应
+ */
+@interface ServerResponseOfKnowledgeData : JSONModel
+
+#pragma properties
+// encryptMethod
+@property (nonatomic, assign) NSInteger encryptMethod;
+// encryptKeyType
+@property (nonatomic, assign) NSInteger encryptKeyType;
+// username
+@property (nonatomic, copy) NSString *username;
+// deviceId
+@property (nonatomic, copy) NSString<Optional> *deviceId;
+// data string, which is encoded
+@property (nonatomic, copy) NSString *data;
+
+@property (nonatomic, copy) ServerResponseDataInfo<Optional> *dataInfo;
+@property (nonatomic, copy) ServerResponseUpdateInfo<Optional> *updateInfo;
+
+@end
+
 
 #endif

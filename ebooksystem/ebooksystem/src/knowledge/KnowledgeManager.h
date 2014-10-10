@@ -18,11 +18,13 @@
 // get page path
 - (NSString *)getPagePath:(NSString *)dataId;
 
-// get data
-- (NSString *)getData:(NSString *)dataId;
+// local data fetch
+- (NSString *)getLocalData:(NSString *)dataId;
+// remote data fetch
+- (BOOL)getRemoteData:(NSString *)dataId;
 
-// search data
-- (NSString *)searchData:(NSString *)searchId;
+// local data search
+- (NSString *)searchLocalData:(NSString *)searchId;
 
 #pragma mark - test
 // test

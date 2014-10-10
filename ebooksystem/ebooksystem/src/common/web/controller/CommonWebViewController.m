@@ -150,7 +150,7 @@
         NSLog(@"CommonWebViewController::getNodeDataById() called: %@", dataId);
         
         if (responseCallback != nil) {
-            NSString *data = [[KnowledgeManager instance] getData:dataId];
+            NSString *data = [[KnowledgeManager instance] getLocalData:dataId];
             responseCallback(data);
         }
     }];

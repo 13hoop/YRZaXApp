@@ -26,7 +26,7 @@
 
 
 // KnowledgeManager
-@interface KnowledgeManager() {
+@interface KnowledgeManager() <KnowledgeDataStatusDelegate> {
     
 }
 
@@ -36,12 +36,6 @@
 
 - (BOOL)knowledgeDataInited;
 - (BOOL)updateKnowledgeDataInitFlag:(BOOL)value;
-
-// 将assets目录下的knowledge data拷贝到目标路径
-- (BOOL)copyAssetsKnowledgeData;
-
-// copy data files
-- (BOOL)copyFilesFromPath:(NSString *)fromPath toPath:(NSString *)toPath;
 
 // register data files
 - (BOOL)registerDataFiles;
@@ -85,7 +79,7 @@
 - (BOOL)initKnowledgeDataSync {
     BOOL shouldInit = ![self knowledgeDataInited];
     if (shouldInit) {
-        [self copyAssetsKnowledgeData];
+        [[KnowledgeDataManager instance] copyAssetsKnowledgeData];
         [self registerDataFiles];
         [self updateKnowledgeDataInitFlag:YES];
     }
@@ -103,17 +97,6 @@
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults setBool:value forKey:[[Config instance] knowledgeDataConfig].keyForKnowledgeDataInitedFlag];
     return YES;
-}
-
-#pragma mark - copy data files
-// 将assets目录下的knowledge data拷贝到目标路径
-- (BOOL)copyAssetsKnowledgeData {
-    NSString *knowledgeDataRootPathInAssets = [[Config instance] knowledgeDataConfig].knowledgeDataRootPathInAssets;
-    NSString *knowledgeDataRootPathInDocuments = [[Config instance] knowledgeDataConfig].knowledgeDataRootPathInDocuments;
-    
-    BOOL ret = [PathUtil copyFilesFromPath:(NSString *)knowledgeDataRootPathInAssets toPath:(NSString *)knowledgeDataRootPathInDocuments];
-    
-    return ret;
 }
 
 #pragma mark - register data files
@@ -256,8 +239,9 @@
     return nil;
 }
 
-// get data
-- (NSString *)getData:(NSString *)dataId {
+#pragma mark - local data fetch
+// get local data
+- (NSString *)getLocalData:(NSString *)dataId {
     NSArray *metaArray = [[KnowledgeMetaManager instance] getKnowledgeMetaWithDataId:dataId andDataType:DATA_TYPE_DATA_SOURCE];
     if (metaArray == nil || metaArray.count <= 0) {
         return nil;
@@ -275,8 +259,26 @@
     return nil;
 }
 
+#pragma mark -
+#pragma mark - remote data fetch
+
+// get remote data
+- (BOOL)getRemoteData:(NSString *)dataId {
+    return [[KnowledgeDataManager instance] startDownloadData:dataId];
+}
+
+#pragma mark - data status delegate
+- (BOOL)knowledgeData:(NSString *)dataId downloadedToPath:(NSString *)dataPath successfully:(BOOL)succ {
+    return YES;
+}
+
+- (BOOL)knowledgeDataAtPath:(NSString *)dataPath updatedSuccessfully:(BOOL)succ {
+    return YES;
+}
+
+#pragma mark - local data search
 // search data
-- (NSString *)searchData:(NSString *)searchId {
+- (NSString *)searchLocalData:(NSString *)searchId {
     NSArray *knowledgeSearchEntities = [[KnowledgeSearchManager instance] searchData:searchId];
     if (knowledgeSearchEntities == nil || knowledgeSearchEntities.count <= 0) {
         return nil;
@@ -292,7 +294,7 @@
             continue;
         }
         
-        NSString *data = [self getData:knowledgeSearchEntity.dataId];
+        NSString *data = [self getLocalData:knowledgeSearchEntity.dataId];
         if (data == nil || data.length <= 0) {
             continue;
         }
@@ -317,16 +319,24 @@
 - (void)test {
     NSLog(@"[KnowledgeManager - test()], starting...");
     
-    [self copyAssetsKnowledgeData];
+    [[KnowledgeDataManager instance] copyAssetsKnowledgeData];
     [self registerDataFiles];
     
     NSString *dataIdForPagePath = @"3b7942bf7d9f8a80dc3b7e43539ee40e";
     NSString *dataId = @"2a8ceed5e71a0ff16bafc9f082bceeec";
     NSString *searchId = @"210101";
     
-    NSString *pagePath = [self getPagePath:dataIdForPagePath];
-    NSString *data = [self getData:dataId];
-    NSString *searchResult = [self searchData:searchId];
+    // local
+    {
+//        NSString *pagePath = [self getPagePath:dataIdForPagePath];
+//        NSString *localData = [self getLocalData:dataId];
+//        NSString *searchResult = [self searchLocalData:searchId];
+    }
+    
+    // remote - download
+    BOOL ret = [self getRemoteData:dataId];
+    
+    // remote - update
     
     NSLog(@"[KnowledgeManager - test()], end");
 }

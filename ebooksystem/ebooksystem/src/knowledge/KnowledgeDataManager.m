@@ -13,8 +13,21 @@
 #import "KnowledgeMetaEntity.h"
 
 
+#import "UserManager.h"
+
+#import "PathUtil.h"
+#import "DeviceUtil.h"
+#import "MD5Util.h"
+#import "DES3Util.h"
+#import "WebUtil.h"
+
+
 
 @implementation KnowledgeDataManager
+
+#pragma mark - properties
+@synthesize lastError;
+
 
 
 #pragma mark - singleton
@@ -30,6 +43,17 @@
 
 
 #pragma mark - knowledge data operations
+#pragma mark - copy data files
+// 将assets目录下的knowledge data拷贝到目标路径
+- (BOOL)copyAssetsKnowledgeData {
+    NSString *knowledgeDataRootPathInAssets = [[Config instance] knowledgeDataConfig].knowledgeDataRootPathInAssets;
+    NSString *knowledgeDataRootPathInDocuments = [[Config instance] knowledgeDataConfig].knowledgeDataRootPathInDocuments;
+    
+    BOOL ret = [PathUtil copyFilesFromPath:(NSString *)knowledgeDataRootPathInAssets toPath:(NSString *)knowledgeDataRootPathInDocuments];
+    
+    return ret;
+}
+
 // load knowledge data
 - (NSString *)loadKnowledgeData:(KnowledgeMetaEntity *)knowledgeMetaEntity {
     if (knowledgeMetaEntity == nil || knowledgeMetaEntity.dataPath == nil || knowledgeMetaEntity.dataPath.length <= 0) {
@@ -50,6 +74,135 @@
     return fileContents;
 }
 
+#pragma mark - download knowledge data
+// start downloading
+- (BOOL)startDownloadData:(NSString *)dataId {
+    // 启动后台任务
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        // 1. 获取该data对应的download_url
+        ServerResponseOfKnowledgeData *response = [self getDataDownloadInfo:dataId];
+        if (response == nil) {
+            return;
+        }
+        // 2. 启动后台下载任务, 将data pack下载至本地
+        
+        // 3. 解包
+        // 4. 拷贝文件, 更新数据库
+        // 5. 返回
+    });
+    
+    return YES;
+}
 
+// get download info
+- (ServerResponseOfKnowledgeData *)getDataDownloadInfo:(NSString *)dataId {
+    lastError = @"";
+    
+    UserInfo *curUserInfo = [[UserManager instance] getCurUser];
+    if (curUserInfo == nil || curUserInfo.username == nil) {
+        lastError = @"用户信息不完整, 请确认用户已成功登录";
+        return nil;
+    }
+    
+    // 获取密钥
+    NSString *secretKey = [MD5Util md5ForString:curUserInfo.password];
+    NSString *iv = [MD5Util md5ForString:secretKey];
+    
+    // Url
+    NSString *url = [Config instance].knowledgeDataConfig.dataUrlForDownload;
+    
+    // headers
+    NSString *userAgent = [Config instance].webConfig.userAgent;
+    
+    NSMutableDictionary *headers = [[NSMutableDictionary alloc] init];
+    [headers setValue:userAgent forKey:@"user_agent"];
+    
+    // body params
+    NSMutableDictionary *data = [[NSMutableDictionary alloc] init];
+    
+    [data setValue:userAgent forKey:@"user_agent"];
+    [data setValue:@"2" forKey:@"encrypt_method"]; // 对称加密
+    [data setValue:@"3" forKey:@"encrypt_key_type"];
+    
+    [data setValue:curUserInfo.username forKey:@"user_name"];
+    
+    // device id
+    {
+        NSString *deviceId = [DeviceUtil getVendorId];
+        [data setValue:deviceId forKey:@"device_id"];
+    }
+    
+    // param data
+    {
+        // 待加密信息
+        DataDownloadRequestInfo *dataDownloadRequestInfo = [[DataDownloadRequestInfo alloc] init];
+        dataDownloadRequestInfo.dataId = dataId;
+        NSString *jsonOfDataDownloadRequestInfo = [dataDownloadRequestInfo toJSONString];
+        
+        // 对称加密
+        DES3Util *des3Util = [[DES3Util alloc] initWithKey:secretKey andIV:iv];
+        NSString *encryptedContent = [des3Util encrypt:jsonOfDataDownloadRequestInfo];
+        if (encryptedContent == nil || encryptedContent.length <= 0) {
+            lastError = @"数据加密失败";
+            return nil;
+        }
+        
+        [data setValue:encryptedContent forKey:@"data"];
+    }
+    
+    // 发送web请求, 获取响应
+    NSString *serverResponseStr = [WebUtil sendRequestTo:[NSURL URLWithString:url] usingVerb:@"POST" withHeader:headers andData:data];
+    if (serverResponseStr == nil || serverResponseStr.length <= 0) {
+        lastError = @"网络请求失败";
+        return nil;
+    }
+    
+    // 解析响应: json=>obj
+    NSError *error = nil;
+    ServerResponseOfKnowledgeData *response = [[ServerResponseOfKnowledgeData alloc] initWithString:serverResponseStr error:&error];
+    if (response == nil || response.data == nil
+        || response.data.length <= 0) {
+        lastError = @"服务器响应数据异常";
+        return nil;
+    }
+    
+    // 解析加密后的数据字段
+    NSString *decryptedContent = nil;
+    if (response.encryptMethod == 2) {
+        if (response.encryptKeyType == 3) {
+            DES3Util *des3Util = [[DES3Util alloc] initWithKey:secretKey andIV:iv];
+            
+            NSString *encryptedData = [response.data stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+            decryptedContent = [des3Util decrypt:encryptedData];
+        }
+    }
+    
+    if (decryptedContent == nil || decryptedContent.length <= 0) {
+        lastError = @"数据解析失败";
+        return nil;
+    }
+    
+    // trim
+    decryptedContent = [decryptedContent stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    if (decryptedContent == nil || decryptedContent.length <= 0) {
+        lastError = @"服务器返回数据为空";
+        return nil;
+    }
+    
+    // 解析dataInfo: json=>obj
+    response.dataInfo = [[ServerResponseDataInfo alloc] initWithString:decryptedContent error:&error];
+    if (response.dataInfo == nil) {
+        lastError = @"服务器返回数据解析失败";
+        return nil;
+    }
+    
+    // 检查服务器返回状态
+    if (response.dataInfo.status != 0) {
+        lastError = response.dataInfo.message;
+        return nil;
+    }
+    
+    return response;
+}
 
 @end

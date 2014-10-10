@@ -8,8 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@class UserInfo;
-
+#import "UserInfo.h"
 
 
 @interface UserManager : NSObject

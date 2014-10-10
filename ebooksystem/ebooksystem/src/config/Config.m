@@ -32,4 +32,10 @@
     return [DrawableConfig instance];
 }
 
+#pragma mark - web config
+// web config
+- (WebConfig *)webConfig {
+    return [WebConfig instance];
+}
+
 @end

@@ -19,6 +19,10 @@
 
 @implementation KnowledgeDataConfig
 
+@synthesize dataUrlForDownload;
+@synthesize dataUrlForVersion;
+@synthesize dataUrlForUpdate;
+
 @synthesize keyForKnowledgeDataInitedFlag = _keyForKnowledgeDataInitedFlag;
 @synthesize knowledgeDataRootPathInAssets = _knowledgeDataRootPathInAssets;
 @synthesize knowledgeDataRootPathInDocuments = _knowledgeDataRootPathInDocuments;
@@ -26,6 +30,19 @@
 
 @synthesize knowledgeDataInitMode = _knowledgeDataInitMode;
 @synthesize knowledgeUpdateCheckIntervalInMs = _knowledgeUpdateCheckIntervalInMs;
+
+#pragma mark - properties
+- (NSString *)dataUrlForDownload {
+    return @"http://www.zaxue100.com/index.php?c=check_update_ctrl&m=get_version";
+}
+
+- (NSString *)dataUrlForVersion {
+    return @"http://sdata.zaxue100.com/kaoyan/app-update-pack/kaoyan_data_version.json";
+}
+
+- (NSString *)dataUrlForUpdate {
+    return @"http://www.zaxue100.com/index.php?c=check_update_ctrl&m=get_update";
+}
 
 #pragma mark - singleton
 + (KnowledgeDataConfig *)instance {
