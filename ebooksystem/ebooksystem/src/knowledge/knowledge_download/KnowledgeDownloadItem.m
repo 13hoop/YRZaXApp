@@ -14,10 +14,10 @@
     
 }
 
-- (void)onDownloadProgress:(float)progress withUrl:(NSURL *)url;
-- (void)onDownloadComplete:(BOOL)success response:(id)response;
-
 @end
+
+
+
 
 @implementation KnowledgeDownloadItem
 
@@ -40,33 +40,41 @@
 #pragma mark - properties
 // 下载进度. 50%中的数字50;
 - (NSNumber *)downloadProgress {
-    if([self.totalSize doubleValue] > 0) {
-        _downloadProgress = [NSNumber numberWithDouble:[self.downloadSize doubleValue] * 100 / [self.totalSize doubleValue]];
-    }
-    else {
-        _downloadProgress = 0;
-    }
+//    if([self.totalSize doubleValue] > 0) {
+//        _downloadProgress = [NSNumber numberWithDouble:[self.downloadSize doubleValue] * 100 / [self.totalSize doubleValue]];
+//    }
+//    else {
+//        _downloadProgress = 0;
+//    }
     
-    return _downloadProgress;
+    NSNumber *progress = [[NSNumber alloc] initWithDouble:([_downloadProgress doubleValue] * 100.0)];
+    return progress;
 }
 
 // 是否已下载完成
 - (BOOL)downladFinished {
-    return ([self.downloadProgress intValue] >= 100);
+//    return ([self.downloadProgress intValue] >= 100);
+    return _downladFinished;
+}
+
+#pragma mark - init
+- (KnowledgeDownloadItem *)initWithItemId:(NSString *)itemId andTitle:(NSString *)title andDesc:(NSString *)desc andDownloadUrl:(NSURL *)downloadUrl andSavePath:(NSString *)savePath {
+    self.itemId = itemId;
+    self.title = title;
+    self.desc = desc;
+    self.downloadUrl = downloadUrl;
+    self.savePath = savePath;
+    
+    self.createTime = [NSDate date];
+    
+    return self;
 }
 
 #pragma mark - download
 - (BOOL)startDownload {
     [IADownloadManager downloadItemWithURL:self.downloadUrl useCache:YES saveToPath:self.savePath];
     
-    [IADownloadManager attachListenerWithObject:self
-                                  progressBlock:^(float progress, NSURL *url) {
-                                      [self onDownloadProgress:progress withUrl:url];
-                                  }
-                                completionBlock:^(BOOL success, id response) {
-                                    [self onDownloadComplete:success response:response];
-                                } toURL:self.downloadUrl];
-    
+    [IADownloadManager attachListener:self toURL:self.downloadUrl];
     
     return YES;
 }
@@ -92,15 +100,28 @@
     return YES;
 }
 
-#pragma mark - download callback
-- (void)onDownloadProgress:(float)progress withUrl:(NSURL *)url {
-    self.downloadSize = [NSNumber numberWithFloat:progress];
+#pragma mark - IADownloadManagerDelegate methods
+- (void) downloadManagerDidProgress:(float)progress {
+    self.downloadProgress = [NSNumber numberWithFloat:progress];
+    NSLog(@"download item, id %@, title %@, progress: %@", self.itemId, self.title, self.downloadProgress);
 }
 
-- (void)onDownloadComplete:(BOOL)success response:(id)response {
+- (void) downloadManagerDidFinish:(BOOL)success response:(id)response {
     if (success) {
         self.downloadSize = self.totalSize;
+        self.downladFinished = YES;
+        NSLog(@"download item, id %@, title %@, finished", self.itemId, self.title);
+        [IADownloadManager detachObjectFromListening:self];
     }
 }
+
+#pragma mark - IASequentialDownloadManagerDelegate methods
+- (void) sequentialManagerProgress:(float)progress atIndex:(int)index {
+    
+}
+- (void) sequentialManagerDidFinish:(BOOL)success response:(id)response atIndex:(int)index {
+    
+}
+
 
 @end

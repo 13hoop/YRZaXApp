@@ -21,19 +21,22 @@
 @property (nonatomic, copy) NSString *savePath;
 
 // 总大小, B
-@property (nonatomic, assign) NSNumber *totalSize;
+@property (nonatomic, copy) NSNumber *totalSize;
 // 已下载大小, B
-@property (nonatomic, assign) NSNumber *downloadSize;
+@property (nonatomic, copy) NSNumber *downloadSize;
 // 下载进度. 50%中的数字50;
-@property (nonatomic, assign, readonly) NSNumber *downloadProgress;
+@property (nonatomic, copy) NSNumber *downloadProgress;
 // 是否已下载完成
-@property (nonatomic, assign, readonly) BOOL downladFinished;
+@property (nonatomic, assign) BOOL downladFinished;
 
 @property (nonatomic, copy) NSDate *createTime;
 @property (nonatomic, copy) NSDate *startTime;
 @property (nonatomic, copy) NSDate *endTime;
 
 #pragma mark - methods
+#pragma mark - init
+- (KnowledgeDownloadItem *)initWithItemId:(NSString *)itemId andTitle:(NSString *)title andDesc:(NSString *)desc andDownloadUrl:(NSURL *)downloadUrl andSavePath:(NSString *)savePath;
+
 #pragma mark - download
 - (BOOL)startDownload;
 - (BOOL)pauseDownload;

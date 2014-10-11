@@ -33,9 +33,9 @@
             NSString *encodedkey = [key stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
             
             CFStringRef value = (__bridge CFStringRef)[[data objectForKey:key] copy];
-            CFStringRef encodedValue = CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, value,NULL,(CFStringRef)@";/?:@&=+$", kCFStringEncodingUTF8);
+            CFStringRef encodedValue = CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, value, NULL, (CFStringRef)@";/?:@&=+$", kCFStringEncodingUTF8);
             [params appendFormat:@"%@=%@&", encodedkey, encodedValue];
-            CFRelease(value);
+            //            CFRelease(value); // comment out to avoid error: CFString release]: message sent to deallocated instance
             CFRelease(encodedValue);
         }
         [params deleteCharactersInRange:NSMakeRange([params length] - 1, 1)];

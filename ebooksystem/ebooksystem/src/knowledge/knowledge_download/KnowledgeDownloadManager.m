@@ -74,6 +74,19 @@
     return [downloadItem startDownload];
 }
 
+- (BOOL)startDownloadWithTitle:(NSString *)title andDesc:(NSString *)desc andDownloadUrl:(NSURL *)downloadUrl andSavePath:(NSString *)savePath {
+    NSString *itemId = [NSString stringWithFormat:@"%@", [UUIDUtil getUUID]];
+    NSString *theTitle = [title copy];// [NSString stringWithString:title];
+    NSString *theDesc = [desc copy];// [NSString stringWithString:desc];
+    NSURL *theDownloadUrl = [downloadUrl copy];// [NSURL URLWithString:[downloadUrl absoluteString]];
+    NSString *theSavePath = [savePath copy];// [NSString stringWithString:savePath];
+    
+    KnowledgeDownloadItem *downloadItem = [[KnowledgeDownloadItem alloc] initWithItemId:itemId andTitle:theTitle andDesc:theDesc andDownloadUrl:theDownloadUrl andSavePath:theSavePath];
+    
+    [self.downloadItems setObject:downloadItem forKey:downloadItem.itemId];
+    return [downloadItem startDownload];
+}
+
 // 暂停下载
 - (BOOL)pauseDownloadWithId:(NSString *)downloadItemId {
     KnowledgeDownloadItem *downloadItem = [self getDownloadItemById:downloadItemId];

@@ -139,7 +139,7 @@ typedef enum {
 // 版本说明信息
 @property (nonatomic, copy) NSString<Optional> *updateInfo;
 // 数据发布时间
-@property (nonatomic, copy) NSDate *releaseTime;
+@property (nonatomic, copy) NSDate<Optional> *releaseTime;
 
 
 @end

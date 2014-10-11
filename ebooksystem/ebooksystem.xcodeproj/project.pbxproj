@@ -107,6 +107,7 @@
 		710C03A819E397B200C27A33 /* KnowledgeMetaManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 710C03A719E397B200C27A33 /* KnowledgeMetaManager.m */; };
 		7134FB2019E4D952004AB7A8 /* KnowledgeDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7134FB1F19E4D952004AB7A8 /* KnowledgeDataManager.m */; };
 		7134FB2319E4DE4E004AB7A8 /* KnowledgeSearchManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7134FB2219E4DE4E004AB7A8 /* KnowledgeSearchManager.m */; };
+		713D863E19E91654006446D5 /* DateUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 713D863D19E91654006446D5 /* DateUtil.m */; };
 		7159EC5719E4373C00288CF2 /* CoreDataUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 7159EC5619E4373C00288CF2 /* CoreDataUtil.m */; };
 		715EE96E19E526D7005A4F78 /* CommonWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 715EE96D19E526D7005A4F78 /* CommonWebViewController.m */; };
 		715EE97719E52749005A4F78 /* BaseTitleBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 715EE97219E52749005A4F78 /* BaseTitleBar.m */; };
@@ -347,6 +348,8 @@
 		7134FB1F19E4D952004AB7A8 /* KnowledgeDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KnowledgeDataManager.m; path = src/knowledge/KnowledgeDataManager.m; sourceTree = "<group>"; };
 		7134FB2119E4DE4E004AB7A8 /* KnowledgeSearchManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KnowledgeSearchManager.h; path = src/knowledge/KnowledgeSearchManager.h; sourceTree = "<group>"; };
 		7134FB2219E4DE4E004AB7A8 /* KnowledgeSearchManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KnowledgeSearchManager.m; path = src/knowledge/KnowledgeSearchManager.m; sourceTree = "<group>"; };
+		713D863C19E91654006446D5 /* DateUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DateUtil.h; path = src/util/DateUtil.h; sourceTree = "<group>"; };
+		713D863D19E91654006446D5 /* DateUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DateUtil.m; path = src/util/DateUtil.m; sourceTree = "<group>"; };
 		7159EC5519E4373C00288CF2 /* CoreDataUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CoreDataUtil.h; path = src/util/CoreDataUtil.h; sourceTree = "<group>"; };
 		7159EC5619E4373C00288CF2 /* CoreDataUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CoreDataUtil.m; path = src/util/CoreDataUtil.m; sourceTree = "<group>"; };
 		715EE96C19E526D7005A4F78 /* CommonWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CommonWebViewController.h; path = src/common/web/controller/CommonWebViewController.h; sourceTree = "<group>"; };
@@ -1231,6 +1234,8 @@
 				715EE99719E819E4005A4F78 /* MD5Util.m */,
 				715EE9BF19E839F6005A4F78 /* CryptUtil.h */,
 				715EE9C019E839F6005A4F78 /* CryptUtil.m */,
+				713D863C19E91654006446D5 /* DateUtil.h */,
+				713D863D19E91654006446D5 /* DateUtil.m */,
 			);
 			name = util;
 			sourceTree = "<group>";
@@ -1511,6 +1516,7 @@
 				710C032B19E1C8D000C27A33 /* AFNetworkReachabilityManager.m in Sources */,
 				710C035C19E1C90E00C27A33 /* SBJsonUTF8Stream.m in Sources */,
 				06A8F51119E8DE7F003D673E /* CustomLoginModel.m in Sources */,
+				713D863E19E91654006446D5 /* DateUtil.m in Sources */,
 				715EE9A919E832ED005A4F78 /* JSONModelError.m in Sources */,
 				710C03A219E2EDB800C27A33 /* KnowledgeSearchEntity.m in Sources */,
 				710C035319E1C90E00C27A33 /* SBJsonParser.m in Sources */,

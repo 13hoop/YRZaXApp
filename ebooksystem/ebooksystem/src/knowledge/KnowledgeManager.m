@@ -15,6 +15,7 @@
 #import "KnowledgeMetaManager.h"
 #import "KnowledgeDataManager.h"
 #import "KnowledgeSearchManager.h"
+#import "KnowledgeDownloadManager.h"
 
 #import "UserManager.h"
 
@@ -318,6 +319,10 @@
 #pragma mark - test
 - (void)test {
     NSLog(@"[KnowledgeManager - test()], starting...");
+    
+//    [[KnowledgeDownloadManager instance] test];
+    
+//    return;
     
     [[KnowledgeDataManager instance] copyAssetsKnowledgeData];
     [self registerDataFiles];

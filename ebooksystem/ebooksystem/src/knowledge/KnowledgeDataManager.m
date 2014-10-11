@@ -14,14 +14,24 @@
 
 
 #import "UserManager.h"
+#import "KnowledgeDownloadManager.h"
 
 #import "PathUtil.h"
 #import "DeviceUtil.h"
 #import "MD5Util.h"
 #import "CryptUtil.h"
 #import "WebUtil.h"
-#import "SecurityUtil.h"
+#import "UUIDUtil.h"
+#import "DateUtil.h"
 
+@interface KnowledgeDataManager()
+
+// 获取数据的下载信息
+- (ServerResponseOfKnowledgeData *)getDataDownloadInfo:(NSString *)dataId;
+// 启动下载
+- (BOOL)startDownload:(ServerResponseOfKnowledgeData *)response;
+
+@end
 
 
 @implementation KnowledgeDataManager
@@ -79,13 +89,16 @@
 // start downloading
 - (BOOL)startDownloadData:(NSString *)dataId {
     // 启动后台任务
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         // 1. 获取该data对应的download_url
         ServerResponseOfKnowledgeData *response = [self getDataDownloadInfo:dataId];
-        if (response == nil) {
+        if (response == nil || response.dataInfo == nil || response.dataInfo.downloadUrl == nil || response.dataInfo.downloadUrl.length <= 0) {
+            NSLog(@"[KnowledgeDataManager] startDownloadData() failed because of invalid server response, error: %@", self.lastError);
             return;
         }
+
         // 2. 启动后台下载任务, 将data pack下载至本地
+        [self startDownload:response];
         
         // 3. 解包
         // 4. 拷贝文件, 更新数据库
@@ -204,6 +217,37 @@
     }
     
     return response;
+}
+
+- (BOOL)startDownload:(ServerResponseOfKnowledgeData *)response {
+    if (response == nil || response.dataInfo == nil || response.dataInfo.dataId == nil || response.dataInfo.dataId.length <= 0 || response.dataInfo.downloadUrl == nil || response.dataInfo.downloadUrl.length <= 0) {
+        return NO;
+    }
+    
+    // 启动下载任务, 将data pack下载至本地
+    {
+        NSString *itemId = [NSString stringWithFormat:@"%@", [UUIDUtil getUUID]];
+        NSString *title = [response.dataInfo.dataId copy];
+        NSURL *downloadUrl = [[NSURL URLWithString:[response.dataInfo.downloadUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]] copy];
+        
+        // 准备下载根目录
+        NSString *downloadRootPath = [Config instance].knowledgeDataConfig.knowledgeDataDownloadRootPathInDocuments;
+        BOOL isDir = NO;
+        BOOL existed = [[NSFileManager defaultManager] fileExistsAtPath:downloadRootPath isDirectory:&isDir];
+        if (!(isDir && existed)) {
+            [[NSFileManager defaultManager] createDirectoryAtPath:downloadRootPath withIntermediateDirectories:YES attributes:nil error:nil];
+        }
+        
+        NSString *savePath = [[NSString stringWithFormat:@"%@/%@-%@", downloadRootPath, title, [DateUtil timestamp]] copy];
+        
+        // 下载
+        //            KnowledgeDownloadItem *downloadItem = [[KnowledgeDownloadItem alloc] initWithItemId:itemId andTitle:title andDesc:@"" andDownloadUrl:downloadUrl andSavePath:savePath];
+        
+        //            [[KnowledgeDownloadManager instance] startDownload:downloadItem];
+        [[KnowledgeDownloadManager instance] startDownloadWithTitle:title andDesc:[NSString stringWithFormat:@"desc_dataId_%@", response.dataInfo.dataId] andDownloadUrl:downloadUrl andSavePath:savePath];
+    }
+    
+    return YES;
 }
 
 @end

@@ -13,6 +13,8 @@
 
 // knowledge data的根目录名
 @property (nonatomic, copy) NSString *knowledgeDataRootDirName;
+// knowledge data下载目录的根目录名
+@property (nonatomic, copy) NSString *knowledgeDataDownloadRootDirName;
 
 @end
 
@@ -27,6 +29,7 @@
 @synthesize knowledgeDataRootPathInAssets = _knowledgeDataRootPathInAssets;
 @synthesize knowledgeDataRootPathInDocuments = _knowledgeDataRootPathInDocuments;
 @synthesize knowledgeDataRootDirName = _knowledgeDataRootDirName;
+@synthesize knowledgeDataDownloadRootPathInDocuments = _knowledgeDataDownloadRootPathInDocuments;
 
 @synthesize knowledgeDataInitMode = _knowledgeDataInitMode;
 @synthesize knowledgeUpdateCheckIntervalInMs = _knowledgeUpdateCheckIntervalInMs;
@@ -82,8 +85,23 @@
     return _knowledgeDataRootPathInDocuments;
 }
 
+// knowledge data download root path in sandbox
+- (NSString *)knowledgeDataDownloadRootPathInDocuments {
+    if (_knowledgeDataDownloadRootPathInDocuments == nil) {
+        NSString *documentsPath = [PathUtil getDocumentsPath];
+        
+        _knowledgeDataDownloadRootPathInDocuments = [NSString stringWithFormat:@"%@/%@", documentsPath, self.knowledgeDataDownloadRootDirName];
+    }
+    return _knowledgeDataDownloadRootPathInDocuments;
+}
+
+
 - (NSString *)knowledgeDataRootDirName {
     return @"knowledge_data";
+}
+
+- (NSString *)knowledgeDataDownloadRootDirName {
+    return @"download";
 }
 
 - (KnowledgeDataInitMode)knowledgeDataInitMode {

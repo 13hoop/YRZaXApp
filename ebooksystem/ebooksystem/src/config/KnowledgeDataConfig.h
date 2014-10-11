@@ -32,6 +32,9 @@
 // knowledge data root path in sandbox
 @property(nonatomic, copy) NSString *knowledgeDataRootPathInDocuments;
 
+// knowledge data download root path in sandbox
+@property(nonatomic, copy, readonly) NSString *knowledgeDataDownloadRootPathInDocuments;
+
 // knowledge data init mode
 @property(nonatomic, assign) KnowledgeDataInitMode knowledgeDataInitMode;
 
