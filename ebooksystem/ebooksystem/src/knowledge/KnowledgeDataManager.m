@@ -18,7 +18,7 @@
 #import "PathUtil.h"
 #import "DeviceUtil.h"
 #import "MD5Util.h"
-#import "DES3Util.h"
+#import "CryptUtil.h"
 #import "WebUtil.h"
 #import "SecurityUtil.h"
 
@@ -105,9 +105,10 @@
         return nil;
     }
     
-    // 获取密钥
+    // crypt
     NSString *secretKey = [MD5Util md5ForString:curUserInfo.password];
     NSString *iv = [MD5Util md5ForString:secretKey];
+    CryptUtil *cryptUtil = [[CryptUtil alloc] initWithKey:secretKey andIV:iv];
     
     // Url
     NSString *url = [Config instance].knowledgeDataConfig.dataUrlForDownload;
@@ -141,14 +142,11 @@
         NSString *jsonOfDataDownloadRequestInfo = [dataDownloadRequestInfo toJSONString];
         
         // 对称加密
-        DES3Util *des3Util = [[DES3Util alloc] initWithKey:secretKey andIV:iv];
-        NSString *encryptedContent = [des3Util encrypt:jsonOfDataDownloadRequestInfo];
+        NSString *encryptedContent = [cryptUtil encryptAES128:jsonOfDataDownloadRequestInfo];
         if (encryptedContent == nil || encryptedContent.length <= 0) {
             lastError = @"数据加密失败";
             return nil;
         }
-        
-        NSString *string=[SecurityUtil AES128Encrypt:jsonOfDataDownloadRequestInfo andwithPassword:curUserInfo.password];
         
         [data setValue:encryptedContent forKey:@"data"];
     }
@@ -173,10 +171,9 @@
     NSString *decryptedContent = nil;
     if (response.encryptMethod == 2) {
         if (response.encryptKeyType == 3) {
-            DES3Util *des3Util = [[DES3Util alloc] initWithKey:secretKey andIV:iv];
-            
             NSString *encryptedData = [response.data stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-            decryptedContent = [des3Util decrypt:encryptedData];
+            // 对称解密
+            decryptedContent = [cryptUtil decryptAES128:encryptedData];
         }
     }
     
@@ -185,8 +182,8 @@
         return nil;
     }
     
-    // trim
-    decryptedContent = [decryptedContent stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    // trim: 去除尾的\0. 否则json解析时会失败.
+    decryptedContent = [decryptedContent stringByReplacingOccurrencesOfString:@"\0" withString:@""];
     if (decryptedContent == nil || decryptedContent.length <= 0) {
         lastError = @"服务器返回数据为空";
         return nil;
@@ -196,6 +193,7 @@
     response.dataInfo = [[ServerResponseDataInfo alloc] initWithString:decryptedContent error:&error];
     if (response.dataInfo == nil) {
         lastError = @"服务器返回数据解析失败";
+        NSLog(@"error: %@", error.localizedDescription);
         return nil;
     }
     

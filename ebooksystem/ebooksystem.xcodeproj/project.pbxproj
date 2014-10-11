@@ -133,7 +133,7 @@
 		715EE9BB19E8332B005A4F78 /* JSONKeyMapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 715EE9B819E8332B005A4F78 /* JSONKeyMapper.m */; };
 		715EE9BC19E8332B005A4F78 /* JSONValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 715EE9BA19E8332B005A4F78 /* JSONValueTransformer.m */; };
 		715EE9BE19E83366005A4F78 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 715EE9BD19E83366005A4F78 /* SystemConfiguration.framework */; };
-		715EE9C119E839F6005A4F78 /* DES3Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 715EE9C019E839F6005A4F78 /* DES3Util.m */; };
+		715EE9C119E839F6005A4F78 /* CryptUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 715EE9C019E839F6005A4F78 /* CryptUtil.m */; };
 		71860B8619DC22EB00D01AA9 /* CustomNavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 71860B8519DC22EB00D01AA9 /* CustomNavigationBar.m */; };
 		71860BCD19DC438A00D01AA9 /* libMobClickLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 71860BCB19DC438A00D01AA9 /* libMobClickLibrary.a */; };
 		71860BCE19DC438A00D01AA9 /* libUMFeedback.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 71860BCC19DC438A00D01AA9 /* libUMFeedback.a */; };
@@ -397,8 +397,8 @@
 		715EE9B919E8332B005A4F78 /* JSONValueTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JSONValueTransformer.h; path = depends/JSONModel/JSONModelTransformations/JSONValueTransformer.h; sourceTree = "<group>"; };
 		715EE9BA19E8332B005A4F78 /* JSONValueTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JSONValueTransformer.m; path = depends/JSONModel/JSONModelTransformations/JSONValueTransformer.m; sourceTree = "<group>"; };
 		715EE9BD19E83366005A4F78 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
-		715EE9BF19E839F6005A4F78 /* DES3Util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DES3Util.h; path = src/util/DES3Util.h; sourceTree = "<group>"; };
-		715EE9C019E839F6005A4F78 /* DES3Util.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DES3Util.m; path = src/util/DES3Util.m; sourceTree = "<group>"; };
+		715EE9BF19E839F6005A4F78 /* CryptUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CryptUtil.h; path = src/util/CryptUtil.h; sourceTree = "<group>"; };
+		715EE9C019E839F6005A4F78 /* CryptUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CryptUtil.m; path = src/util/CryptUtil.m; sourceTree = "<group>"; };
 		71860B8419DC22EB00D01AA9 /* CustomNavigationBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CustomNavigationBar.h; path = src/common/view/CustomNavigationBar.h; sourceTree = "<group>"; };
 		71860B8519DC22EB00D01AA9 /* CustomNavigationBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CustomNavigationBar.m; path = src/common/view/CustomNavigationBar.m; sourceTree = "<group>"; };
 		71860BCB19DC438A00D01AA9 /* libMobClickLibrary.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMobClickLibrary.a; path = ebooksystem/depends/umeng/libMobClickLibrary.a; sourceTree = "<group>"; };
@@ -1089,7 +1089,6 @@
 		71860B6A19DC204C00D01AA9 /* src */ = {
 			isa = PBXGroup;
 			children = (
-				06A8F4B819E8DE7F003D673E /* menu */,
 				71860BDA19DC6D1B00D01AA9 /* data */,
 				71860B7F19DC228400D01AA9 /* common */,
 				71860BDF19DC73C200D01AA9 /* config */,
@@ -1097,6 +1096,7 @@
 				71860BDB19DC6D3900D01AA9 /* knowledge */,
 				71860BD319DC4E5C00D01AA9 /* download */,
 				710C02AD19E038F000C27A33 /* subject */,
+				06A8F4B819E8DE7F003D673E /* menu */,
 				715EE98019E6CF51005A4F78 /* statistics */,
 				71860C0B19DE8DA000D01AA9 /* util */,
 			);
@@ -1229,8 +1229,8 @@
 				715EE99419E81794005A4F78 /* DeviceUtil.m */,
 				715EE99619E819E4005A4F78 /* MD5Util.h */,
 				715EE99719E819E4005A4F78 /* MD5Util.m */,
-				715EE9BF19E839F6005A4F78 /* DES3Util.h */,
-				715EE9C019E839F6005A4F78 /* DES3Util.m */,
+				715EE9BF19E839F6005A4F78 /* CryptUtil.h */,
+				715EE9C019E839F6005A4F78 /* CryptUtil.m */,
 			);
 			name = util;
 			sourceTree = "<group>";
@@ -1466,7 +1466,7 @@
 				710C03A519E2F38E00C27A33 /* KnowledgeSearchReverseInfo.m in Sources */,
 				710C039219E2E45C00C27A33 /* ebooksystem.xcdatamodeld in Sources */,
 				06A8F51719E8DE7F003D673E /* MoreViewController.m in Sources */,
-				715EE9C119E839F6005A4F78 /* DES3Util.m in Sources */,
+				715EE9C119E839F6005A4F78 /* CryptUtil.m in Sources */,
 				06A8F51C19E8DE7F003D673E /* CustomViewCellTableViewCell.m in Sources */,
 				715EE9AD19E8330C005A4F78 /* NSArray+JSONModel.m in Sources */,
 				710C035819E1C90E00C27A33 /* SBJsonStreamWriter.m in Sources */,

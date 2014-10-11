@@ -129,15 +129,15 @@ typedef enum {
 
 @property (nonatomic, assign) NSInteger status;
 @property (nonatomic, copy) NSString *message;
-@property (nonatomic, copy) NSString *dataId;
+@property (nonatomic, copy) NSString<Optional> *dataId;
 // 数据最新版本号
-@property (nonatomic, copy) NSString *dataVersion;
+@property (nonatomic, copy) NSString<Optional> *dataVersion;
 // 数据下载地址
-@property (nonatomic, copy) NSString *downloadUrl;
+@property (nonatomic, copy) NSString<Optional> *downloadUrl;
 // 数据包解密密钥
-@property (nonatomic, copy) NSString *decryptKey;
+@property (nonatomic, copy) NSString<Optional> *decryptKey;
 // 版本说明信息
-@property (nonatomic, copy) NSString *updateInfo;
+@property (nonatomic, copy) NSString<Optional> *updateInfo;
 // 数据发布时间
 @property (nonatomic, copy) NSDate *releaseTime;
 

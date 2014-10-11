@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface DES3Util : NSObject
+@interface CryptUtil : NSObject
 
 #pragma mark - properties
 // 密钥
@@ -19,12 +19,12 @@
 
 #pragma mark - methods
 // init
-- (DES3Util *)initWithKey:(NSString *)key andIV:(NSString *)iv;
+- (CryptUtil *)initWithKey:(NSString *)key andIV:(NSString *)iv;
 
 // 加密方法
-- (NSString*)encrypt:(NSString*)plainText;
+- (NSString*)encryptAES128:(NSString*)plainText;
 
 // 解密方法
-- (NSString*)decrypt:(NSString*)encryptText;
+- (NSString*)decryptAES128:(NSString*)encryptText;
 
 @end
