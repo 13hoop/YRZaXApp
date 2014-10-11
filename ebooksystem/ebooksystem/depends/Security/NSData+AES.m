@@ -20,7 +20,7 @@
 - (NSData *)AES128EncryptWithKey:(NSString *)key {//加密
     char keyPtr[kCCKeySizeAES128+1];
     bzero(keyPtr, sizeof(keyPtr));
-    NSString *before16Key=[key substringToIndex:16];
+    NSString *before16Key=[[[key MD5Hash]lowercaseString] substringToIndex:16];
     [before16Key getCString:keyPtr maxLength:sizeof(keyPtr) encoding:NSUTF8StringEncoding];
     
     char ivPtr[kCCKeySizeAES128+1];
@@ -30,7 +30,7 @@
     NSString *lowMdIV=[mdIV lowercaseString];
     NSLog(@"小写条件下进行MD5加密后得到的小写%@",lowMdIV);
     NSLog(@"小写状态下的前16位%@",[lowMdIV substringToIndex:16]);
-    NSString *before16IV=[lowMdIV substringToIndex:16];
+    NSString *before16IV=[[[[[key MD5Hash] lowercaseString] MD5Hash] lowercaseString] substringToIndex:16];
     
     [before16IV getCString:ivPtr maxLength:sizeof(ivPtr) encoding:NSUTF8StringEncoding];
     
