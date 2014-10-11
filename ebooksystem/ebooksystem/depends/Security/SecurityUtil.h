@@ -27,5 +27,5 @@
 
 //网上的方法
 +(NSString *)AES128Encrypt:(NSString *)plainText andwithPassword:(NSString *)password;
-
++(NSString *)AES128Decrypt:(NSString *)encryptText andwithPassword:(NSString *)password;
 @end

@@ -47,6 +47,7 @@
 		06A8F51D19E8DE7F003D673E /* RegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06A8F4FE19E8DE7F003D673E /* RegisterViewController.m */; };
 		06A8F51E19E8DE7F003D673E /* RegisterModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 06A8F50119E8DE7F003D673E /* RegisterModel.m */; };
 		06A8F51F19E8DE7F003D673E /* CustomRegisterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 06A8F50419E8DE7F003D673E /* CustomRegisterView.m */; };
+		06A8F72C19E8F925003D673E /* CustomGetUserInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 06A8F72B19E8F925003D673E /* CustomGetUserInfoModel.m */; };
 		06AAA8D619D2B8610052BB1D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06AAA8D519D2B8610052BB1D /* QuartzCore.framework */; };
 		06B7F86319D53AF50017EA4D /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 06B7F86219D53AF50017EA4D /* libz.dylib */; };
 		710C02B119E0394100C27A33 /* SubjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 710C02B019E0394100C27A33 /* SubjectViewController.m */; };
@@ -232,6 +233,8 @@
 		06A8F50319E8DE7F003D673E /* CustomRegisterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomRegisterView.h; sourceTree = "<group>"; };
 		06A8F50419E8DE7F003D673E /* CustomRegisterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomRegisterView.m; sourceTree = "<group>"; };
 		06A8F50619E8DE7F003D673E /* MobClick.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MobClick.h; sourceTree = "<group>"; };
+		06A8F72A19E8F925003D673E /* CustomGetUserInfoModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomGetUserInfoModel.h; sourceTree = "<group>"; };
+		06A8F72B19E8F925003D673E /* CustomGetUserInfoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomGetUserInfoModel.m; sourceTree = "<group>"; };
 		06AAA8D519D2B8610052BB1D /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		06B7F86219D53AF50017EA4D /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		710C02AF19E0394100C27A33 /* SubjectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SubjectViewController.h; path = src/subject/controller/SubjectViewController.h; sourceTree = "<group>"; };
@@ -664,6 +667,8 @@
 		06A8F4D619E8DE7F003D673E /* model */ = {
 			isa = PBXGroup;
 			children = (
+				06A8F72A19E8F925003D673E /* CustomGetUserInfoModel.h */,
+				06A8F72B19E8F925003D673E /* CustomGetUserInfoModel.m */,
 				06A8F4D719E8DE7F003D673E /* CustomLoginModel.h */,
 				06A8F4D819E8DE7F003D673E /* CustomLoginModel.m */,
 			);
@@ -1491,6 +1496,7 @@
 				710C032F19E1C8D000C27A33 /* AFURLResponseSerialization.m in Sources */,
 				710C035919E1C90E00C27A33 /* SBJsonStreamWriterAccumulator.m in Sources */,
 				7134FB2319E4DE4E004AB7A8 /* KnowledgeSearchManager.m in Sources */,
+				06A8F72C19E8F925003D673E /* CustomGetUserInfoModel.m in Sources */,
 				06A8F50D19E8DE7F003D673E /* UMEGORefreshTableHeaderView.m in Sources */,
 				715EE9A819E832ED005A4F78 /* JSONModelClassProperty.m in Sources */,
 				06A8F50B19E8DE7F003D673E /* UMFeedbackViewController.m in Sources */,
