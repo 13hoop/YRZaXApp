@@ -10,7 +10,6 @@
 #define FONT_SIZE 15.0f
 @interface CustomMoreView ()<UITableViewDelegate,UITableViewDataSource>
 @property(nonatomic,strong)UITableView *table;
-@property(nonatomic,strong)UILabel *lable;
 @property(nonatomic,strong)UILabel *upDateLable;
 
 @end
@@ -77,12 +76,18 @@
             //现在想改变这个textlable.text
             self.userNameLable=[[UILabel alloc] initWithFrame:CGRectMake(15, 0, 100, cell.frame.size.height)];
             self.userNameLable.textAlignment=UITextAlignmentLeft;
-            self.userNameLable.text=@"登录";
             self.userNameLable.font=[UIFont systemFontOfSize:14.0f];
             self.userNameLable.textColor=[UIColor lightGrayColor];
             [cell addSubview:self.userNameLable];
             [self addObserver:self forKeyPath:@"userName" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:NULL];
-            
+            if ([[NSUserDefaults standardUserDefaults] objectForKey:@"userInfoName"])
+            {
+                self.userNameLable.text=[[NSUserDefaults standardUserDefaults] objectForKey:@"userInfoName"];
+            }
+            else
+            {
+                self.userNameLable.text=@"登录";
+            }
             break;
         case 1:
             if (row==0)
@@ -99,12 +104,20 @@
                     cell.textLabel.backgroundColor=[UIColor blueColor];
                     self.lable=[[UILabel alloc] initWithFrame:CGRectMake(50,0, 100,44)];
                     self.lable.textColor=[UIColor blueColor];
-                    self.lable.text=@"0";
                     //使用kvo实现改变余额的数值
                     [self addObserver:self forKeyPath:@"balance" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:NULL];
                     [cell.textLabel addSubview:self.lable];
                     //取消选中效果
                     cell.selectionStyle=UITableViewCellAccessoryNone;
+                    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"surplus_score"])
+                    {
+                        self.lable.text=[[NSUserDefaults standardUserDefaults] objectForKey:@"surplus_score"];
+                        
+                    }
+                    else
+                    {
+                        self.lable.text=@"0";
+                    }
                 }
             }
             break;
@@ -193,7 +206,8 @@
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
     if ([keyPath isEqualToString:@"balance"]) {
-        self.lable.text=[self valueForKeyPath:@"balance"];
+//        self.lable.text=[self valueForKeyPath:@"balance"];
+        self.userNameLable.text=[[NSUserDefaults standardUserDefaults] objectForKey:@"userInfoName"];
     }
     
     if ([keyPath isEqualToString:@"userName"]) {

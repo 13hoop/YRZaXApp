@@ -22,9 +22,31 @@
 		0690784219CFD62700CD9C3D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0690784019CFD62700CD9C3D /* InfoPlist.strings */; };
 		0690784419CFD62700CD9C3D /* ebooksystemTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0690784319CFD62700CD9C3D /* ebooksystemTests.m */; };
 		06A8660E19D14473000BEAA7 /* 2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 06A8660D19D14473000BEAA7 /* 2@2x.png */; };
-		06A91D0419E392AA0028F4B1 /* CustomLogoutView.m in Sources */ = {isa = PBXBuildFile; fileRef = 06A91D0319E392AA0028F4B1 /* CustomLogoutView.m */; };
-		06A91D0919E392FF0028F4B1 /* LogoutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06A91D0819E392FF0028F4B1 /* LogoutViewController.m */; };
-		06A91D0C19E39A790028F4B1 /* LogoutModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 06A91D0B19E39A790028F4B1 /* LogoutModel.m */; };
+		06A8F50719E8DE7F003D673E /* AboutUsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06A8F4BC19E8DE7F003D673E /* AboutUsViewController.m */; };
+		06A8F50819E8DE7F003D673E /* CustomAboutUsview.m in Sources */ = {isa = PBXBuildFile; fileRef = 06A8F4BF19E8DE7F003D673E /* CustomAboutUsview.m */; };
+		06A8F50919E8DE7F003D673E /* UMContactViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06A8F4C419E8DE7F003D673E /* UMContactViewController.m */; };
+		06A8F50A19E8DE7F003D673E /* UMContactViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06A8F4C519E8DE7F003D673E /* UMContactViewController.xib */; };
+		06A8F50B19E8DE7F003D673E /* UMFeedbackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06A8F4C719E8DE7F003D673E /* UMFeedbackViewController.m */; };
+		06A8F50C19E8DE7F003D673E /* UMFeedbackViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06A8F4C819E8DE7F003D673E /* UMFeedbackViewController.xib */; };
+		06A8F50D19E8DE7F003D673E /* UMEGORefreshTableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 06A8F4CC19E8DE7F003D673E /* UMEGORefreshTableHeaderView.m */; };
+		06A8F50E19E8DE7F003D673E /* UMFeedbackTableViewCellLeft.m in Sources */ = {isa = PBXBuildFile; fileRef = 06A8F4CE19E8DE7F003D673E /* UMFeedbackTableViewCellLeft.m */; };
+		06A8F50F19E8DE7F003D673E /* UMFeedbackTableViewCellRight.m in Sources */ = {isa = PBXBuildFile; fileRef = 06A8F4D019E8DE7F003D673E /* UMFeedbackTableViewCellRight.m */; };
+		06A8F51019E8DE7F003D673E /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06A8F4D519E8DE7F003D673E /* LoginViewController.m */; };
+		06A8F51119E8DE7F003D673E /* CustomLoginModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 06A8F4D819E8DE7F003D673E /* CustomLoginModel.m */; };
+		06A8F51219E8DE7F003D673E /* CustomLoginNavgationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 06A8F4DB19E8DE7F003D673E /* CustomLoginNavgationBar.m */; };
+		06A8F51319E8DE7F003D673E /* CustomLoginView.m in Sources */ = {isa = PBXBuildFile; fileRef = 06A8F4DD19E8DE7F003D673E /* CustomLoginView.m */; };
+		06A8F51419E8DE7F003D673E /* LogoutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06A8F4E119E8DE7F003D673E /* LogoutViewController.m */; };
+		06A8F51519E8DE7F003D673E /* LogoutModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 06A8F4E419E8DE7F003D673E /* LogoutModel.m */; };
+		06A8F51619E8DE7F003D673E /* CustomLogoutView.m in Sources */ = {isa = PBXBuildFile; fileRef = 06A8F4E719E8DE7F003D673E /* CustomLogoutView.m */; };
+		06A8F51719E8DE7F003D673E /* MoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06A8F4EB19E8DE7F003D673E /* MoreViewController.m */; };
+		06A8F51819E8DE7F003D673E /* CustomMoreView.m in Sources */ = {isa = PBXBuildFile; fileRef = 06A8F4EE19E8DE7F003D673E /* CustomMoreView.m */; };
+		06A8F51919E8DE7F003D673E /* RechargeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06A8F4F219E8DE7F003D673E /* RechargeViewController.m */; };
+		06A8F51A19E8DE7F003D673E /* RechargeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 06A8F4F519E8DE7F003D673E /* RechargeModel.m */; };
+		06A8F51B19E8DE7F003D673E /* CustomRechargeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 06A8F4F819E8DE7F003D673E /* CustomRechargeView.m */; };
+		06A8F51C19E8DE7F003D673E /* CustomViewCellTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 06A8F4FA19E8DE7F003D673E /* CustomViewCellTableViewCell.m */; };
+		06A8F51D19E8DE7F003D673E /* RegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06A8F4FE19E8DE7F003D673E /* RegisterViewController.m */; };
+		06A8F51E19E8DE7F003D673E /* RegisterModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 06A8F50119E8DE7F003D673E /* RegisterModel.m */; };
+		06A8F51F19E8DE7F003D673E /* CustomRegisterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 06A8F50419E8DE7F003D673E /* CustomRegisterView.m */; };
 		06AAA8D619D2B8610052BB1D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06AAA8D519D2B8610052BB1D /* QuartzCore.framework */; };
 		06B7F86319D53AF50017EA4D /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 06B7F86219D53AF50017EA4D /* libz.dylib */; };
 		710C02B119E0394100C27A33 /* SubjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 710C02B019E0394100C27A33 /* SubjectViewController.m */; };
@@ -34,13 +56,6 @@
 		710C02BD19E0547600C27A33 /* storyboard_main_iphone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 710C02BC19E0547600C27A33 /* storyboard_main_iphone.storyboard */; };
 		710C02C119E054B700C27A33 /* res in Resources */ = {isa = PBXBuildFile; fileRef = 710C02C019E054B700C27A33 /* res */; };
 		710C02C719E189A200C27A33 /* DrawableConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 710C02C619E189A200C27A33 /* DrawableConfig.m */; };
-		710C02E119E1C60800C27A33 /* CustomLoginModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 710C02E019E1C60800C27A33 /* CustomLoginModel.m */; };
-		710C02E619E1C61A00C27A33 /* CustomLoginNavgationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 710C02E319E1C61A00C27A33 /* CustomLoginNavgationBar.m */; };
-		710C02E719E1C61A00C27A33 /* CustomLoginView.m in Sources */ = {isa = PBXBuildFile; fileRef = 710C02E519E1C61A00C27A33 /* CustomLoginView.m */; };
-		710C02EA19E1C62E00C27A33 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 710C02E919E1C62E00C27A33 /* LoginViewController.m */; };
-		710C02F119E1C67A00C27A33 /* RegisterModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 710C02F019E1C67A00C27A33 /* RegisterModel.m */; };
-		710C02F419E1C68E00C27A33 /* CustomRegisterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 710C02F319E1C68E00C27A33 /* CustomRegisterView.m */; };
-		710C02F719E1C6A100C27A33 /* RegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 710C02F619E1C6A100C27A33 /* RegisterViewController.m */; };
 		710C02FA19E1C8A200C27A33 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 710C02F819E1C8A200C27A33 /* LICENSE */; };
 		710C02FB19E1C8A200C27A33 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 710C02F919E1C8A200C27A33 /* README.md */; };
 		710C030D19E1C8B600C27A33 /* AFNetworkActivityIndicatorManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 710C02FD19E1C8B600C27A33 /* AFNetworkActivityIndicatorManager.m */; };
@@ -119,17 +134,6 @@
 		715EE9BE19E83366005A4F78 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 715EE9BD19E83366005A4F78 /* SystemConfiguration.framework */; };
 		715EE9C119E839F6005A4F78 /* DES3Util.m in Sources */ = {isa = PBXBuildFile; fileRef = 715EE9C019E839F6005A4F78 /* DES3Util.m */; };
 		71860B8619DC22EB00D01AA9 /* CustomNavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 71860B8519DC22EB00D01AA9 /* CustomNavigationBar.m */; };
-		71860B9319DC31A200D01AA9 /* CustomMoreView.m in Sources */ = {isa = PBXBuildFile; fileRef = 71860B9219DC31A200D01AA9 /* CustomMoreView.m */; };
-		71860B9619DC31B200D01AA9 /* MoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 71860B9519DC31B200D01AA9 /* MoreViewController.m */; };
-		71860B9C19DC322A00D01AA9 /* CustomAboutUsview.m in Sources */ = {isa = PBXBuildFile; fileRef = 71860B9B19DC322A00D01AA9 /* CustomAboutUsview.m */; };
-		71860B9F19DC323900D01AA9 /* AboutUsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 71860B9E19DC323900D01AA9 /* AboutUsViewController.m */; };
-		71860BB519DC34BC00D01AA9 /* UMEGORefreshTableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 71860BB419DC34BC00D01AA9 /* UMEGORefreshTableHeaderView.m */; };
-		71860BBA19DC354D00D01AA9 /* UMFeedbackTableViewCellLeft.m in Sources */ = {isa = PBXBuildFile; fileRef = 71860BB719DC354D00D01AA9 /* UMFeedbackTableViewCellLeft.m */; };
-		71860BBB19DC354D00D01AA9 /* UMFeedbackTableViewCellRight.m in Sources */ = {isa = PBXBuildFile; fileRef = 71860BB919DC354D00D01AA9 /* UMFeedbackTableViewCellRight.m */; };
-		71860BC219DC357300D01AA9 /* UMContactViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 71860BBD19DC357300D01AA9 /* UMContactViewController.m */; };
-		71860BC319DC357300D01AA9 /* UMContactViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71860BBE19DC357300D01AA9 /* UMContactViewController.xib */; };
-		71860BC419DC357300D01AA9 /* UMFeedbackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 71860BC019DC357300D01AA9 /* UMFeedbackViewController.m */; };
-		71860BC519DC357300D01AA9 /* UMFeedbackViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 71860BC119DC357300D01AA9 /* UMFeedbackViewController.xib */; };
 		71860BCD19DC438A00D01AA9 /* libMobClickLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 71860BCB19DC438A00D01AA9 /* libMobClickLibrary.a */; };
 		71860BCE19DC438A00D01AA9 /* libUMFeedback.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 71860BCC19DC438A00D01AA9 /* libUMFeedback.a */; };
 		71860BDE19DC6DA500D01AA9 /* KnowledgeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 71860BDD19DC6DA500D01AA9 /* KnowledgeManager.m */; };
@@ -178,12 +182,56 @@
 		0690784119CFD62700CD9C3D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		0690784319CFD62700CD9C3D /* ebooksystemTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ebooksystemTests.m; sourceTree = "<group>"; };
 		06A8660D19D14473000BEAA7 /* 2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "2@2x.png"; sourceTree = "<group>"; };
-		06A91D0219E392AA0028F4B1 /* CustomLogoutView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomLogoutView.h; sourceTree = "<group>"; };
-		06A91D0319E392AA0028F4B1 /* CustomLogoutView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomLogoutView.m; sourceTree = "<group>"; };
-		06A91D0719E392FF0028F4B1 /* LogoutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LogoutViewController.h; sourceTree = "<group>"; };
-		06A91D0819E392FF0028F4B1 /* LogoutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LogoutViewController.m; sourceTree = "<group>"; };
-		06A91D0A19E39A790028F4B1 /* LogoutModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LogoutModel.h; sourceTree = "<group>"; };
-		06A91D0B19E39A790028F4B1 /* LogoutModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LogoutModel.m; sourceTree = "<group>"; };
+		06A8F4BB19E8DE7F003D673E /* AboutUsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutUsViewController.h; sourceTree = "<group>"; };
+		06A8F4BC19E8DE7F003D673E /* AboutUsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutUsViewController.m; sourceTree = "<group>"; };
+		06A8F4BE19E8DE7F003D673E /* CustomAboutUsview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomAboutUsview.h; sourceTree = "<group>"; };
+		06A8F4BF19E8DE7F003D673E /* CustomAboutUsview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomAboutUsview.m; sourceTree = "<group>"; };
+		06A8F4C319E8DE7F003D673E /* UMContactViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMContactViewController.h; sourceTree = "<group>"; };
+		06A8F4C419E8DE7F003D673E /* UMContactViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UMContactViewController.m; sourceTree = "<group>"; };
+		06A8F4C519E8DE7F003D673E /* UMContactViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UMContactViewController.xib; sourceTree = "<group>"; };
+		06A8F4C619E8DE7F003D673E /* UMFeedbackViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMFeedbackViewController.h; sourceTree = "<group>"; };
+		06A8F4C719E8DE7F003D673E /* UMFeedbackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UMFeedbackViewController.m; sourceTree = "<group>"; };
+		06A8F4C819E8DE7F003D673E /* UMFeedbackViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UMFeedbackViewController.xib; sourceTree = "<group>"; };
+		06A8F4CB19E8DE7F003D673E /* UMEGORefreshTableHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMEGORefreshTableHeaderView.h; sourceTree = "<group>"; };
+		06A8F4CC19E8DE7F003D673E /* UMEGORefreshTableHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UMEGORefreshTableHeaderView.m; sourceTree = "<group>"; };
+		06A8F4CD19E8DE7F003D673E /* UMFeedbackTableViewCellLeft.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMFeedbackTableViewCellLeft.h; sourceTree = "<group>"; };
+		06A8F4CE19E8DE7F003D673E /* UMFeedbackTableViewCellLeft.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UMFeedbackTableViewCellLeft.m; sourceTree = "<group>"; };
+		06A8F4CF19E8DE7F003D673E /* UMFeedbackTableViewCellRight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMFeedbackTableViewCellRight.h; sourceTree = "<group>"; };
+		06A8F4D019E8DE7F003D673E /* UMFeedbackTableViewCellRight.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UMFeedbackTableViewCellRight.m; sourceTree = "<group>"; };
+		06A8F4D119E8DE7F003D673E /* UMFeedback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UMFeedback.h; sourceTree = "<group>"; };
+		06A8F4D419E8DE7F003D673E /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
+		06A8F4D519E8DE7F003D673E /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
+		06A8F4D719E8DE7F003D673E /* CustomLoginModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomLoginModel.h; sourceTree = "<group>"; };
+		06A8F4D819E8DE7F003D673E /* CustomLoginModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomLoginModel.m; sourceTree = "<group>"; };
+		06A8F4DA19E8DE7F003D673E /* CustomLoginNavgationBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomLoginNavgationBar.h; sourceTree = "<group>"; };
+		06A8F4DB19E8DE7F003D673E /* CustomLoginNavgationBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomLoginNavgationBar.m; sourceTree = "<group>"; };
+		06A8F4DC19E8DE7F003D673E /* CustomLoginView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomLoginView.h; sourceTree = "<group>"; };
+		06A8F4DD19E8DE7F003D673E /* CustomLoginView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomLoginView.m; sourceTree = "<group>"; };
+		06A8F4E019E8DE7F003D673E /* LogoutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LogoutViewController.h; sourceTree = "<group>"; };
+		06A8F4E119E8DE7F003D673E /* LogoutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LogoutViewController.m; sourceTree = "<group>"; };
+		06A8F4E319E8DE7F003D673E /* LogoutModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LogoutModel.h; sourceTree = "<group>"; };
+		06A8F4E419E8DE7F003D673E /* LogoutModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LogoutModel.m; sourceTree = "<group>"; };
+		06A8F4E619E8DE7F003D673E /* CustomLogoutView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomLogoutView.h; sourceTree = "<group>"; };
+		06A8F4E719E8DE7F003D673E /* CustomLogoutView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomLogoutView.m; sourceTree = "<group>"; };
+		06A8F4EA19E8DE7F003D673E /* MoreViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoreViewController.h; sourceTree = "<group>"; };
+		06A8F4EB19E8DE7F003D673E /* MoreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MoreViewController.m; sourceTree = "<group>"; };
+		06A8F4ED19E8DE7F003D673E /* CustomMoreView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomMoreView.h; sourceTree = "<group>"; };
+		06A8F4EE19E8DE7F003D673E /* CustomMoreView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomMoreView.m; sourceTree = "<group>"; };
+		06A8F4F119E8DE7F003D673E /* RechargeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RechargeViewController.h; sourceTree = "<group>"; };
+		06A8F4F219E8DE7F003D673E /* RechargeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RechargeViewController.m; sourceTree = "<group>"; };
+		06A8F4F419E8DE7F003D673E /* RechargeModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RechargeModel.h; sourceTree = "<group>"; };
+		06A8F4F519E8DE7F003D673E /* RechargeModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RechargeModel.m; sourceTree = "<group>"; };
+		06A8F4F719E8DE7F003D673E /* CustomRechargeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomRechargeView.h; sourceTree = "<group>"; };
+		06A8F4F819E8DE7F003D673E /* CustomRechargeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomRechargeView.m; sourceTree = "<group>"; };
+		06A8F4F919E8DE7F003D673E /* CustomViewCellTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomViewCellTableViewCell.h; sourceTree = "<group>"; };
+		06A8F4FA19E8DE7F003D673E /* CustomViewCellTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomViewCellTableViewCell.m; sourceTree = "<group>"; };
+		06A8F4FD19E8DE7F003D673E /* RegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegisterViewController.h; sourceTree = "<group>"; };
+		06A8F4FE19E8DE7F003D673E /* RegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegisterViewController.m; sourceTree = "<group>"; };
+		06A8F50019E8DE7F003D673E /* RegisterModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegisterModel.h; sourceTree = "<group>"; };
+		06A8F50119E8DE7F003D673E /* RegisterModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegisterModel.m; sourceTree = "<group>"; };
+		06A8F50319E8DE7F003D673E /* CustomRegisterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomRegisterView.h; sourceTree = "<group>"; };
+		06A8F50419E8DE7F003D673E /* CustomRegisterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomRegisterView.m; sourceTree = "<group>"; };
+		06A8F50619E8DE7F003D673E /* MobClick.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MobClick.h; sourceTree = "<group>"; };
 		06AAA8D519D2B8610052BB1D /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		06B7F86219D53AF50017EA4D /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		710C02AF19E0394100C27A33 /* SubjectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SubjectViewController.h; path = src/subject/controller/SubjectViewController.h; sourceTree = "<group>"; };
@@ -197,20 +245,6 @@
 		710C02C019E054B700C27A33 /* res */ = {isa = PBXFileReference; lastKnownFileType = folder; path = res; sourceTree = "<group>"; };
 		710C02C519E189A200C27A33 /* DrawableConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DrawableConfig.h; path = src/config/DrawableConfig.h; sourceTree = "<group>"; };
 		710C02C619E189A200C27A33 /* DrawableConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DrawableConfig.m; path = src/config/DrawableConfig.m; sourceTree = "<group>"; };
-		710C02DF19E1C60800C27A33 /* CustomLoginModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CustomLoginModel.h; path = src/menu/login/model/CustomLoginModel.h; sourceTree = "<group>"; };
-		710C02E019E1C60800C27A33 /* CustomLoginModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CustomLoginModel.m; path = src/menu/login/model/CustomLoginModel.m; sourceTree = "<group>"; };
-		710C02E219E1C61A00C27A33 /* CustomLoginNavgationBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CustomLoginNavgationBar.h; path = src/menu/login/view/CustomLoginNavgationBar.h; sourceTree = "<group>"; };
-		710C02E319E1C61A00C27A33 /* CustomLoginNavgationBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CustomLoginNavgationBar.m; path = src/menu/login/view/CustomLoginNavgationBar.m; sourceTree = "<group>"; };
-		710C02E419E1C61A00C27A33 /* CustomLoginView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CustomLoginView.h; path = src/menu/login/view/CustomLoginView.h; sourceTree = "<group>"; };
-		710C02E519E1C61A00C27A33 /* CustomLoginView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CustomLoginView.m; path = src/menu/login/view/CustomLoginView.m; sourceTree = "<group>"; };
-		710C02E819E1C62E00C27A33 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LoginViewController.h; path = src/menu/login/controller/LoginViewController.h; sourceTree = "<group>"; };
-		710C02E919E1C62E00C27A33 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LoginViewController.m; path = src/menu/login/controller/LoginViewController.m; sourceTree = "<group>"; };
-		710C02EF19E1C67A00C27A33 /* RegisterModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RegisterModel.h; path = src/menu/register/model/RegisterModel.h; sourceTree = "<group>"; };
-		710C02F019E1C67A00C27A33 /* RegisterModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RegisterModel.m; path = src/menu/register/model/RegisterModel.m; sourceTree = "<group>"; };
-		710C02F219E1C68E00C27A33 /* CustomRegisterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CustomRegisterView.h; path = src/menu/register/view/CustomRegisterView.h; sourceTree = "<group>"; };
-		710C02F319E1C68E00C27A33 /* CustomRegisterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CustomRegisterView.m; path = src/menu/register/view/CustomRegisterView.m; sourceTree = "<group>"; };
-		710C02F519E1C6A100C27A33 /* RegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RegisterViewController.h; path = src/menu/register/controller/RegisterViewController.h; sourceTree = "<group>"; };
-		710C02F619E1C6A100C27A33 /* RegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RegisterViewController.m; path = src/menu/register/controller/RegisterViewController.m; sourceTree = "<group>"; };
 		710C02F819E1C8A200C27A33 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = LICENSE; path = depends/AFNetworking/LICENSE; sourceTree = "<group>"; };
 		710C02F919E1C8A200C27A33 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = README.md; path = depends/AFNetworking/README.md; sourceTree = "<group>"; };
 		710C02FC19E1C8B600C27A33 /* AFNetworkActivityIndicatorManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AFNetworkActivityIndicatorManager.h; path = "depends/AFNetworking/UIKit+AFNetworking/AFNetworkActivityIndicatorManager.h"; sourceTree = "<group>"; };
@@ -364,28 +398,6 @@
 		715EE9C019E839F6005A4F78 /* DES3Util.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DES3Util.m; path = src/util/DES3Util.m; sourceTree = "<group>"; };
 		71860B8419DC22EB00D01AA9 /* CustomNavigationBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CustomNavigationBar.h; path = src/common/view/CustomNavigationBar.h; sourceTree = "<group>"; };
 		71860B8519DC22EB00D01AA9 /* CustomNavigationBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CustomNavigationBar.m; path = src/common/view/CustomNavigationBar.m; sourceTree = "<group>"; };
-		71860B9119DC31A200D01AA9 /* CustomMoreView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CustomMoreView.h; path = src/menu/menu/view/CustomMoreView.h; sourceTree = "<group>"; };
-		71860B9219DC31A200D01AA9 /* CustomMoreView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CustomMoreView.m; path = src/menu/menu/view/CustomMoreView.m; sourceTree = "<group>"; };
-		71860B9419DC31B200D01AA9 /* MoreViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MoreViewController.h; path = src/menu/menu/controller/MoreViewController.h; sourceTree = "<group>"; };
-		71860B9519DC31B200D01AA9 /* MoreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MoreViewController.m; path = src/menu/menu/controller/MoreViewController.m; sourceTree = "<group>"; };
-		71860B9A19DC322A00D01AA9 /* CustomAboutUsview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CustomAboutUsview.h; path = src/menu/about/view/CustomAboutUsview.h; sourceTree = "<group>"; };
-		71860B9B19DC322A00D01AA9 /* CustomAboutUsview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CustomAboutUsview.m; path = src/menu/about/view/CustomAboutUsview.m; sourceTree = "<group>"; };
-		71860B9D19DC323900D01AA9 /* AboutUsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AboutUsViewController.h; path = src/menu/about/controller/AboutUsViewController.h; sourceTree = "<group>"; };
-		71860B9E19DC323900D01AA9 /* AboutUsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AboutUsViewController.m; path = src/menu/about/controller/AboutUsViewController.m; sourceTree = "<group>"; };
-		71860BB319DC34BC00D01AA9 /* UMEGORefreshTableHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UMEGORefreshTableHeaderView.h; path = src/menu/feedback/chat/view/ego_refresh/UMEGORefreshTableHeaderView.h; sourceTree = "<group>"; };
-		71860BB419DC34BC00D01AA9 /* UMEGORefreshTableHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UMEGORefreshTableHeaderView.m; path = src/menu/feedback/chat/view/ego_refresh/UMEGORefreshTableHeaderView.m; sourceTree = "<group>"; };
-		71860BB619DC354D00D01AA9 /* UMFeedbackTableViewCellLeft.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UMFeedbackTableViewCellLeft.h; path = src/menu/feedback/chat/view/UMFeedbackTableViewCellLeft.h; sourceTree = "<group>"; };
-		71860BB719DC354D00D01AA9 /* UMFeedbackTableViewCellLeft.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UMFeedbackTableViewCellLeft.m; path = src/menu/feedback/chat/view/UMFeedbackTableViewCellLeft.m; sourceTree = "<group>"; };
-		71860BB819DC354D00D01AA9 /* UMFeedbackTableViewCellRight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UMFeedbackTableViewCellRight.h; path = src/menu/feedback/chat/view/UMFeedbackTableViewCellRight.h; sourceTree = "<group>"; };
-		71860BB919DC354D00D01AA9 /* UMFeedbackTableViewCellRight.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UMFeedbackTableViewCellRight.m; path = src/menu/feedback/chat/view/UMFeedbackTableViewCellRight.m; sourceTree = "<group>"; };
-		71860BBC19DC357300D01AA9 /* UMContactViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UMContactViewController.h; path = src/menu/feedback/chat/controller/UMContactViewController.h; sourceTree = "<group>"; };
-		71860BBD19DC357300D01AA9 /* UMContactViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UMContactViewController.m; path = src/menu/feedback/chat/controller/UMContactViewController.m; sourceTree = "<group>"; };
-		71860BBE19DC357300D01AA9 /* UMContactViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = UMContactViewController.xib; path = src/menu/feedback/chat/controller/UMContactViewController.xib; sourceTree = "<group>"; };
-		71860BBF19DC357300D01AA9 /* UMFeedbackViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UMFeedbackViewController.h; path = src/menu/feedback/chat/controller/UMFeedbackViewController.h; sourceTree = "<group>"; };
-		71860BC019DC357300D01AA9 /* UMFeedbackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UMFeedbackViewController.m; path = src/menu/feedback/chat/controller/UMFeedbackViewController.m; sourceTree = "<group>"; };
-		71860BC119DC357300D01AA9 /* UMFeedbackViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = UMFeedbackViewController.xib; path = src/menu/feedback/chat/controller/UMFeedbackViewController.xib; sourceTree = "<group>"; };
-		71860BC919DC383800D01AA9 /* MobClick.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MobClick.h; path = src/menu/update/MobClick.h; sourceTree = "<group>"; };
-		71860BCA19DC3EF900D01AA9 /* UMFeedback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UMFeedback.h; path = src/menu/feedback/UMFeedback.h; sourceTree = "<group>"; };
 		71860BCB19DC438A00D01AA9 /* libMobClickLibrary.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMobClickLibrary.a; path = ebooksystem/depends/umeng/libMobClickLibrary.a; sourceTree = "<group>"; };
 		71860BCC19DC438A00D01AA9 /* libUMFeedback.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libUMFeedback.a; path = ebooksystem/depends/umeng/libUMFeedback.a; sourceTree = "<group>"; };
 		71860BDC19DC6DA500D01AA9 /* KnowledgeManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KnowledgeManager.h; path = src/knowledge/KnowledgeManager.h; sourceTree = "<group>"; };
@@ -535,45 +547,287 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		06A91CF619E38AC30028F4B1 /* logout */ = {
+		06A8F4B819E8DE7F003D673E /* menu */ = {
 			isa = PBXGroup;
 			children = (
-				06A91D0619E392C50028F4B1 /* controller */,
-				06A91D0519E392B50028F4B1 /* model */,
-				06A91D0119E392AA0028F4B1 /* view */,
+				06A8F4B919E8DE7F003D673E /* about */,
+				06A8F4C019E8DE7F003D673E /* feedback */,
+				06A8F4D219E8DE7F003D673E /* login */,
+				06A8F4DE19E8DE7F003D673E /* logout */,
+				06A8F4E819E8DE7F003D673E /* menu */,
+				06A8F4EF19E8DE7F003D673E /* recharge */,
+				06A8F4FB19E8DE7F003D673E /* register */,
+				06A8F50519E8DE7F003D673E /* update */,
+			);
+			name = menu;
+			path = src/menu;
+			sourceTree = "<group>";
+		};
+		06A8F4B919E8DE7F003D673E /* about */ = {
+			isa = PBXGroup;
+			children = (
+				06A8F4BA19E8DE7F003D673E /* controller */,
+				06A8F4BD19E8DE7F003D673E /* view */,
+			);
+			path = about;
+			sourceTree = "<group>";
+		};
+		06A8F4BA19E8DE7F003D673E /* controller */ = {
+			isa = PBXGroup;
+			children = (
+				06A8F4BB19E8DE7F003D673E /* AboutUsViewController.h */,
+				06A8F4BC19E8DE7F003D673E /* AboutUsViewController.m */,
+			);
+			path = controller;
+			sourceTree = "<group>";
+		};
+		06A8F4BD19E8DE7F003D673E /* view */ = {
+			isa = PBXGroup;
+			children = (
+				06A8F4BE19E8DE7F003D673E /* CustomAboutUsview.h */,
+				06A8F4BF19E8DE7F003D673E /* CustomAboutUsview.m */,
+			);
+			path = view;
+			sourceTree = "<group>";
+		};
+		06A8F4C019E8DE7F003D673E /* feedback */ = {
+			isa = PBXGroup;
+			children = (
+				06A8F4C119E8DE7F003D673E /* chat */,
+				06A8F4D119E8DE7F003D673E /* UMFeedback.h */,
+			);
+			path = feedback;
+			sourceTree = "<group>";
+		};
+		06A8F4C119E8DE7F003D673E /* chat */ = {
+			isa = PBXGroup;
+			children = (
+				06A8F4C219E8DE7F003D673E /* controller */,
+				06A8F4C919E8DE7F003D673E /* view */,
+			);
+			path = chat;
+			sourceTree = "<group>";
+		};
+		06A8F4C219E8DE7F003D673E /* controller */ = {
+			isa = PBXGroup;
+			children = (
+				06A8F4C319E8DE7F003D673E /* UMContactViewController.h */,
+				06A8F4C419E8DE7F003D673E /* UMContactViewController.m */,
+				06A8F4C519E8DE7F003D673E /* UMContactViewController.xib */,
+				06A8F4C619E8DE7F003D673E /* UMFeedbackViewController.h */,
+				06A8F4C719E8DE7F003D673E /* UMFeedbackViewController.m */,
+				06A8F4C819E8DE7F003D673E /* UMFeedbackViewController.xib */,
+			);
+			path = controller;
+			sourceTree = "<group>";
+		};
+		06A8F4C919E8DE7F003D673E /* view */ = {
+			isa = PBXGroup;
+			children = (
+				06A8F4CA19E8DE7F003D673E /* ego_refresh */,
+				06A8F4CD19E8DE7F003D673E /* UMFeedbackTableViewCellLeft.h */,
+				06A8F4CE19E8DE7F003D673E /* UMFeedbackTableViewCellLeft.m */,
+				06A8F4CF19E8DE7F003D673E /* UMFeedbackTableViewCellRight.h */,
+				06A8F4D019E8DE7F003D673E /* UMFeedbackTableViewCellRight.m */,
+			);
+			path = view;
+			sourceTree = "<group>";
+		};
+		06A8F4CA19E8DE7F003D673E /* ego_refresh */ = {
+			isa = PBXGroup;
+			children = (
+				06A8F4CB19E8DE7F003D673E /* UMEGORefreshTableHeaderView.h */,
+				06A8F4CC19E8DE7F003D673E /* UMEGORefreshTableHeaderView.m */,
+			);
+			path = ego_refresh;
+			sourceTree = "<group>";
+		};
+		06A8F4D219E8DE7F003D673E /* login */ = {
+			isa = PBXGroup;
+			children = (
+				06A8F4D319E8DE7F003D673E /* controller */,
+				06A8F4D619E8DE7F003D673E /* model */,
+				06A8F4D919E8DE7F003D673E /* view */,
+			);
+			path = login;
+			sourceTree = "<group>";
+		};
+		06A8F4D319E8DE7F003D673E /* controller */ = {
+			isa = PBXGroup;
+			children = (
+				06A8F4D419E8DE7F003D673E /* LoginViewController.h */,
+				06A8F4D519E8DE7F003D673E /* LoginViewController.m */,
+			);
+			path = controller;
+			sourceTree = "<group>";
+		};
+		06A8F4D619E8DE7F003D673E /* model */ = {
+			isa = PBXGroup;
+			children = (
+				06A8F4D719E8DE7F003D673E /* CustomLoginModel.h */,
+				06A8F4D819E8DE7F003D673E /* CustomLoginModel.m */,
+			);
+			path = model;
+			sourceTree = "<group>";
+		};
+		06A8F4D919E8DE7F003D673E /* view */ = {
+			isa = PBXGroup;
+			children = (
+				06A8F4DA19E8DE7F003D673E /* CustomLoginNavgationBar.h */,
+				06A8F4DB19E8DE7F003D673E /* CustomLoginNavgationBar.m */,
+				06A8F4DC19E8DE7F003D673E /* CustomLoginView.h */,
+				06A8F4DD19E8DE7F003D673E /* CustomLoginView.m */,
+			);
+			path = view;
+			sourceTree = "<group>";
+		};
+		06A8F4DE19E8DE7F003D673E /* logout */ = {
+			isa = PBXGroup;
+			children = (
+				06A8F4DF19E8DE7F003D673E /* controller */,
+				06A8F4E219E8DE7F003D673E /* model */,
+				06A8F4E519E8DE7F003D673E /* view */,
 			);
 			path = logout;
 			sourceTree = "<group>";
 		};
-		06A91D0119E392AA0028F4B1 /* view */ = {
+		06A8F4DF19E8DE7F003D673E /* controller */ = {
 			isa = PBXGroup;
 			children = (
-				06A91D0219E392AA0028F4B1 /* CustomLogoutView.h */,
-				06A91D0319E392AA0028F4B1 /* CustomLogoutView.m */,
+				06A8F4E019E8DE7F003D673E /* LogoutViewController.h */,
+				06A8F4E119E8DE7F003D673E /* LogoutViewController.m */,
 			);
-			name = view;
-			path = ebooksystem/src/menu/logout/view;
-			sourceTree = SOURCE_ROOT;
+			path = controller;
+			sourceTree = "<group>";
 		};
-		06A91D0519E392B50028F4B1 /* model */ = {
+		06A8F4E219E8DE7F003D673E /* model */ = {
 			isa = PBXGroup;
 			children = (
-				06A91D0A19E39A790028F4B1 /* LogoutModel.h */,
-				06A91D0B19E39A790028F4B1 /* LogoutModel.m */,
+				06A8F4E319E8DE7F003D673E /* LogoutModel.h */,
+				06A8F4E419E8DE7F003D673E /* LogoutModel.m */,
 			);
-			name = model;
-			path = ebooksystem/src/menu/logout/model;
-			sourceTree = SOURCE_ROOT;
+			path = model;
+			sourceTree = "<group>";
 		};
-		06A91D0619E392C50028F4B1 /* controller */ = {
+		06A8F4E519E8DE7F003D673E /* view */ = {
 			isa = PBXGroup;
 			children = (
-				06A91D0719E392FF0028F4B1 /* LogoutViewController.h */,
-				06A91D0819E392FF0028F4B1 /* LogoutViewController.m */,
+				06A8F4E619E8DE7F003D673E /* CustomLogoutView.h */,
+				06A8F4E719E8DE7F003D673E /* CustomLogoutView.m */,
 			);
-			name = controller;
-			path = ebooksystem/src/menu/logout/controller;
-			sourceTree = SOURCE_ROOT;
+			path = view;
+			sourceTree = "<group>";
+		};
+		06A8F4E819E8DE7F003D673E /* menu */ = {
+			isa = PBXGroup;
+			children = (
+				06A8F4E919E8DE7F003D673E /* controller */,
+				06A8F4EC19E8DE7F003D673E /* view */,
+			);
+			path = menu;
+			sourceTree = "<group>";
+		};
+		06A8F4E919E8DE7F003D673E /* controller */ = {
+			isa = PBXGroup;
+			children = (
+				06A8F4EA19E8DE7F003D673E /* MoreViewController.h */,
+				06A8F4EB19E8DE7F003D673E /* MoreViewController.m */,
+			);
+			path = controller;
+			sourceTree = "<group>";
+		};
+		06A8F4EC19E8DE7F003D673E /* view */ = {
+			isa = PBXGroup;
+			children = (
+				06A8F4ED19E8DE7F003D673E /* CustomMoreView.h */,
+				06A8F4EE19E8DE7F003D673E /* CustomMoreView.m */,
+			);
+			path = view;
+			sourceTree = "<group>";
+		};
+		06A8F4EF19E8DE7F003D673E /* recharge */ = {
+			isa = PBXGroup;
+			children = (
+				06A8F4F019E8DE7F003D673E /* controller */,
+				06A8F4F319E8DE7F003D673E /* model */,
+				06A8F4F619E8DE7F003D673E /* view */,
+			);
+			path = recharge;
+			sourceTree = "<group>";
+		};
+		06A8F4F019E8DE7F003D673E /* controller */ = {
+			isa = PBXGroup;
+			children = (
+				06A8F4F119E8DE7F003D673E /* RechargeViewController.h */,
+				06A8F4F219E8DE7F003D673E /* RechargeViewController.m */,
+			);
+			path = controller;
+			sourceTree = "<group>";
+		};
+		06A8F4F319E8DE7F003D673E /* model */ = {
+			isa = PBXGroup;
+			children = (
+				06A8F4F419E8DE7F003D673E /* RechargeModel.h */,
+				06A8F4F519E8DE7F003D673E /* RechargeModel.m */,
+			);
+			path = model;
+			sourceTree = "<group>";
+		};
+		06A8F4F619E8DE7F003D673E /* view */ = {
+			isa = PBXGroup;
+			children = (
+				06A8F4F719E8DE7F003D673E /* CustomRechargeView.h */,
+				06A8F4F819E8DE7F003D673E /* CustomRechargeView.m */,
+				06A8F4F919E8DE7F003D673E /* CustomViewCellTableViewCell.h */,
+				06A8F4FA19E8DE7F003D673E /* CustomViewCellTableViewCell.m */,
+			);
+			path = view;
+			sourceTree = "<group>";
+		};
+		06A8F4FB19E8DE7F003D673E /* register */ = {
+			isa = PBXGroup;
+			children = (
+				06A8F4FC19E8DE7F003D673E /* controller */,
+				06A8F4FF19E8DE7F003D673E /* model */,
+				06A8F50219E8DE7F003D673E /* view */,
+			);
+			path = register;
+			sourceTree = "<group>";
+		};
+		06A8F4FC19E8DE7F003D673E /* controller */ = {
+			isa = PBXGroup;
+			children = (
+				06A8F4FD19E8DE7F003D673E /* RegisterViewController.h */,
+				06A8F4FE19E8DE7F003D673E /* RegisterViewController.m */,
+			);
+			path = controller;
+			sourceTree = "<group>";
+		};
+		06A8F4FF19E8DE7F003D673E /* model */ = {
+			isa = PBXGroup;
+			children = (
+				06A8F50019E8DE7F003D673E /* RegisterModel.h */,
+				06A8F50119E8DE7F003D673E /* RegisterModel.m */,
+			);
+			path = model;
+			sourceTree = "<group>";
+		};
+		06A8F50219E8DE7F003D673E /* view */ = {
+			isa = PBXGroup;
+			children = (
+				06A8F50319E8DE7F003D673E /* CustomRegisterView.h */,
+				06A8F50419E8DE7F003D673E /* CustomRegisterView.m */,
+			);
+			path = view;
+			sourceTree = "<group>";
+		};
+		06A8F50519E8DE7F003D673E /* update */ = {
+			isa = PBXGroup;
+			children = (
+				06A8F50619E8DE7F003D673E /* MobClick.h */,
+			);
+			path = update;
+			sourceTree = "<group>";
 		};
 		710C02A819DE985200C27A33 /* storyboard */ = {
 			isa = PBXGroup;
@@ -632,82 +886,6 @@
 				715EE97619E52749005A4F78 /* UIImage+tintedImage.m */,
 			);
 			name = titlebar;
-			sourceTree = "<group>";
-		};
-		710C02DB19E1C5CD00C27A33 /* login */ = {
-			isa = PBXGroup;
-			children = (
-				710C02DC19E1C5E000C27A33 /* model */,
-				710C02DD19E1C5E600C27A33 /* view */,
-				710C02DE19E1C5EB00C27A33 /* controller */,
-			);
-			name = login;
-			sourceTree = "<group>";
-		};
-		710C02DC19E1C5E000C27A33 /* model */ = {
-			isa = PBXGroup;
-			children = (
-				710C02DF19E1C60800C27A33 /* CustomLoginModel.h */,
-				710C02E019E1C60800C27A33 /* CustomLoginModel.m */,
-			);
-			name = model;
-			sourceTree = "<group>";
-		};
-		710C02DD19E1C5E600C27A33 /* view */ = {
-			isa = PBXGroup;
-			children = (
-				710C02E219E1C61A00C27A33 /* CustomLoginNavgationBar.h */,
-				710C02E319E1C61A00C27A33 /* CustomLoginNavgationBar.m */,
-				710C02E419E1C61A00C27A33 /* CustomLoginView.h */,
-				710C02E519E1C61A00C27A33 /* CustomLoginView.m */,
-			);
-			name = view;
-			sourceTree = "<group>";
-		};
-		710C02DE19E1C5EB00C27A33 /* controller */ = {
-			isa = PBXGroup;
-			children = (
-				710C02E819E1C62E00C27A33 /* LoginViewController.h */,
-				710C02E919E1C62E00C27A33 /* LoginViewController.m */,
-			);
-			name = controller;
-			sourceTree = "<group>";
-		};
-		710C02EB19E1C63400C27A33 /* register */ = {
-			isa = PBXGroup;
-			children = (
-				710C02EC19E1C65700C27A33 /* model */,
-				710C02ED19E1C65E00C27A33 /* view */,
-				710C02EE19E1C66300C27A33 /* controller */,
-			);
-			name = register;
-			sourceTree = "<group>";
-		};
-		710C02EC19E1C65700C27A33 /* model */ = {
-			isa = PBXGroup;
-			children = (
-				710C02EF19E1C67A00C27A33 /* RegisterModel.h */,
-				710C02F019E1C67A00C27A33 /* RegisterModel.m */,
-			);
-			name = model;
-			sourceTree = "<group>";
-		};
-		710C02ED19E1C65E00C27A33 /* view */ = {
-			isa = PBXGroup;
-			children = (
-				710C02F219E1C68E00C27A33 /* CustomRegisterView.h */,
-				710C02F319E1C68E00C27A33 /* CustomRegisterView.m */,
-			);
-			name = view;
-			sourceTree = "<group>";
-		};
-		710C02EE19E1C66300C27A33 /* controller */ = {
-			isa = PBXGroup;
-			children = (
-				710C02F519E1C6A100C27A33 /* RegisterViewController.h */,
-				710C02F619E1C6A100C27A33 /* RegisterViewController.m */,
-			);
-			name = controller;
 			sourceTree = "<group>";
 		};
 		710C033819E1C8F200C27A33 /* SBJson */ = {
@@ -906,6 +1084,7 @@
 		71860B6A19DC204C00D01AA9 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				06A8F4B819E8DE7F003D673E /* menu */,
 				71860BDA19DC6D1B00D01AA9 /* data */,
 				71860B7F19DC228400D01AA9 /* common */,
 				71860BDF19DC73C200D01AA9 /* config */,
@@ -913,7 +1092,6 @@
 				71860BDB19DC6D3900D01AA9 /* knowledge */,
 				71860BD319DC4E5C00D01AA9 /* download */,
 				710C02AD19E038F000C27A33 /* subject */,
-				71860B8719DC230400D01AA9 /* menu */,
 				715EE98019E6CF51005A4F78 /* statistics */,
 				71860C0B19DE8DA000D01AA9 /* util */,
 			);
@@ -938,134 +1116,6 @@
 				71860B8519DC22EB00D01AA9 /* CustomNavigationBar.m */,
 			);
 			name = view;
-			sourceTree = "<group>";
-		};
-		71860B8719DC230400D01AA9 /* menu */ = {
-			isa = PBXGroup;
-			children = (
-				06A91CF619E38AC30028F4B1 /* logout */,
-				710C02EB19E1C63400C27A33 /* register */,
-				710C02DB19E1C5CD00C27A33 /* login */,
-				71860BA419DC330500D01AA9 /* feedback */,
-				71860BA019DC32ED00D01AA9 /* update */,
-				71860B9719DC31CD00D01AA9 /* about */,
-				71860B9019DC318B00D01AA9 /* menu */,
-			);
-			name = menu;
-			sourceTree = "<group>";
-		};
-		71860B8819DC30EF00D01AA9 /* controller */ = {
-			isa = PBXGroup;
-			children = (
-				71860B9419DC31B200D01AA9 /* MoreViewController.h */,
-				71860B9519DC31B200D01AA9 /* MoreViewController.m */,
-			);
-			name = controller;
-			sourceTree = "<group>";
-		};
-		71860B8C19DC312F00D01AA9 /* view */ = {
-			isa = PBXGroup;
-			children = (
-				71860B9119DC31A200D01AA9 /* CustomMoreView.h */,
-				71860B9219DC31A200D01AA9 /* CustomMoreView.m */,
-			);
-			name = view;
-			sourceTree = "<group>";
-		};
-		71860B9019DC318B00D01AA9 /* menu */ = {
-			isa = PBXGroup;
-			children = (
-				71860B8C19DC312F00D01AA9 /* view */,
-				71860B8819DC30EF00D01AA9 /* controller */,
-			);
-			name = menu;
-			sourceTree = "<group>";
-		};
-		71860B9719DC31CD00D01AA9 /* about */ = {
-			isa = PBXGroup;
-			children = (
-				71860B9819DC31D200D01AA9 /* view */,
-				71860B9919DC31D700D01AA9 /* controller */,
-			);
-			name = about;
-			sourceTree = "<group>";
-		};
-		71860B9819DC31D200D01AA9 /* view */ = {
-			isa = PBXGroup;
-			children = (
-				71860B9A19DC322A00D01AA9 /* CustomAboutUsview.h */,
-				71860B9B19DC322A00D01AA9 /* CustomAboutUsview.m */,
-			);
-			name = view;
-			sourceTree = "<group>";
-		};
-		71860B9919DC31D700D01AA9 /* controller */ = {
-			isa = PBXGroup;
-			children = (
-				71860B9D19DC323900D01AA9 /* AboutUsViewController.h */,
-				71860B9E19DC323900D01AA9 /* AboutUsViewController.m */,
-			);
-			name = controller;
-			sourceTree = "<group>";
-		};
-		71860BA019DC32ED00D01AA9 /* update */ = {
-			isa = PBXGroup;
-			children = (
-				71860BC919DC383800D01AA9 /* MobClick.h */,
-			);
-			name = update;
-			sourceTree = "<group>";
-		};
-		71860BA419DC330500D01AA9 /* feedback */ = {
-			isa = PBXGroup;
-			children = (
-				71860BCA19DC3EF900D01AA9 /* UMFeedback.h */,
-				71860BAA19DC337100D01AA9 /* chat */,
-			);
-			name = feedback;
-			sourceTree = "<group>";
-		};
-		71860BAA19DC337100D01AA9 /* chat */ = {
-			isa = PBXGroup;
-			children = (
-				71860BB119DC349400D01AA9 /* view */,
-				71860BB219DC349A00D01AA9 /* controller */,
-			);
-			name = chat;
-			sourceTree = "<group>";
-		};
-		71860BAC19DC33D700D01AA9 /* ego_refresh */ = {
-			isa = PBXGroup;
-			children = (
-				71860BB319DC34BC00D01AA9 /* UMEGORefreshTableHeaderView.h */,
-				71860BB419DC34BC00D01AA9 /* UMEGORefreshTableHeaderView.m */,
-			);
-			name = ego_refresh;
-			sourceTree = "<group>";
-		};
-		71860BB119DC349400D01AA9 /* view */ = {
-			isa = PBXGroup;
-			children = (
-				71860BAC19DC33D700D01AA9 /* ego_refresh */,
-				71860BB619DC354D00D01AA9 /* UMFeedbackTableViewCellLeft.h */,
-				71860BB719DC354D00D01AA9 /* UMFeedbackTableViewCellLeft.m */,
-				71860BB819DC354D00D01AA9 /* UMFeedbackTableViewCellRight.h */,
-				71860BB919DC354D00D01AA9 /* UMFeedbackTableViewCellRight.m */,
-			);
-			name = view;
-			sourceTree = "<group>";
-		};
-		71860BB219DC349A00D01AA9 /* controller */ = {
-			isa = PBXGroup;
-			children = (
-				71860BBC19DC357300D01AA9 /* UMContactViewController.h */,
-				71860BBD19DC357300D01AA9 /* UMContactViewController.m */,
-				71860BBE19DC357300D01AA9 /* UMContactViewController.xib */,
-				71860BBF19DC357300D01AA9 /* UMFeedbackViewController.h */,
-				71860BC019DC357300D01AA9 /* UMFeedbackViewController.m */,
-				71860BC119DC357300D01AA9 /* UMFeedbackViewController.xib */,
-			);
-			name = controller;
 			sourceTree = "<group>";
 		};
 		71860BD319DC4E5C00D01AA9 /* download */ = {
@@ -1344,12 +1394,11 @@
 			files = (
 				710C038B19E2458C00C27A33 /* assets in Resources */,
 				71860C5A19DE953500D01AA9 /* umeng in Resources */,
-				71860BC319DC357300D01AA9 /* UMContactViewController.xib in Resources */,
 				710C033619E1C8E600C27A33 /* LICENSE in Resources */,
 				710C02FA19E1C8A200C27A33 /* LICENSE in Resources */,
 				715EE97E19E594D9005A4F78 /* WebViewJavascriptBridge.js.txt in Resources */,
+				06A8F50A19E8DE7F003D673E /* UMContactViewController.xib in Resources */,
 				710C02C119E054B700C27A33 /* res in Resources */,
-				71860BC519DC357300D01AA9 /* UMFeedbackViewController.xib in Resources */,
 				710C02BD19E0547600C27A33 /* storyboard_main_iphone.storyboard in Resources */,
 				0690782519CFD62700CD9C3D /* InfoPlist.strings in Resources */,
 				710C033719E1C8E600C27A33 /* README.mdown in Resources */,
@@ -1357,6 +1406,7 @@
 				710C02FB19E1C8A200C27A33 /* README.md in Resources */,
 				710C02BB19E0457A00C27A33 /* SubjectTableViewCell.xib in Resources */,
 				0690783019CFD62700CD9C3D /* Images.xcassets in Resources */,
+				06A8F50C19E8DE7F003D673E /* UMFeedbackViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1375,32 +1425,32 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				710C02EA19E1C62E00C27A33 /* LoginViewController.m in Sources */,
 				71860BFD19DE50C300D01AA9 /* IADownloadManager.m in Sources */,
 				710C036C19E1C96900C27A33 /* NSData+AES.m in Sources */,
+				06A8F51B19E8DE7F003D673E /* CustomRechargeView.m in Sources */,
 				710C031319E1C8B600C27A33 /* UIRefreshControl+AFNetworking.m in Sources */,
-				71860BC219DC357300D01AA9 /* UMContactViewController.m in Sources */,
 				71860BFE19DE50C300D01AA9 /* IADownloadOperation.m in Sources */,
 				710C02BA19E0457A00C27A33 /* SubjectTableViewCell.m in Sources */,
 				710C032919E1C8D000C27A33 /* AFHTTPRequestOperationManager.m in Sources */,
+				06A8F51A19E8DE7F003D673E /* RechargeModel.m in Sources */,
+				06A8F51619E8DE7F003D673E /* CustomLogoutView.m in Sources */,
 				715EE98A19E6D8D9005A4F78 /* UserInfo.m in Sources */,
+				06A8F51519E8DE7F003D673E /* LogoutModel.m in Sources */,
 				715EE99819E819E4005A4F78 /* MD5Util.m in Sources */,
 				710C036719E1C95800C27A33 /* NSString+Hashing.m in Sources */,
 				715EE9B419E8331C005A4F78 /* JSONAPI.m in Sources */,
 				710C030D19E1C8B600C27A33 /* AFNetworkActivityIndicatorManager.m in Sources */,
 				715EE99219E813B5005A4F78 /* WebConfig.m in Sources */,
 				710C035519E1C90E00C27A33 /* SBJsonStreamParserAccumulator.m in Sources */,
-				06A91D0C19E39A790028F4B1 /* LogoutModel.m in Sources */,
 				710C033519E1C8E600C27A33 /* EGOCache.m in Sources */,
 				715EE98F19E7FCDB005A4F78 /* WebUtil.m in Sources */,
 				715EE9BB19E8332B005A4F78 /* JSONKeyMapper.m in Sources */,
 				71860C0019DE50C300D01AA9 /* IASequentialDownloadManager.m in Sources */,
-				71860BB519DC34BC00D01AA9 /* UMEGORefreshTableHeaderView.m in Sources */,
 				715EE9B519E8331C005A4F78 /* JSONHTTPClient.m in Sources */,
 				715EE97919E52749005A4F78 /* UIImage+tintedImage.m in Sources */,
+				06A8F51419E8DE7F003D673E /* LogoutViewController.m in Sources */,
 				71860BDE19DC6DA500D01AA9 /* KnowledgeManager.m in Sources */,
 				715EE9A719E832ED005A4F78 /* JSONModelArray.m in Sources */,
-				71860BBB19DC354D00D01AA9 /* UMFeedbackTableViewCellRight.m in Sources */,
 				715EE99519E81794005A4F78 /* DeviceUtil.m in Sources */,
 				710C035B19E1C90E00C27A33 /* SBJsonTokeniser.m in Sources */,
 				71860C0A19DE546700D01AA9 /* KnowledgeDownloadItem.m in Sources */,
@@ -1409,80 +1459,84 @@
 				71860BE319DC754C00D01AA9 /* Config.m in Sources */,
 				715EE97F19E594D9005A4F78 /* WebViewJavascriptBridge.m in Sources */,
 				710C03A519E2F38E00C27A33 /* KnowledgeSearchReverseInfo.m in Sources */,
-				06A91D0919E392FF0028F4B1 /* LogoutViewController.m in Sources */,
 				710C039219E2E45C00C27A33 /* ebooksystem.xcdatamodeld in Sources */,
-				710C02E119E1C60800C27A33 /* CustomLoginModel.m in Sources */,
-				71860B9C19DC322A00D01AA9 /* CustomAboutUsview.m in Sources */,
+				06A8F51719E8DE7F003D673E /* MoreViewController.m in Sources */,
 				715EE9C119E839F6005A4F78 /* DES3Util.m in Sources */,
+				06A8F51C19E8DE7F003D673E /* CustomViewCellTableViewCell.m in Sources */,
 				715EE9AD19E8330C005A4F78 /* NSArray+JSONModel.m in Sources */,
 				710C035819E1C90E00C27A33 /* SBJsonStreamWriter.m in Sources */,
+				06A8F50F19E8DE7F003D673E /* UMFeedbackTableViewCellRight.m in Sources */,
 				710C037419E1C98B00C27A33 /* UIDevice+IdentifierAddition.m in Sources */,
+				06A8F51F19E8DE7F003D673E /* CustomRegisterView.m in Sources */,
 				710C02B119E0394100C27A33 /* SubjectViewController.m in Sources */,
 				710C031419E1C8B600C27A33 /* UIWebView+AFNetworking.m in Sources */,
-				71860B9319DC31A200D01AA9 /* CustomMoreView.m in Sources */,
 				710C02B519E03E4F00C27A33 /* KnowledgeSubject.m in Sources */,
 				715EE98319E6CF8C005A4F78 /* StatisticsManager.m in Sources */,
-				71860BBA19DC354D00D01AA9 /* UMFeedbackTableViewCellLeft.m in Sources */,
 				710C032A19E1C8D000C27A33 /* AFHTTPSessionManager.m in Sources */,
 				715EE97819E52749005A4F78 /* QBTitleView.m in Sources */,
 				71860BE919DC7B4300D01AA9 /* KnowledgeDataConfig.m in Sources */,
+				06A8F50919E8DE7F003D673E /* UMContactViewController.m in Sources */,
+				06A8F51919E8DE7F003D673E /* RechargeViewController.m in Sources */,
 				715EE97719E52749005A4F78 /* BaseTitleBar.m in Sources */,
 				710C031019E1C8B600C27A33 /* UIButton+AFNetworking.m in Sources */,
 				710C039F19E2EDB700C27A33 /* KnowledgeMetaEntity.m in Sources */,
 				71860BFC19DE50C300D01AA9 /* IADownloadHandler.m in Sources */,
+				06A8F51D19E8DE7F003D673E /* RegisterViewController.m in Sources */,
 				7134FB2019E4D952004AB7A8 /* KnowledgeDataManager.m in Sources */,
 				715EE98C19E7F517005A4F78 /* KnowledgeDataTypes.m in Sources */,
 				710C032E19E1C8D000C27A33 /* AFURLRequestSerialization.m in Sources */,
 				71860C0719DE544D00D01AA9 /* KnowledgeDownloadManager.m in Sources */,
+				06A8F50819E8DE7F003D673E /* CustomAboutUsview.m in Sources */,
+				06A8F51819E8DE7F003D673E /* CustomMoreView.m in Sources */,
 				710C032F19E1C8D000C27A33 /* AFURLResponseSerialization.m in Sources */,
-				71860B9F19DC323900D01AA9 /* AboutUsViewController.m in Sources */,
 				710C035919E1C90E00C27A33 /* SBJsonStreamWriterAccumulator.m in Sources */,
 				7134FB2319E4DE4E004AB7A8 /* KnowledgeSearchManager.m in Sources */,
+				06A8F50D19E8DE7F003D673E /* UMEGORefreshTableHeaderView.m in Sources */,
 				715EE9A819E832ED005A4F78 /* JSONModelClassProperty.m in Sources */,
+				06A8F50B19E8DE7F003D673E /* UMFeedbackViewController.m in Sources */,
 				710C032D19E1C8D000C27A33 /* AFURLConnectionOperation.m in Sources */,
-				710C02E719E1C61A00C27A33 /* CustomLoginView.m in Sources */,
 				710C03A819E397B200C27A33 /* KnowledgeMetaManager.m in Sources */,
+				06A8F51219E8DE7F003D673E /* CustomLoginNavgationBar.m in Sources */,
 				710C031119E1C8B600C27A33 /* UIImageView+AFNetworking.m in Sources */,
-				710C02F719E1C6A100C27A33 /* RegisterViewController.m in Sources */,
+				06A8F51E19E8DE7F003D673E /* RegisterModel.m in Sources */,
 				710C037319E1C98B00C27A33 /* NSString+MD5Addition.m in Sources */,
 				710C035619E1C90E00C27A33 /* SBJsonStreamParserAdapter.m in Sources */,
 				710C02C719E189A200C27A33 /* DrawableConfig.m in Sources */,
 				710C032B19E1C8D000C27A33 /* AFNetworkReachabilityManager.m in Sources */,
 				710C035C19E1C90E00C27A33 /* SBJsonUTF8Stream.m in Sources */,
+				06A8F51119E8DE7F003D673E /* CustomLoginModel.m in Sources */,
 				715EE9A919E832ED005A4F78 /* JSONModelError.m in Sources */,
 				710C03A219E2EDB800C27A33 /* KnowledgeSearchEntity.m in Sources */,
 				710C035319E1C90E00C27A33 /* SBJsonParser.m in Sources */,
+				06A8F51319E8DE7F003D673E /* CustomLoginView.m in Sources */,
 				0690782B19CFD62700CD9C3D /* AppDelegate.m in Sources */,
 				710C030E19E1C8B600C27A33 /* UIActivityIndicatorView+AFNetworking.m in Sources */,
 				710C036419E1C94900C27A33 /* GTMBase64.m in Sources */,
 				710C035A19E1C90E00C27A33 /* SBJsonStreamWriterState.m in Sources */,
 				71860BFB19DE50C300D01AA9 /* IACacheManager.m in Sources */,
 				71860C0E19DE8DE600D01AA9 /* UUIDUtil.m in Sources */,
-				710C02E619E1C61A00C27A33 /* CustomLoginNavgationBar.m in Sources */,
 				710C032819E1C8D000C27A33 /* AFHTTPRequestOperation.m in Sources */,
 				715EE9B619E8331C005A4F78 /* JSONModel+networking.m in Sources */,
 				710C032C19E1C8D000C27A33 /* AFSecurityPolicy.m in Sources */,
+				06A8F51019E8DE7F003D673E /* LoginViewController.m in Sources */,
 				715EE9A619E832ED005A4F78 /* JSONModel.m in Sources */,
 				710C038E19E2644900C27A33 /* PathUtil.m in Sources */,
 				710C035219E1C90E00C27A33 /* NSObject+SBJson.m in Sources */,
 				710C031219E1C8B600C27A33 /* UIProgressView+AFNetworking.m in Sources */,
-				71860B9619DC31B200D01AA9 /* MoreViewController.m in Sources */,
-				710C02F419E1C68E00C27A33 /* CustomRegisterView.m in Sources */,
 				710C035419E1C90E00C27A33 /* SBJsonStreamParser.m in Sources */,
 				715EE96E19E526D7005A4F78 /* CommonWebViewController.m in Sources */,
 				715EE98719E6D84A005A4F78 /* UserManager.m in Sources */,
+				06A8F50719E8DE7F003D673E /* AboutUsViewController.m in Sources */,
 				710C036D19E1C96900C27A33 /* SecurityUtil.m in Sources */,
 				710C035D19E1C90E00C27A33 /* SBJsonWriter.m in Sources */,
 				71860BFF19DE50C300D01AA9 /* IASequentialDownloadHandler.m in Sources */,
 				710C033019E1C8D000C27A33 /* AFURLSessionManager.m in Sources */,
+				06A8F50E19E8DE7F003D673E /* UMFeedbackTableViewCellLeft.m in Sources */,
 				710C035719E1C90E00C27A33 /* SBJsonStreamParserState.m in Sources */,
 				0690782719CFD62700CD9C3D /* main.m in Sources */,
 				7159EC5719E4373C00288CF2 /* CoreDataUtil.m in Sources */,
 				710C039C19E2ECA400C27A33 /* KnowledgeMeta.m in Sources */,
-				710C02F119E1C67A00C27A33 /* RegisterModel.m in Sources */,
-				06A91D0419E392AA0028F4B1 /* CustomLogoutView.m in Sources */,
 				71860B8619DC22EB00D01AA9 /* CustomNavigationBar.m in Sources */,
-				71860BC419DC357300D01AA9 /* UMFeedbackViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -72,6 +72,10 @@
     
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"userInfoName"];
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"userinfoPassword"];
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"surplus_score"]) {
+        //余额的修改：1、在进入到更过页面时就获取最新的值，2、退出时需要清除掉
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"surplus_score"];
+    }
 	[[NSUserDefaults standardUserDefaults] synchronize];
     
     LogoutModel *logout=[[LogoutModel alloc] init];

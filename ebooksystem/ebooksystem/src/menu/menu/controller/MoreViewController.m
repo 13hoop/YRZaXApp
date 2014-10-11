@@ -16,7 +16,7 @@
 
 #import "LoginViewController.h"
 #import "LogoutViewController.h"
-
+#import "RechargeViewController.h"
 #define UMENG_APPKEY @"5420c86efd98c51541017684"
 
 @interface MoreViewController ()<CustomNavigationBarDelegate,CustomMoreViewDelegate>
@@ -46,18 +46,26 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
+    //问题：每次pop回去，页面就消失了，所以self.moreview就不存在了，即使在userdefault中存在，也不会已出现就显示出来。
     self.navigationController.navigationBarHidden = YES;
     [super viewWillAppear:animated];
     [MobClick beginLogPageView:@"PageMore"];
-    if ([[NSUserDefaults standardUserDefaults]objectForKey:@"userInfoName"]!=NULL)
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"userInfoName"])
     {
-        self.moreView.userNameLable.text=[[NSUserDefaults standardUserDefaults] objectForKey:@"userInfoName"];
+         self.moreView.userNameLable.text=[[NSUserDefaults standardUserDefaults] objectForKey:@"userInfoName"];
     }
     else
     {
-        self.moreView.userNameLable.text=@"登录";
+        self.moreView.userNameLable.text=@"登陆";
     }
-    
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"surplus_score"]) {
+        self.moreView.lable.text=[[NSUserDefaults standardUserDefaults] objectForKey:@"surplus_score"];
+        
+    }
+    else
+    {
+        self.moreView.lable.text=@"0.00";
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -103,12 +111,15 @@
                     //进入到用户信息界面,
                     //只要登陆成功了，本地就会存储相关的用户名和密码
                     //因此需要退出登录时把本地的数据置为空
+//                    self.moreView.userNameLable.text=[[NSUserDefaults standardUserDefaults] objectForKey:@"userInfoName"];
+//                    NSLog(@"%@",self.moreView.userNameLable.text);
                     LogoutViewController *logout=[[LogoutViewController alloc] init];
                     [self.navigationController pushViewController:logout animated:YES];
                     
                 }
                 else
                 {
+                    self.moreView.userNameLable.text=@"登录";
                     LoginViewController *login=[[LoginViewController alloc] init];
                     [self.navigationController pushViewController:login animated:YES];
                     
@@ -120,7 +131,20 @@
         case 1:
             if (row == 0) {
                 //进行正版验证
+                if ([[NSUserDefaults standardUserDefaults] objectForKey:@"userInfoName"])
+                {
+                    RechargeViewController *recharge=[[RechargeViewController alloc] init];
+                    [self.navigationController pushViewController:recharge animated:YES];
+                }
+                else
+                {
+                    UIAlertView *alert=[[UIAlertView alloc] initWithTitle:nil message:@"请您先登录" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+                    alert.backgroundColor=[UIColor lightGrayColor];
+                    [alert show];
+                }
+               
             }
+            
             break;
         case 2:
             if (row == 0) {

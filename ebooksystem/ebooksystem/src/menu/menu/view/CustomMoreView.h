@@ -17,9 +17,10 @@
 @interface CustomMoreView : UIView
 //实现注册成功时显示用户名的功能
 @property(nonatomic,strong)UILabel *userNameLable;
+@property(nonatomic,strong)UILabel *lable;
 
-
+@property(nonatomic,strong)NSString *userName;
 @property(nonatomic,strong)NSString *balance;
 @property(nonatomic,weak)id <CustomMoreViewDelegate>more_delegate;
-@property(nonatomic,strong)NSString *userName;
+
 @end
