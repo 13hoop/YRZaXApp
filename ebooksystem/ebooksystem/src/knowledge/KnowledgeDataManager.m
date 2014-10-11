@@ -20,6 +20,7 @@
 #import "MD5Util.h"
 #import "DES3Util.h"
 #import "WebUtil.h"
+#import "SecurityUtil.h"
 
 
 
@@ -146,6 +147,8 @@
             lastError = @"数据加密失败";
             return nil;
         }
+        
+        NSString *string=[SecurityUtil AES128Encrypt:jsonOfDataDownloadRequestInfo andwithPassword:curUserInfo.password];
         
         [data setValue:encryptedContent forKey:@"data"];
     }
