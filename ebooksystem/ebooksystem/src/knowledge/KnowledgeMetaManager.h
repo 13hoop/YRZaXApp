@@ -7,10 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
+
 #import "KnowledgeDataTypes.h"
 
-
-@class KnowledgeMeta;
+#import "KnowledgeMeta.h"
 
 
 
@@ -26,8 +26,14 @@
 // save knowledge meta
 - (BOOL)saveKnowledgeMeta:(KnowledgeMeta *)knowledgeMeta;
 
+// delete knowledge meta
+- (BOOL)deleteKnowledgeMetaWithDataId:(NSString *)dataId andDataType:(DataType)dataType;
+
 #pragma mark - getter
 // get knowledge metas
 - (NSArray *)getKnowledgeMetaWithDataId:(NSString *)dataId andDataType:(DataType)dataType;
+
+#pragma mark - setter
+- (BOOL)setData:(NSString *)dataId toStatus:(DataStatus)status;
 
 @end

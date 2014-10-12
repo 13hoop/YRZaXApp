@@ -10,7 +10,7 @@
 #import "UUIDUtil.h"
 
 
-@interface KnowledgeDownloadManager() {
+@interface KnowledgeDownloadManager() <KnowledgeDownloadItemDelegate> {
     
 }
 
@@ -74,16 +74,22 @@
     return [downloadItem startDownload];
 }
 
-- (BOOL)startDownloadWithTitle:(NSString *)title andDesc:(NSString *)desc andDownloadUrl:(NSURL *)downloadUrl andSavePath:(NSString *)savePath {
+- (BOOL)startDownloadWithTitle:(NSString *)title andDesc:(NSString *)desc andDownloadUrl:(NSURL *)downloadUrl andSavePath:(NSString *)savePath andTag:(NSString *)tag {
+    // 准备下载目录
+    NSString *parentSavePath = [savePath stringByDeletingLastPathComponent];
+    BOOL isDir = NO;
+    BOOL existed = [[NSFileManager defaultManager] fileExistsAtPath:parentSavePath isDirectory:&isDir];
+    if (!(isDir && existed)) {
+        [[NSFileManager defaultManager] createDirectoryAtPath:parentSavePath withIntermediateDirectories:YES attributes:nil error:nil];
+    }
+    
+    // 创建KnowledgeDownloadItem
     NSString *itemId = [NSString stringWithFormat:@"%@", [UUIDUtil getUUID]];
-    NSString *theTitle = [title copy];// [NSString stringWithString:title];
-    NSString *theDesc = [desc copy];// [NSString stringWithString:desc];
-    NSURL *theDownloadUrl = [downloadUrl copy];// [NSURL URLWithString:[downloadUrl absoluteString]];
-    NSString *theSavePath = [savePath copy];// [NSString stringWithString:savePath];
-    
-    KnowledgeDownloadItem *downloadItem = [[KnowledgeDownloadItem alloc] initWithItemId:itemId andTitle:theTitle andDesc:theDesc andDownloadUrl:theDownloadUrl andSavePath:theSavePath];
-    
+   
+    KnowledgeDownloadItem *downloadItem = [[KnowledgeDownloadItem alloc] initWithItemId:itemId andTitle:title andDesc:desc andDownloadUrl:downloadUrl andSavePath:savePath andTag:tag];
     [self.downloadItems setObject:downloadItem forKey:downloadItem.itemId];
+    
+    // 启动下载
     return [downloadItem startDownload];
 }
 
@@ -126,6 +132,24 @@
     
     return [downloadItem cancelDownload];
 }
+
+
+#pragma mark - KnowledgeDownloadItemDelegate methods
+
+// 下载进度
+- (void)knowledgeDownloadItem:(KnowledgeDownloadItem *)downloadItem didProgress:(float)progress {
+    if (self.delegate) {
+        [self.delegate knowledgeDownloadItem:downloadItem didProgress:progress];
+    }
+}
+
+// 下载成功/失败
+- (void)knowledgeDownloadItem:(KnowledgeDownloadItem *)downloadItem didFinish:(BOOL)success response:(id)response {
+    if (self.delegate) {
+        [self.delegate knowledgeDownloadItem:downloadItem didFinish:success response:response];
+    }
+}
+
 
 
 #pragma mark - test

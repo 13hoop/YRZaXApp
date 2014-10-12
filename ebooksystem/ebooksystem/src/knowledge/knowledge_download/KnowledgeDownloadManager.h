@@ -9,7 +9,26 @@
 #import <Foundation/Foundation.h>
 #import "KnowledgeDownloadItem.h"
 
+@class KnowledgeDownloadManager;
+
+
+@protocol KnowledgeDownloadManagerDelegate <NSObject>
+
+@optional
+// 下载进度
+- (void)knowledgeDownloadItem:(KnowledgeDownloadItem *)downloadItem didProgress:(float)progress;
+// 下载成功/失败
+- (void)knowledgeDownloadItem:(KnowledgeDownloadItem *)downloadItem didFinish:(BOOL)success response:(id)response;
+
+@end
+
+
+
+
 @interface KnowledgeDownloadManager : NSObject
+
+#pragma mark - delegate
+@property (nonatomic, copy) id<KnowledgeDownloadManagerDelegate> delegate;
 
 #pragma mark - singleton
 // singleton
@@ -18,7 +37,7 @@
 #pragma mark - download
 // 开始下载
 - (BOOL)startDownload:(KnowledgeDownloadItem *)downloadItem;
-- (BOOL)startDownloadWithTitle:(NSString *)title andDesc:(NSString *)desc andDownloadUrl:(NSURL *)downloadUrl andSavePath:(NSString *)savePath;
+- (BOOL)startDownloadWithTitle:(NSString *)title andDesc:(NSString *)desc andDownloadUrl:(NSURL *)downloadUrl andSavePath:(NSString *)savePath andTag:(NSString *)tag;
 
 // 暂停下载
 - (BOOL)pauseDownloadWithId:(NSString *)downloadItemId;

@@ -10,7 +10,9 @@
 
 @interface MD5Util : NSObject
 
-// 计算originalStr的mdt
+// 计算字符串的md5
 + (NSString *)md5ForString:(NSString *)originalStr;
+// 计算文件的md5
++ (NSString*)md5ForFile:(NSString*)path;
 
 @end

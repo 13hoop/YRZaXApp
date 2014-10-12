@@ -77,4 +77,16 @@
     return ret;
 }
 
+// 删除文件夹
++ (BOOL)deletePath:(NSString *)filePath {
+    BOOL isDir = NO;
+    BOOL existed = [[NSFileManager defaultManager] fileExistsAtPath:filePath isDirectory:&isDir];
+    if (!existed) {
+        return YES;
+    }
+    
+    return [[NSFileManager defaultManager] removeItemAtPath:filePath error:nil];
+}
+
+
 @end

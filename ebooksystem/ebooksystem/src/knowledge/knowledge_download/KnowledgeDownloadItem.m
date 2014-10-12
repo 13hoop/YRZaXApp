@@ -21,6 +21,7 @@
 
 @implementation KnowledgeDownloadItem
 
+@synthesize delegate = _delegate;
 @synthesize itemId = _itemId;
 @synthesize title = _title;
 @synthesize desc = _desc;
@@ -36,6 +37,9 @@
 @synthesize createTime = _createTime;
 @synthesize startTime = _startTime;
 @synthesize endTime = _endTime;
+
+@synthesize tag = _tag;
+
 
 #pragma mark - properties
 // 下载进度. 50%中的数字50;
@@ -58,7 +62,7 @@
 }
 
 #pragma mark - init
-- (KnowledgeDownloadItem *)initWithItemId:(NSString *)itemId andTitle:(NSString *)title andDesc:(NSString *)desc andDownloadUrl:(NSURL *)downloadUrl andSavePath:(NSString *)savePath {
+- (KnowledgeDownloadItem *)initWithItemId:(NSString *)itemId andTitle:(NSString *)title andDesc:(NSString *)desc andDownloadUrl:(NSURL *)downloadUrl andSavePath:(NSString *)savePath andTag:(NSString *)tag {
     self.itemId = itemId;
     self.title = title;
     self.desc = desc;
@@ -66,6 +70,8 @@
     self.savePath = savePath;
     
     self.createTime = [NSDate date];
+    
+    self.tag = tag;
     
     return self;
 }
@@ -76,6 +82,7 @@
     
     [IADownloadManager attachListener:self toURL:self.downloadUrl];
     
+    self.startTime = [NSDate date];
     return YES;
 }
 
@@ -92,26 +99,42 @@
 - (BOOL)stopDownload {
     [IADownloadManager stopDownloadingItemWithURL:self.downloadUrl];
     [IADownloadManager detachObjectFromListening:self];
+    
+    self.endTime = [NSDate date];
     return YES;
 }
 
 - (BOOL)cancelDownload {
     [self stopDownload];
+    self.endTime = [NSDate date];
+    
     return YES;
 }
 
 #pragma mark - IADownloadManagerDelegate methods
 - (void) downloadManagerDidProgress:(float)progress {
     self.downloadProgress = [NSNumber numberWithFloat:progress];
-    NSLog(@"download item, id %@, title %@, progress: %@", self.itemId, self.title, self.downloadProgress);
+//    NSLog(@"download item, id %@, title %@, progress: %@", self.itemId, self.title, self.downloadProgress);
+    
+    // 通知delegate
+    if (self.delegate) {
+        [self.delegate knowledgeDownloadItem:self didProgress:progress];
+    }
 }
 
 - (void) downloadManagerDidFinish:(BOOL)success response:(id)response {
     if (success) {
         self.downloadSize = self.totalSize;
         self.downladFinished = YES;
-        NSLog(@"download item, id %@, title %@, finished", self.itemId, self.title);
+//        NSLog(@"download item, id %@, title %@, finished", self.itemId, self.title);
         [IADownloadManager detachObjectFromListening:self];
+    }
+    
+    self.endTime = [NSDate date];
+    
+    // 通知delegate
+    if (self.delegate) {
+        [self.delegate knowledgeDownloadItem:self didFinish:success response:response];
     }
 }
 

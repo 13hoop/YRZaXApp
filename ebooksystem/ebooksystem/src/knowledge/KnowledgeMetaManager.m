@@ -7,8 +7,9 @@
 //
 
 #import "KnowledgeMetaManager.h"
-#import "KnowledgeMeta.h"
+
 #import "KnowledgeSearchReverseInfo.h"
+
 #import "CoreDataUtil.h"
 
 
@@ -226,6 +227,20 @@
     return YES;
 }
 
+// delete knowledge meta
+- (BOOL)deleteKnowledgeMetaWithDataId:(NSString *)dataId andDataType:(DataType)dataType {
+    NSArray *knowledgeMetaEntities = [self getKnowledgeMetaWithDataId:dataId andDataType:dataType];
+    if (knowledgeMetaEntities == nil || knowledgeMetaEntities.count <= 0) {
+        return YES; // nothing to delete, return YES
+    }
+    
+    for (id entity in knowledgeMetaEntities) {
+        [[CoreDataUtil instance].managedObjectContext deleteObject:entity];
+    }
+    
+    return YES;
+}
+
 #pragma mark - get knowledge meta
 // get knowledge metas
 - (NSArray *)getKnowledgeMetaWithDataId:(NSString *)dataId andDataType:(DataType)dataType {
@@ -256,6 +271,46 @@
         return nil;
     }
     return metaArray;
+}
+
+#pragma mark - setter
+- (BOOL)setData:(NSString *)dataId toStatus:(DataStatus)status {
+    if (dataId == nil) {
+        return YES; // nothing to save, return YES
+    }
+    
+    BOOL saved = NO;
+    // 1. try update if exists
+    {
+        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+        
+        // Entity
+        NSEntityDescription *entity = [NSEntityDescription entityForName:@"KnowledgeMetaEntity" inManagedObjectContext:[CoreDataUtil instance].managedObjectContext];
+        [fetchRequest setEntity:entity];
+        
+        // Predicate
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"dataId==%@ and dataType=%@", dataId, [NSNumber numberWithInteger:DATA_TYPE_DATA_SOURCE]];
+        [fetchRequest setPredicate:predicate];
+        
+        NSError *error = nil;
+        NSArray *fetchedObjects = [[CoreDataUtil instance].managedObjectContext executeFetchRequest:fetchRequest error:&error];
+        if (fetchedObjects != nil &&
+            fetchedObjects.count > 0) {
+            // 若已有, 更新
+            for (NSManagedObject *entity in fetchedObjects) {
+                [entity setValue:[NSNumber numberWithInteger:status] forKey:@"dataStatus"];
+                
+                if (![[CoreDataUtil instance].managedObjectContext save:&error]) {
+                    NSLog(@"[KnowledgeMetaManager::setData:toStatus] update failed when save to context, error: %@", [error localizedDescription]);
+                    return NO;
+                }
+            }
+            
+            saved = YES;
+        }
+    }
+    
+    return saved;
 }
 
 @end

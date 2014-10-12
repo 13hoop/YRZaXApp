@@ -29,4 +29,7 @@
 // 注: 此函数在拷贝时, 会将fromPath中的文件全部拷贝至toPath, 但toPath中原有的而在fromPath中没有的, 不会被覆盖
 + (BOOL)copyFilesFromPath:(NSString *)fromPath toPath:(NSString *)toPath;
 
+// 删除文件夹
++ (BOOL)deletePath:(NSString *)filePath;
+
 @end

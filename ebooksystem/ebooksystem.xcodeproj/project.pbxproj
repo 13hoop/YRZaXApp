@@ -108,6 +108,12 @@
 		7134FB2019E4D952004AB7A8 /* KnowledgeDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7134FB1F19E4D952004AB7A8 /* KnowledgeDataManager.m */; };
 		7134FB2319E4DE4E004AB7A8 /* KnowledgeSearchManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7134FB2219E4DE4E004AB7A8 /* KnowledgeSearchManager.m */; };
 		713D863E19E91654006446D5 /* DateUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 713D863D19E91654006446D5 /* DateUtil.m */; };
+		713D864419EA96DD006446D5 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 713D864119EA96DD006446D5 /* README.md */; };
+		713D864519EA96DD006446D5 /* ZipArchive.mm in Sources */ = {isa = PBXBuildFile; fileRef = 713D864319EA96DD006446D5 /* ZipArchive.mm */; };
+		713D864F19EA96ED006446D5 /* ioapi.c in Sources */ = {isa = PBXBuildFile; fileRef = 713D864719EA96ED006446D5 /* ioapi.c */; };
+		713D865019EA96ED006446D5 /* mztools.c in Sources */ = {isa = PBXBuildFile; fileRef = 713D864919EA96ED006446D5 /* mztools.c */; };
+		713D865119EA96ED006446D5 /* unzip.c in Sources */ = {isa = PBXBuildFile; fileRef = 713D864B19EA96ED006446D5 /* unzip.c */; };
+		713D865219EA96ED006446D5 /* zip.c in Sources */ = {isa = PBXBuildFile; fileRef = 713D864D19EA96ED006446D5 /* zip.c */; };
 		7159EC5719E4373C00288CF2 /* CoreDataUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 7159EC5619E4373C00288CF2 /* CoreDataUtil.m */; };
 		715EE96E19E526D7005A4F78 /* CommonWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 715EE96D19E526D7005A4F78 /* CommonWebViewController.m */; };
 		715EE97719E52749005A4F78 /* BaseTitleBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 715EE97219E52749005A4F78 /* BaseTitleBar.m */; };
@@ -350,6 +356,18 @@
 		7134FB2219E4DE4E004AB7A8 /* KnowledgeSearchManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KnowledgeSearchManager.m; path = src/knowledge/KnowledgeSearchManager.m; sourceTree = "<group>"; };
 		713D863C19E91654006446D5 /* DateUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DateUtil.h; path = src/util/DateUtil.h; sourceTree = "<group>"; };
 		713D863D19E91654006446D5 /* DateUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DateUtil.m; path = src/util/DateUtil.m; sourceTree = "<group>"; };
+		713D864119EA96DD006446D5 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = README.md; path = depends/ZipArchive/README.md; sourceTree = "<group>"; };
+		713D864219EA96DD006446D5 /* ZipArchive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZipArchive.h; path = depends/ZipArchive/ZipArchive.h; sourceTree = "<group>"; };
+		713D864319EA96DD006446D5 /* ZipArchive.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = ZipArchive.mm; path = depends/ZipArchive/ZipArchive.mm; sourceTree = "<group>"; };
+		713D864619EA96ED006446D5 /* crypt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = crypt.h; path = depends/ZipArchive/minizip/crypt.h; sourceTree = "<group>"; };
+		713D864719EA96ED006446D5 /* ioapi.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = ioapi.c; path = depends/ZipArchive/minizip/ioapi.c; sourceTree = "<group>"; };
+		713D864819EA96ED006446D5 /* ioapi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ioapi.h; path = depends/ZipArchive/minizip/ioapi.h; sourceTree = "<group>"; };
+		713D864919EA96ED006446D5 /* mztools.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = mztools.c; path = depends/ZipArchive/minizip/mztools.c; sourceTree = "<group>"; };
+		713D864A19EA96ED006446D5 /* mztools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mztools.h; path = depends/ZipArchive/minizip/mztools.h; sourceTree = "<group>"; };
+		713D864B19EA96ED006446D5 /* unzip.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = unzip.c; path = depends/ZipArchive/minizip/unzip.c; sourceTree = "<group>"; };
+		713D864C19EA96ED006446D5 /* unzip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = unzip.h; path = depends/ZipArchive/minizip/unzip.h; sourceTree = "<group>"; };
+		713D864D19EA96ED006446D5 /* zip.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = zip.c; path = depends/ZipArchive/minizip/zip.c; sourceTree = "<group>"; };
+		713D864E19EA96ED006446D5 /* zip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = zip.h; path = depends/ZipArchive/minizip/zip.h; sourceTree = "<group>"; };
 		7159EC5519E4373C00288CF2 /* CoreDataUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CoreDataUtil.h; path = src/util/CoreDataUtil.h; sourceTree = "<group>"; };
 		7159EC5619E4373C00288CF2 /* CoreDataUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CoreDataUtil.m; path = src/util/CoreDataUtil.m; sourceTree = "<group>"; };
 		715EE96C19E526D7005A4F78 /* CommonWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CommonWebViewController.h; path = src/common/web/controller/CommonWebViewController.h; sourceTree = "<group>"; };
@@ -982,6 +1000,33 @@
 			name = model;
 			sourceTree = "<group>";
 		};
+		713D863F19EA96BB006446D5 /* ZipArchive */ = {
+			isa = PBXGroup;
+			children = (
+				713D864019EA96C7006446D5 /* minizip */,
+				713D864119EA96DD006446D5 /* README.md */,
+				713D864219EA96DD006446D5 /* ZipArchive.h */,
+				713D864319EA96DD006446D5 /* ZipArchive.mm */,
+			);
+			name = ZipArchive;
+			sourceTree = "<group>";
+		};
+		713D864019EA96C7006446D5 /* minizip */ = {
+			isa = PBXGroup;
+			children = (
+				713D864619EA96ED006446D5 /* crypt.h */,
+				713D864719EA96ED006446D5 /* ioapi.c */,
+				713D864819EA96ED006446D5 /* ioapi.h */,
+				713D864919EA96ED006446D5 /* mztools.c */,
+				713D864A19EA96ED006446D5 /* mztools.h */,
+				713D864B19EA96ED006446D5 /* unzip.c */,
+				713D864C19EA96ED006446D5 /* unzip.h */,
+				713D864D19EA96ED006446D5 /* zip.c */,
+				713D864E19EA96ED006446D5 /* zip.h */,
+			);
+			name = minizip;
+			sourceTree = "<group>";
+		};
 		715EE96F19E526E1005A4F78 /* web */ = {
 			isa = PBXGroup;
 			children = (
@@ -1243,6 +1288,7 @@
 		71860C1019DE941700D01AA9 /* depends */ = {
 			isa = PBXGroup;
 			children = (
+				713D863F19EA96BB006446D5 /* ZipArchive */,
 				715EE99919E83286005A4F78 /* JSONModel */,
 				715EE97A19E594C6005A4F78 /* WebViewJavascriptBridge */,
 				710C036E19E1C97A00C27A33 /* UIDevice-with-UniqueIdentifier-for-iOS-5 */,
@@ -1408,6 +1454,7 @@
 				710C02FA19E1C8A200C27A33 /* LICENSE in Resources */,
 				715EE97E19E594D9005A4F78 /* WebViewJavascriptBridge.js.txt in Resources */,
 				06A8F50A19E8DE7F003D673E /* UMContactViewController.xib in Resources */,
+				713D864419EA96DD006446D5 /* README.md in Resources */,
 				710C02C119E054B700C27A33 /* res in Resources */,
 				710C02BD19E0547600C27A33 /* storyboard_main_iphone.storyboard in Resources */,
 				0690782519CFD62700CD9C3D /* InfoPlist.strings in Resources */,
@@ -1473,6 +1520,7 @@
 				06A8F51719E8DE7F003D673E /* MoreViewController.m in Sources */,
 				715EE9C119E839F6005A4F78 /* CryptUtil.m in Sources */,
 				06A8F51C19E8DE7F003D673E /* CustomViewCellTableViewCell.m in Sources */,
+				713D865019EA96ED006446D5 /* mztools.c in Sources */,
 				715EE9AD19E8330C005A4F78 /* NSArray+JSONModel.m in Sources */,
 				710C035819E1C90E00C27A33 /* SBJsonStreamWriter.m in Sources */,
 				06A8F50F19E8DE7F003D673E /* UMFeedbackTableViewCellRight.m in Sources */,
@@ -1508,12 +1556,15 @@
 				710C032D19E1C8D000C27A33 /* AFURLConnectionOperation.m in Sources */,
 				710C03A819E397B200C27A33 /* KnowledgeMetaManager.m in Sources */,
 				06A8F51219E8DE7F003D673E /* CustomLoginNavgationBar.m in Sources */,
+				713D865219EA96ED006446D5 /* zip.c in Sources */,
 				710C031119E1C8B600C27A33 /* UIImageView+AFNetworking.m in Sources */,
 				06A8F51E19E8DE7F003D673E /* RegisterModel.m in Sources */,
+				713D865119EA96ED006446D5 /* unzip.c in Sources */,
 				710C037319E1C98B00C27A33 /* NSString+MD5Addition.m in Sources */,
 				710C035619E1C90E00C27A33 /* SBJsonStreamParserAdapter.m in Sources */,
 				710C02C719E189A200C27A33 /* DrawableConfig.m in Sources */,
 				710C032B19E1C8D000C27A33 /* AFNetworkReachabilityManager.m in Sources */,
+				713D864519EA96DD006446D5 /* ZipArchive.mm in Sources */,
 				710C035C19E1C90E00C27A33 /* SBJsonUTF8Stream.m in Sources */,
 				06A8F51119E8DE7F003D673E /* CustomLoginModel.m in Sources */,
 				713D863E19E91654006446D5 /* DateUtil.m in Sources */,
@@ -1532,6 +1583,7 @@
 				710C032C19E1C8D000C27A33 /* AFSecurityPolicy.m in Sources */,
 				06A8F51019E8DE7F003D673E /* LoginViewController.m in Sources */,
 				715EE9A619E832ED005A4F78 /* JSONModel.m in Sources */,
+				713D864F19EA96ED006446D5 /* ioapi.c in Sources */,
 				710C038E19E2644900C27A33 /* PathUtil.m in Sources */,
 				710C035219E1C90E00C27A33 /* NSObject+SBJson.m in Sources */,
 				710C031219E1C8B600C27A33 /* UIProgressView+AFNetworking.m in Sources */,
