@@ -28,7 +28,7 @@
 @interface KnowledgeDownloadManager : NSObject
 
 #pragma mark - delegate
-@property (nonatomic, copy) id<KnowledgeDownloadManagerDelegate> delegate;
+@property (nonatomic, retain) id<KnowledgeDownloadManagerDelegate> delegate;
 
 #pragma mark - singleton
 // singleton

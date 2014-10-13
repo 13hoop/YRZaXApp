@@ -117,7 +117,7 @@
 //    NSLog(@"download item, id %@, title %@, progress: %@", self.itemId, self.title, self.downloadProgress);
     
     // 通知delegate
-    if (self.delegate) {
+    if (self.delegate && [self.delegate respondsToSelector:@selector(knowledgeDownloadItem:didProgress:)]) {
         [self.delegate knowledgeDownloadItem:self didProgress:progress];
     }
 }
@@ -133,7 +133,7 @@
     self.endTime = [NSDate date];
     
     // 通知delegate
-    if (self.delegate) {
+    if (self.delegate && [self.delegate respondsToSelector:@selector(knowledgeDownloadItem:didFinish:response:)]) {
         [self.delegate knowledgeDownloadItem:self didFinish:success response:response];
     }
 }

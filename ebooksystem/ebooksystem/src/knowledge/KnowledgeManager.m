@@ -117,7 +117,7 @@
         }
         
         // 若为meta.json
-        if ([fullPath hasSuffix:@"meta.json"]) {
+        if ([fullPath hasSuffix:[Config instance].knowledgeDataConfig.knowledgeMetaFilename]) {
             // 构造KnowledgeMeta对象
             NSArray *knowledgeMetas = [[KnowledgeMetaManager instance] loadKnowledgeMeta:fullPath];
             if (knowledgeMetas == nil || knowledgeMetas.count <= 0) {

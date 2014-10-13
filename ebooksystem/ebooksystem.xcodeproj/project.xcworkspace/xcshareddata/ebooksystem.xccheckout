@@ -10,31 +10,48 @@
 	<string>ebooksystem</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>855E3601-7F03-4D76-A59F-6540810122FB</key>
+		<key>2A8A29A3E5A450A6F322167DF959681AC7BC690E</key>
 		<string>ssh://118.244.235.155:22000/app-ios-ebooksystem.git</string>
+		<key>8fb29d72-f352-44e4-b356-548a4d6ac5c3++6670</key>
+		<string>http://10.20.0.15/project/cn/ChiefSign/src/MOA2.0/MOA/MOA/Classes/Utility/Security</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>ebooksystem/ebooksystem.xcodeproj/project.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>855E3601-7F03-4D76-A59F-6540810122FB</key>
+		<key>2A8A29A3E5A450A6F322167DF959681AC7BC690E</key>
 		<string>../../..</string>
+		<key>8fb29d72-f352-44e4-b356-548a4d6ac5c3++6670</key>
+		<string>../../../ebooksystem/ebooksystem/depends/Security</string>
+	</dict>
+	<key>IDESourceControlProjectRepositoryRootDictionary</key>
+	<dict>
+		<key>8fb29d72-f352-44e4-b356-548a4d6ac5c3++6670</key>
+		<string>http://10.20.0.15/project/cn/ChiefSign</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
 	<string>ssh://118.244.235.155:22000/app-ios-ebooksystem.git</string>
 	<key>IDESourceControlProjectVersion</key>
-	<integer>110</integer>
+	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>855E3601-7F03-4D76-A59F-6540810122FB</string>
+	<string>2A8A29A3E5A450A6F322167DF959681AC7BC690E</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>855E3601-7F03-4D76-A59F-6540810122FB</string>
+			<string>2A8A29A3E5A450A6F322167DF959681AC7BC690E</string>
 			<key>IDESourceControlWCCName</key>
 			<string>app-ios-ebooksystem</string>
+		</dict>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.subversion</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>8fb29d72-f352-44e4-b356-548a4d6ac5c3++6670</string>
+			<key>IDESourceControlWCCName</key>
+			<string>Security</string>
 		</dict>
 	</array>
 </dict>

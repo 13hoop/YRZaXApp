@@ -24,22 +24,27 @@
 
 #pragma mark - data related properties
 // knowledge data init mode
-@property(nonatomic, copy) NSString *keyForKnowledgeDataInitedFlag;
+@property (nonatomic, copy) NSString *keyForKnowledgeDataInitedFlag;
 
 // knowledge data root path in assets
-@property(nonatomic, copy) NSString *knowledgeDataRootPathInAssets;
+@property (nonatomic, copy) NSString *knowledgeDataRootPathInAssets;
 
 // knowledge data root path in sandbox
-@property(nonatomic, copy) NSString *knowledgeDataRootPathInDocuments;
+@property (nonatomic, copy) NSString *knowledgeDataRootPathInDocuments;
 
 // knowledge data download root path in sandbox
-@property(nonatomic, copy, readonly) NSString *knowledgeDataDownloadRootPathInDocuments;
+@property (nonatomic, copy, readonly) NSString *knowledgeDataDownloadRootPathInDocuments;
+
+// knowledge data filename
+@property (nonatomic, copy, readonly) NSString *knowledgeDataFilename;
+// knowledge meta filename
+@property (nonatomic, copy, readonly) NSString *knowledgeMetaFilename;
 
 // knowledge data init mode
-@property(nonatomic, assign) KnowledgeDataInitMode knowledgeDataInitMode;
+@property (nonatomic, assign) KnowledgeDataInitMode knowledgeDataInitMode;
 
 // knowledge data updater
-@property(nonatomic, assign) int knowledgeUpdateCheckIntervalInMs;
+@property (nonatomic, assign) int knowledgeUpdateCheckIntervalInMs;
 
 
 #pragma mark - methods

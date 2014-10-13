@@ -10,6 +10,7 @@
 #import "UUIDUtil.h"
 
 
+
 @interface KnowledgeDownloadManager() <KnowledgeDownloadItemDelegate> {
     
 }
@@ -89,6 +90,9 @@
     KnowledgeDownloadItem *downloadItem = [[KnowledgeDownloadItem alloc] initWithItemId:itemId andTitle:title andDesc:desc andDownloadUrl:downloadUrl andSavePath:savePath andTag:tag];
     [self.downloadItems setObject:downloadItem forKey:downloadItem.itemId];
     
+    // set delegate
+    [downloadItem setDelegate:self];
+    
     // 启动下载
     return [downloadItem startDownload];
 }
@@ -138,14 +142,14 @@
 
 // 下载进度
 - (void)knowledgeDownloadItem:(KnowledgeDownloadItem *)downloadItem didProgress:(float)progress {
-    if (self.delegate) {
+    if (self.delegate && [self.delegate respondsToSelector:@selector(knowledgeDownloadItem:didProgress:)]) {
         [self.delegate knowledgeDownloadItem:downloadItem didProgress:progress];
     }
 }
 
 // 下载成功/失败
 - (void)knowledgeDownloadItem:(KnowledgeDownloadItem *)downloadItem didFinish:(BOOL)success response:(id)response {
-    if (self.delegate) {
+    if (self.delegate && [self.delegate respondsToSelector:@selector(knowledgeDownloadItem:didFinish:response:)]) {
         [self.delegate knowledgeDownloadItem:downloadItem didFinish:success response:response];
     }
 }

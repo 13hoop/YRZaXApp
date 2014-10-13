@@ -26,7 +26,7 @@
 
 #pragma mark - properties
 // delegate
-@property (nonatomic, copy) id<KnowledgeDownloadItemDelegate> delegate;
+@property (nonatomic, retain) id<KnowledgeDownloadItemDelegate> delegate;
 
 
 @property (nonatomic, copy) NSString *itemId;

@@ -31,6 +31,9 @@
 @synthesize knowledgeDataRootDirName = _knowledgeDataRootDirName;
 @synthesize knowledgeDataDownloadRootPathInDocuments = _knowledgeDataDownloadRootPathInDocuments;
 
+@synthesize knowledgeDataFilename = _knowledgeDataFilename;
+@synthesize knowledgeMetaFilename = _knowledgeMetaFilename;
+
 @synthesize knowledgeDataInitMode = _knowledgeDataInitMode;
 @synthesize knowledgeUpdateCheckIntervalInMs = _knowledgeUpdateCheckIntervalInMs;
 
@@ -102,6 +105,14 @@
 
 - (NSString *)knowledgeDataDownloadRootDirName {
     return @"download";
+}
+
+- (NSString *)knowledgeDataFilename {
+    return @"data.json";
+}
+
+- (NSString *)knowledgeMetaFilename {
+    return @"meta.json";
 }
 
 - (KnowledgeDataInitMode)knowledgeDataInitMode {

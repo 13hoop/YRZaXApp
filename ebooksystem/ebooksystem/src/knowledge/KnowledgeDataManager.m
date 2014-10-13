@@ -53,13 +53,14 @@
 @synthesize lastError;
 
 
-
 #pragma mark - singleton
 + (KnowledgeDataManager *)instance {
     static KnowledgeDataManager *sharedInstance = nil;
     static dispatch_once_t predicate;
     dispatch_once(&predicate, ^{
         sharedInstance = [[KnowledgeDataManager alloc] init];
+        
+        [[KnowledgeDownloadManager instance] setDelegate:sharedInstance];
     });
     
     return sharedInstance;
@@ -318,13 +319,14 @@
             NSEnumerator *enumerator = [lines objectEnumerator];
             NSString *curLine = nil;
             while ((curLine = [enumerator nextObject]) != nil) {
-                NSArray *fields = [curLine componentsSeparatedByString:@"\t"];
+//                NSArray *fields = [curLine componentsSeparatedByString:@"\t"];
+                NSArray *fields = [curLine componentsSeparatedByString:@" "]; // md5.txt中的字段由空格分隔
                 if (fields == nil || fields.count < 2) {
                     continue;
                 }
                 
                 NSString *md5FromServer = [fields objectAtIndex:0];
-                NSString *filename = [NSString stringWithFormat:@"%@/%@", unpackPath, [fields objectAtIndex:1]];
+                NSString *filename = [NSString stringWithFormat:@"%@/%@", unpackPath, [fields objectAtIndex:fields.count - 1]];
                 
                 NSString *md5FromApp = [MD5Util md5ForFile:filename];
                 
@@ -441,7 +443,7 @@
             NSString *operationPath = [fields objectAtIndex:1];
             NSInteger operationType = [[fields objectAtIndex:2] intValue];
             
-            NSString *fullMetaFilePath = [NSString stringWithFormat:@"%@/%@/%@", unpackedDataPath, dataDirname, operationPath];
+            NSString *fullMetaFilePath = [NSString stringWithFormat:@"%@/%@/%@/%@", unpackedDataPath, dataDirname, operationPath, [Config instance].knowledgeDataConfig.knowledgeMetaFilename];
             
             
             // 1.2 check whether meta file exists
@@ -579,7 +581,7 @@
     // log
     {
         NSString *info = nil;
-        if (!success) {
+        if (success) {
             info = @" successfully";
         }
         else {

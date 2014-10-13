@@ -62,7 +62,7 @@
     const void *vinitVec = (const void *) [self.iv UTF8String];
     
     // kCCAlgorithmAES128
-    CCCryptorStatus ccStatus = CCCrypt(kCCEncrypt,
+    CCCryptorStatus cryptStatus = CCCrypt(kCCEncrypt,
                        kCCAlgorithmAES128,
                        0x0000, // no padding
 //                       kCCOptionPKCS7Padding,
@@ -75,8 +75,12 @@
                        encryptedBufferSize,
                        &numBytesCrypted);
     
-    NSData *myData = [NSData dataWithBytes:(const void *)encryptedBuffer length:(NSUInteger)numBytesCrypted];
-	NSString *result = [GTMBase64 stringByEncodingData:myData];
+    NSString *result = nil;
+    if (cryptStatus == kCCSuccess) {
+        NSData *myData = [NSData dataWithBytes:(const void *)encryptedBuffer length:(NSUInteger)numBytesCrypted];
+        result = [GTMBase64 stringByEncodingData:myData];
+    }
+    
     return result;
 }
 
@@ -102,7 +106,7 @@
     const void *vinitVec = (const void *) [self.iv UTF8String];
     
     // kCCAlgorithmAES128
-    CCCryptorStatus ccStatus = CCCrypt(kCCDecrypt,
+    CCCryptorStatus cryptStatus = CCCrypt(kCCDecrypt,
                        kCCAlgorithmAES128,
                        0x00, // no padding
 //                       kCCOptionPKCS7Padding,
@@ -115,7 +119,10 @@
                        decryptedBufferSize,
                        &numBytesDecrypted);
     
-    NSString *result = [[NSString alloc] initWithData:[NSData dataWithBytes:(const void *)decryptedBuffer length:(NSUInteger)numBytesDecrypted] encoding:NSUTF8StringEncoding];
+    NSString *result = nil;
+    if (cryptStatus == kCCSuccess) {
+        result = [[NSString alloc] initWithData:[NSData dataWithBytes:(const void *)decryptedBuffer length:(NSUInteger)numBytesDecrypted] encoding:NSUTF8StringEncoding];
+    }
     
     return result;
 }

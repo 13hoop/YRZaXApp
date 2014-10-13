@@ -37,9 +37,6 @@
 // 更新webview
 - (BOOL)updateWebView;
 
-// 注入对象, 方法等到页面中
-- (BOOL)injectJS;
-
 // update navigation bar
 - (void)updateNavigationBar;
 

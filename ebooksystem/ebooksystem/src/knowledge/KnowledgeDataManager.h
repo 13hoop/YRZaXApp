@@ -27,7 +27,7 @@
 @property (nonatomic, copy) NSString *lastError;
 
 #pragma mark - delegate
-@property (nonatomic, copy) id<KnowledgeDataStatusDelegate> dataStatusDelegate;
+@property (nonatomic, retain) id<KnowledgeDataStatusDelegate> dataStatusDelegate;
 
 
 #pragma mark - singleton
