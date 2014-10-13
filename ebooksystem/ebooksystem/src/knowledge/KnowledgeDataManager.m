@@ -173,6 +173,7 @@
             return nil;
         }
         
+        NSLog(@"encryptedContent: %@", encryptedContent);
         [data setValue:encryptedContent forKey:@"data"];
     }
     
@@ -250,126 +251,136 @@
 
 // 数据包下载后的后续操作, 包括: 解包, 拷贝文件, 更新数据库等
 - (BOOL)processDownloadedDataPack:(KnowledgeDownloadItem *)downloadItem {
-    // check
-    {
-        if (downloadItem == nil || downloadItem.savePath == nil || downloadItem.savePath.length <= 0) {
-            return NO;
-        }
-        
-        BOOL isDir = NO;
-        BOOL existed = [[NSFileManager defaultManager] fileExistsAtPath:downloadItem.savePath isDirectory:&isDir];
-        if (!existed) {
-            return NO;
-        }
-    }
-
     BOOL ret = YES;
-    NSLog(@"[KnowledgeDataManager] processDownloadedDataPack() started, file: %@", downloadItem.savePath);
-    
     NSMutableArray *zippedDataFiles = [[NSMutableArray alloc] init];
     
-    // 1. 解包
-    NSString *unpackPath = [NSString stringWithFormat:@"%@-unpack", downloadItem.savePath];
-    {
-        // 1.1 unzip
-        ZipArchive *za = [[ZipArchive alloc] init];
-        // 此处解包不需要密码
-//        ret = [za unzipOpenFile:downloadItem.savePath password:downloadItem.tag];
-        ret = [za unzipOpenFile:downloadItem.savePath];
-        if (!ret) {
-            NSLog(@"[KnowledgeDataManager] processDownloadedDataPack() failed, since failed to open zip file: %@", downloadItem.savePath);
-            ret = NO;
-            return NO;
-        }
-        
-        ret = [za unzipFileTo:unpackPath overwrite:YES];
-        if (!ret) {
-            NSLog(@"[KnowledgeDataManager] processDownloadedDataPack() failed, since failed to unzip zip file: %@", downloadItem.savePath);
-            ret = NO;
-            return NO;
-        }
-        
-        // 1.2 check whether unzip path exists
-        BOOL isDir = NO;
-        BOOL existed = [[NSFileManager defaultManager] fileExistsAtPath:unpackPath isDirectory:&isDir];
-        if (!existed) {
-            NSLog(@"[KnowledgeDataManager] processDownloadedDataPack() failed, since there is no unzip file after unzip. The zip file is: %@", downloadItem.savePath);
-            ret = NO;
-            return NO;
-        }
-        
-        // 1.3 check md5, and collect zipped data files
+    do {
+        // check
         {
-            NSError *error = nil;
-            NSString *md5File = [NSString stringWithFormat:@"%@/%@", unpackPath, @"md5.txt"];
-            NSString *md5FileContents = [NSString stringWithContentsOfFile:md5File encoding:NSUTF8StringEncoding error:&error];
-            if (md5FileContents == nil || md5FileContents.length <= 0) {
-                NSLog(@"[KnowledgeDataManager] processDownloadedDataPack() failed, invalid md5 file. The zip file is: %@", downloadItem.savePath);
+            if (downloadItem == nil || downloadItem.savePath == nil || downloadItem.savePath.length <= 0) {
                 ret = NO;
-                return NO;
-            }
-            
-            // check each file's md5
-            NSArray *lines = [md5FileContents componentsSeparatedByString:@"\n"];
-            if (lines == nil || lines.count <= 0) {
-                return nil;
-            }
-            
-            // 逐行解析
-            NSEnumerator *enumerator = [lines objectEnumerator];
-            NSString *curLine = nil;
-            while ((curLine = [enumerator nextObject]) != nil) {
-//                NSArray *fields = [curLine componentsSeparatedByString:@"\t"];
-                NSArray *fields = [curLine componentsSeparatedByString:@" "]; // md5.txt中的字段由空格分隔
-                if (fields == nil || fields.count < 2) {
-                    continue;
-                }
-                
-                NSString *md5FromServer = [fields objectAtIndex:0];
-                NSString *filename = [NSString stringWithFormat:@"%@/%@", unpackPath, [fields objectAtIndex:fields.count - 1]];
-                
-                NSString *md5FromApp = [MD5Util md5ForFile:filename];
-                
-                if (![md5FromApp isEqualToString:md5FromServer]) {
-                    NSLog(@"[KnowledgeDataManager] processDownloadedDataPack() failed, sice md5 check failed. The failed file is: %@", filename);
-                    ret = NO;
-                    return NO;
-                }
-                
-                [zippedDataFiles addObject:filename];
-            }
-        }
-    }
-    
-    if (zippedDataFiles == nil || zippedDataFiles.count <= 0) {
-        NSLog(@"[KnowledgeDataManager] processDownloadedDataPack() failed, since no zipped data files. The zip file is: %@", downloadItem.savePath);
-        ret = NO;
-        return NO;
-    }
-    
-    
-    // 2. 根据op.lst, 拷贝文件, 更新数据库
-    {
-        for (NSString *filename in zippedDataFiles) {
-            // check
-            if (filename == nil || filename.length <= 0) {
-                continue;
+                break;
             }
             
             BOOL isDir = NO;
-            BOOL existed = [[NSFileManager defaultManager] fileExistsAtPath:unpackPath isDirectory:&isDir];
+            BOOL existed = [[NSFileManager defaultManager] fileExistsAtPath:downloadItem.savePath isDirectory:&isDir];
             if (!existed) {
-                continue;
-            }
-            
-            // process
-            ret = [self processZippedDataFile:filename withDecryptKey:downloadItem.tag];
-            if (!ret) {
-                NSLog(@"[KnowledgeDataManager] processDownloadedDataPack() failed, since failed to process zipped data file: %@", filename);
+                ret = NO;
                 break;
             }
         }
-    }
+        
+        NSLog(@"[KnowledgeDataManager] processDownloadedDataPack() started, file: %@", downloadItem.savePath);
+        
+        // 1. 解包
+        NSString *unpackPath = [NSString stringWithFormat:@"%@-unpack", downloadItem.savePath];
+        {
+            // 1.1 unzip
+            ZipArchive *za = [[ZipArchive alloc] init];
+            // 此处解包不需要密码
+            //        ret = [za unzipOpenFile:downloadItem.savePath password:downloadItem.tag];
+            ret = [za unzipOpenFile:downloadItem.savePath];
+            if (!ret) {
+                NSLog(@"[KnowledgeDataManager] processDownloadedDataPack() failed, since failed to open zip file: %@", downloadItem.savePath);
+                ret = NO;
+                break;
+            }
+            
+            ret = [za unzipFileTo:unpackPath overwrite:YES];
+            if (!ret) {
+                NSLog(@"[KnowledgeDataManager] processDownloadedDataPack() failed, since failed to unzip zip file: %@", downloadItem.savePath);
+                ret = NO;
+                break;
+            }
+            
+            // 1.2 check whether unzip path exists
+            BOOL isDir = NO;
+            BOOL existed = [[NSFileManager defaultManager] fileExistsAtPath:unpackPath isDirectory:&isDir];
+            if (!existed) {
+                NSLog(@"[KnowledgeDataManager] processDownloadedDataPack() failed, since there is no unzip file after unzip. The zip file is: %@", downloadItem.savePath);
+                ret = NO;
+                break;
+            }
+            
+            // 1.3 check md5, and collect zipped data files
+            {
+                NSError *error = nil;
+                NSString *md5File = [NSString stringWithFormat:@"%@/%@", unpackPath, @"md5.txt"];
+                NSString *md5FileContents = [NSString stringWithContentsOfFile:md5File encoding:NSUTF8StringEncoding error:&error];
+                if (md5FileContents == nil || md5FileContents.length <= 0) {
+                    NSLog(@"[KnowledgeDataManager] processDownloadedDataPack() failed, invalid md5 file. The zip file is: %@", downloadItem.savePath);
+                    ret = NO;
+                    break;
+                }
+                
+                // check each file's md5
+                NSArray *lines = [md5FileContents componentsSeparatedByString:@"\n"];
+                if (lines == nil || lines.count <= 0) {
+                    ret = NO;
+                    break;
+                }
+                
+                // 逐行解析
+                NSEnumerator *enumerator = [lines objectEnumerator];
+                NSString *curLine = nil;
+                while ((curLine = [enumerator nextObject]) != nil) {
+                    //                NSArray *fields = [curLine componentsSeparatedByString:@"\t"];
+                    NSArray *fields = [curLine componentsSeparatedByString:@" "]; // md5.txt中的字段由空格分隔
+                    if (fields == nil || fields.count < 2) {
+                        continue;
+                    }
+                    
+                    NSString *md5FromServer = [fields objectAtIndex:0];
+                    NSString *filename = [NSString stringWithFormat:@"%@/%@", unpackPath, [fields objectAtIndex:fields.count - 1]];
+                    
+                    NSString *md5FromApp = [MD5Util md5ForFile:filename];
+                    
+                    if (![md5FromApp isEqualToString:md5FromServer]) {
+                        NSLog(@"[KnowledgeDataManager] processDownloadedDataPack() failed, sice md5 check failed. The failed file is: %@", filename);
+                        ret = NO;
+                        break;
+                    }
+                    
+                    [zippedDataFiles addObject:filename];
+                }
+            }
+        }
+        
+        if (zippedDataFiles == nil || zippedDataFiles.count <= 0) {
+            NSLog(@"[KnowledgeDataManager] processDownloadedDataPack() failed, since no zipped data files. The zip file is: %@", downloadItem.savePath);
+            ret = NO;
+            break;
+        }
+        
+        
+        // 2. 根据op.lst, 拷贝文件, 更新数据库
+        {
+            for (NSString *zippedDataFilename in zippedDataFiles) {
+                // check
+                if (zippedDataFilename == nil || zippedDataFilename.length <= 0) {
+                    continue;
+                }
+                
+                BOOL isDir = NO;
+                BOOL existed = [[NSFileManager defaultManager] fileExistsAtPath:unpackPath isDirectory:&isDir];
+                if (!existed) {
+                    continue;
+                }
+                
+                // process
+                ret = [self processZippedDataFile:zippedDataFilename withDecryptKey:downloadItem.tag];
+                if (!ret) {
+                    NSLog(@"[KnowledgeDataManager] processDownloadedDataPack() failed, since failed to process zipped data file: %@", zippedDataFilename);
+                    ret = NO;
+                    break;
+                }
+            }
+        }
+    } while (NO);
+    
+    // 3. 删除已下载的数据文件
+    [PathUtil deletePath:downloadItem.savePath];
+    NSLog(@"[KnowledgeDataManager] processDownloadedDataPack() deleted downloaded data file: %@", downloadItem.savePath);
     
     // 3. 返回
     NSLog(@"[KnowledgeDataManager] processDownloadedDataPack() end %@, file: %@", (ret ? @"successfully" : @"failed"), downloadItem.savePath);
@@ -380,96 +391,106 @@
 - (BOOL)processZippedDataFile:(NSString *)filename withDecryptKey:(NSString *)decryptedKey {
     BOOL ret = YES;
     
-    // 1. 解包
     NSString *unpackPath = [filename stringByDeletingLastPathComponent];
     NSString *unpackedDataPath = [filename stringByDeletingPathExtension];
-    {
-        // 1.1 unzip
-        ZipArchive *za = [[ZipArchive alloc] init];
-        BOOL ret = [za unzipOpenFile:filename password:decryptedKey];
-        if (!ret) {
-            NSLog(@"[KnowledgeDataManager] processZippedDataFile() failed, since failed to open zip file: %@", filename);
-            ret = NO;
-            return NO;
-        }
-        
-        ret = [za unzipFileTo:unpackPath overwrite:YES];
-        if (!ret) {
-            NSLog(@"[KnowledgeDataManager] processZippedDataFile() failed, since failed to unzip zip file: %@", filename);
-            ret = NO;
-            return NO;
-        }
-        
-        // 1.2 check whether unzip path exists
-        BOOL isDir = NO;
-        BOOL existed = [[NSFileManager defaultManager] fileExistsAtPath:unpackedDataPath isDirectory:&isDir];
-        if (!existed) {
-            NSLog(@"[KnowledgeDataManager] processZippedDataFile() failed, since there is no unzip file after unzip. The zip file is: %@", filename);
-            ret = NO;
-            return NO;
-        }
-    }
     
-    // 2. 根据op.lst, 进行相应的操作
-    NSString *operationFilename = @"op.lst";
-    NSString *dataDirname = @"node";
-    
-    NSString *fullOperationFilename = [NSString stringWithFormat:@"%@/%@", unpackedDataPath, operationFilename];
-    {
-        NSError *error = nil;
-        NSString *operationFileContents = [NSString stringWithContentsOfFile:fullOperationFilename encoding:NSUTF8StringEncoding error:&error];
-        if (operationFileContents == nil || operationFileContents.length <= 0) {
-            NSLog(@"[KnowledgeDataManager] processZippedDataFile() failed, invalid operation file: %@", fullOperationFilename);
-            ret = NO;
-            return NO;
-        }
-        
-        // check each file's md5
-        NSArray *lines = [operationFileContents componentsSeparatedByString:@"\n"];
-        if (lines == nil || lines.count <= 0) {
-            return nil;
-        }
-        
-        // 逐行解析
-        NSEnumerator *enumerator = [lines objectEnumerator];
-        NSString *curLine = nil;
-        while ((curLine = [enumerator nextObject]) != nil) {
-            NSArray *fields = [curLine componentsSeparatedByString:@"\t"];
-            if (fields == nil || fields.count < 3) {
-                continue;
+    NSLog(@"[KnowledgeDataManager] processZippedDataFile() started, file: %@", filename);
+    do {
+        // 1. 解包
+        {
+            // 1.1 unzip
+            ZipArchive *za = [[ZipArchive alloc] init];
+            BOOL ret = [za unzipOpenFile:filename password:decryptedKey];
+            if (!ret) {
+                NSLog(@"[KnowledgeDataManager] processZippedDataFile() failed, since failed to open zip file: %@", filename);
+                ret = NO;
+                break;
             }
             
-            NSString *dataName = [fields objectAtIndex:0];
-            NSString *operationPath = [fields objectAtIndex:1];
-            NSInteger operationType = [[fields objectAtIndex:2] intValue];
+            ret = [za unzipFileTo:unpackPath overwrite:YES];
+            if (!ret) {
+                NSLog(@"[KnowledgeDataManager] processZippedDataFile() failed, since failed to unzip zip file: %@", filename);
+                ret = NO;
+                return NO;
+            }
             
-            NSString *fullMetaFilePath = [NSString stringWithFormat:@"%@/%@/%@/%@", unpackedDataPath, dataDirname, operationPath, [Config instance].knowledgeDataConfig.knowledgeMetaFilename];
-            
-            
-            // 1.2 check whether meta file exists
+            // 1.2 check whether unzip path exists
             BOOL isDir = NO;
-            BOOL existed = [[NSFileManager defaultManager] fileExistsAtPath:fullMetaFilePath isDirectory:&isDir];
+            BOOL existed = [[NSFileManager defaultManager] fileExistsAtPath:unpackedDataPath isDirectory:&isDir];
             if (!existed) {
-                continue;
-            }
-            
-            
-            switch (operationType) {
-                case 0: // add or replace
-                    [self addOrReplaceData:fullMetaFilePath];
-                    break;
-                    
-                case 1: // delete
-                    [self deleteData:fullMetaFilePath];
-                    break;
-                    
-                default:
-                    break;
+                NSLog(@"[KnowledgeDataManager] processZippedDataFile() failed, since there is no unzip file after unzip. The zip file is: %@", filename);
+                ret = NO;
+                break;
             }
         }
-    }
+        
+        // 2. 根据op.lst, 进行相应的操作
+        NSString *operationFilename = @"op.lst";
+        NSString *dataDirname = @"node";
+        
+        NSString *fullOperationFilename = [NSString stringWithFormat:@"%@/%@", unpackedDataPath, operationFilename];
+        {
+            NSError *error = nil;
+            NSString *operationFileContents = [NSString stringWithContentsOfFile:fullOperationFilename encoding:NSUTF8StringEncoding error:&error];
+            if (operationFileContents == nil || operationFileContents.length <= 0) {
+                NSLog(@"[KnowledgeDataManager] processZippedDataFile() failed, invalid operation file: %@", fullOperationFilename);
+                ret = NO;
+                break;
+            }
+            
+            // check each file's md5
+            NSArray *lines = [operationFileContents componentsSeparatedByString:@"\n"];
+            if (lines == nil || lines.count <= 0) {
+                break;
+            }
+            
+            // 逐行解析
+            NSEnumerator *enumerator = [lines objectEnumerator];
+            NSString *curLine = nil;
+            while ((curLine = [enumerator nextObject]) != nil) {
+                NSArray *fields = [curLine componentsSeparatedByString:@"\t"];
+                if (fields == nil || fields.count < 3) {
+                    continue;
+                }
+                
+                NSString *dataName = [fields objectAtIndex:0];
+                NSString *operationPath = [fields objectAtIndex:1];
+                NSInteger operationType = [[fields objectAtIndex:2] intValue];
+                
+                NSString *fullMetaFilePath = [NSString stringWithFormat:@"%@/%@/%@/%@", unpackedDataPath, dataDirname, operationPath, [Config instance].knowledgeDataConfig.knowledgeMetaFilename];
+                
+                
+                // 1.2 check whether meta file exists
+                BOOL isDir = NO;
+                BOOL existed = [[NSFileManager defaultManager] fileExistsAtPath:fullMetaFilePath isDirectory:&isDir];
+                if (!existed) {
+                    continue;
+                }
+                
+                
+                switch (operationType) {
+                    case 0: // add or replace
+                        [self addOrReplaceData:fullMetaFilePath];
+                        break;
+                        
+                    case 1: // delete
+                        [self deleteData:fullMetaFilePath];
+                        break;
+                        
+                    default:
+                        break;
+                }
+            }
+        }
+    } while (NO);
     
-    return YES;
+    // 2. 删除unpacked文件夹
+    [PathUtil deletePath:unpackPath];
+    NSLog(@"[KnowledgeDataManager] processZippedDataFile() deleted unpacked data path: %@", unpackPath);
+    
+    // 3. 返回
+    NSLog(@"[KnowledgeDataManager] processZippedDataFile() end %@, file: %@", (ret ? @"successfully" : @"failed"), filename);
+    return ret;
 }
 
 // 添加或更新数据
