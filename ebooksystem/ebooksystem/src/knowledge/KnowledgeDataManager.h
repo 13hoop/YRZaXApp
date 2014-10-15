@@ -45,6 +45,9 @@
 // start downloading
 - (BOOL)startDownloadData:(NSString *)dataId;
 
+#pragma mark - data update
+// check data update
+- (BOOL)startCheckDataUpdate;
 
 
 @end

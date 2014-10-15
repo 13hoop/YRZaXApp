@@ -23,6 +23,9 @@
 // remote data fetch
 - (BOOL)getRemoteData:(NSString *)dataId;
 
+// check data update
+- (BOOL)startCheckDataUpdate;
+
 // local data search
 - (NSString *)searchLocalData:(NSString *)searchId;
 

@@ -47,7 +47,32 @@
     return sharedInstance;
 }
 
-#pragma mark - download
+#pragma mark - sync download
+- (BOOL)directDownloadWithUrl:(NSURL *)url andSavePath:(NSString *)savePath {
+    NSError *error = nil;
+    NSURLRequest *request = [NSURLRequest requestWithURL:url];
+    NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:&error];
+    if (data == nil) {
+        NSLog(@"[KnowledgeDownloadManager-directDownloadWithUrl:andSavePath:] failed to download url: %@, error: %@", url, error.localizedDescription);
+        return NO;
+    }
+    
+    NSString *parentPath = [savePath stringByDeletingLastPathComponent];
+    BOOL isDir = NO;
+    BOOL existed = [[NSFileManager defaultManager] fileExistsAtPath:parentPath isDirectory:&isDir];
+    if (!(isDir && existed)) {
+        [[NSFileManager defaultManager] createDirectoryAtPath:parentPath withIntermediateDirectories:YES attributes:nil error:nil];
+    }
+    
+    BOOL ret = [data writeToFile:savePath options:NSDataWritingAtomic error:&error];
+    if (!ret) {
+        NSLog(@"[KnowledgeDownloadManager-directDownloadWithUrl:andSavePath:] failed to write to file: %@, error: %@", savePath, error);
+    }
+    return ret;
+}
+
+
+#pragma mark - async download
 - (KnowledgeDownloadItem *)getDownloadItemById:(NSString *)itemId {
     if (itemId == nil) {
         return nil;

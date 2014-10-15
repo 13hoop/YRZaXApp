@@ -347,3 +347,59 @@
 
 
 
+/**
+ * 来自服务端的数据版本信息
+ */
+@implementation ServerDataVersionInfo
+
+@synthesize dataId;
+@synthesize dataNameEn;
+@synthesize dataLatestVersion;
+@synthesize appVersionMin;
+@synthesize appVersionMax;
+
++ (JSONKeyMapper*)keyMapper {
+    return [[JSONKeyMapper alloc] initWithJSONToModelBlock:^NSString *(NSString *keyName) {
+        if ([keyName isEqual:@"id"]) {
+            return @"dataId";
+        }
+        else if ([keyName isEqual:@"data_name_en"]) {
+            return @"dataNameEn";
+        }
+        else if ([keyName isEqual:@"version"]) {
+            return @"dataLatestVersion";
+        }
+        else if ([keyName isEqual:@"app_version_low"]) {
+            return @"appVersionMin";
+        }
+        else if ([keyName isEqual:@"app_version_high"]) {
+            return @"appVersionMax";
+        }
+        else {
+            return keyName;
+        }
+    }
+                                          modelToJSONBlock:^NSString *(NSString *keyName) {
+                                              if ([keyName isEqual:@"dataId"]) {
+                                                  return @"id";
+                                              }
+                                              else if ([keyName isEqual:@"dataNameEn"]) {
+                                                  return @"data_name_en";
+                                              }
+                                              else if ([keyName isEqual:@"dataLatestVersion"]) {
+                                                  return @"version";
+                                              }
+                                              else if ([keyName isEqual:@"appVersionMin"]) {
+                                                  return @"app_version_low";
+                                              }
+                                              else if ([keyName isEqual:@"appVersionMax"]) {
+                                                  return @"app_version_high";
+                                              }                                              else {
+                                                  return keyName;
+                                              }
+                                          }];
+}
+
+
+@end
+

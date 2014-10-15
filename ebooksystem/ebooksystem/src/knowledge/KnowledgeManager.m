@@ -260,7 +260,6 @@
     return nil;
 }
 
-#pragma mark -
 #pragma mark - remote data fetch
 
 // get remote data
@@ -314,6 +313,11 @@
     return searchResult;
 }
 
+#pragma mark - data update
+// check data update
+- (BOOL)startCheckDataUpdate {
+    return [[KnowledgeDataManager instance] startCheckDataUpdate];
+}
 
 #pragma mark -
 #pragma mark - test
@@ -339,9 +343,10 @@
     }
     
     // remote - download
-    BOOL ret = [self getRemoteData:dataId];
+//    BOOL ret = [self getRemoteData:dataId];
     
     // remote - update
+    BOOL ret = [self startCheckDataUpdate];
     
     NSLog(@"[KnowledgeManager - test()], end");
 }

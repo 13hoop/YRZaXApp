@@ -105,6 +105,7 @@
 		710C03A219E2EDB800C27A33 /* KnowledgeSearchEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 710C03A119E2EDB800C27A33 /* KnowledgeSearchEntity.m */; };
 		710C03A519E2F38E00C27A33 /* KnowledgeSearchReverseInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 710C03A419E2F38E00C27A33 /* KnowledgeSearchReverseInfo.m */; };
 		710C03A819E397B200C27A33 /* KnowledgeMetaManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 710C03A719E397B200C27A33 /* KnowledgeMetaManager.m */; };
+		7118EB2119ED1F80002CF833 /* AppUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 7118EB2019ED1F80002CF833 /* AppUtil.m */; };
 		7134FB2019E4D952004AB7A8 /* KnowledgeDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7134FB1F19E4D952004AB7A8 /* KnowledgeDataManager.m */; };
 		7134FB2319E4DE4E004AB7A8 /* KnowledgeSearchManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7134FB2219E4DE4E004AB7A8 /* KnowledgeSearchManager.m */; };
 		713D863E19E91654006446D5 /* DateUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 713D863D19E91654006446D5 /* DateUtil.m */; };
@@ -350,6 +351,8 @@
 		710C03A419E2F38E00C27A33 /* KnowledgeSearchReverseInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KnowledgeSearchReverseInfo.m; path = src/knowledge/KnowledgeSearchReverseInfo.m; sourceTree = "<group>"; };
 		710C03A619E397B200C27A33 /* KnowledgeMetaManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KnowledgeMetaManager.h; path = src/knowledge/KnowledgeMetaManager.h; sourceTree = "<group>"; };
 		710C03A719E397B200C27A33 /* KnowledgeMetaManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KnowledgeMetaManager.m; path = src/knowledge/KnowledgeMetaManager.m; sourceTree = "<group>"; };
+		7118EB1F19ED1F80002CF833 /* AppUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppUtil.h; path = src/util/AppUtil.h; sourceTree = "<group>"; };
+		7118EB2019ED1F80002CF833 /* AppUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppUtil.m; path = src/util/AppUtil.m; sourceTree = "<group>"; };
 		7134FB1E19E4D952004AB7A8 /* KnowledgeDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KnowledgeDataManager.h; path = src/knowledge/KnowledgeDataManager.h; sourceTree = "<group>"; };
 		7134FB1F19E4D952004AB7A8 /* KnowledgeDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KnowledgeDataManager.m; path = src/knowledge/KnowledgeDataManager.m; sourceTree = "<group>"; };
 		7134FB2119E4DE4E004AB7A8 /* KnowledgeSearchManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KnowledgeSearchManager.h; path = src/knowledge/KnowledgeSearchManager.h; sourceTree = "<group>"; };
@@ -1281,6 +1284,8 @@
 				715EE9C019E839F6005A4F78 /* CryptUtil.m */,
 				713D863C19E91654006446D5 /* DateUtil.h */,
 				713D863D19E91654006446D5 /* DateUtil.m */,
+				7118EB1F19ED1F80002CF833 /* AppUtil.h */,
+				7118EB2019ED1F80002CF833 /* AppUtil.m */,
 			);
 			name = util;
 			sourceTree = "<group>";
@@ -1383,6 +1388,7 @@
 				0690781119CFD62700CD9C3D /* Sources */,
 				0690781219CFD62700CD9C3D /* Frameworks */,
 				0690781319CFD62700CD9C3D /* Resources */,
+				7118EB2219EE242A002CF833 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -1476,6 +1482,22 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		7118EB2219EE242A002CF833 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [ $CONFIGURATION == Release ]; then\necho \"Bumping build number...\"\nplist=${PROJECT_DIR}/${INFOPLIST_FILE}\n\n#increment the build number (ie 115 to 116)\nbuildnum=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"${plist}\")\nif [[ \"${buildnum}\" == \"\" ]]; then\necho \"No build number in $plist\"\nexit 2\nfi\n\nbuildnum=$(expr $buildnum + 1)\n/usr/libexec/Plistbuddy -c \"Set CFBundleVersion $buildnum\" \"${plist}\"\necho \"Bumped build number to $buildnum\"\n\nelse\necho $CONFIGURATION \" build - Not bumping build number.\"\nfi";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		0690781119CFD62700CD9C3D /* Sources */ = {
@@ -1581,6 +1603,7 @@
 				710C032819E1C8D000C27A33 /* AFHTTPRequestOperation.m in Sources */,
 				715EE9B619E8331C005A4F78 /* JSONModel+networking.m in Sources */,
 				710C032C19E1C8D000C27A33 /* AFSecurityPolicy.m in Sources */,
+				7118EB2119ED1F80002CF833 /* AppUtil.m in Sources */,
 				06A8F51019E8DE7F003D673E /* LoginViewController.m in Sources */,
 				715EE9A619E832ED005A4F78 /* JSONModel.m in Sources */,
 				713D864F19EA96ED006446D5 /* ioapi.c in Sources */,

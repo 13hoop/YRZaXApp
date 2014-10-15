@@ -34,7 +34,10 @@
 // singleton
 + (KnowledgeDownloadManager *)instance;
 
-#pragma mark - download
+#pragma mark - sync download
+- (BOOL)directDownloadWithUrl:(NSURL *)url andSavePath:(NSString *)savePath;
+
+#pragma mark - async download
 // 开始下载
 - (BOOL)startDownload:(KnowledgeDownloadItem *)downloadItem;
 - (BOOL)startDownloadWithTitle:(NSString *)title andDesc:(NSString *)desc andDownloadUrl:(NSURL *)downloadUrl andSavePath:(NSString *)savePath andTag:(NSString *)tag;

@@ -99,9 +99,13 @@ typedef enum {
 
 @end
 
+
 /**
  * 本地数据信息
  */
+@protocol DataInfo // JsonModel中的"Model collections"要求
+@end
+
 @interface DataInfo : JSONModel
 
 @property (nonatomic, copy) NSString *dataId;
@@ -115,7 +119,7 @@ typedef enum {
 @interface DataUpdateRequestInfo : JSONModel
 
 // 本地数据信息集合
-@property (nonatomic, copy) NSArray *dataInfo;
+@property (nonatomic, copy) NSArray<DataInfo> *dataInfo;
 
 @end
 
@@ -202,5 +206,24 @@ typedef enum {
 
 @end
 
+
+/**
+ * 来自服务端的数据版本信息
+ */
+@interface ServerDataVersionInfo : JSONModel
+
+// 数据id
+@property (nonatomic, copy) NSString<Optional> *dataId;
+// 数据英文名
+@property (nonatomic, copy) NSString<Optional> *dataNameEn;
+// 数据最新版本号
+@property (nonatomic, copy) NSString<Optional> *dataLatestVersion;
+// 适配此数据的app最低版本
+@property (nonatomic, copy) NSString<Optional> *appVersionMin;
+// 适配此数据的app最高版本
+@property (nonatomic, copy) NSString<Optional> *appVersionMax;
+
+
+@end
 
 #endif
