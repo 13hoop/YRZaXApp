@@ -316,7 +316,7 @@
 #pragma mark - data update
 // check data update
 - (BOOL)startCheckDataUpdate {
-    return [[KnowledgeDataManager instance] startCheckDataUpdate];
+    return [[KnowledgeDataManager instance] startUpdateData];
 }
 
 #pragma mark -

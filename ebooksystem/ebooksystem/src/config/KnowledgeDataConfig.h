@@ -46,6 +46,8 @@
 // knowledge data updater
 @property (nonatomic, assign) int knowledgeUpdateCheckIntervalInMs;
 
+// knowledge data update mode
+@property (nonatomic, assign) DataUpdateMode knowledgeDataUpdateMode;
 
 #pragma mark - methods
 // singleton

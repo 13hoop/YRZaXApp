@@ -46,8 +46,9 @@
 - (BOOL)startDownloadData:(NSString *)dataId;
 
 #pragma mark - data update
-// check data update
-- (BOOL)startCheckDataUpdate;
-
+// check data update, and apply update according to update mode
+- (BOOL)startUpdateData;
+// check data update, and auto apply update
+- (BOOL)startUpdateData:(NSString *)dataId;
 
 @end

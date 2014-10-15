@@ -64,9 +64,19 @@ typedef enum {
 typedef enum {
     DATA_STATUS_UNKNOWN = -1, // 未知
     DATA_STATUS_AVAIL, // 可用
+    DATA_STATUS_HAS_UPDATE, // 有可用更新
     DATA_STATUS_UPDATING, // 更新中
     DATA_STATUS_UPDATED // 已更新
 } DataStatus;
+
+/**
+ * 数据更新的模式
+ *
+ */
+typedef enum {
+    DATA_UPDATE_MODE_CHECK = 0, // 检查更新, 并将coreData中的相关数据标为可更新
+    DATA_UPDATE_MODE_CHECK_AND_UPDATE // 检查更新, 并完成更新
+} DataUpdateMode;
 
 /**
  * 数据更新的类型

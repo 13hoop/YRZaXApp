@@ -672,8 +672,8 @@
     return YES;
 }
 
-// check data update
-- (BOOL)startCheckDataUpdate {
+// check data update, and apply update according to update mode
+- (BOOL)startUpdateData {
     // 启动后台任务
     dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         // 1. 获取data的最新版本文件
@@ -796,10 +796,182 @@
         // 删除data_version文件
         [PathUtil deletePath:savePath];
         
-        // 5. 启动后台下载
-        [self startDownloadUpdateWithResponse:response];
+        if (dataInfoArray == nil || dataInfoArray.count <= 0) {
+            NSLog(@"[KnowledgeDataManager-startCheckDataUpdate] successfully, no data to update");
+            return;
+        }
         
-        // 注: 后续操作位于KnowledgeDownloadManagerDelegate的相关方法中. 包括: 3. 解包 4. 拷贝文件, 更新数据库
+        // 5. 将数据库中相关数据标为有更新
+        {
+            for (id obj in dataInfoArray) {
+                DataInfo *dataInfo = (DataInfo *)obj;
+                if (dataInfo == nil) {
+                    continue;
+                }
+                
+                [[KnowledgeMetaManager instance] setData:dataInfo.dataId toStatus:DATA_STATUS_HAS_UPDATE];
+            }
+        }
+        
+        // 6. 根据更新模式, 启动后台下载, 下载完成后, 自动完成更新
+        // 注: 后续操作位于KnowledgeDownloadManagerDelegate的相关方法中. 包括: (1) 解包 (2) 拷贝文件, 更新数据库
+        if ([Config instance].knowledgeDataConfig.knowledgeDataUpdateMode == DATA_UPDATE_MODE_CHECK_AND_UPDATE) {
+            [self startDownloadUpdateWithResponse:response];
+        }
+    });
+    
+    return YES;
+}
+
+// check data update, and auto apply update
+- (BOOL)startUpdateData:(NSString *)dataId {
+    // 启动后台任务
+    dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        // 1. 获取data的最新版本文件
+        NSURL *url = [NSURL URLWithString:[[Config instance].knowledgeDataConfig.dataUrlForVersion stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+        
+        // 下载目录
+        NSString *downloadRootPath = [Config instance].knowledgeDataConfig.knowledgeDataDownloadRootPathInDocuments;
+        NSString *savePath = [NSString stringWithFormat:@"%@/%@-%@", downloadRootPath, @"data_version", [DateUtil timestamp]];
+        
+        BOOL ret = [[KnowledgeDownloadManager instance] directDownloadWithUrl:url andSavePath:savePath];
+        if (!ret) {
+            NSLog(@"[KnowledgeDataManager-startCheckDataUpdate:] failed to download data version file");
+            return;
+        }
+        
+        // 2. 解析下载到的数据版本文件
+        NSArray *dataVersionInfoArray = [self parseDataVersionInfo:savePath];
+        if (dataVersionInfoArray == nil || dataVersionInfoArray.count <= 0) {
+            NSLog(@"[KnowledgeDataManager-startCheckDataUpdate:] failed to parse data version file");
+            return;
+        }
+        
+        // 3. 与本地数据版本比较, 按需下载
+        NSString *curAppVersion = [NSString stringWithFormat:@"%@.%@", [AppUtil getAppVersion], [AppUtil getAppBuildVersion]];
+        if (curAppVersion == nil || curAppVersion.length <= 0) {
+            NSLog(@"[KnowledgeDataManager-startCheckDataUpdate:] failed to decide cur app  version");
+            return;
+        }
+        
+        // 收集待检查更新的数据信息
+        NSMutableArray *dataInfoArray = [[NSMutableArray alloc] init];
+        
+        for (id obj in dataVersionInfoArray) {
+            ServerDataVersionInfo *dataVersionInfo = (ServerDataVersionInfo *)obj;
+            if (dataVersionInfo == nil) {
+                continue;
+            }
+            
+            // 只更新指定的data
+            if (![dataVersionInfo.dataId isEqual:dataId]) {
+                continue;
+            }
+            
+            // 版本比较
+            NSArray *knowledgeMetas = [[KnowledgeMetaManager instance] getKnowledgeMetaWithDataId:dataVersionInfo.dataId andDataType:DATA_TYPE_DATA_SOURCE];
+            if (knowledgeMetas == nil || knowledgeMetas.count <= 0) {
+                NSLog(@"[KnowledgeDataManager-startCheckDataUpdate:] failed to decide version of  data: %@, ignore", dataVersionInfo.dataId);
+                continue;
+            }
+            
+            // 确定数据的当前版本
+            NSString *dataCurVersion = nil;
+            for (id obj in knowledgeMetas) {
+                KnowledgeMeta *knowledgeMeta = (KnowledgeMeta *)obj;
+                if (knowledgeMeta == nil) {
+                    continue;
+                }
+                
+                dataCurVersion = knowledgeMeta.curVersion;
+                break;
+            }
+            
+            if (dataCurVersion == nil || dataCurVersion.length <= 0) {
+                NSLog(@"[KnowledgeDataManager-startCheckDataUpdate:] failed to decide version of  data: %@, invalid dataCurVersion, ignore", dataVersionInfo.dataId);
+                continue;
+            }
+            
+            // 收集
+            BOOL shouldUpdate = YES;
+            {
+                if (shouldUpdate && (dataCurVersion == nil
+                                     || dataCurVersion.length <= 0)) {
+                    shouldUpdate = NO;
+                }
+                
+                // 若本地版本号大于等于最新版本号, 则忽略此数据更新
+                if (shouldUpdate
+                    && [dataCurVersion compare:dataVersionInfo.dataLatestVersion] >= 0) {
+                    shouldUpdate = NO;
+                }
+                
+                {
+                    // 不确定当前app版本时, 则忽略此数据更新, 以免app异常
+                    if (shouldUpdate && (dataCurVersion == nil
+                                         || dataCurVersion.length <= 0)) {
+                        shouldUpdate = NO;
+                    }
+                    
+                    // 若当前app版本号在指定的版本号范围之外, 则忽略此数据更新
+                    if (shouldUpdate && (dataVersionInfo.appVersionMin != nil
+                                         && dataVersionInfo.appVersionMin.length > 0)) {
+                        if ([curAppVersion compare:dataVersionInfo.appVersionMin] < 0) {
+                            shouldUpdate = NO;
+                        }
+                    }
+                    
+                    if (shouldUpdate && (dataVersionInfo.appVersionMax != nil
+                                         && dataVersionInfo.appVersionMax.length > 0)) {
+                        if ([curAppVersion compare:dataVersionInfo.appVersionMax] > 0) {
+                            shouldUpdate = NO;
+                        }
+                    }
+                }
+            }
+            
+            if (shouldUpdate) {
+                DataInfo *dataInfo = [[DataInfo alloc] init];
+                dataInfo.dataId = dataVersionInfo.dataId;
+                dataInfo.curVersion = dataCurVersion; // 数据当前版本
+                
+                [dataInfoArray addObject:dataInfo];
+            }
+        }
+        
+        // 4. 获取数据的更新信息
+        DataUpdateRequestInfo *dataUpdateRequestInfo = [[DataUpdateRequestInfo alloc] init];
+        dataUpdateRequestInfo.dataInfo = dataInfoArray;
+        
+        ServerResponseOfKnowledgeData *response = [self getDataUpdateInfo:dataUpdateRequestInfo];
+        if (response == nil || response.updateInfo == nil) {
+            NSLog(@"[KnowledgeDataManager-startCheckDataUpdate:] failed to get data update info");
+            return;
+        }
+        
+        // 删除data_version文件
+        [PathUtil deletePath:savePath];
+        
+        if (dataInfoArray == nil || dataInfoArray.count <= 0) {
+            NSLog(@"[KnowledgeDataManager-startCheckDataUpdate:] successfully, no data to update");
+            return;
+        }
+        
+        // 5. 将数据库中相关数据标为有更新
+        {
+            for (id obj in dataInfoArray) {
+                DataInfo *dataInfo = (DataInfo *)obj;
+                if (dataInfo == nil) {
+                    continue;
+                }
+                
+                [[KnowledgeMetaManager instance] setData:dataInfo.dataId toStatus:DATA_STATUS_HAS_UPDATE];
+            }
+        }
+        
+        // 6. 启动后台下载, 下载完成后, 自动完成更新
+        // 注: 后续操作位于KnowledgeDownloadManagerDelegate的相关方法中. 包括: (1) 解包 (2) 拷贝文件, 更新数据库
+        [self startDownloadUpdateWithResponse:response];
     });
     
     return YES;

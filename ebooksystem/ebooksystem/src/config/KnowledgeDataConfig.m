@@ -37,6 +37,9 @@
 @synthesize knowledgeDataInitMode = _knowledgeDataInitMode;
 @synthesize knowledgeUpdateCheckIntervalInMs = _knowledgeUpdateCheckIntervalInMs;
 
+@synthesize knowledgeDataUpdateMode = _knowledgeDataUpdateMode;
+
+
 #pragma mark - properties
 - (NSString *)dataUrlForDownload {
     return @"http://www.zaxue100.com/index.php?c=check_update_ctrl&m=get_version";
@@ -123,5 +126,11 @@
 - (int)knowledgeUpdateCheckIntervalInMs {
     return 60 * 60 * 1000;
 }
+
+- (DataUpdateMode)knowledgeDataUpdateMode {
+    return DATA_UPDATE_MODE_CHECK;
+    //    return DATA_UPDATE_MODE_CHECK_AND_UPDATE;
+}
+
 
 @end
