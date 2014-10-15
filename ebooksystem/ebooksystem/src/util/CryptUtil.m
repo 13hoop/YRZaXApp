@@ -128,6 +128,8 @@
         result = [[NSString alloc] initWithData:[NSData dataWithBytes:(const void *)decryptedBuffer length:(NSUInteger)numBytesDecrypted] encoding:NSUTF8StringEncoding];
     }
     
+    free(decryptedBuffer);
+    
     return result;
 }
 

@@ -368,7 +368,7 @@
     
     // 5. 远程数据获取测试
     // remote - download
-//    BOOL ret = [self getRemoteData:dataId];
+    BOOL ret = [self getRemoteData:dataId];
     
     // 6. 数据更新测试
     // remote - update
