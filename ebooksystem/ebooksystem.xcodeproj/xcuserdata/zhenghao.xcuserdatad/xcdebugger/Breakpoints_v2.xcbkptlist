@@ -90,11 +90,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ebooksystem/src/knowledge/KnowledgeDataManager.m"
-            timestampString = "435057622.458611"
+            timestampString = "435058895.432113"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1029"
-            endingLineNumber = "1029"
+            startingLineNumber = "1183"
+            endingLineNumber = "1183"
             landmarkName = "-knowledgeDownloadItem:didFinish:response:"
             landmarkType = "5">
          </BreakpointContent>
@@ -256,6 +256,22 @@
             startingLineNumber = "812"
             endingLineNumber = "812"
             landmarkName = "-startUpdateData"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ebooksystem/src/knowledge/KnowledgeManager.m"
+            timestampString = "435059169.014356"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "354"
+            endingLineNumber = "354"
+            landmarkName = "-test"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

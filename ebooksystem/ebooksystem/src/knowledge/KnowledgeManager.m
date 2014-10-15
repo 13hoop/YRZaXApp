@@ -23,6 +23,9 @@
 
 #import "PathUtil.h"
 #import "CoreDataUtil.h"
+#import "MD5Util.h"
+#import "CryptUtil.h"
+#import "SecurityUtil.h"
 
 
 
@@ -324,10 +327,30 @@
 - (void)test {
     NSLog(@"[KnowledgeManager - test()], starting...");
     
-//    [[KnowledgeDownloadManager instance] test];
+    // 1. 测试加密, 保证多次加密得到的字符串一致
+//    {
+//        NSString *plainText = @"1234567890abcdefgABCDEFG";
+//        
+//        NSString *password = @"1234567890";
+//        NSString *key = [MD5Util md5ForString:password];
+//        NSString *iv = [MD5Util md5ForString:key];
+//        CryptUtil *cryptUtil = [[CryptUtil alloc] initWithKey:key andIV:iv];
+//        for (int i = 0; i < 10; ++i) {
+//            NSString *encryptedText1 = [cryptUtil encryptAES128:plainText];
+//            NSLog(@"==>%d, encryptedText1: %@", i, encryptedText1);
+//            
+//            NSString *encryptedText2 = [SecurityUtil AES128Encrypt:plainText andwithPassword:password];
+//            NSLog(@"==>%d, encryptedText2: %@", i, encryptedText2);
+//        }
+//        
+//        return;
+//    }
     
+    // 2. KnowledgeDownloadManager自测
+//    [[KnowledgeDownloadManager instance] test];
 //    return;
     
+    // 3. 数据拷贝测试
     [[KnowledgeDataManager instance] copyAssetsKnowledgeData];
     [self registerDataFiles];
     
@@ -335,6 +358,7 @@
     NSString *dataId = @"2a8ceed5e71a0ff16bafc9f082bceeec";
     NSString *searchId = @"210101";
     
+    // 4. 本地数据获取测试
     // local
     {
 //        NSString *pagePath = [self getPagePath:dataIdForPagePath];
@@ -342,11 +366,13 @@
 //        NSString *searchResult = [self searchLocalData:searchId];
     }
     
+    // 5. 远程数据获取测试
     // remote - download
 //    BOOL ret = [self getRemoteData:dataId];
     
+    // 6. 数据更新测试
     // remote - update
-    BOOL ret = [self startCheckDataUpdate];
+//    BOOL ret = [self startCheckDataUpdate];
     
     NSLog(@"[KnowledgeManager - test()], end");
 }

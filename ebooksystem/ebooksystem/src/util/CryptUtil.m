@@ -30,7 +30,7 @@
     
     NSData* data = [plainText dataUsingEncoding:NSUTF8StringEncoding];
 	size_t plainTextSize = [data length];
-	const void *vplainText = (const void *)[data bytes];
+//	const void *vplainText = (const void *)[data bytes];
     
     // 构造待加密字节数组
     uint8_t *plainTextBuffer = NULL;
@@ -43,7 +43,9 @@
         
         // 拷贝plain text
         plainTextBuffer = malloc(numBytesToCrypt);
-        memcpy(plainTextBuffer, [data bytes], [data length]);
+        memset(plainTextBuffer, 0, numBytesToCrypt);
+        memcpy(plainTextBuffer, [data bytes], plainTextSize);
+
         // 补0
         for (int i = 0; i < diff; i++) {
             plainTextBuffer[i + plainTextSize] = 0x00;
@@ -69,7 +71,7 @@
                        vkey,
                        kCCKeySizeAES128,
                        vinitVec,
-                       vplainText,
+                       plainTextBuffer,
                        numBytesToCrypt,
                        (void *)encryptedBuffer,
                        encryptedBufferSize,
@@ -81,6 +83,8 @@
         result = [GTMBase64 stringByEncodingData:myData];
     }
     
+    free(plainTextBuffer);
+    free(encryptedBuffer);
     return result;
 }
 
