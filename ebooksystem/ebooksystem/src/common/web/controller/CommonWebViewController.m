@@ -42,6 +42,10 @@
 // update navigation bar
 - (void)updateNavigationBar;
 
+// 跳转到指定的页面
+- (BOOL)showPageWithPageId:(NSString *)pageId andArgs:(NSString *)args;
+// 跳转到指定的url
+- (BOOL)showPageWithURL:(NSString *)urlStr;
 
 @end
 
@@ -170,11 +174,9 @@
     [self.javascriptBridge registerHandler:@"tryDownloadNodeById" handler:^(id dataId, WVJBResponseCallback responseCallback) {
         LogDebug(@"CommonWebViewController::tryDownloadNodeById() called: %@", dataId);
         
-        NSString *pagePath = [[KnowledgeManager instance] getPagePath:dataId];
-        BOOL downloaded = (pagePath == nil || pagePath.length <= 0 ? NO : YES);
+        [[KnowledgeManager instance] getRemoteData:dataId];
         
         if (responseCallback != nil) {
-            responseCallback(downloaded ? @"1" : @"0");
         }
     }];
     
@@ -183,10 +185,10 @@
         LogDebug(@"CommonWebViewController::showPageById() called: %@", data);
         
         NSString *pageID = [data objectForKey:@"pageID"];
-        NSDictionary *args = [data objectForKey:@"args"];
+        NSString *args = [data objectForKey:@"args"];
         NSDictionary *postArgsStr = [data objectForKey:@"postArgsStr"];
         
-        // todo: do real work
+        [self showPageWithPageId:pageID andArgs:args];
     }];
     
     // pageStatistic()
@@ -244,6 +246,45 @@
         
         [self.webView loadRequest:[[NSURLRequest alloc] initWithURL:urlWithParams]];
     }
+    
+    return YES;
+}
+
+// 跳转到指定的页面
+- (BOOL)showPageWithPageId:(NSString *)pageId andArgs:(NSString *)args {
+//    NSString *pageId = @"3b7942bf7d9f8a80dc3b7e43539ee40e";
+//    NSString *dataId = @"2a8ceed5e71a0ff16bafc9f082bceeec";
+//    
+//    NSString *htmlFilePath = [NSString stringWithFormat:@"%@/%@", knowledgeDataRootPathInAssets, @"14/3b7942bf7d9f8a80dc3b7e43539ee40e"];
+    
+    NSString *htmlFilePath = [[KnowledgeManager instance] getPagePath:pageId];
+    if (htmlFilePath == nil || htmlFilePath.length <= 0) {
+        return NO;
+    }
+    
+    // 加载指定的html文件
+    NSURL *url = [[NSURL alloc] initFileURLWithPath:[NSString stringWithFormat:@"%@/%@", htmlFilePath, @"index.html"]];
+    
+    NSString *urlStrWithParams = nil;
+    if (args != nil && args.length > 0) {
+        urlStrWithParams = [NSString stringWithFormat:@"%@?page_id=%@&%@", [url absoluteString], pageId, args];
+    }
+    else {
+        [NSString stringWithFormat:@"%@?page_id=%@", [url absoluteString], pageId];
+    }
+    
+    NSURL *urlWithParams = [[NSURL alloc] initWithString:urlStrWithParams];
+    
+    [self.webView loadRequest:[[NSURLRequest alloc] initWithURL:urlWithParams]];
+    
+    return YES;
+}
+
+// 跳转到指定的url
+- (BOOL)showPageWithURL:(NSString *)urlStr {
+    NSURL *url = [NSURL URLWithString:[urlStr stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    
+    [self.webView loadRequest:[[NSURLRequest alloc] initWithURL:url]];
     
     return YES;
 }
