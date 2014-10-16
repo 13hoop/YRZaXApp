@@ -27,6 +27,8 @@
 #import "UUIDUtil.h"
 #import "DateUtil.h"
 #import "AppUtil.h"
+#import "LogUtil.h"
+
 
 
 @interface KnowledgeDataManager() <KnowledgeDownloadManagerDelegate>
@@ -106,7 +108,7 @@
     NSError *error = nil;
     NSString *fileContents = [NSString stringWithContentsOfFile:fullFilePath encoding:NSUTF8StringEncoding error:&error];
     if (fileContents == nil || fileContents.length <= 0) {
-        NSLog(@"[KnowledgeDataManager-loadKnowledgeData:] failed, data id: %@, file: %@, error: %@", knowledgeMetaEntity.dataId, fullFilePath, error.localizedDescription);
+        LogError(@"[KnowledgeDataManager-loadKnowledgeData:] failed, data id: %@, file: %@, error: %@", knowledgeMetaEntity.dataId, fullFilePath, error.localizedDescription);
         return nil;
     }
     
@@ -121,7 +123,7 @@
         // 1. 获取该data对应的download_url
         ServerResponseOfKnowledgeData *response = [self getDataDownloadInfo:dataId];
         if (response == nil || response.dataInfo == nil || response.dataInfo.downloadUrl == nil || response.dataInfo.downloadUrl.length <= 0) {
-            NSLog(@"[KnowledgeDataManager-startDownloadData:] failed because of invalid server response, error: %@", self.lastError);
+            LogError(@"[KnowledgeDataManager-startDownloadData:] failed because of invalid server response, error: %@", self.lastError);
             return;
         }
 
@@ -187,7 +189,7 @@
             return nil;
         }
         
-        NSLog(@"[KnowledgeDataManager-getDataDownloadInfo:]encryptedContent: %@", encryptedContent);
+        LogDebug(@"[KnowledgeDataManager-getDataDownloadInfo:]encryptedContent: %@", encryptedContent);
         [data setValue:encryptedContent forKey:@"data"];
     }
     
@@ -233,7 +235,7 @@
     response.dataInfo = [[ServerResponseDataInfo alloc] initWithString:decryptedContent error:&error];
     if (response.dataInfo == nil) {
         lastError = @"服务器返回数据解析失败";
-        NSLog(@"error: %@", error.localizedDescription);
+        LogError(@"error: %@", error.localizedDescription);
         return nil;
     }
     
@@ -249,7 +251,7 @@
 // 根据ServerResponseOfKnowledgeData, 启动下载数据
 - (BOOL)startDownloadDataWithResponse:(ServerResponseOfKnowledgeData *)response {
     if (response == nil || response.dataInfo == nil || response.dataInfo.dataId == nil || response.dataInfo.dataId.length <= 0 || response.dataInfo.downloadUrl == nil || response.dataInfo.downloadUrl.length <= 0) {
-        NSLog(@"[KnowledgeDataManager-startDownloadDataWithResponse:] failed because of invalid server response");
+        LogError(@"[KnowledgeDataManager-startDownloadDataWithResponse:] failed because of invalid server response");
         return NO;
     }
     
@@ -286,7 +288,7 @@
             }
         }
         
-        NSLog(@"[KnowledgeDataManager-processDownloadedDataPack:] started, file: %@", downloadItem.savePath);
+        LogInfo(@"[KnowledgeDataManager-processDownloadedDataPack:] started, file: %@", downloadItem.savePath);
         
         // 1. 解包
         NSString *unpackPath = [NSString stringWithFormat:@"%@-unpack", downloadItem.savePath];
@@ -311,7 +313,7 @@
                 
                 ret = [za unzipFileTo:unpackPath overwrite:YES];
                 if (!ret) {
-                    NSLog(@"[KnowledgeDataManager:processDownloadedDataPack:] failed, since failed to unzip zip file: %@", downloadItem.savePath);
+                    LogError(@"[KnowledgeDataManager:processDownloadedDataPack:] failed, since failed to unzip zip file: %@", downloadItem.savePath);
                     ret = NO;
                     continue; // 继续尝试下一password
                 }
@@ -323,13 +325,13 @@
                     break; // 已解包成功
                 }
                 
-                NSLog(@"[KnowledgeDataManager-processDownloadedDataPack:] failed, since there is no unzip file after unzip. The zip file is: %@, and password is %@", downloadItem.savePath, (password == nil ? @"nil" : password));
+                LogWarn(@"[KnowledgeDataManager-processDownloadedDataPack:] failed, since there is no unzip file after unzip. The zip file is: %@, and password is %@", downloadItem.savePath, (password == nil ? @"nil" : password));
                 ret = NO;
             }
             
             // 1.2 check whether unzip path exists
             if (!ret) {
-                NSLog(@"[KnowledgeDataManager-processDownloadedDataPack:] failed to unzip file is: %@", downloadItem.savePath);
+                LogError(@"[KnowledgeDataManager-processDownloadedDataPack:] failed to unzip file is: %@", downloadItem.savePath);
                 ret = NO;
                 break;
             }
@@ -340,7 +342,7 @@
                 NSString *md5File = [NSString stringWithFormat:@"%@/%@", unpackPath, @"md5.txt"];
                 NSString *md5FileContents = [NSString stringWithContentsOfFile:md5File encoding:NSUTF8StringEncoding error:&error];
                 if (md5FileContents == nil || md5FileContents.length <= 0) {
-                    NSLog(@"[KnowledgeDataManager-processDownloadedDataPack:] failed, invalid md5 file. The zip file is: %@", downloadItem.savePath);
+                    LogError(@"[KnowledgeDataManager-processDownloadedDataPack:] failed, invalid md5 file. The zip file is: %@", downloadItem.savePath);
                     ret = NO;
                     break;
                 }
@@ -368,7 +370,7 @@
                     NSString *md5FromApp = [MD5Util md5ForFile:filename];
                     
                     if (![md5FromApp isEqualToString:md5FromServer]) {
-                        NSLog(@"[KnowledgeDataManager-processDownloadedDataPack:] failed, sice md5 check failed. The failed file is: %@", filename);
+                        LogError(@"[KnowledgeDataManager-processDownloadedDataPack:] failed, sice md5 check failed. The failed file is: %@", filename);
                         ret = NO;
                         break;
                     }
@@ -379,7 +381,7 @@
         }
         
         if (zippedDataFiles == nil || zippedDataFiles.count <= 0) {
-            NSLog(@"[KnowledgeDataManager-processDownloadedDataPack:] failed, since no zipped data files. The zip file is: %@", downloadItem.savePath);
+            LogError(@"[KnowledgeDataManager-processDownloadedDataPack:] failed, since no zipped data files. The zip file is: %@", downloadItem.savePath);
             ret = NO;
             break;
         }
@@ -402,7 +404,7 @@
                 // process
                 ret = [self processZippedDataFile:zippedDataFilename withDecryptKey:downloadItem.tag];
                 if (!ret) {
-                    NSLog(@"[KnowledgeDataManager-processDownloadedDataPack:] failed, since failed to process zipped data file: %@", zippedDataFilename);
+                    LogError(@"[KnowledgeDataManager-processDownloadedDataPack:] failed, since failed to process zipped data file: %@", zippedDataFilename);
                     ret = NO;
                     break;
                 }
@@ -412,10 +414,10 @@
     
     // 3. 删除已下载的数据文件
     [PathUtil deletePath:downloadItem.savePath];
-    NSLog(@"[KnowledgeDataManager-processDownloadedDataPack:] deleted downloaded data file: %@", downloadItem.savePath);
+    LogInfo(@"[KnowledgeDataManager-processDownloadedDataPack:] deleted downloaded data file: %@", downloadItem.savePath);
     
     // 3. 返回
-    NSLog(@"[KnowledgeDataManager-processDownloadedDataPack:] end %@, file: %@", (ret ? @"successfully" : @"failed"), downloadItem.savePath);
+    LogInfo(@"[KnowledgeDataManager-processDownloadedDataPack:] end %@, file: %@", (ret ? @"successfully" : @"failed"), downloadItem.savePath);
     return ret;
 }
 
@@ -426,7 +428,7 @@
     NSString *unpackPath = [filename stringByDeletingLastPathComponent];
     NSString *unpackedDataPath = [filename stringByDeletingPathExtension];
     
-    NSLog(@"[KnowledgeDataManager-processZippedDataFile:] started, file: %@", filename);
+    LogInfo(@"[KnowledgeDataManager-processZippedDataFile:] started, file: %@", filename);
     do {
         // 1. 解包
         {
@@ -434,14 +436,14 @@
             ZipArchive *za = [[ZipArchive alloc] init];
             BOOL ret = [za unzipOpenFile:filename password:decryptedKey];
             if (!ret) {
-                NSLog(@"[KnowledgeDataManager-processZippedDataFile:] failed, since failed to open zip file: %@", filename);
+                LogError(@"[KnowledgeDataManager-processZippedDataFile:] failed, since failed to open zip file: %@", filename);
                 ret = NO;
                 break;
             }
             
             ret = [za unzipFileTo:unpackPath overwrite:YES];
             if (!ret) {
-                NSLog(@"[KnowledgeDataManager-processZippedDataFile:] failed, since failed to unzip zip file: %@", filename);
+                LogError(@"[KnowledgeDataManager-processZippedDataFile:] failed, since failed to unzip zip file: %@", filename);
                 ret = NO;
                 return NO;
             }
@@ -450,7 +452,7 @@
             BOOL isDir = NO;
             BOOL existed = [[NSFileManager defaultManager] fileExistsAtPath:unpackedDataPath isDirectory:&isDir];
             if (!existed) {
-                NSLog(@"[KnowledgeDataManager-processZippedDataFile:] failed, since there is no unzip file after unzip. The zip file is: %@", filename);
+                LogError(@"[KnowledgeDataManager-processZippedDataFile:] failed, since there is no unzip file after unzip. The zip file is: %@", filename);
                 ret = NO;
                 break;
             }
@@ -465,7 +467,7 @@
             NSError *error = nil;
             NSString *operationFileContents = [NSString stringWithContentsOfFile:fullOperationFilename encoding:NSUTF8StringEncoding error:&error];
             if (operationFileContents == nil || operationFileContents.length <= 0) {
-                NSLog(@"[KnowledgeDataManager-processZippedDataFile:] failed, invalid operation file: %@", fullOperationFilename);
+                LogError(@"[KnowledgeDataManager-processZippedDataFile:] failed, invalid operation file: %@", fullOperationFilename);
                 ret = NO;
                 break;
             }
@@ -517,10 +519,10 @@
     
     // 2. 删除unpacked文件夹
     [PathUtil deletePath:unpackPath];
-    NSLog(@"[KnowledgeDataManager] processZippedDataFile() deleted unpacked data path: %@", unpackPath);
+    LogInfo(@"[KnowledgeDataManager] processZippedDataFile() deleted unpacked data path: %@", unpackPath);
     
     // 3. 返回
-    NSLog(@"[KnowledgeDataManager] processZippedDataFile() end %@, file: %@", (ret ? @"successfully" : @"failed"), filename);
+    LogInfo(@"[KnowledgeDataManager] processZippedDataFile() end %@, file: %@", (ret ? @"successfully" : @"failed"), filename);
     return ret;
 }
 
@@ -624,17 +626,17 @@
 // 根据ServerResponseOfKnowledgeData, 启动下载更新
 - (BOOL)startDownloadUpdateWithResponse:(ServerResponseOfKnowledgeData *)response {
     if (response == nil || response.updateInfo == nil) {
-        NSLog(@"[KnowledgeDataManager-startDownloadUpdateWithResponse:] failed because of invalid server response");
+        LogError(@"[KnowledgeDataManager-startDownloadUpdateWithResponse:] failed because of invalid server response");
         return NO;
     }
     
     if (response.updateInfo.status != 0) {
-        NSLog(@"[KnowledgeDataManager-startDownloadUpdateWithResponse:] failed because of invalid server response, status: %ld, message: %@", response.updateInfo.status, response.updateInfo.message);
+        LogError(@"[KnowledgeDataManager-startDownloadUpdateWithResponse:] failed because of invalid server response, status: %ld, message: %@", response.updateInfo.status, response.updateInfo.message);
         return NO;
     }
     
     if (response.updateInfo.details == nil || response.updateInfo.details.count <= 0) {
-        NSLog(@"[KnowledgeDataManager-startDownloadUpdateWithResponse:] failed because of invalid server response, no details");
+        LogError(@"[KnowledgeDataManager-startDownloadUpdateWithResponse:] failed because of invalid server response, no details");
         return NO;
     }
     
@@ -685,21 +687,21 @@
         
         BOOL ret = [[KnowledgeDownloadManager instance] directDownloadWithUrl:url andSavePath:savePath];
         if (!ret) {
-            NSLog(@"[KnowledgeDataManager-startCheckDataUpdate] failed to download data version file");
+            LogError(@"[KnowledgeDataManager-startCheckDataUpdate] failed to download data version file");
             return;
         }
         
         // 2. 解析下载到的数据版本文件
         NSArray *dataVersionInfoArray = [self parseDataVersionInfo:savePath];
         if (dataVersionInfoArray == nil || dataVersionInfoArray.count <= 0) {
-            NSLog(@"[KnowledgeDataManager-startCheckDataUpdate] failed to parse data version file");
+            LogError(@"[KnowledgeDataManager-startCheckDataUpdate] failed to parse data version file");
             return;
         }
         
         // 3. 与本地数据版本比较, 按需下载
         NSString *curAppVersion = [NSString stringWithFormat:@"%@.%@", [AppUtil getAppVersion], [AppUtil getAppBuildVersion]];
         if (curAppVersion == nil || curAppVersion.length <= 0) {
-            NSLog(@"[KnowledgeDataManager-startCheckDataUpdate] failed to decide cur app  version");
+            LogError(@"[KnowledgeDataManager-startCheckDataUpdate] failed to decide cur app  version");
             return;
         }
         
@@ -715,7 +717,7 @@
             // 版本比较
             NSArray *knowledgeMetas = [[KnowledgeMetaManager instance] getKnowledgeMetaWithDataId:dataVersionInfo.dataId andDataType:DATA_TYPE_DATA_SOURCE];
             if (knowledgeMetas == nil || knowledgeMetas.count <= 0) {
-                NSLog(@"[KnowledgeDataManager-startCheckDataUpdate] failed to decide version of  data: %@, ignore", dataVersionInfo.dataId);
+                LogWarn(@"[KnowledgeDataManager-startCheckDataUpdate] failed to decide version of data: %@, ignore", dataVersionInfo.dataId);
                 continue;
             }
             
@@ -732,7 +734,7 @@
             }
             
             if (dataCurVersion == nil || dataCurVersion.length <= 0) {
-                NSLog(@"[KnowledgeDataManager-startCheckDataUpdate] failed to decide version of  data: %@, invalid dataCurVersion, ignore", dataVersionInfo.dataId);
+                LogWarn(@"[KnowledgeDataManager-startCheckDataUpdate] failed to decide version of data: %@, invalid dataCurVersion, ignore", dataVersionInfo.dataId);
                 continue;
             }
             
@@ -789,7 +791,7 @@
         
         ServerResponseOfKnowledgeData *response = [self getDataUpdateInfo:dataUpdateRequestInfo];
         if (response == nil || response.updateInfo == nil) {
-            NSLog(@"[KnowledgeDataManager-startCheckDataUpdate] failed to get data update info");
+            LogError(@"[KnowledgeDataManager-startCheckDataUpdate] failed to get data update info, return");
             return;
         }
         
@@ -797,7 +799,7 @@
         [PathUtil deletePath:savePath];
         
         if (dataInfoArray == nil || dataInfoArray.count <= 0) {
-            NSLog(@"[KnowledgeDataManager-startCheckDataUpdate] successfully, no data to update");
+            LogInfo(@"[KnowledgeDataManager-startCheckDataUpdate] successfully, no data to update");
             return;
         }
         
@@ -836,21 +838,21 @@
         
         BOOL ret = [[KnowledgeDownloadManager instance] directDownloadWithUrl:url andSavePath:savePath];
         if (!ret) {
-            NSLog(@"[KnowledgeDataManager-startCheckDataUpdate:] failed to download data version file");
+            LogError(@"[KnowledgeDataManager-startCheckDataUpdate:] failed to download data version file");
             return;
         }
         
         // 2. 解析下载到的数据版本文件
         NSArray *dataVersionInfoArray = [self parseDataVersionInfo:savePath];
         if (dataVersionInfoArray == nil || dataVersionInfoArray.count <= 0) {
-            NSLog(@"[KnowledgeDataManager-startCheckDataUpdate:] failed to parse data version file");
+            LogError(@"[KnowledgeDataManager-startCheckDataUpdate:] failed to parse data version file");
             return;
         }
         
         // 3. 与本地数据版本比较, 按需下载
         NSString *curAppVersion = [NSString stringWithFormat:@"%@.%@", [AppUtil getAppVersion], [AppUtil getAppBuildVersion]];
         if (curAppVersion == nil || curAppVersion.length <= 0) {
-            NSLog(@"[KnowledgeDataManager-startCheckDataUpdate:] failed to decide cur app  version");
+            LogError(@"[KnowledgeDataManager-startCheckDataUpdate:] failed to decide cur app  version");
             return;
         }
         
@@ -871,7 +873,7 @@
             // 版本比较
             NSArray *knowledgeMetas = [[KnowledgeMetaManager instance] getKnowledgeMetaWithDataId:dataVersionInfo.dataId andDataType:DATA_TYPE_DATA_SOURCE];
             if (knowledgeMetas == nil || knowledgeMetas.count <= 0) {
-                NSLog(@"[KnowledgeDataManager-startCheckDataUpdate:] failed to decide version of  data: %@, ignore", dataVersionInfo.dataId);
+                LogWarn(@"[KnowledgeDataManager-startCheckDataUpdate:] failed to decide version of data: %@, ignore", dataVersionInfo.dataId);
                 continue;
             }
             
@@ -888,7 +890,7 @@
             }
             
             if (dataCurVersion == nil || dataCurVersion.length <= 0) {
-                NSLog(@"[KnowledgeDataManager-startCheckDataUpdate:] failed to decide version of  data: %@, invalid dataCurVersion, ignore", dataVersionInfo.dataId);
+                LogWarn(@"[KnowledgeDataManager-startCheckDataUpdate:] failed to decide version of data: %@, invalid dataCurVersion, ignore", dataVersionInfo.dataId);
                 continue;
             }
             
@@ -945,7 +947,7 @@
         
         ServerResponseOfKnowledgeData *response = [self getDataUpdateInfo:dataUpdateRequestInfo];
         if (response == nil || response.updateInfo == nil) {
-            NSLog(@"[KnowledgeDataManager-startCheckDataUpdate:] failed to get data update info");
+            LogError(@"[KnowledgeDataManager-startCheckDataUpdate:] failed to get data update info, return");
             return;
         }
         
@@ -953,7 +955,7 @@
         [PathUtil deletePath:savePath];
         
         if (dataInfoArray == nil || dataInfoArray.count <= 0) {
-            NSLog(@"[KnowledgeDataManager-startCheckDataUpdate:] successfully, no data to update");
+            LogInfo(@"[KnowledgeDataManager-startCheckDataUpdate:] successfully, no data to update");
             return;
         }
         
@@ -984,7 +986,7 @@
     NSError *error = nil;
     NSString *dataVersionFileContents = [NSString stringWithContentsOfFile:dataVersionFilePath encoding:NSUTF8StringEncoding error:&error];
     if (dataVersionFileContents == nil || dataVersionFileContents.length <= 0) {
-        NSLog(@"[KnowledgeDataManager-parseDataVersionInfo:] failed to read data version file: %@", dataVersionFilePath);
+        LogError(@"[KnowledgeDataManager-parseDataVersionInfo:] failed to read data version file: %@", dataVersionFilePath);
         return nil;
     }
     
@@ -1006,7 +1008,7 @@
         ServerDataVersionInfo *dataVersionInfo = [[ServerDataVersionInfo alloc] init];
         dataVersionInfo = [dataVersionInfo initWithString:curLine usingEncoding:NSUTF8StringEncoding error:&jsonModelError];
         if (dataVersionInfo == nil) {
-            NSLog(@"[KnowledgeDataManager-parseDataVersionInfo:] continue after failure of parse json: %@", curLine);
+            LogWarn(@"[KnowledgeDataManager-parseDataVersionInfo:] continue after failure of parse json: %@", curLine);
             continue;
         }
         
@@ -1092,7 +1094,7 @@
             return nil;
         }
         
-        NSLog(@"[KnowledgeDataManager-getDataUpdateInfo:] encryptedContent: %@", encryptedContent);
+        LogDebug(@"[KnowledgeDataManager-getDataUpdateInfo:] encryptedContent: %@", encryptedContent);
         [data setValue:encryptedContent forKey:@"data"];
     }
     
@@ -1138,7 +1140,7 @@
     response.updateInfo = [[ServerResponseUpdateInfo alloc] initWithString:decryptedContent error:&error];
     if (response.updateInfo == nil) {
         lastError = @"服务器返回数据解析失败";
-        NSLog(@"error: %@", error.localizedDescription);
+        LogError(@"[KnowledgeDataManager-getDataUpdateInfo:] 解析服务器响应数据失败, error: %@", error.localizedDescription);
         return nil;
     }
     
@@ -1156,7 +1158,7 @@
 
 // 下载进度
 - (void)knowledgeDownloadItem:(KnowledgeDownloadItem *)downloadItem didProgress:(float)progress {
-    NSLog(@"download item, id %@, title %@, progress: %@", downloadItem.itemId, downloadItem.title, downloadItem.downloadProgress);
+    LogDebug(@"download item, id %@, title %@, progress: %@", downloadItem.itemId, downloadItem.title, downloadItem.downloadProgress);
 }
 
 // 下载成功/失败
@@ -1171,7 +1173,7 @@
             info = [NSString stringWithFormat:@" failed, error: %@", response];
         }
         
-        NSLog(@"download item, id %@, title %@, finished%@", downloadItem.itemId, downloadItem.title, info);
+        LogInfo(@"download item, id %@, title %@, finished%@", downloadItem.itemId, downloadItem.title, info);
     }
     
     if (!success) {

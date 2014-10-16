@@ -106,6 +106,40 @@
 		710C03A519E2F38E00C27A33 /* KnowledgeSearchReverseInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 710C03A419E2F38E00C27A33 /* KnowledgeSearchReverseInfo.m */; };
 		710C03A819E397B200C27A33 /* KnowledgeMetaManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 710C03A719E397B200C27A33 /* KnowledgeMetaManager.m */; };
 		7118EB2119ED1F80002CF833 /* AppUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 7118EB2019ED1F80002CF833 /* AppUtil.m */; };
+		7118EB4819EF6B41002CF833 /* CLIColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 7118EB4719EF6B41002CF833 /* CLIColor.m */; };
+		7118EB5919EF6B54002CF833 /* DDAbstractDatabaseLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 7118EB4B19EF6B54002CF833 /* DDAbstractDatabaseLogger.m */; };
+		7118EB5A19EF6B54002CF833 /* DDASLLogCapture.m in Sources */ = {isa = PBXBuildFile; fileRef = 7118EB4D19EF6B54002CF833 /* DDASLLogCapture.m */; };
+		7118EB5B19EF6B54002CF833 /* DDASLLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 7118EB4F19EF6B54002CF833 /* DDASLLogger.m */; };
+		7118EB5C19EF6B54002CF833 /* DDFileLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 7118EB5219EF6B54002CF833 /* DDFileLogger.m */; };
+		7118EB5D19EF6B54002CF833 /* DDLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 7118EB5419EF6B54002CF833 /* DDLog.m */; };
+		7118EB5E19EF6B54002CF833 /* DDTTYLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 7118EB5819EF6B54002CF833 /* DDTTYLogger.m */; };
+		7118EB6619EF6B7F002CF833 /* DDContextFilterLogFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 7118EB6119EF6B7F002CF833 /* DDContextFilterLogFormatter.m */; };
+		7118EB6719EF6B7F002CF833 /* DDDispatchQueueLogFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 7118EB6319EF6B7F002CF833 /* DDDispatchQueueLogFormatter.m */; };
+		7118EB6819EF6B7F002CF833 /* DDMultiFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 7118EB6519EF6B7F002CF833 /* DDMultiFormatter.m */; };
+		7118EB7E19EF6BE3002CF833 /* AppCode-support.md in Sources */ = {isa = PBXBuildFile; fileRef = 7118EB6B19EF6BE3002CF833 /* AppCode-support.md */; };
+		7118EB7F19EF6BE3002CF833 /* ARC.md in Sources */ = {isa = PBXBuildFile; fileRef = 7118EB6C19EF6BE3002CF833 /* ARC.md */; };
+		7118EB8019EF6BE3002CF833 /* Architecture.md in Sources */ = {isa = PBXBuildFile; fileRef = 7118EB6D19EF6BE3002CF833 /* Architecture.md */; };
+		7118EB8119EF6BE3002CF833 /* CustomContext.md in Sources */ = {isa = PBXBuildFile; fileRef = 7118EB6E19EF6BE3002CF833 /* CustomContext.md */; };
+		7118EB8219EF6BE3002CF833 /* CustomFormatters.md in Sources */ = {isa = PBXBuildFile; fileRef = 7118EB6F19EF6BE3002CF833 /* CustomFormatters.md */; };
+		7118EB8319EF6BE3002CF833 /* CustomLoggers.md in Sources */ = {isa = PBXBuildFile; fileRef = 7118EB7019EF6BE3002CF833 /* CustomLoggers.md */; };
+		7118EB8419EF6BE3002CF833 /* CustomLogLevels.md in Sources */ = {isa = PBXBuildFile; fileRef = 7118EB7119EF6BE3002CF833 /* CustomLogLevels.md */; };
+		7118EB8519EF6BE3002CF833 /* DynamicLogLevels.md in Sources */ = {isa = PBXBuildFile; fileRef = 7118EB7219EF6BE3002CF833 /* DynamicLogLevels.md */; };
+		7118EB8619EF6BE3002CF833 /* FAQ.md in Sources */ = {isa = PBXBuildFile; fileRef = 7118EB7319EF6BE3002CF833 /* FAQ.md */; };
+		7118EB8719EF6BE3002CF833 /* FineGrainedLogging.md in Sources */ = {isa = PBXBuildFile; fileRef = 7118EB7419EF6BE3002CF833 /* FineGrainedLogging.md */; };
+		7118EB8819EF6BE3002CF833 /* GettingStarted.md in Sources */ = {isa = PBXBuildFile; fileRef = 7118EB7519EF6BE3002CF833 /* GettingStarted.md */; };
+		7118EB8919EF6BE3002CF833 /* LogFileManagement.md in Sources */ = {isa = PBXBuildFile; fileRef = 7118EB7619EF6BE3002CF833 /* LogFileManagement.md */; };
+		7118EB8A19EF6BE3002CF833 /* Performance.md in Sources */ = {isa = PBXBuildFile; fileRef = 7118EB7719EF6BE3002CF833 /* Performance.md */; };
+		7118EB8B19EF6BE3002CF833 /* PerLoggerLogLevels.md in Sources */ = {isa = PBXBuildFile; fileRef = 7118EB7819EF6BE3002CF833 /* PerLoggerLogLevels.md */; };
+		7118EB8C19EF6BE3002CF833 /* PerUserLogLevels.md in Sources */ = {isa = PBXBuildFile; fileRef = 7118EB7919EF6BE3002CF833 /* PerUserLogLevels.md */; };
+		7118EB8D19EF6BE3002CF833 /* ProblemSolution.md in Sources */ = {isa = PBXBuildFile; fileRef = 7118EB7A19EF6BE3002CF833 /* ProblemSolution.md */; };
+		7118EB8E19EF6BE3002CF833 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 7118EB7B19EF6BE3002CF833 /* README.md */; };
+		7118EB8F19EF6BE3002CF833 /* XcodeColors.md in Sources */ = {isa = PBXBuildFile; fileRef = 7118EB7C19EF6BE3002CF833 /* XcodeColors.md */; };
+		7118EB9019EF6BE3002CF833 /* XcodeTricks.md in Sources */ = {isa = PBXBuildFile; fileRef = 7118EB7D19EF6BE3002CF833 /* XcodeTricks.md */; };
+		7118EB9619EF6C54002CF833 /* LICENSE.txt in Resources */ = {isa = PBXBuildFile; fileRef = 7118EB9219EF6C54002CF833 /* LICENSE.txt */; };
+		7118EB9719EF6C54002CF833 /* LumberjackLogo.png in Resources */ = {isa = PBXBuildFile; fileRef = 7118EB9319EF6C54002CF833 /* LumberjackLogo.png */; };
+		7118EB9819EF6C54002CF833 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 7118EB9419EF6C54002CF833 /* README.md */; };
+		7118EB9919EF6C54002CF833 /* uncrustify.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 7118EB9519EF6C54002CF833 /* uncrustify.cfg */; };
+		7118EB9C19EF7109002CF833 /* LogUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 7118EB9B19EF7109002CF833 /* LogUtil.m */; };
 		7134FB2019E4D952004AB7A8 /* KnowledgeDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7134FB1F19E4D952004AB7A8 /* KnowledgeDataManager.m */; };
 		7134FB2319E4DE4E004AB7A8 /* KnowledgeSearchManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7134FB2219E4DE4E004AB7A8 /* KnowledgeSearchManager.m */; };
 		713D863E19E91654006446D5 /* DateUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 713D863D19E91654006446D5 /* DateUtil.m */; };
@@ -353,6 +387,55 @@
 		710C03A719E397B200C27A33 /* KnowledgeMetaManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KnowledgeMetaManager.m; path = src/knowledge/KnowledgeMetaManager.m; sourceTree = "<group>"; };
 		7118EB1F19ED1F80002CF833 /* AppUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppUtil.h; path = src/util/AppUtil.h; sourceTree = "<group>"; };
 		7118EB2019ED1F80002CF833 /* AppUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppUtil.m; path = src/util/AppUtil.m; sourceTree = "<group>"; };
+		7118EB4619EF6B41002CF833 /* CLIColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CLIColor.h; path = depends/CocoaLumberjack/Classes/CLI/CLIColor.h; sourceTree = "<group>"; };
+		7118EB4719EF6B41002CF833 /* CLIColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CLIColor.m; path = depends/CocoaLumberjack/Classes/CLI/CLIColor.m; sourceTree = "<group>"; };
+		7118EB4919EF6B54002CF833 /* CocoaLumberjack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CocoaLumberjack.h; path = depends/CocoaLumberjack/Classes/CocoaLumberjack.h; sourceTree = "<group>"; };
+		7118EB4A19EF6B54002CF833 /* DDAbstractDatabaseLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DDAbstractDatabaseLogger.h; path = depends/CocoaLumberjack/Classes/DDAbstractDatabaseLogger.h; sourceTree = "<group>"; };
+		7118EB4B19EF6B54002CF833 /* DDAbstractDatabaseLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DDAbstractDatabaseLogger.m; path = depends/CocoaLumberjack/Classes/DDAbstractDatabaseLogger.m; sourceTree = "<group>"; };
+		7118EB4C19EF6B54002CF833 /* DDASLLogCapture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DDASLLogCapture.h; path = depends/CocoaLumberjack/Classes/DDASLLogCapture.h; sourceTree = "<group>"; };
+		7118EB4D19EF6B54002CF833 /* DDASLLogCapture.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DDASLLogCapture.m; path = depends/CocoaLumberjack/Classes/DDASLLogCapture.m; sourceTree = "<group>"; };
+		7118EB4E19EF6B54002CF833 /* DDASLLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DDASLLogger.h; path = depends/CocoaLumberjack/Classes/DDASLLogger.h; sourceTree = "<group>"; };
+		7118EB4F19EF6B54002CF833 /* DDASLLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DDASLLogger.m; path = depends/CocoaLumberjack/Classes/DDASLLogger.m; sourceTree = "<group>"; };
+		7118EB5019EF6B54002CF833 /* DDAssertMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DDAssertMacros.h; path = depends/CocoaLumberjack/Classes/DDAssertMacros.h; sourceTree = "<group>"; };
+		7118EB5119EF6B54002CF833 /* DDFileLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DDFileLogger.h; path = depends/CocoaLumberjack/Classes/DDFileLogger.h; sourceTree = "<group>"; };
+		7118EB5219EF6B54002CF833 /* DDFileLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DDFileLogger.m; path = depends/CocoaLumberjack/Classes/DDFileLogger.m; sourceTree = "<group>"; };
+		7118EB5319EF6B54002CF833 /* DDLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DDLog.h; path = depends/CocoaLumberjack/Classes/DDLog.h; sourceTree = "<group>"; };
+		7118EB5419EF6B54002CF833 /* DDLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DDLog.m; path = depends/CocoaLumberjack/Classes/DDLog.m; sourceTree = "<group>"; };
+		7118EB5519EF6B54002CF833 /* DDLog+LOGV.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "DDLog+LOGV.h"; path = "depends/CocoaLumberjack/Classes/DDLog+LOGV.h"; sourceTree = "<group>"; };
+		7118EB5619EF6B54002CF833 /* DDLogMacros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DDLogMacros.h; path = depends/CocoaLumberjack/Classes/DDLogMacros.h; sourceTree = "<group>"; };
+		7118EB5719EF6B54002CF833 /* DDTTYLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DDTTYLogger.h; path = depends/CocoaLumberjack/Classes/DDTTYLogger.h; sourceTree = "<group>"; };
+		7118EB5819EF6B54002CF833 /* DDTTYLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DDTTYLogger.m; path = depends/CocoaLumberjack/Classes/DDTTYLogger.m; sourceTree = "<group>"; };
+		7118EB6019EF6B7F002CF833 /* DDContextFilterLogFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DDContextFilterLogFormatter.h; path = depends/CocoaLumberjack/Classes/Extensions/DDContextFilterLogFormatter.h; sourceTree = "<group>"; };
+		7118EB6119EF6B7F002CF833 /* DDContextFilterLogFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DDContextFilterLogFormatter.m; path = depends/CocoaLumberjack/Classes/Extensions/DDContextFilterLogFormatter.m; sourceTree = "<group>"; };
+		7118EB6219EF6B7F002CF833 /* DDDispatchQueueLogFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DDDispatchQueueLogFormatter.h; path = depends/CocoaLumberjack/Classes/Extensions/DDDispatchQueueLogFormatter.h; sourceTree = "<group>"; };
+		7118EB6319EF6B7F002CF833 /* DDDispatchQueueLogFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DDDispatchQueueLogFormatter.m; path = depends/CocoaLumberjack/Classes/Extensions/DDDispatchQueueLogFormatter.m; sourceTree = "<group>"; };
+		7118EB6419EF6B7F002CF833 /* DDMultiFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DDMultiFormatter.h; path = depends/CocoaLumberjack/Classes/Extensions/DDMultiFormatter.h; sourceTree = "<group>"; };
+		7118EB6519EF6B7F002CF833 /* DDMultiFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DDMultiFormatter.m; path = depends/CocoaLumberjack/Classes/Extensions/DDMultiFormatter.m; sourceTree = "<group>"; };
+		7118EB6B19EF6BE3002CF833 /* AppCode-support.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = "AppCode-support.md"; path = "depends/CocoaLumberjack/Documentation/AppCode-support.md"; sourceTree = "<group>"; };
+		7118EB6C19EF6BE3002CF833 /* ARC.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = ARC.md; path = depends/CocoaLumberjack/Documentation/ARC.md; sourceTree = "<group>"; };
+		7118EB6D19EF6BE3002CF833 /* Architecture.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = Architecture.md; path = depends/CocoaLumberjack/Documentation/Architecture.md; sourceTree = "<group>"; };
+		7118EB6E19EF6BE3002CF833 /* CustomContext.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = CustomContext.md; path = depends/CocoaLumberjack/Documentation/CustomContext.md; sourceTree = "<group>"; };
+		7118EB6F19EF6BE3002CF833 /* CustomFormatters.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = CustomFormatters.md; path = depends/CocoaLumberjack/Documentation/CustomFormatters.md; sourceTree = "<group>"; };
+		7118EB7019EF6BE3002CF833 /* CustomLoggers.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = CustomLoggers.md; path = depends/CocoaLumberjack/Documentation/CustomLoggers.md; sourceTree = "<group>"; };
+		7118EB7119EF6BE3002CF833 /* CustomLogLevels.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = CustomLogLevels.md; path = depends/CocoaLumberjack/Documentation/CustomLogLevels.md; sourceTree = "<group>"; };
+		7118EB7219EF6BE3002CF833 /* DynamicLogLevels.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = DynamicLogLevels.md; path = depends/CocoaLumberjack/Documentation/DynamicLogLevels.md; sourceTree = "<group>"; };
+		7118EB7319EF6BE3002CF833 /* FAQ.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = FAQ.md; path = depends/CocoaLumberjack/Documentation/FAQ.md; sourceTree = "<group>"; };
+		7118EB7419EF6BE3002CF833 /* FineGrainedLogging.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = FineGrainedLogging.md; path = depends/CocoaLumberjack/Documentation/FineGrainedLogging.md; sourceTree = "<group>"; };
+		7118EB7519EF6BE3002CF833 /* GettingStarted.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = GettingStarted.md; path = depends/CocoaLumberjack/Documentation/GettingStarted.md; sourceTree = "<group>"; };
+		7118EB7619EF6BE3002CF833 /* LogFileManagement.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = LogFileManagement.md; path = depends/CocoaLumberjack/Documentation/LogFileManagement.md; sourceTree = "<group>"; };
+		7118EB7719EF6BE3002CF833 /* Performance.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = Performance.md; path = depends/CocoaLumberjack/Documentation/Performance.md; sourceTree = "<group>"; };
+		7118EB7819EF6BE3002CF833 /* PerLoggerLogLevels.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = PerLoggerLogLevels.md; path = depends/CocoaLumberjack/Documentation/PerLoggerLogLevels.md; sourceTree = "<group>"; };
+		7118EB7919EF6BE3002CF833 /* PerUserLogLevels.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = PerUserLogLevels.md; path = depends/CocoaLumberjack/Documentation/PerUserLogLevels.md; sourceTree = "<group>"; };
+		7118EB7A19EF6BE3002CF833 /* ProblemSolution.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = ProblemSolution.md; path = depends/CocoaLumberjack/Documentation/ProblemSolution.md; sourceTree = "<group>"; };
+		7118EB7B19EF6BE3002CF833 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = depends/CocoaLumberjack/Documentation/README.md; sourceTree = "<group>"; };
+		7118EB7C19EF6BE3002CF833 /* XcodeColors.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = XcodeColors.md; path = depends/CocoaLumberjack/Documentation/XcodeColors.md; sourceTree = "<group>"; };
+		7118EB7D19EF6BE3002CF833 /* XcodeTricks.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = XcodeTricks.md; path = depends/CocoaLumberjack/Documentation/XcodeTricks.md; sourceTree = "<group>"; };
+		7118EB9219EF6C54002CF833 /* LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = LICENSE.txt; path = depends/CocoaLumberjack/LICENSE.txt; sourceTree = "<group>"; };
+		7118EB9319EF6C54002CF833 /* LumberjackLogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = LumberjackLogo.png; path = depends/CocoaLumberjack/LumberjackLogo.png; sourceTree = "<group>"; };
+		7118EB9419EF6C54002CF833 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = depends/CocoaLumberjack/README.md; sourceTree = "<group>"; };
+		7118EB9519EF6C54002CF833 /* uncrustify.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = uncrustify.cfg; path = depends/CocoaLumberjack/uncrustify.cfg; sourceTree = "<group>"; };
+		7118EB9A19EF7109002CF833 /* LogUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LogUtil.h; path = src/util/LogUtil.h; sourceTree = "<group>"; };
+		7118EB9B19EF7109002CF833 /* LogUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LogUtil.m; path = src/util/LogUtil.m; sourceTree = "<group>"; };
 		7134FB1E19E4D952004AB7A8 /* KnowledgeDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KnowledgeDataManager.h; path = src/knowledge/KnowledgeDataManager.h; sourceTree = "<group>"; };
 		7134FB1F19E4D952004AB7A8 /* KnowledgeDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KnowledgeDataManager.m; path = src/knowledge/KnowledgeDataManager.m; sourceTree = "<group>"; };
 		7134FB2119E4DE4E004AB7A8 /* KnowledgeSearchManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KnowledgeSearchManager.h; path = src/knowledge/KnowledgeSearchManager.h; sourceTree = "<group>"; };
@@ -1003,6 +1086,92 @@
 			name = model;
 			sourceTree = "<group>";
 		};
+		7118EB2319EF6AB4002CF833 /* CocoaLumberjack */ = {
+			isa = PBXGroup;
+			children = (
+				7118EB9219EF6C54002CF833 /* LICENSE.txt */,
+				7118EB9319EF6C54002CF833 /* LumberjackLogo.png */,
+				7118EB9419EF6C54002CF833 /* README.md */,
+				7118EB9519EF6C54002CF833 /* uncrustify.cfg */,
+				7118EB4419EF6B1F002CF833 /* Classes */,
+				7118EB6A19EF6BCE002CF833 /* Documentation */,
+			);
+			name = CocoaLumberjack;
+			sourceTree = "<group>";
+		};
+		7118EB4419EF6B1F002CF833 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				7118EB4519EF6B2E002CF833 /* CLI */,
+				7118EB5F19EF6B6A002CF833 /* Extensions */,
+				7118EB4919EF6B54002CF833 /* CocoaLumberjack.h */,
+				7118EB4A19EF6B54002CF833 /* DDAbstractDatabaseLogger.h */,
+				7118EB4B19EF6B54002CF833 /* DDAbstractDatabaseLogger.m */,
+				7118EB4C19EF6B54002CF833 /* DDASLLogCapture.h */,
+				7118EB4D19EF6B54002CF833 /* DDASLLogCapture.m */,
+				7118EB4E19EF6B54002CF833 /* DDASLLogger.h */,
+				7118EB4F19EF6B54002CF833 /* DDASLLogger.m */,
+				7118EB5019EF6B54002CF833 /* DDAssertMacros.h */,
+				7118EB5119EF6B54002CF833 /* DDFileLogger.h */,
+				7118EB5219EF6B54002CF833 /* DDFileLogger.m */,
+				7118EB5319EF6B54002CF833 /* DDLog.h */,
+				7118EB5419EF6B54002CF833 /* DDLog.m */,
+				7118EB5519EF6B54002CF833 /* DDLog+LOGV.h */,
+				7118EB5619EF6B54002CF833 /* DDLogMacros.h */,
+				7118EB5719EF6B54002CF833 /* DDTTYLogger.h */,
+				7118EB5819EF6B54002CF833 /* DDTTYLogger.m */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
+		7118EB4519EF6B2E002CF833 /* CLI */ = {
+			isa = PBXGroup;
+			children = (
+				7118EB4619EF6B41002CF833 /* CLIColor.h */,
+				7118EB4719EF6B41002CF833 /* CLIColor.m */,
+			);
+			name = CLI;
+			sourceTree = "<group>";
+		};
+		7118EB5F19EF6B6A002CF833 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				7118EB6019EF6B7F002CF833 /* DDContextFilterLogFormatter.h */,
+				7118EB6119EF6B7F002CF833 /* DDContextFilterLogFormatter.m */,
+				7118EB6219EF6B7F002CF833 /* DDDispatchQueueLogFormatter.h */,
+				7118EB6319EF6B7F002CF833 /* DDDispatchQueueLogFormatter.m */,
+				7118EB6419EF6B7F002CF833 /* DDMultiFormatter.h */,
+				7118EB6519EF6B7F002CF833 /* DDMultiFormatter.m */,
+			);
+			name = Extensions;
+			sourceTree = "<group>";
+		};
+		7118EB6A19EF6BCE002CF833 /* Documentation */ = {
+			isa = PBXGroup;
+			children = (
+				7118EB6B19EF6BE3002CF833 /* AppCode-support.md */,
+				7118EB6C19EF6BE3002CF833 /* ARC.md */,
+				7118EB6D19EF6BE3002CF833 /* Architecture.md */,
+				7118EB6E19EF6BE3002CF833 /* CustomContext.md */,
+				7118EB6F19EF6BE3002CF833 /* CustomFormatters.md */,
+				7118EB7019EF6BE3002CF833 /* CustomLoggers.md */,
+				7118EB7119EF6BE3002CF833 /* CustomLogLevels.md */,
+				7118EB7219EF6BE3002CF833 /* DynamicLogLevels.md */,
+				7118EB7319EF6BE3002CF833 /* FAQ.md */,
+				7118EB7419EF6BE3002CF833 /* FineGrainedLogging.md */,
+				7118EB7519EF6BE3002CF833 /* GettingStarted.md */,
+				7118EB7619EF6BE3002CF833 /* LogFileManagement.md */,
+				7118EB7719EF6BE3002CF833 /* Performance.md */,
+				7118EB7819EF6BE3002CF833 /* PerLoggerLogLevels.md */,
+				7118EB7919EF6BE3002CF833 /* PerUserLogLevels.md */,
+				7118EB7A19EF6BE3002CF833 /* ProblemSolution.md */,
+				7118EB7B19EF6BE3002CF833 /* README.md */,
+				7118EB7C19EF6BE3002CF833 /* XcodeColors.md */,
+				7118EB7D19EF6BE3002CF833 /* XcodeTricks.md */,
+			);
+			name = Documentation;
+			sourceTree = "<group>";
+		};
 		713D863F19EA96BB006446D5 /* ZipArchive */ = {
 			isa = PBXGroup;
 			children = (
@@ -1286,6 +1455,8 @@
 				713D863D19E91654006446D5 /* DateUtil.m */,
 				7118EB1F19ED1F80002CF833 /* AppUtil.h */,
 				7118EB2019ED1F80002CF833 /* AppUtil.m */,
+				7118EB9A19EF7109002CF833 /* LogUtil.h */,
+				7118EB9B19EF7109002CF833 /* LogUtil.m */,
 			);
 			name = util;
 			sourceTree = "<group>";
@@ -1293,6 +1464,7 @@
 		71860C1019DE941700D01AA9 /* depends */ = {
 			isa = PBXGroup;
 			children = (
+				7118EB2319EF6AB4002CF833 /* CocoaLumberjack */,
 				713D863F19EA96BB006446D5 /* ZipArchive */,
 				715EE99919E83286005A4F78 /* JSONModel */,
 				715EE97A19E594C6005A4F78 /* WebViewJavascriptBridge */,
@@ -1456,6 +1628,7 @@
 			files = (
 				710C038B19E2458C00C27A33 /* assets in Resources */,
 				71860C5A19DE953500D01AA9 /* umeng in Resources */,
+				7118EB9919EF6C54002CF833 /* uncrustify.cfg in Resources */,
 				710C033619E1C8E600C27A33 /* LICENSE in Resources */,
 				710C02FA19E1C8A200C27A33 /* LICENSE in Resources */,
 				715EE97E19E594D9005A4F78 /* WebViewJavascriptBridge.js.txt in Resources */,
@@ -1466,6 +1639,8 @@
 				0690782519CFD62700CD9C3D /* InfoPlist.strings in Resources */,
 				710C033719E1C8E600C27A33 /* README.mdown in Resources */,
 				06A8660E19D14473000BEAA7 /* 2@2x.png in Resources */,
+				7118EB9719EF6C54002CF833 /* LumberjackLogo.png in Resources */,
+				7118EB9619EF6C54002CF833 /* LICENSE.txt in Resources */,
 				710C02FB19E1C8A200C27A33 /* README.md in Resources */,
 				710C02BB19E0457A00C27A33 /* SubjectTableViewCell.xib in Resources */,
 				0690783019CFD62700CD9C3D /* Images.xcassets in Resources */,
@@ -1508,6 +1683,7 @@
 				710C036C19E1C96900C27A33 /* NSData+AES.m in Sources */,
 				06A8F51B19E8DE7F003D673E /* CustomRechargeView.m in Sources */,
 				710C031319E1C8B600C27A33 /* UIRefreshControl+AFNetworking.m in Sources */,
+				7118EB8B19EF6BE3002CF833 /* PerLoggerLogLevels.md in Sources */,
 				71860BFE19DE50C300D01AA9 /* IADownloadOperation.m in Sources */,
 				710C02BA19E0457A00C27A33 /* SubjectTableViewCell.m in Sources */,
 				710C032919E1C8D000C27A33 /* AFHTTPRequestOperationManager.m in Sources */,
@@ -1521,11 +1697,16 @@
 				710C030D19E1C8B600C27A33 /* AFNetworkActivityIndicatorManager.m in Sources */,
 				715EE99219E813B5005A4F78 /* WebConfig.m in Sources */,
 				710C035519E1C90E00C27A33 /* SBJsonStreamParserAccumulator.m in Sources */,
+				7118EB5E19EF6B54002CF833 /* DDTTYLogger.m in Sources */,
+				7118EB9019EF6BE3002CF833 /* XcodeTricks.md in Sources */,
 				710C033519E1C8E600C27A33 /* EGOCache.m in Sources */,
 				715EE98F19E7FCDB005A4F78 /* WebUtil.m in Sources */,
 				715EE9BB19E8332B005A4F78 /* JSONKeyMapper.m in Sources */,
+				7118EB5D19EF6B54002CF833 /* DDLog.m in Sources */,
 				71860C0019DE50C300D01AA9 /* IASequentialDownloadManager.m in Sources */,
+				7118EB8419EF6BE3002CF833 /* CustomLogLevels.md in Sources */,
 				715EE9B519E8331C005A4F78 /* JSONHTTPClient.m in Sources */,
+				7118EB8319EF6BE3002CF833 /* CustomLoggers.md in Sources */,
 				715EE97919E52749005A4F78 /* UIImage+tintedImage.m in Sources */,
 				06A8F51419E8DE7F003D673E /* LogoutViewController.m in Sources */,
 				71860BDE19DC6DA500D01AA9 /* KnowledgeManager.m in Sources */,
@@ -1535,10 +1716,12 @@
 				71860C0A19DE546700D01AA9 /* KnowledgeDownloadItem.m in Sources */,
 				715EE9BC19E8332B005A4F78 /* JSONValueTransformer.m in Sources */,
 				710C030F19E1C8B600C27A33 /* UIAlertView+AFNetworking.m in Sources */,
+				7118EB5919EF6B54002CF833 /* DDAbstractDatabaseLogger.m in Sources */,
 				71860BE319DC754C00D01AA9 /* Config.m in Sources */,
 				715EE97F19E594D9005A4F78 /* WebViewJavascriptBridge.m in Sources */,
 				710C03A519E2F38E00C27A33 /* KnowledgeSearchReverseInfo.m in Sources */,
 				710C039219E2E45C00C27A33 /* ebooksystem.xcdatamodeld in Sources */,
+				7118EB8F19EF6BE3002CF833 /* XcodeColors.md in Sources */,
 				06A8F51719E8DE7F003D673E /* MoreViewController.m in Sources */,
 				715EE9C119E839F6005A4F78 /* CryptUtil.m in Sources */,
 				06A8F51C19E8DE7F003D673E /* CustomViewCellTableViewCell.m in Sources */,
@@ -1548,10 +1731,14 @@
 				06A8F50F19E8DE7F003D673E /* UMFeedbackTableViewCellRight.m in Sources */,
 				710C037419E1C98B00C27A33 /* UIDevice+IdentifierAddition.m in Sources */,
 				06A8F51F19E8DE7F003D673E /* CustomRegisterView.m in Sources */,
+				7118EB8619EF6BE3002CF833 /* FAQ.md in Sources */,
 				710C02B119E0394100C27A33 /* SubjectViewController.m in Sources */,
 				710C031419E1C8B600C27A33 /* UIWebView+AFNetworking.m in Sources */,
 				710C02B519E03E4F00C27A33 /* KnowledgeSubject.m in Sources */,
 				715EE98319E6CF8C005A4F78 /* StatisticsManager.m in Sources */,
+				7118EB8A19EF6BE3002CF833 /* Performance.md in Sources */,
+				7118EB8219EF6BE3002CF833 /* CustomFormatters.md in Sources */,
+				7118EB7E19EF6BE3002CF833 /* AppCode-support.md in Sources */,
 				710C032A19E1C8D000C27A33 /* AFHTTPSessionManager.m in Sources */,
 				715EE97819E52749005A4F78 /* QBTitleView.m in Sources */,
 				71860BE919DC7B4300D01AA9 /* KnowledgeDataConfig.m in Sources */,
@@ -1564,31 +1751,46 @@
 				06A8F51D19E8DE7F003D673E /* RegisterViewController.m in Sources */,
 				7134FB2019E4D952004AB7A8 /* KnowledgeDataManager.m in Sources */,
 				715EE98C19E7F517005A4F78 /* KnowledgeDataTypes.m in Sources */,
+				7118EB8D19EF6BE3002CF833 /* ProblemSolution.md in Sources */,
+				7118EB9C19EF7109002CF833 /* LogUtil.m in Sources */,
 				710C032E19E1C8D000C27A33 /* AFURLRequestSerialization.m in Sources */,
 				71860C0719DE544D00D01AA9 /* KnowledgeDownloadManager.m in Sources */,
 				06A8F50819E8DE7F003D673E /* CustomAboutUsview.m in Sources */,
+				7118EB6619EF6B7F002CF833 /* DDContextFilterLogFormatter.m in Sources */,
 				06A8F51819E8DE7F003D673E /* CustomMoreView.m in Sources */,
 				710C032F19E1C8D000C27A33 /* AFURLResponseSerialization.m in Sources */,
 				710C035919E1C90E00C27A33 /* SBJsonStreamWriterAccumulator.m in Sources */,
 				7134FB2319E4DE4E004AB7A8 /* KnowledgeSearchManager.m in Sources */,
 				06A8F72C19E8F925003D673E /* CustomGetUserInfoModel.m in Sources */,
+				7118EB8C19EF6BE3002CF833 /* PerUserLogLevels.md in Sources */,
 				06A8F50D19E8DE7F003D673E /* UMEGORefreshTableHeaderView.m in Sources */,
 				715EE9A819E832ED005A4F78 /* JSONModelClassProperty.m in Sources */,
 				06A8F50B19E8DE7F003D673E /* UMFeedbackViewController.m in Sources */,
 				710C032D19E1C8D000C27A33 /* AFURLConnectionOperation.m in Sources */,
+				7118EB5C19EF6B54002CF833 /* DDFileLogger.m in Sources */,
 				710C03A819E397B200C27A33 /* KnowledgeMetaManager.m in Sources */,
+				7118EB8919EF6BE3002CF833 /* LogFileManagement.md in Sources */,
 				06A8F51219E8DE7F003D673E /* CustomLoginNavgationBar.m in Sources */,
+				7118EB8719EF6BE3002CF833 /* FineGrainedLogging.md in Sources */,
+				7118EB5A19EF6B54002CF833 /* DDASLLogCapture.m in Sources */,
 				713D865219EA96ED006446D5 /* zip.c in Sources */,
 				710C031119E1C8B600C27A33 /* UIImageView+AFNetworking.m in Sources */,
 				06A8F51E19E8DE7F003D673E /* RegisterModel.m in Sources */,
 				713D865119EA96ED006446D5 /* unzip.c in Sources */,
 				710C037319E1C98B00C27A33 /* NSString+MD5Addition.m in Sources */,
+				7118EB8E19EF6BE3002CF833 /* README.md in Sources */,
 				710C035619E1C90E00C27A33 /* SBJsonStreamParserAdapter.m in Sources */,
 				710C02C719E189A200C27A33 /* DrawableConfig.m in Sources */,
+				7118EB8819EF6BE3002CF833 /* GettingStarted.md in Sources */,
 				710C032B19E1C8D000C27A33 /* AFNetworkReachabilityManager.m in Sources */,
+				7118EB6819EF6B7F002CF833 /* DDMultiFormatter.m in Sources */,
+				7118EB9819EF6C54002CF833 /* README.md in Sources */,
 				713D864519EA96DD006446D5 /* ZipArchive.mm in Sources */,
 				710C035C19E1C90E00C27A33 /* SBJsonUTF8Stream.m in Sources */,
+				7118EB4819EF6B41002CF833 /* CLIColor.m in Sources */,
+				7118EB8019EF6BE3002CF833 /* Architecture.md in Sources */,
 				06A8F51119E8DE7F003D673E /* CustomLoginModel.m in Sources */,
+				7118EB8519EF6BE3002CF833 /* DynamicLogLevels.md in Sources */,
 				713D863E19E91654006446D5 /* DateUtil.m in Sources */,
 				715EE9A919E832ED005A4F78 /* JSONModelError.m in Sources */,
 				710C03A219E2EDB800C27A33 /* KnowledgeSearchEntity.m in Sources */,
@@ -1609,17 +1811,21 @@
 				713D864F19EA96ED006446D5 /* ioapi.c in Sources */,
 				710C038E19E2644900C27A33 /* PathUtil.m in Sources */,
 				710C035219E1C90E00C27A33 /* NSObject+SBJson.m in Sources */,
+				7118EB5B19EF6B54002CF833 /* DDASLLogger.m in Sources */,
 				710C031219E1C8B600C27A33 /* UIProgressView+AFNetworking.m in Sources */,
 				710C035419E1C90E00C27A33 /* SBJsonStreamParser.m in Sources */,
 				715EE96E19E526D7005A4F78 /* CommonWebViewController.m in Sources */,
 				715EE98719E6D84A005A4F78 /* UserManager.m in Sources */,
+				7118EB6719EF6B7F002CF833 /* DDDispatchQueueLogFormatter.m in Sources */,
 				06A8F50719E8DE7F003D673E /* AboutUsViewController.m in Sources */,
 				710C036D19E1C96900C27A33 /* SecurityUtil.m in Sources */,
 				710C035D19E1C90E00C27A33 /* SBJsonWriter.m in Sources */,
 				71860BFF19DE50C300D01AA9 /* IASequentialDownloadHandler.m in Sources */,
 				710C033019E1C8D000C27A33 /* AFURLSessionManager.m in Sources */,
 				06A8F50E19E8DE7F003D673E /* UMFeedbackTableViewCellLeft.m in Sources */,
+				7118EB8119EF6BE3002CF833 /* CustomContext.md in Sources */,
 				710C035719E1C90E00C27A33 /* SBJsonStreamParserState.m in Sources */,
+				7118EB7F19EF6BE3002CF833 /* ARC.md in Sources */,
 				0690782719CFD62700CD9C3D /* main.m in Sources */,
 				7159EC5719E4373C00288CF2 /* CoreDataUtil.m in Sources */,
 				710C039C19E2ECA400C27A33 /* KnowledgeMeta.m in Sources */,

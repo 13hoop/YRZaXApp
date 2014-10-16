@@ -7,11 +7,16 @@
 //
 
 #import "RechargeModel.h"
+
 #import "AFNetworking.h"
 #import "UIKit+AFNetworking.h"
 #import "UIDevice+IdentifierAddition.h"
 #import "SBJson.h"
 #import "SecurityUtil.h"
+
+#import "LogUtil.h"
+
+
 @implementation RechargeModel
 
 -(void)getRecharge:(NSString *)cardID
@@ -24,14 +29,14 @@
         SBJsonWriter *jsonWriter=[[SBJsonWriter alloc] init];
         NSError *error;
         //kmlin b
-        NSLog(@"cardID===%@",cardID);
+        LogDebug(@"cardID===%@",cardID);
         NSDictionary *dic=[NSDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] objectForKey:@"userInfoName"],@"user_name",cardID,@"card_id",@"1",@"recharge_type",nil];
         NSString *jsonString=[jsonWriter stringWithObject:dic error:&error];
-        NSLog(@"jsonString==%@",jsonString);
+        LogDebug(@"jsonString==%@",jsonString);
         NSString *string=[SecurityUtil AES128Encrypt:jsonString andwithPassword:[[NSUserDefaults standardUserDefaults] objectForKey:@"userinfoPassword"]];
 //        NSString *string=[SecurityUtil encryptAESData:jsonString app_key:[[NSUserDefaults standardUserDefaults] objectForKey:@"userinfoPassword"]];
-        NSLog(@"加密后的数据是：%@",string);
-        NSLog(@"看一下能否打印出来设备的ID %@",[[UIDevice currentDevice] uniqueDeviceIdentifier]);
+        LogDebug(@"加密后的数据是：%@",string);
+        LogDebug(@"看一下能否打印出来设备的ID %@",[[UIDevice currentDevice] uniqueDeviceIdentifier]);
         //发起网络请求
         AFHTTPRequestOperationManager *manager=[AFHTTPRequestOperationManager manager];
         manager.responseSerializer.acceptableContentTypes=[NSSet setWithObject:@"text/html"];
@@ -60,13 +65,13 @@
             NSString *dataStr=dic[@"data"];
             NSData *dataData=[dataStr dataUsingEncoding:NSUTF8StringEncoding];
             NSDictionary *data=[NSJSONSerialization JSONObjectWithData:dataData options:0 error:nil];
-            NSLog(@"message===%@",data[@"msg"]);
+            LogDebug(@"message===%@",data[@"msg"]);
             
             //
             [self.recharge_delegate getRechargeMessage:data[@"msg"]];
             
         } failure:^(AFHTTPRequestOperation *operation,NSError *error){
-            NSLog(@"请求失败");
+            LogError(@"请求失败, error: %@", error.localizedDescription);
         }];
 
     });

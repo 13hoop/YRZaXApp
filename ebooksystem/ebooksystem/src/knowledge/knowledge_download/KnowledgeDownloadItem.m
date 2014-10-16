@@ -7,8 +7,13 @@
 //
 
 #import "KnowledgeDownloadItem.h"
+
 #import "IADownloadManager.h"
 #import "IASequentialDownloadManager.h"
+
+#import "LogUtil.h"
+
+
 
 @interface KnowledgeDownloadItem()<IADownloadManagerDelegate, IASequentialDownloadManagerDelegate> {
     
@@ -114,7 +119,7 @@
 #pragma mark - IADownloadManagerDelegate methods
 - (void) downloadManagerDidProgress:(float)progress {
     self.downloadProgress = [NSNumber numberWithFloat:progress];
-//    NSLog(@"download item, id %@, title %@, progress: %@", self.itemId, self.title, self.downloadProgress);
+//    LogDebug(@"download item, id %@, title %@, progress: %@", self.itemId, self.title, self.downloadProgress);
     
     // 通知delegate
     if (self.delegate && [self.delegate respondsToSelector:@selector(knowledgeDownloadItem:didProgress:)]) {
@@ -126,7 +131,7 @@
     if (success) {
         self.downloadSize = self.totalSize;
         self.downladFinished = YES;
-//        NSLog(@"download item, id %@, title %@, finished", self.itemId, self.title);
+//        LogDebug(@"download item, id %@, title %@, finished", self.itemId, self.title);
         [IADownloadManager detachObjectFromListening:self];
     }
     

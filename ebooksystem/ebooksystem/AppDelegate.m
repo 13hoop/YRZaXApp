@@ -8,7 +8,10 @@
 
 #import "AppDelegate.h"
 #import "MobClick.h"
+
 #import "CoreDataUtil.h"
+#import "LogUtil.h"
+#import "PathUtil.h"
 
 
 #define UMENG_APPKEY @"5420c86efd98c51541017684"
@@ -22,6 +25,13 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    // Config the logger
+    [LogUtil init];
+    
+    NSLog(@"Bundle path: %@", [PathUtil getBundlePath]);
+    NSLog(@"log file path: %@", [LogUtil getLogFilePath]);
+
+    
     // Override point for customization after application launch.
 //    UIColor *color = [UIColor colorWithRed:107/255.0f green:211/255.0f blue:217/255.0f alpha:1.0f];
 //    [[UINavigationBar appearance] setBarTintColor:color];
@@ -102,6 +112,8 @@
 {
     // Saves changes in the application's managed object context before the application terminates.
     [[CoreDataUtil instance] saveContext];
+    
+    [LogUtil uninit];
 //    [self saveContext];
 }
 

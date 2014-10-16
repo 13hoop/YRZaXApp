@@ -7,7 +7,9 @@
 //
 
 #import "KnowledgeDownloadManager.h"
+
 #import "UUIDUtil.h"
+#import "LogUtil.h"
 
 
 
@@ -53,7 +55,7 @@
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
     NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:&error];
     if (data == nil) {
-        NSLog(@"[KnowledgeDownloadManager-directDownloadWithUrl:andSavePath:] failed to download url: %@, error: %@", url, error.localizedDescription);
+        LogError(@"[KnowledgeDownloadManager-directDownloadWithUrl:andSavePath:] failed to download url: %@, error: %@", url, error.localizedDescription);
         return NO;
     }
     
@@ -66,7 +68,7 @@
     
     BOOL ret = [data writeToFile:savePath options:NSDataWritingAtomic error:&error];
     if (!ret) {
-        NSLog(@"[KnowledgeDownloadManager-directDownloadWithUrl:andSavePath:] failed to write to file: %@, error: %@", savePath, error);
+        LogError(@"[KnowledgeDownloadManager-directDownloadWithUrl:andSavePath:] failed to write to file: %@, error: %@", savePath, error);
     }
     return ret;
 }

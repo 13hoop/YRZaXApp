@@ -7,9 +7,13 @@
 //
 
 #import "KnowledgeMeta.h"
+
 #import "KnowledgeSearchReverseInfo.h"
 #import "KnowledgeMetaEntity.h"
 #import "KnowledgeSearchEntity.h"
+
+#import "LogUtil.h"
+
 
 
 @interface KnowledgeMeta()
@@ -204,7 +208,7 @@
     NSError *error = nil;
     NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&error];
     if (dict == nil || dict.count <= 0) {
-        NSLog(@"[KnowledgeMeta-parseJsonString()]failed to parse json, json str: %@, error: %@", json, [error localizedDescription]);
+        LogError(@"[KnowledgeMeta-parseJsonString()]failed to parse json, json str: %@, error: %@", json, [error localizedDescription]);
         return nil;
     }
     
@@ -334,7 +338,7 @@
 
 // 解析meta.json中的search_reverse_info
 + (NSArray *)parseSearchReverseInfo:(NSArray *)jsonArray {
-//    NSLog(@"%@", jsonArray);
+//    LogDebug(@"%@", jsonArray);
     
     // search reverse info array
     NSMutableArray *searchReverseInfoArray = [[NSMutableArray alloc] init];

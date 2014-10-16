@@ -17,6 +17,8 @@
 
 #import "WebViewJavascriptBridge.h"
 
+#import "LogUtil.h"
+
 
 
 
@@ -59,7 +61,7 @@
     if (_javascriptBridge == nil) {
         _javascriptBridge = [WebViewJavascriptBridge bridgeForWebView:self.webView
                                                     handler:^(id data, WVJBResponseCallback responseCallback) {
-                                                        NSLog(@"Received message from javascript: %@", data);
+                                                        LogDebug(@"Received message from javascript: %@", data);
                                                         responseCallback(@"'response data from obj-c'");
                                                     }];
 //        [self initWebView];
@@ -129,7 +131,7 @@
     // 注册obj-c方法, 供js调用
     // test method
     [self.javascriptBridge registerHandler:@"testObjCCallback" handler:^(id data, WVJBResponseCallback responseCallback) {
-        NSLog(@"CommonWebViewController::testObjcCallback() called: %@", data);
+        LogDebug(@"CommonWebViewController::testObjcCallback() called: %@", data);
         
         if (responseCallback != nil) {
             responseCallback(@"Response from testObjcCallback");
@@ -138,13 +140,13 @@
     
     // goBack()
     [self.javascriptBridge registerHandler:@"goBack" handler:^(id data, WVJBResponseCallback responseCallback) {
-        NSLog(@"CommonWebViewController::goBack() called: %@", data);
+        LogDebug(@"CommonWebViewController::goBack() called: %@", data);
         [self.navigationController popViewControllerAnimated:YES];
     }];
     
     // getNodeDataById()
     [self.javascriptBridge registerHandler:@"getNodeDataById" handler:^(id dataId, WVJBResponseCallback responseCallback) {
-        NSLog(@"CommonWebViewController::getNodeDataById() called: %@", dataId);
+        LogDebug(@"CommonWebViewController::getNodeDataById() called: %@", dataId);
         
         if (responseCallback != nil) {
             NSString *data = [[KnowledgeManager instance] getLocalData:dataId];
@@ -154,7 +156,7 @@
     
     // hasNodeDownloaded()
     [self.javascriptBridge registerHandler:@"hasNodeDownloaded" handler:^(id dataId, WVJBResponseCallback responseCallback) {
-        NSLog(@"CommonWebViewController::hasNodeDownloaded() called: %@", dataId);
+        LogDebug(@"CommonWebViewController::hasNodeDownloaded() called: %@", dataId);
         
         NSString *pagePath = [[KnowledgeManager instance] getPagePath:dataId];
         BOOL downloaded = (pagePath == nil || pagePath.length <= 0 ? NO : YES);
@@ -166,7 +168,7 @@
     
     // tryDownloadNodeById()
     [self.javascriptBridge registerHandler:@"tryDownloadNodeById" handler:^(id dataId, WVJBResponseCallback responseCallback) {
-        NSLog(@"CommonWebViewController::tryDownloadNodeById() called: %@", dataId);
+        LogDebug(@"CommonWebViewController::tryDownloadNodeById() called: %@", dataId);
         
         NSString *pagePath = [[KnowledgeManager instance] getPagePath:dataId];
         BOOL downloaded = (pagePath == nil || pagePath.length <= 0 ? NO : YES);
@@ -178,7 +180,7 @@
     
     // showPageById()
     [self.javascriptBridge registerHandler:@"showPageById" handler:^(id data, WVJBResponseCallback responseCallback) {
-        NSLog(@"CommonWebViewController::showPageById() called: %@", data);
+        LogDebug(@"CommonWebViewController::showPageById() called: %@", data);
         
         NSString *pageID = [data objectForKey:@"pageID"];
         NSDictionary *args = [data objectForKey:@"args"];
@@ -189,7 +191,7 @@
     
     // pageStatistic()
     [self.javascriptBridge registerHandler:@"pageStatistic" handler:^(id data, WVJBResponseCallback responseCallback) {
-        NSLog(@"CommonWebViewController::pageStatistic() called: %@", data);
+        LogDebug(@"CommonWebViewController::pageStatistic() called: %@", data);
         
         NSString *eventName = [data objectForKey:@"eventName"];
         NSDictionary *args = [data objectForKey:@"args"];
@@ -201,13 +203,13 @@
     //    [self.javascriptBridge send:@"Well hello there"];
     //    [self.javascriptBridge send:[NSDictionary dictionaryWithObject:@"Foo" forKey:@"Bar"]];
     //    [self.javascriptBridge send:@"Give me a response, will you?" responseCallback:^(id responseData) {
-    //        NSLog(@"ObjC got its response! %@", responseData);
+    //        LogDebug(@"ObjC got its response! %@", responseData);
     //    }];
     
     // 调用js中的方法
 //    [self.javascriptBridge callHandler:@"showAlert" data:@"alert message from oc"];
 //    [self.javascriptBridge callHandler:@"getCurrentPageUrl" data:@"xxxx" responseCallback:^(id responseData){
-//        NSLog(@"ObjC got its response: %@", responseData);
+//        LogDebug(@"ObjC got its response: %@", responseData);
 //    }];
     
     return YES;

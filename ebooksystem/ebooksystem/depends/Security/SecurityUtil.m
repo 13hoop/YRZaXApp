@@ -9,11 +9,14 @@
 
 
 #import "SecurityUtil.h"
+
 #import "GTMBase64.h"
 #import "NSData+AES.h"
 #import "NSString+Hashing.h"
 #import <CommonCrypto/CommonCryptor.h>
 #import "GTMBase64.h"
+
+#import "LogUtil.h"
 
 
 @implementation SecurityUtil
@@ -54,7 +57,7 @@
     //使用密码对nsdata进行加密
     NSData *encryptedData = [data AES128EncryptWithKey:key];
     //对加密后的字符串使用base64进行编码，原因是：直接加密后的数据有些字符在网络传输时不允许，因此需要使用base64进行一次编码。
-    NSLog(@"加密后的字符串 :%@",[encryptedData base64Encoding]);
+    LogDebug(@"加密后的字符串 :%@",[encryptedData base64Encoding]);
     
     return [encryptedData base64Encoding];
 }

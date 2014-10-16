@@ -7,11 +7,19 @@
 //
 
 #import "RegisterViewController.h"
+
 #import "CustomNavigationBar.h"
 #import "MoreViewController.h"
 #import "RegisterModel.h"
 #import "CustomRegisterView.h"
+
+#import "LogUtil.h"
+
+
+
 #define REGISTERVIEW_X 64
+
+
 @interface RegisterViewController ()<CustomNavigationBarDelegate,CustomRegisterViewDelegate>
 @property(nonatomic,strong)CustomNavigationBar *navBar;
 @end
@@ -63,7 +71,7 @@
 #pragma mark customRegister delegate method
 -(void)registerClick:(RegisterModel *)model
 {
-    NSLog(@"将自定义控件中的注册信息传递到了controller中username====%@",model.userName);
+    LogDebug(@"将自定义控件中的注册信息传递到了controller中username====%@",model.userName);
 }
 
 

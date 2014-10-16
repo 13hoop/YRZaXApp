@@ -25,6 +25,10 @@
 #import "CustomMoreView.h"
 #import "CustomGetUserInfoModel.h"
 
+#import "LogUtil.h"
+
+
+
 #define CUSTOMVIEW_X 64
 @interface LoginViewController ()<CustomNavigationBarDelegate,CustomLoginNavgationBarDelegate,CustomLoginViewDelegate,CustomGetUserInfoModelDelegate>
 
@@ -69,9 +73,8 @@
 {
     //一层层往回撤
     [self.navigationController popViewControllerAnimated:YES];
-    NSLog(@"这个是返回");
-    
 }
+
 #pragma mark customLoginNaviagtionBar delegate method
 -(void)gotoRegistrationController:(UIButton *)btn
 {
@@ -122,26 +125,26 @@
     NSDictionary *parameters=@{@"encrypt_method":@"2",@"encrypt_key_type":@"2",@"user_name":self.userName,@"device_id":device_id,@"data":jsonString};
     [manager POST:@"http://s-115744.gotocdn.com:8296/index.php?c=passportctrl&m=login" parameters:parameters success:^(AFHTTPRequestOperation *operation,id responsrObject){
                NSDictionary *dic=responsrObject;
-                NSLog(@"dic=====%@",dic);
+                LogDebug(@"dic=====%@",dic);
                 NSString *dataStr=dic[@"data"];
                 NSData *dataData=[dataStr dataUsingEncoding:NSUTF8StringEncoding];
                 NSDictionary *data=[NSJSONSerialization JSONObjectWithData:dataData options:0 error:nil];
                 //*********测试********
-                NSLog(@"登陆成功服务器返回的信息msg===%@",data[@"msg"]);
+                LogDebug(@"登陆成功服务器返回的信息msg===%@",data[@"msg"]);
               if ([data[@"msg"] isEqualToString:@"success"]) {
-                    NSLog(@"登录成功");
+                    LogDebug(@"登录成功");
                     //登录成功后要把数据保存在本地，在用户信息中可以读取这些数据，并返回到更多页面
                     NSUserDefaults *userDefaults=[NSUserDefaults standardUserDefaults];
                     [userDefaults setObject:model.userName forKey:@"userInfoName"];
                     [userDefaults setObject:model.passWord forKey:@"userinfoPassword"];
                     [userDefaults synchronize];
-                    NSLog(@"model.user===%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"userInfoName"]);
+                    LogDebug(@"model.user===%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"userInfoName"]);
         
                     //这样修改不了，上个视图中的值，而是新实例化了一个对象，把值赋值给了这个新的对象，再返回到原来的页面就不会有变化。----怎么办？
                     //实例化自定义的视图，为了改变视图里面的userName属性值，目的就是为了修改登录的值
                     CustomMoreView *moreview=[[CustomMoreView alloc] init];
                     moreview.userName=[[NSUserDefaults standardUserDefaults] objectForKey:@"userInfoName"];
-                    NSLog(@"使用kvo后，给赋值%@",moreview.userName);
+                    LogDebug(@"使用kvo后，给赋值%@",moreview.userName);
                   
                   //再次发起网络请求
                   [self getUserInfo];
@@ -155,7 +158,7 @@
                }
        
             } failure:^(AFHTTPRequestOperation *operation,NSError *error){
-                NSLog(@"登陆失败");
+                LogDebug(@"登陆失败");
                 UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"温馨提示" message:@"网络状况不佳，请设置您的网络" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"重试", nil];
                 [alert show];
             }];
@@ -176,7 +179,7 @@
 -(void)getUserinfo:(NSString *)userInfo
 {
     //获取到余额信息
-    NSLog(@"%@",userInfo);
+    LogDebug(@"%@",userInfo);
     NSUserDefaults *userDefaults=[NSUserDefaults standardUserDefaults];
     [userDefaults setObject:userInfo forKey:@"surplus_score"];
     [userDefaults synchronize];

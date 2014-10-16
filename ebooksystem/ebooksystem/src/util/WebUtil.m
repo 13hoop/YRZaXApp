@@ -8,6 +8,9 @@
 
 #import "WebUtil.h"
 
+#import "LogUtil.h"
+
+
 @implementation WebUtil
 
 #pragma mark - methods
@@ -82,7 +85,7 @@
     NSError *error = nil;
     NSData *responseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
     if (error) {
-        NSLog(@"something is wrong: %@", [error description]);
+        LogError(@"something is wrong: %@", [error description]);
     }
     else {
         if (responseData) {

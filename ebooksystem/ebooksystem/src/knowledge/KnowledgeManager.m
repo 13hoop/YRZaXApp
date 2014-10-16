@@ -26,6 +26,7 @@
 #import "MD5Util.h"
 #import "CryptUtil.h"
 #import "SecurityUtil.h"
+#import "LogUtil.h"
 
 
 
@@ -325,7 +326,7 @@
 #pragma mark -
 #pragma mark - test
 - (void)test {
-    NSLog(@"[KnowledgeManager - test()], starting...");
+    LogInfo(@"[KnowledgeManager - test()], starting...");
     
     // 1. 测试加密, 保证多次加密得到的字符串一致
 //    {
@@ -337,10 +338,10 @@
 //        CryptUtil *cryptUtil = [[CryptUtil alloc] initWithKey:key andIV:iv];
 //        for (int i = 0; i < 10; ++i) {
 //            NSString *encryptedText1 = [cryptUtil encryptAES128:plainText];
-//            NSLog(@"==>%d, encryptedText1: %@", i, encryptedText1);
+//            LogInfo(@"==>%d, encryptedText1: %@", i, encryptedText1);
 //            
 //            NSString *encryptedText2 = [SecurityUtil AES128Encrypt:plainText andwithPassword:password];
-//            NSLog(@"==>%d, encryptedText2: %@", i, encryptedText2);
+//            LogInfo(@"==>%d, encryptedText2: %@", i, encryptedText2);
 //        }
 //        
 //        return;
@@ -374,7 +375,7 @@
     // remote - update
 //    BOOL ret = [self startCheckDataUpdate];
     
-    NSLog(@"[KnowledgeManager - test()], end");
+    LogInfo(@"[KnowledgeManager - test()], end");
 }
 
 @end

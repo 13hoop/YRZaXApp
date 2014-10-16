@@ -7,10 +7,16 @@
 //
 
 #import "UMFeedbackViewController.h"
+
 #import "UMFeedbackTableViewCellLeft.h"
 #import "UMFeedbackTableViewCellRight.h"
 #import "UMContactViewController.h"
 #import "MobClick.h"
+
+#import "LogUtil.h"
+
+
+
 #define TOP_MARGIN 20.0f
 #define kNavigationBar_ToolBarBackGroundColor  [UIColor colorWithRed:0.149020 green:0.149020 blue:0.149020 alpha:1.0]
 #define kContactViewBackgroundColor  [UIColor colorWithRed:0.078 green:0.584 blue:0.97 alpha:1.0]
@@ -252,7 +258,6 @@ static UITapGestureRecognizer *tapRecognizer;
     }
 
      self.isSelected=! self.isSelected;
-    NSLog(@"点击了，点击了");
 }
 - (void)didTapAnywhere:(UITapGestureRecognizer *)recognizer {
     [self.mTextField resignFirstResponder];

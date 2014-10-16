@@ -8,6 +8,7 @@
 
 #import "CoreDataUtil.h"
 #import "PathUtil.h"
+#import "LogUtil.h"
 
 
 
@@ -77,8 +78,8 @@
         if ([managedObjectContext hasChanges] && ![managedObjectContext save:&error]) {
             // Replace this implementation with code to handle the error appropriately.
             // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-            NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-            abort();
+            LogError(@"Unresolved error %@, %@", error, [error userInfo]);
+//            abort();
         }
     }
 }
@@ -123,7 +124,7 @@
     
     NSURL *storeURL = self.coreDataStoreUrl;
     
-    NSLog(@"[CoreDataUtil::persistentStoreCoordinator] Store url is %@", storeURL);
+    LogDebug(@"[CoreDataUtil::persistentStoreCoordinator] Store url is %@", storeURL);
     
     // 设置选项, 支持data model version
     NSDictionary *options = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -156,8 +157,8 @@
          Lightweight migration will only work for a limited set of schema changes; consult "Core Data Model Versioning and Data Migration Programming Guide" for details.
          
          */
-        NSLog(@"[CoreDataUtil::persistentStoreCoordinator] Unresolved error %@, %@", error, [error userInfo]);
-        abort();
+        LogError(@"[CoreDataUtil::persistentStoreCoordinator] Unresolved error %@, %@", error, [error userInfo]);
+//        abort();
     }
     
     return _persistentStoreCoordinator;

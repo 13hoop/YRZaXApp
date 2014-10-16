@@ -11,6 +11,7 @@
 #import "KnowledgeSearchReverseInfo.h"
 
 #import "CoreDataUtil.h"
+#import "LogUtil.h"
 
 
 
@@ -52,7 +53,7 @@
     NSError *error = nil;
     NSString *fileContents = [NSString stringWithContentsOfFile:fullFilePath encoding:NSUTF8StringEncoding error:&error];
     if (fileContents == nil || fileContents.length <= 0) {
-        NSLog(@"[KnowledgeMetaManager::loadKnowledgeMeta()]failed, file: %@, error: %@", fullFilePath, error.localizedDescription);
+        LogError(@"[KnowledgeMetaManager::loadKnowledgeMeta()]failed, file: %@, error: %@", fullFilePath, error.localizedDescription);
         return nil;
     }
     
@@ -116,13 +117,13 @@
             for (NSManagedObject *entity in fetchedObjects) {
                 BOOL ret = [knowledgeMeta setValuesForEntity:entity];
                 if (!ret) {
-                    NSLog(@"[KnowledgeMetaManager::saveKnowledgeMetaEntity()] update failed because of knowledgeMeta::setValuesForEntity() error");
+                    LogError(@"[KnowledgeMetaManager::saveKnowledgeMetaEntity()] update failed because of knowledgeMeta::setValuesForEntity() error");
                     return NO;
                 }
                 
                 NSError *error = nil;
                 if (![[CoreDataUtil instance].managedObjectContext save:&error]) {
-                    NSLog(@"[KnowledgeMetaManager::saveKnowledgeMetaEntity()] update failed when save to context, error: %@", [error localizedDescription]);
+                    LogError(@"[KnowledgeMetaManager::saveKnowledgeMetaEntity()] update failed when save to context, error: %@", [error localizedDescription]);
                     return NO;
                 }
             }
@@ -137,13 +138,13 @@
         
         BOOL ret = [knowledgeMeta setValuesForEntity:entity];
         if (!ret) {
-            NSLog(@"[KnowledgeMetaManager::saveKnowledgeMetaEntity()] insert failed because of knowledgeMeta::setValuesForEntity() error");
+            LogError(@"[KnowledgeMetaManager::saveKnowledgeMetaEntity()] insert failed because of knowledgeMeta::setValuesForEntity() error");
             return NO;
         }
         
         NSError *error = nil;
         if (![[CoreDataUtil instance].managedObjectContext save:&error]) {
-            NSLog(@"[KnowledgeMetaManager::saveKnowledgeMetaEntity()] insert failed when save to context, error: %@", [error localizedDescription]);
+            LogError(@"[KnowledgeMetaManager::saveKnowledgeMetaEntity()] insert failed when save to context, error: %@", [error localizedDescription]);
             return NO;
         }
     }
@@ -196,7 +197,7 @@
                         
                         NSError *error = nil;
                         if (![[CoreDataUtil instance].managedObjectContext save:&error]) {
-                            NSLog(@"[KnowledgeMetaManager::saveKnowledgeSearchEntity()] update failed when save to context, error: %@", [error localizedDescription]);
+                            LogError(@"[KnowledgeMetaManager::saveKnowledgeSearchEntity()] update failed when save to context, error: %@", [error localizedDescription]);
                             return NO;
                         }
                     }
@@ -217,7 +218,7 @@
                 
                 // save
                 if (![[CoreDataUtil instance].managedObjectContext save:&error]) {
-                    NSLog(@"[KnowledgeMetaManager::saveKnowledgeSearchEntity()] insert failed when save to context, error: %@", [error localizedDescription]);
+                    LogError(@"[KnowledgeMetaManager::saveKnowledgeSearchEntity()] insert failed when save to context, error: %@", [error localizedDescription]);
                     return NO;
                 }
             }
@@ -301,7 +302,7 @@
                 [entity setValue:[NSNumber numberWithInteger:status] forKey:@"dataStatus"];
                 
                 if (![[CoreDataUtil instance].managedObjectContext save:&error]) {
-                    NSLog(@"[KnowledgeMetaManager::setData:toStatus] update failed when save to context, error: %@", [error localizedDescription]);
+                    LogError(@"[KnowledgeMetaManager::setData:toStatus] update failed when save to context, error: %@", [error localizedDescription]);
                     return NO;
                 }
             }

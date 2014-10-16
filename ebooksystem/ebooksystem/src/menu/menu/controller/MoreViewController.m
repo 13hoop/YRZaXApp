@@ -17,6 +17,10 @@
 #import "LoginViewController.h"
 #import "LogoutViewController.h"
 #import "RechargeViewController.h"
+
+#import "LogUtil.h"
+
+
 #define UMENG_APPKEY @"5420c86efd98c51541017684"
 
 @interface MoreViewController ()<CustomNavigationBarDelegate,CustomMoreViewDelegate>
@@ -112,7 +116,7 @@
                     //只要登陆成功了，本地就会存储相关的用户名和密码
                     //因此需要退出登录时把本地的数据置为空
 //                    self.moreView.userNameLable.text=[[NSUserDefaults standardUserDefaults] objectForKey:@"userInfoName"];
-//                    NSLog(@"%@",self.moreView.userNameLable.text);
+//                    LogDebug(@"%@",self.moreView.userNameLable.text);
                     LogoutViewController *logout=[[LogoutViewController alloc] init];
                     [self.navigationController pushViewController:logout animated:YES];
                     
@@ -190,7 +194,7 @@
 - (void)appUpdate:(NSDictionary *)appInfo {
     //在这里面修改cell上面的lable的显示
     //定制alertView在这里面实现
-    NSLog(@"appInfo==%@",appInfo);
+    LogDebug(@"appInfo==%@",appInfo);
     
 }
 
