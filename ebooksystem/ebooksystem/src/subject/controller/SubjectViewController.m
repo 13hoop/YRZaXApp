@@ -19,6 +19,8 @@
 
 #import "KnowledgeManager.h"
 
+#import "MobClick.h"
+
 
 #define IS_TEST_MODE 1
 #define UIColorFromRGB(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
@@ -90,12 +92,23 @@
     
     [self updateNavigationBar];
     [self updateTitleBar];
+    
+    // 友盟统计
+    [MobClick beginLogPageView:@"SubjectView"];
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    // 友盟统计
+    [MobClick endLogPageView:@"SubjectView"];
 }
 
 /*

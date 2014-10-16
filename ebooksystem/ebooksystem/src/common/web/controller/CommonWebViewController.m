@@ -19,6 +19,8 @@
 
 #import "LogUtil.h"
 
+#import "MobClick.h"
+
 
 
 
@@ -101,12 +103,23 @@
     [super viewWillAppear:animated];
     
     [self updateNavigationBar];
+    
+    // 友盟统计
+    [MobClick beginLogPageView:@"CommonWebView"];
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    // 友盟统计
+    [MobClick endLogPageView:@"CommonWebView"];
 }
 
 /*
