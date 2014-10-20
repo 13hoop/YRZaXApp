@@ -7,10 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "RegisterModel.h"
+#import "RegisterUserInfo.h"
 @protocol CustomRegisterViewDelegate <NSObject>
 
--(void)registerClick:(RegisterModel *)model;
+-(void)registerClick:(RegisterUserInfo*)userInfo;
 
 @end
 

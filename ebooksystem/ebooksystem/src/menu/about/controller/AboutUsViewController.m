@@ -28,6 +28,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.view.backgroundColor=[UIColor whiteColor];
     [self creatCustomNavigationBar];
     [self createCustomAboutUs];
     
@@ -41,7 +42,7 @@
 -(void)creatCustomNavigationBar
 {
     CustomNavigationBar *navigationBar=[[CustomNavigationBar alloc] initWithFrame:CGRectMake(0, 20, 320, 44)];
-    navigationBar.title=@"关于";
+    navigationBar.title=@"关于咋学";
     navigationBar.customNav_delegate=self;
     [self.view addSubview:navigationBar];
     

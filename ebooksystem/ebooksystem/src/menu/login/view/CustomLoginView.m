@@ -7,7 +7,10 @@
 //
 
 #import "CustomLoginView.h"
-#define HEIGHT 40
+#import "UIColor+Hex.h"
+#import "CustomTextField.h"
+
+#define HEIGHT 44
 
 @interface CustomLoginView()<UITextFieldDelegate>
 
@@ -30,17 +33,21 @@
 {
     //创建一个背景view,颜色使用rgb来设置
     UIView *backgroundView=[[UIView alloc] initWithFrame:self.bounds];
-    backgroundView.backgroundColor=[UIColor colorWithRed:237/255.0 green:237/255.0 blue:237/255.0 alpha:1];
+    backgroundView.backgroundColor=[UIColor colorWithHexString:@"#393636" alpha:1];
+//    backgroundView.backgroundColor=[UIColor colorWithCGColor:];
     backgroundView.userInteractionEnabled=YES;
     [self addSubview:backgroundView];
     //创建登陆框
-    NSArray *placeHolderArr=[[NSArray alloc] initWithObjects:@"   用户名/邮箱",@"   密码", nil];
+    NSArray *placeHolderArr=[[NSArray alloc] initWithObjects:@"用户名/邮箱",@"密码", nil];
     for (NSUInteger i=0; i<2; i++)
     {
-        UITextField *text=[[UITextField alloc] initWithFrame:CGRectMake(0, 30+i*(HEIGHT+1), self.frame.size.width, HEIGHT)];
+//        UITextField *text=[[UITextField alloc] initWithFrame:CGRectMake(0, 30+i*(HEIGHT+1), self.frame.size.width, HEIGHT)];
+        //使用自定义的Uitextfield
+        CustomTextField *text=[[CustomTextField alloc] initWithFrame:CGRectMake(0, 30+i*(HEIGHT+1), self.frame.size.width, HEIGHT)];
         text.borderStyle = UITextBorderStyleNone;
-        text.backgroundColor=[UIColor whiteColor];
-        text.font=[UIFont systemFontOfSize:13.0f];
+        text.backgroundColor=[UIColor colorWithHexString:@"#4e4c4c" alpha:1];
+        text.font=[UIFont systemFontOfSize:14.0f];
+        
         text.placeholder=[placeHolderArr objectAtIndex:i];
         text.tag=1000+i;
         //开启一键清除功能
@@ -56,9 +63,11 @@
     //创建登陆按钮
     UIButton *btn=[UIButton buttonWithType:UIButtonTypeCustom];
     btn.frame=CGRectMake(0, 130, self.frame.size.width,HEIGHT);
-    btn.backgroundColor=[UIColor blueColor];
-    btn.titleLabel.font=[UIFont systemFontOfSize:13.0f];
+    btn.backgroundColor=[UIColor colorWithHexString:@"#44a0ff" alpha:1];
+    btn.titleLabel.font=[UIFont systemFontOfSize:16.0f];
+    btn.titleLabel.textColor=[UIColor colorWithHexString:@"#ffffff" alpha:1];
     [btn setTitle:@"登录" forState:UIControlStateNormal];
+    
     [btn addTarget:self action:@selector(btnDown:) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:btn];
     
@@ -67,10 +76,18 @@
 {
     UITextField *userName=(UITextField *)[self viewWithTag:1000];
     UITextField *passWord=(UITextField *)[self viewWithTag:1001];
-    CustomLoginModel *model=[[CustomLoginModel alloc] init];
-    model.userName=userName.text;
-    model.passWord=passWord.text;
-    [self.login_deleagte loginClick:model];
+    if ([userName.text isEqualToString:@""] || [passWord.text isEqualToString:@""]) {
+        UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"提示" message:@"用户名或者密码不能为空" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"重新输入", nil];
+        [alert show];
+    }
+    else
+    {
+        CustomLoginModel *model=[[CustomLoginModel alloc] init];
+        model.userName=userName.text;
+        model.passWord=passWord.text;
+        [self.login_deleagte loginClick:model];
+    }
+    
 }
 #pragma mark uitextfield delegate method
 
@@ -79,5 +96,13 @@
     [textField resignFirstResponder];
     return  YES;
     
+}
+-(void)textFieldDidBeginEditing:(UITextField *)textField
+{
+    textField.textColor=[UIColor whiteColor];
+}
+-(void)textFieldDidEndEditing:(UITextField *)textField
+{
+    textField.textColor=[UIColor whiteColor];
 }
 @end

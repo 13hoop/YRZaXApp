@@ -7,9 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CustomTextField.h"
 
 @interface CustomViewCellTableViewCell : UITableViewCell
 
-@property(nonatomic,strong)UITextField *rechargeText;
+//@property(nonatomic,strong)UITextField *rechargeText;
+@property(nonatomic,strong)CustomTextField *rechargeText;
 
 @end

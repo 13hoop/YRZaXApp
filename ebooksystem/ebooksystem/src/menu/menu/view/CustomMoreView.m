@@ -7,11 +7,13 @@
 //
 
 #import "CustomMoreView.h"
+#import "UIColor+Hex.h"
+#import <QuartzCore/QuartzCore.h>
 #define FONT_SIZE 15.0f
 @interface CustomMoreView ()<UITableViewDelegate,UITableViewDataSource>
 @property(nonatomic,strong)UITableView *table;
 @property(nonatomic,strong)UILabel *upDateLable;
-
+@property(nonatomic,strong)UITableViewCell *cell;
 @end
 
 @implementation CustomMoreView
@@ -28,10 +30,16 @@
 }
 -(void)cretaeTable
 {
-    self.table =[[UITableView alloc] initWithFrame:self.bounds style:UITableViewStyleGrouped];
+    self.table =[[UITableView alloc] initWithFrame:self.bounds style:UITableViewStylePlain];
     [self addSubview:self.table];
+    self.table.backgroundColor=[UIColor colorWithHexString:@"393636" alpha:1];
     self.table.delegate=self;
     self.table.dataSource=self;
+    [self.table setSeparatorInset:UIEdgeInsetsZero];
+    self.table.showsHorizontalScrollIndicator=NO;
+    self.table.showsVerticalScrollIndicator=NO;
+    self.table.separatorStyle=UITableViewCellSeparatorStyleSingleLine;
+    self.table.separatorColor=[UIColor colorWithHexString:@"#302d2d" alpha:1];
     self.table.bounces=NO;
 }
 #pragma mark table的代理
@@ -50,7 +58,7 @@
             return 2;
         }
         else{
-            return 3;
+            return 5;
         }
     }
 }
@@ -62,23 +70,30 @@
     NSInteger row=indexPath.row;
     static NSString *CellIdentifier = @"Cell";
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
-        cell.textLabel.font=[UIFont systemFontOfSize:14.0f];
-        cell.textLabel.textColor=[UIColor lightGrayColor];
+    self.cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    if (self.cell == nil) {
+        self.cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        self.cell.textLabel.font=[UIFont systemFontOfSize:14.0f];
+        self.cell.textLabel.textColor=[UIColor lightGrayColor];
     }
+    //set cell background
+    UIView *backgroundView=[[UIView alloc] init];
+    [self.cell setBackgroundView:backgroundView];
+    [self.cell setBackgroundColor:[UIColor colorWithHexString:@"#413e3e" alpha:1]];
+    //change select style and backgroundcolor
+    self.cell.selectedBackgroundView=[[UIView alloc] initWithFrame:self.cell.frame];
+    self.cell.selectedBackgroundView.backgroundColor=[UIColor colorWithHexString:@"#6d6d6d" alpha:1];
     switch (section) {
         case 0:
-//            cell.textLabel.text=@"登录";
-            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+
+            self.cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             //在这里创建一个lable，这是加到了table上，而不是在cell定制时添加的。
             //现在想改变这个textlable.text
-            self.userNameLable=[[UILabel alloc] initWithFrame:CGRectMake(15, 0, 100, cell.frame.size.height)];
+            self.userNameLable=[[UILabel alloc] initWithFrame:CGRectMake(15, 0, 200, self.cell.frame.size.height)];
             self.userNameLable.textAlignment=UITextAlignmentLeft;
             self.userNameLable.font=[UIFont systemFontOfSize:14.0f];
             self.userNameLable.textColor=[UIColor lightGrayColor];
-            [cell addSubview:self.userNameLable];
+            [self.cell addSubview:self.userNameLable];
             [self addObserver:self forKeyPath:@"userName" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:NULL];
             if ([[NSUserDefaults standardUserDefaults] objectForKey:@"userInfoName"])
             {
@@ -86,29 +101,29 @@
             }
             else
             {
-                self.userNameLable.text=@"登录";
+                self.userNameLable.text=@"登录体验更多精彩内容";
             }
             break;
         case 1:
             if (row==0)
             {
-                cell.textLabel.text=@"正版验证";
-                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+                self.cell.textLabel.text=@"正版验证";
+                self.cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             }
             else
             {
                 if (row==1)
                 {
                     [self.lable removeFromSuperview];
-                    cell.textLabel.text=@"余额:";
-                    cell.textLabel.backgroundColor=[UIColor blueColor];
+                    self.cell.textLabel.text=@"余额:";
+                    self.cell.textLabel.backgroundColor=[UIColor clearColor];
                     self.lable=[[UILabel alloc] initWithFrame:CGRectMake(50,0, 100,44)];
-                    self.lable.textColor=[UIColor blueColor];
+                    self.lable.textColor=[UIColor colorWithHexString:@"#44a0ff" alpha:1];
                     //使用kvo实现改变余额的数值
                     [self addObserver:self forKeyPath:@"balance" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:NULL];
-                    [cell.textLabel addSubview:self.lable];
+                    [self.cell.textLabel addSubview:self.lable];
                     //取消选中效果
-                    cell.selectionStyle=UITableViewCellAccessoryNone;
+                    self.cell.selectionStyle=UITableViewCellAccessoryNone;
                     if ([[NSUserDefaults standardUserDefaults] objectForKey:@"surplus_score"])
                     {
                         self.lable.text=[[NSUserDefaults standardUserDefaults] objectForKey:@"surplus_score"];
@@ -124,32 +139,53 @@
         case 2:
             if (row==0)
             {
-                cell.textLabel.text=@"意见反馈";
-                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+                self.cell.textLabel.text=@"购买《干货系列》图书";
+                self.cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
                 
             }
             else
             {
                 if (row==1)
                 {
-                    cell.textLabel.text=@"软件更新";
-                    [self.upDateLable removeFromSuperview];
-                    self.upDateLable=[[UILabel alloc] initWithFrame:CGRectMake(cell.frame.size.width-100, 0, 100, 44)];
-                    self.upDateLable.font=[UIFont systemFontOfSize:13.0f];
-                    self.upDateLable.textColor=[UIColor lightGrayColor];
-                    [cell addSubview:self.upDateLable];
+                    self.cell.textLabel.text=@"分享应用到";
+                    self.cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+                    
+                    
                     
                 }
                 else
                 {
-                    cell.textLabel.text=@"关于";
-                    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+                    if (row==2) {
+                        self.cell.textLabel.text=@"意见反馈";
+                        self.cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+                    }
+                    else
+                    {
+                        if (row==3) {
+                            self.cell.textLabel.text=@"软件更新";
+                            [self.upDateLable removeFromSuperview];
+                            self.upDateLable=[[UILabel alloc] initWithFrame:CGRectMake(self.cell.frame.size.width-100, 0, 100, 44)];
+                            self.upDateLable.font=[UIFont systemFontOfSize:13.0f];
+                            self.upDateLable.textColor=[UIColor lightGrayColor];
+                            [self.cell addSubview:self.upDateLable];
+                        }
+                        else
+                        {
+                            if (row==4) {
+                                self.cell.textLabel.text=@"关于咋学";
+                                self.cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+                            }
+                          
+                           
+                        }
+                    }
                 }
+                
             }
         default:
             break;
     }
-    return cell;
+    return self.cell;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -159,18 +195,19 @@
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
    
-    if (section==1)
+    if (section==0)
     {
-        return 60.0;
+        return 26.0;
+        
     }
     else
     {
-        if (section==2)
+        if (section==1)
         {
-            return 30;
+            return 53.0;
         }
     }
-    return 44.0;
+    return 27.0;
 }
 -(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
@@ -183,31 +220,64 @@
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
-    return 2;
+    if (section==2) {
+        return 20;
+    }
+    return 1;
+
 }
+
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     //cancel selected effect
+//    self.cell.backgroundColor=[UIColor colorWithHexString:@"#6d6d6d" alpha:1];
+
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
     [self.more_delegate getSelectIndexPath:indexPath];
     
     if (indexPath.section==2)
     {
-        if (indexPath.row==1)
+        if (indexPath.row==3)
         {
             self.upDateLable.text=@"正在检查更新...";
         }
     }
 }
-
-
+//set header&& footer backgroundView
+-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    UIView* myView = [[UIView alloc] init];
+    myView.backgroundColor = [UIColor colorWithHexString:@"#393636" alpha:1];
+    
+    
+    if (section == 1){
+        UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, 300, 53)];
+        titleLabel.textColor=[UIColor colorWithHexString:@"5d5b5b" alpha:1];
+        titleLabel.backgroundColor = [UIColor clearColor];
+        titleLabel.font=[UIFont systemFontOfSize:14.0f];
+        titleLabel.numberOfLines=0;
+        titleLabel.text = @"购买《干货系列》书籍的读者，在此输入封面验证码，即可获赠价值20元的红包";
+        [myView addSubview:titleLabel];
+    }
+    
+    
+    return myView;
+}
+-(UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
+{
+    UIView *myview=[[UIView alloc] init];
+    myview.backgroundColor=[UIColor colorWithHexString:@"#393636" alpha:1];
+    return myview;
+    
+}
 #pragma mark kvo的观察方法
 //监听方法只能写一个
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
     if ([keyPath isEqualToString:@"balance"]) {
 //        self.lable.text=[self valueForKeyPath:@"balance"];
-        self.userNameLable.text=[[NSUserDefaults standardUserDefaults] objectForKey:@"userInfoName"];
+        self.userNameLable.text=[[NSUserDefaults standardUserDefaults] objectForKey:@"surplus_score"];
     }
     
     if ([keyPath isEqualToString:@"userName"]) {
@@ -216,4 +286,9 @@
 
 }
 
+- (void)viewWillDisappear:(BOOL)animated
+{
+    self.cell.backgroundColor=[UIColor colorWithHexString:@"#413e3e" alpha:1];
+    
+}
 @end

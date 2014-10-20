@@ -17,10 +17,8 @@
 #import "LoginViewController.h"
 #import "LogoutViewController.h"
 #import "RechargeViewController.h"
-
-#import "LogUtil.h"
-
-
+#import "UIColor+Hex.h"
+#import "PurchaseViewController.h"
 #define UMENG_APPKEY @"5420c86efd98c51541017684"
 
 @interface MoreViewController ()<CustomNavigationBarDelegate,CustomMoreViewDelegate>
@@ -60,7 +58,9 @@
     }
     else
     {
-        self.moreView.userNameLable.text=@"登陆";
+        self.moreView.userNameLable.textColor=[UIColor colorWithHexString:@"aaaaaa" alpha:1];
+        self.moreView.userNameLable.text=@"登录体验更多精彩内容";
+        
     }
     if ([[NSUserDefaults standardUserDefaults] objectForKey:@"surplus_score"]) {
         self.moreView.lable.text=[[NSUserDefaults standardUserDefaults] objectForKey:@"surplus_score"];
@@ -115,8 +115,6 @@
                     //进入到用户信息界面,
                     //只要登陆成功了，本地就会存储相关的用户名和密码
                     //因此需要退出登录时把本地的数据置为空
-//                    self.moreView.userNameLable.text=[[NSUserDefaults standardUserDefaults] objectForKey:@"userInfoName"];
-//                    LogDebug(@"%@",self.moreView.userNameLable.text);
                     LogoutViewController *logout=[[LogoutViewController alloc] init];
                     [self.navigationController pushViewController:logout animated:YES];
                     
@@ -151,24 +149,51 @@
             
             break;
         case 2:
-            if (row == 0) {
-                //意见反馈
-                [self showNativeFeedbackWithAppkey:UMENG_APPKEY];
-            }
-            else {
-                if (row == 1) {
-                    //软件更新
-                    [MobClick checkUpdate:@"新版本" cancelButtonTitle:@"稍后更新" otherButtonTitles:@"立即更新"];
-                    //软件更新自定义
-                    [MobClick checkUpdateWithDelegate:self selector:@selector(appUpdate:)];
-                }
-                else {
-                    //关于
-                    AboutUsViewController *aboutUsview = [[AboutUsViewController alloc] init];
-                    [self.navigationController pushViewController:aboutUsview animated:YES];
-                }
+            if (row==0)
+            {
+                //购买干货书籍
+                
+                PurchaseViewController *purchase=[[PurchaseViewController alloc] init];
+                [self.navigationController pushViewController:purchase animated:YES];
                 
             }
+            else
+            {
+                if(row==1)
+                {
+                    //友盟分享
+                }
+                else
+                {
+                    if (row == 2)
+                    {
+                        //意见反馈
+                        [self showNativeFeedbackWithAppkey:UMENG_APPKEY];
+                    }
+                    else
+                    {
+                        if (row == 3)
+                        {
+                            //软件更新
+                            [MobClick checkUpdate:@"新版本" cancelButtonTitle:@"稍后更新" otherButtonTitles:@"立即更新"];
+                            //软件更新自定义
+                            [MobClick checkUpdateWithDelegate:self selector:@selector(appUpdate:)];
+                        }
+                        else
+                        {
+                            //关于
+                            if (row==4)
+                            {
+                                AboutUsViewController *aboutUsview = [[AboutUsViewController alloc] init];
+                                [self.navigationController pushViewController:aboutUsview animated:YES];
+                            }
+                            
+                        }
+                        
+                    }
+                }
+            }
+           
             break;
         default:
             break;
@@ -194,7 +219,7 @@
 - (void)appUpdate:(NSDictionary *)appInfo {
     //在这里面修改cell上面的lable的显示
     //定制alertView在这里面实现
-    LogDebug(@"appInfo==%@",appInfo);
+    NSLog(@"appInfo==%@",appInfo);
     
 }
 

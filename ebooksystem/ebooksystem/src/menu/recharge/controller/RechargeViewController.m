@@ -10,12 +10,13 @@
 #import "CustomRechargeView.h"
 #import "CustomNavigationBar.h"
 #import "RechargeModel.h"
+#import "UserManager.h"
 
 #define TABLEVIEW_Y 64
 #define NAVBAR_HEIGHT 44 
 #define NAVBAR_Y 20 
 #define NAVBAR_X 0
-@interface RechargeViewController ()<CustomNavigationBarDelegate,CustomRechargeViewDelegate,RechargeModelDelegate>
+@interface RechargeViewController ()<CustomNavigationBarDelegate,CustomRechargeViewDelegate,RechargeModelDelegate,UserManagerDelegate>
 
 
 @property(nonatomic,strong)CustomRechargeView *rechargeView;
@@ -71,12 +72,16 @@
 {
     //发起网络请求--开线程
     
-    RechargeModel *model=[[RechargeModel alloc] init];
-    model.recharge_delegate=self;
-    [model getRecharge:cardID];
+//    RechargeModel *model=[[RechargeModel alloc] init];
+//    model.recharge_delegate=self;
+//
+//    [model getRecharge:cardID];
+    UserManager *manager=[UserManager shareInstance];
+    manager.recharge_delegate=self;
+    [manager getRecharge:cardID];
     
 }
-#pragma mark rechargemodel Delegate method
+#pragma mark userManager Delegate method
 -(void)getRechargeMessage:(NSString *)msg
 {
     

@@ -7,7 +7,7 @@
 //
 
 #import "CustomLoginNavgationBar.h"
-
+#import "UIColor+Hex.h"
 
 @interface CustomLoginNavgationBar()
 @property(nonatomic,strong)UIButton *rightBUtton;
@@ -31,7 +31,7 @@
     //CGRectMake(10, 0, 40, 44);
     self.rightBUtton.frame=CGRectMake(self.frame.size.width-50, 0, 40, 44);
     [self.rightBUtton setTitle:@"注册" forState:UIControlStateNormal];
-    [self.rightBUtton setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+    [self.rightBUtton setTitleColor:[UIColor colorWithHexString:@"44a0ff" alpha:1] forState:UIControlStateNormal];
      self.rightBUtton.titleLabel.font=[UIFont systemFontOfSize:13.0f];
     [self.rightBUtton addTarget:self action:@selector(btn:) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:self.rightBUtton];

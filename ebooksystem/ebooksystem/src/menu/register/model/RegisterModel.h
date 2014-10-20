@@ -7,12 +7,22 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "RegisterUserInfo.h"
+
+@protocol RegisterModelDelegate <NSObject>
+
+-(void)registerMessage:(NSDictionary*)data anduserInfo:(RegisterUserInfo*)userInfo;
+
+@end
+
+
 
 @interface RegisterModel : NSObject
 
-@property(nonatomic,strong)NSString *userName;
-@property(nonatomic,strong)NSString *email;
-@property(nonatomic,strong)NSString *passWord;
-@property(nonatomic,strong)NSString *repeatPassword;
+@property(nonatomic,strong)id <RegisterModelDelegate> register_delegate;
+
+-(void)getPublickey;
+-(void)getUserInfo:(RegisterUserInfo*)userInfo;
+
 
 @end
