@@ -700,12 +700,11 @@
             return;
         }
         
-        
         // 5. 将数据库中相关数据标为有更新
         {
             for (id obj in response.updateInfo.details) {
                 ServerResponseUpdateInfoDetail *detail = (ServerResponseUpdateInfoDetail *)obj;
-                if (detail == nil) {
+                if (detail == nil || [detail.needUpdateApp isEqualToString:@"0"]) {
                     continue;
                 }
                 
