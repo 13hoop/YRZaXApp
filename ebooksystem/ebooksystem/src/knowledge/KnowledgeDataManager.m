@@ -880,8 +880,12 @@
     
     UserInfo *curUserInfo = [[UserManager instance] getCurUser];
     if (curUserInfo == nil || curUserInfo.username == nil) {
-        lastError = @"用户信息不完整, 请确认用户已成功登录";
-        return nil;
+        // try default user
+        curUserInfo = [UserManager getDefaultUser];
+        if (curUserInfo == nil || curUserInfo.username == nil) {
+            lastError = @"用户信息不完整, 请确认用户已成功登录";
+            return nil;
+        }
     }
     
     // crypt

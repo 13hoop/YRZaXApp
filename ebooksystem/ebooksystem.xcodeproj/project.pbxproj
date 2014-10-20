@@ -1638,10 +1638,10 @@
 		71860BDF19DC73C200D01AA9 /* config */ = {
 			isa = PBXGroup;
 			children = (
-				7156B09819F50F1400B3A521 /* AppConfig.h */,
-				7156B09919F50F1400B3A521 /* AppConfig.m */,
 				71860BE119DC754C00D01AA9 /* Config.h */,
 				71860BE219DC754C00D01AA9 /* Config.m */,
+				7156B09819F50F1400B3A521 /* AppConfig.h */,
+				7156B09919F50F1400B3A521 /* AppConfig.m */,
 				71860BE719DC7B4300D01AA9 /* KnowledgeDataConfig.h */,
 				71860BE819DC7B4300D01AA9 /* KnowledgeDataConfig.m */,
 				710C02C519E189A200C27A33 /* DrawableConfig.h */,

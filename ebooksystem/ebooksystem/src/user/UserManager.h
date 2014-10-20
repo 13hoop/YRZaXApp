@@ -30,8 +30,12 @@
 
 #pragma mark - singleton
 + (UserManager *)instance;
-+(UserManager*)shareInstance;
++ (UserManager *)shareInstance;
+
 #pragma mark - user related methods
+// get default user
++ (UserInfo *)getDefaultUser;
+
 // get cur user
 - (UserInfo *)getCurUser;
 // save userInfo

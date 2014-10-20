@@ -49,9 +49,19 @@
 
 }
 #pragma mark - user related methods
+// get default user
++ (UserInfo *)getDefaultUser {
+    UserInfo *userInfo = [[UserInfo alloc] init];
+    userInfo.username = @"defaultuser";
+    userInfo.password = @"defaultpwd";
+    userInfo.email = @"";
+    userInfo.balance = @"";
+    
+    return userInfo;
+}
+
 // get cur user
 - (UserInfo *)getCurUser {
-    // todo: do real work
     UserInfo *userInfo = [[UserInfo alloc] init];
     NSUserDefaults *userDefault=[NSUserDefaults standardUserDefaults];
     userInfo.username=[userDefault objectForKey:@"userInfoName"];
