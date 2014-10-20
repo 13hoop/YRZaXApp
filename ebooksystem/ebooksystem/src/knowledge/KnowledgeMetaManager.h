@@ -33,6 +33,9 @@
 // get knowledge metas
 - (NSArray *)getKnowledgeMetaWithDataId:(NSString *)dataId andDataType:(DataType)dataType;
 
+// get knowledge data version
+- (NSString *)getKnowledgeDataVersionWithDataId:(NSString *)dataId andDataType:(DataType)dataType;
+
 #pragma mark - setter
 - (BOOL)setData:(NSString *)dataId toStatus:(DataStatus)status;
 

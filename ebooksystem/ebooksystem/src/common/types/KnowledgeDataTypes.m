@@ -174,6 +174,9 @@
  */
 @implementation ServerResponseUpdateInfoDetail
 
+// app是否需要更新
+@synthesize needUpdateApp;
+// 数据id
 @synthesize dataId;
 // 数据当前版本号
 @synthesize curVersion;
@@ -195,6 +198,9 @@
     return [[JSONKeyMapper alloc] initWithJSONToModelBlock:^NSString *(NSString *keyName) {
         if ([keyName isEqual:@"id"]) {
             return @"dataId";
+        }
+        else if ([keyName isEqual:@"need_update_app"]) {
+            return @"needUpdateApp";
         }
         else if ([keyName isEqual:@"cur_version"]) {
             return @"curVersion";
@@ -224,6 +230,9 @@
                                           modelToJSONBlock:^NSString *(NSString *keyName) {
                                               if ([keyName isEqual:@"dataId"]) {
                                                   return @"id";
+                                              }
+                                              else if ([keyName isEqual:@"needUpdateApp"]) {
+                                                  return @"need_update_app";
                                               }
                                               else if ([keyName isEqual:@"curVersion"]) {
                                                   return @"cur_version";
@@ -301,10 +310,12 @@
 @synthesize encryptMethod;
 @synthesize encryptKeyType;
 @synthesize username;
+@synthesize appPlatform;
+@synthesize appVersion;
 @synthesize deviceId;
 @synthesize data;
 
-@synthesize dataInfo;
+//@synthesize dataInfo;
 @synthesize updateInfo;
 
 + (JSONKeyMapper*)keyMapper {
@@ -317,6 +328,12 @@
         }
         else if ([keyName isEqual:@"user_name"]) {
             return @"username";
+        }
+        else if ([keyName isEqual:@"app_platform"]) {
+            return @"appPlatform";
+        }
+        else if ([keyName isEqual:@"app_version"]) {
+            return @"appVersion";
         }
         else if ([keyName isEqual:@"device_id"]) {
             return @"deviceId";
@@ -334,6 +351,12 @@
                                               }
                                               else if ([keyName isEqual:@"username"]) {
                                                   return @"user_name";
+                                              }
+                                              else if ([keyName isEqual:@"appPlatform"]) {
+                                                  return @"app_platform";
+                                              }
+                                              else if ([keyName isEqual:@"appVersion"]) {
+                                                  return @"app_version";
                                               }
                                               else if ([keyName isEqual:@"deviceId"]) {
                                                   return @"device_id";
@@ -354,9 +377,12 @@
 
 @synthesize dataId;
 @synthesize dataNameEn;
+@synthesize dataCurVersion;
 @synthesize dataLatestVersion;
 @synthesize appVersionMin;
 @synthesize appVersionMax;
+@synthesize updateInfo;
+
 
 + (JSONKeyMapper*)keyMapper {
     return [[JSONKeyMapper alloc] initWithJSONToModelBlock:^NSString *(NSString *keyName) {
@@ -366,6 +392,9 @@
         else if ([keyName isEqual:@"data_name_en"]) {
             return @"dataNameEn";
         }
+        else if ([keyName isEqual:@"cur_version"]) {
+            return @"dataCurVersion";
+        }
         else if ([keyName isEqual:@"version"]) {
             return @"dataLatestVersion";
         }
@@ -374,6 +403,9 @@
         }
         else if ([keyName isEqual:@"app_version_high"]) {
             return @"appVersionMax";
+        }
+        else if ([keyName isEqual:@"update_info"]) {
+            return @"updateInfo";
         }
         else {
             return keyName;
@@ -386,6 +418,9 @@
                                               else if ([keyName isEqual:@"dataNameEn"]) {
                                                   return @"data_name_en";
                                               }
+                                              else if ([keyName isEqual:@"dataCurVersion"]) {
+                                                  return @"cur_version";
+                                              }
                                               else if ([keyName isEqual:@"dataLatestVersion"]) {
                                                   return @"version";
                                               }
@@ -394,7 +429,11 @@
                                               }
                                               else if ([keyName isEqual:@"appVersionMax"]) {
                                                   return @"app_version_high";
-                                              }                                              else {
+                                              }
+                                              else if ([keyName isEqual:@"updateInfo"]) {
+                                                  return @"update_info";
+                                              }
+                                              else {
                                                   return keyName;
                                               }
                                           }];

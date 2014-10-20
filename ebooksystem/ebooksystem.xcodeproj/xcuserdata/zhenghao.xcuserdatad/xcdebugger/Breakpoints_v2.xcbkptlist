@@ -45,25 +45,9 @@
             timestampString = "435133841.729392"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "795"
-            endingLineNumber = "795"
-            landmarkName = "-startUpdateData"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ebooksystem/src/knowledge/KnowledgeDataManager.m"
-            timestampString = "435133841.729392"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
             startingLineNumber = "294"
             endingLineNumber = "294"
-            landmarkName = "-processDownloadedDataPack:"
+            landmarkName = "-processZippedDataFile:withDecryptKey:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -79,7 +63,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "668"
             endingLineNumber = "668"
-            landmarkName = "-startDownloadUpdateWithResponse:"
+            landmarkName = "-startUpdateData:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -94,9 +78,7 @@
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1185"
-            endingLineNumber = "1185"
-            landmarkName = "-knowledgeDownloadItem:didFinish:response:"
-            landmarkType = "5">
+            endingLineNumber = "1185">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -111,7 +93,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "462"
             endingLineNumber = "462"
-            landmarkName = "-processZippedDataFile:withDecryptKey:"
+            landmarkName = "-deleteData:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -127,7 +109,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "510"
             endingLineNumber = "510"
-            landmarkName = "-processZippedDataFile:withDecryptKey:"
+            landmarkName = "-startDownloadWithResponse:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -143,7 +125,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "814"
             endingLineNumber = "814"
-            landmarkName = "-startUpdateData"
+            landmarkName = "-decideUpdatableData:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

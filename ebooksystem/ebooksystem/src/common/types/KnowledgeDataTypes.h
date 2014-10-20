@@ -163,6 +163,9 @@ typedef enum {
  */
 @interface ServerResponseUpdateInfoDetail : JSONModel
 
+// 是否需要更新app. 0: no, 1: yes
+@property (nonatomic, copy) NSString *needUpdateApp;
+// 数据id
 @property (nonatomic, copy) NSString *dataId;
 // 数据当前版本号
 @property (nonatomic, copy) NSString *curVersion;
@@ -206,12 +209,16 @@ typedef enum {
 @property (nonatomic, assign) NSInteger encryptKeyType;
 // username
 @property (nonatomic, copy) NSString *username;
+// app platform
+@property (nonatomic, copy) NSString<Optional> *appPlatform;
+// app version
+@property (nonatomic, copy) NSString<Optional> *appVersion;
 // deviceId
 @property (nonatomic, copy) NSString<Optional> *deviceId;
 // data string, which is encoded
 @property (nonatomic, copy) NSString *data;
 
-@property (nonatomic, copy) ServerResponseDataInfo<Optional> *dataInfo;
+//@property (nonatomic, copy) ServerResponseDataInfo<Optional> *dataInfo;
 @property (nonatomic, copy) ServerResponseUpdateInfo<Optional> *updateInfo;
 
 @end
@@ -226,12 +233,16 @@ typedef enum {
 @property (nonatomic, copy) NSString<Optional> *dataId;
 // 数据英文名
 @property (nonatomic, copy) NSString<Optional> *dataNameEn;
+// 数据当前版本号. 此字段为app中为避免性能损失而自行添加, 非server提供
+@property (nonatomic, copy) NSString<Optional> *dataCurVersion;
 // 数据最新版本号
 @property (nonatomic, copy) NSString<Optional> *dataLatestVersion;
 // 适配此数据的app最低版本
 @property (nonatomic, copy) NSString<Optional> *appVersionMin;
 // 适配此数据的app最高版本
 @property (nonatomic, copy) NSString<Optional> *appVersionMax;
+// 此数据的app的更新信息
+@property (nonatomic, copy) NSString<Optional> *updateInfo;
 
 
 @end

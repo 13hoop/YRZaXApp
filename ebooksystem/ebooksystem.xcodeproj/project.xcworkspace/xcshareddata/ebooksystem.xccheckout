@@ -16,13 +16,13 @@
 		<string>http://10.20.0.15/project/cn/ChiefSign/src/MOA2.0/MOA/MOA/Classes/Utility/Security</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>ebooksystem/ebooksystem.xcodeproj/project.xcworkspace</string>
+	<string>ebooksystem/ebooksystem.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>2A8A29A3E5A450A6F322167DF959681AC7BC690E</key>
 		<string>../../..</string>
 		<key>8fb29d72-f352-44e4-b356-548a4d6ac5c3++6670</key>
-		<string>../../../ebooksystem/ebooksystem/depends/Security</string>
+		<string>../../..ebooksystem/ebooksystem/depends/Security</string>
 	</dict>
 	<key>IDESourceControlProjectRepositoryRootDictionary</key>
 	<dict>

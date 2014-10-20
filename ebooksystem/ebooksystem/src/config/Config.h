@@ -7,6 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
+
+#import "AppConfig.h"
 #import "KnowledgeDataConfig.h"
 #import "DrawableConfig.h"
 #import "WebConfig.h"
@@ -19,6 +21,10 @@
 #pragma mark - singleton
 // singleton
 + (Config *)instance;
+
+#pragma mark - app
+// app config
+- (AppConfig *)appConfig;
 
 #pragma mark - knowledge data
 // knowledge data config

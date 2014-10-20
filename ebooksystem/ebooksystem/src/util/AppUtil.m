@@ -8,6 +8,10 @@
 
 #import "AppUtil.h"
 
+#import "Config.h"
+
+
+
 @implementation AppUtil
 
 #pragma mark - method
@@ -22,8 +26,21 @@
     return appName;
 }
 
-// 取当前app版本号
-+ (NSString *)getAppVersion {
+// 取当前app数字版本号, 配置于AppConfig中
++ (NSInteger)getAppVersionNum {
+    return [[Config instance].appConfig appVersionNum];
+}
+
+// 取当前app版本号, 包括app_version.build_version
++ (NSString *)getAppVersionStr {
+    NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
+    
+    NSString *appVersion = [NSString stringWithFormat:@"%@.%@", [infoDictionary objectForKey:@"CFBundleShortVersionString"], [infoDictionary objectForKey:@"CFBundleVersion"]];
+    return appVersion;
+}
+
+// 取当前app版本号的app部分
++ (NSString *)getAppVersionPartOfApp {
     NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
 //    CFShow((__bridge CFTypeRef)(infoDictionary));
     
@@ -33,8 +50,8 @@
     return appVersion;
 }
 
-// 取当前app版本号
-+ (NSString *)getAppBuildVersion {
+// 取当前app版本号的build部分
++ (NSString *)getAppVersionPartOfBuild {
     NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
     //    CFShow((__bridge CFTypeRef)(infoDictionary));
     

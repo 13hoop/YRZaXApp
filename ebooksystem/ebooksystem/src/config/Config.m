@@ -22,6 +22,12 @@
     return instance;
 }
 
+#pragma mark - app
+// app config
+- (AppConfig *)appConfig {
+    return [AppConfig instance];
+}
+
 #pragma mark - knowledge data config
 - (KnowledgeDataConfig *)knowledgeDataConfig {
     return [KnowledgeDataConfig instance];

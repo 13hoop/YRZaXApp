@@ -34,14 +34,8 @@
 @interface KnowledgeDataManager() <KnowledgeDownloadManagerDelegate>
 
 #pragma mark - 数据下载
-// 获取数据的下载信息
-- (ServerResponseOfKnowledgeData *)getDataDownloadInfo:(NSString *)dataId;
-
-// 根据ServerResponseOfKnowledgeData, 启动下载数据
-- (BOOL)startDownloadDataWithResponse:(ServerResponseOfKnowledgeData *)response;
-
 // 根据ServerResponseOfKnowledgeData, 启动下载更新
-- (BOOL)startDownloadUpdateWithResponse:(ServerResponseOfKnowledgeData *)response;
+- (BOOL)startDownloadWithResponse:(ServerResponseOfKnowledgeData *)response;
 
 // 下载完成后的后续操作, 包括: (1) 复制目录 (2) 注册数据
 - (BOOL)processDownloadedDataPack:(KnowledgeDownloadItem *)downloadItem;
@@ -57,6 +51,13 @@
 #pragma mark - 数据更新
 // 解析dataVersion文件
 - (NSArray *)parseDataVersionInfo:(NSString *)dataVersionFilePath;
+
+// 确定可更新的数据集合
+- (NSArray *)decideUpdatableData:(NSArray *)dataVersionInfoArray;
+
+// 确定与指定数据相关的可更新的数据集合
+- (NSArray *)decideUpdatableData:(NSArray *)dataVersionInfoArray forData:(NSString *)dataId;
+
 // 获取各data的更新信息(数据的下载地址等)
 - (ServerResponseOfKnowledgeData *)getDataUpdateInfo:(DataUpdateRequestInfo *)requestInfo;
 
@@ -118,153 +119,7 @@
 #pragma mark - download knowledge data
 // 启动下载数据
 - (BOOL)startDownloadData:(NSString *)dataId {
-    // 启动后台任务
-    dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        // 1. 获取该data对应的download_url
-        ServerResponseOfKnowledgeData *response = [self getDataDownloadInfo:dataId];
-        if (response == nil || response.dataInfo == nil || response.dataInfo.downloadUrl == nil || response.dataInfo.downloadUrl.length <= 0) {
-            LogError(@"[KnowledgeDataManager-startDownloadData:] failed because of invalid server response, error: %@", self.lastError);
-            return;
-        }
-
-        // 2. 启动后台下载任务, 将data pack下载至本地
-        [self startDownloadDataWithResponse:response];
-        
-        // 注: 后续操作位于KnowledgeDownloadManagerDelegate的相关方法中. 包括: 3. 解包 4. 拷贝文件, 更新数据库
-    });
-    
-    return YES;
-}
-
-// get download info
-- (ServerResponseOfKnowledgeData *)getDataDownloadInfo:(NSString *)dataId {
-    lastError = @"";
-    
-    UserInfo *curUserInfo = [[UserManager instance] getCurUser];
-    if (curUserInfo == nil || curUserInfo.username == nil) {
-        lastError = @"用户信息不完整, 请确认用户已成功登录";
-        return nil;
-    }
-    
-    // crypt
-    NSString *secretKey = [MD5Util md5ForString:curUserInfo.password];
-    NSString *iv = [MD5Util md5ForString:secretKey];
-    CryptUtil *cryptUtil = [[CryptUtil alloc] initWithKey:secretKey andIV:iv];
-    
-    // Url
-    NSString *url = [Config instance].knowledgeDataConfig.dataUrlForDownload;
-    
-    // headers
-    NSString *userAgent = [Config instance].webConfig.userAgent;
-    
-    NSMutableDictionary *headers = [[NSMutableDictionary alloc] init];
-    [headers setValue:userAgent forKey:@"user_agent"];
-    
-    // body params
-    NSMutableDictionary *data = [[NSMutableDictionary alloc] init];
-    
-    [data setValue:userAgent forKey:@"user_agent"];
-    [data setValue:@"2" forKey:@"encrypt_method"]; // 对称加密
-    [data setValue:@"3" forKey:@"encrypt_key_type"];
-    
-    [data setValue:curUserInfo.username forKey:@"user_name"];
-    
-    // device id
-    {
-        NSString *deviceId = [DeviceUtil getVendorId];
-        [data setValue:deviceId forKey:@"device_id"];
-    }
-    
-    // param data
-    {
-        // 待加密信息
-        DataDownloadRequestInfo *dataDownloadRequestInfo = [[DataDownloadRequestInfo alloc] init];
-        dataDownloadRequestInfo.dataId = dataId;
-        NSString *jsonOfDataDownloadRequestInfo = [dataDownloadRequestInfo toJSONString];
-        
-        // 对称加密
-        NSString *encryptedContent = [cryptUtil encryptAES128:jsonOfDataDownloadRequestInfo];
-        if (encryptedContent == nil || encryptedContent.length <= 0) {
-            lastError = @"数据加密失败";
-            return nil;
-        }
-        
-        LogDebug(@"[KnowledgeDataManager-getDataDownloadInfo:]encryptedContent: %@", encryptedContent);
-        [data setValue:encryptedContent forKey:@"data"];
-    }
-    
-    // 发送web请求, 获取响应
-    NSString *serverResponseStr = [WebUtil sendRequestTo:[NSURL URLWithString:url] usingVerb:@"POST" withHeader:headers andData:data];
-    if (serverResponseStr == nil || serverResponseStr.length <= 0) {
-        lastError = @"网络请求失败";
-        return nil;
-    }
-    
-    // 解析响应: json=>obj
-    NSError *error = nil;
-    ServerResponseOfKnowledgeData *response = [[ServerResponseOfKnowledgeData alloc] initWithString:serverResponseStr error:&error];
-    if (response == nil || response.data == nil
-        || response.data.length <= 0) {
-        lastError = @"服务器响应数据异常";
-        return nil;
-    }
-    
-    // 解析加密后的数据字段
-    NSString *decryptedContent = nil;
-    if (response.encryptMethod == 2) {
-        if (response.encryptKeyType == 3) {
-            NSString *encryptedData = [response.data stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-            // 对称解密
-            decryptedContent = [cryptUtil decryptAES128:encryptedData];
-        }
-    }
-    
-    if (decryptedContent == nil || decryptedContent.length <= 0) {
-        lastError = @"数据解析失败";
-        return nil;
-    }
-    
-    // trim: 去除尾的\0. 否则json解析时会失败.
-    decryptedContent = [decryptedContent stringByReplacingOccurrencesOfString:@"\0" withString:@""];
-    if (decryptedContent == nil || decryptedContent.length <= 0) {
-        lastError = @"服务器返回数据为空";
-        return nil;
-    }
-    
-    // 解析dataInfo: json=>obj
-    response.dataInfo = [[ServerResponseDataInfo alloc] initWithString:decryptedContent error:&error];
-    if (response.dataInfo == nil) {
-        lastError = @"服务器返回数据解析失败";
-        LogError(@"error: %@", error.localizedDescription);
-        return nil;
-    }
-    
-    // 检查服务器返回状态
-    if (response.dataInfo.status != 0) {
-        lastError = response.dataInfo.message;
-        return nil;
-    }
-    
-    return response;
-}
-
-// 根据ServerResponseOfKnowledgeData, 启动下载数据
-- (BOOL)startDownloadDataWithResponse:(ServerResponseOfKnowledgeData *)response {
-    if (response == nil || response.dataInfo == nil || response.dataInfo.dataId == nil || response.dataInfo.dataId.length <= 0 || response.dataInfo.downloadUrl == nil || response.dataInfo.downloadUrl.length <= 0) {
-        LogError(@"[KnowledgeDataManager-startDownloadDataWithResponse:] failed because of invalid server response");
-        return NO;
-    }
-    
-    // 启动下载任务, 将data pack下载至本地
-    NSString *title = response.dataInfo.dataId;
-    NSURL *downloadUrl = [NSURL URLWithString:[response.dataInfo.downloadUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-    
-    // 下载目录
-    NSString *downloadRootPath = [Config instance].knowledgeDataConfig.knowledgeDataDownloadRootPathInDocuments;
-    NSString *savePath = [NSString stringWithFormat:@"%@/%@-%@", downloadRootPath, title, [DateUtil timestamp]];
-    
-    // 下载
-    return [[KnowledgeDownloadManager instance] startDownloadWithTitle:title andDesc:[NSString stringWithFormat:@"desc_dataId_%@", response.dataInfo.dataId] andDownloadUrl:downloadUrl andSavePath:savePath andTag:response.dataInfo.decryptKey];
+    return [self startUpdateData:dataId];
 }
 
 // 数据包下载后的后续操作, 包括: 解包, 拷贝文件, 更新数据库等
@@ -624,7 +479,7 @@
 
 #pragma mark - data update
 // 根据ServerResponseOfKnowledgeData, 启动下载更新
-- (BOOL)startDownloadUpdateWithResponse:(ServerResponseOfKnowledgeData *)response {
+- (BOOL)startDownloadWithResponse:(ServerResponseOfKnowledgeData *)response {
     if (response == nil || response.updateInfo == nil) {
         LogError(@"[KnowledgeDataManager-startDownloadUpdateWithResponse:] failed because of invalid server response");
         return NO;
@@ -698,127 +553,74 @@
             return;
         }
         
-        // 3. 与本地数据版本比较, 按需下载
-        NSString *curAppVersion = [NSString stringWithFormat:@"%@.%@", [AppUtil getAppVersion], [AppUtil getAppBuildVersion]];
-        if (curAppVersion == nil || curAppVersion.length <= 0) {
-            LogError(@"[KnowledgeDataManager-startCheckDataUpdate] failed to decide cur app  version");
+        // 3. 收集待检查更新的数据信息
+        NSArray *updatableDataVersionInfoArray = [self decideUpdatableData:dataVersionInfoArray];
+        if (updatableDataVersionInfoArray == nil) {
+            LogError(@"[KnowledgeDataManager-startCheckDataUpdate] failed to decide updatable  data array, return");
             return;
         }
         
-        // 收集待检查更新的数据信息
-        NSMutableArray *dataInfoArray = [[NSMutableArray alloc] init];
-        
-        for (id obj in dataVersionInfoArray) {
-            ServerDataVersionInfo *dataVersionInfo = (ServerDataVersionInfo *)obj;
-            if (dataVersionInfo == nil) {
-                continue;
-            }
-            
-            // 版本比较
-            NSArray *knowledgeMetas = [[KnowledgeMetaManager instance] getKnowledgeMetaWithDataId:dataVersionInfo.dataId andDataType:DATA_TYPE_DATA_SOURCE];
-            if (knowledgeMetas == nil || knowledgeMetas.count <= 0) {
-                LogWarn(@"[KnowledgeDataManager-startCheckDataUpdate] failed to decide version of data: %@, ignore", dataVersionInfo.dataId);
-                continue;
-            }
-            
-            // 确定数据的当前版本
-            NSString *dataCurVersion = nil;
-            for (id obj in knowledgeMetas) {
-                KnowledgeMeta *knowledgeMeta = (KnowledgeMeta *)obj;
-                if (knowledgeMeta == nil) {
-                    continue;
-                }
-                
-                dataCurVersion = knowledgeMeta.curVersion;
-                break;
-            }
-            
-            if (dataCurVersion == nil || dataCurVersion.length <= 0) {
-                LogWarn(@"[KnowledgeDataManager-startCheckDataUpdate] failed to decide version of data: %@, invalid dataCurVersion, ignore", dataVersionInfo.dataId);
-                continue;
-            }
-            
-            // 收集
-            BOOL shouldUpdate = YES;
-            {
-                if (shouldUpdate && (dataCurVersion == nil
-                    || dataCurVersion.length <= 0)) {
-                    shouldUpdate = NO;
-                }
-                
-                // 若本地版本号大于等于最新版本号, 则忽略此数据更新
-                if (shouldUpdate
-                    && [dataCurVersion compare:dataVersionInfo.dataLatestVersion] >= 0) {
-                    shouldUpdate = NO;
-                }
-                
-                {
-                    // 不确定当前app版本时, 则忽略此数据更新, 以免app异常
-                    if (shouldUpdate && (dataCurVersion == nil
-                        || dataCurVersion.length <= 0)) {
-                        shouldUpdate = NO;
-                    }
-                    
-                    // 若当前app版本号在指定的版本号范围之外, 则忽略此数据更新
-                    if (shouldUpdate && (dataVersionInfo.appVersionMin != nil
-                        && dataVersionInfo.appVersionMin.length > 0)) {
-                        if ([curAppVersion compare:dataVersionInfo.appVersionMin] < 0) {
-                            shouldUpdate = NO;
-                        }
-                    }
-                    
-                    if (shouldUpdate && (dataVersionInfo.appVersionMax != nil
-                        && dataVersionInfo.appVersionMax.length > 0)) {
-                        if ([curAppVersion compare:dataVersionInfo.appVersionMax] > 0) {
-                            shouldUpdate = NO;
-                        }
-                    }
-                }
-            }
-            
-            if (shouldUpdate) {
-                DataInfo *dataInfo = [[DataInfo alloc] init];
-                dataInfo.dataId = dataVersionInfo.dataId;
-                dataInfo.curVersion = dataCurVersion; // 数据当前版本
-                
-                [dataInfoArray addObject:dataInfo];
-            }
-        }
-        
-        // 4. 获取数据的更新信息
-        DataUpdateRequestInfo *dataUpdateRequestInfo = [[DataUpdateRequestInfo alloc] init];
-        dataUpdateRequestInfo.dataInfo = dataInfoArray;
-        
-        ServerResponseOfKnowledgeData *response = [self getDataUpdateInfo:dataUpdateRequestInfo];
-        if (response == nil || response.updateInfo == nil) {
-            LogError(@"[KnowledgeDataManager-startCheckDataUpdate] failed to get data update info, return");
+        if (updatableDataVersionInfoArray.count <= 0) {
+            LogInfo(@"[KnowledgeDataManager-startCheckDataUpdate] successfully, no data to update");
             return;
         }
         
         // 删除data_version文件
         [PathUtil deletePath:savePath];
         
-        if (dataInfoArray == nil || dataInfoArray.count <= 0) {
-            LogInfo(@"[KnowledgeDataManager-startCheckDataUpdate] successfully, no data to update");
-            return;
-        }
-        
-        // 5. 将数据库中相关数据标为有更新
+        // 4. 获取数据的更新信息
+        // 4.1 构造数据更新请求
+        DataUpdateRequestInfo *dataUpdateRequestInfo = [[DataUpdateRequestInfo alloc] init];
         {
-            for (id obj in dataInfoArray) {
-                DataInfo *dataInfo = (DataInfo *)obj;
-                if (dataInfo == nil) {
+            NSMutableArray *dataInfoArray = [[NSMutableArray alloc] init];
+            
+            for (id obj in updatableDataVersionInfoArray) {
+                ServerDataVersionInfo *dataVersionInfo = (ServerDataVersionInfo *)obj;
+                if (dataVersionInfo == nil) {
                     continue;
                 }
                 
-                [[KnowledgeMetaManager instance] setData:dataInfo.dataId toStatus:DATA_STATUS_HAS_UPDATE];
+                DataInfo *dataInfo = [[DataInfo alloc] init];
+                dataInfo.dataId = dataVersionInfo.dataId;
+                dataInfo.curVersion = dataVersionInfo.dataCurVersion; // 数据当前版本
+                
+                [dataInfoArray addObject:dataInfo];
+            }
+            
+            dataUpdateRequestInfo.dataInfo = dataInfoArray;
+        }
+        
+        // 4.2 获取数据的更新信息
+        ServerResponseOfKnowledgeData *response = [self getDataUpdateInfo:dataUpdateRequestInfo];
+        if (response == nil || response.updateInfo == nil || response.updateInfo.status < 0) {
+            LogError(@"[KnowledgeDataManager-startCheckDataUpdate] failed to get data update info, return");
+            return;
+        }
+        
+        if (response.updateInfo.details == nil || response.updateInfo.details.count <= 0) {
+            LogInfo(@"[KnowledgeDataManager-startCheckDataUpdate] failed, server returns no no data update info, return");
+            return;
+        }
+
+        
+        // 5. 将数据库中相关数据标为有更新
+        {
+            for (id obj in response.updateInfo.details) {
+                ServerResponseUpdateInfoDetail *detail = (ServerResponseUpdateInfoDetail *)obj;
+                if (detail == nil) {
+                    continue;
+                }
+                
+                NSString *dataId = [detail valueForKey:@"id"];
+                BOOL retVal = [[KnowledgeMetaManager instance] setData:dataId toStatus:DATA_STATUS_HAS_UPDATE];
+                LogInfo(@"[KnowledgeDataManager-startCheckDataUpdate] %@ to mark data %@ as having update", (retVal ? @"successfully" : @"failed"), dataId);
             }
         }
         
         // 6. 根据更新模式, 启动后台下载, 下载完成后, 自动完成更新
         // 注: 后续操作位于KnowledgeDownloadManagerDelegate的相关方法中. 包括: (1) 解包 (2) 拷贝文件, 更新数据库
         if ([Config instance].knowledgeDataConfig.knowledgeDataUpdateMode == DATA_UPDATE_MODE_CHECK_AND_UPDATE) {
-            [self startDownloadUpdateWithResponse:response];
+            [self startDownloadWithResponse:response];
         }
     });
     
@@ -849,131 +651,75 @@
             return;
         }
         
-        // 3. 与本地数据版本比较, 按需下载
-        NSString *curAppVersion = [NSString stringWithFormat:@"%@.%@", [AppUtil getAppVersion], [AppUtil getAppBuildVersion]];
-        if (curAppVersion == nil || curAppVersion.length <= 0) {
-            LogError(@"[KnowledgeDataManager-startCheckDataUpdate:] failed to decide cur app  version");
+        // 3. 收集待检查更新的数据信息
+        NSArray *updatableDataVersionInfoArray = [self decideUpdatableData:dataVersionInfoArray];
+        if (updatableDataVersionInfoArray == nil) {
+            LogError(@"[KnowledgeDataManager-startCheckDataUpdate:] failed to decide updatable  data array, return");
             return;
         }
         
-        // 收集待检查更新的数据信息
-        NSMutableArray *dataInfoArray = [[NSMutableArray alloc] init];
-        
-        for (id obj in dataVersionInfoArray) {
-            ServerDataVersionInfo *dataVersionInfo = (ServerDataVersionInfo *)obj;
-            if (dataVersionInfo == nil) {
-                continue;
-            }
-            
-            // 只更新指定的data
-            if (![dataVersionInfo.dataId isEqual:dataId]) {
-                continue;
-            }
-            
-            // 版本比较
-            NSArray *knowledgeMetas = [[KnowledgeMetaManager instance] getKnowledgeMetaWithDataId:dataVersionInfo.dataId andDataType:DATA_TYPE_DATA_SOURCE];
-            if (knowledgeMetas == nil || knowledgeMetas.count <= 0) {
-                LogWarn(@"[KnowledgeDataManager-startCheckDataUpdate:] failed to decide version of data: %@, ignore", dataVersionInfo.dataId);
-                continue;
-            }
-            
-            // 确定数据的当前版本
-            NSString *dataCurVersion = nil;
-            for (id obj in knowledgeMetas) {
-                KnowledgeMeta *knowledgeMeta = (KnowledgeMeta *)obj;
-                if (knowledgeMeta == nil) {
-                    continue;
-                }
-                
-                dataCurVersion = knowledgeMeta.curVersion;
-                break;
-            }
-            
-            if (dataCurVersion == nil || dataCurVersion.length <= 0) {
-                LogWarn(@"[KnowledgeDataManager-startCheckDataUpdate:] failed to decide version of data: %@, invalid dataCurVersion, ignore", dataVersionInfo.dataId);
-                continue;
-            }
-            
-            // 收集
-            BOOL shouldUpdate = YES;
-            {
-                if (shouldUpdate && (dataCurVersion == nil
-                                     || dataCurVersion.length <= 0)) {
-                    shouldUpdate = NO;
-                }
-                
-                // 若本地版本号大于等于最新版本号, 则忽略此数据更新
-                if (shouldUpdate
-                    && [dataCurVersion compare:dataVersionInfo.dataLatestVersion] >= 0) {
-                    shouldUpdate = NO;
-                }
-                
-                {
-                    // 不确定当前app版本时, 则忽略此数据更新, 以免app异常
-                    if (shouldUpdate && (dataCurVersion == nil
-                                         || dataCurVersion.length <= 0)) {
-                        shouldUpdate = NO;
-                    }
-                    
-                    // 若当前app版本号在指定的版本号范围之外, 则忽略此数据更新
-                    if (shouldUpdate && (dataVersionInfo.appVersionMin != nil
-                                         && dataVersionInfo.appVersionMin.length > 0)) {
-                        if ([curAppVersion compare:dataVersionInfo.appVersionMin] < 0) {
-                            shouldUpdate = NO;
-                        }
-                    }
-                    
-                    if (shouldUpdate && (dataVersionInfo.appVersionMax != nil
-                                         && dataVersionInfo.appVersionMax.length > 0)) {
-                        if ([curAppVersion compare:dataVersionInfo.appVersionMax] > 0) {
-                            shouldUpdate = NO;
-                        }
-                    }
-                }
-            }
-            
-            if (shouldUpdate) {
-                DataInfo *dataInfo = [[DataInfo alloc] init];
-                dataInfo.dataId = dataVersionInfo.dataId;
-                dataInfo.curVersion = dataCurVersion; // 数据当前版本
-                
-                [dataInfoArray addObject:dataInfo];
-            }
-        }
-        
-        // 4. 获取数据的更新信息
-        DataUpdateRequestInfo *dataUpdateRequestInfo = [[DataUpdateRequestInfo alloc] init];
-        dataUpdateRequestInfo.dataInfo = dataInfoArray;
-        
-        ServerResponseOfKnowledgeData *response = [self getDataUpdateInfo:dataUpdateRequestInfo];
-        if (response == nil || response.updateInfo == nil) {
-            LogError(@"[KnowledgeDataManager-startCheckDataUpdate:] failed to get data update info, return");
+        if (updatableDataVersionInfoArray.count <= 0) {
+            LogInfo(@"[KnowledgeDataManager-startCheckDataUpdate:] successfully, no data to update");
             return;
         }
         
         // 删除data_version文件
         [PathUtil deletePath:savePath];
         
-        if (dataInfoArray == nil || dataInfoArray.count <= 0) {
-            LogInfo(@"[KnowledgeDataManager-startCheckDataUpdate:] successfully, no data to update");
-            return;
-        }
-        
-        // 5. 将数据库中相关数据标为有更新
+        // 4. 获取数据的更新信息
+        // 4.1 构造数据更新请求
+        DataUpdateRequestInfo *dataUpdateRequestInfo = [[DataUpdateRequestInfo alloc] init];
         {
-            for (id obj in dataInfoArray) {
-                DataInfo *dataInfo = (DataInfo *)obj;
-                if (dataInfo == nil) {
+            NSMutableArray *dataInfoArray = [[NSMutableArray alloc] init];
+            
+            for (id obj in updatableDataVersionInfoArray) {
+                ServerDataVersionInfo *dataVersionInfo = (ServerDataVersionInfo *)obj;
+                if (dataVersionInfo == nil) {
                     continue;
                 }
                 
-                [[KnowledgeMetaManager instance] setData:dataInfo.dataId toStatus:DATA_STATUS_HAS_UPDATE];
+                DataInfo *dataInfo = [[DataInfo alloc] init];
+                dataInfo.dataId = dataVersionInfo.dataId;
+                dataInfo.curVersion = dataVersionInfo.dataCurVersion; // 数据当前版本
+                
+                [dataInfoArray addObject:dataInfo];
+            }
+            
+            dataUpdateRequestInfo.dataInfo = dataInfoArray;
+        }
+        
+        // 4.2 获取数据的更新信息
+        ServerResponseOfKnowledgeData *response = [self getDataUpdateInfo:dataUpdateRequestInfo];
+        if (response == nil || response.updateInfo == nil || response.updateInfo.status < 0) {
+            LogError(@"[KnowledgeDataManager-startCheckDataUpdate:] failed to get data update info, return");
+            return;
+        }
+        
+        if (response.updateInfo.details == nil || response.updateInfo.details.count <= 0) {
+            LogInfo(@"[KnowledgeDataManager-startCheckDataUpdate:] failed, server returns no no data update info, return");
+            return;
+        }
+        
+        
+        // 5. 将数据库中相关数据标为有更新
+        {
+            for (id obj in response.updateInfo.details) {
+                ServerResponseUpdateInfoDetail *detail = (ServerResponseUpdateInfoDetail *)obj;
+                if (detail == nil) {
+                    continue;
+                }
+                
+                NSString *dataId = [detail valueForKey:@"id"];
+                BOOL retVal = [[KnowledgeMetaManager instance] setData:dataId toStatus:DATA_STATUS_HAS_UPDATE];
+                LogInfo(@"[KnowledgeDataManager-startCheckDataUpdate:] %@ to mark data %@ as having update", (retVal ? @"successfully" : @"failed"), dataId);
             }
         }
         
-        // 6. 启动后台下载, 下载完成后, 自动完成更新
+        // 6. 根据更新模式, 启动后台下载, 下载完成后, 自动完成更新
         // 注: 后续操作位于KnowledgeDownloadManagerDelegate的相关方法中. 包括: (1) 解包 (2) 拷贝文件, 更新数据库
-        [self startDownloadUpdateWithResponse:response];
+//        if ([Config instance].knowledgeDataConfig.knowledgeDataUpdateMode == DATA_UPDATE_MODE_CHECK_AND_UPDATE) {
+            [self startDownloadWithResponse:response];
+//        }
     });
     
     return YES;
@@ -1018,6 +764,116 @@
     return dataVersionInfoArray;
 }
 
+// 确定可更新的数据集合
+- (NSArray *)decideUpdatableData:(NSArray *)dataVersionInfoArray {
+    if (dataVersionInfoArray == nil || dataVersionInfoArray.count <= 0) {
+        return nil;
+    }
+    
+    // 与本地数据版本比较, 确定可更新的数据集合
+//    NSString *curAppVersion = [AppUtil getAppVersionStr];
+//    if (curAppVersion == nil || curAppVersion.length <= 0) {
+//        return nil;
+//    }
+    
+    NSInteger curAppVersionNum = [AppUtil getAppVersionNum];
+    if (curAppVersionNum < 0) {
+        return nil;
+    }
+    
+    // 收集待检查更新的数据信息
+    NSMutableArray *updatableDataVersionInfoArray = [[NSMutableArray alloc] init];
+    
+    for (id obj in dataVersionInfoArray) {
+        ServerDataVersionInfo *dataVersionInfo = (ServerDataVersionInfo *)obj;
+        if (dataVersionInfo == nil) {
+            continue;
+        }
+        
+        // 版本比较
+        // 确定数据的当前版本
+        NSString *dataCurVersion = [[KnowledgeMetaManager instance] getKnowledgeDataVersionWithDataId:dataVersionInfo.dataId andDataType:DATA_TYPE_DATA_SOURCE];
+        if (dataCurVersion == nil || dataCurVersion.length <= 0) {
+            LogWarn(@"[KnowledgeDataManager-startCheckDataUpdate] failed to decide version of data: %@, invalid dataCurVersion, ignore", dataVersionInfo.dataId);
+            continue;
+        }
+        
+        // 收集
+        BOOL shouldUpdate = YES;
+        {
+            if (shouldUpdate && (dataCurVersion == nil
+                                 || dataCurVersion.length <= 0)) {
+                shouldUpdate = NO;
+            }
+            
+            // 比较数据版本
+            // 若本地版本号大于等于最新版本号, 则忽略此数据更新
+//            dataCurVersion = @"0.0.0.0"; // test only
+            if (shouldUpdate
+                && [dataCurVersion compare:dataVersionInfo.dataLatestVersion] >= 0) {
+                shouldUpdate = NO;
+            }
+            
+            // 比较App版本
+            {
+                // 不确定当前app版本时, 则忽略此数据更新, 以免app异常
+                if (shouldUpdate && (dataCurVersion == nil
+                                     || dataCurVersion.length <= 0)) {
+                    shouldUpdate = NO;
+                }
+                
+                // 若当前app版本号在指定的版本号范围之外, 则忽略此数据更新
+                if (shouldUpdate && (dataVersionInfo.appVersionMin != nil
+                                     && dataVersionInfo.appVersionMin.length > 0)) {
+                    NSInteger appVersionNumMin = [dataVersionInfo.appVersionMin intValue];
+                    if (curAppVersionNum < appVersionNumMin) {
+//                    if ([curAppVersion compare:dataVersionInfo.appVersionMin] < 0) {
+                        shouldUpdate = NO;
+                    }
+                }
+                
+                if (shouldUpdate && (dataVersionInfo.appVersionMax != nil
+                                     && dataVersionInfo.appVersionMax.length > 0)) {
+                    NSInteger appVersionNumMax = [dataVersionInfo.appVersionMax intValue];
+                    if (curAppVersionNum > appVersionNumMax) {
+//                    if ([curAppVersion compare:dataVersionInfo.appVersionMax] > 0) {
+                        shouldUpdate = NO;
+                    }
+                }
+            }
+        }
+        
+        if (shouldUpdate) {
+            dataVersionInfo.dataCurVersion = dataCurVersion;
+            [updatableDataVersionInfoArray addObject:dataVersionInfo];
+        }
+    }
+
+    return updatableDataVersionInfoArray;
+}
+
+// 确定与指定数据相关的可更新的数据集合
+- (NSArray *)decideUpdatableData:(NSArray *)dataVersionInfoArray forData:(NSString *)dataId {
+    NSArray *updatableDataVersionInfoArray = [self decideUpdatableData:dataVersionInfoArray];
+    
+    if (updatableDataVersionInfoArray == nil || updatableDataVersionInfoArray.count <= 0) {
+        return nil;
+    }
+    
+    
+    NSMutableArray *retArray = [[NSMutableArray alloc] init];
+    for (id obj in updatableDataVersionInfoArray) {
+        ServerDataVersionInfo *dataVersionInfo = (ServerDataVersionInfo *)obj;
+        if (dataVersionInfo == nil || ![dataVersionInfo.dataId isEqual:dataId]) {
+            continue;
+        }
+        
+        [retArray addObject:dataVersionInfo];
+    }
+    
+    return retArray;
+}
+
 // 获取各data的更新信息(数据的下载地址等)
 - (ServerResponseOfKnowledgeData *)getDataUpdateInfo:(DataUpdateRequestInfo *)requestInfo {
     lastError = @"";
@@ -1048,7 +904,11 @@
     [data setValue:userAgent forKey:@"user_agent"];
     [data setValue:@"2" forKey:@"encrypt_method"]; // 对称加密
     [data setValue:@"3" forKey:@"encrypt_key_type"];
-    
+    [data setValue:@"1" forKey:@"app_platform"]; // ios
+    {
+        NSString *appVersion = [NSString stringWithFormat:@"%ld", (long)[AppUtil getAppVersionNum]];
+        [data setValue:appVersion forKey:@"app_version"]; // app version
+    }
     [data setValue:curUserInfo.username forKey:@"user_name"];
     
     // device id

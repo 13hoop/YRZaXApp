@@ -274,6 +274,28 @@
     return metaArray;
 }
 
+// get knowledge data version
+- (NSString *)getKnowledgeDataVersionWithDataId:(NSString *)dataId andDataType:(DataType)dataType {
+    NSArray *knowledgeMetas = [self getKnowledgeMetaWithDataId:dataId andDataType:dataType];
+    if (knowledgeMetas == nil || knowledgeMetas.count <= 0) {
+        return nil;
+    }
+    
+    // 确定数据的当前版本
+    NSString *dataCurVersion = nil;
+    for (id obj in knowledgeMetas) {
+        KnowledgeMeta *knowledgeMeta = (KnowledgeMeta *)obj;
+        if (knowledgeMeta == nil) {
+            continue;
+        }
+        
+        dataCurVersion = knowledgeMeta.curVersion;
+        break;
+    }
+    
+    return dataCurVersion;
+}
+
 #pragma mark - setter
 - (BOOL)setData:(NSString *)dataId toStatus:(DataStatus)status {
     if (dataId == nil) {

@@ -161,6 +161,7 @@
 		713D865019EA96ED006446D5 /* mztools.c in Sources */ = {isa = PBXBuildFile; fileRef = 713D864919EA96ED006446D5 /* mztools.c */; };
 		713D865119EA96ED006446D5 /* unzip.c in Sources */ = {isa = PBXBuildFile; fileRef = 713D864B19EA96ED006446D5 /* unzip.c */; };
 		713D865219EA96ED006446D5 /* zip.c in Sources */ = {isa = PBXBuildFile; fileRef = 713D864D19EA96ED006446D5 /* zip.c */; };
+		7156B09A19F50F1400B3A521 /* AppConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 7156B09919F50F1400B3A521 /* AppConfig.m */; };
 		7159EC5719E4373C00288CF2 /* CoreDataUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 7159EC5619E4373C00288CF2 /* CoreDataUtil.m */; };
 		715EE96E19E526D7005A4F78 /* CommonWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 715EE96D19E526D7005A4F78 /* CommonWebViewController.m */; };
 		715EE97719E52749005A4F78 /* BaseTitleBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 715EE97219E52749005A4F78 /* BaseTitleBar.m */; };
@@ -558,6 +559,8 @@
 		713D864C19EA96ED006446D5 /* unzip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = unzip.h; path = depends/ZipArchive/minizip/unzip.h; sourceTree = "<group>"; };
 		713D864D19EA96ED006446D5 /* zip.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = zip.c; path = depends/ZipArchive/minizip/zip.c; sourceTree = "<group>"; };
 		713D864E19EA96ED006446D5 /* zip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = zip.h; path = depends/ZipArchive/minizip/zip.h; sourceTree = "<group>"; };
+		7156B09819F50F1400B3A521 /* AppConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppConfig.h; path = src/config/AppConfig.h; sourceTree = "<group>"; };
+		7156B09919F50F1400B3A521 /* AppConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppConfig.m; path = src/config/AppConfig.m; sourceTree = "<group>"; };
 		7159EC5519E4373C00288CF2 /* CoreDataUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CoreDataUtil.h; path = src/util/CoreDataUtil.h; sourceTree = "<group>"; };
 		7159EC5619E4373C00288CF2 /* CoreDataUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CoreDataUtil.m; path = src/util/CoreDataUtil.m; sourceTree = "<group>"; };
 		715EE96C19E526D7005A4F78 /* CommonWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CommonWebViewController.h; path = src/common/web/controller/CommonWebViewController.h; sourceTree = "<group>"; };
@@ -1635,6 +1638,8 @@
 		71860BDF19DC73C200D01AA9 /* config */ = {
 			isa = PBXGroup;
 			children = (
+				7156B09819F50F1400B3A521 /* AppConfig.h */,
+				7156B09919F50F1400B3A521 /* AppConfig.m */,
 				71860BE119DC754C00D01AA9 /* Config.h */,
 				71860BE219DC754C00D01AA9 /* Config.m */,
 				71860BE719DC7B4300D01AA9 /* KnowledgeDataConfig.h */,
@@ -1996,6 +2001,7 @@
 				7118EB7E19EF6BE3002CF833 /* AppCode-support.md in Sources */,
 				710C032A19E1C8D000C27A33 /* AFHTTPSessionManager.m in Sources */,
 				715EE97819E52749005A4F78 /* QBTitleView.m in Sources */,
+				7156B09A19F50F1400B3A521 /* AppConfig.m in Sources */,
 				71860BE919DC7B4300D01AA9 /* KnowledgeDataConfig.m in Sources */,
 				06AA7EF719F4FBBB00570289 /* CustomNavigationBar.m in Sources */,
 				06AA7E9319F4FAE100570289 /* SecurityUtil.m in Sources */,
@@ -2222,7 +2228,9 @@
 					"$(PROJECT_DIR)/ebooksystem/depends/umeng",
 					"$(PROJECT_DIR)/ebooksystem/depends/openssl-iib",
 				);
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				VALID_ARCHS = "armv7 armv7s";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -2247,7 +2255,9 @@
 					"$(PROJECT_DIR)/ebooksystem/depends/umeng",
 					"$(PROJECT_DIR)/ebooksystem/depends/openssl-iib",
 				);
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				VALID_ARCHS = "armv7 armv7s";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
