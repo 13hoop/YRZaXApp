@@ -125,7 +125,11 @@
     self.contactInfo.text=[user valueForKey:@"userContact"];
     self.email.text=[user valueForKey:@"userEmail"];
     self.project.text=[user valueForKey:@"chooseProject"];
+    
+    UIImage *okImage = [UIImage imageNamed:@"umeng/images/item_ok.png"];
+    [self.okButton setImage:okImage forState:UIControlStateNormal];
 }
+
 -(void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
