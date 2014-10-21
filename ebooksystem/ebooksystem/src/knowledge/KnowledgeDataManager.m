@@ -12,6 +12,7 @@
 
 #import "KnowledgeMetaEntity.h"
 #import "KnowledgeMetaManager.h"
+#import "KnowledgeDataLoader.h"
 
 
 #import "UserManager.h"
@@ -114,6 +115,11 @@
     }
     
     return fileContents;
+}
+
+// 根据dataId, queryId, 和indexFilename加载knowledge data
+- (NSString *)getLocalDataWithDataId:(NSString *)dataId andQueryId:(NSString *)queryId andIndexFilename:(NSString *)indexFilename {
+    return [[KnowledgeDataLoader instance] getKnowledgeDataWithDataId:dataId andQueryId:queryId andIndexFilename:indexFilename];
 }
 
 #pragma mark - download knowledge data

@@ -13,6 +13,7 @@
 #import "KnowledgeMetaEntity.h"
 #import "KnowledgeSearchEntity.h"
 #import "KnowledgeMetaManager.h"
+#import "KnowledgeDataLoader.h"
 #import "KnowledgeDataManager.h"
 #import "KnowledgeSearchManager.h"
 #import "KnowledgeDownloadManager.h"
@@ -192,6 +193,11 @@
     return nil;
 }
 
+// 根据dataId, queryId, 和indexFilename加载knowledge data
+- (NSString *)getLocalDataWithDataId:(NSString *)dataId andQueryId:(NSString *)queryId andIndexFilename:(NSString *)indexFilename {
+    return [[KnowledgeDataManager instance] getLocalDataWithDataId:dataId andQueryId:queryId andIndexFilename:indexFilename];
+}
+
 #pragma mark - remote data fetch
 
 // get remote data
@@ -254,7 +260,7 @@
 #pragma mark -
 #pragma mark - test
 - (void)test {
-    LogInfo(@"[KnowledgeManager - test()], starting...");
+    LogInfo(@"[KnowledgeManager-test()], starting...");
     
     // 1. 测试加密, 保证多次加密得到的字符串一致
 //    {
@@ -297,13 +303,27 @@
     
     // 5. 远程数据获取测试
     // remote - download
-    BOOL ret = [self getRemoteData:dataId];
+//    BOOL ret = [self getRemoteData:dataId];
     
     // 6. 数据更新测试
     // remote - update
 //    BOOL ret = [self startCheckDataUpdate];
     
-    LogInfo(@"[KnowledgeManager - test()], end");
+    // 10. knowledge loader测试
+    {
+//    BOOL ret = [[KnowledgeDataLoader instance] test];
+        NSString *dataId = @"9999eed5e71a0ff16bafc9f082bc9999";
+        NSString *queryId = @"0";
+        
+        //    NSString *knowledgeDataRootPathInAssets = [[Config instance] knowledgeDataConfig].knowledgeDataRootPathInAssets;
+        NSString *knowledgeDataRootPathInDocuments = [[Config instance] knowledgeDataConfig].knowledgeDataRootPathInDocuments;
+        NSString *indexFilename = [NSString stringWithFormat:@"%@/%@", knowledgeDataRootPathInDocuments, @"kaoyan^book_index_data^english#english_realexam_2010/index_8"];
+    
+        NSString *data = [self getLocalDataWithDataId:dataId andQueryId:queryId andIndexFilename:indexFilename];
+        LogInfo(@"[KnowledgeManager-test()] got data: %@ for dataId: %@, and queryId: %@, andIndexFilename:%@", data, dataId, queryId, indexFilename);
+    }
+    
+    LogInfo(@"[KnowledgeManager-test()], end");
 }
 
 @end

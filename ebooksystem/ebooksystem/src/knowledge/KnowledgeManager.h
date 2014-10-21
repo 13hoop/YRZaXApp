@@ -20,6 +20,8 @@
 
 // local data fetch
 - (NSString *)getLocalData:(NSString *)dataId;
+// 根据dataId, queryId, 和indexFilename加载knowledge data
+- (NSString *)getLocalDataWithDataId:(NSString *)dataId andQueryId:(NSString *)queryId andIndexFilename:(NSString *)indexFilename;
 // remote data fetch
 - (BOOL)getRemoteData:(NSString *)dataId;
 
