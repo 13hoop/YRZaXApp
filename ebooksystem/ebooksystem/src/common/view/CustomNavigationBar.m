@@ -15,6 +15,8 @@
 @property(nonatomic,strong)UILabel *titleLable;
 @property(nonatomic,strong)UIButton *backButton;
 @property(nonatomic,strong)UIImageView *imageReturn;
+
+@property(nonatomic,strong)UIButton *largeButton;
 @end
 
 
@@ -61,8 +63,13 @@
     [self.backButton setTitle:@"返回" forState:UIControlStateNormal];
     self.backButton.titleLabel.font=[UIFont systemFontOfSize:12.0f];
     self.backButton.titleLabel.textColor=[UIColor colorWithHexString:@"#d0cfcf" alpha:1];
-    [self.backButton addTarget:self action:@selector(btnDown:) forControlEvents:UIControlEventTouchUpInside];
+//    [self.backButton addTarget:self action:@selector(btnDown:) forControlEvents:UIControlEventTouchUpInside];
     [self.backgroundView addSubview:self.backButton];
+    //创建button
+    self.largeButton=[UIButton buttonWithType:UIButtonTypeCustom];
+    self.largeButton.frame=CGRectMake(0, 0, 60, 44);
+    [self.largeButton addTarget:self action:@selector(btnDown:) forControlEvents:UIControlEventTouchDown];
+    [self.backgroundView addSubview:self.largeButton];
     [self addSubview:self.backgroundView];
     
 }

@@ -106,8 +106,8 @@ static UITapGestureRecognizer *tapRecognizer;
     button.frame = CGRectMake(256, 7, 57.0f, 30.0f);
     button.titleLabel.font = [UIFont systemFontOfSize:14.0];
     [button setTitle:NSLocalizedString(@"发送", @"发送") forState:UIControlStateNormal];
-    [button setBackgroundImage:[UIImage imageNamed:@"send.png"] forState:UIControlStateNormal];
-    [button setBackgroundImage:[UIImage imageNamed:@"send_selected.png"] forState:UIControlStateHighlighted];
+    [button setBackgroundImage:[UIImage imageNamed:@"umeng/images/send.png"] forState:UIControlStateNormal];
+    [button setBackgroundImage:[UIImage imageNamed:@"umeng/images/send_selected.png"] forState:UIControlStateHighlighted];
     [button addTarget:self action:@selector(sendFeedback:) forControlEvents:UIControlEventTouchUpInside];
 
     [self.mToolBar addSubview:button];
@@ -206,7 +206,9 @@ static UITapGestureRecognizer *tapRecognizer;
     self.mTableView.backgroundColor=[UIColor colorWithRed:237/255.0 green:237/255.0 blue:237/255.0 alpha:1.0];
     if ([self.mToolBar respondsToSelector:@selector(setBackgroundImage:forToolbarPosition:barMetrics:)]) {
 //        UIImage *image = [self imageWithColor:kNavigationBar_ToolBarBackGroundColor];
-        UIImage *image=[self imageWithColor:[UIColor whiteColor]];
+//        UIImage *image=[self imageWithColor:[UIColor whiteColor]];
+        UIImage *image=[self imageWithColor:[UIColor grayColor]];
+
         [self.mToolBar setBackgroundImage:image forToolbarPosition:UIToolbarPositionBottom barMetrics:UIBarMetricsDefault];
     } else {
         self.mToolBar.barStyle = UIBarStyleBlack;

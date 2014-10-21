@@ -27,6 +27,7 @@
 #import "UserManager.h"
 #import "UserInfo.h"
 #import "DeviceUtil.h"
+#import "DeviceStatusUtil.h"
 
 #define CUSTOMVIEW_X 64
 @interface LoginViewController ()<CustomNavigationBarDelegate,CustomLoginNavgationBarDelegate,CustomLoginViewDelegate,UserManagerDelegate>
@@ -57,6 +58,8 @@
     self.view.backgroundColor=[UIColor whiteColor];
     [self addNavigationBar];
     [self createLoginView];
+    [self testNetStatus];
+    
 }
 
 -(void)addNavigationBar
@@ -223,7 +226,20 @@
 
     
 }
-
+//test net status
+-(void)testNetStatus
+{
+    DeviceStatusUtil *device=[[DeviceStatusUtil alloc] init];
+    [device GetCurrntNet];
+    BOOL is=[device isHorizontalScreen];
+    NSLog(@"是否是横屏%hhd",is);
+    CGSize ff=[DeviceStatusUtil screenSize];
+    NSLog(@"当前屏幕的高度是%f",ff.height);
+    NSString *deviceStr=[device checkDevice];
+    NSLog(@"device===%@",deviceStr);
+    
+    
+}
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];

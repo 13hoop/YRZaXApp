@@ -34,7 +34,6 @@
 		06AA7EEB19F4FAF600570289 /* rsa_private_key.pem in Resources */ = {isa = PBXBuildFile; fileRef = 06AA7EE619F4FAF600570289 /* rsa_private_key.pem */; };
 		06AA7EF519F4FBBB00570289 /* UIColor+Hex.m in Sources */ = {isa = PBXBuildFile; fileRef = 06AA7EEE19F4FBBB00570289 /* UIColor+Hex.m */; };
 		06AA7EF619F4FBBB00570289 /* CustomTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 06AA7EF119F4FBBB00570289 /* CustomTextField.m */; };
-		06AA7EF719F4FBBB00570289 /* CustomNavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 06AA7EF419F4FBBB00570289 /* CustomNavigationBar.m */; };
 		06AA7F4E19F4FC7E00570289 /* AboutUsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06AA7EFC19F4FC7E00570289 /* AboutUsViewController.m */; };
 		06AA7F4F19F4FC7E00570289 /* CustomAboutUsview.m in Sources */ = {isa = PBXBuildFile; fileRef = 06AA7EFF19F4FC7E00570289 /* CustomAboutUsview.m */; };
 		06AA7F5019F4FC7E00570289 /* UMContactViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06AA7F0419F4FC7E00570289 /* UMContactViewController.m */; };
@@ -54,7 +53,6 @@
 		06AA7F5E19F4FC7E00570289 /* CustomLogoutView.m in Sources */ = {isa = PBXBuildFile; fileRef = 06AA7F2919F4FC7E00570289 /* CustomLogoutView.m */; };
 		06AA7F5F19F4FC7E00570289 /* MoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06AA7F2D19F4FC7E00570289 /* MoreViewController.m */; };
 		06AA7F6019F4FC7E00570289 /* CustomMoreView.m in Sources */ = {isa = PBXBuildFile; fileRef = 06AA7F3019F4FC7E00570289 /* CustomMoreView.m */; };
-		06AA7F6119F4FC7E00570289 /* PurchaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06AA7F3319F4FC7E00570289 /* PurchaseViewController.m */; };
 		06AA7F6219F4FC7E00570289 /* RechargeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06AA7F3719F4FC7E00570289 /* RechargeViewController.m */; };
 		06AA7F6319F4FC7E00570289 /* RechargeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 06AA7F3A19F4FC7E00570289 /* RechargeModel.m */; };
 		06AA7F6419F4FC7E00570289 /* CustomRechargeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 06AA7F3D19F4FC7E00570289 /* CustomRechargeView.m */; };
@@ -65,6 +63,11 @@
 		06AA7F6919F4FC7E00570289 /* CustomRegisterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 06AA7F4B19F4FC7E00570289 /* CustomRegisterView.m */; };
 		06AA7F6C19F4FD1400570289 /* UserManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 06AA7F6B19F4FD1400570289 /* UserManager.m */; };
 		06AAA8D619D2B8610052BB1D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06AAA8D519D2B8610052BB1D /* QuartzCore.framework */; };
+		06AAC9EC19F67C2900A758DB /* CustomNavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 06AAC9EB19F67C2900A758DB /* CustomNavigationBar.m */; };
+		06AAC9F219F67C9800A758DB /* DeviceStatusUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 06AAC9EF19F67C9800A758DB /* DeviceStatusUtil.m */; };
+		06AAC9F319F67C9800A758DB /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 06AAC9F119F67C9800A758DB /* Reachability.m */; };
+		06AAC9F919F67E1D00A758DB /* PurchaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06AAC9F619F67E1D00A758DB /* PurchaseViewController.m */; };
+		06AAC9FA19F67E1D00A758DB /* TBActivityView.m in Sources */ = {isa = PBXBuildFile; fileRef = 06AAC9F819F67E1D00A758DB /* TBActivityView.m */; };
 		06B7F86319D53AF50017EA4D /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 06B7F86219D53AF50017EA4D /* libz.dylib */; };
 		710C02B119E0394100C27A33 /* SubjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 710C02B019E0394100C27A33 /* SubjectViewController.m */; };
 		710C02B519E03E4F00C27A33 /* KnowledgeSubject.m in Sources */ = {isa = PBXBuildFile; fileRef = 710C02B419E03E4F00C27A33 /* KnowledgeSubject.m */; };
@@ -332,8 +335,6 @@
 		06AA7EEE19F4FBBB00570289 /* UIColor+Hex.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Hex.m"; sourceTree = "<group>"; };
 		06AA7EF019F4FBBB00570289 /* CustomTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomTextField.h; sourceTree = "<group>"; };
 		06AA7EF119F4FBBB00570289 /* CustomTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomTextField.m; sourceTree = "<group>"; };
-		06AA7EF319F4FBBB00570289 /* CustomNavigationBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomNavigationBar.h; sourceTree = "<group>"; };
-		06AA7EF419F4FBBB00570289 /* CustomNavigationBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomNavigationBar.m; sourceTree = "<group>"; };
 		06AA7EFB19F4FC7E00570289 /* AboutUsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AboutUsViewController.h; sourceTree = "<group>"; };
 		06AA7EFC19F4FC7E00570289 /* AboutUsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AboutUsViewController.m; sourceTree = "<group>"; };
 		06AA7EFE19F4FC7E00570289 /* CustomAboutUsview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomAboutUsview.h; sourceTree = "<group>"; };
@@ -371,8 +372,6 @@
 		06AA7F2D19F4FC7E00570289 /* MoreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MoreViewController.m; sourceTree = "<group>"; };
 		06AA7F2F19F4FC7E00570289 /* CustomMoreView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomMoreView.h; sourceTree = "<group>"; };
 		06AA7F3019F4FC7E00570289 /* CustomMoreView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomMoreView.m; sourceTree = "<group>"; };
-		06AA7F3219F4FC7E00570289 /* PurchaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PurchaseViewController.h; sourceTree = "<group>"; };
-		06AA7F3319F4FC7E00570289 /* PurchaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PurchaseViewController.m; sourceTree = "<group>"; };
 		06AA7F3619F4FC7E00570289 /* RechargeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RechargeViewController.h; sourceTree = "<group>"; };
 		06AA7F3719F4FC7E00570289 /* RechargeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RechargeViewController.m; sourceTree = "<group>"; };
 		06AA7F3919F4FC7E00570289 /* RechargeModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RechargeModel.h; sourceTree = "<group>"; };
@@ -393,6 +392,16 @@
 		06AA7F6A19F4FD1400570289 /* UserManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserManager.h; path = src/user/UserManager.h; sourceTree = "<group>"; };
 		06AA7F6B19F4FD1400570289 /* UserManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserManager.m; path = src/user/UserManager.m; sourceTree = "<group>"; };
 		06AAA8D519D2B8610052BB1D /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		06AAC9EA19F67C2900A758DB /* CustomNavigationBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomNavigationBar.h; sourceTree = "<group>"; };
+		06AAC9EB19F67C2900A758DB /* CustomNavigationBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomNavigationBar.m; sourceTree = "<group>"; };
+		06AAC9EE19F67C9800A758DB /* DeviceStatusUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeviceStatusUtil.h; sourceTree = "<group>"; };
+		06AAC9EF19F67C9800A758DB /* DeviceStatusUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeviceStatusUtil.m; sourceTree = "<group>"; };
+		06AAC9F019F67C9800A758DB /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
+		06AAC9F119F67C9800A758DB /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
+		06AAC9F519F67E1D00A758DB /* PurchaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PurchaseViewController.h; sourceTree = "<group>"; };
+		06AAC9F619F67E1D00A758DB /* PurchaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PurchaseViewController.m; sourceTree = "<group>"; };
+		06AAC9F719F67E1D00A758DB /* TBActivityView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TBActivityView.h; sourceTree = "<group>"; };
+		06AAC9F819F67E1D00A758DB /* TBActivityView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TBActivityView.m; sourceTree = "<group>"; };
 		06B7F86219D53AF50017EA4D /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		710C02AF19E0394100C27A33 /* SubjectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SubjectViewController.h; path = src/subject/controller/SubjectViewController.h; sourceTree = "<group>"; };
 		710C02B019E0394100C27A33 /* SubjectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SubjectViewController.m; path = src/subject/controller/SubjectViewController.m; sourceTree = "<group>"; };
@@ -935,8 +944,8 @@
 		06AA7EF219F4FBBB00570289 /* view */ = {
 			isa = PBXGroup;
 			children = (
-				06AA7EF319F4FBBB00570289 /* CustomNavigationBar.h */,
-				06AA7EF419F4FBBB00570289 /* CustomNavigationBar.m */,
+				06AAC9EA19F67C2900A758DB /* CustomNavigationBar.h */,
+				06AAC9EB19F67C2900A758DB /* CustomNavigationBar.m */,
 			);
 			name = view;
 			path = src/common/view;
@@ -945,12 +954,12 @@
 		06AA7EF819F4FC7E00570289 /* menu */ = {
 			isa = PBXGroup;
 			children = (
+				06AAC9F419F67E1D00A758DB /* purchase */,
 				06AA7EF919F4FC7E00570289 /* about */,
 				06AA7F0019F4FC7E00570289 /* feedback */,
 				06AA7F1219F4FC7E00570289 /* login */,
 				06AA7F2019F4FC7E00570289 /* logout */,
 				06AA7F2A19F4FC7E00570289 /* menu */,
-				06AA7F3119F4FC7E00570289 /* purchase */,
 				06AA7F3419F4FC7E00570289 /* recharge */,
 				06AA7F4019F4FC7E00570289 /* register */,
 				06AA7F4C19F4FC7E00570289 /* update */,
@@ -1143,15 +1152,6 @@
 			path = view;
 			sourceTree = "<group>";
 		};
-		06AA7F3119F4FC7E00570289 /* purchase */ = {
-			isa = PBXGroup;
-			children = (
-				06AA7F3219F4FC7E00570289 /* PurchaseViewController.h */,
-				06AA7F3319F4FC7E00570289 /* PurchaseViewController.m */,
-			);
-			path = purchase;
-			sourceTree = "<group>";
-		};
 		06AA7F3419F4FC7E00570289 /* recharge */ = {
 			isa = PBXGroup;
 			children = (
@@ -1236,6 +1236,29 @@
 				06AA7F4D19F4FC7E00570289 /* MobClick.h */,
 			);
 			path = update;
+			sourceTree = "<group>";
+		};
+		06AAC9ED19F67C9800A758DB /* deviceStatus */ = {
+			isa = PBXGroup;
+			children = (
+				06AAC9EE19F67C9800A758DB /* DeviceStatusUtil.h */,
+				06AAC9EF19F67C9800A758DB /* DeviceStatusUtil.m */,
+				06AAC9F019F67C9800A758DB /* Reachability.h */,
+				06AAC9F119F67C9800A758DB /* Reachability.m */,
+			);
+			name = deviceStatus;
+			path = src/util/deviceStatus;
+			sourceTree = "<group>";
+		};
+		06AAC9F419F67E1D00A758DB /* purchase */ = {
+			isa = PBXGroup;
+			children = (
+				06AAC9F519F67E1D00A758DB /* PurchaseViewController.h */,
+				06AAC9F619F67E1D00A758DB /* PurchaseViewController.m */,
+				06AAC9F719F67E1D00A758DB /* TBActivityView.h */,
+				06AAC9F819F67E1D00A758DB /* TBActivityView.m */,
+			);
+			path = purchase;
 			sourceTree = "<group>";
 		};
 		710C02A819DE985200C27A33 /* storyboard */ = {
@@ -1699,6 +1722,7 @@
 		71860C0B19DE8DA000D01AA9 /* util */ = {
 			isa = PBXGroup;
 			children = (
+				06AAC9ED19F67C9800A758DB /* deviceStatus */,
 				71860C0C19DE8DE600D01AA9 /* UUIDUtil.h */,
 				71860C0D19DE8DE600D01AA9 /* UUIDUtil.m */,
 				710C038C19E2644900C27A33 /* PathUtil.h */,
@@ -2009,7 +2033,6 @@
 				715EE97819E52749005A4F78 /* QBTitleView.m in Sources */,
 				7156B09A19F50F1400B3A521 /* AppConfig.m in Sources */,
 				71860BE919DC7B4300D01AA9 /* KnowledgeDataConfig.m in Sources */,
-				06AA7EF719F4FBBB00570289 /* CustomNavigationBar.m in Sources */,
 				06AA7E9319F4FAE100570289 /* SecurityUtil.m in Sources */,
 				06AA7F5B19F4FC7E00570289 /* CustomLoginView.m in Sources */,
 				06AA7F6519F4FC7E00570289 /* CustomViewCellTableViewCell.m in Sources */,
@@ -2023,6 +2046,7 @@
 				7118EB8D19EF6BE3002CF833 /* ProblemSolution.md in Sources */,
 				7118EB9C19EF7109002CF833 /* LogUtil.m in Sources */,
 				710C032E19E1C8D000C27A33 /* AFURLRequestSerialization.m in Sources */,
+				06AAC9F919F67E1D00A758DB /* PurchaseViewController.m in Sources */,
 				71860C0719DE544D00D01AA9 /* KnowledgeDownloadManager.m in Sources */,
 				06AA7E9019F4FAE100570289 /* GTMBase64.m in Sources */,
 				06AA7EF519F4FBBB00570289 /* UIColor+Hex.m in Sources */,
@@ -2040,7 +2064,6 @@
 				7118EB5C19EF6B54002CF833 /* DDFileLogger.m in Sources */,
 				710C03A819E397B200C27A33 /* KnowledgeMetaManager.m in Sources */,
 				7118EB8919EF6BE3002CF833 /* LogFileManagement.md in Sources */,
-				06AA7F6119F4FC7E00570289 /* PurchaseViewController.m in Sources */,
 				7118EB8719EF6BE3002CF833 /* FineGrainedLogging.md in Sources */,
 				7118EB5A19EF6B54002CF833 /* DDASLLogCapture.m in Sources */,
 				713D865219EA96ED006446D5 /* zip.c in Sources */,
@@ -2048,6 +2071,7 @@
 				06AA7E9219F4FAE100570289 /* NSData+AES.m in Sources */,
 				713D865119EA96ED006446D5 /* unzip.c in Sources */,
 				710C037319E1C98B00C27A33 /* NSString+MD5Addition.m in Sources */,
+				06AAC9EC19F67C2900A758DB /* CustomNavigationBar.m in Sources */,
 				7118EB8E19EF6BE3002CF833 /* README.md in Sources */,
 				06AA7F5419F4FC7E00570289 /* UMEGORefreshTableHeaderView.m in Sources */,
 				710C035619E1C90E00C27A33 /* SBJsonStreamParserAdapter.m in Sources */,
@@ -2068,6 +2092,7 @@
 				713D863E19E91654006446D5 /* DateUtil.m in Sources */,
 				715EE9A919E832ED005A4F78 /* JSONModelError.m in Sources */,
 				710C03A219E2EDB800C27A33 /* KnowledgeSearchEntity.m in Sources */,
+				06AAC9F219F67C9800A758DB /* DeviceStatusUtil.m in Sources */,
 				06AA7F6719F4FC7E00570289 /* RegisterModel.m in Sources */,
 				06AA7F6919F4FC7E00570289 /* CustomRegisterView.m in Sources */,
 				710C035319E1C90E00C27A33 /* SBJsonParser.m in Sources */,
@@ -2080,6 +2105,7 @@
 				06AA7F6C19F4FD1400570289 /* UserManager.m in Sources */,
 				715EE9B619E8331C005A4F78 /* JSONModel+networking.m in Sources */,
 				06AA7F5719F4FC7E00570289 /* LoginViewController.m in Sources */,
+				06AAC9FA19F67E1D00A758DB /* TBActivityView.m in Sources */,
 				710C032C19E1C8D000C27A33 /* AFSecurityPolicy.m in Sources */,
 				7118EB2119ED1F80002CF833 /* AppUtil.m in Sources */,
 				715EE9A619E832ED005A4F78 /* JSONModel.m in Sources */,
@@ -2098,6 +2124,7 @@
 				06AA7F6319F4FC7E00570289 /* RechargeModel.m in Sources */,
 				06AA7F5A19F4FC7E00570289 /* CustomLoginNavgationBar.m in Sources */,
 				710C035719E1C90E00C27A33 /* SBJsonStreamParserState.m in Sources */,
+				06AAC9F319F67C9800A758DB /* Reachability.m in Sources */,
 				7118EB7F19EF6BE3002CF833 /* ARC.md in Sources */,
 				0690782719CFD62700CD9C3D /* main.m in Sources */,
 				06AA7F5F19F4FC7E00570289 /* MoreViewController.m in Sources */,
@@ -2236,6 +2263,7 @@
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VALID_ARCHS = "armv7 armv7s";
 				WRAPPER_EXTENSION = app;
 			};
@@ -2263,6 +2291,7 @@
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VALID_ARCHS = "armv7 armv7s";
 				WRAPPER_EXTENSION = app;
 			};
