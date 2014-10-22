@@ -29,6 +29,7 @@
 @property (nonatomic, copy) NSString *dataPath;
 
 @property (nonatomic, assign) DataStatus dataStatus;
+@property (nonatomic, copy) NSString *dataStatusDesc;
 
 @property (nonatomic, copy) NSString *parentId;
 @property (nonatomic, copy) NSString *parentNameEn;

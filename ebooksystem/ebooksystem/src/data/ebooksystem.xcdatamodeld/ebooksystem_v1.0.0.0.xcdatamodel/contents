@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="5064" systemVersion="13F34" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="6252" systemVersion="14A389" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="KnowledgeMetaEntity" representedClassName="KnowledgeMetaEntity" syncable="YES">
         <attribute name="checkTime" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="childIds" optional="YES" attributeType="String" syncable="YES"/>
@@ -10,6 +10,7 @@
         <attribute name="dataPath" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="dataPathType" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="dataStatus" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="dataStatusDesc" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="dataStorageType" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="dataType" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="desc" optional="YES" attributeType="String" syncable="YES"/>
@@ -32,7 +33,7 @@
         <attribute name="searchId" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
-        <element name="KnowledgeMetaEntity" positionX="-63" positionY="-18" width="128" height="390"/>
+        <element name="KnowledgeMetaEntity" positionX="-63" positionY="-18" width="128" height="405"/>
         <element name="KnowledgeSearchEntity" positionX="-54" positionY="144" width="128" height="105"/>
     </elements>
 </model>

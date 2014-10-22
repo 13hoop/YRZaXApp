@@ -31,6 +31,9 @@
 // local data search
 - (NSString *)searchLocalData:(NSString *)searchId;
 
+// get data status
+- (NSString *)getDataStatus:(NSString *)dataId;
+
 #pragma mark - test
 // test
 - (void)test;

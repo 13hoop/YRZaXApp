@@ -162,6 +162,7 @@
     }];
     
     // getNodeDataById()
+    // deprecated: 读取数据, 非index方式
     [self.javascriptBridge registerHandler:@"getNodeDataById" handler:^(id dataId, WVJBResponseCallback responseCallback) {
         LogDebug(@"CommonWebViewController::getNodeDataById() called: %@", dataId);
         
@@ -172,6 +173,7 @@
     }];
     
     // getNodeDataByIdAndQueryId()
+    // 读取数据, index方式
     [self.javascriptBridge registerHandler:@"getNodeDataByIdAndQueryId" handler:^(id data, WVJBResponseCallback responseCallback) {
         LogDebug(@"CommonWebViewController::getNodeDataByIdAndQueryId() called: %@", data);
         
@@ -204,6 +206,17 @@
         [[KnowledgeManager instance] getRemoteData:dataId];
         
         if (responseCallback != nil) {
+        }
+    }];
+    
+    // getDataStatus()
+    [self.javascriptBridge registerHandler:@"getDataStatus" handler:^(id dataId, WVJBResponseCallback responseCallback) {
+        LogDebug(@"CommonWebViewController::getDataStatus() called: %@", dataId);
+        
+        if (responseCallback != nil) {
+            // status##desc
+            NSString *status = [[KnowledgeManager instance] getDataStatus:dataId];
+            responseCallback(status);
         }
     }];
     

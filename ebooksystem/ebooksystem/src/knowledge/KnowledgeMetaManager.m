@@ -297,7 +297,8 @@
 }
 
 #pragma mark - setter
-- (BOOL)setData:(NSString *)dataId toStatus:(DataStatus)status {
+// 更新数据的状态及状态描述
+- (BOOL)setDataStatusTo:(DataStatus)status andDataStatusDescTo:(NSString *)desc forDataWithDataId:(NSString *)dataId andType:(DataType)dataType {
     if (dataId == nil) {
         return YES; // nothing to save, return YES
     }
@@ -323,8 +324,23 @@
             for (NSManagedObject *entity in fetchedObjects) {
                 [entity setValue:[NSNumber numberWithInteger:status] forKey:@"dataStatus"];
                 
+                // dataStatusDesc
+                {
+                    NSString *dataStatusDesc = ((desc == nil || desc.length <= 0) ? @"" : desc);
+                    [entity setValue:dataStatusDesc forKey:@"dataStatusDesc"];
+                }
+                
+                // updateInfo
+                {
+                    // 检测到有更新时, 将更新信息也记录到updateInfo
+                    if (status == DATA_STATUS_UPDATE_DETECTED) {
+                        NSString *updateInfo = ((desc == nil || desc.length <= 0) ? @"" : desc);
+                        [entity setValue:updateInfo forKey:@"updateInfo"];
+                    }
+                }
+                
                 if (![[CoreDataUtil instance].managedObjectContext save:&error]) {
-                    LogError(@"[KnowledgeMetaManager::setData:toStatus] update failed when save to context, error: %@", [error localizedDescription]);
+                    LogError(@"[KnowledgeMetaManager-setDataStatusTo:andDataStatusDescTo:forDataWithDataId:andType:] update failed when save to context, error: %@", [error localizedDescription]);
                     return NO;
                 }
             }
