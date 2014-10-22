@@ -37,6 +37,8 @@
 - (NSString *)getKnowledgeDataVersionWithDataId:(NSString *)dataId andDataType:(DataType)dataType;
 
 #pragma mark - setter
-- (BOOL)setData:(NSString *)dataId toStatus:(DataStatus)status;
+// 更新数据的状态及描述
+- (BOOL)setDataStatusTo:(DataStatus)status andDataStatusDescTo:(NSString *)desc forDataWithDataId:(NSString *)dataId andType:(DataType)dataType;
+
 
 @end

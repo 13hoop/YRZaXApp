@@ -415,7 +415,7 @@
             // 2. 修改数据状态及其它相关属性
             if (ret) {
                 knowledgeMeta.DataStorageType = DATA_STORAGE_INTERNAL_STORAGE;
-                knowledgeMeta.DataStatus = DATA_STATUS_UPDATED;
+                knowledgeMeta.DataStatus = DATA_STATUS_UPDATE_COMPLETED;
                 knowledgeMeta.latestVersion = knowledgeMeta.curVersion;
                 
                 knowledgeMeta.updateType = DATA_UPDATE_TYPE_NODE;
@@ -427,7 +427,7 @@
         // replace
         else {
             // 1. 将数据状态修改为updating
-            ret = [[KnowledgeMetaManager instance] setData:knowledgeMeta.dataId toStatus:DATA_STATUS_UPDATING];
+            ret = [[KnowledgeMetaManager instance] setDataStatusTo:DATA_STATUS_UPDATE_IN_PROGRESS andDataStatusDescTo:nil forDataWithDataId:knowledgeMeta.dataId andType:DATA_TYPE_DATA_SOURCE];
             
             // 2. 替换文件夹
             NSString *fromPath = [metaFilePath stringByDeletingLastPathComponent];
@@ -438,7 +438,7 @@
             // 3. 修改数据状态及其它相关属性
             if (ret) {
                 knowledgeMeta.DataStorageType = DATA_STORAGE_INTERNAL_STORAGE;
-                knowledgeMeta.DataStatus = DATA_STATUS_UPDATED;
+                knowledgeMeta.DataStatus = DATA_STATUS_UPDATE_COMPLETED;
                 knowledgeMeta.latestVersion = knowledgeMeta.curVersion;
                 
                 knowledgeMeta.updateType = DATA_UPDATE_TYPE_NODE;
@@ -447,7 +447,7 @@
                 ret = [[KnowledgeMetaManager instance] saveKnowledgeMeta:knowledgeMeta];
             }
             else {
-                ret = [[KnowledgeMetaManager instance] setData:knowledgeMeta.dataId toStatus:DATA_STATUS_AVAIL];
+                ret = [[KnowledgeMetaManager instance] setDataStatusTo:DATA_STATUS_AVAIL andDataStatusDescTo:nil forDataWithDataId:knowledgeMeta.dataId andType:DATA_TYPE_DATA_SOURCE];
             }
         }
     }
@@ -618,7 +618,7 @@
                 }
                 
                 NSString *dataId = [detail valueForKey:@"id"];
-                BOOL retVal = [[KnowledgeMetaManager instance] setData:dataId toStatus:DATA_STATUS_HAS_UPDATE];
+                BOOL retVal = [[KnowledgeMetaManager instance] setDataStatusTo:DATA_STATUS_UPDATE_DETECTED andDataStatusDescTo:detail.updateInfo forDataWithDataId:detail.dataId andType:DATA_TYPE_DATA_SOURCE];
                 LogInfo(@"[KnowledgeDataManager-startCheckDataUpdate] %@ to mark data %@ as having update", (retVal ? @"successfully" : @"failed"), dataId);
             }
         }
@@ -715,7 +715,7 @@
                 }
                 
                 NSString *dataId = [detail valueForKey:@"id"];
-                BOOL retVal = [[KnowledgeMetaManager instance] setData:dataId toStatus:DATA_STATUS_HAS_UPDATE];
+                BOOL retVal = [[KnowledgeMetaManager instance] setDataStatusTo:DATA_STATUS_UPDATE_DETECTED andDataStatusDescTo:detail.updateInfo forDataWithDataId:detail.dataId andType:DATA_TYPE_DATA_SOURCE];
                 LogInfo(@"[KnowledgeDataManager-startCheckDataUpdate:] %@ to mark data %@ as having update", (retVal ? @"successfully" : @"failed"), dataId);
             }
         }
@@ -1028,6 +1028,11 @@
 // 下载进度
 - (void)knowledgeDownloadItem:(KnowledgeDownloadItem *)downloadItem didProgress:(float)progress {
     LogDebug(@"download item, id %@, title %@, progress: %@", downloadItem.itemId, downloadItem.title, downloadItem.downloadProgress);
+    
+    // 将下载进度更新到coreData
+    dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [[KnowledgeMetaManager instance] setDataStatusTo:DATA_STATUS_DOWNLOAD_IN_PROGRESS andDataStatusDescTo:[NSString stringWithFormat:@"%lf", progress] forDataWithDataId:downloadItem.title andType:DATA_TYPE_DATA_SOURCE];
+    });
 }
 
 // 下载成功/失败
@@ -1048,6 +1053,11 @@
     if (!success) {
         return;
     }
+    
+    // 将下载进度更新到coreData
+    dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [[KnowledgeMetaManager instance] setDataStatusTo:DATA_STATUS_DOWNLOAD_COMPLETED andDataStatusDescTo:@"100" forDataWithDataId:downloadItem.title andType:DATA_TYPE_DATA_SOURCE];
+    });
     
     // 启动后台任务, 继续下载的后续操作
     dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{

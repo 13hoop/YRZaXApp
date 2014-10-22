@@ -251,6 +251,28 @@
     return searchResult;
 }
 
+// get data status
+- (NSString *)getDataStatus:(NSString *)dataId {
+    NSString *status = @"";
+    
+    NSArray *knowledgeMetas = [[KnowledgeMetaManager instance] getKnowledgeMetaWithDataId:dataId andDataType:DATA_TYPE_DATA_SOURCE];
+    if (knowledgeMetas == nil || knowledgeMetas.count <= 0) {
+        return status;
+    }
+    
+    for (id obj in knowledgeMetas) {
+        KnowledgeMeta *knowledgeMeta = (KnowledgeMeta *)obj;
+        if (knowledgeMeta == nil) {
+            continue;
+        }
+        
+        status = [NSString stringWithFormat:@"%d/%@", knowledgeMeta.dataStatus, knowledgeMeta.dataStatusDesc];
+        break;
+    }
+    
+    return status;
+}
+
 #pragma mark - data update
 // check data update
 - (BOOL)startCheckDataUpdate {

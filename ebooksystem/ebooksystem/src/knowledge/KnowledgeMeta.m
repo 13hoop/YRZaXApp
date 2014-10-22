@@ -39,6 +39,7 @@
 @synthesize dataPath;
 
 @synthesize dataStatus;
+@synthesize dataStatusDesc;
 
 @synthesize parentId;
 @synthesize parentNameEn;
@@ -83,17 +84,29 @@
     knowledgeMeta.dataPath = knowledgeMetaEntity.dataPath;
     
     knowledgeMeta.dataStatus = (DataStatus)[knowledgeMetaEntity.dataStatus integerValue];
+    knowledgeMeta.dataStatusDesc = knowledgeMeta.dataStatusDesc;
     
     knowledgeMeta.parentId = knowledgeMetaEntity.parentId;
     knowledgeMeta.parentNameEn = knowledgeMetaEntity.parentNameEn;
     knowledgeMeta.parentNameCh = knowledgeMetaEntity.parentNameCh;
     
-    knowledgeMeta.childIds = knowledgeMetaEntity.childIds;
-    knowledgeMeta.siblingIds = knowledgeMetaEntity.siblingIds;
+    // child ids
+    {
+        if (knowledgeMetaEntity.childIds != nil && knowledgeMetaEntity.childIds.length > 0) {
+            knowledgeMeta.childIds = [knowledgeMetaEntity.childIds componentsSeparatedByString:@","];
+        }
+    }
+    
+    // sibling ids
+    {
+        if (knowledgeMetaEntity.siblingIds != nil && knowledgeMetaEntity.siblingIds.length > 0) {
+            knowledgeMeta.siblingIds = [knowledgeMetaEntity.siblingIds componentsSeparatedByString:@","];
+        }
+    }
     
     knowledgeMeta.nodeContentDir = knowledgeMetaEntity.nodeContentDir;
     
-    knowledgeMeta.isUpdateSeed = knowledgeMetaEntity.isUpdateSeed;
+    knowledgeMeta.isUpdateSeed = [knowledgeMetaEntity.isUpdateSeed boolValue];
     
     knowledgeMeta.updateTime = knowledgeMetaEntity.updateTime;
     knowledgeMeta.updateType = (DataUpdateType)[knowledgeMetaEntity.updateType integerValue];
@@ -124,6 +137,7 @@
     [knowledgeMetaEntity setValue:self.dataPath forKey:@"dataPath"];
     
     [knowledgeMetaEntity setValue:[NSNumber numberWithInteger:self.dataStatus] forKey:@"dataStatus"];
+    [knowledgeMetaEntity setValue:self.dataStatusDesc forKey:@"dataStatusDesc"];
     
     [knowledgeMetaEntity setValue:self.parentId forKey:@"parentId"];
     [knowledgeMetaEntity setValue:self.parentNameEn forKey:@"parentNameEn"];
@@ -157,7 +171,7 @@
     [knowledgeMetaEntity setValue:self.latestVersion forKey:@"latestVersion"];
     [knowledgeMetaEntity setValue:self.releaseTime forKey:@"releaseTime"];
 
-    return knowledgeMetaEntity;
+    return YES;
 }
 
 //// 由KnowledgeMeta转为KnowledgeSearchEntity
@@ -225,6 +239,7 @@
     knowledgeMeta.dataPath = [dict objectForKey:@"path"];
 
     knowledgeMeta.dataStatus = DATA_STATUS_AVAIL;
+    knowledgeMeta.dataStatusDesc = [dict objectForKey:@"dataStatusDesc"];
     
     knowledgeMeta.parentId = [dict objectForKey:@"parent_id"];
     knowledgeMeta.parentNameEn = [dict objectForKey:@"parent_name_en"];
@@ -279,7 +294,7 @@
     }
     
     knowledgeMeta.nodeContentDir = [dict objectForKey:@"child_dir"];
-    knowledgeMeta.isUpdateSeed = [dict objectForKey:@"is_update_seed"];
+    knowledgeMeta.isUpdateSeed = [[dict objectForKey:@"is_update_seed"] boolValue];
 
     // update time
     {
