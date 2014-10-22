@@ -171,6 +171,20 @@
         }
     }];
     
+    // getNodeDataByIdAndQueryId()
+    [self.javascriptBridge registerHandler:@"getNodeDataByIdAndQueryId" handler:^(id data, WVJBResponseCallback responseCallback) {
+        LogDebug(@"CommonWebViewController::getNodeDataByIdAndQueryId() called: %@", data);
+        
+        NSString *dataId = [data objectForKey:@"dataId"];
+        NSString *queryId = [data objectForKey:@"queryId"];
+        NSString *indexFilename = [data objectForKey:@"indexFilename"];
+        
+        if (responseCallback != nil) {
+            NSString *data = [[KnowledgeManager instance] getLocalDataWithDataId:dataId andQueryId:queryId andIndexFilename:indexFilename];
+            responseCallback(data);
+        }
+    }];
+    
     // hasNodeDownloaded()
     [self.javascriptBridge registerHandler:@"hasNodeDownloaded" handler:^(id dataId, WVJBResponseCallback responseCallback) {
         LogDebug(@"CommonWebViewController::hasNodeDownloaded() called: %@", dataId);
@@ -191,6 +205,13 @@
         
         if (responseCallback != nil) {
         }
+    }];
+    
+    // startCheckDataUpdate()
+    [self.javascriptBridge registerHandler:@"startCheckDataUpdate" handler:^(id data, WVJBResponseCallback responseCallback) {
+        LogDebug(@"CommonWebViewController::startCheckDataUpdate() called: %@", data);
+        
+        [[KnowledgeManager instance] startCheckDataUpdate];
     }];
     
     // showPageById()
