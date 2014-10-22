@@ -28,6 +28,7 @@
 #import "UserInfo.h"
 #import "DeviceUtil.h"
 #import "DeviceStatusUtil.h"
+#import "LogUtil.h"
 
 #define CUSTOMVIEW_X 64
 @interface LoginViewController ()<CustomNavigationBarDelegate,CustomLoginNavgationBarDelegate,CustomLoginViewDelegate,UserManagerDelegate>
@@ -77,7 +78,7 @@
 {
     //一层层往回撤
     [self.navigationController popViewControllerAnimated:YES];
-    NSLog(@"这个是返回");
+    
     
 }
 #pragma mark customLoginNaviagtionBar delegate method
@@ -103,11 +104,49 @@
 #pragma mark customLoginview delegate method
 -(void)loginClick:(CustomLoginModel*)model
 {
-    //在这里面进行登录的相关操作
-    dispatch_queue_t t=dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-    dispatch_async(t, ^{
-    [self Encryption:model];
-    });
+    BOOL isExist=NO;
+    DeviceStatusUtil *device=[[DeviceStatusUtil alloc] init];
+    NSString *currentNetStatus=[device GetCurrntNet];
+    // 检测当前网络状态
+    if ([currentNetStatus isEqualToString:@"no connect"]==YES) {
+        //本地登陆
+        UserManager *manager=[UserManager shareInstance];
+        NSMutableArray *userArray=[manager getUsers];
+        for (NSDictionary *tempDic in userArray)
+        {
+            if ([tempDic[@"userInfoName"] isEqualToString:model.userName]==YES && [tempDic[@"userinfoPassword"] isEqualToString:model.passWord]==YES)
+            {
+                isExist=YES;
+                break;
+            }
+        }
+        
+        if (isExist==YES)
+        {
+            NSUserDefaults *userDefaults=[NSUserDefaults standardUserDefaults];
+            [userDefaults setObject:model.userName forKey:@"userInfoName"];
+            [userDefaults setObject:model.passWord forKey:@"userinfoPassword"];
+            [userDefaults synchronize];
+            //本地登陆成功
+            
+            [self.navigationController popViewControllerAnimated:YES];
+        }
+        else
+        {
+            UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"错误提示" message:@"用户名或密码错误，请检查后重新输入或打开网络注册" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"立即检查", nil];
+            [alert show];
+        }
+    }
+    else
+    {
+        //登陆操作
+        dispatch_queue_t t=dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+        dispatch_async(t, ^{
+            [self Encryption:model];
+        });
+    }
+    
+   
 }
 
 //加密
@@ -124,6 +163,7 @@
         //拿到每台设备的唯一标识
         NSString *identifier =[DeviceUtil getVendorId];
         [self btnDown:string andWithId:identifier andWithUserModel:model];
+    
 }
 
 -(void)btnDown:(NSString*)jsonString andWithId:(NSString *)device_id andWithUserModel:(CustomLoginModel*)model
@@ -132,7 +172,7 @@
     AFHTTPRequestOperationManager *manager=[AFHTTPRequestOperationManager manager];
     manager.responseSerializer.acceptableContentTypes=[NSSet setWithObject:@"text/html"];
     NSDictionary *parameters=@{@"encrypt_method":@"2",@"encrypt_key_type":@"2",@"user_name":self.userName,@"device_id":device_id,@"data":jsonString};
-    NSLog(@"device_id======%@",device_id);
+
     [manager POST:@"http://s-115744.gotocdn.com:8296/index.php?c=passportctrl&m=login" parameters:parameters success:^(AFHTTPRequestOperation *operation,id responsrObject){
                NSDictionary *dic=responsrObject;
                 NSLog(@"dic=====%@",dic);
@@ -141,6 +181,7 @@
                 NSDictionary *data=[NSJSONSerialization JSONObjectWithData:dataData options:0 error:nil];
                 //*********测试********
                 NSLog(@"登陆成功服务器返回的信息msg===%@",data[@"msg"]);
+       
               if ([data[@"msg"] isEqualToString:@"success"]) {
                     NSLog(@"登录成功");
                     //登录成功后要把数据保存在本地，在用户信息中可以读取这些数据，并返回到更多页面
@@ -168,6 +209,7 @@
                 }
                 else
                 {
+                     LogError(@"login fail and receive message is %@",data[@"msg"]);
                     //弹出对话框来显示提示用户错误信息
                     UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"错误提示" message:data[@"msg"] delegate:nil cancelButtonTitle:nil otherButtonTitles:@"重新输入", nil];
                     [alert show];
@@ -175,6 +217,7 @@
        
             } failure:^(AFHTTPRequestOperation *operation,NSError *error){
                 NSLog(@"登陆失败");
+                LogError(@"net connect error");
                 UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"温馨提示" message:@"网络状况不佳，请设置您的网络" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"重试", nil];
                 [alert show];
             }];
@@ -230,7 +273,6 @@
 -(void)testNetStatus
 {
     DeviceStatusUtil *device=[[DeviceStatusUtil alloc] init];
-    [device GetCurrntNet];
     BOOL is=[device isHorizontalScreen];
     NSLog(@"是否是横屏%hhd",is);
     CGSize ff=[DeviceStatusUtil screenSize];

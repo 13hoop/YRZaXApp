@@ -13,6 +13,7 @@
 #import "SBJson.h"
 #import "UIDevice+IdentifierAddition.h"
 #import "DeviceUtil.h"
+#import "LogUtil.h"
 @interface RegisterModel()
 
 @property(nonatomic,strong)RegisterUserInfo *userInfo;
@@ -45,6 +46,7 @@
         [self createPublickeyPemWithString:public_key];
        
     } failure:^(AFHTTPRequestOperation *operation,NSError *error){
+        LogError(@"get publicKey failed because of net connect");
         UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"温馨提示" message:@
                             "网络状况不佳，请检查您的网络" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"重试", nil];
         [alert show];
@@ -57,6 +59,7 @@
     [crsa generatersa_public_keyWithpublicString:publicKeyString];
     BOOL isfind =[crsa importRSAKeyWithType:KeyTypePublic];
     NSLog(@"fina publicKey==%hhd",isfind);
+    LogInfo(@"find publicKey? %hhd",isfind);
     [self encryptByRsa];
     
 }
@@ -88,11 +91,13 @@
         NSString *dataStr=dic[@"data"];
         NSData *data=[dataStr dataUsingEncoding:NSUTF8StringEncoding];
         NSDictionary *dataDic=[NSJSONSerialization JSONObjectWithData:data options:0 error:0];
+        NSLog(@"注册信息是：%@",dataDic);
         [self.register_delegate registerMessage:dataDic anduserInfo:self.userInfo];
         
     } failure:^(AFHTTPRequestOperation *operation,NSError *error){
+        LogError(@"register failed bucause of net connect ");
         UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"温馨提示" message:@
-                            "网络状况不佳，请检查您的网络" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"重试", nil];
+                            "由于您的网络状况不佳，导致注册失败，请检查您的网络" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"重试", nil];
         [alert show];
     }];
 

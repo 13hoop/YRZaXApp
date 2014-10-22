@@ -10,11 +10,14 @@
 #import "CustomLogoutView.h"
 #import "CustomNavigationBar.h"
 #import "LogoutModel.h"
+#import "DeviceStatusUtil.h"
+
 #define NAVBAR_HEIGHT 44
 #define LOGOUTVIEW_X 64
 #define PROMPTVIEW_HEIGHT 30
 #define PROMPTVIEW_WIDTH 50
 #define DISTANCE 100
+#define PROMPTVIEW_WIDTH_LOCAL 80
 @interface LogoutViewController ()<CustomNavigationBarDelegate,CustomLogoutViewDelegate,LogoutModelDelegate>
 {
     NSUInteger alpha;
@@ -70,17 +73,40 @@
     //用户退出,1.清除掉本地保存的用户名和密码 2.通知服务器用户退出
     //http://s-115744.gotocdn.com:8296/index.php?c=passportctrl&m=logout
     
+    
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"userInfoName"];
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"userinfoPassword"];
     if ([[NSUserDefaults standardUserDefaults] objectForKey:@"surplus_score"]) {
-        //余额的修改：1、在进入到更过页面时就获取最新的值，2、退出时需要清除掉
+        //余额的修改：1、在进入到更多页面时就获取最新的值，2、退出时需要清除掉
         [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"surplus_score"];
     }
 	[[NSUserDefaults standardUserDefaults] synchronize];
+    DeviceStatusUtil *device=[[DeviceStatusUtil alloc] init];
+    NSString *currentNetStatus=[device GetCurrntNet];
+    if ([currentNetStatus isEqualToString:@"no connect"]) {
+        //登出成功
+        //弹出窗口提示用户登出成功，然后跳转到更多页面
+        self.promptLable=[[UILabel alloc] initWithFrame:CGRectMake((self.view.frame.size.width-PROMPTVIEW_WIDTH_LOCAL)/2, self.view.frame.size.height-PROMPTVIEW_HEIGHT-DISTANCE, PROMPTVIEW_WIDTH_LOCAL, PROMPTVIEW_HEIGHT)];
+        self.promptLable.text=@"本地登出成功";
+        self.promptLable.font=[UIFont systemFontOfSize:12.0f];
+        self.promptLable.backgroundColor=[UIColor lightGrayColor];
+        [self.view addSubview:self.promptLable];
+        //
+        NSTimer *myTimer = [NSTimer  timerWithTimeInterval:2.0 target:self selector:@selector(timeFired)userInfo:nil repeats:NO];
+        [[NSRunLoop  currentRunLoop] addTimer:myTimer forMode:NSDefaultRunLoopMode];
+        //
+        NSTimer *Timer = [NSTimer  timerWithTimeInterval:0.4 target:self selector:@selector(changeAlpha)userInfo:nil repeats:YES];
+        [[NSRunLoop  currentRunLoop] addTimer:Timer forMode:NSDefaultRunLoopMode];
+        
+
+    }
+    else
+    {
+        LogoutModel *logout=[[LogoutModel alloc] init];
+        logout.logout_delegate=self;
+        [logout logout];
+    }
     
-    LogoutModel *logout=[[LogoutModel alloc] init];
-    logout.logout_delegate=self;
-    [logout logout];
     
     
 }
@@ -119,6 +145,12 @@
                 
 
             }
+}
+#pragma logout model delegate method
+-(void)errorMessage
+{
+    UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"温馨提示" message:@"当前网络较差，导致登出失败，请检查您的网络" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"检查网络", nil];
+    [alert show];
 }
 -(void)timeFired
 {
