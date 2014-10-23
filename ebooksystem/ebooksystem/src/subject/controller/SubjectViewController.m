@@ -25,7 +25,7 @@
 #import "MobClick.h"
 
 
-#define IS_TEST_MODE 1
+//#define IS_TEST_MODE 1
 #define UIColorFromRGB(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 
 
@@ -45,6 +45,9 @@
 - (IBAction)menuButtonPressed:(id)sender;
 
 // methods
+// 初始化app data
+- (BOOL)initAppData;
+
 // load data
 - (void)loadData;
 
@@ -73,7 +76,7 @@
     return _subjects;
 }
 
-#pragma mark - app events
+#pragma mark - app life
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -106,13 +109,7 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
-    
-}
-
-// 初始化app
-- (BOOL)initApp {
-    BOOL ret = [[KnowledgeManager instance] registerDataFiles];
-    return ret;
+    [self initAppData];
 }
 
 - (void)didReceiveMemoryWarning
@@ -139,6 +136,15 @@
  // Pass the selected object to the new view controller.
  }
  */
+
+#pragma mark - 初始化app data
+- (BOOL)initAppData {
+    // 触发一次数据初始化
+    [[KnowledgeManager instance] setDelegate:self];
+    [[KnowledgeManager instance] initKnowledgeDataSync];
+    
+    return YES;
+}
 
 #pragma mark - load data
 - (void)loadData {
@@ -186,19 +192,6 @@
 // update navigation bar
 - (void)updateNavigationBar {
     self.navigationController.navigationBarHidden = YES;
-    //    self.navigationController.navigationBar.barTintColor = UIColorFromRGB(0x067AB5);
-    
-//    UIColor *color = [UIColor colorWithRed:107/255.0f green:211/255.0f blue:217/255.0f alpha:1.0f];
-//    [[UINavigationBar appearance] setBarTintColor:color];
-//    
-//    // 在导航栏中添加"咋学"图片
-//    QBTitleView *titleView = [[QBTitleView alloc] initWithFrame:CGRectMake(0, 0, 170, 44)];
-//    titleView.delegate = self;
-//    titleView.image = [UIImage imageNamed:[[Config instance].drawableConfig getImageFullPath:@"main_portal_logo.png"]];
-//    titleView.highlightedImage = [[UIImage imageNamed:[[Config instance].drawableConfig getImageFullPath:@"main_portal_logo.png"]] tintedImageUsingColor:[UIColor colorWithWhite:0.2 alpha:0.5]];
-//    //    titleView.title = @"ZaXue";
-//    
-//    self.navigationItem.titleView = titleView;
 }
 
 // update title bar
@@ -224,7 +217,8 @@
         UIButton *backButton = [UIButton buttonWithType:UIButtonTypeCustom];
         backButton.frame = CGRectMake(10, 0, 40, 44);
         
-        NSString *backButtonTitle = (IS_TEST_MODE ? @"测试" : @"");
+//        NSString *backButtonTitle = (IS_TEST_MODE ? @"测试" : @"");
+        NSString *backButtonTitle = @"测试";
         [backButton setTitle:backButtonTitle forState:UIControlStateNormal];
         backButton.titleLabel.font=[UIFont systemFontOfSize:12.0f];
         [backButton addTarget:self action:@selector(backButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
@@ -307,18 +301,15 @@
 
 #pragma mark - actions
 - (IBAction)backButtonPressed:(id)sender {
-    if (IS_TEST_MODE) {
+//    if (IS_TEST_MODE) {
         [[KnowledgeManager instance] test];
         return;
-    }
+//    }
     
     [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (IBAction)menuButtonPressed:(id)sender {
-    //    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Message" message:@"onMenuClick()" delegate:nil cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK", nil];
-    //    [alertView show];
-    
     MoreViewController *more = [[MoreViewController alloc] init];
     [self.navigationController pushViewController:more animated:YES];
 }
@@ -335,18 +326,11 @@
     }
     
     // 显示数据初始化进度
+//    dispatch_sync(dispatch_get_main_queue(), ^{
     progressOverlayViewController = [[ProgressOverlayViewController alloc] init];
     [progressOverlayViewController setDelegate:self];
-    //    [progressOverlayViewController showIndeterminateProgressView:nil];
-    //    [progressOverlayViewController showDeterminateCircularProgressView:nil];
-    //    [progressOverlayViewController showDeterminateHorizontalBarProgressView:nil];
-    //    [progressOverlayViewController showIndeterminateSmallProgressView:nil];
-    //    [progressOverlayViewController showIndeterminateSmallDefaultProgressView:nil];
-    
-    //    [progressOverlayViewController showCheckmarkProgressView:nil];
-    //    [progressOverlayViewController showCrossProgressView:nil];
-    //    [progressOverlayViewController showProgressViewWithLongTitleLabelText:nil];
     [progressOverlayViewController showSmallProgressViewWithLongTitleLabelText:desc];
+//    });
 }
 
 - (void)dataInitProgressChangedTo:(NSNumber *)progress withDesc:(NSString *)desc {

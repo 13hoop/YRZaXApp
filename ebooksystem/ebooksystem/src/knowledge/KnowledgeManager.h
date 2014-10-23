@@ -15,7 +15,7 @@
 @interface KnowledgeManager : NSObject
 
 #pragma mark - properties
-@property (nonatomic, copy) id<KnowledgeManagerDelegate> delegate;
+@property (nonatomic, retain) id<KnowledgeManagerDelegate> delegate;
 
 
 #pragma mark - singleton
@@ -24,7 +24,10 @@
 
 
 // init data
-- (BOOL)initData;
+- (BOOL)knowledgeDataInited;
+
+- (BOOL)initKnowledgeDataAsync;
+- (BOOL)initKnowledgeDataSync;
 
 // register meta.json to db
 - (BOOL)registerDataFiles;

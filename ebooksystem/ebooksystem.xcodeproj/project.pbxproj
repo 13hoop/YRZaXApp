@@ -179,6 +179,7 @@
 		7156B0C719F8BC9F00B3A521 /* MRMessageInterceptor.m in Sources */ = {isa = PBXBuildFile; fileRef = 7156B0C319F8BC9F00B3A521 /* MRMessageInterceptor.m */; };
 		7156B0C819F8BC9F00B3A521 /* MRWeakProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 7156B0C619F8BC9F00B3A521 /* MRWeakProxy.m */; };
 		7156B0CC19F8BD2900B3A521 /* ProgressOverlayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7156B0CB19F8BD2900B3A521 /* ProgressOverlayViewController.m */; };
+		7156B0D219F8F0A200B3A521 /* StartupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7156B0D119F8F0A200B3A521 /* StartupViewController.m */; };
 		7159EC5719E4373C00288CF2 /* CoreDataUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 7159EC5619E4373C00288CF2 /* CoreDataUtil.m */; };
 		715EE96E19E526D7005A4F78 /* CommonWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 715EE96D19E526D7005A4F78 /* CommonWebViewController.m */; };
 		715EE97719E52749005A4F78 /* BaseTitleBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 715EE97219E52749005A4F78 /* BaseTitleBar.m */; };
@@ -614,6 +615,8 @@
 		7156B0C919F8BCAE00B3A521 /* MRProgress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MRProgress.h; path = depends/MRProgress/MRProgress.h; sourceTree = "<group>"; };
 		7156B0CA19F8BD2900B3A521 /* ProgressOverlayViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProgressOverlayViewController.h; path = src/common/progress/ProgressOverlayViewController.h; sourceTree = "<group>"; };
 		7156B0CB19F8BD2900B3A521 /* ProgressOverlayViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ProgressOverlayViewController.m; path = src/common/progress/ProgressOverlayViewController.m; sourceTree = "<group>"; };
+		7156B0D019F8F0A200B3A521 /* StartupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StartupViewController.h; path = src/startup/controller/StartupViewController.h; sourceTree = "<group>"; };
+		7156B0D119F8F0A200B3A521 /* StartupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StartupViewController.m; path = src/startup/controller/StartupViewController.m; sourceTree = "<group>"; };
 		7159EC5519E4373C00288CF2 /* CoreDataUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CoreDataUtil.h; path = src/util/CoreDataUtil.h; sourceTree = "<group>"; };
 		7159EC5619E4373C00288CF2 /* CoreDataUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CoreDataUtil.m; path = src/util/CoreDataUtil.m; sourceTree = "<group>"; };
 		715EE96C19E526D7005A4F78 /* CommonWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CommonWebViewController.h; path = src/common/web/controller/CommonWebViewController.h; sourceTree = "<group>"; };
@@ -1599,6 +1602,23 @@
 			name = progress;
 			sourceTree = "<group>";
 		};
+		7156B0CE19F8F04C00B3A521 /* startup */ = {
+			isa = PBXGroup;
+			children = (
+				7156B0CF19F8F07400B3A521 /* controller */,
+			);
+			name = startup;
+			sourceTree = "<group>";
+		};
+		7156B0CF19F8F07400B3A521 /* controller */ = {
+			isa = PBXGroup;
+			children = (
+				7156B0D019F8F0A200B3A521 /* StartupViewController.h */,
+				7156B0D119F8F0A200B3A521 /* StartupViewController.m */,
+			);
+			name = controller;
+			sourceTree = "<group>";
+		};
 		715EE96F19E526E1005A4F78 /* web */ = {
 			isa = PBXGroup;
 			children = (
@@ -1709,14 +1729,15 @@
 		71860B6A19DC204C00D01AA9 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				7156B0CE19F8F04C00B3A521 /* startup */,
 				06AA7EF819F4FC7E00570289 /* menu */,
+				710C02AD19E038F000C27A33 /* subject */,
 				71860BDA19DC6D1B00D01AA9 /* data */,
 				71860B7F19DC228400D01AA9 /* common */,
 				71860BDF19DC73C200D01AA9 /* config */,
 				715EE98419E6D81C005A4F78 /* user */,
 				71860BDB19DC6D3900D01AA9 /* knowledge */,
 				71860BD319DC4E5C00D01AA9 /* download */,
-				710C02AD19E038F000C27A33 /* subject */,
 				715EE98019E6CF51005A4F78 /* statistics */,
 				7156B09E19F7A85100B3A521 /* error */,
 				71860C0B19DE8DA000D01AA9 /* util */,
@@ -2240,6 +2261,7 @@
 				710C038E19E2644900C27A33 /* PathUtil.m in Sources */,
 				710C035219E1C90E00C27A33 /* NSObject+SBJson.m in Sources */,
 				7118EB5B19EF6B54002CF833 /* DDASLLogger.m in Sources */,
+				7156B0D219F8F0A200B3A521 /* StartupViewController.m in Sources */,
 				710C031219E1C8B600C27A33 /* UIProgressView+AFNetworking.m in Sources */,
 				710C035419E1C90E00C27A33 /* SBJsonStreamParser.m in Sources */,
 				715EE96E19E526D7005A4F78 /* CommonWebViewController.m in Sources */,

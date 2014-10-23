@@ -147,8 +147,8 @@
 
 - (KnowledgeDataInitMode)knowledgeDataInitMode {
 //    return KNOWLEDGE_DATA_INIT_MODE_NONE;
-//    return KNOWLEDGE_DATA_INIT_MODE_SYNC;
-    return KNOWLEDGE_DATA_INIT_MODE_ASYNC;
+    return KNOWLEDGE_DATA_INIT_MODE_SYNC;
+//    return KNOWLEDGE_DATA_INIT_MODE_ASYNC;
 }
 
 - (int)knowledgeUpdateCheckIntervalInMs {

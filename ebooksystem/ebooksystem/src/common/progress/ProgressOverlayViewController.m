@@ -126,7 +126,7 @@
     progressView.mode = MRProgressOverlayViewModeIndeterminateSmall;
     progressView.titleLabelText = text;
 //    [self performBlock:^{
-//        [progressView dismiss:YES];
+////        [progressView dismiss:YES];
 //    } afterDelay:2.0];
 }
 

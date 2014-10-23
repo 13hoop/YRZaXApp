@@ -38,12 +38,12 @@
 
 // init
 - (BOOL)initKnowledgeData:(KnowledgeDataInitMode)mode;
-- (BOOL)initKnowledgeDataAsync;
-- (BOOL)initKnowledgeDataSync;
+//- (BOOL)initKnowledgeDataAsync;
+//- (BOOL)initKnowledgeDataSync;
 
 - (BOOL)initKnowledgeUpdater:(int)updateIntervalInMs;
 
-- (BOOL)knowledgeDataInited;
+//- (BOOL)knowledgeDataInited;
 - (BOOL)updateKnowledgeDataInitFlag:(BOOL)value;
 
 
@@ -58,7 +58,7 @@
     static dispatch_once_t predicate;
     dispatch_once(&predicate, ^{
         sharedInstance = [[self alloc] init];
-        [sharedInstance initKnowledgeData:[[Config instance] knowledgeDataConfig].knowledgeDataInitMode];
+//        [sharedInstance initKnowledgeData:[[Config instance] knowledgeDataConfig].knowledgeDataInitMode];
         [sharedInstance initKnowledgeUpdater:[[Config instance] knowledgeDataConfig].knowledgeUpdateCheckIntervalInMs];
     });
     
@@ -95,8 +95,9 @@
 - (BOOL)initKnowledgeDataSync {
     BOOL shouldInit = ![self knowledgeDataInited];
     if (shouldInit) {
+//    if (YES) {
         if (self.delegate && [self.delegate respondsToSelector:@selector(dataInitStartedWithResult:andDesc:)]) {
-            [self.delegate dataInitStartedWithResult:YES andDesc:@"初始化数据..."];
+                [self.delegate dataInitStartedWithResult:YES andDesc:@"初始化数据..."];
         }
         
         // 不再拷贝
@@ -105,7 +106,9 @@
         [self updateKnowledgeDataInitFlag:YES];
         
         if (self.delegate && [self.delegate respondsToSelector:@selector(dataInitEndedWithResult:andDesc:)]) {
-            [self.delegate dataInitEndedWithResult:YES andDesc:@"数据初始化数据完成"];
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                [self.delegate dataInitEndedWithResult:YES andDesc:@"数据初始化数据完成"];
+            });
         }
     }
     
