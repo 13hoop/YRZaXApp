@@ -43,8 +43,8 @@
     // Config the logger
     [LogUtil init];
     
-    NSLog(@"Bundle path: %@", [PathUtil getBundlePath]);
-    NSLog(@"Log file path: %@", [LogUtil getLogFilePath]);
+    LogInfo(@"Bundle path: %@", [PathUtil getBundlePath]);
+    LogInfo(@"Log file path: %@", [LogUtil getLogFilePath]);
     
     // 安装异常处理函数
     [ErrorManager installUncaughtExceptionHandler];

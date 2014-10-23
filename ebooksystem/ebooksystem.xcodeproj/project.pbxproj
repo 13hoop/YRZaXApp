@@ -180,6 +180,7 @@
 		7156B0C819F8BC9F00B3A521 /* MRWeakProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 7156B0C619F8BC9F00B3A521 /* MRWeakProxy.m */; };
 		7156B0CC19F8BD2900B3A521 /* ProgressOverlayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7156B0CB19F8BD2900B3A521 /* ProgressOverlayViewController.m */; };
 		7156B0D219F8F0A200B3A521 /* StartupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7156B0D119F8F0A200B3A521 /* StartupViewController.m */; };
+		7156B0D519F9012900B3A521 /* TimeWatcher.m in Sources */ = {isa = PBXBuildFile; fileRef = 7156B0D419F9012900B3A521 /* TimeWatcher.m */; };
 		7159EC5719E4373C00288CF2 /* CoreDataUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 7159EC5619E4373C00288CF2 /* CoreDataUtil.m */; };
 		715EE96E19E526D7005A4F78 /* CommonWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 715EE96D19E526D7005A4F78 /* CommonWebViewController.m */; };
 		715EE97719E52749005A4F78 /* BaseTitleBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 715EE97219E52749005A4F78 /* BaseTitleBar.m */; };
@@ -617,6 +618,8 @@
 		7156B0CB19F8BD2900B3A521 /* ProgressOverlayViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ProgressOverlayViewController.m; path = src/common/progress/ProgressOverlayViewController.m; sourceTree = "<group>"; };
 		7156B0D019F8F0A200B3A521 /* StartupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StartupViewController.h; path = src/startup/controller/StartupViewController.h; sourceTree = "<group>"; };
 		7156B0D119F8F0A200B3A521 /* StartupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StartupViewController.m; path = src/startup/controller/StartupViewController.m; sourceTree = "<group>"; };
+		7156B0D319F9012900B3A521 /* TimeWatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TimeWatcher.h; path = src/util/TimeWatcher.h; sourceTree = "<group>"; };
+		7156B0D419F9012900B3A521 /* TimeWatcher.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TimeWatcher.m; path = src/util/TimeWatcher.m; sourceTree = "<group>"; };
 		7159EC5519E4373C00288CF2 /* CoreDataUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CoreDataUtil.h; path = src/util/CoreDataUtil.h; sourceTree = "<group>"; };
 		7159EC5619E4373C00288CF2 /* CoreDataUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CoreDataUtil.m; path = src/util/CoreDataUtil.m; sourceTree = "<group>"; };
 		715EE96C19E526D7005A4F78 /* CommonWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CommonWebViewController.h; path = src/common/web/controller/CommonWebViewController.h; sourceTree = "<group>"; };
@@ -1880,6 +1883,8 @@
 				7118EB2019ED1F80002CF833 /* AppUtil.m */,
 				7118EB9A19EF7109002CF833 /* LogUtil.h */,
 				7118EB9B19EF7109002CF833 /* LogUtil.m */,
+				7156B0D319F9012900B3A521 /* TimeWatcher.h */,
+				7156B0D419F9012900B3A521 /* TimeWatcher.m */,
 			);
 			name = util;
 			sourceTree = "<group>";
@@ -2023,6 +2028,9 @@
 				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = sanweishuku;
 				TargetAttributes = {
+					0690781419CFD62700CD9C3D = {
+						DevelopmentTeam = 4S2TSG5MWB;
+					};
 					0690783419CFD62700CD9C3D = {
 						TestTargetID = 0690781419CFD62700CD9C3D;
 					};
@@ -2112,6 +2120,7 @@
 				7118EB8B19EF6BE3002CF833 /* PerLoggerLogLevels.md in Sources */,
 				71860BFE19DE50C300D01AA9 /* IADownloadOperation.m in Sources */,
 				710C02BA19E0457A00C27A33 /* SubjectTableViewCell.m in Sources */,
+				7156B0D519F9012900B3A521 /* TimeWatcher.m in Sources */,
 				710C032919E1C8D000C27A33 /* AFHTTPRequestOperationManager.m in Sources */,
 				715EE98A19E6D8D9005A4F78 /* UserInfo.m in Sources */,
 				715EE99819E819E4005A4F78 /* MD5Util.m in Sources */,
@@ -2398,6 +2407,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ebooksystem/ebooksystem-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
@@ -2415,6 +2426,7 @@
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 1;
 				VALID_ARCHS = "armv7 armv7s";
 				WRAPPER_EXTENSION = app;
@@ -2426,6 +2438,8 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ebooksystem/ebooksystem-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
@@ -2443,6 +2457,7 @@
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 1;
 				VALID_ARCHS = "armv7 armv7s";
 				WRAPPER_EXTENSION = app;

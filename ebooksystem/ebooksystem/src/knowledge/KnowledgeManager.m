@@ -28,6 +28,7 @@
 #import "CryptUtil.h"
 #import "SecurityUtil.h"
 #import "LogUtil.h"
+#import "TimeWatcher.h"
 
 
 
@@ -85,7 +86,7 @@
 
 - (BOOL)initKnowledgeDataAsync {
     // 启动后台任务
-    dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [self initKnowledgeDataSync];
     });
     
@@ -95,20 +96,24 @@
 - (BOOL)initKnowledgeDataSync {
     BOOL shouldInit = ![self knowledgeDataInited];
     if (shouldInit) {
-//    if (YES) {
         if (self.delegate && [self.delegate respondsToSelector:@selector(dataInitStartedWithResult:andDesc:)]) {
-                [self.delegate dataInitStartedWithResult:YES andDesc:@"初始化数据..."];
+            [self.delegate dataInitStartedWithResult:YES andDesc:@"初始化数据..."];
         }
         
+        TimeWatcher *timeWatcher = [[TimeWatcher alloc] init];
+        [timeWatcher start];
+        
         // 不再拷贝
-//        [[KnowledgeDataManager instance] copyAssetsKnowledgeData];
+        //        [[KnowledgeDataManager instance] copyAssetsKnowledgeData];
         [self registerDataFiles];
-        [self updateKnowledgeDataInitFlag:YES];
+        [self updateKnowledgeDataInitFlag:YES]; // comment out for test
+        
+        [timeWatcher stop];
+        NSString *info = [timeWatcher getIntervalStr];
+        LogDebug(@"[KnowledgeManager-initKnowledgeDataSync] 耗时: %@", info);
         
         if (self.delegate && [self.delegate respondsToSelector:@selector(dataInitEndedWithResult:andDesc:)]) {
-            dispatch_sync(dispatch_get_main_queue(), ^{
-                [self.delegate dataInitEndedWithResult:YES andDesc:@"数据初始化数据完成"];
-            });
+            [self.delegate dataInitEndedWithResult:YES andDesc:@"数据初始化完成"];
         }
     }
     
@@ -159,6 +164,7 @@
                 
                 // 保存到db
                 [[KnowledgeMetaManager instance] saveKnowledgeMeta:knowledgeMeta];
+                LogDebug(@"[KnowledgeManager-registerDataFiles] registered file: %@", fullPath);
             }
         }
     }

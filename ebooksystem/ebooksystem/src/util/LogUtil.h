@@ -23,7 +23,7 @@
 
 #pragma mark - log相关宏
 
-#ifdef DEBUGL
+#ifdef DEBUG
 static const int ddLogLevel = LOG_LEVEL_VERBOSE;
 #else
 static const int ddLogLevel = LOG_LEVEL_WARN;

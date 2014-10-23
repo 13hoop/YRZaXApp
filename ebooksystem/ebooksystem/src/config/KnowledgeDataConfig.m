@@ -107,9 +107,11 @@
     switch ([Config instance].appConfig.appMode) {
         case APP_WITH_FULL_DATA:
             path = [self knowledgeDataRootPathInAssets];
+            break;
             
         case APP_WITHOUT_FULL_DATA:
             path = [self knowledgeDataRootPathInDocuments];
+            break;
             
         default:
             break;

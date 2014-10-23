@@ -15,6 +15,9 @@
 
 
 #import "MobClick.h"
+#import "TimeWatcher.h"
+
+#import "LogUtil.h"
 
 
 
@@ -22,6 +25,8 @@
 @interface StartupViewController() <ProgressOverlayViewControllerDelegate, KnowledgeManagerDelegate>
 {
     ProgressOverlayViewController *progressOverlayViewController;
+    
+    TimeWatcher *timeWatcher;
 }
 
 // 初始化app data
@@ -100,14 +105,15 @@
     if (![[KnowledgeManager instance] knowledgeDataInited]) {
         // 触发一次数据初始化
         [[KnowledgeManager instance] setDelegate:self];
-        [[KnowledgeManager instance] initKnowledgeDataSync];
+        [[KnowledgeManager instance] initKnowledgeDataAsync];
+//        [[KnowledgeManager instance] initKnowledgeDataSync];
     }
     else {
         self.tipLabel.text = @"";
         
         [self performBlock:^{
             [self gotoWebView];
-        }afterDelay:1];
+        }afterDelay:0.1];
     }
     
     return YES;
@@ -124,7 +130,7 @@
 
 #pragma mark - update view
 - (void)updateView {
-    self.tipLabel.text = @"程序初始化...";
+    self.tipLabel.text = @"";
 }
 
 #pragma mark - segue
@@ -151,18 +157,23 @@
 
 #pragma mark - KnowledgeManagerDelegate methods
 - (void)dataInitStartedWithResult:(BOOL)result andDesc:(NSString *)desc {
-    self.tipLabel.text = desc;
-    
-    if (progressOverlayViewController) {
-        [progressOverlayViewController dismissProgressView];
-    }
-    
     // 显示数据初始化进度
-    //    dispatch_sync(dispatch_get_main_queue(), ^{
-    progressOverlayViewController = [[ProgressOverlayViewController alloc] init];
-    [progressOverlayViewController setDelegate:self];
-    [progressOverlayViewController showSmallProgressViewWithLongTitleLabelText:desc];
-    //    });
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if (progressOverlayViewController) {
+            [progressOverlayViewController dismissProgressView];
+        }
+
+        progressOverlayViewController = [[ProgressOverlayViewController alloc] init];
+        [progressOverlayViewController setDelegate:self];
+        [progressOverlayViewController showSmallProgressViewWithLongTitleLabelText:desc];
+        
+        self.tipLabel.text = desc;
+    });
+    
+    timeWatcher = [[TimeWatcher alloc] init];
+    [timeWatcher start];
+    
+    LogDebug(@"[KnowledgeManager-dataInitStartedWithResult:andDesc:] 数据初始化开始...");
 }
 
 - (void)dataInitProgressChangedTo:(NSNumber *)progress withDesc:(NSString *)desc {
@@ -174,16 +185,23 @@
 }
 
 - (void)dataInitEndedWithResult:(BOOL)result andDesc:(NSString *)desc {
-    self.tipLabel.text = desc;
+    // 显示数据初始化进度
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if (progressOverlayViewController) {
+            [progressOverlayViewController dismissProgressView];
+        }
+        
+        self.tipLabel.text = desc;
+        
+        [self performBlock:^{
+            [self gotoWebView];
+        }afterDelay:0.1];
+    });
     
-    if (progressOverlayViewController) {
-        [progressOverlayViewController dismissProgressView];
-    }
-    
-    self.tipLabel.text = @"程序初始化完成";
+    [timeWatcher stop];
+    NSString *info = [timeWatcher getIntervalStr];
+    LogDebug(@"[KnowledgeManager-dataInitEndedWithResult:andDesc:] 数据初始化结束, 耗时: %@", info);
 }
-
-
 
 
 @end
