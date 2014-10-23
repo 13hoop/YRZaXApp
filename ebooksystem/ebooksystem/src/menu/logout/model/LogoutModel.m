@@ -9,9 +9,8 @@
 #import "LogoutModel.h"
 #import "AFNetworking.h"
 #import "UIKit+AFNetworking.h"
+#import "LogUtil.h"
 @implementation LogoutModel
-
-
 
 
 -(void)logout
@@ -23,8 +22,6 @@
     [manager POST:@"http://s-115744.gotocdn.com:8296/index.php?c=passportctrl&m=logout" parameters:nil success:^(AFHTTPRequestOperation *operation ,id responseobject){
         NSDictionary *dic=responseobject;
         
-        NSLog(@"dic=====%@",dic);
-        
         NSString *dataStr=dic[@"data"];
         NSData *dataData=[dataStr dataUsingEncoding:NSUTF8StringEncoding];
         NSDictionary *data=[NSJSONSerialization JSONObjectWithData:dataData options:0 error:nil];
@@ -33,6 +30,8 @@
         
     } failure:^(AFHTTPRequestOperation *operation,NSError *error){
         NSLog(@"请求失败");
+        LogError(@"logout fail because of net connect ");
+        [self.logout_delegate errorMessage];
     }];
     
 }

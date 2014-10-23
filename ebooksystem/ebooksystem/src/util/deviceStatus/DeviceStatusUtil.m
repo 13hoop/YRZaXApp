@@ -26,8 +26,7 @@
             result=@"wifi";
             break;
     }
-    UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"当前网络状态" message:result delegate:nil cancelButtonTitle:nil otherButtonTitles:@"好的，我知道了", nil];
-    [alert show];
+    
     return result;
 }
 //
