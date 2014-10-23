@@ -332,17 +332,23 @@
 //    BOOL ret = [self startCheckDataUpdate];
     
     // 10. knowledge loader测试
-    {
-//    BOOL ret = [[KnowledgeDataLoader instance] test];
-        NSString *dataId = @"9999eed5e71a0ff16bafc9f082bc9999";
-        NSString *queryId = @"0";
-        
-        //    NSString *knowledgeDataRootPathInAssets = [[Config instance] knowledgeDataConfig].knowledgeDataRootPathInAssets;
-        NSString *knowledgeDataRootPathInDocuments = [[Config instance] knowledgeDataConfig].knowledgeDataRootPathInDocuments;
-        NSString *indexFilename = [NSString stringWithFormat:@"%@/%@", knowledgeDataRootPathInDocuments, @"kaoyan^book_index_data^english#english_realexam_2010/index_8"];
+//    {
+////    BOOL ret = [[KnowledgeDataLoader instance] test];
+//        NSString *dataId = @"9999eed5e71a0ff16bafc9f082bc9999";
+//        NSString *queryId = @"0";
+//
+//        //    NSString *knowledgeDataRootPathInAssets = [[Config instance] knowledgeDataConfig].knowledgeDataRootPathInAssets;
+//        NSString *knowledgeDataRootPathInDocuments = [[Config instance] knowledgeDataConfig].knowledgeDataRootPathInDocuments;
+//        NSString *indexFilename = [NSString stringWithFormat:@"%@/%@", knowledgeDataRootPathInDocuments, @"kaoyan^book_index_data^english#english_realexam_2010/index_8"];
+//
+//        NSString *data = [self getLocalDataWithDataId:dataId andQueryId:queryId andIndexFilename:indexFilename];
+//        LogInfo(@"[KnowledgeManager-test()] got data: %@ for dataId: %@, and queryId: %@, andIndexFilename:%@", data, dataId, queryId, indexFilename);
+//    }
     
-        NSString *data = [self getLocalDataWithDataId:dataId andQueryId:queryId andIndexFilename:indexFilename];
-        LogInfo(@"[KnowledgeManager-test()] got data: %@ for dataId: %@, and queryId: %@, andIndexFilename:%@", data, dataId, queryId, indexFilename);
+    // 11. crash report test
+    {
+        char *p = NULL;
+        memset(p, 100, sizeof(char));
     }
     
     LogInfo(@"[KnowledgeManager-test()], end");

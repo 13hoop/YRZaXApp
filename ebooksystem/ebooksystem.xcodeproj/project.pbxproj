@@ -167,6 +167,8 @@
 		7156B09A19F50F1400B3A521 /* AppConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 7156B09919F50F1400B3A521 /* AppConfig.m */; };
 		7156B09D19F5F9D500B3A521 /* KnowledgeDataLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = 7156B09C19F5F9D500B3A521 /* KnowledgeDataLoader.m */; };
 		7156B0A119F7A8A500B3A521 /* ErrorManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7156B0A019F7A8A500B3A521 /* ErrorManager.m */; };
+		7156B0A419F7AD0C00B3A521 /* UncaughtExceptionHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 7156B0A319F7AD0C00B3A521 /* UncaughtExceptionHandler.m */; };
+		7156B0A719F8A6DD00B3A521 /* ErrorConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 7156B0A619F8A6DD00B3A521 /* ErrorConfig.m */; };
 		7159EC5719E4373C00288CF2 /* CoreDataUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 7159EC5619E4373C00288CF2 /* CoreDataUtil.m */; };
 		715EE96E19E526D7005A4F78 /* CommonWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 715EE96D19E526D7005A4F78 /* CommonWebViewController.m */; };
 		715EE97719E52749005A4F78 /* BaseTitleBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 715EE97219E52749005A4F78 /* BaseTitleBar.m */; };
@@ -576,6 +578,10 @@
 		7156B09C19F5F9D500B3A521 /* KnowledgeDataLoader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KnowledgeDataLoader.m; path = src/knowledge/KnowledgeDataLoader.m; sourceTree = "<group>"; };
 		7156B09F19F7A8A500B3A521 /* ErrorManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ErrorManager.h; path = src/error/ErrorManager.h; sourceTree = "<group>"; };
 		7156B0A019F7A8A500B3A521 /* ErrorManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ErrorManager.m; path = src/error/ErrorManager.m; sourceTree = "<group>"; };
+		7156B0A219F7AD0C00B3A521 /* UncaughtExceptionHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UncaughtExceptionHandler.h; path = src/error/UncaughtExceptionHandler.h; sourceTree = "<group>"; };
+		7156B0A319F7AD0C00B3A521 /* UncaughtExceptionHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UncaughtExceptionHandler.m; path = src/error/UncaughtExceptionHandler.m; sourceTree = "<group>"; };
+		7156B0A519F8A6DD00B3A521 /* ErrorConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ErrorConfig.h; path = src/config/ErrorConfig.h; sourceTree = "<group>"; };
+		7156B0A619F8A6DD00B3A521 /* ErrorConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ErrorConfig.m; path = src/config/ErrorConfig.m; sourceTree = "<group>"; };
 		7159EC5519E4373C00288CF2 /* CoreDataUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CoreDataUtil.h; path = src/util/CoreDataUtil.h; sourceTree = "<group>"; };
 		7159EC5619E4373C00288CF2 /* CoreDataUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CoreDataUtil.m; path = src/util/CoreDataUtil.m; sourceTree = "<group>"; };
 		715EE96C19E526D7005A4F78 /* CommonWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CommonWebViewController.h; path = src/common/web/controller/CommonWebViewController.h; sourceTree = "<group>"; };
@@ -1495,6 +1501,8 @@
 			children = (
 				7156B09F19F7A8A500B3A521 /* ErrorManager.h */,
 				7156B0A019F7A8A500B3A521 /* ErrorManager.m */,
+				7156B0A219F7AD0C00B3A521 /* UncaughtExceptionHandler.h */,
+				7156B0A319F7AD0C00B3A521 /* UncaughtExceptionHandler.m */,
 			);
 			name = error;
 			sourceTree = "<group>";
@@ -1689,6 +1697,8 @@
 				710C02C619E189A200C27A33 /* DrawableConfig.m */,
 				715EE99019E813B4005A4F78 /* WebConfig.h */,
 				715EE99119E813B4005A4F78 /* WebConfig.m */,
+				7156B0A519F8A6DD00B3A521 /* ErrorConfig.h */,
+				7156B0A619F8A6DD00B3A521 /* ErrorConfig.m */,
 			);
 			name = config;
 			sourceTree = "<group>";
@@ -2006,6 +2016,7 @@
 				06AA7F5D19F4FC7E00570289 /* LogoutModel.m in Sources */,
 				06AA7F5C19F4FC7E00570289 /* LogoutViewController.m in Sources */,
 				7118EB8419EF6BE3002CF833 /* CustomLogLevels.md in Sources */,
+				7156B0A719F8A6DD00B3A521 /* ErrorConfig.m in Sources */,
 				715EE9B519E8331C005A4F78 /* JSONHTTPClient.m in Sources */,
 				7118EB8319EF6BE3002CF833 /* CustomLoggers.md in Sources */,
 				715EE97919E52749005A4F78 /* UIImage+tintedImage.m in Sources */,
@@ -2143,6 +2154,7 @@
 				0690782719CFD62700CD9C3D /* main.m in Sources */,
 				06AA7F5F19F4FC7E00570289 /* MoreViewController.m in Sources */,
 				7159EC5719E4373C00288CF2 /* CoreDataUtil.m in Sources */,
+				7156B0A419F7AD0C00B3A521 /* UncaughtExceptionHandler.m in Sources */,
 				710C039C19E2ECA400C27A33 /* KnowledgeMeta.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2277,7 +2289,7 @@
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				VALID_ARCHS = "armv7 armv7s";
 				WRAPPER_EXTENSION = app;
 			};
@@ -2305,7 +2317,7 @@
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				VALID_ARCHS = "armv7 armv7s";
 				WRAPPER_EXTENSION = app;
 			};

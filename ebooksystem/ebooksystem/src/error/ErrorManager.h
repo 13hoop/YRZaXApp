@@ -14,6 +14,10 @@
 #pragma mark - singleton
 + (ErrorManager *)instance;
 
+#pragma mark - install uncaught exception handler
++ (BOOL)installUncaughtExceptionHandler;
+//void InstallUncaughtExceptionHandler();
+
 #pragma mark - error report
 - (BOOL)sendErrorToServer:(NSString *)error;
 

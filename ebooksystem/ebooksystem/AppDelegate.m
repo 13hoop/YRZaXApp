@@ -7,6 +7,9 @@
 //
 
 #import "AppDelegate.h"
+
+#import "ErrorManager.h"
+
 #import "MobClick.h"
 
 #import "CoreDataUtil.h"
@@ -30,7 +33,11 @@
     
     NSLog(@"Bundle path: %@", [PathUtil getBundlePath]);
     NSLog(@"log file path: %@", [LogUtil getLogFilePath]);
+    
+    // 安装异常处理函数
+    [ErrorManager installUncaughtExceptionHandler];
 
+    
     
     // Override point for customization after application launch.
 //    UIColor *color = [UIColor colorWithRed:107/255.0f green:211/255.0f blue:217/255.0f alpha:1.0f];
