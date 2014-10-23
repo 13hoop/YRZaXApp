@@ -94,7 +94,7 @@
             self.userNameLable.font=[UIFont systemFontOfSize:14.0f];
             self.userNameLable.textColor=[UIColor lightGrayColor];
             [self.cell addSubview:self.userNameLable];
-            [self addObserver:self forKeyPath:@"userName" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:NULL];
+
             if ([[NSUserDefaults standardUserDefaults] objectForKey:@"userInfoName"])
             {
                 self.userNameLable.text=[[NSUserDefaults standardUserDefaults] objectForKey:@"userInfoName"];
@@ -119,8 +119,7 @@
                     self.cell.textLabel.backgroundColor=[UIColor clearColor];
                     self.lable=[[UILabel alloc] initWithFrame:CGRectMake(50,0, 100,44)];
                     self.lable.textColor=[UIColor colorWithHexString:@"#44a0ff" alpha:1];
-                    //使用kvo实现改变余额的数值
-                    [self addObserver:self forKeyPath:@"balance" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:NULL];
+                    
                     [self.cell.textLabel addSubview:self.lable];
                     //取消选中效果
                     self.cell.selectionStyle=UITableViewCellAccessoryNone;
@@ -271,20 +270,7 @@
     return myview;
     
 }
-#pragma mark kvo的观察方法
-//监听方法只能写一个
--(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
-{
-    if ([keyPath isEqualToString:@"balance"]) {
-//        self.lable.text=[self valueForKeyPath:@"balance"];
-        self.userNameLable.text=[[NSUserDefaults standardUserDefaults] objectForKey:@"surplus_score"];
-    }
-    
-    if ([keyPath isEqualToString:@"userName"]) {
-        self.userNameLable.text=[[NSUserDefaults standardUserDefaults] objectForKey:@"userInfoName"];
-    }
 
-}
 
 - (void)viewWillDisappear:(BOOL)animated
 {
@@ -292,10 +278,6 @@
     
 }
 
--(void)dealloc
-{
-    [self removeObserver:self forKeyPath:@"userName"];
-    [self removeObserver:self forKeyPath:@"balance"];
-}
+
 
 @end

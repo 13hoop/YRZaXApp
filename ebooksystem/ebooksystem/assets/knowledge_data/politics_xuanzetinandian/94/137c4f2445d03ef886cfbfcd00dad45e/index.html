@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, minimal-ui" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="format-detection" content="telephone=no, email=no" />
+    <title>考研政治</title>
+    <link rel="stylesheet" href="./index.css" />
+    <link rel="stylesheet" href="./index-night.css"/>
+</head>
+<body class="common-page-bg">
+
+    <div id="main-wrap">
+        <header id="page-header" class="page-header">
+            <span class="common-back">返回</span>
+            <h1 class="page-title"></h1>
+        </header>
+        <ul id="child-list-con" class="clearfix"></ul>
+
+    </div>
+
+    <script src="./classList.js"></script>
+    <script>
+        if( location.href.indexOf('debug=1') > 0 ){
+            document.write('<script src="./debug.js"><\/script>');
+        }else{
+            document.write('<script src="./webview-js-bridge.js"><\/script>');
+        }
+    </script>    
+    <script src="./utils.js"></script>
+    <script src="./index.js"></script>
+    <script>
+        console.info( 'app run');
+        app.run();
+    </script>
+</body>
+</html>

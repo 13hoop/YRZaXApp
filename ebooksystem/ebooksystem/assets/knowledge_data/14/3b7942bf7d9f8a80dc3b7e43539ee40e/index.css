@@ -190,16 +190,51 @@ ul,ol,dl{
     overflow: hidden;
     color: #535862;
 }
-.book-item-not-ready{
+.book-item-not-ready, .book-can-download{
     background: #f0f0f0 !important;
 }
-.book-item-not-ready img{
+.book-item-not-ready img, .book-can-download img{
     opacity: .2;
 }
 .book-item-not-ready .book-name-wrap{
     color: #aaa;
 }
-
+.download-arrow{
+    display: none;
+    position: absolute;
+    top: 26px;
+    background: url('./assets/download_arrow.png') no-repeat center center;
+    background-size: 42px 42px;
+    width: 94px;
+    height: 94px;
+    left: 50%;
+    -webkit-transform: translate3d(-50%,0,0);
+}
+.book-can-download .download-arrow{
+    display: block;
+}
+.book-downloading .download-arrow{
+    display: none;
+}
+/*书籍有更新*/
+.update-indicator-wrap{
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 0;
+    height: 0;
+    border: 18px solid transparent;
+    border-color: #44a0ff #44a0ff transparent transparent;
+}
+.update-indicator-text{
+    color: #fff;
+    position: absolute;
+    font-size: 12px;
+    top: -15px;
+    right: -15px;
+    -webkit-transform: rotateZ(45deg);
+}
 /*更多*/
 .more-indicator{
     text-align: center;

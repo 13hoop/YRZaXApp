@@ -76,7 +76,7 @@
         var commonBack = document.querySelector( selector );
         if( commonBack ){
             commonBack.addEventListener( 'touchend', function(){
-                bridgeAndroid.finish();
+                bridgeIOS.finish();
             }, false );
         }
     };
