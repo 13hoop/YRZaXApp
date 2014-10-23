@@ -10,8 +10,11 @@
 #import "Config.h"
 #import "KnowledgeSubject.h"
 #import "SubjectTableViewCell.h"
+
+#import "ProgressOverlayViewController.h"
 #import "MoreViewController.h"
 #import "CommonWebViewController.h"
+
 
 #import "BaseTitleBar.h"
 #import "QBTitleView.h"
@@ -26,7 +29,10 @@
 #define UIColorFromRGB(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 
 
-@interface SubjectViewController () <UITableViewDataSource, UITableViewDelegate>
+@interface SubjectViewController () <UITableViewDataSource, UITableViewDelegate, ProgressOverlayViewControllerDelegate, KnowledgeManagerDelegate>
+{
+    ProgressOverlayViewController *progressOverlayViewController;
+}
 
 // data
 @property (nonatomic, strong) NSMutableArray *subjects;
@@ -95,6 +101,18 @@
     
     // 友盟统计
     [MobClick beginLogPageView:@"SubjectView"];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    
+}
+
+// 初始化app
+- (BOOL)initApp {
+    BOOL ret = [[KnowledgeManager instance] registerDataFiles];
+    return ret;
 }
 
 - (void)didReceiveMemoryWarning
@@ -304,5 +322,45 @@
     MoreViewController *more = [[MoreViewController alloc] init];
     [self.navigationController pushViewController:more animated:YES];
 }
+
+#pragma mark - ProgressOverlayViewControllerDelegate methods
+- (UIView *)viewForProgressOverlay {
+    return self.view;
+}
+
+#pragma mark - KnowledgeManagerDelegate methods
+- (void)dataInitStartedWithResult:(BOOL)result andDesc:(NSString *)desc {
+    if (progressOverlayViewController) {
+        [progressOverlayViewController dismissProgressView];
+    }
+    
+    // 显示数据初始化进度
+    progressOverlayViewController = [[ProgressOverlayViewController alloc] init];
+    [progressOverlayViewController setDelegate:self];
+    //    [progressOverlayViewController showIndeterminateProgressView:nil];
+    //    [progressOverlayViewController showDeterminateCircularProgressView:nil];
+    //    [progressOverlayViewController showDeterminateHorizontalBarProgressView:nil];
+    //    [progressOverlayViewController showIndeterminateSmallProgressView:nil];
+    //    [progressOverlayViewController showIndeterminateSmallDefaultProgressView:nil];
+    
+    //    [progressOverlayViewController showCheckmarkProgressView:nil];
+    //    [progressOverlayViewController showCrossProgressView:nil];
+    //    [progressOverlayViewController showProgressViewWithLongTitleLabelText:nil];
+    [progressOverlayViewController showSmallProgressViewWithLongTitleLabelText:desc];
+}
+
+- (void)dataInitProgressChangedTo:(NSNumber *)progress withDesc:(NSString *)desc {
+    if (progressOverlayViewController) {
+        [progressOverlayViewController updateProgress:[progress integerValue]];
+    }
+}
+
+- (void)dataInitEndedWithResult:(BOOL)result andDesc:(NSString *)desc {
+    if (progressOverlayViewController) {
+        [progressOverlayViewController dismissProgressView];
+    }
+}
+
+
 
 @end

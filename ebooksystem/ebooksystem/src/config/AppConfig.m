@@ -10,6 +10,24 @@
 
 @implementation AppConfig
 
+@synthesize appVersionNum = _appVersionNum;
+@synthesize appMode = _appMode;
+
+
+#pragma mark - properties
+
+// app version in num
+- (NSInteger)appVersionNum {
+    return 1; // modify before release
+}
+
+// app mode
+- (AppMode)appMode {
+    return (AppMode)APP_WITH_FULL_DATA;
+}
+
+
+
 #pragma mark - methods
 // singleton
 + (AppConfig *)instance {
@@ -22,9 +40,6 @@
     return instance;
 }
 
-// app version in num
-- (NSInteger)appVersionNum {
-    return 1; // modify before release
-}
+
 
 @end

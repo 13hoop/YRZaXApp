@@ -38,13 +38,14 @@
 
 // init
 - (BOOL)initKnowledgeData:(KnowledgeDataInitMode)mode;
+- (BOOL)initKnowledgeDataAsync;
+- (BOOL)initKnowledgeDataSync;
+
 - (BOOL)initKnowledgeUpdater:(int)updateIntervalInMs;
 
 - (BOOL)knowledgeDataInited;
 - (BOOL)updateKnowledgeDataInitFlag:(BOOL)value;
 
-// register data files
-- (BOOL)registerDataFiles;
 
 @end
 
@@ -52,7 +53,6 @@
 @implementation KnowledgeManager
 
 #pragma mark - singleton
-
 + (KnowledgeManager *)instance {
     static KnowledgeManager *sharedInstance = nil;
     static dispatch_once_t predicate;
@@ -71,6 +71,7 @@
         case KNOWLEDGE_DATA_INIT_MODE_NONE:
             break;
         case KNOWLEDGE_DATA_INIT_MODE_ASYNC:
+            [self initKnowledgeDataAsync];
             break;
         case KNOWLEDGE_DATA_INIT_MODE_SYNC:
             [self initKnowledgeDataSync];
@@ -82,12 +83,30 @@
     return TRUE;
 }
 
+- (BOOL)initKnowledgeDataAsync {
+    // 启动后台任务
+    dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [self initKnowledgeDataSync];
+    });
+    
+    return YES;
+}
+
 - (BOOL)initKnowledgeDataSync {
     BOOL shouldInit = ![self knowledgeDataInited];
     if (shouldInit) {
-        [[KnowledgeDataManager instance] copyAssetsKnowledgeData];
+        if (self.delegate && [self.delegate respondsToSelector:@selector(dataInitStartedWithResult:andDesc:)]) {
+            [self.delegate dataInitStartedWithResult:YES andDesc:@"初始化数据..."];
+        }
+        
+        // 不再拷贝
+//        [[KnowledgeDataManager instance] copyAssetsKnowledgeData];
         [self registerDataFiles];
         [self updateKnowledgeDataInitFlag:YES];
+        
+        if (self.delegate && [self.delegate respondsToSelector:@selector(dataInitEndedWithResult:andDesc:)]) {
+            [self.delegate dataInitEndedWithResult:YES andDesc:@"数据初始化数据完成"];
+        }
     }
     
     return YES;
@@ -107,13 +126,13 @@
 
 #pragma mark - register data files
 - (BOOL)registerDataFiles {
-    NSString *knowledgeDataRootPathInDocuments = [[Config instance] knowledgeDataConfig].knowledgeDataRootPathInDocuments;
+    NSString *knowledgeDataRootPathInApp = [[Config instance] knowledgeDataConfig].knowledgeDataRootPathInApp;
     
     // 遍历meta.json
-    NSDirectoryEnumerator *dirEnum = [[NSFileManager defaultManager] enumeratorAtPath:knowledgeDataRootPathInDocuments];
+    NSDirectoryEnumerator *dirEnum = [[NSFileManager defaultManager] enumeratorAtPath:knowledgeDataRootPathInApp];
     NSString *path = nil;
     while ((path = [dirEnum nextObject]) != nil) {
-        NSString *fullPath = [NSString stringWithFormat:@"%@/%@", knowledgeDataRootPathInDocuments, path];
+        NSString *fullPath = [NSString stringWithFormat:@"%@/%@", knowledgeDataRootPathInApp, path];
         
         BOOL isDir = NO;
         BOOL exists = [[NSFileManager defaultManager] fileExistsAtPath:fullPath isDirectory:&isDir];
@@ -165,8 +184,8 @@
             continue;
         }
         
-        NSString *knowledgeDataRootPathInDocuments = [[Config instance] knowledgeDataConfig].knowledgeDataRootPathInDocuments;
-        NSString *fullFilePath = [NSString stringWithFormat:@"%@/%@", knowledgeDataRootPathInDocuments, knowledgeMetaEntity.dataPath];
+        NSString *knowledgeDataRootPathInApp = [[Config instance] knowledgeDataConfig].knowledgeDataRootPathInApp;
+        NSString *fullFilePath = [NSString stringWithFormat:@"%@/%@", knowledgeDataRootPathInApp, knowledgeMetaEntity.dataPath];
         return fullFilePath;
     }
     
@@ -346,10 +365,10 @@
 //    }
     
     // 11. crash report test
-    {
-        char *p = NULL;
-        memset(p, 100, sizeof(char));
-    }
+//    {
+//        char *p = NULL;
+//        memset(p, 100, sizeof(char));
+//    }
     
     LogInfo(@"[KnowledgeManager-test()], end");
 }

@@ -291,4 +291,11 @@
     self.cell.backgroundColor=[UIColor colorWithHexString:@"#413e3e" alpha:1];
     
 }
+
+-(void)dealloc
+{
+    [self removeObserver:self forKeyPath:@"userName"];
+    [self removeObserver:self forKeyPath:@"balance"];
+}
+
 @end

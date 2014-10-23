@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 
+#import "KnowledgeManager.h"
 #import "ErrorManager.h"
 
 #import "MobClick.h"
@@ -19,25 +20,34 @@
 
 #define UMENG_APPKEY @"5420c86efd98c51541017684"
 
+@interface AppDelegate ()
+
+// 初始化app
+- (BOOL)initApp;
+
+@end
+
+
+
 
 @implementation AppDelegate
 
-@synthesize managedObjectContext = _managedObjectContext;
-@synthesize managedObjectModel = _managedObjectModel;
-@synthesize persistentStoreCoordinator = _persistentStoreCoordinator;
+//@synthesize managedObjectContext = _managedObjectContext;
+//@synthesize managedObjectModel = _managedObjectModel;
+//@synthesize persistentStoreCoordinator = _persistentStoreCoordinator;
 
+
+#pragma mark - app life
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Config the logger
     [LogUtil init];
     
     NSLog(@"Bundle path: %@", [PathUtil getBundlePath]);
-    NSLog(@"log file path: %@", [LogUtil getLogFilePath]);
+    NSLog(@"Log file path: %@", [LogUtil getLogFilePath]);
     
     // 安装异常处理函数
     [ErrorManager installUncaughtExceptionHandler];
-
-    
     
     // Override point for customization after application launch.
 //    UIColor *color = [UIColor colorWithRed:107/255.0f green:211/255.0f blue:217/255.0f alpha:1.0f];

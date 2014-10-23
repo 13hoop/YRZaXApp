@@ -8,11 +8,27 @@
 
 #import <Foundation/Foundation.h>
 
+@protocol KnowledgeManagerDelegate;
+
+
+
 @interface KnowledgeManager : NSObject
+
+#pragma mark - properties
+@property (nonatomic, copy) id<KnowledgeManagerDelegate> delegate;
+
 
 #pragma mark - singleton
 // singleton
 + (KnowledgeManager *)instance;
+
+
+// init data
+- (BOOL)initData;
+
+// register meta.json to db
+- (BOOL)registerDataFiles;
+
 
 #pragma mark - methods for js call
 // get page path
@@ -37,5 +53,17 @@
 #pragma mark - test
 // test
 - (void)test;
+
+@end
+
+
+
+
+@protocol KnowledgeManagerDelegate <NSObject>
+
+@optional
+- (void)dataInitStartedWithResult:(BOOL)result andDesc:(NSString *)desc;
+- (void)dataInitProgressChangedTo:(NSNumber *)progress withDesc:(NSString *)desc;
+- (void)dataInitEndedWithResult:(BOOL)result andDesc:(NSString *)desc;
 
 @end

@@ -47,7 +47,7 @@
     
     {
         BOOL isDir = NO;
-        BOOL existed = [[NSFileManager defaultManager] fileExistsAtPath:_crashFilepath isDirectory:&isDir];
+        BOOL existed = [[NSFileManager defaultManager] fileExistsAtPath:[_crashFilepath stringByDeletingLastPathComponent] isDirectory:&isDir];
         if (!(isDir && existed)) {
             [[NSFileManager defaultManager] createDirectoryAtPath:_crashFilepath withIntermediateDirectories:YES attributes:nil error:nil];
         }

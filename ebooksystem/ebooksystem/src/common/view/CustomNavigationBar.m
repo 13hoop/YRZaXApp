@@ -75,8 +75,10 @@
 }
 -(void)btnDown:(UIButton *)btn
 {
+    [self removeObserver:self forKeyPath:@"title"];
     [self.customNav_delegate getClick:btn];
 }
+
 -(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
     if ([keyPath isEqualToString:@"title"])
