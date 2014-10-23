@@ -2,7 +2,7 @@
 
 /*common style*/
 .page-mode-night .common-page-bg{
-    background: #353232;
+    background: #2e2b2b;
 }
 .page-mode-night .common-hoverable-item{
     background: #413e3e;
@@ -11,7 +11,7 @@
     background-color: #3e3b3b;
 }
 .page-mode-night .common-split-border{
-    border-color: #4c4947;
+    border-color: #353232;
 }
 
 
@@ -25,7 +25,7 @@
 .page-mode-night .book-name-wrap{
     color: #bbb;
 }
-.page-mode-night .book-item-not-ready{
+.page-mode-night .book-item-not-ready, .page-mode-night .book-can-download{
     background: #3e3b3b !important;
 }
 .page-mode-night .book-item-not-ready .book-name-wrap{

@@ -1,0 +1,60 @@
+/********夜间模式******/
+
+/*common style*/
+.page-mode-night .common-page-bg{
+    background: #353232;
+}
+.page-mode-night .common-hoverable-item{
+    background: #413e3e;
+}
+.page-mode-night .common-hoverable-item:hover{
+    background-color: #3e3b3b;
+}
+.page-mode-night .common-split-border{
+    border-color: #353232;
+}
+
+
+/****************页面本身样式********************/
+.page-mode-night #knowledge-switch-con{
+    background: #413e3e;
+}
+.page-mode-night .knowledge-exercise-page{
+    background: #2d2a2a;
+}
+.page-mode-night .exercise-section .exercise-section-title{
+    color: #bbb;
+}
+.page-mode-night .exercise-section-content{
+    color: #999;
+}
+.page-mode-night .option-item{
+    background: #413e3e;
+}
+.page-mode-night .option-content{
+    color: #bbb;
+}
+.page-mode-night .option-selected .option-char-wrap, .page-mode-night .option-selected .option-content{
+    color: #fff;
+}
+.page-mode-night .option-right-answer .option-char-wrap, .page-mode-night .option-right-answer .option-content{
+    color: #fff;
+}
+.page-mode-night .option-selected{
+    background: #3a78b7;
+}
+.page-mode-night .option-right-answer{
+    background: #428443;
+}
+.page-mode-night .option-wrong-answer{
+    background: #a34c35;
+}
+.page-mode-night #exercise-switch-con{
+    background: #413e3e;
+}
+.page-mode-night .current-exercise-indicator{
+    color: #bbb;
+}
+.page-mode-night .exercise-switch-btn{
+    color: #bbb;
+}

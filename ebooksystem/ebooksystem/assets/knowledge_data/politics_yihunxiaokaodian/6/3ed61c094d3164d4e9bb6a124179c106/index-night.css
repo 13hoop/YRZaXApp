@@ -1,0 +1,36 @@
+/********夜间模式******/
+
+/*common style*/
+.page-mode-night .common-page-bg{
+    background: #353232;
+}
+.page-mode-night .common-hoverable-item{
+    background: #413e3e;
+}
+.page-mode-night .common-hoverable-item:hover{
+    background-color: #3e3b3b;
+}
+.page-mode-night .common-split-border{
+    border-color: #353232;
+}
+
+
+/****************页面本身样式********************/
+.page-mode-night #knowledge-switch-con{
+    background: #413e3e;
+}
+.page-mode-night .current-knowledge-indicator{
+    color: #bbb;
+}
+.page-mode-night .knowledge-detail-page{
+    background: #2d2a2a;
+}
+.page-mode-night .knowledge-section .knowledge-section-title{
+    color: #bbb;
+}
+.page-mode-night .knowledge-section-content{
+    color: #999;
+}
+.page-mode-night #go-exercise-btn{
+    background: #3a78b7;
+}

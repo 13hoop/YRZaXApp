@@ -1,0 +1,197 @@
+
+/**************************页面通用样式*****************************/
+*{
+    padding: 0;
+    margin: 0;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    font-family: "微软雅黑", arial;
+    -webkit-tap-highlight-color:transparent;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    outline: none;
+}
+ul,ol,dl{
+    list-style: none;
+}
+.clearfix:after{
+    content: '\020';
+    display: block;
+    clear: both;
+    visibility: hidden;
+    height: 0;
+    font-size: 0;
+}
+.flexbox-horizontal{
+    display: -webkit-box;
+    display: -webkit-flexbox;
+    display: -webkit-flex;
+    -webkit-box-orient: horizontal;
+    -webkit-flex-direction: row;
+}
+/*页面头部*/
+.page-header{
+    text-align: center;
+    height: 50px;
+    line-height: 50px;
+    color: #fff;
+    background: #242021;
+    font-size: 20px;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 10;
+}
+.page-header .common-back{
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    line-height: 50px;
+    padding: 0 20px;
+    font-size: 14px;
+}
+.page-title{
+    font-size: 20px;
+    font-weight: normal;
+}
+
+.common-em-color{
+    color: #44a0ff;
+}
+.common-em-bg{
+    background-color: #44a0ff;
+}
+.common-split-border{
+    border: 0 solid #dcdcdc;
+}
+.common-page-bg{
+    /*background-color: #ebebeb;*/
+    background: #fff;
+}
+.common-hoverable-item{
+    background-color: #fff;
+}
+.common-hoverable-item:hover{
+    background-color: #f5f5f5;
+}
+/*通用向右箭头*/
+.right-arrow{
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border: 1px solid #bbb;
+    border-width: 1px 1px 0 0;
+    -webkit-transform: rotate(45deg);
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    margin-top: -5px;
+}
+.right-arrow:after{
+    /*content: '\020';*/
+    /*position: absolute;*/
+    /*right: 0;*/
+    /*top: 0;*/
+    /*height: 100%;*/
+    /*width: 1px;*/
+    /*background: #666;*/
+    /*-webkit-transform-origin: 0 0;*/
+    /*-webkit-transform: rotate(15deg);*/
+}
+.arrow-parent:hover .right-arrow{
+    border-top-color: #44a0ff;
+    border-right-color: #44a0ff;
+}
+.arrow-parent:hover .right-arrow:after{
+    background: #44a0ff;
+}
+
+#main-wrap{
+    padding-top: 0px;
+}
+
+/*顶部搜索框区域*/
+#search-input-con{
+    height: 50px;
+    position: relative;
+    overflow: hidden;
+    background: #fff;
+    border-bottom-width: 1px;
+}
+#search-input-wrap{
+    position: relative;
+    height: 32px;
+    margin: 9px 50px 9px 20px;
+    padding: 0 45px 0 40px;
+    background: #f5f5f5 url(./assets/main_portal_search_icon.png) no-repeat 14px center;
+    background-size: 16px 16px;
+}
+#search-input{
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    color: #999;
+    height: 32px;
+    line-height: 32px;
+    font-size: 18px;
+    border: 0 none;
+    background: transparent;
+}
+#clear-input-btn{
+    visibility: hidden;
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    -webkit-transform: translate3d(0,-50%,0);
+}
+#search-btn{
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100%;
+    width: 50px;
+    text-align: center;
+    font-size: 16px;
+    line-height: 50px;
+    color: #44a0ff;
+    background: #fff;
+    border: 0 none;
+}
+/*搜索结果区域*/
+.search-result-item{
+    border-bottom-width: 1px;
+    padding: 15px 28px;
+    position: relative;
+}
+.search-title{
+    color: #44a0ff;
+    font: normal 28px "微软雅黑", arial;
+}
+.search-desc{
+    font: normal 16px "微软雅黑", arial;
+}
+/*topic列表区域*/
+#child-list-con{
+    background: #fff;
+}
+.topic-item{
+    position: relative;
+    height: 52px;
+    border-bottom-width: 1px;
+    padding: 0 40px 0 20px;
+}
+.topic-knowledge-num{
+    float: right;
+    height: 100%;
+    line-height: 51px;
+    color: #44a0ff;
+}
+.topic-text-wrap{
+    display: inline-block;
+    height: 51px;
+    line-height: 51px;
+    color: #535862;
+}
