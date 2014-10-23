@@ -13,6 +13,7 @@
 #import "CustomRegisterView.h"
 #import "RegisterUserInfo.h"
 #import "MoreViewController.h"
+#import "LogUtil.h"
 
 #define REGISTERVIEW_X 64
 @interface RegisterViewController ()<CustomNavigationBarDelegate,CustomRegisterViewDelegate,RegisterModelDelegate>
@@ -80,7 +81,16 @@
 #pragma mark registerModel delegate method
 -(void)registerMessage:(NSDictionary *)data anduserInfo:(RegisterUserInfo *)userInfo
 {
-    if ([data[@"status"] isEqualToString:@"0"]) {
+   
+    if (data[@"status"]<0 || data[@"msg"]==NULL) {
+        //注册失败
+        LogError(@"register failed because of %@",data[@"msg"]);
+        UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"错误提示" message:data[@"msg"] delegate:nil cancelButtonTitle:nil otherButtonTitles:@"重新输入", nil];
+        [alert show];
+        
+    }
+    else
+    {
         
         //添加新用户到（保存登陆过本台设备的用户数组）数组中----加密----------
         //成为当前用户
@@ -96,12 +106,6 @@
         // navigationControler pop  moreviewcontroller
         NSArray *controllerArr=self.navigationController.viewControllers;
         [self.navigationController popToViewController:[controllerArr objectAtIndex:1] animated:YES];
-        
-    }
-    else
-    {
-        UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"错误提示" message:data[@"msg"] delegate:nil cancelButtonTitle:nil otherButtonTitles:@"重新输入", nil];
-        [alert show];
 
     }
 }

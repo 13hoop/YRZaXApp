@@ -268,8 +268,7 @@
 - (BOOL)updateWebView {
 //    self.webView.delegate = self;
     
-    NSString *knowledgeDataRootPathInAssets = [[Config instance] knowledgeDataConfig].knowledgeDataRootPathInAssets;
-    NSString *knowledgeDataRootPathInDocuments = [[Config instance] knowledgeDataConfig].knowledgeDataRootPathInDocuments;
+    NSString *knowledgeDataRootPathInApp = [[Config instance] knowledgeDataConfig].knowledgeDataRootPathInApp;
     
     if (self.knowledgeSubject == nil) {
         return NO;
@@ -283,7 +282,7 @@
         NSString *pageId = @"3b7942bf7d9f8a80dc3b7e43539ee40e";
         NSString *dataId = @"2a8ceed5e71a0ff16bafc9f082bceeec";
         
-        NSString *htmlFilePath = [NSString stringWithFormat:@"%@/%@", knowledgeDataRootPathInAssets, @"14/3b7942bf7d9f8a80dc3b7e43539ee40e"];
+        NSString *htmlFilePath = [NSString stringWithFormat:@"%@/%@", knowledgeDataRootPathInApp, @"14/3b7942bf7d9f8a80dc3b7e43539ee40e"];
         
         // 加载指定的html文件
         NSURL *url = [[NSURL alloc] initFileURLWithPath:[NSString stringWithFormat:@"%@/%@", htmlFilePath, @"index.html"]];

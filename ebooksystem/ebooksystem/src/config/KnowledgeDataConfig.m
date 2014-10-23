@@ -7,7 +7,12 @@
 //
 
 #import "KnowledgeDataConfig.h"
+
+#import "Config.h"
+
 #import "PathUtil.h"
+
+
 
 @interface KnowledgeDataConfig()
 
@@ -19,6 +24,8 @@
 @end
 
 
+
+
 @implementation KnowledgeDataConfig
 
 @synthesize dataUrlForDownload;
@@ -28,6 +35,7 @@
 @synthesize keyForKnowledgeDataInitedFlag = _keyForKnowledgeDataInitedFlag;
 @synthesize knowledgeDataRootPathInAssets = _knowledgeDataRootPathInAssets;
 @synthesize knowledgeDataRootPathInDocuments = _knowledgeDataRootPathInDocuments;
+@synthesize knowledgeDataRootPathInApp = _knowledgeDataRootPathInApp;
 @synthesize knowledgeDataRootDirName = _knowledgeDataRootDirName;
 @synthesize knowledgeDataDownloadRootPathInDocuments = _knowledgeDataDownloadRootPathInDocuments;
 
@@ -91,6 +99,25 @@
     return _knowledgeDataRootPathInDocuments;
 }
 
+// knowledge data root path in sandbox
+// app中的数据根目录, (1) 若app自带全量数据, 则为asset/knowledge_data目录; (2) 若app未自带全量数据, 则为Documents/knowledge_data目录.
+- (NSString *)knowledgeDataRootPathInApp {
+    NSString *path = nil;
+    
+    switch ([Config instance].appConfig.appMode) {
+        case APP_WITH_FULL_DATA:
+            path = [self knowledgeDataRootPathInAssets];
+            
+        case APP_WITHOUT_FULL_DATA:
+            path = [self knowledgeDataRootPathInDocuments];
+            
+        default:
+            break;
+    }
+    
+    return path;
+}
+
 // knowledge data download root path in sandbox
 - (NSString *)knowledgeDataDownloadRootPathInDocuments {
     if (_knowledgeDataDownloadRootPathInDocuments == nil) {
@@ -119,8 +146,9 @@
 }
 
 - (KnowledgeDataInitMode)knowledgeDataInitMode {
-    return KNOWLEDGE_DATA_INIT_MODE_NONE;
+//    return KNOWLEDGE_DATA_INIT_MODE_NONE;
 //    return KNOWLEDGE_DATA_INIT_MODE_SYNC;
+    return KNOWLEDGE_DATA_INIT_MODE_ASYNC;
 }
 
 - (int)knowledgeUpdateCheckIntervalInMs {

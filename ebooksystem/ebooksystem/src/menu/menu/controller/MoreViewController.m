@@ -55,6 +55,7 @@
     if ([[NSUserDefaults standardUserDefaults] objectForKey:@"userInfoName"])
     {
          self.moreView.userNameLable.text=[[NSUserDefaults standardUserDefaults] objectForKey:@"userInfoName"];
+        
     }
     else
     {

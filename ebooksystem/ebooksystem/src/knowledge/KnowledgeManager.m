@@ -38,13 +38,14 @@
 
 // init
 - (BOOL)initKnowledgeData:(KnowledgeDataInitMode)mode;
+- (BOOL)initKnowledgeDataAsync;
+- (BOOL)initKnowledgeDataSync;
+
 - (BOOL)initKnowledgeUpdater:(int)updateIntervalInMs;
 
 - (BOOL)knowledgeDataInited;
 - (BOOL)updateKnowledgeDataInitFlag:(BOOL)value;
 
-// register data files
-- (BOOL)registerDataFiles;
 
 @end
 
@@ -52,7 +53,6 @@
 @implementation KnowledgeManager
 
 #pragma mark - singleton
-
 + (KnowledgeManager *)instance {
     static KnowledgeManager *sharedInstance = nil;
     static dispatch_once_t predicate;
@@ -71,6 +71,7 @@
         case KNOWLEDGE_DATA_INIT_MODE_NONE:
             break;
         case KNOWLEDGE_DATA_INIT_MODE_ASYNC:
+            [self initKnowledgeDataAsync];
             break;
         case KNOWLEDGE_DATA_INIT_MODE_SYNC:
             [self initKnowledgeDataSync];
@@ -82,12 +83,30 @@
     return TRUE;
 }
 
+- (BOOL)initKnowledgeDataAsync {
+    // 启动后台任务
+    dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [self initKnowledgeDataSync];
+    });
+    
+    return YES;
+}
+
 - (BOOL)initKnowledgeDataSync {
     BOOL shouldInit = ![self knowledgeDataInited];
     if (shouldInit) {
-        [[KnowledgeDataManager instance] copyAssetsKnowledgeData];
+        if (self.delegate && [self.delegate respondsToSelector:@selector(dataInitStartedWithResult:andDesc:)]) {
+            [self.delegate dataInitStartedWithResult:YES andDesc:@"初始化数据..."];
+        }
+        
+        // 不再拷贝
+//        [[KnowledgeDataManager instance] copyAssetsKnowledgeData];
         [self registerDataFiles];
         [self updateKnowledgeDataInitFlag:YES];
+        
+        if (self.delegate && [self.delegate respondsToSelector:@selector(dataInitEndedWithResult:andDesc:)]) {
+            [self.delegate dataInitEndedWithResult:YES andDesc:@"数据初始化数据完成"];
+        }
     }
     
     return YES;
@@ -107,13 +126,13 @@
 
 #pragma mark - register data files
 - (BOOL)registerDataFiles {
-    NSString *knowledgeDataRootPathInDocuments = [[Config instance] knowledgeDataConfig].knowledgeDataRootPathInDocuments;
+    NSString *knowledgeDataRootPathInApp = [[Config instance] knowledgeDataConfig].knowledgeDataRootPathInApp;
     
     // 遍历meta.json
-    NSDirectoryEnumerator *dirEnum = [[NSFileManager defaultManager] enumeratorAtPath:knowledgeDataRootPathInDocuments];
+    NSDirectoryEnumerator *dirEnum = [[NSFileManager defaultManager] enumeratorAtPath:knowledgeDataRootPathInApp];
     NSString *path = nil;
     while ((path = [dirEnum nextObject]) != nil) {
-        NSString *fullPath = [NSString stringWithFormat:@"%@/%@", knowledgeDataRootPathInDocuments, path];
+        NSString *fullPath = [NSString stringWithFormat:@"%@/%@", knowledgeDataRootPathInApp, path];
         
         BOOL isDir = NO;
         BOOL exists = [[NSFileManager defaultManager] fileExistsAtPath:fullPath isDirectory:&isDir];
@@ -165,8 +184,8 @@
             continue;
         }
         
-        NSString *knowledgeDataRootPathInDocuments = [[Config instance] knowledgeDataConfig].knowledgeDataRootPathInDocuments;
-        NSString *fullFilePath = [NSString stringWithFormat:@"%@/%@", knowledgeDataRootPathInDocuments, knowledgeMetaEntity.dataPath];
+        NSString *knowledgeDataRootPathInApp = [[Config instance] knowledgeDataConfig].knowledgeDataRootPathInApp;
+        NSString *fullFilePath = [NSString stringWithFormat:@"%@/%@", knowledgeDataRootPathInApp, knowledgeMetaEntity.dataPath];
         return fullFilePath;
     }
     
@@ -251,6 +270,28 @@
     return searchResult;
 }
 
+// get data status
+- (NSString *)getDataStatus:(NSString *)dataId {
+    NSString *status = @"";
+    
+    NSArray *knowledgeMetas = [[KnowledgeMetaManager instance] getKnowledgeMetaWithDataId:dataId andDataType:DATA_TYPE_DATA_SOURCE];
+    if (knowledgeMetas == nil || knowledgeMetas.count <= 0) {
+        return status;
+    }
+    
+    for (id obj in knowledgeMetas) {
+        KnowledgeMeta *knowledgeMeta = (KnowledgeMeta *)obj;
+        if (knowledgeMeta == nil) {
+            continue;
+        }
+        
+        status = [NSString stringWithFormat:@"%d/%@", knowledgeMeta.dataStatus, knowledgeMeta.dataStatusDesc];
+        break;
+    }
+    
+    return status;
+}
+
 #pragma mark - data update
 // check data update
 - (BOOL)startCheckDataUpdate {
@@ -310,42 +351,26 @@
 //    BOOL ret = [self startCheckDataUpdate];
     
     // 10. knowledge loader测试
-    {
-//    BOOL ret = [[KnowledgeDataLoader instance] test];
-        NSString *dataId = @"9999eed5e71a0ff16bafc9f082bc9999";
-        NSString *queryId = @"0";
-        
-        //    NSString *knowledgeDataRootPathInAssets = [[Config instance] knowledgeDataConfig].knowledgeDataRootPathInAssets;
-        NSString *knowledgeDataRootPathInDocuments = [[Config instance] knowledgeDataConfig].knowledgeDataRootPathInDocuments;
-        NSString *indexFilename = [NSString stringWithFormat:@"%@/%@", knowledgeDataRootPathInDocuments, @"kaoyan^book_index_data^english#english_realexam_2010/index_8"];
+//    {
+////    BOOL ret = [[KnowledgeDataLoader instance] test];
+//        NSString *dataId = @"9999eed5e71a0ff16bafc9f082bc9999";
+//        NSString *queryId = @"0";
+//
+//        //    NSString *knowledgeDataRootPathInAssets = [[Config instance] knowledgeDataConfig].knowledgeDataRootPathInAssets;
+//        NSString *knowledgeDataRootPathInDocuments = [[Config instance] knowledgeDataConfig].knowledgeDataRootPathInDocuments;
+//        NSString *indexFilename = [NSString stringWithFormat:@"%@/%@", knowledgeDataRootPathInDocuments, @"kaoyan^book_index_data^english#english_realexam_2010/index_8"];
+//
+//        NSString *data = [self getLocalDataWithDataId:dataId andQueryId:queryId andIndexFilename:indexFilename];
+//        LogInfo(@"[KnowledgeManager-test()] got data: %@ for dataId: %@, and queryId: %@, andIndexFilename:%@", data, dataId, queryId, indexFilename);
+//    }
     
-        NSString *data = [self getLocalDataWithDataId:dataId andQueryId:queryId andIndexFilename:indexFilename];
-        LogInfo(@"[KnowledgeManager-test()] got data: %@ for dataId: %@, and queryId: %@, andIndexFilename:%@", data, dataId, queryId, indexFilename);
-    }
+    // 11. crash report test
+//    {
+//        char *p = NULL;
+//        memset(p, 100, sizeof(char));
+//    }
     
     LogInfo(@"[KnowledgeManager-test()], end");
-}
-
-// get data status
-- (NSString *)getDataStatus:(NSString *)dataId {
-    NSString *status = @"";
-    
-    NSArray *knowledgeMetas = [[KnowledgeMetaManager instance] getKnowledgeMetaWithDataId:dataId andDataType:DATA_TYPE_DATA_SOURCE];
-    if (knowledgeMetas == nil || knowledgeMetas.count <= 0) {
-        return status;
-    }
-    
-    for (id obj in knowledgeMetas) {
-        KnowledgeMeta *knowledgeMeta = (KnowledgeMeta *)obj;
-        if (knowledgeMeta == nil) {
-            continue;
-        }
-        
-        status = [NSString stringWithFormat:@"%d/%@", knowledgeMeta.dataStatus, knowledgeMeta.dataStatusDesc];
-        break;
-    }
-    
-    return status;
 }
 
 @end

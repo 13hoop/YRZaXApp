@@ -58,6 +58,9 @@
         text.autocapitalizationType = UITextAutocapitalizationTypeNone;
 
         text.delegate=self;
+        if (text.tag==1001) {
+            text.secureTextEntry=YES;
+        }
         [self addSubview:text];
     }
     //创建登陆按钮

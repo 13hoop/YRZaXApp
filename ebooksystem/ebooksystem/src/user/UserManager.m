@@ -14,6 +14,7 @@
 #import "UIDevice+IdentifierAddition.h"
 #import "SecurityUtil.h"
 #import "DeviceUtil.h"
+#import "LogUtil.h"
 @interface UserManager()
 {
     NSUInteger index;
@@ -384,6 +385,9 @@
         
     } failure:^(AFHTTPRequestOperation *operation,NSError *error){
         NSLog(@"登陆失败");
+        LogError(@"get userInfo failed because of net connect");
+        
+        
     }];
     });
     
@@ -415,12 +419,10 @@
         NSString *jsonString=[jsonWriter stringWithObject:dic error:&error];
         NSLog(@"jsonString==%@",jsonString);
         NSString *string=[SecurityUtil AES128Encrypt:jsonString andwithPassword:[[NSUserDefaults standardUserDefaults] objectForKey:@"userinfoPassword"]];
-        
-        NSLog(@"加密后的数据是：%@",string);
         //发起网络请求
         AFHTTPRequestOperationManager *manager=[AFHTTPRequestOperationManager manager];
         manager.responseSerializer.acceptableContentTypes=[NSSet setWithObject:@"text/html"];
-  
+        
         
         NSDictionary *parameter=@{@"encrypt_method":@"2",@"encrypt_key_type":@"3",@"user_name":[[NSUserDefaults standardUserDefaults] objectForKey:@"userInfoName"],@"device_id":[DeviceUtil getVendorId],@"data":string};
        
@@ -438,6 +440,9 @@
             
         } failure:^(AFHTTPRequestOperation *operation,NSError *error){
             NSLog(@"请求失败");
+            LogError(@"recharge failed because of net connect");
+            UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"温馨提示" message:@"由于您的网络问题导致充值失败，请检查您的网络" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"检查网络", nil];
+            [alert show];
         }];
         
 

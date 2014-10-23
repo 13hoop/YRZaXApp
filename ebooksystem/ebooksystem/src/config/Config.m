@@ -44,4 +44,11 @@
     return [WebConfig instance];
 }
 
+#pragma mark - error
+// error config
+- (ErrorConfig *)errorConfig {
+    return [ErrorConfig instance];
+}
+
+
 @end

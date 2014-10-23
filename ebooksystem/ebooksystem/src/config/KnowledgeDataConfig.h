@@ -32,6 +32,10 @@
 // knowledge data root path in sandbox
 @property (nonatomic, copy) NSString *knowledgeDataRootPathInDocuments;
 
+// knowledge data root path in sandbox
+// app中的数据根目录, (1) 若app自带全量数据, 则为asset/knowledge_data目录; (2) 若app未自带全量数据, 则为Documents/knowledge_data目录.
+@property (nonatomic, copy) NSString *knowledgeDataRootPathInApp;
+
 // knowledge data download root path in sandbox
 @property (nonatomic, copy, readonly) NSString *knowledgeDataDownloadRootPathInDocuments;
 

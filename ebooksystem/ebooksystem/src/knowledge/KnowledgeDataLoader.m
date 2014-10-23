@@ -165,9 +165,9 @@
     {
         char buffer[dataIndex.len];
         
-//        NSString *knowledgeDataRootPathInAssets = [[Config instance] knowledgeDataConfig].knowledgeDataRootPathInAssets;
-        NSString *knowledgeDataRootPathInDocuments = [[Config instance] knowledgeDataConfig].knowledgeDataRootPathInDocuments;
-        NSString *dataFilename = [NSString stringWithFormat:@"%@/%@/%@", knowledgeDataRootPathInDocuments, @"kaoyan^book_index_data^english#english_realexam_2010", dataIndex.dataFilename];
+        NSString *knowledgeDataRootPathInApp = [[Config instance] knowledgeDataConfig].knowledgeDataRootPathInApp;
+        
+        NSString *dataFilename = [NSString stringWithFormat:@"%@/%@/%@", knowledgeDataRootPathInApp, @"kaoyan^book_index_data^english#english_realexam_2010", dataIndex.dataFilename];
         
         FILE *fp = fopen([dataFilename UTF8String], "r");
         fseek(fp, dataIndex.offset, SEEK_SET);
@@ -237,9 +237,9 @@
     NSString *dataId = @"9999eed5e71a0ff16bafc9f082bc9999";
     NSString *queryId = @"0";
     
-//    NSString *knowledgeDataRootPathInAssets = [[Config instance] knowledgeDataConfig].knowledgeDataRootPathInAssets;
-    NSString *knowledgeDataRootPathInDocuments = [[Config instance] knowledgeDataConfig].knowledgeDataRootPathInDocuments;
-    NSString *indexFilename = [NSString stringWithFormat:@"%@/%@", knowledgeDataRootPathInDocuments, @"kaoyan^book_index_data^english#english_realexam_2010/index_8"];
+    NSString *knowledgeDataRootPathInApp = [[Config instance] knowledgeDataConfig].knowledgeDataRootPathInApp;
+    
+    NSString *indexFilename = [NSString stringWithFormat:@"%@/%@", knowledgeDataRootPathInApp, @"kaoyan^book_index_data^english#english_realexam_2010/index_8"];
     NSString *data = [self getKnowledgeDataWithDataId:dataId andQueryId:queryId andIndexFilename:indexFilename];
     
     return YES;

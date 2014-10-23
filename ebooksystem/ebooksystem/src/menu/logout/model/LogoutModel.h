@@ -10,8 +10,9 @@
 
 @protocol LogoutModelDelegate <NSObject>
 
+@optional
 -(void)logoutMessage:(NSString *)msg;
-
+-(void)errorMessage;
 @end
 
 
