@@ -49,10 +49,7 @@
     
     //返回图标
     self.imageReturn=[[UIImageView alloc] initWithFrame:CGRectMake(13, 13, 10, 15)];
-//    NSString *imagePath = [[NSBundle mainBundle] pathForResource:@"back" ofType:@"png"];
-//    UIImage *appleImage = [[UIImage alloc] initWithContentsOfFile:imagePath];
-//    UIImage *image=[UIImage imageNamed:@"返回切图.png"];
-//    UIImage *image=[[[Config instance] drawableConfig] getImageFullPath:@"index_english_cover.png"];
+
     NSString *path=[[[Config instance] drawableConfig] getImageFullPath:@"back.png"];
     UIImage *image=[UIImage imageNamed:path];
     self.imageReturn.image=image;
@@ -75,7 +72,6 @@
 }
 -(void)btnDown:(UIButton *)btn
 {
-    [self removeObserver:self forKeyPath:@"title"];
     [self.customNav_delegate getClick:btn];
 }
 
@@ -87,5 +83,10 @@
         
     }
 }
+//view释放的时候，移除观察者
+-(void)dealloc
+{
+    [self removeObserver:self forKeyPath:@"title"];
 
+}
 @end
