@@ -9,6 +9,7 @@
 #import "StartupViewController.h"
 
 #import "KnowledgeManager.h"
+#import "ErrorManager.h"
 
 #import "ProgressOverlayViewController.h"
 #import "CommonWebViewController.h"
@@ -67,6 +68,11 @@
 {
     [super viewDidLoad];
     
+//    // 回发error log
+//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+//        [[ErrorManager instance] sendCrashToServer];
+//    });
+    
     [self loadData];
 }
 
@@ -82,6 +88,11 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
+    
+    // 回发error log
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [[ErrorManager instance] sendCrashToServer];
+    });
     
     [self initAppData];
 }
@@ -142,7 +153,7 @@
 }
 
 - (void)gotoWebView {
-    [self performSegueWithIdentifier:@"segue_goto_webview" sender:self];
+//    [self performSegueWithIdentifier:@"segue_goto_webview" sender:self];
 }
 
 #pragma mark - 延迟执行
@@ -204,5 +215,9 @@
     LogDebug(@"[KnowledgeManager-dataInitEndedWithResult:andDesc:] 数据初始化结束, 耗时: %@", info);
 }
 
+
+- (IBAction)onTestButtonPressed:(id)sender {
+    [[KnowledgeManager instance] test];
+}
 
 @end

@@ -10,43 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ebooksystem/src/knowledge/KnowledgeDataManager.m"
-            timestampString = "435574719.474727"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "300"
-            endingLineNumber = "300"
-            landmarkName = "-processZippedDataFile:withDecryptKey:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ebooksystem/src/knowledge/KnowledgeDataManager.m"
             timestampString = "435656349.369298"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1204"
             endingLineNumber = "1204">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ebooksystem/src/knowledge/KnowledgeDataManager.m"
-            timestampString = "435574719.474727"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "468"
-            endingLineNumber = "468"
-            landmarkName = "-deleteData:"
-            landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -296,11 +264,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ebooksystem/src/startup/controller/StartupViewController.m"
-            timestampString = "435826746.236908"
+            timestampString = "435837957.640474"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "176"
-            endingLineNumber = "176"
+            startingLineNumber = "187"
+            endingLineNumber = "187"
             landmarkName = "-dataInitStartedWithResult:andDesc:"
             landmarkType = "5">
          </BreakpointContent>
@@ -328,11 +296,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ebooksystem/src/startup/controller/StartupViewController.m"
-            timestampString = "435826746.236908"
+            timestampString = "435837957.640474"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "202"
-            endingLineNumber = "202"
+            startingLineNumber = "213"
+            endingLineNumber = "213"
             landmarkName = "-dataInitEndedWithResult:andDesc:"
             landmarkType = "5">
          </BreakpointContent>
@@ -359,13 +327,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "ebooksystem/src/common/web/controller/CommonWebViewController.m"
-            timestampString = "435826784.120496"
+            filePath = "ebooksystem/src/knowledge/KnowledgeMetaManager.m"
+            timestampString = "435828256.67799"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "303"
-            endingLineNumber = "303"
-            landmarkName = "-updateWebView"
+            startingLineNumber = "295"
+            endingLineNumber = "295"
+            landmarkName = "-getKnowledgeMetaWithDataId:andDataType:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -375,14 +343,60 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "ebooksystem/src/knowledge/KnowledgeMetaManager.m"
-            timestampString = "435828256.67799"
+            filePath = "ebooksystem/src/error/ErrorManager.m"
+            timestampString = "435839562.738097"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "295"
-            endingLineNumber = "295"
-            landmarkName = "-getKnowledgeMetaWithDataId:andDataType:"
+            startingLineNumber = "131"
+            endingLineNumber = "131"
+            landmarkName = "-sendCrashToServer"
             landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ebooksystem/src/error/ErrorManager.m"
+            timestampString = "435839562.738097"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "138"
+            endingLineNumber = "138"
+            landmarkName = "-sendCrashToServer"
+            landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__33-[ErrorManager sendCrashToServer]_block_invoke"
+                  moduleName = "ebooksystem"
+                  urlString = "file:///Mine/Data/Workspace/Product/app/app-ios/app-ios-ebooksystem/ebooksystem/ebooksystem/src/error/ErrorManager.m"
+                  timestampString = "435840509.12401"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "141"
+                  endingLineNumber = "141"
+                  offsetFromSymbolStart = "2232">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__33-[ErrorManager sendCrashToServer]_block_invoke"
+                  moduleName = "ebooksystem"
+                  urlString = "file:///Mine/Data/Workspace/Product/app/app-ios/app-ios-ebooksystem/ebooksystem/ebooksystem/src/error/ErrorManager.m"
+                  timestampString = "435840509.124162"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "141"
+                  endingLineNumber = "141"
+                  offsetFromSymbolStart = "2296">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

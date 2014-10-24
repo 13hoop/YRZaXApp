@@ -16,4 +16,10 @@
 // 提示文字
 @property (strong, nonatomic) IBOutlet UILabel *tipLabel;
 
+
+#pragma mark - actions
+- (IBAction)onTestButtonPressed:(id)sender;
+
+
+
 @end

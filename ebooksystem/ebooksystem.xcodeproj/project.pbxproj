@@ -226,6 +226,7 @@
 		71860C5A19DE953500D01AA9 /* umeng in Resources */ = {isa = PBXBuildFile; fileRef = 71860C5919DE953500D01AA9 /* umeng */; };
 		718707B019F9FFD500F49D23 /* MediaPlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 718707AF19F9FFD500F49D23 /* MediaPlayerViewController.m */; };
 		718707B219FA00A000F49D23 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 718707B119FA00A000F49D23 /* MediaPlayer.framework */; };
+		718707B519FA3B2F00F49D23 /* ErrorInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 718707B419FA3B2F00F49D23 /* ErrorInfo.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -705,6 +706,8 @@
 		718707AE19F9FFD500F49D23 /* MediaPlayerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MediaPlayerViewController.h; path = src/common/media/controller/MediaPlayerViewController.h; sourceTree = "<group>"; };
 		718707AF19F9FFD500F49D23 /* MediaPlayerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MediaPlayerViewController.m; path = src/common/media/controller/MediaPlayerViewController.m; sourceTree = "<group>"; };
 		718707B119FA00A000F49D23 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
+		718707B319FA3B2F00F49D23 /* ErrorInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ErrorInfo.h; path = src/error/ErrorInfo.h; sourceTree = "<group>"; };
+		718707B419FA3B2F00F49D23 /* ErrorInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ErrorInfo.m; path = src/error/ErrorInfo.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1544,6 +1547,8 @@
 		7156B09E19F7A85100B3A521 /* error */ = {
 			isa = PBXGroup;
 			children = (
+				718707B319FA3B2F00F49D23 /* ErrorInfo.h */,
+				718707B419FA3B2F00F49D23 /* ErrorInfo.m */,
 				7156B09F19F7A8A500B3A521 /* ErrorManager.h */,
 				7156B0A019F7A8A500B3A521 /* ErrorManager.m */,
 				7156B0A219F7AD0C00B3A521 /* UncaughtExceptionHandler.h */,
@@ -2152,6 +2157,7 @@
 				715EE9B419E8331C005A4F78 /* JSONAPI.m in Sources */,
 				710C030D19E1C8B600C27A33 /* AFNetworkActivityIndicatorManager.m in Sources */,
 				715EE99219E813B5005A4F78 /* WebConfig.m in Sources */,
+				718707B519FA3B2F00F49D23 /* ErrorInfo.m in Sources */,
 				710C035519E1C90E00C27A33 /* SBJsonStreamParserAccumulator.m in Sources */,
 				7156B0CC19F8BD2900B3A521 /* ProgressOverlayViewController.m in Sources */,
 				7118EB5E19EF6B54002CF833 /* DDTTYLogger.m in Sources */,

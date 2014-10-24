@@ -12,6 +12,9 @@
 
 @property (nonatomic, copy) NSString *crashFilepath;
 
+@property (nonatomic, copy, readonly) NSString *errorUrlByGet;
+@property (nonatomic, copy, readonly) NSString *errorUrlByPost;
+
 
 #pragma mark - methods
 // singleton

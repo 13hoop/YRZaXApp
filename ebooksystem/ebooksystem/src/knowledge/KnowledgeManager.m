@@ -337,8 +337,8 @@
 //    return;
     
     // 3. 数据拷贝测试
-    [[KnowledgeDataManager instance] copyAssetsKnowledgeData];
-    [self registerDataFiles];
+//    [[KnowledgeDataManager instance] copyAssetsKnowledgeData];
+//    [self registerDataFiles];
     
     NSString *dataIdForPagePath = @"3b7942bf7d9f8a80dc3b7e43539ee40e";
     NSString *dataId = @"2a8ceed5e71a0ff16bafc9f082bceeec";
@@ -346,11 +346,11 @@
     
     // 4. 本地数据获取测试
     // local
-    {
+//    {
 //        NSString *pagePath = [self getPagePath:dataIdForPagePath];
 //        NSString *localData = [self getLocalData:dataId];
 //        NSString *searchResult = [self searchLocalData:searchId];
-    }
+//    }
     
     // 5. 远程数据获取测试
     // remote - download
@@ -375,10 +375,10 @@
 //    }
     
     // 11. crash report test
-//    {
-//        char *p = NULL;
-//        memset(p, 100, sizeof(char));
-//    }
+    {
+        char *p = NULL;
+        memset(p, 100, sizeof(char));
+    }
     
     LogInfo(@"[KnowledgeManager-test()], end");
 }

@@ -17,6 +17,7 @@
 @property (nonatomic, copy) NSString *errorDataRootDirName;
 @property (nonatomic, copy) NSString *crashFilename;
 
+
 @end
 
 
@@ -27,9 +28,23 @@
 @synthesize crashFilename = _crashFilename;
 @synthesize crashFilepath = _crashFilepath;
 
+@synthesize errorUrlByGet = _errorUrlByGet;
+@synthesize errorUrlByPost = _errorUrlByPost;
+
 
 
 #pragma mark - properties
+- (NSString *)errorUrlByGet {
+    // http://log.zaxue100.com/e.html?par1=**&par2=
+//    return @"http://log.zaxue100.com/e.html?"; // online
+    return @"http://118.244.235.155:8296/e.html?"; // offline
+}
+
+- (NSString *)errorUrlByPost {
+//    return @"http://log.zaxue100.com/index.php?c=errorctrl&m=upload"; // online
+    return @"http://118.244.235.155:8296/index.php?c=errorctrl&m=upload"; // offline
+}
+
 - (NSString *)errorDataRootDirName {
     return @"error_report";
 }
@@ -46,15 +61,33 @@
     }
     
     {
+        NSString *parentPath = [_crashFilepath stringByDeletingLastPathComponent];
         BOOL isDir = NO;
-        BOOL existed = [[NSFileManager defaultManager] fileExistsAtPath:[_crashFilepath stringByDeletingLastPathComponent] isDirectory:&isDir];
+        BOOL existed = [[NSFileManager defaultManager] fileExistsAtPath:parentPath isDirectory:&isDir];
         if (!(isDir && existed)) {
-            [[NSFileManager defaultManager] createDirectoryAtPath:_crashFilepath withIntermediateDirectories:YES attributes:nil error:nil];
+            NSError *error = nil;
+            [[NSFileManager defaultManager] createDirectoryAtPath:parentPath withIntermediateDirectories:YES attributes:nil error:&error];
+            
+//            NSString *info = [NSString stringWithFormat:@"createDirectoryAtPath: %@, error: %@", [_crashFilepath stringByDeletingLastPathComponent], error];
+//            [self showAlertWithTitle:@"ErrorConfig" andMessage:info];
         }
     }
     
     return _crashFilepath;
 }
+
+//- (void)showAlertWithTitle:(NSString *)title andMessage:(NSString *)message {
+//    dispatch_async(dispatch_get_main_queue(), ^{
+//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(title, nil)
+//                                                        message:message
+//                                                       delegate:self
+//                                              cancelButtonTitle:NSLocalizedString(@"退出", nil)
+//                                              otherButtonTitles:nil];
+//        
+//        [alert show];
+//    });
+//}
+
 
 
 #pragma mark - methods
