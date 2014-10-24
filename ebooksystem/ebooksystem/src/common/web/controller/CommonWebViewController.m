@@ -116,9 +116,13 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
-    [self performBlock:^{
-        [self gotoMediaPlayerViewController];
-    } afterDelay:1];
+    
+//    // test video play
+//    {
+//        [self performBlock:^{
+//            [self gotoMediaPlayerViewController];
+//        } afterDelay:1];
+//    }
 }
 
 - (void)didReceiveMemoryWarning
