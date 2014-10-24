@@ -153,7 +153,7 @@
 }
 
 - (void)gotoWebView {
-//    [self performSegueWithIdentifier:@"segue_goto_webview" sender:self];
+    [self performSegueWithIdentifier:@"segue_goto_webview" sender:self];
 }
 
 #pragma mark - 延迟执行

@@ -20,6 +20,7 @@
 #import "DeviceUtil.h"
 #import "AppUtil.h"
 #import "LogUtil.h"
+#import "PathUtil.h"
 
 
 @interface ErrorManager ()
@@ -136,6 +137,8 @@ void CustomSignalHandler(int signal) {
         
         LogInfo(@"[ErrorManager-sendCrashToServer] sent error finished");
 //        [self showAlertWithTitle:@"ErrorManager" andMessage:[NSString stringWithFormat:@"发送成功, response: %@", serverResponseStr]];
+        
+        [PathUtil deletePath:[Config instance].errorConfig.crashFilepath];
         
         return;
     });
