@@ -84,7 +84,9 @@
                 ' data-update_id="' + item.update_id + '" ' +
                 ' data-file_size="' + ( item.file_size || 2 ) + '" ' +
                 ' data-page_id="' + item.page_id + '" ' +
-                'data-data_id="' + item.id + '" data-name_ch="' + item.name_ch + '" id="' + elemID + '">' +
+                'data-data_id="' + item.id + '" ' + 
+                'data-query_id="' + item.query_id + '" ' + 
+                '" data-name_ch="' + item.name_ch + '" id="' + elemID + '">' +
                 '<img src="./assets/' + item.book_cover + '.png" />' +
                 '<div class="update-indicator-wrap"><span class="update-indicator-text">新</span></div>' +
                 '<div class="book-name-wrap">' + item.name_ch  + '</div>' +
@@ -123,6 +125,7 @@
                 var updateID = target.getAttribute('data-update_id');
                 var pageID = target.getAttribute('data-page_id');
                 var id = target.getAttribute('data-data_id');
+                var queryID = target.getAttribute('data-query_id');
                 var bookName = target.getAttribute('data-name_ch');
 
                 var args = {
@@ -130,6 +133,7 @@
                     subject_id : encodeURIComponent( currentID ),
                     //渲染该节点所需要 data.json 的节点ID
                     data_id : encodeURIComponent( id ),
+                    query_id : encodeURIComponent( queryID ), 
                     //用户选择书籍对应节点的ID
                     book_id : encodeURIComponent( id ),
                     //用户选择书籍的中文名
@@ -212,6 +216,7 @@
 
         //获取数据ID
         currentID = searchConf.data_id;
+        var queryID = searchConf.query_id;
 
         if( ! currentID ){
             bridgeIOS.pageError('页面迷路了，找不到ID');
@@ -224,7 +229,7 @@
         initSearchBox();
 
         // 渲染页面
-        bridge.getNodeDataById(currentID, function( dataStr ){
+        bridge.getNodeDataByIdAndQueryId( { dataId : currentID, queryId : queryID}, function( dataStr ){
 
             var data;
             try{
