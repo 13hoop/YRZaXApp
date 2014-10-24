@@ -82,18 +82,16 @@ const NSInteger UncaughtExceptionHandlerReportAddressCount = 5;
     [userInfo setObject:callStack forKey:UncaughtExceptionHandlerAddressesKey];
     
     [[[UncaughtExceptionHandler alloc] init]
-     performSelectorOnMainThread:@selector(handleException:)
-     withObject:[NSException
+        performSelectorOnMainThread:@selector(handleException:)
+        withObject:[NSException
                  exceptionWithName:UncaughtExceptionHandlerSignalExceptionName
                  reason:[NSString stringWithFormat:
-                         NSLocalizedString(@"Signal %d was raised.\n"
-                                           @"%@", nil),
-                         signal, [UncaughtExceptionHandler getAppInfo]]
+                                    NSLocalizedString(@"Signal %d was raised.\n%@", nil),
+                                    signal, [UncaughtExceptionHandler getAppInfo]]
                  userInfo:
                     [NSDictionary
-                     dictionaryWithObject:[NSNumber numberWithInt:signal]
-                 forKey:UncaughtExceptionHandlerSignalKey]]
-     waitUntilDone:YES];
+                     dictionaryWithObject:[NSNumber numberWithInt:signal] forKey:UncaughtExceptionHandlerSignalKey]]
+                 waitUntilDone:YES];
 }
 
 + (NSArray *)backtrace {

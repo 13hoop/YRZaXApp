@@ -31,6 +31,8 @@
 
 #pragma mark - getter
 // get knowledge metas
+- (NSArray *)getKnowledgeMetaWithDataId:(NSString *)dataId;
+// get knowledge metas
 - (NSArray *)getKnowledgeMetaWithDataId:(NSString *)dataId andDataType:(DataType)dataType;
 
 // get knowledge data version

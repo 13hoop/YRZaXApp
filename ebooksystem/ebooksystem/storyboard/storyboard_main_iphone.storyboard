@@ -102,7 +102,7 @@
                     <connections>
                         <outlet property="bgImageView" destination="l9J-dd-bt9" id="EvE-RX-d4N"/>
                         <outlet property="tipLabel" destination="9kP-kl-gb4" id="7uw-yR-1sX"/>
-                        <segue destination="pjZ-Ar-ujS" kind="modal" identifier="segue_goto_webview" modalTransitionStyle="coverVertical" id="7IT-2i-reI"/>
+                        <segue destination="pjZ-Ar-ujS" kind="push" identifier="segue_goto_webview" id="7IT-2i-reI"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="CRg-5H-hi0" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -131,11 +131,31 @@
                     <navigationItem key="navigationItem" id="TkO-tj-qKP"/>
                     <connections>
                         <outlet property="webView" destination="fvP-Mr-1Tm" id="CIw-og-Dd4"/>
+                        <segue destination="ell-e1-tcl" kind="push" identifier="goto_media_player_view_controller" id="lhz-0Z-fYd"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7WS-i1-ad0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1324" y="36"/>
+        </scene>
+        <!--Media Player View Controller-->
+        <scene sceneID="L9c-Cb-y2m">
+            <objects>
+                <viewController id="ell-e1-tcl" customClass="MediaPlayerViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="55i-Nt-Pce"/>
+                        <viewControllerLayoutGuide type="bottom" id="EoR-nJ-jPO"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="XoK-dh-kdN">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="uQM-af-w6A"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="okL-Vc-CZi" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1793" y="36"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="AuR-Cq-NMT">
