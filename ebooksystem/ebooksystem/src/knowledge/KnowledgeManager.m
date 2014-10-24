@@ -180,8 +180,9 @@
 
 #pragma mark - methods for js call
 // get page path
-- (NSString *)getPagePath:(NSString *)dataId {
-    NSArray *metaArray = [[KnowledgeMetaManager instance] getKnowledgeMetaWithDataId:dataId andDataType:DATA_TYPE_DATA_SOURCE];
+- (NSString *)getPagePath:(NSString *)pageId {
+    NSArray *metaArray = [[KnowledgeMetaManager instance] getKnowledgeMetaWithDataId:pageId];
+//    NSArray *metaArray = [[KnowledgeMetaManager instance] getKnowledgeMetaWithDataId:pageId andDataType:DATA_TYPE_DATA_SOURCE];
     if (metaArray == nil || metaArray.count <= 0) {
         return nil;
     }

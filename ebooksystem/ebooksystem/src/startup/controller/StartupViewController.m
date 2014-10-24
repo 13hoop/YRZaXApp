@@ -137,6 +137,7 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.destinationViewController isKindOfClass:[CommonWebViewController class]]) {
         CommonWebViewController *commonWebViewController = (CommonWebViewController *)segue.destinationViewController;
+        commonWebViewController.pageId = @"3b7942bf7d9f8a80dc3b7e43539ee40e";
     }
 }
 

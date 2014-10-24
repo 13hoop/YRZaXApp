@@ -90,14 +90,12 @@
 // If the context doesn't already exist, it is created and bound to the persistent store coordinator for the application.
 - (NSManagedObjectContext *)managedObjectContext
 {
-    if (_managedObjectContext != nil) {
-        return _managedObjectContext;
-    }
-    
-    NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
-    if (coordinator != nil) {
-        _managedObjectContext = [[NSManagedObjectContext alloc] init];
-        [_managedObjectContext setPersistentStoreCoordinator:coordinator];
+    if (_managedObjectContext == nil) {
+        NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
+        if (coordinator != nil) {
+            _managedObjectContext = [[NSManagedObjectContext alloc] init];
+            [_managedObjectContext setPersistentStoreCoordinator:coordinator];
+        }
     }
     return _managedObjectContext;
 }
@@ -106,11 +104,11 @@
 // If the model doesn't already exist, it is created from the application's model.
 - (NSManagedObjectModel *)managedObjectModel
 {
-    if (_managedObjectModel != nil) {
-        return _managedObjectModel;
+    if (_managedObjectModel == nil) {
+        NSURL *modelURL = [[NSBundle mainBundle] URLForResource:@"ebooksystem" withExtension:@"momd"];
+        _managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
     }
-    NSURL *modelURL = [[NSBundle mainBundle] URLForResource:@"ebooksystem" withExtension:@"momd"];
-    _managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
+    
     return _managedObjectModel;
 }
 
@@ -124,7 +122,7 @@
     
     NSURL *storeURL = self.coreDataStoreUrl;
     
-    LogDebug(@"[CoreDataUtil::persistentStoreCoordinator] Store url is %@", storeURL);
+    LogInfo(@"[CoreDataUtil::persistentStoreCoordinator] Store url is %@", storeURL);
     
     // 设置选项, 支持data model version
     NSDictionary *options = [NSDictionary dictionaryWithObjectsAndKeys:

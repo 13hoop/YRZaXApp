@@ -244,6 +244,37 @@
 
 #pragma mark - get knowledge meta
 // get knowledge metas
+- (NSArray *)getKnowledgeMetaWithDataId:(NSString *)dataId {
+    NSMutableArray *metaArray = [[NSMutableArray alloc] init];
+    
+    
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    
+    // Entity
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"KnowledgeMetaEntity" inManagedObjectContext:[CoreDataUtil instance].managedObjectContext];
+    [fetchRequest setEntity:entity];
+    
+    // Predicate
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"dataId==%@", dataId];
+    [fetchRequest setPredicate:predicate];
+    
+    // Fetch
+    NSError *error = nil;
+    NSArray *fetchedObjects = [[CoreDataUtil instance].managedObjectContext executeFetchRequest:fetchRequest error:&error];
+    if (fetchedObjects != nil &&
+        fetchedObjects.count > 0) {
+        for (NSManagedObject *entity in fetchedObjects) {
+            [metaArray addObject:entity];
+        }
+    }
+    
+    if (metaArray == nil || metaArray.count <= 0) {
+        return nil;
+    }
+    return metaArray;
+}
+
+// get knowledge metas
 - (NSArray *)getKnowledgeMetaWithDataId:(NSString *)dataId andDataType:(DataType)dataType {
     NSMutableArray *metaArray = [[NSMutableArray alloc] init];
     

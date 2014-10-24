@@ -64,6 +64,7 @@
 @synthesize javascriptBridge = _javascriptBridge;
 
 @synthesize knowledgeSubject = _knowledgeSubject;
+@synthesize pageId = _pageId;
 
 
 #pragma mark - properties
@@ -283,32 +284,34 @@
 
 // 更新webview
 - (BOOL)updateWebView {
-//    self.webView.delegate = self;
+    //    self.webView.delegate = self;
     
-    NSString *knowledgeDataRootPathInApp = [[Config instance] knowledgeDataConfig].knowledgeDataRootPathInApp;
+//    NSString *knowledgeDataRootPathInApp = [[Config instance] knowledgeDataConfig].knowledgeDataRootPathInApp;
     
-    if (self.knowledgeSubject == nil) {
+    if (self.pageId == nil) {
         return NO;
     }
     
     // 根据学科, 跳转到相应的entrance
-    if ([self.knowledgeSubject.subjectId isEqualToString:@"subject_english_id"]) {
-        // todo: load english entrance
+    //    if ([self.knowledgeSubject.subjectId isEqualToString:@"subject_english_id"]) {
+    //        // todo: load english entrance
+    //    }
+    //    else if ([self.knowledgeSubject.subjectId isEqualToString:@"subject_politics_id"]) {
+    
+    // 打开pageId对应的页面
+    NSString *pagePath = [[KnowledgeManager instance] getPagePath:self.pageId];
+    if (pagePath == nil || pagePath.length <= 0) {
+        return NO;
     }
-    else if ([self.knowledgeSubject.subjectId isEqualToString:@"subject_politics_id"]) {
-        NSString *pageId = @"3b7942bf7d9f8a80dc3b7e43539ee40e";
-        NSString *dataId = @"2a8ceed5e71a0ff16bafc9f082bceeec";
-        
-        NSString *htmlFilePath = [NSString stringWithFormat:@"%@/%@", knowledgeDataRootPathInApp, @"14/3b7942bf7d9f8a80dc3b7e43539ee40e"];
-        
-        // 加载指定的html文件
-        NSURL *url = [[NSURL alloc] initFileURLWithPath:[NSString stringWithFormat:@"%@/%@", htmlFilePath, @"index.html"]];
-        
-        NSString *urlStrWithParams = [NSString stringWithFormat:@"%@?page_id=%@&data_id=%@", [url absoluteString], pageId, dataId];
-        NSURL *urlWithParams = [[NSURL alloc] initWithString:urlStrWithParams];
-        
-        [self.webView loadRequest:[[NSURLRequest alloc] initWithURL:urlWithParams]];
-    }
+    // 加载指定的html文件
+    NSURL *url = [[NSURL alloc] initFileURLWithPath:[NSString stringWithFormat:@"%@/%@", pagePath, @"index.html"]];
+    
+    //        NSString *urlStrWithParams = [NSString stringWithFormat:@"%@?page_id=%@&data_id=%@", [url absoluteString], self.pageId, dataId];
+    NSString *urlStrWithParams = [NSString stringWithFormat:@"%@?page_id=%@", [url absoluteString], self.pageId];
+    NSURL *urlWithParams = [[NSURL alloc] initWithString:urlStrWithParams];
+    
+    [self.webView loadRequest:[[NSURLRequest alloc] initWithURL:urlWithParams]];
+    //    }
     
     return YES;
 }

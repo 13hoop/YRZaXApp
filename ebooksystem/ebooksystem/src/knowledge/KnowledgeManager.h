@@ -35,7 +35,7 @@
 
 #pragma mark - methods for js call
 // get page path
-- (NSString *)getPagePath:(NSString *)dataId;
+- (NSString *)getPagePath:(NSString *)pageId;
 
 // local data fetch
 - (NSString *)getLocalData:(NSString *)dataId;
