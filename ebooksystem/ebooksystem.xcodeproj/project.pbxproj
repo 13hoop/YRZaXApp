@@ -224,6 +224,8 @@
 		71860C0A19DE546700D01AA9 /* KnowledgeDownloadItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 71860C0919DE546700D01AA9 /* KnowledgeDownloadItem.m */; };
 		71860C0E19DE8DE600D01AA9 /* UUIDUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 71860C0D19DE8DE600D01AA9 /* UUIDUtil.m */; };
 		71860C5A19DE953500D01AA9 /* umeng in Resources */ = {isa = PBXBuildFile; fileRef = 71860C5919DE953500D01AA9 /* umeng */; };
+		718707B019F9FFD500F49D23 /* MediaPlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 718707AF19F9FFD500F49D23 /* MediaPlayerViewController.m */; };
+		718707B219FA00A000F49D23 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 718707B119FA00A000F49D23 /* MediaPlayer.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -700,6 +702,9 @@
 		71860C0C19DE8DE600D01AA9 /* UUIDUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UUIDUtil.h; path = src/util/UUIDUtil.h; sourceTree = "<group>"; };
 		71860C0D19DE8DE600D01AA9 /* UUIDUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UUIDUtil.m; path = src/util/UUIDUtil.m; sourceTree = "<group>"; };
 		71860C5919DE953500D01AA9 /* umeng */ = {isa = PBXFileReference; lastKnownFileType = folder; name = umeng; path = depends/umeng; sourceTree = "<group>"; };
+		718707AE19F9FFD500F49D23 /* MediaPlayerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MediaPlayerViewController.h; path = src/common/media/controller/MediaPlayerViewController.h; sourceTree = "<group>"; };
+		718707AF19F9FFD500F49D23 /* MediaPlayerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MediaPlayerViewController.m; path = src/common/media/controller/MediaPlayerViewController.m; sourceTree = "<group>"; };
+		718707B119FA00A000F49D23 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -707,6 +712,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				718707B219FA00A000F49D23 /* MediaPlayer.framework in Frameworks */,
 				715EE9BE19E83366005A4F78 /* SystemConfiguration.framework in Frameworks */,
 				71860BED19DE509400D01AA9 /* Security.framework in Frameworks */,
 				06AA7EE819F4FAF600570289 /* libcrypto.a in Frameworks */,
@@ -759,6 +765,7 @@
 		0690781719CFD62700CD9C3D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				718707B119FA00A000F49D23 /* MediaPlayer.framework */,
 				715EE9BD19E83366005A4F78 /* SystemConfiguration.framework */,
 				71860BEC19DE509400D01AA9 /* Security.framework */,
 				71860BEA19DE508800D01AA9 /* CFNetwork.framework */,
@@ -1757,6 +1764,7 @@
 				71860BE419DC77A600D01AA9 /* types */,
 				710C02D119E1AC9C00C27A33 /* titlebar */,
 				7156B0CD19F8CB9900B3A521 /* progress */,
+				718707AC19F9FF7D00F49D23 /* media */,
 				715EE96F19E526E1005A4F78 /* web */,
 			);
 			name = common;
@@ -1978,6 +1986,23 @@
 				710C033419E1C8E600C27A33 /* README.mdown */,
 			);
 			name = EGOCache;
+			sourceTree = "<group>";
+		};
+		718707AC19F9FF7D00F49D23 /* media */ = {
+			isa = PBXGroup;
+			children = (
+				718707AD19F9FF8700F49D23 /* controller */,
+			);
+			name = media;
+			sourceTree = "<group>";
+		};
+		718707AD19F9FF8700F49D23 /* controller */ = {
+			isa = PBXGroup;
+			children = (
+				718707AE19F9FFD500F49D23 /* MediaPlayerViewController.h */,
+				718707AF19F9FFD500F49D23 /* MediaPlayerViewController.m */,
+			);
+			name = controller;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -2230,6 +2255,7 @@
 				710C035619E1C90E00C27A33 /* SBJsonStreamParserAdapter.m in Sources */,
 				06AA7F6619F4FC7E00570289 /* RegisterViewController.m in Sources */,
 				06AA7F5919F4FC7E00570289 /* CustomLoginModel.m in Sources */,
+				718707B019F9FFD500F49D23 /* MediaPlayerViewController.m in Sources */,
 				710C02C719E189A200C27A33 /* DrawableConfig.m in Sources */,
 				7118EB8819EF6BE3002CF833 /* GettingStarted.md in Sources */,
 				710C032B19E1C8D000C27A33 /* AFNetworkReachabilityManager.m in Sources */,
