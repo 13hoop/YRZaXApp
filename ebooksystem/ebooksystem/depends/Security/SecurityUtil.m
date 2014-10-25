@@ -13,7 +13,6 @@
 #import "NSData+AES.h"
 #import "NSString+Hashing.h"
 #import <CommonCrypto/CommonCryptor.h>
-#import "GTMBase64.h"
 
 
 @implementation SecurityUtil
