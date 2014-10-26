@@ -51,6 +51,9 @@
 // 跳转到指定的url
 - (BOOL)showPageWithURL:(NSString *)urlStr;
 
+// 打开播放链接
+- (void)gotoMediaPlayerViewController:(NSString *)url;
+
 // 延迟执行
 - (void)performBlock:(void(^)())block afterDelay:(NSTimeInterval)delay;
 
@@ -256,6 +259,14 @@
         [self showPageWithPageId:pageID andArgs:args];
     }];
     
+    // playVideo()
+    [self.javascriptBridge registerHandler:@"playVideo" handler:^(id dataId, WVJBResponseCallback responseCallback) {
+        LogDebug(@"CommonWebViewController::playVideo() called: %@", dataId);
+        
+        NSString *urlStr = (NSString *)dataId;
+        [self gotoMediaPlayerViewController:urlStr];
+    }];
+    
     // pageStatistic()
     [self.javascriptBridge registerHandler:@"pageStatistic" handler:^(id data, WVJBResponseCallback responseCallback) {
         LogDebug(@"CommonWebViewController::pageStatistic() called: %@", data);
@@ -362,21 +373,32 @@
         
         // test for play video
         {
-            NSString *knowledgeDataRootPathInAssets = [[Config instance] knowledgeDataConfig].knowledgeDataRootPathInAssets;
-            NSString *htmlFilePath = [NSString stringWithFormat:@"%@/%@", knowledgeDataRootPathInAssets, @"test_video.mp4"];
+            NSURL *url = nil;
             
-            // 加载指定的html文件
-            NSURL *url = [[NSURL alloc] initFileURLWithPath:htmlFilePath];
+            if (sender == nil) {
+                NSString *knowledgeDataRootPathInAssets = [[Config instance] knowledgeDataConfig].knowledgeDataRootPathInAssets;
+                NSString *htmlFilePath = [NSString stringWithFormat:@"%@/%@", knowledgeDataRootPathInAssets, @"test_video.mp4"];
+                
+                // 加载指定的html文件
+                url = [[NSURL alloc] initFileURLWithPath:htmlFilePath];
+            }
+            else {
+                NSString *urlStr = (NSString *)sender;
+                if (urlStr != nil && urlStr.length > 0) {
+                    url = [NSURL URLWithString:[urlStr stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+                }
+            }
+            
             mediaPlayerViewController.url = url;
         }
     }
 }
 
-- (void)gotoMediaPlayerViewController {
-    [self performSegueWithIdentifier:@"goto_media_player_view_controller" sender:self];
+- (void)gotoMediaPlayerViewController:(NSString *)url {
+    [self performSegueWithIdentifier:@"goto_media_player_view_controller" sender:url];
 }
 
-#pragma mark - 延迟执行
+#pragma mark - delay run
 - (void)performBlock:(void(^)())block afterDelay:(NSTimeInterval)delay {
     dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delay * NSEC_PER_SEC));
     dispatch_after(popTime, dispatch_get_main_queue(), block);

@@ -312,11 +312,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ebooksystem/src/common/web/controller/CommonWebViewController.m"
-            timestampString = "435826737.041549"
+            timestampString = "435986136.509468"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "313"
-            endingLineNumber = "313"
+            startingLineNumber = "324"
+            endingLineNumber = "324"
             landmarkName = "-updateWebView"
             landmarkType = "5">
          </BreakpointContent>
@@ -367,36 +367,6 @@
             endingLineNumber = "138"
             landmarkName = "-sendCrashToServer"
             landmarkType = "5">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__33-[ErrorManager sendCrashToServer]_block_invoke"
-                  moduleName = "ebooksystem"
-                  urlString = "file:///Mine/Data/Workspace/Product/app/app-ios/app-ios-ebooksystem/ebooksystem/ebooksystem/src/error/ErrorManager.m"
-                  timestampString = "435840509.12401"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "141"
-                  endingLineNumber = "141"
-                  offsetFromSymbolStart = "2232">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__33-[ErrorManager sendCrashToServer]_block_invoke"
-                  moduleName = "ebooksystem"
-                  urlString = "file:///Mine/Data/Workspace/Product/app/app-ios/app-ios-ebooksystem/ebooksystem/ebooksystem/src/error/ErrorManager.m"
-                  timestampString = "435840509.124162"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "141"
-                  endingLineNumber = "141"
-                  offsetFromSymbolStart = "2296">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
