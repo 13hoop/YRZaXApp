@@ -244,40 +244,50 @@
 }
 
 #pragma mark - local data search
+//// search data
+//- (NSString *)searchLocalData:(NSString *)searchId {
+//    NSArray *knowledgeSearchEntities = [[KnowledgeSearchManager instance] searchData:searchId];
+//    if (knowledgeSearchEntities == nil || knowledgeSearchEntities.count <= 0) {
+//        return nil;
+//    }
+//    
+//    NSMutableString *searchResult = [[NSMutableString alloc] init];
+//    [searchResult appendString:@"["];
+//    
+//    BOOL isFirst = YES;
+//    for (id obj in knowledgeSearchEntities) {
+//        KnowledgeSearchEntity *knowledgeSearchEntity = (KnowledgeSearchEntity *)obj;
+//        if (knowledgeSearchEntity == nil || knowledgeSearchEntity.dataId == nil || knowledgeSearchEntity.dataId.length <= 0) {
+//            continue;
+//        }
+//        
+//        NSString *data = [self getLocalData:knowledgeSearchEntity.dataId];
+//        if (data == nil || data.length <= 0) {
+//            continue;
+//        }
+//        
+//        if (isFirst) {
+//            isFirst = NO;
+//        }
+//        else {
+//            [searchResult appendString:@","];
+//        }
+//        [searchResult appendString:data];
+//    }
+//    
+//    [searchResult appendString:@"]"];
+//    
+//    return searchResult;
+//}
+
 // search data
 - (NSString *)searchLocalData:(NSString *)searchId {
-    NSArray *knowledgeSearchEntities = [[KnowledgeSearchManager instance] searchData:searchId];
-    if (knowledgeSearchEntities == nil || knowledgeSearchEntities.count <= 0) {
-        return nil;
+    NSArray *knowledgeSearchResults = [[KnowledgeDataManager instance] searchData:searchId];
+    if (knowledgeSearchResults == nil || knowledgeSearchResults.count <= 0) {
+        return @"[]";
     }
     
-    NSMutableString *searchResult = [[NSMutableString alloc] init];
-    [searchResult appendString:@"["];
-    
-    BOOL isFirst = YES;
-    for (id obj in knowledgeSearchEntities) {
-        KnowledgeSearchEntity *knowledgeSearchEntity = (KnowledgeSearchEntity *)obj;
-        if (knowledgeSearchEntity == nil || knowledgeSearchEntity.dataId == nil || knowledgeSearchEntity.dataId.length <= 0) {
-            continue;
-        }
-        
-        NSString *data = [self getLocalData:knowledgeSearchEntity.dataId];
-        if (data == nil || data.length <= 0) {
-            continue;
-        }
-        
-        if (isFirst) {
-            isFirst = NO;
-        }
-        else {
-            [searchResult appendString:@","];
-        }
-        [searchResult appendString:data];
-    }
-    
-    [searchResult appendString:@"]"];
-    
-    return searchResult;
+    return [knowledgeSearchResults componentsJoinedByString:@","];
 }
 
 // get data status

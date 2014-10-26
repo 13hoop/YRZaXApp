@@ -54,4 +54,8 @@
 // check data update, and auto apply update
 - (BOOL)startUpdateData:(NSString *)dataId;
 
+#pragma mark - search
+// search data
+- (NSArray *)searchData:(NSString *)searchId;
+
 @end

@@ -62,6 +62,10 @@
 // 获取各data的更新信息(数据的下载地址等)
 - (ServerResponseOfKnowledgeData *)getDataUpdateInfo:(DataUpdateRequestInfo *)requestInfo;
 
+#pragma mark - 数据检索
+// decide searchable data ids
+- (NSArray *)decideSearchableIds;
+
 @end
 
 
@@ -1065,5 +1069,38 @@
     });
 }
 
+
+#pragma mark - search
+// decide searchable data ids
+- (NSArray *)decideSearchableIds {
+    return nil;
+}
+
+// search data
+- (NSArray *)searchData:(NSString *)searchId {
+    // 1. 确定所有需要遍历的文件夹
+    NSArray *searchableDataIds = [self decideSearchableIds];
+    if (searchableDataIds == nil || searchableDataIds.count <= 0) {
+        return nil;
+    }
+    
+    // 2. 遍历文件夹中的index, 若命中, 则收集其数据
+    NSMutableArray *searchedArray = [[NSMutableArray alloc] init];
+    
+    BOOL isFirst = YES;
+    for (NSString *dataId in searchableDataIds) {
+        NSString *data = [[KnowledgeDataLoader instance] getKnowledgeDataWithDataId:dataId andQueryId:searchId andIndexFilename:nil];
+        
+        // collect
+        if (!data || data.length <= 0) {
+            continue;
+        }
+        
+        [searchedArray addObject:data];
+    }
+
+    // 3. 返回所有数据
+    return searchedArray;
+}
 
 @end
