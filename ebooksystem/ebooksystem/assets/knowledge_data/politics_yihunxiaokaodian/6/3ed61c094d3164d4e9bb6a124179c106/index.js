@@ -9,6 +9,8 @@
 
 //当前书籍对应的节点ID
     var bookID = '';
+    //当前书籍列表页数据所对应的query_id
+    var bookQueryID = '';
 //当前所在书籍的名字
     var bookName = '';
 //当前所属小科目的ID，马原、毛特、思修等
@@ -37,6 +39,7 @@
         var searchConf = utils.getSearchConf();
         //获取数据ID
         currentID = searchConf.data_id;
+        var queryID = searchConf.query_id;
 
         if( ! currentID  ){
             bridgeIOS.pageError('页面迷路了，找不到ID');
@@ -44,8 +47,10 @@
         }
 
         bookID = searchConf.book_id;
+        bookQueryID = searchConf.book_query_id;
 
         topicID = searchConf.topic_id;
+        var topicQueryID = searchConf.topic_query_id;
 
         //渲染顶部topic切换栏
         navView = new TopicNavView({
@@ -58,13 +63,16 @@
             };
             log = JSON.stringify( log );
             bridgeIOS.pageStatistic( eventName, log );
-            changeTopicById( args.topic_id );
+            changeTopicById( args.data_id, args.query_id );
         };
 
-        var topicData = bridgeIOS.getNodeDataById( bookID, function(topicData){
+        bridgeIOS.getNodeDataByIdAndQueryId( {
+            dataId : bookID, 
+            queryId : bookQueryID
+        }, function(topicData){
             topicData = JSON.parse( topicData );
             navView.render( topicData.subcolumn_arr );
-            navView.selectById( topicID );
+            navView.selectById( topicID, topicQueryID );
         } );
         
 
@@ -72,7 +80,10 @@
         indicatorView = new KnowledgeIndicator({
             el : '#knowledge-switch-con'
         });
-        indicatorView.onchange = function( id, direction ){
+        indicatorView.onchange = function( args ){
+            var id = args.data_id;
+            var queryID = args.query_id;
+            var direction = args.direction;
             var args = {
                 pos : 'indicator',
                 type : 'knowledge_switch',
@@ -80,7 +91,7 @@
             };
             args = JSON.stringify( args );
             bridgeIOS.pageStatistic( eventName, args );
-            showKnowledgeById( id );
+            showKnowledgeById( id, queryID );
         };
 
         //知识点详情视图
@@ -125,7 +136,7 @@
         };
 
         //渲染当前ID对应的知识点
-        showKnowledgeById( currentID );
+        showKnowledgeById( currentID, queryID );
 
         //统计页面展现PV
         var args = {
@@ -138,9 +149,12 @@
     app.stop = function(){};
 
     //渲染 id 对应的知识点
-    function showKnowledgeById( id ){
+    function showKnowledgeById( id, queryID ){
 		console.info(id);
-        bridgeIOS.getNodeDataById( id, function(knowledge){
+        bridgeIOS.getNodeDataByIdAndQueryId( {
+            dataId : id, 
+            queryId : queryID
+        }, function(knowledge){
             try{
                 knowledge = JSON.parse( knowledge );
             }catch(e){
@@ -175,8 +189,11 @@
         knowledgeView.render( knowledge );
     }
 
-    function changeTopicById( id ){
-        var topicData = bridgeIOS.getNodeDataById( id, function(topicData){
+    function changeTopicById( id, queryID ){
+        bridgeIOS.getNodeDataById( {
+            dataId : id, 
+            queryId : queryID
+        }, function(topicData){
 
             try{
                 topicData = JSON.parse( topicData );
@@ -196,7 +213,7 @@
             topicID = id;
             navView.selectById( id );
             var obj = data[0];
-            showKnowledgeById( obj.id );
+            showKnowledgeById( obj.id, obj.query_id );
         } );
         
     }

@@ -19,13 +19,15 @@ bridgeIOS.finish = function(){
 };
 
 //通过 parentID 来获取该页面内需要显示的数据
-bridgeIOS.getNodeDataById = function( parentID, callback ){
-
+bridgeIOS.getNodeDataByIdAndQueryId = function( args, callback ){
+var parentID = args.dataId;
+var queryID = args.queryId;
     var searchConf = utils.getSearchConf();
 
     var out = [
         {
             id : '200',
+            query_id : '200', 
             page_id : '200',
             name_ch : '马克思主义的含义。马克思主义产生的经济社会根源。',
             name_en : '',
@@ -33,6 +35,7 @@ bridgeIOS.getNodeDataById = function( parentID, callback ){
         },
         {
             id : '201',
+            query_id : '201', 
             page_id : '201',
             name_ch : '马克思主义科学性和革命性的统一',
             name_en : '',
@@ -40,6 +43,7 @@ bridgeIOS.getNodeDataById = function( parentID, callback ){
         },
         {
             id : '202',
+            query_id : '202', 
             page_id : '202',
             name_ch : '可能有一行的情况',
             name_en : '',
@@ -47,6 +51,7 @@ bridgeIOS.getNodeDataById = function( parentID, callback ){
         },
         {
             id : '203',
+            query_id : '203', 
             page_id : '203',
             name_ch : '当然，还有可能多行的情况，现在就来测试下，多行，多行是怎么显示的，要拉明了。。。再加几个字试试呢-估计还不够，再来',
             name_en : '',
@@ -54,6 +59,7 @@ bridgeIOS.getNodeDataById = function( parentID, callback ){
         },
         {
             id : '204',
+            query_id : '204', 
             page_id : '204',
             name_ch : '额，这个再看看两行的情况，是神马个情况呢，显示O不O啦',
             name_en : '',

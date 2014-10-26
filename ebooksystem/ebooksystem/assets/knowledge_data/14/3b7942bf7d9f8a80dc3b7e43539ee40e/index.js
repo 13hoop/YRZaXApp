@@ -29,6 +29,8 @@
     var pageDisplayMode = 'page-mode-night';
     //政治搜索入口页面的page_id
     var searchPageID = '08713289f9a7eb4edf10e80b44fe3c1b';
+    //book list page data's query_id
+    var bookListQueryID = 'book_list';
 
 //渲染书籍列表
     function renderChildList( data, bookStatusMap ){
@@ -215,8 +217,8 @@
         var searchConf = utils.getSearchConf();
 
         //获取数据ID
-        currentID = searchConf.data_id;
-        var queryID = searchConf.query_id;
+        currentID = '2a8ceed5e71a0ff16bafc9f082bceeec';
+        var queryID = bookListQueryID;
 
         if( ! currentID ){
             bridgeIOS.pageError('页面迷路了，找不到ID');

@@ -19,13 +19,15 @@ bridgeIOS.finish = function(){
 };
 
 //通过 parentID 来获取该页面内需要显示的数据
-bridgeIOS.getNodeDataById = function( parentID, callback ){
-
+bridgeIOS.getNodeDataByIdAndQueryId = function( args, callback ){
+var parentID = args.dataId;
+var queryId = args.queryId;
     var searchConf = utils.getSearchConf();
 
     var out = [
         {
             id : '100',
+            query_id : '100', 
             page_id : '100',
             title : '子科目章节',
             chapter : '章节名字',
@@ -35,6 +37,7 @@ bridgeIOS.getNodeDataById = function( parentID, callback ){
         },
         {
             id : '101',
+            query_id : '101', 
             page_id : '101',
             title : '马原第一张第二节马原第一张第二节马原第一张第二节马原第一张第二节',
             chapter : '章节名字，这里显示该章节的描述文字，看看两行的情况，字数估计还不够，再来点试试，应该差不多了。',
@@ -44,6 +47,7 @@ bridgeIOS.getNodeDataById = function( parentID, callback ){
         },
         {
             id : '102',
+            query_id : '102', 
             page_id : '102',
             title : '马原第一张第 3 节',
             chapter : '章节名字，这里显示该章节的描述文字，看了。章节名字，这里显示该章节的描述文字，看了。',
@@ -53,6 +57,7 @@ bridgeIOS.getNodeDataById = function( parentID, callback ){
         },
         {
             id : '103',
+            query_id : '103', 
             page_id : '103',
             title : '马原第一张第 4 节',
             chapter : '章节名字，这里显示该章节的描述文字，看看两章节名字，这里显示该章节的描述文字，看看两行的情况，字数估计章节名字，这里显示该章节的描述文字，看看两行的情况，字数估计章节名字，这里显示该章节的描述文字，看看两行的情况，字数估计行的情况，字数估计还不够，再来点试试，应该差不多了。',
@@ -62,6 +67,7 @@ bridgeIOS.getNodeDataById = function( parentID, callback ){
         },
         {
             id : '104',
+            query_id : '104', 
             page_id : '104',
             title : '马原第一张第 5 节 马原第一张第 5 节  马原第一张第 5 节 马原第一张第 5 节 马原第一张第 5 节 ',
             chapter : '章节名字，这里显示该章节的描述文字，看看两行的情况，字数估计还不够，再来点试试，应该差不多了。',

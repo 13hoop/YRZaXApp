@@ -86,8 +86,10 @@ var dataMap = {
 };
 var knowledgeIndex = 0;
 //通过 id 来获取该页面内需要显示的数据
-bridgeIOS.getNodeDataById = function( id, callback ){
+bridgeIOS.getNodeDataByIdAndQueryId = function( args, callback ){
 
+var id = args.dataId;
+var queryID = args.queryId;
     var out = dataMap[id];
 
     if( ! out  ){

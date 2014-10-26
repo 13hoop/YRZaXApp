@@ -13,6 +13,8 @@
     var currentID = '';
 //当前所在书籍的ID
     var bookID = '';
+    //当前书籍列表页数据所对应的query_id
+    var bookQueryID = '';
 //当前所在书籍的名字
     var bookName = '';
 
@@ -34,6 +36,7 @@
             html += '<li class="topic-item common-hoverable-item common-split-border arrow-parent clearfix" ' +
                 ' data-page_id="' + item.page_id + '" ' +
                 ' data-data_id="' + item.id + '" ' +
+                ' data-query_id="' + item.query_id + '" ' + 
                 ' data-book_name_ch="' + bookName + '" ' +
                 ' data-name_ch="' + item.name_ch + '">' +
                 '<span class="topic-knowledge-num">' + item.kaodian_num + '个</span>' +
@@ -54,12 +57,15 @@
             if( target && target != bookListEl ){
                 var pageID = target.getAttribute('data-page_id');
                 var id = target.getAttribute('data-data_id');
+                var queryID = target.getAttribute('data-query_id');
                 var bookName = target.getAttribute('data-book_name_ch');
                 var nodeName = target.getAttribute('data-name_ch');
                 var args = {
                     book_id : encodeURIComponent( bookID ),
+                    book_query_id : encodeURIComponent( bookQueryID ), 
                     book_name_ch : encodeURIComponent( bookName ),
                     data_id : encodeURIComponent( id ),
+                    query_id : encodeURIComponent(queryID), 
                     topic_id : encodeURIComponent( id ),
                     topic_name_ch : encodeURIComponent( nodeName )
                 };
@@ -79,13 +85,17 @@
 
         //获取数据ID
         currentID = searchConf.data_id;
+        var queryID = searchConf.query_id;
 
         if( ! currentID ){
             bridgeIOS.pageError('页面迷路了，找不到ID');
             return;
         }
 
-        var data = bridgeIOS.getNodeDataById( currentID, function(data){
+        bridgeIOS.getNodeDataByIdAndQueryId( {
+            dataId : currentID, 
+            queryId : queryID
+        }, function(data){
 
             try{
                 data = JSON.parse( data );
@@ -96,6 +106,7 @@
             }
 
             bookID = searchConf.book_id;
+            bookQueryID = queryID;
             bookName = data.book_name_ch;
             if( bookName ){
                 var titleEl = document.querySelector('.page-header .page-title');
