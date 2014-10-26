@@ -68,6 +68,7 @@ function dump(arr,level) {
     // goBack()
     // pageStatistic()
     bridgeIOS.finish = function(eventName, args) {
+        alert('finish called');
         bridgeIOS.callOC("goBack", data, function(responseData){
                          // do nothing
                          });
