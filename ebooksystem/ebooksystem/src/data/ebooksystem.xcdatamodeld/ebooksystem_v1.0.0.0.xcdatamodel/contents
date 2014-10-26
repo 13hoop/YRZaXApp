@@ -9,6 +9,7 @@
         <attribute name="dataNameEn" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="dataPath" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="dataPathType" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="dataSearchType" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="dataStatus" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="dataStatusDesc" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="dataStorageType" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
@@ -33,7 +34,7 @@
         <attribute name="searchId" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
-        <element name="KnowledgeMetaEntity" positionX="-63" positionY="-18" width="128" height="405"/>
+        <element name="KnowledgeMetaEntity" positionX="-63" positionY="-18" width="128" height="420"/>
         <element name="KnowledgeSearchEntity" positionX="-54" positionY="144" width="128" height="105"/>
     </elements>
 </model>

@@ -38,6 +38,8 @@
 @synthesize dataPathType;
 @synthesize dataPath;
 
+@synthesize dataSearchType;
+
 @synthesize dataStatus;
 @synthesize dataStatusDesc;
 
@@ -82,6 +84,8 @@
     knowledgeMeta.dataStorageType = (DataStorageType)[knowledgeMetaEntity.dataStorageType integerValue];
     knowledgeMeta.dataPathType = (DataPathType)[knowledgeMetaEntity.dataPathType integerValue];
     knowledgeMeta.dataPath = knowledgeMetaEntity.dataPath;
+    
+    knowledgeMeta.dataSearchType = (DataSearchType)[knowledgeMetaEntity.dataSearchType integerValue];
     
     knowledgeMeta.dataStatus = (DataStatus)[knowledgeMetaEntity.dataStatus integerValue];
     knowledgeMeta.dataStatusDesc = knowledgeMeta.dataStatusDesc;
@@ -135,6 +139,8 @@
     [knowledgeMetaEntity setValue:[NSNumber numberWithInteger:self.dataStorageType] forKey:@"dataStorageType"];
     [knowledgeMetaEntity setValue:[NSNumber numberWithInteger:self.dataPathType] forKey:@"dataPathType"];
     [knowledgeMetaEntity setValue:self.dataPath forKey:@"dataPath"];
+    
+    [knowledgeMetaEntity setValue:[NSNumber numberWithInteger:self.dataSearchType] forKey:@"dataSearchType"];
     
     [knowledgeMetaEntity setValue:[NSNumber numberWithInteger:self.dataStatus] forKey:@"dataStatus"];
     [knowledgeMetaEntity setValue:self.dataStatusDesc forKey:@"dataStatusDesc"];
@@ -237,9 +243,11 @@
     knowledgeMeta.dataStorageType = DATA_STORAGE_INTERNAL_STORAGE;
     knowledgeMeta.dataPathType = (DataPathType)[[dict objectForKey:@"path_type"] integerValue];
     knowledgeMeta.dataPath = [dict objectForKey:@"path"];
+    
+    knowledgeMeta.dataSearchType = (DataSearchType)[[dict objectForKey:@"data_store_type"] integerValue];
 
     knowledgeMeta.dataStatus = DATA_STATUS_AVAIL;
-    knowledgeMeta.dataStatusDesc = [dict objectForKey:@"dataStatusDesc"];
+    knowledgeMeta.dataStatusDesc = [dict objectForKey:@"update_info"];
     
     knowledgeMeta.parentId = [dict objectForKey:@"parent_id"];
     knowledgeMeta.parentNameEn = [dict objectForKey:@"parent_name_en"];

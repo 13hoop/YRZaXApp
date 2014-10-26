@@ -64,7 +64,7 @@
 
 #pragma mark - 数据检索
 // decide searchable data ids
-- (NSArray *)decideSearchableIds;
+- (NSArray *)decideSearchableDataIds;
 
 @end
 
@@ -1072,14 +1072,29 @@
 
 #pragma mark - search
 // decide searchable data ids
-- (NSArray *)decideSearchableIds {
-    return nil;
+- (NSArray *)decideSearchableDataIds {
+    NSArray *knowledgeMetas = [[KnowledgeMetaManager instance] getSearchableKnowledgeMetas];
+    if (!knowledgeMetas) {
+        return nil;
+    }
+    
+    NSMutableArray *dataIds = [[NSMutableArray alloc] init];
+    for (id obj in knowledgeMetas) {
+        KnowledgeMeta *knowledgeMeta = (KnowledgeMeta *)obj;
+        if (!knowledgeMeta) {
+            continue;
+        }
+        
+        [dataIds addObject:knowledgeMeta.dataId];
+    }
+    
+    return dataIds;
 }
 
 // search data
 - (NSArray *)searchData:(NSString *)searchId {
     // 1. 确定所有需要遍历的文件夹
-    NSArray *searchableDataIds = [self decideSearchableIds];
+    NSArray *searchableDataIds = [self decideSearchableDataIds];
     if (searchableDataIds == nil || searchableDataIds.count <= 0) {
         return nil;
     }
@@ -1087,7 +1102,6 @@
     // 2. 遍历文件夹中的index, 若命中, 则收集其数据
     NSMutableArray *searchedArray = [[NSMutableArray alloc] init];
     
-    BOOL isFirst = YES;
     for (NSString *dataId in searchableDataIds) {
         NSString *data = [[KnowledgeDataLoader instance] getKnowledgeDataWithDataId:dataId andQueryId:searchId andIndexFilename:nil];
         

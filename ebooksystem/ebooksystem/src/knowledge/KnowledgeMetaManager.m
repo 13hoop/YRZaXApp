@@ -383,4 +383,39 @@
     return saved;
 }
 
+// get searchable knowledge metas
+- (NSArray *)getSearchableKnowledgeMetas {
+    NSMutableArray *knowledgeMetas = [[NSMutableArray alloc] init];
+    
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    
+    // Entity
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"KnowledgeMetaEntity" inManagedObjectContext:[CoreDataUtil instance].managedObjectContext];
+    [fetchRequest setEntity:entity];
+    
+    // Predicate
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"dataSearchType==%d", DATA_SEARCH_SEARCHABLE];
+    [fetchRequest setPredicate:predicate];
+    
+    // Fetch
+    NSError *error = nil;
+    NSArray *fetchedObjects = [[CoreDataUtil instance].managedObjectContext executeFetchRequest:fetchRequest error:&error];
+    if (fetchedObjects != nil &&
+        fetchedObjects.count > 0) {
+        for (NSManagedObject *entity in fetchedObjects) {
+            KnowledgeMetaEntity *knowledgeMetaEntity = (KnowledgeMetaEntity *)entity;
+            if (!knowledgeMetaEntity) {
+                continue;
+            }
+            
+            KnowledgeMeta *knowledgeMeta = [KnowledgeMeta fromKnowledgeMetaEntity:knowledgeMetaEntity];
+            if (knowledgeMeta) {
+                [knowledgeMetas addObject:knowledgeMeta];
+            }
+        }
+    }
+    
+    return knowledgeMetas;
+}
+
 @end

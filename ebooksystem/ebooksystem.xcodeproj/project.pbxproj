@@ -110,7 +110,6 @@
 		710C038E19E2644900C27A33 /* PathUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 710C038D19E2644900C27A33 /* PathUtil.m */; };
 		710C039219E2E45C00C27A33 /* ebooksystem.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 710C039019E2E45C00C27A33 /* ebooksystem.xcdatamodeld */; };
 		710C039C19E2ECA400C27A33 /* KnowledgeMeta.m in Sources */ = {isa = PBXBuildFile; fileRef = 710C039B19E2ECA400C27A33 /* KnowledgeMeta.m */; };
-		710C039F19E2EDB700C27A33 /* KnowledgeMetaEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 710C039E19E2EDB700C27A33 /* KnowledgeMetaEntity.m */; };
 		710C03A219E2EDB800C27A33 /* KnowledgeSearchEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 710C03A119E2EDB800C27A33 /* KnowledgeSearchEntity.m */; };
 		710C03A519E2F38E00C27A33 /* KnowledgeSearchReverseInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 710C03A419E2F38E00C27A33 /* KnowledgeSearchReverseInfo.m */; };
 		710C03A819E397B200C27A33 /* KnowledgeMetaManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 710C03A719E397B200C27A33 /* KnowledgeMetaManager.m */; };
@@ -219,6 +218,7 @@
 		718707B019F9FFD500F49D23 /* MediaPlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 718707AF19F9FFD500F49D23 /* MediaPlayerViewController.m */; };
 		718707B219FA00A000F49D23 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 718707B119FA00A000F49D23 /* MediaPlayer.framework */; };
 		718707B519FA3B2F00F49D23 /* ErrorInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 718707B419FA3B2F00F49D23 /* ErrorInfo.m */; };
+		71BCED2619FCCB2E003B061A /* KnowledgeMetaEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 71BCED2519FCCB2E003B061A /* KnowledgeMetaEntity.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -502,8 +502,6 @@
 		710C039919E2EB8500C27A33 /* ebooksystem_v1.0.0.1.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ebooksystem_v1.0.0.1.xcdatamodel; sourceTree = "<group>"; };
 		710C039A19E2ECA400C27A33 /* KnowledgeMeta.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KnowledgeMeta.h; path = src/knowledge/KnowledgeMeta.h; sourceTree = "<group>"; };
 		710C039B19E2ECA400C27A33 /* KnowledgeMeta.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KnowledgeMeta.m; path = src/knowledge/KnowledgeMeta.m; sourceTree = "<group>"; };
-		710C039D19E2EDB700C27A33 /* KnowledgeMetaEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KnowledgeMetaEntity.h; path = src/data/model/KnowledgeMetaEntity.h; sourceTree = "<group>"; };
-		710C039E19E2EDB700C27A33 /* KnowledgeMetaEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KnowledgeMetaEntity.m; path = src/data/model/KnowledgeMetaEntity.m; sourceTree = "<group>"; };
 		710C03A019E2EDB800C27A33 /* KnowledgeSearchEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KnowledgeSearchEntity.h; path = src/data/model/KnowledgeSearchEntity.h; sourceTree = "<group>"; };
 		710C03A119E2EDB800C27A33 /* KnowledgeSearchEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KnowledgeSearchEntity.m; path = src/data/model/KnowledgeSearchEntity.m; sourceTree = "<group>"; };
 		710C03A319E2F38E00C27A33 /* KnowledgeSearchReverseInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KnowledgeSearchReverseInfo.h; path = src/knowledge/KnowledgeSearchReverseInfo.h; sourceTree = "<group>"; };
@@ -700,6 +698,8 @@
 		718707B119FA00A000F49D23 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		718707B319FA3B2F00F49D23 /* ErrorInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ErrorInfo.h; path = src/error/ErrorInfo.h; sourceTree = "<group>"; };
 		718707B419FA3B2F00F49D23 /* ErrorInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ErrorInfo.m; path = src/error/ErrorInfo.m; sourceTree = "<group>"; };
+		71BCED2419FCCB2E003B061A /* KnowledgeMetaEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KnowledgeMetaEntity.h; path = src/data/model/KnowledgeMetaEntity.h; sourceTree = "<group>"; };
+		71BCED2519FCCB2E003B061A /* KnowledgeMetaEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KnowledgeMetaEntity.m; path = src/data/model/KnowledgeMetaEntity.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1415,10 +1415,10 @@
 		710C038F19E2E40B00C27A33 /* model */ = {
 			isa = PBXGroup;
 			children = (
+				71BCED2419FCCB2E003B061A /* KnowledgeMetaEntity.h */,
+				71BCED2519FCCB2E003B061A /* KnowledgeMetaEntity.m */,
 				710C03A019E2EDB800C27A33 /* KnowledgeSearchEntity.h */,
 				710C03A119E2EDB800C27A33 /* KnowledgeSearchEntity.m */,
-				710C039D19E2EDB700C27A33 /* KnowledgeMetaEntity.h */,
-				710C039E19E2EDB700C27A33 /* KnowledgeMetaEntity.m */,
 			);
 			name = model;
 			sourceTree = "<group>";
@@ -2207,7 +2207,6 @@
 				06AA7F6419F4FC7E00570289 /* CustomRechargeView.m in Sources */,
 				715EE97719E52749005A4F78 /* BaseTitleBar.m in Sources */,
 				710C031019E1C8B600C27A33 /* UIButton+AFNetworking.m in Sources */,
-				710C039F19E2EDB700C27A33 /* KnowledgeMetaEntity.m in Sources */,
 				71860BFC19DE50C300D01AA9 /* IADownloadHandler.m in Sources */,
 				7134FB2019E4D952004AB7A8 /* KnowledgeDataManager.m in Sources */,
 				715EE98C19E7F517005A4F78 /* KnowledgeDataTypes.m in Sources */,
@@ -2278,6 +2277,7 @@
 				06AA7F5719F4FC7E00570289 /* LoginViewController.m in Sources */,
 				06AAC9FA19F67E1D00A758DB /* TBActivityView.m in Sources */,
 				7156B0C819F8BC9F00B3A521 /* MRWeakProxy.m in Sources */,
+				71BCED2619FCCB2E003B061A /* KnowledgeMetaEntity.m in Sources */,
 				710C032C19E1C8D000C27A33 /* AFSecurityPolicy.m in Sources */,
 				7156B0C019F8BC7700B3A521 /* MRProgressOverlayView.m in Sources */,
 				7118EB2119ED1F80002CF833 /* AppUtil.m in Sources */,

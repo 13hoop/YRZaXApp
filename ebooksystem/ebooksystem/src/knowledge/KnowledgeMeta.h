@@ -28,6 +28,8 @@
 @property (nonatomic, assign) DataPathType dataPathType;
 @property (nonatomic, copy) NSString *dataPath;
 
+@property (nonatomic, assign) DataSearchType dataSearchType;
+
 @property (nonatomic, assign) DataStatus dataStatus;
 @property (nonatomic, copy) NSString *dataStatusDesc;
 

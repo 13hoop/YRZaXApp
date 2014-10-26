@@ -2,7 +2,7 @@
 //  KnowledgeMetaEntity.m
 //  ebooksystem
 //
-//  Created by zhenghao on 10/6/14.
+//  Created by zhenghao on 10/26/14.
 //  Copyright (c) 2014 sanweishuku. All rights reserved.
 //
 
@@ -11,28 +11,30 @@
 
 @implementation KnowledgeMetaEntity
 
-@dynamic dataId;
-@dynamic dataNameEn;
-@dynamic dataNameCh;
-@dynamic desc;
-@dynamic dataType;
-@dynamic dataStorageType;
-@dynamic dataPathType;
-@dynamic dataPath;
-@dynamic dataStatus;
-@dynamic parentId;
-@dynamic parentNameEn;
-@dynamic parentNameCh;
+@dynamic checkTime;
 @dynamic childIds;
-@dynamic siblingIds;
-@dynamic nodeContentDir;
+@dynamic curVersion;
+@dynamic dataId;
+@dynamic dataNameCh;
+@dynamic dataNameEn;
+@dynamic dataPath;
+@dynamic dataPathType;
+@dynamic dataStatus;
+@dynamic dataStatusDesc;
+@dynamic dataStorageType;
+@dynamic dataType;
+@dynamic desc;
 @dynamic isUpdateSeed;
+@dynamic latestVersion;
+@dynamic nodeContentDir;
+@dynamic parentId;
+@dynamic parentNameCh;
+@dynamic parentNameEn;
+@dynamic releaseTime;
+@dynamic siblingIds;
+@dynamic updateInfo;
 @dynamic updateTime;
 @dynamic updateType;
-@dynamic updateInfo;
-@dynamic checkTime;
-@dynamic curVersion;
-@dynamic latestVersion;
-@dynamic releaseTime;
+@dynamic dataSearchType;
 
 @end

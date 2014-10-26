@@ -33,7 +33,7 @@ typedef enum {
 } DataType;
 
 /**
- * App中的数据存储路径的类型
+ * App中的数据存储路径的类型. 来自app.
  *
  */
 typedef enum {
@@ -53,9 +53,19 @@ typedef enum {
  *
  */
 typedef enum {
-//    @SerializedName("0")
     DATA_PATH_TYPE_FILE = 0, // meta.json中记录的path为文件系统中的路径
 } DataPathType;
+
+/**
+ * App中的数据在检索时的处理方式. 0: 不检索, 1: 检索. 来自server.
+ *
+ * @author zhenghao
+ *
+ */
+typedef enum {
+    DATA_SEARCH_IGNORE = 0,
+    DATA_SEARCH_SEARCHABLE
+} DataSearchType;
 
 /**
  * 数据的状态
