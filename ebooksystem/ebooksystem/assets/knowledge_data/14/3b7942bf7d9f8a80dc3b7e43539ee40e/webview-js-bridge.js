@@ -67,7 +67,8 @@ function dump(arr,level) {
     //////////////// useful functions ////////////////
     // goBack()
     // pageStatistic()
-    bridgeIOS.goBack = function(eventName, args) {
+    bridgeIOS.finish = function(eventName, args) {
+        alert('finish called');
         bridgeIOS.callOC("goBack", data, function(responseData){
                          // do nothing
                          });
@@ -115,14 +116,14 @@ function dump(arr,level) {
                          }
                          });
     }
-    
+
     // getNodeDataByIdAndQueryId()
     bridgeIOS.getNodeDataByIdAndQueryId = function(data, callback) {
         bridgeIOS.callOC("getNodeDataByIdAndQueryId", data, function(responseData){
-                         if (callback) {
-                         callback(responseData);
-                         }
-                         });
+            if (callback) {
+                callback(responseData);
+            }
+        });
     }
     
     // pageError()
