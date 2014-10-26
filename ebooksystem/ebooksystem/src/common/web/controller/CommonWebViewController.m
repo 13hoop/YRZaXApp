@@ -376,11 +376,11 @@
             NSURL *url = nil;
             
             if (sender == nil) {
-                NSString *knowledgeDataRootPathInAssets = [[Config instance] knowledgeDataConfig].knowledgeDataRootPathInAssets;
-                NSString *htmlFilePath = [NSString stringWithFormat:@"%@/%@", knowledgeDataRootPathInAssets, @"test_video.mp4"];
-                
-                // 加载指定的html文件
-                url = [[NSURL alloc] initFileURLWithPath:htmlFilePath];
+//                NSString *knowledgeDataRootPathInAssets = [[Config instance] knowledgeDataConfig].knowledgeDataRootPathInAssets;
+//                NSString *htmlFilePath = [NSString stringWithFormat:@"%@/%@", knowledgeDataRootPathInAssets, @"test_video.mp4"];
+//                
+//                // 加载指定的html文件
+//                url = [[NSURL alloc] initFileURLWithPath:htmlFilePath];
             }
             else {
                 NSString *urlStr = (NSString *)sender;
