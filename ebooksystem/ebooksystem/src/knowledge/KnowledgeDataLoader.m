@@ -61,6 +61,10 @@
 // 根据knowledgeDataIndex, 加载knowledge data
 - (NSString *)loadKnowledgeData:(KnowledgeDataIndex *)dataIndex;
 
+#pragma mark - decide index filename according to query id
+// 根据queryId计算index文件名
+- (NSString *)decideIndexFilename:(NSString *)queryId;
+
 #pragma mark - load knowledge index file
 // 加载index文件
 - (BOOL)loadKnowledgeIndex:(NSString *)indexFilename;
@@ -117,11 +121,35 @@
 }
 
 #pragma mark - load knowledge data
+// 根据queryId计算index文件名
+- (NSString *)decideIndexFilename:(NSString *)queryId {
+    NSInteger factor = 31;
+    NSInteger maxIndexFileCount = 20;
+    
+    NSInteger val = 0;
+    for (int i = 0; i < queryId.length; ++i) {
+        NSInteger ascii = [queryId characterAtIndex:i];
+        val += ascii;
+        
+        val *= factor;
+        val %= maxIndexFileCount;
+    }
+    
+    val %= maxIndexFileCount;
+    
+    NSString *indexFilename = [NSString stringWithFormat:@"index_%ld", (long)val];
+    return indexFilename;
+}
+
 // 根据dataId, queryId, 和indexFilename加载knowledge data
 - (NSString *)getKnowledgeDataWithDataId:(NSString *)dataId andQueryId:(NSString *)queryId andIndexFilename:(NSString *)indexFilename {
     id obj = [self.knowledgeDataMap objectForKey:dataId];
     if (obj == nil) {
         // try load the index file
+        if (indexFilename == nil || indexFilename.length <= 0) {
+            indexFilename = [self decideIndexFilename:queryId];
+        }
+        
         BOOL ret = [self loadKnowledgeIndex:indexFilename forData:dataId];
         if (!ret) {
             LogWarn(@"[KnowledgeLoader-getKnowledgeDataWithDataId:andQueryId:andIndexFilename:] failed since fail to load index from file: %@", indexFilename);
