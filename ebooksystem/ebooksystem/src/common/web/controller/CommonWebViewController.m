@@ -179,7 +179,8 @@
     // goBack()
     [self.javascriptBridge registerHandler:@"goBack" handler:^(id data, WVJBResponseCallback responseCallback) {
         LogDebug(@"CommonWebViewController::goBack() called: %@", data);
-        [self.navigationController popViewControllerAnimated:YES];
+        [self.webView goBack];
+//        [self.navigationController popViewControllerAnimated:YES];
     }];
     
     // getNodeDataById()

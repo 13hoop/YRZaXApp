@@ -75,9 +75,7 @@
 
         var commonBack = document.querySelector( selector );
         if( commonBack ){
-            alert('header inited' );
-            commonBack.addEventListener( 'click', function(){
-                                        alert('back touchend');
+            commonBack.addEventListener( 'touchend', function(){
                 bridgeIOS.finish();
             }, false );
         }
