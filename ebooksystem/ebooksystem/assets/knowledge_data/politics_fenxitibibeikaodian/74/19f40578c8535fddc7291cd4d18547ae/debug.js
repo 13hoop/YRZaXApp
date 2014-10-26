@@ -19,13 +19,15 @@ bridgeIOS.finish = function(){
 };
 
 //通过 parentID 来获取该页面内需要显示的数据
-bridgeIOS.getNodeDataById = function( parentID, callback ){
-
+bridgeIOS.getNodeDataByIdAndQueryId = function( args, callback ){
+var parentID = args.dataId;
+var queryID = args.queryId;
     var searchConf = utils.getSearchConf();
 
     var out = [
         {
             id : '100',
+            query_id : '100', 
             page_id : '100',
             name_ch : '马原',
             name_en : '',
@@ -34,6 +36,7 @@ bridgeIOS.getNodeDataById = function( parentID, callback ){
         },
         {
             id : '101',
+            query_id : '101', 
             page_id : '101',
             name_ch : '毛特',
             name_en : '',
@@ -42,6 +45,7 @@ bridgeIOS.getNodeDataById = function( parentID, callback ){
         },
         {
             id : '102',
+            query_id : '102', 
             page_id : '102',
             name_ch : '史纲',
             name_en : '',
@@ -50,6 +54,7 @@ bridgeIOS.getNodeDataById = function( parentID, callback ){
         },
         {
             id : '103',
+            query_id : '103', 
             page_id : '103',
             name_ch : '思修',
             name_en : '',
@@ -58,6 +63,7 @@ bridgeIOS.getNodeDataById = function( parentID, callback ){
         },
         {
             id : '104',
+            query_id : '104', 
             page_id : '104',
             name_ch : '当代',
             name_en : '',

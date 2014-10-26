@@ -23,11 +23,13 @@ bridgeIOS.finish = function(){
 };
 
 //通过 parentID 来获取该页面内需要显示的数据
-bridgeIOS.getNodeDataById = function( parentID, callback ){
-
+bridgeIOS.getNodeDataByIdAndQueryId = function( args,  callback ){
+var parentID = args.dataId;
+var queryID = args.queryId;
     var out = [
         {
             id : '000',
+            query_id : '000', 
             page_id : '000',
             update_id : '000-2',
             book_cover : 'dagangxinzengkaodian',
@@ -39,6 +41,7 @@ bridgeIOS.getNodeDataById = function( parentID, callback ){
         },
         {
             id : '002',
+            query_id : '002', 
             page_id : '002',
             update_id : '002-2',
             book_cover : 'fenxitibibeikaodian',
@@ -50,6 +53,7 @@ bridgeIOS.getNodeDataById = function( parentID, callback ){
         },
         {
             id : '004',
+            query_id : '004', 
             page_id : '004',
             update_id : '003-2',
             book_cover : 'kaodianzhongdiannandian',
@@ -61,6 +65,7 @@ bridgeIOS.getNodeDataById = function( parentID, callback ){
         },
         {
             id : '005',
+            query_id : '005', 
             page_id : '005',
             update_id : '003-2',
             book_cover : 'kaodianbibeiganhuo',
@@ -72,6 +77,7 @@ bridgeIOS.getNodeDataById = function( parentID, callback ){
         },
         {
             id : '001',
+            query_id : '001', 
             page_id : '000',
             update_id : '000-2',
             book_cover : 'xuanzetinandian',
@@ -83,6 +89,7 @@ bridgeIOS.getNodeDataById = function( parentID, callback ){
         },
         {
             id : '003',
+            query_id : '003', 
             page_id : '003',
             update_id : '003-2',
             book_cover : 'yihunxiaokaodian',

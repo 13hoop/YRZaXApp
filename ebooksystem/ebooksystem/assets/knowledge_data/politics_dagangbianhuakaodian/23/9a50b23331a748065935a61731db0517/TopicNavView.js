@@ -31,7 +31,9 @@ TopicNavView.prototype = {
         var html = '';
         for( var i = 0, len = topicArray.length; i < len; i++ ){
             var obj = topicArray[i];
-            html += '<li class="' + normalClass + '" data-id="' + obj.id + '">' + obj.name_ch + '</li>';
+            html += '<li class="' + normalClass + '" ' + 
+                    ' data-query_id="' + obj.query_id + '" ' + 
+                    ' data-id="' + obj.id + '">' + obj.name_ch + '</li>';
         }
 
         this.el.innerHTML = html;
@@ -47,16 +49,17 @@ TopicNavView.prototype = {
                 target = target.parentNode;
             }
             if( target && target.classList.contains(normalClass) ){
-                that.selectById( target.getAttribute('data-id'), true );
+                var queryID = target.getAttribute('data-query_id');
+                that.selectById( target.getAttribute('data-id'), queryID, true );
             }
         }, false );
     },
 
-    selectById : function( topicID, isTrigger ){
+    selectById : function( topicID, queryID, isTrigger ){
         //是否触发change事件，默认FALSE
         isTrigger = isTrigger === true;
         var selectedClass = this.TOPIC_ITEM_SELECTED;
-        var target = this.el.querySelector('.' + this.TOPIC_ITEM_CLASS + '[data-id="' + topicID + '"]');
+        var target = this.el.querySelector('.' + this.TOPIC_ITEM_CLASS + '[data-query_id="' + queryID + '"]');
         var currentSelect = this.el.querySelector('.' + selectedClass );
         if( ! target || target == currentSelect ){
             return;
@@ -66,7 +69,8 @@ TopicNavView.prototype = {
             var topicName = target.innerText;
             if( typeof this.onchange === 'function' ){
                 this.onchange({
-                    topic_id : topicID,
+                    data_id : topicID,
+                    query_id : queryID, 
                     topic_name : topicName
                 });
             }

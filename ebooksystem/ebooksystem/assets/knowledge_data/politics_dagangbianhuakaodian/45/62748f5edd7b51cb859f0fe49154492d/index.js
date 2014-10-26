@@ -11,10 +11,14 @@
     var currentID = '';
 //当前所在书籍的ID
     var bookID = '';
+    //当前书籍列表页数据所对应的query_id
+    var bookQueryID = '';
 //当前所在书籍的名字
     var bookName = '';
 //当前所在子科目的ID，比如 马原、毛特等
     var topicID = '';
+    //
+    var topicQueryID = '';
 
     //政治知识点列表页统计名
     var eventName = 'politics_knowledge_list';
@@ -34,6 +38,7 @@
             html += '<li class="knowledge-item common-hoverable-item common-split-border arrow-parent clearfix" ' +
                 ' data-page_id="' + item.page_id + '" ' +
                 ' data-data_id="' + item.id + '" ' +
+                ' data-query_id="' + item.query_id + '" ' + 
                 ' data-book_name_ch="' + bookName + '" ' +
                 ' data-index="' + index + '" ' +
                 ' data-name_ch="' + item.name_ch + '">' +
@@ -55,12 +60,16 @@
             if( target && target != bookListEl ){
                 var pageID = target.getAttribute('data-page_id');
                 var id = target.getAttribute('data-data_id');
+                var queryID = target.getAttribute('data-query_id');
                 var bookName = target.getAttribute('data-book_name_ch');
                 var args = {
                     book_id : encodeURIComponent( bookID ),
+                    book_query_id : encodeURIComponent( bookQueryID ), 
                     book_name_ch : encodeURIComponent( bookName ),
                     data_id : encodeURIComponent( id ),
-                    topic_id : encodeURIComponent( topicID )
+                    query_id : encodeURIComponent(queryID), 
+                    topic_id : encodeURIComponent( topicID ), 
+                    topic_query_id : encodeURIComponent( topicQueryID )
                 };
                 args = utils.json2Query( args );
                 bridgeIOS.showPageById( pageID, args, '' );
@@ -78,13 +87,19 @@
         var searchConf = utils.getSearchConf();
         //获取数据ID
         currentID = searchConf.data_id;
+        var queryID = searchConf.query_id;
+
+        topicQueryID = searchConf.queryID;
 
         if( ! currentID  ){
             bridgeIOS.pageError('页面迷路了，找不到ID');
             return;
         }
 
-        var data = bridgeIOS.getNodeDataById( currentID, function(data){
+        bridgeIOS.getNodeDataByIdAndQueryId( {
+            dataId : currentID, 
+            queryId : queryID
+        }, function(data){
 
             try{
                 data = JSON.parse( data );
@@ -95,6 +110,7 @@
                 return;
             }
             bookID = searchConf.book_id;
+            bookQueryID = queryID;
             bookName = searchConf.book_name_ch;
             topicID = searchConf.topic_id;
             var nodeName = data.topic_name_ch;
