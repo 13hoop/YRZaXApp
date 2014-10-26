@@ -8,6 +8,9 @@
 
 #import "KnowledgeDataLoader.h"
 
+#import "KnowledgeMetaManager.h"
+
+
 #import "Config.h"
 
 #import "LogUtil.h"
@@ -25,8 +28,8 @@
 // knowledge data index
 @interface KnowledgeDataIndex : NSObject
 
-// 数据文件名
-@property (nonatomic, copy) NSString *dataFilename;
+// 数据文件全路径
+@property (nonatomic, copy) NSString *fullDataFilepath;
 // 数据在数据文件中的offset
 @property (nonatomic, assign) NSInteger offset;
 // 数据在数据文件中的len
@@ -76,7 +79,7 @@
 
 @implementation KnowledgeDataIndex
 
-@synthesize dataFilename;
+@synthesize fullDataFilepath;
 @synthesize offset;
 @synthesize len;
 @synthesize lastUsedTime;
@@ -186,18 +189,63 @@
     return [self loadKnowledgeData:dataIndex];
 }
 
+//// 根据dataId, queryId, 和indexFilename加载knowledge data
+//- (NSString *)getKnowledgeDataWithDataId:(NSString *)dataId andQueryId:(NSString *)queryId andIndexFilename:(NSString *)indexFilename {
+//    id obj = [self.knowledgeDataMap objectForKey:dataId];
+//    if (obj == nil) {
+//        // try load the index file
+//        if (indexFilename == nil || indexFilename.length <= 0) {
+//            indexFilename = [self decideIndexFilename:queryId];
+//        }
+//        
+//        BOOL ret = [self loadKnowledgeIndex:indexFilename forData:dataId];
+//        if (!ret) {
+//            LogWarn(@"[KnowledgeLoader-getKnowledgeDataWithDataId:andQueryId:andIndexFilename:] failed since fail to load index from file: %@", indexFilename);
+//            return nil;
+//        }
+//        
+//        // get query map
+//        obj = [self.knowledgeDataMap objectForKey:dataId];
+//        if (obj == nil) {
+//            LogWarn(@"[KnowledgeLoader-getKnowledgeDataWithDataId:andQueryId:andIndexFilename:] failed since no query map for query id: %@, even after loading index file: %@", queryId, indexFilename);
+//            return nil;
+//        }
+//    }
+//    
+//    // <query_id, {data_file_name, offset, len, last_used_time}>
+//    NSMapTable *queryMap = (NSMapTable *)obj;
+//    if (queryMap == nil) {
+//        LogWarn(@"[KnowledgeLoader-getKnowledgeDataWithDataId:andQueryId:andIndexFilename:] failed since no query map for query id: %@", queryId);
+//        return nil;
+//    }
+//    
+//    id queryObj = [queryMap objectForKey:queryId];
+//    if (queryObj == nil) {
+//        LogWarn(@"[KnowledgeLoader-getKnowledgeDataWithDataId:andQueryId:andIndexFilename:] failed since query obj is nil for query id: %@", queryId);
+//        return nil;
+//    }
+//    
+//    KnowledgeDataIndex *dataIndex = (KnowledgeDataIndex *)queryObj;
+//    if (dataIndex == nil) {
+//        LogWarn(@"[KnowledgeLoader-getKnowledgeDataWithDataId:andQueryId:andIndexFilename:] failed since data index is nil for query id: %@", queryId);
+//        return nil;
+//    }
+//    
+//    return [self loadKnowledgeData:dataIndex];
+//}
+
 // 根据knowledgeDataIndex, 加载knowledge data
 - (NSString *)loadKnowledgeData:(KnowledgeDataIndex *)dataIndex {
+    if (dataIndex == nil || dataIndex.fullDataFilepath == nil || dataIndex.fullDataFilepath.length <= 0) {
+        return nil;
+    }
+    
     NSString *data = nil;
     
     {
         char buffer[dataIndex.len];
         
-        NSString *knowledgeDataRootPathInApp = [[Config instance] knowledgeDataConfig].knowledgeDataRootPathInApp;
-        
-        NSString *dataFilename = [NSString stringWithFormat:@"%@/%@/%@", knowledgeDataRootPathInApp, @"kaoyan^book_index_data^english#english_realexam_2010", dataIndex.dataFilename];
-        
-        FILE *fp = fopen([dataFilename UTF8String], "r");
+        FILE *fp = fopen([dataIndex.fullDataFilepath UTF8String], "r");
         fseek(fp, dataIndex.offset, SEEK_SET);
         
         fread(buffer, dataIndex.len, sizeof(char), fp);
@@ -212,7 +260,35 @@
 #pragma mark - load knowledge index file
 // 加载index文件
 - (BOOL)loadKnowledgeIndex:(NSString *)indexFilename forData:(NSString *)dataId {
-    FILE *fp = fopen([indexFilename UTF8String], "r");
+    NSArray *knowledgeMetaEntities = [[KnowledgeMetaManager instance] getKnowledgeMetaWithDataId:dataId];
+    
+    // add
+    if (knowledgeMetaEntities == nil || knowledgeMetaEntities.count <= 0) {
+        return NO;
+    }
+    
+    KnowledgeMeta *targetKnowledgeMeta = nil;
+    for (id obj in knowledgeMetaEntities) {
+        KnowledgeMetaEntity *knowledgeMetaEntity = (KnowledgeMetaEntity *)obj;
+        if (knowledgeMetaEntity == nil) {
+            continue;
+        }
+        
+        KnowledgeMeta *knowledgeMeta = [KnowledgeMeta fromKnowledgeMetaEntity:knowledgeMetaEntity];
+        if (knowledgeMeta) {
+            targetKnowledgeMeta = knowledgeMeta;
+            break;
+        }
+    }
+    
+    if (targetKnowledgeMeta == nil || targetKnowledgeMeta.dataPath == nil || targetKnowledgeMeta.dataPath.length <= 0) {
+        return NO;
+    }
+    
+    NSString *fullIndexFilepath = [NSString stringWithFormat:@"%@/%@/%@", [Config instance].knowledgeDataConfig.knowledgeDataRootPathInApp, targetKnowledgeMeta.dataPath, indexFilename];
+    
+    
+    FILE *fp = fopen([fullIndexFilepath UTF8String], "r");
     if (fp == NULL) {
         return NO;
     }
@@ -231,7 +307,7 @@
         NSInteger len = [[fields objectAtIndex:3] integerValue];
         
         KnowledgeDataIndex *index = [[KnowledgeDataIndex alloc] init];
-        index.dataFilename = dataFilename;
+        index.fullDataFilepath = [NSString stringWithFormat:@"%@/%@/%@", [Config instance].knowledgeDataConfig.knowledgeDataRootPathInApp, targetKnowledgeMeta.dataPath, dataFilename];
         index.offset = offset;
         index.len = len;
         

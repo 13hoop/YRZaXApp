@@ -38,9 +38,13 @@
 // get knowledge data version
 - (NSString *)getKnowledgeDataVersionWithDataId:(NSString *)dataId andDataType:(DataType)dataType;
 
+// get searchable knowledge metas
+- (NSArray *)getSearchableKnowledgeMetas;
+
 #pragma mark - setter
 // 更新数据的状态及描述
 - (BOOL)setDataStatusTo:(DataStatus)status andDataStatusDescTo:(NSString *)desc forDataWithDataId:(NSString *)dataId andType:(DataType)dataType;
+
 
 
 @end
