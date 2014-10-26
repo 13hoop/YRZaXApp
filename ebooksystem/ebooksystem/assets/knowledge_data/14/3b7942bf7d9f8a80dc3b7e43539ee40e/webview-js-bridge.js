@@ -116,6 +116,15 @@ function dump(arr,level) {
                          });
     }
     
+    // getNodeDataByIdAndQueryId()
+    bridgeIOS.getNodeDataById = function(data, callback) {
+        bridgeIOS.callOC("getNodeDataByIdAndQueryId", data, function(responseData){
+                         if (callback) {
+                         callback(responseData);
+                         }
+                         });
+    }
+    
     // pageError()
     bridgeIOS.pageError = function(message) {
         alert("page error: " + message);
