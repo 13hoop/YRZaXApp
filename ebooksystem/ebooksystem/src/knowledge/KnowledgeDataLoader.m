@@ -41,16 +41,6 @@
 @end
 
 
-//// knowledge query item
-//@interface KnowledgeQueryItem : NSObject
-//
-//// query id
-//@property (nonatomic, copy) NSString *queryId;
-//// knowledge data index
-//@property (nonatomic, copy) KnowledgeDataIndex *index;
-//
-//@end
-
 
 // knowledge data loader
 @interface KnowledgeDataLoader()
@@ -58,7 +48,7 @@
 #pragma mark - properties
 // knowledge data map
 // <data_id, <query_id, {data_file_name, offset, len, last_used_time}>>
-@property (nonatomic, retain) NSMapTable *knowledgeDataMap;
+@property (nonatomic, retain) NSMutableDictionary *knowledgeDataDict;
 
 #pragma mark - load knowledge data
 // 根据knowledgeDataIndex, 加载knowledge data
@@ -70,7 +60,7 @@
 
 #pragma mark - load knowledge index file
 // 加载index文件
-- (BOOL)loadKnowledgeIndex:(NSString *)indexFilename;
+- (BOOL)loadKnowledgeIndex:(NSString *)indexFilename forData:(NSString *)dataId;
 
 
 @end
@@ -87,28 +77,20 @@
 @end
 
 
-//@implementation KnowledgeQueryItem
-//
-//@synthesize queryId;
-//@synthesize index;
-//
-//@end
-
-
 
 @implementation KnowledgeDataLoader
 
-@synthesize knowledgeDataMap = _knowledgeDataMap;
+@synthesize knowledgeDataDict = _knowledgeDataDict;
 
 
 
 #pragma mark - properties
-- (NSMapTable *)knowledgeDataMap {
-    if (_knowledgeDataMap == nil) {
-        _knowledgeDataMap = [NSMapTable mapTableWithKeyOptions:NSMapTableStrongMemory valueOptions:NSMapTableWeakMemory];
+- (NSMutableDictionary *)knowledgeDataDict {
+    if (_knowledgeDataDict == nil) {
+        _knowledgeDataDict = [[NSMutableDictionary alloc] init];
     }
     
-    return _knowledgeDataMap;
+    return _knowledgeDataDict;
 }
 
 
@@ -146,7 +128,7 @@
 
 // 根据dataId, queryId, 和indexFilename加载knowledge data
 - (NSString *)getKnowledgeDataWithDataId:(NSString *)dataId andQueryId:(NSString *)queryId andIndexFilename:(NSString *)indexFilename {
-    id obj = [self.knowledgeDataMap objectForKey:dataId];
+    id obj = [self.knowledgeDataDict objectForKey:dataId];
     if (obj == nil) {
         // try load the index file
         if (indexFilename == nil || indexFilename.length <= 0) {
@@ -159,8 +141,8 @@
             return nil;
         }
         
-        // get query map
-        obj = [self.knowledgeDataMap objectForKey:dataId];
+        // get query dict
+        obj = [self.knowledgeDataDict objectForKey:dataId];
         if (obj == nil) {
             LogWarn(@"[KnowledgeLoader-getKnowledgeDataWithDataId:andQueryId:andIndexFilename:] failed since no query map for query id: %@, even after loading index file: %@", queryId, indexFilename);
             return nil;
@@ -168,13 +150,13 @@
     }
     
     // <query_id, {data_file_name, offset, len, last_used_time}>
-    NSMapTable *queryMap = (NSMapTable *)obj;
-    if (queryMap == nil) {
+    NSMutableDictionary *queryDict = (NSMutableDictionary *)obj;
+    if (queryDict == nil) {
         LogWarn(@"[KnowledgeLoader-getKnowledgeDataWithDataId:andQueryId:andIndexFilename:] failed since no query map for query id: %@", queryId);
         return nil;
     }
     
-    id queryObj = [queryMap objectForKey:queryId];
+    id queryObj = [queryDict objectForKey:queryId];
     if (queryObj == nil) {
         LogWarn(@"[KnowledgeLoader-getKnowledgeDataWithDataId:andQueryId:andIndexFilename:] failed since query obj is nil for query id: %@", queryId);
         return nil;
@@ -189,51 +171,6 @@
     return [self loadKnowledgeData:dataIndex];
 }
 
-//// 根据dataId, queryId, 和indexFilename加载knowledge data
-//- (NSString *)getKnowledgeDataWithDataId:(NSString *)dataId andQueryId:(NSString *)queryId andIndexFilename:(NSString *)indexFilename {
-//    id obj = [self.knowledgeDataMap objectForKey:dataId];
-//    if (obj == nil) {
-//        // try load the index file
-//        if (indexFilename == nil || indexFilename.length <= 0) {
-//            indexFilename = [self decideIndexFilename:queryId];
-//        }
-//        
-//        BOOL ret = [self loadKnowledgeIndex:indexFilename forData:dataId];
-//        if (!ret) {
-//            LogWarn(@"[KnowledgeLoader-getKnowledgeDataWithDataId:andQueryId:andIndexFilename:] failed since fail to load index from file: %@", indexFilename);
-//            return nil;
-//        }
-//        
-//        // get query map
-//        obj = [self.knowledgeDataMap objectForKey:dataId];
-//        if (obj == nil) {
-//            LogWarn(@"[KnowledgeLoader-getKnowledgeDataWithDataId:andQueryId:andIndexFilename:] failed since no query map for query id: %@, even after loading index file: %@", queryId, indexFilename);
-//            return nil;
-//        }
-//    }
-//    
-//    // <query_id, {data_file_name, offset, len, last_used_time}>
-//    NSMapTable *queryMap = (NSMapTable *)obj;
-//    if (queryMap == nil) {
-//        LogWarn(@"[KnowledgeLoader-getKnowledgeDataWithDataId:andQueryId:andIndexFilename:] failed since no query map for query id: %@", queryId);
-//        return nil;
-//    }
-//    
-//    id queryObj = [queryMap objectForKey:queryId];
-//    if (queryObj == nil) {
-//        LogWarn(@"[KnowledgeLoader-getKnowledgeDataWithDataId:andQueryId:andIndexFilename:] failed since query obj is nil for query id: %@", queryId);
-//        return nil;
-//    }
-//    
-//    KnowledgeDataIndex *dataIndex = (KnowledgeDataIndex *)queryObj;
-//    if (dataIndex == nil) {
-//        LogWarn(@"[KnowledgeLoader-getKnowledgeDataWithDataId:andQueryId:andIndexFilename:] failed since data index is nil for query id: %@", queryId);
-//        return nil;
-//    }
-//    
-//    return [self loadKnowledgeData:dataIndex];
-//}
-
 // 根据knowledgeDataIndex, 加载knowledge data
 - (NSString *)loadKnowledgeData:(KnowledgeDataIndex *)dataIndex {
     if (dataIndex == nil || dataIndex.fullDataFilepath == nil || dataIndex.fullDataFilepath.length <= 0) {
@@ -241,18 +178,24 @@
     }
     
     NSString *data = nil;
-    
-    {
-        char buffer[dataIndex.len];
+    do {
+        NSFileHandle *fileHandler = [NSFileHandle fileHandleForReadingAtPath:dataIndex.fullDataFilepath];
+        if (fileHandler == nil) {
+            LogError(@"[KnowledgeDataLoader-loadKnowledgeData:] failed to open file: %@", dataIndex.fullDataFilepath);
+            break;
+        }
         
-        FILE *fp = fopen([dataIndex.fullDataFilepath UTF8String], "r");
-        fseek(fp, dataIndex.offset, SEEK_SET);
+        [fileHandler seekToFileOffset:dataIndex.offset];
         
-        fread(buffer, dataIndex.len, sizeof(char), fp);
-        data = [NSString stringWithUTF8String:buffer];
+        NSData *buffer = [fileHandler readDataOfLength:dataIndex.len];
+        if (buffer == nil) {
+            break;
+        }
         
-        fclose(fp);
-    }
+        data = [[NSString alloc] initWithData:buffer encoding:NSUTF8StringEncoding];
+        
+        [fileHandler closeFile];
+    } while (0);
     
     return data;
 }
@@ -313,20 +256,24 @@
         
         // 添加到knowledgeDataMap中
         {
-            NSMapTable *queryMap = nil;
+            NSMutableDictionary *queryDict = nil;
             
             // 在map中查找, 若无, 则创建
-            id obj = [self.knowledgeDataMap objectForKey:dataId];
+            id obj = [self.knowledgeDataDict objectForKey:dataId];
             if (obj == nil) {
                 // <query_id, {data_file_name, offset, len, last_used_time}>
-                queryMap = [NSMapTable mapTableWithKeyOptions:NSMapTableStrongMemory valueOptions:NSMapTableWeakMemory];
-                [queryMap setObject:index forKey:queryId];
-                LogInfo(@"[KnowledgeDataLoader-loadKnowledgeIndex:forData:] loaded index to memory, the index is: %@", [queryMap objectForKey:queryId]);
-                [self.knowledgeDataMap setObject:queryMap forKey:dataId];
+                queryDict = [[NSMutableDictionary alloc] initWithObjects:[NSArray arrayWithObjects:index, nil] forKeys:[NSArray arrayWithObjects:queryId, nil]];
+                [self.knowledgeDataDict setObject:queryDict forKey:dataId];
             }
             else {
-                queryMap = (NSMapTable *)obj;
-                [queryMap setObject:index forKey:queryId];
+                queryDict = (NSMutableDictionary *)obj;
+                if (queryDict == nil) {
+                    queryDict = [[NSMutableDictionary alloc] init];
+                }
+                
+                if (queryDict) {
+                    [queryDict setObject:index forKey:queryDict];
+                }
             }
         }
     }
