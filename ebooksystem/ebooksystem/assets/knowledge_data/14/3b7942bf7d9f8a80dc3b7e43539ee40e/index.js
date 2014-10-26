@@ -229,7 +229,7 @@
         utils.initPageHeader();
 
         initSearchBox();
-
+        alert('before get data');
         // 渲染页面
         bridge.getNodeDataByIdAndQueryId( { dataId : currentID, queryId : queryID}, function( dataStr ){
 
