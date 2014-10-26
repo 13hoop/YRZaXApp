@@ -113,6 +113,9 @@
 		710C03A219E2EDB800C27A33 /* KnowledgeSearchEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 710C03A119E2EDB800C27A33 /* KnowledgeSearchEntity.m */; };
 		710C03A519E2F38E00C27A33 /* KnowledgeSearchReverseInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 710C03A419E2F38E00C27A33 /* KnowledgeSearchReverseInfo.m */; };
 		710C03A819E397B200C27A33 /* KnowledgeMetaManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 710C03A719E397B200C27A33 /* KnowledgeMetaManager.m */; };
+		7116EEFB19FCE9E000336309 /* libMobClickLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7116EEF819FCE9E000336309 /* libMobClickLibrary.a */; };
+		7116EEFC19FCE9E000336309 /* libUMFeedback.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7116EEF919FCE9E000336309 /* libUMFeedback.a */; };
+		7116EEFD19FCE9E000336309 /* umFeedback.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7116EEFA19FCE9E000336309 /* umFeedback.bundle */; };
 		7118EB2119ED1F80002CF833 /* AppUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 7118EB2019ED1F80002CF833 /* AppUtil.m */; };
 		7118EB4819EF6B41002CF833 /* CLIColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 7118EB4719EF6B41002CF833 /* CLIColor.m */; };
 		7118EB5919EF6B54002CF833 /* DDAbstractDatabaseLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 7118EB4B19EF6B54002CF833 /* DDAbstractDatabaseLogger.m */; };
@@ -198,8 +201,6 @@
 		715EE9BC19E8332B005A4F78 /* JSONValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 715EE9BA19E8332B005A4F78 /* JSONValueTransformer.m */; };
 		715EE9BE19E83366005A4F78 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 715EE9BD19E83366005A4F78 /* SystemConfiguration.framework */; };
 		715EE9C119E839F6005A4F78 /* CryptUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 715EE9C019E839F6005A4F78 /* CryptUtil.m */; };
-		71860BCD19DC438A00D01AA9 /* libMobClickLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 71860BCB19DC438A00D01AA9 /* libMobClickLibrary.a */; };
-		71860BCE19DC438A00D01AA9 /* libUMFeedback.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 71860BCC19DC438A00D01AA9 /* libUMFeedback.a */; };
 		71860BDE19DC6DA500D01AA9 /* KnowledgeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 71860BDD19DC6DA500D01AA9 /* KnowledgeManager.m */; };
 		71860BE319DC754C00D01AA9 /* Config.m in Sources */ = {isa = PBXBuildFile; fileRef = 71860BE219DC754C00D01AA9 /* Config.m */; };
 		71860BE919DC7B4300D01AA9 /* KnowledgeDataConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 71860BE819DC7B4300D01AA9 /* KnowledgeDataConfig.m */; };
@@ -214,7 +215,6 @@
 		71860C0719DE544D00D01AA9 /* KnowledgeDownloadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 71860C0619DE544D00D01AA9 /* KnowledgeDownloadManager.m */; };
 		71860C0A19DE546700D01AA9 /* KnowledgeDownloadItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 71860C0919DE546700D01AA9 /* KnowledgeDownloadItem.m */; };
 		71860C0E19DE8DE600D01AA9 /* UUIDUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 71860C0D19DE8DE600D01AA9 /* UUIDUtil.m */; };
-		71860C5A19DE953500D01AA9 /* umeng in Resources */ = {isa = PBXBuildFile; fileRef = 71860C5919DE953500D01AA9 /* umeng */; };
 		718707B019F9FFD500F49D23 /* MediaPlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 718707AF19F9FFD500F49D23 /* MediaPlayerViewController.m */; };
 		718707B219FA00A000F49D23 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 718707B119FA00A000F49D23 /* MediaPlayer.framework */; };
 		718707B519FA3B2F00F49D23 /* ErrorInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 718707B419FA3B2F00F49D23 /* ErrorInfo.m */; };
@@ -508,6 +508,9 @@
 		710C03A419E2F38E00C27A33 /* KnowledgeSearchReverseInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KnowledgeSearchReverseInfo.m; path = src/knowledge/KnowledgeSearchReverseInfo.m; sourceTree = "<group>"; };
 		710C03A619E397B200C27A33 /* KnowledgeMetaManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KnowledgeMetaManager.h; path = src/knowledge/KnowledgeMetaManager.h; sourceTree = "<group>"; };
 		710C03A719E397B200C27A33 /* KnowledgeMetaManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KnowledgeMetaManager.m; path = src/knowledge/KnowledgeMetaManager.m; sourceTree = "<group>"; };
+		7116EEF819FCE9E000336309 /* libMobClickLibrary.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMobClickLibrary.a; path = depends/umeng/libMobClickLibrary.a; sourceTree = "<group>"; };
+		7116EEF919FCE9E000336309 /* libUMFeedback.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libUMFeedback.a; path = depends/umeng/libUMFeedback.a; sourceTree = "<group>"; };
+		7116EEFA19FCE9E000336309 /* umFeedback.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = umFeedback.bundle; path = depends/umeng/umFeedback.bundle; sourceTree = "<group>"; };
 		7118EB1F19ED1F80002CF833 /* AppUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppUtil.h; path = src/util/AppUtil.h; sourceTree = "<group>"; };
 		7118EB2019ED1F80002CF833 /* AppUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppUtil.m; path = src/util/AppUtil.m; sourceTree = "<group>"; };
 		7118EB4619EF6B41002CF833 /* CLIColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CLIColor.h; path = depends/CocoaLumberjack/Classes/CLI/CLIColor.h; sourceTree = "<group>"; };
@@ -663,8 +666,6 @@
 		715EE9BD19E83366005A4F78 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		715EE9BF19E839F6005A4F78 /* CryptUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CryptUtil.h; path = src/util/CryptUtil.h; sourceTree = "<group>"; };
 		715EE9C019E839F6005A4F78 /* CryptUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CryptUtil.m; path = src/util/CryptUtil.m; sourceTree = "<group>"; };
-		71860BCB19DC438A00D01AA9 /* libMobClickLibrary.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMobClickLibrary.a; path = ebooksystem/depends/umeng/libMobClickLibrary.a; sourceTree = "<group>"; };
-		71860BCC19DC438A00D01AA9 /* libUMFeedback.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libUMFeedback.a; path = ebooksystem/depends/umeng/libUMFeedback.a; sourceTree = "<group>"; };
 		71860BDC19DC6DA500D01AA9 /* KnowledgeManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KnowledgeManager.h; path = src/knowledge/KnowledgeManager.h; sourceTree = "<group>"; };
 		71860BDD19DC6DA500D01AA9 /* KnowledgeManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KnowledgeManager.m; path = src/knowledge/KnowledgeManager.m; sourceTree = "<group>"; };
 		71860BE119DC754C00D01AA9 /* Config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Config.h; path = src/config/Config.h; sourceTree = "<group>"; };
@@ -692,7 +693,6 @@
 		71860C0919DE546700D01AA9 /* KnowledgeDownloadItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KnowledgeDownloadItem.m; path = src/knowledge/knowledge_download/KnowledgeDownloadItem.m; sourceTree = "<group>"; };
 		71860C0C19DE8DE600D01AA9 /* UUIDUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UUIDUtil.h; path = src/util/UUIDUtil.h; sourceTree = "<group>"; };
 		71860C0D19DE8DE600D01AA9 /* UUIDUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UUIDUtil.m; path = src/util/UUIDUtil.m; sourceTree = "<group>"; };
-		71860C5919DE953500D01AA9 /* umeng */ = {isa = PBXFileReference; lastKnownFileType = folder; name = umeng; path = depends/umeng; sourceTree = "<group>"; };
 		718707AE19F9FFD500F49D23 /* MediaPlayerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MediaPlayerViewController.h; path = src/common/media/controller/MediaPlayerViewController.h; sourceTree = "<group>"; };
 		718707AF19F9FFD500F49D23 /* MediaPlayerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MediaPlayerViewController.m; path = src/common/media/controller/MediaPlayerViewController.m; sourceTree = "<group>"; };
 		718707B119FA00A000F49D23 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
@@ -707,19 +707,19 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7116EEFC19FCE9E000336309 /* libUMFeedback.a in Frameworks */,
 				718707B219FA00A000F49D23 /* MediaPlayer.framework in Frameworks */,
 				715EE9BE19E83366005A4F78 /* SystemConfiguration.framework in Frameworks */,
+				7116EEFB19FCE9E000336309 /* libMobClickLibrary.a in Frameworks */,
 				71860BED19DE509400D01AA9 /* Security.framework in Frameworks */,
 				06AA7EE819F4FAF600570289 /* libcrypto.a in Frameworks */,
 				71860BEB19DE508800D01AA9 /* CFNetwork.framework in Frameworks */,
-				71860BCE19DC438A00D01AA9 /* libUMFeedback.a in Frameworks */,
-				71860BCD19DC438A00D01AA9 /* libMobClickLibrary.a in Frameworks */,
+				06AA7EE919F4FAF600570289 /* libssl.a in Frameworks */,
 				06B7F86319D53AF50017EA4D /* libz.dylib in Frameworks */,
 				06AAA8D619D2B8610052BB1D /* QuartzCore.framework in Frameworks */,
 				0690781B19CFD62700CD9C3D /* CoreGraphics.framework in Frameworks */,
 				0690781F19CFD62700CD9C3D /* CoreData.framework in Frameworks */,
 				0690781D19CFD62700CD9C3D /* UIKit.framework in Frameworks */,
-				06AA7EE919F4FAF600570289 /* libssl.a in Frameworks */,
 				0690781919CFD62700CD9C3D /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -764,8 +764,6 @@
 				715EE9BD19E83366005A4F78 /* SystemConfiguration.framework */,
 				71860BEC19DE509400D01AA9 /* Security.framework */,
 				71860BEA19DE508800D01AA9 /* CFNetwork.framework */,
-				71860BCB19DC438A00D01AA9 /* libMobClickLibrary.a */,
-				71860BCC19DC438A00D01AA9 /* libUMFeedback.a */,
 				06B7F86219D53AF50017EA4D /* libz.dylib */,
 				06AAA8D519D2B8610052BB1D /* QuartzCore.framework */,
 				0690781819CFD62700CD9C3D /* Foundation.framework */,
@@ -1423,6 +1421,16 @@
 			name = model;
 			sourceTree = "<group>";
 		};
+		7116EEF719FCE9C700336309 /* umeng */ = {
+			isa = PBXGroup;
+			children = (
+				7116EEF819FCE9E000336309 /* libMobClickLibrary.a */,
+				7116EEF919FCE9E000336309 /* libUMFeedback.a */,
+				7116EEFA19FCE9E000336309 /* umFeedback.bundle */,
+			);
+			name = umeng;
+			sourceTree = "<group>";
+		};
 		7118EB2319EF6AB4002CF833 /* CocoaLumberjack */ = {
 			isa = PBXGroup;
 			children = (
@@ -1897,6 +1905,7 @@
 		71860C1019DE941700D01AA9 /* depends */ = {
 			isa = PBXGroup;
 			children = (
+				7116EEF719FCE9C700336309 /* umeng */,
 				7156B0A919F8BC2C00B3A521 /* MRProgress */,
 				06AA7E9419F4FAF600570289 /* openssl-iib */,
 				06AA7E8019F4FAE100570289 /* Security */,
@@ -1908,7 +1917,6 @@
 				710C033819E1C8F200C27A33 /* SBJson */,
 				71860C1219DE942A00D01AA9 /* AFNetworking */,
 				71860C4E19DE949C00D01AA9 /* EGOCache */,
-				71860C5919DE953500D01AA9 /* umeng */,
 			);
 			name = depends;
 			sourceTree = "<group>";
@@ -2064,6 +2072,8 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
+				English,
 			);
 			mainGroup = 0690780C19CFD62700CD9C3D;
 			productRefGroup = 0690781619CFD62700CD9C3D /* Products */;
@@ -2082,7 +2092,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				710C038B19E2458C00C27A33 /* assets in Resources */,
-				71860C5A19DE953500D01AA9 /* umeng in Resources */,
 				7118EB9919EF6C54002CF833 /* uncrustify.cfg in Resources */,
 				06AA7EEB19F4FAF600570289 /* rsa_private_key.pem in Resources */,
 				715EE97E19E594D9005A4F78 /* WebViewJavascriptBridge.js.txt in Resources */,
@@ -2094,6 +2103,7 @@
 				710C02BB19E0457A00C27A33 /* SubjectTableViewCell.xib in Resources */,
 				06AA7F5119F4FC7E00570289 /* UMContactViewController.xib in Resources */,
 				0690783019CFD62700CD9C3D /* Images.xcassets in Resources */,
+				7116EEFD19FCE9E000336309 /* umFeedback.bundle in Resources */,
 				06AA7F5319F4FC7E00570289 /* UMFeedbackViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2386,6 +2396,7 @@
 					"$(PROJECT_DIR)/ebooksystem/depends/**",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				LIBRARY_SEARCH_PATHS = "";
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 			};
@@ -2423,6 +2434,7 @@
 					"$(PROJECT_DIR)/ebooksystem/depends/**",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				LIBRARY_SEARCH_PATHS = "";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
