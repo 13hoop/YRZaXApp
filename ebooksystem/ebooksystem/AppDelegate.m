@@ -24,7 +24,7 @@
 @interface AppDelegate ()
 
 // 初始化app
-- (BOOL)initApp;
+//- (BOOL)initApp;
 
 @end
 
@@ -41,6 +41,15 @@
 #pragma mark - app life
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+//    // 友盟, 获取devideId, 用于集成测试
+//    Class cls = NSClassFromString(@"UMANUtil");
+//    SEL deviceIDSelector = @selector(openUDIDString);
+//    NSString *deviceID = nil;
+//    if(cls && [cls respondsToSelector:deviceIDSelector]){
+//        deviceID = [cls performSelector:deviceIDSelector];
+//    }
+//    NSLog(@"{\"oid\": \"%@\"}", deviceID);
+    
     // Config the logger
     [LogUtil init];
     

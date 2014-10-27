@@ -63,6 +63,7 @@
     static dispatch_once_t predicate;
     dispatch_once(&predicate, ^{
         sharedInstance = [[StatisticsManager alloc] init];
+        [sharedInstance initUmeng];
     });
     
     return sharedInstance;
