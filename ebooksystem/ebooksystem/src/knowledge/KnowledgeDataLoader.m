@@ -272,7 +272,7 @@
                 }
                 
                 if (queryDict) {
-                    [queryDict setObject:index forKey:queryDict];
+                    [queryDict setObject:index forKey:queryId];
                 }
             }
         }
