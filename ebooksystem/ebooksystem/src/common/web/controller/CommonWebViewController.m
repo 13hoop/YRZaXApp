@@ -273,7 +273,7 @@
         LogDebug(@"CommonWebViewController::pageStatistic() called: %@", data);
         
         NSString *eventName = [data objectForKey:@"eventName"];
-        NSDictionary *args = [data objectForKey:@"args"];
+        NSString *args = [data objectForKey:@"args"];
         
         [[StatisticsManager instance] pageStatisticWithEvent:eventName andArgs:args];
     }];
