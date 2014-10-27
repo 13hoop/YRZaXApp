@@ -424,11 +424,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ebooksystem/src/util/DeviceUtil.m"
-            timestampString = "436124290.770514"
+            timestampString = "436124775.08528"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "89"
-            endingLineNumber = "89"
+            startingLineNumber = "62"
+            endingLineNumber = "62"
             landmarkName = "+currentResolution"
             landmarkType = "5">
          </BreakpointContent>
@@ -440,11 +440,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ebooksystem/src/util/DeviceUtil.m"
-            timestampString = "436124286.378472"
+            timestampString = "436124775.08528"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "56"
-            endingLineNumber = "56"
+            startingLineNumber = "29"
+            endingLineNumber = "29"
             landmarkName = "+currentResolution"
             landmarkType = "5">
          </BreakpointContent>
