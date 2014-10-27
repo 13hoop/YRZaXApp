@@ -210,6 +210,18 @@
         }
     }];
     
+    // searchLocalData()
+    [self.javascriptBridge registerHandler:@"searchLocalData" handler:^(id data, WVJBResponseCallback responseCallback) {
+        LogDebug(@"CommonWebViewController::searchLocalData() called: %@", data);
+        
+        NSString *searchId = (NSString *)data;
+        
+        if (responseCallback != nil) {
+            NSString *data = [[KnowledgeManager instance] searchLocalData:searchId];
+            responseCallback(data);
+        }
+    }];
+    
     // hasNodeDownloaded()
     [self.javascriptBridge registerHandler:@"hasNodeDownloaded" handler:^(id dataId, WVJBResponseCallback responseCallback) {
         LogDebug(@"CommonWebViewController::hasNodeDownloaded() called: %@", dataId);
