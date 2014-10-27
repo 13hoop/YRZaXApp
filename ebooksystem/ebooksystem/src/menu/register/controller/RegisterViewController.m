@@ -14,6 +14,7 @@
 #import "RegisterUserInfo.h"
 #import "MoreViewController.h"
 #import "LogUtil.h"
+#import "UIColor+Hex.h"
 
 #define REGISTERVIEW_X 64
 @interface RegisterViewController ()<CustomNavigationBarDelegate,CustomRegisterViewDelegate,RegisterModelDelegate>
@@ -37,7 +38,7 @@
 {
     [super viewDidLoad];
     self.usedUserArray=[NSMutableArray array];
-    self.view.backgroundColor=[UIColor whiteColor];
+    self.view.backgroundColor=[UIColor colorWithHexString:@"#242021" alpha:1];
     [self addNavigationBar];
     [self createRegisterView];
 }

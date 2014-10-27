@@ -11,7 +11,7 @@
 #import "CustomNavigationBar.h"
 #import "RechargeModel.h"
 #import "UserManager.h"
-
+#import "UIColor+Hex.h"
 #define TABLEVIEW_Y 64
 #define NAVBAR_HEIGHT 44 
 #define NAVBAR_Y 20 
@@ -37,7 +37,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.view.backgroundColor=[UIColor whiteColor];
+    self.view.backgroundColor=[UIColor colorWithHexString:@"#242021" alpha:1];
     [self createCustomNavigationBar];
     [self createCustomRechargeView];
 }

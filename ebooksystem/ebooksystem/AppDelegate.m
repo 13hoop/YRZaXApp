@@ -50,6 +50,11 @@
 //    }
 //    NSLog(@"{\"oid\": \"%@\"}", deviceID);
     
+    
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+
+    
+    
     // Config the logger
     [LogUtil init];
     
