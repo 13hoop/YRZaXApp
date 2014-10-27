@@ -72,6 +72,7 @@
         var commonBack = document.querySelector( selector );
         if( commonBack ){
             commonBack.addEventListener( 'touchend', function(){
+//                                        alert('back clicked');
                 bridgeIOS.finish();
             }, false );
         }

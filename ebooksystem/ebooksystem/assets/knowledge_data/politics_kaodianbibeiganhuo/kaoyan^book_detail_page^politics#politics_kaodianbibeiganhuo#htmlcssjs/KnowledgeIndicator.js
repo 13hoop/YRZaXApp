@@ -69,10 +69,22 @@ KnowledgeIndicator.prototype = {
         if( ! this.currentObj ){
             return;
         }
-        var newID = direction === 'next' ? this.currentObj.next_sibling_id : this.currentObj.pre_sibling_id;
+        var newID;
+        var newQueryID;
+        if( direction === 'next' ){
+            newID = this.currentObj.next_sibling_id ;
+            newQueryID = this.currentObj.next_sibling_query_id;
+        }else{
+            newID = this.currentObj.pre_sibling_id;
+            newQueryID = this.currentObj.pre_sibling_query_id;
+        }
         if( newID ){
             if( typeof this.onchange === 'function' ){
-                this.onchange( newID, direction );
+                this.onchange( {
+                    data_id : newID,
+                    query_id : newQueryID,
+                    direction : direction
+                } );
             }
         }
     }

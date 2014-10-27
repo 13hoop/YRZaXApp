@@ -190,7 +190,7 @@
     }
 
     function changeTopicById( id, queryID ){
-        bridgeIOS.getNodeDataById( {
+        bridgeIOS.getNodeDataByIdAndQueryId( {
             dataId : id, 
             queryId : queryID
         }, function(topicData){
@@ -211,7 +211,7 @@
                 return;
             }
             topicID = id;
-            navView.selectById( id );
+            navView.selectById( id, queryID );
             var obj = data[0];
             showKnowledgeById( obj.id, obj.query_id );
         } );
