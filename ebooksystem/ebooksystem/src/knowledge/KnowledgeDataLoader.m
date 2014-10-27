@@ -197,6 +197,9 @@
         LogWarn(@"[KnowledgeLoader-getKnowledgeDataWithDataId:andQueryId:andIndexFilename:] failed since data index is nil for query id: %@", queryId);
         return nil;
     }
+    else {
+        dataIndex.lastUsedTime = [NSDate date];
+    }
     
     return [self loadKnowledgeData:dataIndex];
 }
