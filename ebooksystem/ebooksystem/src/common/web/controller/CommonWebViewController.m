@@ -16,6 +16,7 @@
 #import "StatisticsManager.h"
 
 #import "MediaPlayerViewController.h"
+#import "MoreViewController.h"
 
 #import "WebViewJavascriptBridge.h"
 
@@ -184,6 +185,14 @@
 //        [self.navigationController popViewControllerAnimated:YES];
     }];
     
+    // showMenu()
+    [self.javascriptBridge registerHandler:@"showMenu" handler:^(id data, WVJBResponseCallback responseCallback) {
+        LogDebug(@"CommonWebViewController::showMenu() called: %@", data);
+        
+        MoreViewController *more = [[MoreViewController alloc] init];
+        [self.navigationController pushViewController:more animated:YES];
+    }];
+    
     // getNodeDataById()
     // deprecated: 读取数据, 非index方式
     [self.javascriptBridge registerHandler:@"getNodeDataById" handler:^(id dataId, WVJBResponseCallback responseCallback) {
@@ -210,9 +219,9 @@
         }
     }];
     
-    // searchLocalData()
-    [self.javascriptBridge registerHandler:@"searchLocalData" handler:^(id data, WVJBResponseCallback responseCallback) {
-        LogDebug(@"CommonWebViewController::searchLocalData() called: %@", data);
+    // searchData()
+    [self.javascriptBridge registerHandler:@"searchData" handler:^(id data, WVJBResponseCallback responseCallback) {
+        LogDebug(@"CommonWebViewController::searchData() called: %@", data);
         
         NSString *searchId = (NSString *)data;
         
