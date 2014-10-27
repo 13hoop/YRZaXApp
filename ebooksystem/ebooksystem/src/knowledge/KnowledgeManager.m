@@ -287,7 +287,7 @@
         return @"[]";
     }
     
-    return [knowledgeSearchResults componentsJoinedByString:@","];
+    return [NSString stringWithFormat:@"[%@]", [knowledgeSearchResults componentsJoinedByString:@","]];
 }
 
 // get data status
