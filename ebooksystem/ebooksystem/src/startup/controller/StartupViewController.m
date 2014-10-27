@@ -74,6 +74,8 @@
 //    });
     
     [self loadData];
+    
+    self.activityIndicatorView.hidden = YES;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -117,7 +119,6 @@
         // 触发一次数据初始化
         [[KnowledgeManager instance] setDelegate:self];
         [[KnowledgeManager instance] initKnowledgeDataAsync];
-//        [[KnowledgeManager instance] initKnowledgeDataSync];
     }
     else {
         self.tipLabel.text = @"";
@@ -168,16 +169,46 @@
 }
 
 #pragma mark - KnowledgeManagerDelegate methods
+- (void)showProgressAsActivityIndicator {
+    self.activityIndicatorView.hidden = NO;
+    self.activityIndicatorView.hidesWhenStopped = YES;
+    self.activityIndicatorView.tintColor = [UIColor blueColor];
+    self.activityIndicatorView.backgroundColor = [UIColor clearColor];
+    [self.activityIndicatorView startAnimating];
+}
+
+- (void)hideProgressOfActivityIndicator {
+    [self.activityIndicatorView stopAnimating];
+//    self.activityIndicatorView.hidden = YES;
+}
+
+- (void)showProgressAsOverlay:(NSString *)desc {
+    if (progressOverlayViewController) {
+        [progressOverlayViewController dismissProgressView];
+    }
+    
+    progressOverlayViewController = [[ProgressOverlayViewController alloc] init];
+    [progressOverlayViewController setDelegate:self];
+    [progressOverlayViewController showSmallProgressViewWithLongTitleLabelText:desc];
+}
+
+- (void)changeProgressOfOverlay:(NSString *)progress {
+    if (progressOverlayViewController) {
+        [progressOverlayViewController updateProgress:[progress integerValue]];
+    }
+}
+
+- (void)hideProgressOfOverlay {
+    if (progressOverlayViewController) {
+        [progressOverlayViewController dismissProgressView];
+    }
+}
+
 - (void)dataInitStartedWithResult:(BOOL)result andDesc:(NSString *)desc {
     // 显示数据初始化进度
     dispatch_async(dispatch_get_main_queue(), ^{
-        if (progressOverlayViewController) {
-            [progressOverlayViewController dismissProgressView];
-        }
-
-        progressOverlayViewController = [[ProgressOverlayViewController alloc] init];
-        [progressOverlayViewController setDelegate:self];
-        [progressOverlayViewController showSmallProgressViewWithLongTitleLabelText:desc];
+        [self showProgressAsActivityIndicator];
+//        [self showProgressAsOverlay:desc];
         
         self.tipLabel.text = desc;
     });
@@ -189,19 +220,19 @@
 }
 
 - (void)dataInitProgressChangedTo:(NSNumber *)progress withDesc:(NSString *)desc {
-    self.tipLabel.text = desc;
-    
-    if (progressOverlayViewController) {
-        [progressOverlayViewController updateProgress:[progress integerValue]];
-    }
+    // 更新进度
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.tipLabel.text = desc;
+        
+        [self changeProgressOfOverlay:desc];
+    });
 }
 
 - (void)dataInitEndedWithResult:(BOOL)result andDesc:(NSString *)desc {
     // 显示数据初始化进度
     dispatch_async(dispatch_get_main_queue(), ^{
-        if (progressOverlayViewController) {
-            [progressOverlayViewController dismissProgressView];
-        }
+        [self hideProgressOfActivityIndicator];
+//        [self hideProgressOfOverlay];
         
         self.tipLabel.text = desc;
         

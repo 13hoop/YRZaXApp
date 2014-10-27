@@ -8,6 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
+#import "MRActivityIndicatorView.h"
+
+
+
 @interface StartupViewController : UIViewController
 
 #pragma mark - outlets
@@ -15,6 +19,10 @@
 @property (strong, nonatomic) IBOutlet UIImageView *bgImageView;
 // 提示文字
 @property (strong, nonatomic) IBOutlet UILabel *tipLabel;
+
+// 进度条图案
+@property (strong, nonatomic) IBOutlet MRActivityIndicatorView *activityIndicatorView;
+
 
 
 #pragma mark - actions
