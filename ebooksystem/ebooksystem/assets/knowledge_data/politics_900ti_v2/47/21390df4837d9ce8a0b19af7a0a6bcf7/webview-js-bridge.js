@@ -69,7 +69,7 @@ function dump(arr,level) {
     // goBack()
     // pageStatistic()
     bridgeIOS.finish = function(eventName, args) {
-        bridgeIOS.callOC("goBack", data, function(responseData){
+        bridgeIOS.callOC("goBack", '', function(responseData){
                          // do nothing
                          });
     }

@@ -60,7 +60,7 @@ utils.initPageHeader = function( selector ){
 
     var commonBack = document.querySelector( selector );
     if( commonBack ){
-        commonBack.addEventListener( 'touchend', function(){                                    
+        commonBack.addEventListener( 'touchend', function(){
             bridgeIOS.finish();
         }, false );
     }

@@ -68,7 +68,7 @@ function dump(arr,level) {
     // goBack()
     // pageStatistic()
     bridgeIOS.finish = function(eventName, args) {
-        bridgeIOS.callOC("goBack", data, function(responseData){
+        bridgeIOS.callOC("goBack", '', function(responseData){
                          // do nothing
                          });
     }
@@ -144,7 +144,15 @@ function dump(arr,level) {
         bridgeIOS.callOC("pageStatistic", data, function(responseData){
                          // do nothing
         });
-    }
+    };
+    //播放视频
+    bridgeIOS.playVideo = function( data) {
+
+
+        bridgeIOS.callOC("playVideo", data, function(responseData){
+            // do nothing
+        });
+    };
     
 }();
 

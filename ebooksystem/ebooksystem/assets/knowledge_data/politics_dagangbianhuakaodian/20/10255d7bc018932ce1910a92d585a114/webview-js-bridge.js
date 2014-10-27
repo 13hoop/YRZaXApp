@@ -56,7 +56,6 @@ function dump(arr,level) {
     bridgeIOS.callOC = function(methodName, arg, callback) {
         bridgeIOS.connectWebViewJavascriptBridge(
                                                  function(bridge) {
-//                                                 alert('call native' + methodName );
                                                         bridge.callHandler(methodName, arg,
                                                                     function(responseData){
                                                                        if (callback) {
