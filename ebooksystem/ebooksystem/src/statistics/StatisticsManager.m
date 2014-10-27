@@ -11,7 +11,51 @@
 #import "MobClick.h"
 
 
+#import "AppUtil.h"
+
+
+
+
+@interface StatisticsManager ()
+
+#pragma mark - properties
+
+
+
+#pragma mark - methods
+// 初始化友盟相关内容
+- (void)initUmeng;
+
+@end
+
+
+
+
 @implementation StatisticsManager
+
+@synthesize appKeyFromUmeng = _appKeyFromUmeng;
+@synthesize channel = _channel;
+
+
+#pragma mark - properties
+// app key, from umeng
+- (NSString *)appKeyFromUmeng {
+    if (_appKeyFromUmeng == nil) {
+        _appKeyFromUmeng = @"543dea72fd98c5fc98004e08";
+    }
+    
+    return _appKeyFromUmeng;
+}
+
+// channel
+- (NSString *)channel {
+    if (_channel == nil) {
+        _channel = @"";
+    }
+    
+    return _channel;
+}
+
 
 #pragma mark - singleton
 + (StatisticsManager *)instance {
@@ -26,38 +70,47 @@
 }
 
 #pragma mark - init
-//- (void)UmengMethod
-//{
-//    [MobClick startWithAppkey:UMENG_APPKEY reportPolicy:BATCH channelId:@""];
-//    //Xcode4及以上的版本的version标识的取值--
-//    NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
-//    [MobClick setAppVersion:version];
-//    //（1）多渠道完成自动更新
-//    [MobClick checkUpdate];
-//    //（2）使用这个方法，这些方法已经设置好（在弹出的AlertView中点击按钮就会实现相应的方法）
-//    [MobClick checkUpdate:@"新版本" cancelButtonTitle:@"取消" otherButtonTitles:@"到APP Store中下载新版本"];
-//    //(3)自定义的方式来完成
-//    [MobClick checkUpdateWithDelegate:self selector:@selector(update:)];
-//    
-//    //在线参数配置
-//    [MobClick updateOnlineConfig];  //在线参数配置
-//    
-//    //    1.6.8之前的初始化方法
-//    //    [MobClick setDelegate:self reportPolicy:REALTIME];  //建议使用新方法
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onlineConfigCallBack:) name:UMOnlineConfigDidFinishedNotification object:nil];
-//    
-//    
-//}
+
+// 初始化友盟相关内容
+- (void)initUmeng {
+    [MobClick startWithAppkey:self.appKeyFromUmeng reportPolicy:BATCH channelId:self.channel];
+    
+    // 1. set app version
+    NSString *appVersion = [AppUtil getAppVersionStr];
+    [MobClick setAppVersion:appVersion];
+    
+    // 2. check update
+    [MobClick checkUpdate:@"发现新版本" cancelButtonTitle:@"忽略" otherButtonTitles:@"更新"];
+    
+    // 3. check online config
+    {
+//        //在线参数配置
+//        [MobClick updateOnlineConfig];
+//        
+//        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onlineConfigCallBack:) name:UMOnlineConfigDidFinishedNotification object:nil];
+    }
+}
 
 #pragma mark - statistics
-- (BOOL)pageStatisticWithEvent:(NSString *)eventName andArgs:(NSString *)args {
-    if (eventName == nil || eventName.length <= 0) {
-        return NO;
-    }
-    
-    [MobClick event:eventName label:args];
-    
-    return YES;
+// page start
+- (void)beginLogPageView:(NSString *)pageName {
+    [MobClick beginLogPageView:pageName];
+}
+
+// page end
+- (void)endLogPageView:(NSString *)pageName {
+    [MobClick endLogPageView:pageName];
+}
+
+// event
+- (void)event:(NSString *)eventId label:(NSString *)label {
+    [MobClick event:eventId label:label];
+}
+
+#pragma mark - update
+// check update
+- (void)checkUpdate {
+    [MobClick checkUpdate:@"发现新版本" cancelButtonTitle:@"忽略" otherButtonTitles:@"更新"];
 }
 
 @end

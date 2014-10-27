@@ -22,7 +22,9 @@
 
 #import "KnowledgeManager.h"
 
-#import "MobClick.h"
+#import "StatisticsManager.h"
+
+
 
 
 //#define IS_TEST_MODE 1
@@ -103,7 +105,7 @@
     [self updateTitleBar];
     
     // 友盟统计
-    [MobClick beginLogPageView:@"SubjectView"];
+    [[StatisticsManager instance] beginLogPageView:@"SubjectView"];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -123,7 +125,7 @@
     [super viewWillDisappear:animated];
     
     // 友盟统计
-    [MobClick endLogPageView:@"SubjectView"];
+    [[StatisticsManager instance] endLogPageView:@"SubjectView"];
 }
 
 /*

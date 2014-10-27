@@ -7,12 +7,18 @@
 //
 
 #import "AboutUsViewController.h"
+
 #import "CustomAboutUsview.h"
 #import "CustomNavigationBar.h"
-#import "MobClick.h"
+
+#import "StatisticsManager.h"
+
+
 @interface AboutUsViewController ()<CustomNavigationBarDelegate>
 
 @end
+
+
 
 @implementation AboutUsViewController
 
@@ -33,12 +39,14 @@
     [self createCustomAboutUs];
     
 }
+
 -(void)createCustomAboutUs
 {
     CustomAboutUsview *custom=[[CustomAboutUsview alloc] initWithFrame:CGRectMake(0, 64, self.view.frame.size.width, self.view.frame.size.height-64)];
     
     [self.view addSubview:custom];
 }
+
 -(void)creatCustomNavigationBar
 {
     CustomNavigationBar *navigationBar=[[CustomNavigationBar alloc] initWithFrame:CGRectMake(0, 20, 320, 44)];
@@ -47,6 +55,7 @@
     [self.view addSubview:navigationBar];
     
 }
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -62,12 +71,15 @@
 {
     
     [super viewWillAppear:animated];
-    [MobClick beginLogPageView:@"PageAboutUs"];
+    
+    [[StatisticsManager instance] beginLogPageView:@"PageAboutUs"];
 }
+
 -(void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    [MobClick endLogPageView:@"PageAboutUs"];
+    
+    [[StatisticsManager instance] endLogPageView:@"PageAboutUs"];
 }
 
 

@@ -7,19 +7,25 @@
 //
 
 #import "MoreViewController.h"
+
 #import "CustomNavigationBar.h"
 #import "CustomMoreView.h"
 //#import "MainViewController.h"
 #import "UMFeedbackViewController.h"
 #import "AboutUsViewController.h"
-#import "MobClick.h"
 
 #import "LoginViewController.h"
 #import "LogoutViewController.h"
 #import "RechargeViewController.h"
 #import "UIColor+Hex.h"
 #import "PurchaseViewController.h"
-#define UMENG_APPKEY @"5420c86efd98c51541017684"
+
+#import "StatisticsManager.h"
+
+
+
+
+//#define UMENG_APPKEY @"5420c86efd98c51541017684"
 
 @interface MoreViewController ()<CustomNavigationBarDelegate,CustomMoreViewDelegate>
 
@@ -51,7 +57,9 @@
     //问题：每次pop回去，页面就消失了，所以self.moreview就不存在了，即使在userdefault中存在，也不会已出现就显示出来。
     self.navigationController.navigationBarHidden = YES;
     [super viewWillAppear:animated];
-    [MobClick beginLogPageView:@"PageMore"];
+    
+    [[StatisticsManager instance] beginLogPageView:@"PageMore"];
+    
     if ([[NSUserDefaults standardUserDefaults] objectForKey:@"userInfoName"])
     {
          self.moreView.userNameLable.text=[[NSUserDefaults standardUserDefaults] objectForKey:@"userInfoName"];
@@ -75,7 +83,8 @@
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-    [MobClick endLogPageView:@"PageMore"];
+    
+    [[StatisticsManager instance] endLogPageView:@"PageMore"];
 }
 
 
@@ -128,8 +137,7 @@
                     
 
                 }
-                
-                            }
+            }
             break;
         case 1:
             if (row == 0) {
@@ -169,16 +177,18 @@
                     if (row == 2)
                     {
                         //意见反馈
-                        [self showNativeFeedbackWithAppkey:UMENG_APPKEY];
+                        [self showNativeFeedbackWithAppkey:[[StatisticsManager instance] appKeyFromUmeng]];
                     }
                     else
                     {
                         if (row == 3)
                         {
                             //软件更新
-                            [MobClick checkUpdate:@"新版本" cancelButtonTitle:@"稍后更新" otherButtonTitles:@"立即更新"];
-                            //软件更新自定义
-                            [MobClick checkUpdateWithDelegate:self selector:@selector(appUpdate:)];
+                            [[StatisticsManager instance] checkUpdate];
+//                            [MobClick checkUpdate:@"新版本" cancelButtonTitle:@"稍后更新" otherButtonTitles:@"立即更新"];
+                            
+//                            //软件更新自定义
+//                            [MobClick checkUpdateWithDelegate:self selector:@selector(appUpdate:)];
                         }
                         else
                         {

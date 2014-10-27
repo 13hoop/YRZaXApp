@@ -7,10 +7,14 @@
 //
 
 #import "UMFeedbackViewController.h"
+
 #import "UMFeedbackTableViewCellLeft.h"
 #import "UMFeedbackTableViewCellRight.h"
 #import "UMContactViewController.h"
-#import "MobClick.h"
+
+#import "StatisticsManager.h"
+
+
 #define TOP_MARGIN 20.0f
 #define kNavigationBar_ToolBarBackGroundColor  [UIColor colorWithRed:0.149020 green:0.149020 blue:0.149020 alpha:1.0]
 #define kContactViewBackgroundColor  [UIColor colorWithRed:0.078 green:0.584 blue:0.97 alpha:1.0]
@@ -228,6 +232,7 @@ static UITapGestureRecognizer *tapRecognizer;
     backBtn.frame = CGRectMake(0, 0, 51.0f, self.navigationController.navigationBar.frame.size.height * 0.7);
     backBtn.autoresizingMask = UIViewAutoresizingFlexibleHeight;
 }
+
 -(void)setAddContactButton
 {
     UIButton *contactButton=[UIButton buttonWithType:UIButtonTypeCustom];
@@ -241,6 +246,7 @@ static UITapGestureRecognizer *tapRecognizer;
     contactButton.autoresizingMask = UIViewAutoresizingFlexibleHeight;
     
 }
+
 -(void)showContactview:(UIButton*)btn
 {
     if (self.isSelected) {
@@ -526,11 +532,14 @@ static UITapGestureRecognizer *tapRecognizer;
 {
     self.navigationController.navigationBarHidden=NO;
     [super viewWillAppear:animated];
-    [MobClick beginLogPageView:@"PageFeedback"];
+    
+    [[StatisticsManager instance] beginLogPageView:@"PageFeedback"];
 }
+
 -(void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    [MobClick endLogPageView:@"PageFeedback"];
+    
+    [[StatisticsManager instance] endLogPageView:@"PageFeedback"];
 }
 @end
