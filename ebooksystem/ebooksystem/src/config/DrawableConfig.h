@@ -22,4 +22,7 @@
 // drawable's full path
 - (NSString *)getImageFullPath:(NSString *)imageFileName;
 
+// startup image's full path
+- (NSString *)getStartupImageFullPath:(NSString *)imageFileName;
+
 @end

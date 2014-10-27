@@ -42,7 +42,7 @@
 - (NSString *)loadKnowledgeData:(KnowledgeMetaEntity *)knowledgeMetaEntity;
 
 // 根据dataId, queryId, 和indexFilename加载knowledge data
-- (NSString *)getLocalDataWithDataId:(NSString *)dataId andQueryId:(NSString *)queryId andIndexFilename:(NSString *)indexFilename;
+- (NSArray *)getLocalDataWithDataId:(NSString *)dataId andQueryId:(NSString *)queryId andIndexFilename:(NSString *)indexFilename;
 
 #pragma mark - download knowledge data
 // start downloading

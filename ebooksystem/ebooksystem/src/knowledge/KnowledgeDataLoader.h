@@ -17,7 +17,7 @@
 
 #pragma mark - load knowledge
 // 根据dataId, queryId, 和indexFilename加载knowledge data
-- (NSString *)getKnowledgeDataWithDataId:(NSString *)dataId andQueryId:(NSString *)queryId andIndexFilename:(NSString *)indexFilename;
+- (NSArray *)getKnowledgeDataWithDataId:(NSString *)dataId andQueryId:(NSString *)queryId andIndexFilename:(NSString *)indexFilename;
 
 #pragma mark - test
 - (BOOL)test;

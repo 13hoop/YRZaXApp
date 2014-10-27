@@ -214,7 +214,17 @@
         NSString *indexFilename = [data objectForKey:@"indexFilename"];
         
         if (responseCallback != nil) {
-            NSString *data = [[KnowledgeManager instance] getLocalDataWithDataId:dataId andQueryId:queryId andIndexFilename:indexFilename];
+            NSArray *dataArray = [[KnowledgeManager instance] getLocalDataWithDataId:dataId andQueryId:queryId andIndexFilename:indexFilename];
+//            NSLog(@"====dataArray: %@", dataArray);
+            NSString *data = nil;
+            for (NSString *dataStr in dataArray) {
+                if (dataStr == nil || dataStr.length <= 0) {
+                    continue;
+                }
+                
+                data = dataStr;
+                break;
+            }
             responseCallback(data);
         }
     }];
