@@ -35,6 +35,7 @@
         var searchConf = utils.getSearchConf();
         //获取数据ID
         currentID = searchConf.data_id;
+        var queryID = searchConf.query_id;
 
         if( ! currentID  ){
             bridgeIOS.pageError('页面迷路了，找不到ID');
@@ -49,7 +50,10 @@
         indicatorView = new KnowledgeIndicator({
             el : '#knowledge-switch-con'
         });
-        indicatorView.onchange = function( id, direction ){
+        indicatorView.onchange = function( args ){
+            var id = args.data_id;
+            var queryID = args.query_id;
+            var direction = args.direction;
             var args = {
                 pos : 'indicator',
                 type : 'knowledge_switch',
@@ -57,7 +61,7 @@
             };
             args = JSON.stringify( args );
             bridgeIOS.pageStatistic( eventName, args );
-            showKnowledgeById( id );
+            showKnowledgeById( id, queryID );
         };
 
         //知识点详情视图
@@ -102,7 +106,7 @@
         };
 
         //渲染当前ID对应的知识点
-        showKnowledgeById( currentID );
+        showKnowledgeById( currentID, queryID );
 
         //统计页面展现PV
         var args = {
@@ -115,9 +119,12 @@
     app.stop = function(){};
 
     //渲染 id 对应的知识点
-    function showKnowledgeById( id ){
-		console.info(id);
-        bridgeIOS.getNodeDataById( id, function(knowledge){
+    function showKnowledgeById( id, queryID ){
+        console.info(id);
+        bridgeIOS.getNodeDataByIdAndQueryId( {
+            dataId : id,
+            queryId : queryID
+        }, function(knowledge){
             try{
                 knowledge = JSON.parse( knowledge );
             }catch(e){
@@ -133,7 +140,6 @@
 
             showKnowledgeByData( knowledge );
         } );
-        
     }
 
     function showKnowledgeByData(knowledge){

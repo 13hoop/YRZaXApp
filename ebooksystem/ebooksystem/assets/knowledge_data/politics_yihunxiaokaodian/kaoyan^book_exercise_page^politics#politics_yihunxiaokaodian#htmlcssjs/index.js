@@ -25,7 +25,7 @@
     var switchView;
 
     app.run = function(){
-        if( typeof bridgeIOS.canFixedHeightBoxScroll === 'function' ){
+        if( false ){
             try{
                 if( bridgeIOS.canFixedHeightBoxScroll() === '1' ){
                     document.documentElement.classList.add( 'j-overflow-scroll-ok' );
@@ -52,47 +52,53 @@
         var searchConf = utils.getSearchConf();
         currentID = searchConf.data_id;
         exerciseIndex = parseInt( searchConf.exercise_index, 10 ) || 0;
+        var queryID = searchConf.query_id;
 
-        var str = bridgeIOS.getNodeDataById( currentID );
-        var data;
-        try{
-            data = JSON.parse( str );
-            exerciseArray = data.data;
-        }catch(e){
-            console.error(e.message);
-            exerciseArray = [];
-        }
+        bridgeIOS.getNodeDataByIdAndQueryId( {
+            dataId : currentID,
+            queryId : queryID
+        }, function(str){
+            var data;
+            try{
+                data = JSON.parse( str );
+                exerciseArray = data.data;
+            }catch(e){
+                console.error(e.message);
+                exerciseArray = [];
+            }
 
-        if( ! exerciseArray || exerciseArray.length < 1 ){
-            alert('木有找到该组练习题');
-            return;
-        }
+            if( ! exerciseArray || exerciseArray.length < 1 ){
+                alert('木有找到该组练习题');
+                return;
+            }
 
-        exerciseView = new ExerciseView({
-            el : '#exercise-detail-con'
-        });
+            exerciseView = new ExerciseView({
+                el : '#exercise-detail-con'
+            });
 
-        switchView = new ExerciseSwitchView({
-            el : '#exercise-switch-con'
-        });
-        switchView.onIndexChange = function(index){
-            renderExercise( index );
-            switchView.setForwardAction( ExerciseSwitchView.SUBMIT_ANSWER );
-        };
-        switchView.onSubmitAnswer = function(){
-            exerciseView.showAnswer();
-            switchView.setForwardAction( ExerciseSwitchView.FORWARD );
-        };
-        switchView.setTotalNum( exerciseArray.length );
+            switchView = new ExerciseSwitchView({
+                el : '#exercise-switch-con'
+            });
+            switchView.onIndexChange = function(index){
+                renderExercise( index );
+                switchView.setForwardAction( ExerciseSwitchView.SUBMIT_ANSWER );
+            };
+            switchView.onSubmitAnswer = function(){
+                exerciseView.showAnswer();
+                switchView.setForwardAction( ExerciseSwitchView.FORWARD );
+            };
+            switchView.setTotalNum( exerciseArray.length );
 
-        renderExercise( exerciseIndex );
+            renderExercise( exerciseIndex );
 
-        //统计页面展现PV
-        var args = {
-            type : 'pv'
-        };
-        args = JSON.stringify( args );
-        bridgeIOS.pageStatistic( eventName, args );
+            //统计页面展现PV
+            var args = {
+                type : 'pv'
+            };
+            args = JSON.stringify( args );
+            bridgeIOS.pageStatistic( eventName, args );
+        } );
+
     };
 
     app.stop = function(){};

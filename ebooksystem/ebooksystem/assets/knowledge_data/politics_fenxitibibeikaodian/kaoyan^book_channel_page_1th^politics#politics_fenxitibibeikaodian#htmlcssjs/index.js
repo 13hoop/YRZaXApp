@@ -86,10 +86,11 @@
 
         var searchConf = utils.getSearchConf();
         //获取数据ID
+        bookQueryID = searchConf.book_query_id;
         currentID = searchConf.data_id;
         var queryID = searchConf.query_id;
 
-        topicQueryID = searchConf.queryID;
+        topicQueryID = searchConf.query_id;
 
         if( ! currentID  ){
             bridgeIOS.pageError('页面迷路了，找不到ID');
@@ -110,7 +111,7 @@
                 return;
             }
             bookID = searchConf.book_id;
-            bookQueryID = queryID;
+            //bookQueryID = queryID;
             bookName = searchConf.book_name_ch;
             topicID = searchConf.topic_id;
             var nodeName = data.topic_name_ch;

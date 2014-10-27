@@ -124,6 +124,14 @@ function dump(arr,level) {
             }
         });
     };
+    //searchData
+    bridgeIOS.searchData = function(data, callback) {
+        bridgeIOS.callOC("searchData", data, function(responseData){
+            if (callback) {
+                callback(responseData);
+            }
+        });
+    };
     
     // pageError()
     bridgeIOS.pageError = function(message) {
