@@ -8,6 +8,9 @@
 
 #import "StatisticsManager.h"
 
+#import "MobClick.h"
+
+
 @implementation StatisticsManager
 
 #pragma mark - singleton
@@ -23,40 +26,12 @@
 }
 
 #pragma mark - statistics
-- (BOOL)pageStatisticWithEvent:(NSString *)eventName andArgs:(NSDictionary *)args {
+- (BOOL)pageStatisticWithEvent:(NSString *)eventName andArgs:(NSString *)args {
     if (eventName == nil || eventName.length <= 0) {
         return NO;
     }
     
-    // todo: do statistics
-    
-//    JSONObject jsonObject = null;
-//    HashMap<String, String> mapData = new HashMap<String, String>();
-//    try {
-//        
-//        jsonObject = new JSONObject(args);
-//        Iterator<String> it = jsonObject.keys();
-//        String key;
-//        String value;
-//        while (it.hasNext()) {
-//            key = it.next();
-//            value = jsonObject.getString(key);
-//            mapData.put(key, value);
-//        }
-//    } catch (Exception e) {
-//        mapData.clear();
-//    }
-//    
-//    if (mapData.isEmpty()) {
-//        // 如果是空的map，证明统计的参数格式有错误，发送原始字符串到服务器
-//        if (args != null && !args.equals("")) {
-//            mapData.put("ORIGIN_STR", args);
-//        } else {
-//            mapData.put("ERROR_ARGS", "EMPTY");
-//        }
-//    }
-//    
-//    MobclickAgent.onEvent(getActivity(), eventName, mapData);
+    [MobClick event:eventName label:args];
     
     return YES;
 }

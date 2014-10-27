@@ -14,6 +14,6 @@
 + (StatisticsManager *)instance;
 
 #pragma mark - statistics
-- (BOOL)pageStatisticWithEvent:(NSString *)eventName andArgs:(NSDictionary *)args;
+- (BOOL)pageStatisticWithEvent:(NSString *)eventName andArgs:(NSString *)args;
 
 @end
