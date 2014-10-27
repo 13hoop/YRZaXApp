@@ -126,9 +126,9 @@
     self.email.text=[user valueForKey:@"userEmail"];
     self.project.text=[user valueForKey:@"chooseProject"];
     
-    UIImage *okImage=[UIImage imageNamed:@"umeng/images/item_ok.png"];
+    UIImage *okImage=[UIImage imageNamed:@"res/drawable/umeng-images/item_ok.png"];
     [self.okButton setImage:okImage forState:UIControlStateNormal];
-    UIImage *cancelImage=[UIImage imageNamed:@"umeng/images/item_cancel.png"];
+    UIImage *cancelImage=[UIImage imageNamed:@"res/drawable/umeng-images/item_cancel.png"];
     [self.cancelButton setImage:cancelImage forState:UIControlStateNormal];
 }
 

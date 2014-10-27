@@ -50,7 +50,7 @@
     self.versionLable.textColor=[UIColor lightGrayColor];
     self.versionLable.font=[UIFont systemFontOfSize:14.0f];
     self.versionLable.textAlignment=UITextAlignmentCenter;
-    [self addObserver:self forKeyPath:@"versionStr" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:nil];
+    
     
     [self.upView addSubview:self.versionLable];
 }
@@ -114,13 +114,5 @@
     copyRightLable.text=@"©2014-2015 Sanwei ALL Rights Reserved";
     [self addSubview:copyRightLable];
 }
-#pragma mark observe method
--(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
-{
-    if ([keyPath isEqualToString:@"versionStr"])
-    {
-        self.versionLable.text=[self valueForKeyPath:@"versionStr"];
-        
-    }
-}
+
 @end

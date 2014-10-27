@@ -106,8 +106,8 @@ static UITapGestureRecognizer *tapRecognizer;
     button.frame = CGRectMake(256, 7, 57.0f, 30.0f);
     button.titleLabel.font = [UIFont systemFontOfSize:14.0];
     [button setTitle:NSLocalizedString(@"发送", @"发送") forState:UIControlStateNormal];
-    [button setBackgroundImage:[UIImage imageNamed:@"umeng/images/send.png"] forState:UIControlStateNormal];
-    [button setBackgroundImage:[UIImage imageNamed:@"umeng/images/send_selected.png"] forState:UIControlStateHighlighted];
+    [button setBackgroundImage:[UIImage imageNamed:@"res/drawable/umeng-images/send.png"] forState:UIControlStateNormal];
+    [button setBackgroundImage:[UIImage imageNamed:@"res/drawable/umeng-images/send_selected.png"] forState:UIControlStateHighlighted];
     [button addTarget:self action:@selector(sendFeedback:) forControlEvents:UIControlEventTouchUpInside];
 
     [self.mToolBar addSubview:button];

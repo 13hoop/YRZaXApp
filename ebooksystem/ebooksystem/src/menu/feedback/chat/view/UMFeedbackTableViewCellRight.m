@@ -44,7 +44,7 @@
         self.textLabel.frame = textLabelFrame;
 
         messageBackgroundView = [[UIImageView alloc] initWithFrame:self.textLabel.frame];
-        messageBackgroundView.image = [[UIImage imageNamed:@"messages_right_bubble.png"] stretchableImageWithLeftCapWidth:1 topCapHeight:16];
+        messageBackgroundView.image = [[UIImage imageNamed:@"res/drawable/umeng-images/messages_right_bubble.png"] stretchableImageWithLeftCapWidth:1 topCapHeight:16];
         [self.contentView insertSubview:messageBackgroundView belowSubview:self.textLabel];
 
         self.selectionStyle = UITableViewCellSelectionStyleNone;

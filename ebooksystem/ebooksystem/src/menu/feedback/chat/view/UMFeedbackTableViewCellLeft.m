@@ -38,7 +38,7 @@
         [self.contentView addSubview:_timestampLabel];
 
         messageBackgroundView = [[UIImageView alloc] initWithFrame:self.textLabel.frame];
-        messageBackgroundView.image = [[UIImage imageNamed:@"messages_left_bubble.png"] stretchableImageWithLeftCapWidth:20 topCapHeight:16];
+        messageBackgroundView.image = [[UIImage imageNamed:@"res/drawable/umeng-images/messages_left_bubble.png"] stretchableImageWithLeftCapWidth:20 topCapHeight:16];
         [self.contentView insertSubview:messageBackgroundView belowSubview:self.textLabel];
         //取消选中效果
         self.selectionStyle = UITableViewCellSelectionStyleNone;
