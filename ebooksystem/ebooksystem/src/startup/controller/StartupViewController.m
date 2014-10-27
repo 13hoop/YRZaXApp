@@ -8,6 +8,8 @@
 
 #import "StartupViewController.h"
 
+#import "Config.h"
+
 #import "KnowledgeManager.h"
 #import "ErrorManager.h"
 
@@ -17,6 +19,7 @@
 #import "TimeWatcher.h"
 
 #import "LogUtil.h"
+#import "DeviceUtil.h"
 
 
 #import "StatisticsManager.h"
@@ -75,7 +78,7 @@
     
     [self loadData];
     
-    self.activityIndicatorView.hidden = YES;
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -142,7 +145,37 @@
 
 #pragma mark - update view
 - (void)updateView {
+    self.activityIndicatorView.hidden = YES;
     self.tipLabel.text = @"";
+    
+    // 更新背景图片
+    {
+        NSString *imageFilename = nil;
+        UIDeviceResolution res = [DeviceUtil currentResolution];
+        
+        switch (res) {
+            case UIDevice_iPhone_Res_640_960:
+                imageFilename = @"startup_640_960.png";
+                break;
+                
+            default:
+                break;
+        }
+//        BOOL iOS7 = [[[UIDevice currentDevice] systemVersion] floatValue] >= 7;
+//        
+//        CGFloat screenWidth = [UIScreen mainScreen].bounds.size.width;
+//        CGFloat screenHeight = [UIScreen mainScreen].bounds.size.height;
+//        if (!iOS7) {
+//            screenHeight -= 20;
+//        }
+//        
+//        [self.bgImageView setFrame:CGRectMake(0, 0, screenWidth, screenHeight)];
+        
+        if (imageFilename) {
+            self.bgImageView.image = [UIImage imageNamed:
+                                      [[Config instance].drawableConfig getStartupImageFullPath:imageFilename]];
+        }
+    }
 }
 
 #pragma mark - segue

@@ -122,7 +122,7 @@
 }
 
 // 根据dataId, queryId, 和indexFilename加载knowledge data
-- (NSString *)getLocalDataWithDataId:(NSString *)dataId andQueryId:(NSString *)queryId andIndexFilename:(NSString *)indexFilename {
+- (NSArray *)getLocalDataWithDataId:(NSString *)dataId andQueryId:(NSString *)queryId andIndexFilename:(NSString *)indexFilename {
     return [[KnowledgeDataLoader instance] getKnowledgeDataWithDataId:dataId andQueryId:queryId andIndexFilename:indexFilename];
 }
 
@@ -1103,14 +1103,18 @@
     NSMutableArray *searchedArray = [[NSMutableArray alloc] init];
     
     for (NSString *dataId in searchableDataIds) {
-        NSString *data = [[KnowledgeDataLoader instance] getKnowledgeDataWithDataId:dataId andQueryId:searchId andIndexFilename:nil];
+        NSArray *dataArray = [[KnowledgeDataLoader instance] getKnowledgeDataWithDataId:dataId andQueryId:searchId andIndexFilename:nil];
         
         // collect
-        if (!data || data.length <= 0) {
+        if (dataArray == nil || dataArray.count <= 0) {
             continue;
         }
         
-        [searchedArray addObject:data];
+        for (NSString *data in dataArray) {
+            if (data && data.length > 0) {
+                [searchedArray addObject:data];
+            }
+        }
     }
 
     // 3. 返回所有数据

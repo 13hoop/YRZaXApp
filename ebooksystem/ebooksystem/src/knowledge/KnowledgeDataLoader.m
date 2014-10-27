@@ -47,7 +47,7 @@
 
 #pragma mark - properties
 // knowledge data map
-// <data_id, <query_id, {data_file_name, offset, len, last_used_time}>>
+// <data_id, <query_id, [{data_file_name, offset, len, last_used_time}, ...]>>
 @property (nonatomic, retain) NSMutableDictionary *knowledgeDataDict;
 
 #pragma mark - load knowledge data
@@ -127,7 +127,7 @@
 }
 
 // 根据dataId, queryId, 和indexFilename加载knowledge data
-- (NSString *)getKnowledgeDataWithDataId:(NSString *)dataId andQueryId:(NSString *)queryId andIndexFilename:(NSString *)indexFilename {
+- (NSArray *)getKnowledgeDataWithDataId:(NSString *)dataId andQueryId:(NSString *)queryId andIndexFilename:(NSString *)indexFilename {
     // 1. 根据需要, 加载index文件
     {
         BOOL shouldLoadIndex = NO;
@@ -179,7 +179,7 @@
         return nil;
     }
     
-    // <query_id, {data_file_name, offset, len, last_used_time}>
+    // <query_id, [{data_file_name, offset, len, last_used_time}, ...]>
     NSMutableDictionary *queryDict = (NSMutableDictionary *)dataObj;
     if (queryDict == nil) {
         LogWarn(@"[KnowledgeLoader-getKnowledgeDataWithDataId:andQueryId:andIndexFilename:] failed since no query dict for query id: %@", queryId);
@@ -192,16 +192,28 @@
         return nil;
     }
     
-    KnowledgeDataIndex *dataIndex = (KnowledgeDataIndex *)queryObj;
-    if (dataIndex == nil) {
-        LogWarn(@"[KnowledgeLoader-getKnowledgeDataWithDataId:andQueryId:andIndexFilename:] failed since data index is nil for query id: %@", queryId);
+    NSMutableArray *indexArray = (NSMutableArray *)queryObj;
+    if (indexArray == nil || indexArray.count <= 0) {
+        LogWarn(@"[KnowledgeLoader-getKnowledgeDataWithDataId:andQueryId:andIndexFilename:] failed since there is no index data for query id: %@", queryId);
         return nil;
     }
-    else {
+    
+    NSMutableArray *resultArray = [[NSMutableArray alloc] init];
+    for (id indexObj in indexArray) {
+        KnowledgeDataIndex *dataIndex = (KnowledgeDataIndex *)indexObj;
+        if (dataIndex == nil) {
+            continue;
+        }
+        
         dataIndex.lastUsedTime = [NSDate date];
+        
+        NSString *data = [self loadKnowledgeData:dataIndex];
+        if (data != nil && data.length > 0) {
+            [resultArray addObject:data];
+        }
     }
     
-    return [self loadKnowledgeData:dataIndex];
+    return resultArray;
 }
 
 // 根据knowledgeDataIndex, 加载knowledge data
@@ -291,11 +303,17 @@
         {
             NSMutableDictionary *queryDict = nil;
             
-            // 在map中查找, 若无, 则创建
+            // 在dict中查找, 若无, 则创建
             id obj = [self.knowledgeDataDict objectForKey:dataId];
             if (obj == nil) {
-                // <query_id, {data_file_name, offset, len, last_used_time}>
-                queryDict = [[NSMutableDictionary alloc] initWithObjects:[NSArray arrayWithObjects:index, nil] forKeys:[NSArray arrayWithObjects:queryId, nil]];
+                // <query_id, [{data_file_name, offset, len, last_used_time}, ...]>
+                NSMutableArray *indexArray = [[NSMutableArray alloc] init];
+                [indexArray addObject:index];
+                
+                queryDict = [[NSMutableDictionary alloc] init];
+                [queryDict setObject:indexArray forKey:queryId];
+                
+//                queryDict = [[NSMutableDictionary alloc] initWithObjects:[NSArray arrayWithObjects:index, nil] forKeys:[NSArray arrayWithObjects:queryId, nil]];
                 [self.knowledgeDataDict setObject:queryDict forKey:dataId];
             }
             else {
@@ -305,7 +323,15 @@
                 }
                 
                 if (queryDict) {
-                    [queryDict setObject:index forKey:queryId];
+                    NSMutableArray *indexArray = [queryDict objectForKey:queryId];
+                    if (indexArray == nil) {
+                        indexArray = [[NSMutableArray alloc] init];
+                    }
+                    
+                    [indexArray addObject:index];
+                    
+                    [queryDict setObject:indexArray forKey:queryId];
+//                    [queryDict setObject:index forKey:queryId];
                 }
             }
         }

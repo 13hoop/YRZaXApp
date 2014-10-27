@@ -33,8 +33,6 @@
 - (void)event:(NSString *)eventId label:(NSString *)label;
 
 
-- (BOOL)pageStatisticWithEvent:(NSString *)eventName andArgs:(NSString *)args;
-
 #pragma mark - update
 // check update
 - (void)checkUpdate;

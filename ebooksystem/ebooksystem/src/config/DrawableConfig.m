@@ -40,4 +40,10 @@
 }
 
 
+// startup image's full path
+- (NSString *)getStartupImageFullPath:(NSString *)imageFileName {
+    NSString *fullPath = [NSString stringWithFormat:@"%@/startup-page/%@", self.drawableRootPath, imageFileName];
+    return fullPath;
+}
+
 @end
