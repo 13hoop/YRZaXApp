@@ -21,7 +21,7 @@
 #import "PurchaseViewController.h"
 
 #import "StatisticsManager.h"
-
+#import "UIColor+Hex.h"
 
 
 
@@ -48,7 +48,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor=[UIColor whiteColor];
+    self.view.backgroundColor=[UIColor colorWithHexString:@"#242021" alpha:1];
     [self addNavigationBar];
     [self addCustomMoreview];
 }

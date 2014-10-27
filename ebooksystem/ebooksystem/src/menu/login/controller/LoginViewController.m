@@ -29,6 +29,7 @@
 #import "DeviceUtil.h"
 #import "DeviceStatusUtil.h"
 #import "LogUtil.h"
+#import "UIColor+Hex.h"
 
 #define CUSTOMVIEW_X 64
 @interface LoginViewController ()<CustomNavigationBarDelegate,CustomLoginNavgationBarDelegate,CustomLoginViewDelegate,UserManagerDelegate>
@@ -56,7 +57,7 @@
 {
     index=0;
     [super viewDidLoad];
-    self.view.backgroundColor=[UIColor whiteColor];
+    self.view.backgroundColor=[UIColor colorWithHexString:@"#242021" alpha:1];
     [self addNavigationBar];
     [self createLoginView];
     [self testNetStatus];

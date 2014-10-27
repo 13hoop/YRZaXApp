@@ -11,7 +11,7 @@
 #import "CustomNavigationBar.h"
 #import "LogoutModel.h"
 #import "DeviceStatusUtil.h"
-
+#import "UIColor+Hex.h"
 #define NAVBAR_HEIGHT 44
 #define LOGOUTVIEW_X 64
 #define PROMPTVIEW_HEIGHT 30
@@ -40,7 +40,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.view.backgroundColor=[UIColor whiteColor];
+    self.view.backgroundColor=[UIColor colorWithHexString:@"#242021" alpha:1];
     alpha=1;
     [self createNavBar];
     [self createCustomLogoutView];

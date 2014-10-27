@@ -9,7 +9,7 @@
 #import "PurchaseViewController.h"
 #import "CustomNavigationBar.h"
 #import "TBActivityView.h"
-
+#import "UIColor+Hex.h"
 @interface PurchaseViewController ()<CustomNavigationBarDelegate,UIWebViewDelegate>
 @property(nonatomic,strong)UIWebView *webview;
 @property(nonatomic,strong)UIActivityIndicatorView *activityIndicator;
@@ -30,7 +30,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.view.backgroundColor=[UIColor whiteColor];
+    self.view.backgroundColor=[UIColor colorWithHexString:@"#242021" alpha:1];
     [self createWebView];
     [self createNavigationBar];
     [self createActivityIndicator];

@@ -12,7 +12,7 @@
 #import "CustomNavigationBar.h"
 
 #import "StatisticsManager.h"
-
+#import "UIColor+Hex.h"
 
 @interface AboutUsViewController ()<CustomNavigationBarDelegate>
 
@@ -34,7 +34,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.view.backgroundColor=[UIColor whiteColor];
+    self.view.backgroundColor=[UIColor colorWithHexString:@"#242021" alpha:1];
     [self creatCustomNavigationBar];
     [self createCustomAboutUs];
     
