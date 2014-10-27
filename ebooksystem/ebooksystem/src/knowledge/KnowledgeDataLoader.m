@@ -128,31 +128,61 @@
 
 // 根据dataId, queryId, 和indexFilename加载knowledge data
 - (NSString *)getKnowledgeDataWithDataId:(NSString *)dataId andQueryId:(NSString *)queryId andIndexFilename:(NSString *)indexFilename {
-    id obj = [self.knowledgeDataDict objectForKey:dataId];
-    if (obj == nil) {
-        // try load the index file
-        if (indexFilename == nil || indexFilename.length <= 0) {
-            indexFilename = [self decideIndexFilename:queryId];
-        }
+    // 1. 根据需要, 加载index文件
+    {
+        BOOL shouldLoadIndex = NO;
         
-        BOOL ret = [self loadKnowledgeIndex:indexFilename forData:dataId];
-        if (!ret) {
-            LogWarn(@"[KnowledgeLoader-getKnowledgeDataWithDataId:andQueryId:andIndexFilename:] failed since fail to load index from file: %@", indexFilename);
-            return nil;
-        }
+        do {
+            id dataObj = [self.knowledgeDataDict objectForKey:dataId];
+            if (dataObj == nil) {
+                shouldLoadIndex = YES;
+                break;
+            }
+            
+            NSMutableDictionary *queryDict = (NSMutableDictionary *)dataObj;
+            if (queryDict == nil) {
+                shouldLoadIndex = YES;
+                break;
+            }
+            
+            id queryObj = [queryDict objectForKey:queryId];
+            if (queryObj == nil) {
+                shouldLoadIndex = YES;
+                break;
+            }
+            
+            KnowledgeDataIndex *dataIndex = (KnowledgeDataIndex *)queryObj;
+            if (dataIndex == nil) {
+                shouldLoadIndex = YES;
+                break;
+            }
+        } while (0);
         
-        // get query dict
-        obj = [self.knowledgeDataDict objectForKey:dataId];
-        if (obj == nil) {
-            LogWarn(@"[KnowledgeLoader-getKnowledgeDataWithDataId:andQueryId:andIndexFilename:] failed since no query map for query id: %@, even after loading index file: %@", queryId, indexFilename);
-            return nil;
+        if (shouldLoadIndex) {
+            // try load the index file
+            if (indexFilename == nil || indexFilename.length <= 0) {
+                indexFilename = [self decideIndexFilename:queryId];
+            }
+            
+            BOOL ret = [self loadKnowledgeIndex:indexFilename forData:dataId];
+            if (!ret) {
+                LogError(@"[KnowledgeLoader-getKnowledgeDataWithDataId:andQueryId:andIndexFilename:] failed since fail to load index from file: %@", indexFilename);
+                return nil;
+            }
         }
     }
     
+    // 2. 获取knowledge data
+    id dataObj = [self.knowledgeDataDict objectForKey:dataId];
+    if (dataObj == nil) {
+        LogWarn(@"[KnowledgeLoader-getKnowledgeDataWithDataId:andQueryId:andIndexFilename:] failed since fail to find data for data id: %@", dataId);
+        return nil;
+    }
+    
     // <query_id, {data_file_name, offset, len, last_used_time}>
-    NSMutableDictionary *queryDict = (NSMutableDictionary *)obj;
+    NSMutableDictionary *queryDict = (NSMutableDictionary *)dataObj;
     if (queryDict == nil) {
-        LogWarn(@"[KnowledgeLoader-getKnowledgeDataWithDataId:andQueryId:andIndexFilename:] failed since no query map for query id: %@", queryId);
+        LogWarn(@"[KnowledgeLoader-getKnowledgeDataWithDataId:andQueryId:andIndexFilename:] failed since no query dict for query id: %@", queryId);
         return nil;
     }
     
@@ -227,9 +257,9 @@
     if (targetKnowledgeMeta == nil || targetKnowledgeMeta.dataPath == nil || targetKnowledgeMeta.dataPath.length <= 0) {
         return NO;
     }
-    
+
+    // 逐行读取文件
     NSString *fullIndexFilepath = [NSString stringWithFormat:@"%@/%@/%@", [Config instance].knowledgeDataConfig.knowledgeDataRootPathInApp, targetKnowledgeMeta.dataPath, indexFilename];
-    
     
     FILE *fp = fopen([fullIndexFilepath UTF8String], "r");
     if (fp == NULL) {

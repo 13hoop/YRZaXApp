@@ -298,17 +298,9 @@
 - (BOOL)updateWebView {
     //    self.webView.delegate = self;
     
-//    NSString *knowledgeDataRootPathInApp = [[Config instance] knowledgeDataConfig].knowledgeDataRootPathInApp;
-    
     if (self.pageId == nil) {
         return NO;
     }
-    
-    // 根据学科, 跳转到相应的entrance
-    //    if ([self.knowledgeSubject.subjectId isEqualToString:@"subject_english_id"]) {
-    //        // todo: load english entrance
-    //    }
-    //    else if ([self.knowledgeSubject.subjectId isEqualToString:@"subject_politics_id"]) {
     
     // 打开pageId对应的页面
     NSString *pagePath = [[KnowledgeManager instance] getPagePath:self.pageId];
@@ -323,18 +315,12 @@
     NSURL *urlWithParams = [[NSURL alloc] initWithString:urlStrWithParams];
     
     [self.webView loadRequest:[[NSURLRequest alloc] initWithURL:urlWithParams]];
-    //    }
     
     return YES;
 }
 
 // 跳转到指定的页面
 - (BOOL)showPageWithPageId:(NSString *)pageId andArgs:(NSString *)args {
-//    NSString *pageId = @"3b7942bf7d9f8a80dc3b7e43539ee40e";
-//    NSString *dataId = @"2a8ceed5e71a0ff16bafc9f082bceeec";
-//    
-//    NSString *htmlFilePath = [NSString stringWithFormat:@"%@/%@", knowledgeDataRootPathInAssets, @"14/3b7942bf7d9f8a80dc3b7e43539ee40e"];
-    
     NSString *htmlFilePath = [[KnowledgeManager instance] getPagePath:pageId];
     if (htmlFilePath == nil || htmlFilePath.length <= 0) {
         return NO;
@@ -375,19 +361,10 @@
         // test for play video
         {
             NSURL *url = nil;
-            
-            if (sender == nil) {
-//                NSString *knowledgeDataRootPathInAssets = [[Config instance] knowledgeDataConfig].knowledgeDataRootPathInAssets;
-//                NSString *htmlFilePath = [NSString stringWithFormat:@"%@/%@", knowledgeDataRootPathInAssets, @"test_video.mp4"];
-//                
-//                // 加载指定的html文件
-//                url = [[NSURL alloc] initFileURLWithPath:htmlFilePath];
-            }
-            else {
-                NSString *urlStr = (NSString *)sender;
-                if (urlStr != nil && urlStr.length > 0) {
-                    url = [NSURL URLWithString:[urlStr stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-                }
+
+            NSString *urlStr = (NSString *)sender;
+            if (urlStr != nil && urlStr.length > 0) {
+                url = [NSURL URLWithString:[urlStr stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
             }
             
             mediaPlayerViewController.url = url;
