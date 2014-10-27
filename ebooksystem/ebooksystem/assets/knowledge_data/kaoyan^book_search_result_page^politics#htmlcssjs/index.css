@@ -173,25 +173,8 @@ ul,ol,dl{
 .search-desc{
     font: normal 16px "微软雅黑", arial;
 }
-/*topic列表区域*/
-#child-list-con{
-    background: #fff;
-}
-.topic-item{
-    position: relative;
-    height: 52px;
-    border-bottom-width: 1px;
-    padding: 0 40px 0 20px;
-}
-.topic-knowledge-num{
-    float: right;
-    height: 100%;
-    line-height: 51px;
-    color: #44a0ff;
-}
-.topic-text-wrap{
-    display: inline-block;
-    height: 51px;
-    line-height: 51px;
-    color: #535862;
+.no-result-wrap{
+    padding: 0 20px;
+    margin: 50px 0;
+    text-align: center;
 }
