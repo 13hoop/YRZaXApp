@@ -25,12 +25,58 @@
  ******************************************************************************/
 + (UIDeviceResolution) currentResolution {
     if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone){
-        if ([[UIScreen mainScreen] respondsToSelector: @selector(scale)]) {
-            CGSize result = [[UIScreen mainScreen] bounds].size;
-            result = CGSizeMake(result.width * [UIScreen mainScreen].scale, result.height * [UIScreen mainScreen].scale);
-            if (result.height <= 480.0f)
+        // nativeBounds: since ios8
+        if ([[UIScreen mainScreen] respondsToSelector:@selector(nativeBounds)]) {
+            CGRect rect = [UIScreen mainScreen].nativeBounds;
+            
+            if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone){
+                if (rect.size.height <= 480.0f) {
+                    return UIDevice_iPhone_Res_320_480;
+                }
+                else if (rect.size.height <= 960.0f) {
+                    return UIDevice_iPhone_Res_640_960;
+                }
+                else if (rect.size.height <= 1136.0f) {
+                    return UIDevice_iPhone_Res_640_1136;
+                }
+                else if (rect.size.height <= 1334.0f) {
+                    return UIDevice_iPhone_Res_750_1334;
+                }
+                else if (rect.size.height <= 1920.0f) {
+                    return UIDevice_iPhone_Res_1080_1920;
+                }
+                else {
+                    return UIDevice_iPhone_Res_640_960;
+                }
+            }
+            else {
+                return (([[UIScreen mainScreen] respondsToSelector: @selector(scale)]) ? UIDevice_iPad_Res_2048_1536 : UIDevice_iPad_Res_1024_768);
+            }
+
+        }
+        else if ([[UIScreen mainScreen] respondsToSelector: @selector(scale)]) {
+            CGFloat scale = [UIScreen mainScreen].scale;
+            CGSize screenBounds = [[UIScreen mainScreen] bounds].size;
+            
+            CGSize resolution = CGSizeMake(screenBounds.width * scale, screenBounds.height * scale);
+            if (resolution.height <= 480.0f) {
                 return UIDevice_iPhone_Res_320_480;
-            return (result.height > 960 ? UIDevice_iPhone_Res_640_1136 : UIDevice_iPhone_Res_640_960);
+            }
+            else if (resolution.height <= 960.0f) {
+                return UIDevice_iPhone_Res_640_960;
+            }
+            else if (resolution.height <= 1136.0f) {
+                return UIDevice_iPhone_Res_640_1136;
+            }
+            else if (resolution.height <= 1334.0f) {
+                return UIDevice_iPhone_Res_750_1334;
+            }
+            else if (resolution.height <= 1920.0f) {
+                return UIDevice_iPhone_Res_1080_1920;
+            }
+            else {
+                return UIDevice_iPhone_Res_640_960;
+            }
         } else
             return UIDevice_iPhone_Res_320_480;
     } else

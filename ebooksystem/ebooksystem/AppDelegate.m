@@ -56,11 +56,11 @@
     LogInfo(@"Bundle path: %@", [PathUtil getBundlePath]);
     LogInfo(@"Log file path: %@", [LogUtil getLogFilePath]);
     
-    // 安装异常处理函数
-    [ErrorManager installUncaughtExceptionHandler];
-    
     // 初始化统计
     [[StatisticsManager instance] event:@"app_start" label:@""];
+    
+    // 安装异常处理函数
+    [ErrorManager installUncaughtExceptionHandler];
     
     // Override point for customization after application launch.
 //    UIColor *color = [UIColor colorWithRed:107/255.0f green:211/255.0f blue:217/255.0f alpha:1.0f];

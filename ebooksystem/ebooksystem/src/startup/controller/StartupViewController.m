@@ -30,9 +30,19 @@
 {
     ProgressOverlayViewController *progressOverlayViewController;
     
+    // 进度条图案
+    MRActivityIndicatorView *activityIndicatorView;
+    
+    // 提示文字
+    UILabel *tipLabel;
+    
     TimeWatcher *timeWatcher;
 }
 
+#pragma mark - properties
+
+
+#pragma mark - methods
 // 初始化app data
 - (BOOL)initAppData;
 
@@ -41,6 +51,9 @@
 
 // update navigation bar
 - (void)updateNavigationBar;
+
+// update background view
+- (void)updateBackgroundView;
 
 // update view
 - (void)updateView;
@@ -77,8 +90,6 @@
 //    });
     
     [self loadData];
-    
-    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -124,11 +135,13 @@
         [[KnowledgeManager instance] initKnowledgeDataAsync];
     }
     else {
-        self.tipLabel.text = @"";
+        if (tipLabel) {
+            tipLabel.text = @"";
+        }
         
         [self performBlock:^{
             [self gotoWebView];
-        }afterDelay:0.1];
+        } afterDelay:0.1];
     }
     
     return YES;
@@ -144,37 +157,81 @@
 }
 
 #pragma mark - update view
-- (void)updateView {
-    self.activityIndicatorView.hidden = YES;
-    self.tipLabel.text = @"";
-    
-    // 更新背景图片
+- (void)updateBackgroundView {
     {
         NSString *imageFilename = nil;
+        activityIndicatorView = [[MRActivityIndicatorView alloc] init];
+        tipLabel = [[UILabel alloc] init];
+        
         UIDeviceResolution res = [DeviceUtil currentResolution];
         
         switch (res) {
+            case UIDevice_iPhone_Res_320_480:
+                imageFilename = @"startup_640_960.png";
+                activityIndicatorView.frame = CGRectMake(98, 307, 20, 20);
+                tipLabel.frame = CGRectMake(130, 304, 120, 26);
+                break;
+                
             case UIDevice_iPhone_Res_640_960:
                 imageFilename = @"startup_640_960.png";
+                activityIndicatorView.frame = CGRectMake(98, 307, 20, 20);
+                tipLabel.frame = CGRectMake(130, 304, 120, 26);
+                break;
+                
+            case UIDevice_iPhone_Res_640_1136:
+                imageFilename = @"startup_640_1136.png";
+                activityIndicatorView.frame = CGRectMake(98, 395, 20, 20);
+                tipLabel.frame = CGRectMake(130, 392, 120, 26);
+                break;
+                
+            case UIDevice_iPhone_Res_750_1334:
+                imageFilename = @"startup_750_1334.png";
+                activityIndicatorView.frame = CGRectMake(98, 395, 20, 20);
+                tipLabel.frame = CGRectMake(130, 392, 120, 26);
+                break;
+                
+            case UIDevice_iPhone_Res_1080_1920:
+                imageFilename = @"startup_1080_1920.png";
+                activityIndicatorView.frame = CGRectMake(98, 395, 20, 20);
+                tipLabel.frame = CGRectMake(130, 392, 120, 26);
                 break;
                 
             default:
                 break;
         }
-//        BOOL iOS7 = [[[UIDevice currentDevice] systemVersion] floatValue] >= 7;
-//        
-//        CGFloat screenWidth = [UIScreen mainScreen].bounds.size.width;
-//        CGFloat screenHeight = [UIScreen mainScreen].bounds.size.height;
-//        if (!iOS7) {
-//            screenHeight -= 20;
-//        }
-//        
-//        [self.bgImageView setFrame:CGRectMake(0, 0, screenWidth, screenHeight)];
         
-        if (imageFilename) {
-            self.bgImageView.image = [UIImage imageNamed:
-                                      [[Config instance].drawableConfig getStartupImageFullPath:imageFilename]];
+        // 更新背景图片
+        {
+            UIImage *image = [UIImage imageNamed: [[Config instance].drawableConfig getStartupImageFullPath:imageFilename]];
+            UIImageView *bgImageView = [[UIImageView alloc] initWithImage:image];
+            bgImageView.frame = self.view.frame;
+            bgImageView.contentMode = UIViewContentModeScaleAspectFit;
+            
+            [self.view addSubview:bgImageView];
+            [self.view sendSubviewToBack:bgImageView];
         }
+        
+        // 更新进度条
+        if (activityIndicatorView) {
+            [self.view addSubview:activityIndicatorView];
+        }
+        // 更新提示文字
+        if (tipLabel) {
+            tipLabel.textColor = [UIColor whiteColor];
+            [self.view addSubview:tipLabel];
+        }
+    }
+}
+
+- (void)updateView {
+    [self updateBackgroundView];
+    
+    if (activityIndicatorView) {
+        activityIndicatorView.hidden = YES;
+    }
+    
+    if (tipLabel) {
+        tipLabel.text = @"";
     }
 }
 
@@ -203,16 +260,20 @@
 
 #pragma mark - KnowledgeManagerDelegate methods
 - (void)showProgressAsActivityIndicator {
-    self.activityIndicatorView.hidden = NO;
-    self.activityIndicatorView.hidesWhenStopped = YES;
-    self.activityIndicatorView.tintColor = [UIColor blueColor];
-    self.activityIndicatorView.backgroundColor = [UIColor clearColor];
-    [self.activityIndicatorView startAnimating];
+    if (activityIndicatorView) {
+        activityIndicatorView.hidden = NO;
+        activityIndicatorView.hidesWhenStopped = YES;
+        activityIndicatorView.tintColor = [UIColor blueColor];
+        activityIndicatorView.backgroundColor = [UIColor clearColor];
+        [activityIndicatorView startAnimating];
+    }
 }
 
 - (void)hideProgressOfActivityIndicator {
-    [self.activityIndicatorView stopAnimating];
-//    self.activityIndicatorView.hidden = YES;
+    if (activityIndicatorView) {
+        [activityIndicatorView stopAnimating];
+        //    activityIndicatorView.hidden = YES;
+    }
 }
 
 - (void)showProgressAsOverlay:(NSString *)desc {
@@ -243,7 +304,9 @@
         [self showProgressAsActivityIndicator];
 //        [self showProgressAsOverlay:desc];
         
-        self.tipLabel.text = desc;
+        if (tipLabel) {
+            tipLabel.text = desc;
+        }
     });
     
     timeWatcher = [[TimeWatcher alloc] init];
@@ -255,7 +318,9 @@
 - (void)dataInitProgressChangedTo:(NSNumber *)progress withDesc:(NSString *)desc {
     // 更新进度
     dispatch_async(dispatch_get_main_queue(), ^{
-        self.tipLabel.text = desc;
+        if (tipLabel) {
+            tipLabel.text = desc;
+        }
         
         [self changeProgressOfOverlay:desc];
     });
@@ -267,7 +332,9 @@
         [self hideProgressOfActivityIndicator];
 //        [self hideProgressOfOverlay];
         
-        self.tipLabel.text = desc;
+        if (tipLabel) {
+            tipLabel.text = desc;
+        }
         
         [self performBlock:^{
             [self gotoWebView];

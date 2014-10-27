@@ -106,7 +106,7 @@
         // 不再拷贝
         //        [[KnowledgeDataManager instance] copyAssetsKnowledgeData];
         [self registerDataFiles];
-        [self updateKnowledgeDataInitFlag:YES]; // comment out for test
+//        [self updateKnowledgeDataInitFlag:YES]; // comment out for test
         
         [timeWatcher stop];
         NSString *info = [timeWatcher getIntervalStr];

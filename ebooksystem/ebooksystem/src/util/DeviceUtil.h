@@ -13,8 +13,12 @@ typedef enum {
     UIDevice_iPhone_Res_320_480      = 1,
     // iPhone 4,4S 高清分辨率(640x960px)
     UIDevice_iPhone_Res_640_960,
-    // iPhone 5 高清分辨率(640x1136px)
+    // iPhone 5, 5S 高清分辨率(640x1136px)
     UIDevice_iPhone_Res_640_1136,
+    // iPhone 6
+    UIDevice_iPhone_Res_750_1334,
+    // iPhone 6P
+    UIDevice_iPhone_Res_1080_1920,
     
     
     // iPad 1,2 标准分辨率(1024x768px)

@@ -90,6 +90,9 @@
 //        
 //        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onlineConfigCallBack:) name:UMOnlineConfigDidFinishedNotification object:nil];
     }
+    
+    // 4. 禁用错误分析
+//    [MobClick setCrashReportEnabled:NO];
 }
 
 #pragma mark - statistics

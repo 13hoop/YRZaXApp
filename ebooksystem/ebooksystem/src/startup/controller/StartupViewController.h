@@ -15,14 +15,6 @@
 @interface StartupViewController : UIViewController
 
 #pragma mark - outlets
-// 背景图片
-@property (strong, nonatomic) IBOutlet UIImageView *bgImageView;
-// 提示文字
-@property (strong, nonatomic) IBOutlet UILabel *tipLabel;
-
-// 进度条图案
-@property (strong, nonatomic) IBOutlet MRActivityIndicatorView *activityIndicatorView;
-
 
 
 #pragma mark - actions

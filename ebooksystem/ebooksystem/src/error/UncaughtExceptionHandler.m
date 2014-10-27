@@ -149,15 +149,7 @@ const NSInteger UncaughtExceptionHandlerReportAddressCount = 5;
 - (void)handleError:(ErrorInfo *)errorInfo {
     // 1. 将错误日志保存到文件
     NSString *messageForAnalysis = [errorInfo toJSONString];
-    // test
-//    {
-//        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"程序异常提示", nil)
-//                                                            message:(messageForAnalysis == nil ? @"nil" : messageForAnalysis)
-//                                                       delegate:self
-//                                              cancelButtonTitle:NSLocalizedString(@"退出", nil)
-//                                              otherButtonTitles:nil];
-//        [alertView show];
-//    }
+//    [self showAlertWithTitle:@"程序异常提示" andMessage:messageForAnalysis];
     
     if (messageForAnalysis != nil) {
         NSError *error = nil;
@@ -165,28 +157,29 @@ const NSInteger UncaughtExceptionHandlerReportAddressCount = 5;
         if (error != nil) {
             LogError(@"[UncaughtExceptionHandler-handleException:] failed to save crash report to file: %@, error: %@", [Config instance].errorConfig.crashFilepath, error.localizedDescription);
             
-            NSString *info = [NSString stringWithFormat:@"[UncaughtExceptionHandler-handleException:] failed to save crash report to file: %@, error: %@", [Config instance].errorConfig.crashFilepath, error.localizedDescription];
+//            NSString *info = [NSString stringWithFormat:@"[UncaughtExceptionHandler-handleException:] failed to save crash report to file: %@, error: %@", [Config instance].errorConfig.crashFilepath, error.localizedDescription];
             
 //            [self showAlertWithTitle:@"UncaughtExceptionHandler" andMessage:info];
         }
         else {
             LogError(@"[UncaughtExceptionHandler-handleException:] successfully to save crash report to file: %@", [Config instance].errorConfig.crashFilepath);
             
-            NSString *info = [NSString stringWithFormat:@"[UncaughtExceptionHandler-handleException:] successfully to save crash report to file: %@, error: %@", [Config instance].errorConfig.crashFilepath, error.localizedDescription];
-            
+//            NSString *info = [NSString stringWithFormat:@"[UncaughtExceptionHandler-handleException:] successfully to save crash report to file: %@, error: %@", [Config instance].errorConfig.crashFilepath, error.localizedDescription];
+//            
 //            [self showAlertWithTitle:@"UncaughtExceptionHandler" andMessage:info];
         }
     }
     
     // 2. 弹出窗口, 提示用户
     NSString *messageForUser = @"\n程序遇到未知错误, 需要退出.\n对于给您带来的不便, 在此深表歉意.\n";
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"程序异常提示", nil)
-                                                    message:messageForUser
-                                                   delegate:self
-                                          cancelButtonTitle:NSLocalizedString(@"退出", nil)
-                                          otherButtonTitles:nil];
-    
-    [alert show];
+    [self showAlertWithTitle:@"程序异常提示" andMessage:messageForUser];
+//    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"程序异常提示", nil)
+//                                                    message:messageForUser
+//                                                   delegate:self
+//                                          cancelButtonTitle:NSLocalizedString(@"退出", nil)
+//                                          otherButtonTitles:nil];
+//    
+//    [alert show];
     
     // 3. 退出app
     CFRunLoopRef runLoop = CFRunLoopGetCurrent();

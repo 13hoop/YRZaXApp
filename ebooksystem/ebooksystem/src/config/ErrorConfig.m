@@ -67,9 +67,6 @@
         if (!(isDir && existed)) {
             NSError *error = nil;
             [[NSFileManager defaultManager] createDirectoryAtPath:parentPath withIntermediateDirectories:YES attributes:nil error:&error];
-            
-//            NSString *info = [NSString stringWithFormat:@"createDirectoryAtPath: %@, error: %@", [_crashFilepath stringByDeletingLastPathComponent], error];
-//            [self showAlertWithTitle:@"ErrorConfig" andMessage:info];
         }
     }
     
