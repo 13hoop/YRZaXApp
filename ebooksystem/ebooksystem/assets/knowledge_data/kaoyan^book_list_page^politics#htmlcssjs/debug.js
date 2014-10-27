@@ -188,5 +188,8 @@ bridgeIOS.getBookArrayStatus = function( idArrayStr, callback ){
 
     return out;
 };
+    bridgeIOS.showMenu = function(){
+        alert('点击 菜单 按钮');
+    };
 
 }();

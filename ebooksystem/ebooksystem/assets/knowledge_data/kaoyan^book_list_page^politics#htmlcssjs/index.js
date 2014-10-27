@@ -267,6 +267,12 @@
             // } );
         } );
 
+        //menu btn
+        var menuBtn = document.querySelector('.show-menu-btn');
+        menuBtn.addEventListener('touchend', function(e){
+            bridge.showMenu();
+        }, false );
+
         window.addEventListener('unload', function(e){
             console.info('book_list_page unload');
         }, false);

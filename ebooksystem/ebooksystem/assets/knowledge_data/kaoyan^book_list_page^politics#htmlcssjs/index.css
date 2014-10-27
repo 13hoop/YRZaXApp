@@ -104,7 +104,15 @@ ul,ol,dl{
 
 
 /*******************************页面相关样式***********************************/
-
+/*menu btn*/
+.show-menu-btn{
+    position: absolute;
+    right: 0;
+    height: 100%;
+    padding: 0 20px;
+    font-size: 17px;
+    color: #44a0ff;
+}
 /*搜索框入口*/
 .search-entrance-wrap{
     height: 32px;
