@@ -21,7 +21,8 @@
 
 #import "LogUtil.h"
 
-#import "MobClick.h"
+
+#import "StatisticsManager.h"
 
 
 
@@ -114,7 +115,7 @@
     [self updateNavigationBar];
     
     // 友盟统计
-    [MobClick beginLogPageView:@"CommonWebView"];
+    [[StatisticsManager instance] beginLogPageView:@"CommonWebView"];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -140,7 +141,7 @@
     [super viewWillDisappear:animated];
     
     // 友盟统计
-    [MobClick endLogPageView:@"CommonWebView"];
+    [[StatisticsManager instance] endLogPageView:@"CommonWebView"];
 }
 
 /*
@@ -275,7 +276,7 @@
         NSString *eventName = [data objectForKey:@"eventName"];
         NSString *args = [data objectForKey:@"args"];
         
-        [[StatisticsManager instance] pageStatisticWithEvent:eventName andArgs:args];
+        [[StatisticsManager instance] event:eventName label:args];
     }];
     
     // 发送消息给 html

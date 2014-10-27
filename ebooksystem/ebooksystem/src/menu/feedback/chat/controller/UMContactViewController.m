@@ -7,7 +7,12 @@
 //
 
 #import "UMContactViewController.h"
-#import "MobClick.h"
+
+
+#import "StatisticsManager.h"
+
+
+
 #define SCREEN_HEIGHT 480
 @implementation UMContactViewController
 
@@ -118,7 +123,10 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [MobClick beginLogPageView:@"PageContact"];
+    
+    [[StatisticsManager instance] beginLogPageView:@"PageContact"];
+    
+    
     NSUserDefaults *user=[NSUserDefaults standardUserDefaults];
     self.nameText.text=[user valueForKey:@"userName"];
     self.date.text=[user valueForKey:@"SchoolDate"];
@@ -135,7 +143,8 @@
 -(void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    [MobClick endLogPageView:@"PageContact"];
+    
+    [[StatisticsManager instance] endLogPageView:@"PageContact"];
 }
 
 @end

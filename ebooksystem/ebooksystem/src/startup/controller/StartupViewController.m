@@ -14,12 +14,12 @@
 #import "ProgressOverlayViewController.h"
 #import "CommonWebViewController.h"
 
-
-#import "MobClick.h"
 #import "TimeWatcher.h"
 
 #import "LogUtil.h"
 
+
+#import "StatisticsManager.h"
 
 
 
@@ -83,7 +83,7 @@
     [self updateView];
     
     // 友盟统计
-    [MobClick beginLogPageView:@"StartupView"];
+    [[StatisticsManager instance] beginLogPageView:@"StartupView"];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -108,7 +108,7 @@
     [super viewWillDisappear:animated];
     
     // 友盟统计
-    [MobClick endLogPageView:@"StartupView"];
+    [[StatisticsManager instance] endLogPageView:@"StartupView"];
 }
 
 #pragma mark - 初始化app data

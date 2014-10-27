@@ -11,14 +11,15 @@
 #import "KnowledgeManager.h"
 #import "ErrorManager.h"
 
-#import "MobClick.h"
 
 #import "CoreDataUtil.h"
 #import "LogUtil.h"
 #import "PathUtil.h"
 
+#import "StatisticsManager.h"
 
-#define UMENG_APPKEY @"5420c86efd98c51541017684"
+
+
 
 @interface AppDelegate ()
 
@@ -49,6 +50,9 @@
     // 安装异常处理函数
     [ErrorManager installUncaughtExceptionHandler];
     
+    // 初始化统计
+    [[StatisticsManager instance] event:@"app_start" label:@""];
+    
     // Override point for customization after application launch.
 //    UIColor *color = [UIColor colorWithRed:107/255.0f green:211/255.0f blue:217/255.0f alpha:1.0f];
 //    [[UINavigationBar appearance] setBarTintColor:color];
@@ -68,40 +72,40 @@
 //    return YES;
 }
 
--(void)UmengMethod
-{
-    [MobClick startWithAppkey:UMENG_APPKEY reportPolicy:BATCH channelId:@""];
-    //Xcode4及以上的版本的version标识的取值--
-    NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
-    [MobClick setAppVersion:version];
-    //（1）多渠道完成自动更新
-    [MobClick checkUpdate];
-    //（2）使用这个方法，这些方法已经设置好（在弹出的AlertView中点击按钮就会实现相应的方法）
-    [MobClick checkUpdate:@"新版本" cancelButtonTitle:@"取消" otherButtonTitles:@"到APP Store中下载新版本"];
-    //(3)自定义的方式来完成
-    [MobClick checkUpdateWithDelegate:self selector:@selector(update:)];
-    
-    //在线参数配置
-    [MobClick updateOnlineConfig];  //在线参数配置
-    
-    //    1.6.8之前的初始化方法
-    //    [MobClick setDelegate:self reportPolicy:REALTIME];  //建议使用新方法
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onlineConfigCallBack:) name:UMOnlineConfigDidFinishedNotification object:nil];
-    
-    
-}
+//-(void)UmengMethod
+//{
+//    [MobClick startWithAppkey:UMENG_APPKEY reportPolicy:BATCH channelId:@""];
+//    //Xcode4及以上的版本的version标识的取值--
+//    NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+//    [MobClick setAppVersion:version];
+//    //（1）多渠道完成自动更新
+//    [MobClick checkUpdate];
+//    //（2）使用这个方法，这些方法已经设置好（在弹出的AlertView中点击按钮就会实现相应的方法）
+//    [MobClick checkUpdate:@"新版本" cancelButtonTitle:@"取消" otherButtonTitles:@"到APP Store中下载新版本"];
+//    //(3)自定义的方式来完成
+//    [MobClick checkUpdateWithDelegate:self selector:@selector(update:)];
+//    
+//    //在线参数配置
+//    [MobClick updateOnlineConfig];  //在线参数配置
+//    
+//    //    1.6.8之前的初始化方法
+//    //    [MobClick setDelegate:self reportPolicy:REALTIME];  //建议使用新方法
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onlineConfigCallBack:) name:UMOnlineConfigDidFinishedNotification object:nil];
+//    
+//    
+//}
 
-//实现打开app就自动检查是否有新版本可以更新
-- (void)update:(NSDictionary *)appInfo {
-    //后期需要在这里面定制alertView
-    NSLog(@"update info %@",appInfo);
-}
-
-//后期修改
-- (void)onlineConfigCallBack:(NSNotification *)note {
-    
-    NSLog(@"online config has fininshed and note = %@", note.userInfo);
-}
+////实现打开app就自动检查是否有新版本可以更新
+//- (void)update:(NSDictionary *)appInfo {
+//    //后期需要在这里面定制alertView
+//    NSLog(@"update info %@",appInfo);
+//}
+//
+////后期修改
+//- (void)onlineConfigCallBack:(NSNotification *)note {
+//    
+//    NSLog(@"online config has fininshed and note = %@", note.userInfo);
+//}
 
 //禁止横屏的方法
 -(NSUInteger)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window
@@ -137,6 +141,8 @@
     [[CoreDataUtil instance] saveContext];
     
     [LogUtil uninit];
+    
+    [[StatisticsManager instance] event:@"app_exit" label:@""];
 //    [self saveContext];
 }
 
