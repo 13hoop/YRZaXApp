@@ -98,6 +98,18 @@ var queryID = args.queryId;
             name_en : '',
             desc : '书籍描述',
             file_size : '8'
+        },
+        {
+            id : '006',
+            query_id : '006',
+            page_id : '006',
+            update_id : '006-2',
+            book_cover : 'shizheng100ti',
+            name_ch : '时政100题',
+            is_online : '0',
+            name_en : '',
+            desc : '书籍描述',
+            file_size : '8'
         }
     ];
 

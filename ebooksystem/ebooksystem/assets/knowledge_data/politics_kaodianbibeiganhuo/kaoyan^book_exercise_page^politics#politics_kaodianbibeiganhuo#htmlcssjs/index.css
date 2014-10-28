@@ -10,6 +10,9 @@
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
     outline: none;
 }
+html{
+    -webkit-user-select: none;
+}
 ul,ol,dl{
     list-style: none;
 }
@@ -43,7 +46,7 @@ ul,ol,dl{
     color: #fff;
     background: #242021;
     font-size: 20px;
-    position: fixed;
+    /*position: fixed;*/
     width: 100%;
     top: 0;
     left: 0;
@@ -113,7 +116,7 @@ ul,ol,dl{
 }
 
 #main-wrap{
-    padding-top: 50px;
+    /*padding-top: 50px;*/
 }
 
 /***********************************页面本身样式********************************/
@@ -174,11 +177,13 @@ html.j-overflow-scroll-ok{
     padding: 0 0 0px 0;
     -webkit-box-flex: 1;
     -webkit-flex: 1;
+    flex: 1;
     overflow-y: auto;
 }
 .exercise-info-wrap{
     -webkit-box-flex: 1;
     -webkit-flex: 1;
+    flex: 1;
     overflow-y: auto;
 }
 .exercise-section{

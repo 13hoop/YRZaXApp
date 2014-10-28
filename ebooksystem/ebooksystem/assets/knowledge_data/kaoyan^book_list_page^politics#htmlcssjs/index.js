@@ -101,6 +101,11 @@
 
         });
 
+        if( data.length % 2 === 1 ){
+            //书籍数量为奇数，加一本占位
+            html += '<div class="book-item common-hoverable-item common-split-border " data-is_online="0" ></div>';
+        }
+
         bookListEl.innerHTML = html;
 
         //绑定书籍点击事件
@@ -269,7 +274,7 @@
 
         //menu btn
         var menuBtn = document.querySelector('.show-menu-btn');
-        menuBtn.addEventListener('touchend', function(e){
+        menuBtn.addEventListener('click', function(e){
             bridge.showMenu();
         }, false );
 

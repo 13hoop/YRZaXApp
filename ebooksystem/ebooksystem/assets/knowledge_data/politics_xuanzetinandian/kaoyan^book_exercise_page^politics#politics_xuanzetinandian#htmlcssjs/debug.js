@@ -80,7 +80,9 @@ var dataMap = {
 };
 var knowledgeIndex = 0;
 //通过 id 来获取该页面内需要显示的数据
-bridgeIOS.getNodeDataById = function( id ){
+bridgeIOS.getNodeDataByIdAndQueryId = function( args, callback ){
+
+    var id = args.dataId;
 
     var out = {};
 
@@ -109,6 +111,10 @@ bridgeIOS.getNodeDataById = function( id ){
     }
 
     out.data = arr;
+
+    if( typeof callback === 'function' ){
+        callback( JSON.stringify(out) );
+    }
 
     return JSON.stringify( out );
 };
