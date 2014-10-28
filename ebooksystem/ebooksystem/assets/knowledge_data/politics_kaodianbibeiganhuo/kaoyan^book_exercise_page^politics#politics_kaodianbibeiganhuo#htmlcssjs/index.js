@@ -25,26 +25,16 @@
     var switchView;
 
     app.run = function(){
-        if( false ){
-            try{
-                if( bridgeIOS.canFixedHeightBoxScroll() === '1' ){
-                    document.documentElement.classList.add( 'j-overflow-scroll-ok' );
-                    var main = document.querySelector('#main-wrap');
-                    main.classList.add( 'flexbox');
-                }else{
-                    document.documentElement.classList.add( 'j-overflow-scroll-bug' );
-                }
-            }catch(e){
-                document.documentElement.classList.add( 'j-overflow-scroll-ok' );
-                var main = document.querySelector('#main-wrap');
-                main.classList.add( 'flexbox');
-            }
 
-        }else{
-            document.documentElement.classList.add( 'j-overflow-scroll-ok' );
-            var main = document.querySelector('#main-wrap');
-            main.classList.add( 'flexbox');
+
+        document.documentElement.classList.add( 'j-overflow-scroll-ok' );
+        var main = document.querySelector('#main-wrap');
+        main.classList.add( 'flexbox');
+
+        if( window.screen.height < window.innerHeight ){
+            main.style.height = window.screen.height - 20 +'px';
         }
+
 
         document.documentElement.classList.add( pageDisplayMode);
         utils.initPageHeader();
