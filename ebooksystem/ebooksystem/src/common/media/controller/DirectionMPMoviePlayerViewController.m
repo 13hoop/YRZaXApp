@@ -17,6 +17,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    // 旋转, 使横屏播放
     CGAffineTransform transform = CGAffineTransformIdentity;
     transform = CGAffineTransformRotate(transform, M_PI/2);
     self.view.transform = transform;

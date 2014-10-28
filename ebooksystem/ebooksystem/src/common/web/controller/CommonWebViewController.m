@@ -422,7 +422,9 @@
     //---play movie---
     [[playerViewController moviePlayer] play];
     
-    [self presentMoviePlayerViewControllerAnimated:playerViewController];
+    // 注: 用present会导致playerViewController中设置的transform不生效, 故转为push
+//    [self presentMoviePlayerViewControllerAnimated:playerViewController];
+    [self.navigationController pushViewController:playerViewController animated:YES];
 }
 
 - (void)movieFinishedCallback:(NSNotification*) aNotification {
@@ -430,14 +432,9 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self name:MPMoviePlayerPlaybackDidFinishNotification object:playerViewController];
     [playerViewController stop];
     
-    [self dismissMoviePlayerViewControllerAnimated];
-    //    [playerViewController.view removeFromSuperview];
-    //     [playerViewController dismissModalViewControllerAnimated:YES];
-    //    [self.view removeFromParentViewController];
-    //    [self.view removeFromSuperView];
-    //    [player autorelease];
+//    [self dismissMoviePlayerViewControllerAnimated];
     
-//    [self.navigationController popViewControllerAnimated:YES];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark - delay run
