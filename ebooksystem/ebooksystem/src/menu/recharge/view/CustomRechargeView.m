@@ -7,11 +7,18 @@
 //
 
 #import "CustomRechargeView.h"
+
 #import "CustomViewCellTableViewCell.h"
 #import "UIColor+Hex.h"
+
+#import "Config.h"
+
+
 #define TABLEVIEW_X 64
 #define TABLEVIEW_HEIGHT 142
 #define HEIGHT 44
+
+
 @interface CustomRechargeView()<UITableViewDataSource,UITableViewDelegate>
 
 @property(nonatomic,strong)UITableView *table;
@@ -99,7 +106,7 @@
 }
 -(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-    NSString *titleStr=@"购买《干货系列》书籍的读者，输入封面验证码可获赠红包余额可用于购买我们即将上线的收费内容";
+    NSString *titleStr = [Config instance].userConfig.tipForUserCharge;
     return titleStr;
 
 }
@@ -116,8 +123,9 @@
         titleLabel.textColor=[UIColor colorWithHexString:@"#aaaaaa" alpha:1];
         titleLabel.backgroundColor = [UIColor clearColor];
         titleLabel.font=[UIFont systemFontOfSize:14.0f];
+        titleLabel.textAlignment = NSTextAlignmentCenter;
         titleLabel.numberOfLines=0;
-        titleLabel.text = @"购买《干货系列》书籍的读者，输入封面验证码可获赠红包余额可用于购买我们即将上线的收费内容";
+        titleLabel.text = [Config instance].userConfig.tipForUserCharge;
         [backgorundView addSubview:titleLabel];
     }
     return backgorundView;

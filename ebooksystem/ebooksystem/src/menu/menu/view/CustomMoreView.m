@@ -7,8 +7,16 @@
 //
 
 #import "CustomMoreView.h"
-#import "UIColor+Hex.h"
+
 #import <QuartzCore/QuartzCore.h>
+
+#import "Config.h"
+
+#import "UIColor+Hex.h"
+
+
+
+
 #define FONT_SIZE 15.0f
 @interface CustomMoreView ()<UITableViewDelegate,UITableViewDataSource>
 @property(nonatomic,strong)UITableView *table;
@@ -238,11 +246,11 @@
 }
 -(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-    NSString *titleStr=@"购买《干货系列》书籍的读者，输入封面验证码可获赠红包余额可用于购买我们即将上线的收费内容";
-    if (section==1)
-    {
+    NSString *titleStr = [Config instance].userConfig.tipForUserCharge;
+    if (section == 1) {
         return titleStr;
     }
+    
     return nil;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
@@ -287,8 +295,9 @@
         titleLabel.textColor=[UIColor colorWithHexString:@"5d5b5b" alpha:1];
         titleLabel.backgroundColor = [UIColor clearColor];
         titleLabel.font=[UIFont systemFontOfSize:14.0f];
+        titleLabel.textAlignment = NSTextAlignmentCenter;
         titleLabel.numberOfLines=0;
-        titleLabel.text = @"购买《干货系列》书籍的读者，输入封面验证码可获赠红包余额可用于购买我们即将上线的收费内容";
+        titleLabel.text = [Config instance].userConfig.tipForUserCharge;
         [myView addSubview:titleLabel];
     }
     

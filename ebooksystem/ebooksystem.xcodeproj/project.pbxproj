@@ -152,6 +152,7 @@
 		7118EB9819EF6C54002CF833 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 7118EB9419EF6C54002CF833 /* README.md */; };
 		7118EB9919EF6C54002CF833 /* uncrustify.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 7118EB9519EF6C54002CF833 /* uncrustify.cfg */; };
 		7118EB9C19EF7109002CF833 /* LogUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 7118EB9B19EF7109002CF833 /* LogUtil.m */; };
+		711E2CEB19FFCE6F000A8D04 /* UserConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 711E2CEA19FFCE6F000A8D04 /* UserConfig.m */; };
 		7134FB2019E4D952004AB7A8 /* KnowledgeDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7134FB1F19E4D952004AB7A8 /* KnowledgeDataManager.m */; };
 		7134FB2319E4DE4E004AB7A8 /* KnowledgeSearchManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7134FB2219E4DE4E004AB7A8 /* KnowledgeSearchManager.m */; };
 		713D863E19E91654006446D5 /* DateUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 713D863D19E91654006446D5 /* DateUtil.m */; };
@@ -566,6 +567,10 @@
 		7118EB9519EF6C54002CF833 /* uncrustify.cfg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = uncrustify.cfg; path = depends/CocoaLumberjack/uncrustify.cfg; sourceTree = "<group>"; };
 		7118EB9A19EF7109002CF833 /* LogUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LogUtil.h; path = src/util/LogUtil.h; sourceTree = "<group>"; };
 		7118EB9B19EF7109002CF833 /* LogUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LogUtil.m; path = src/util/LogUtil.m; sourceTree = "<group>"; };
+		711E2CE719FFBEF1000A8D04 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		711E2CE819FFBEF1000A8D04 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		711E2CE919FFCE6F000A8D04 /* UserConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserConfig.h; path = src/config/UserConfig.h; sourceTree = "<group>"; };
+		711E2CEA19FFCE6F000A8D04 /* UserConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserConfig.m; path = src/config/UserConfig.m; sourceTree = "<group>"; };
 		7134FB1E19E4D952004AB7A8 /* KnowledgeDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KnowledgeDataManager.h; path = src/knowledge/KnowledgeDataManager.h; sourceTree = "<group>"; };
 		7134FB1F19E4D952004AB7A8 /* KnowledgeDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KnowledgeDataManager.m; path = src/knowledge/KnowledgeDataManager.m; sourceTree = "<group>"; };
 		7134FB2119E4DE4E004AB7A8 /* KnowledgeSearchManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KnowledgeSearchManager.h; path = src/knowledge/KnowledgeSearchManager.h; sourceTree = "<group>"; };
@@ -1840,6 +1845,8 @@
 				715EE99119E813B4005A4F78 /* WebConfig.m */,
 				7156B0A519F8A6DD00B3A521 /* ErrorConfig.h */,
 				7156B0A619F8A6DD00B3A521 /* ErrorConfig.m */,
+				711E2CE919FFCE6F000A8D04 /* UserConfig.h */,
+				711E2CEA19FFCE6F000A8D04 /* UserConfig.m */,
 			);
 			name = config;
 			sourceTree = "<group>";
@@ -2085,6 +2092,7 @@
 				en,
 				Base,
 				English,
+				"zh-Hans",
 			);
 			mainGroup = 0690780C19CFD62700CD9C3D;
 			productRefGroup = 0690781619CFD62700CD9C3D /* Products */;
@@ -2209,6 +2217,7 @@
 				710C035819E1C90E00C27A33 /* SBJsonStreamWriter.m in Sources */,
 				710C037419E1C98B00C27A33 /* UIDevice+IdentifierAddition.m in Sources */,
 				7118EB8619EF6BE3002CF833 /* FAQ.md in Sources */,
+				711E2CEB19FFCE6F000A8D04 /* UserConfig.m in Sources */,
 				710C02B119E0394100C27A33 /* SubjectViewController.m in Sources */,
 				7156B0C719F8BC9F00B3A521 /* MRMessageInterceptor.m in Sources */,
 				7156B0BD19F8BC7700B3A521 /* MRCircularProgressView.m in Sources */,
@@ -2355,6 +2364,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				0690782419CFD62700CD9C3D /* en */,
+				711E2CE719FFBEF1000A8D04 /* zh-Hans */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -2363,6 +2373,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				0690784119CFD62700CD9C3D /* en */,
+				711E2CE819FFBEF1000A8D04 /* zh-Hans */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";

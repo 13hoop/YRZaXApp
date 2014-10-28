@@ -31,3 +31,6 @@
 .page-mode-night .book-item-not-ready .book-name-wrap{
     color: #555;
 }
+.page-mode-night .sub-book-name-wrap strong{
+    color: #999;
+}
