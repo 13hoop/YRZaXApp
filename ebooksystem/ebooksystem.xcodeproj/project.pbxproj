@@ -117,6 +117,7 @@
 		7116EEFC19FCE9E000336309 /* libUMFeedback.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7116EEF919FCE9E000336309 /* libUMFeedback.a */; };
 		7116EEFD19FCE9E000336309 /* umFeedback.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7116EEFA19FCE9E000336309 /* umFeedback.bundle */; };
 		7116EF0619FEA73B00336309 /* dev_note.txt in Resources */ = {isa = PBXBuildFile; fileRef = 7116EF0519FEA73B00336309 /* dev_note.txt */; };
+		7116EF0919FF545500336309 /* DirectionMPMoviePlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7116EF0819FF545500336309 /* DirectionMPMoviePlayerViewController.m */; };
 		7118EB2119ED1F80002CF833 /* AppUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 7118EB2019ED1F80002CF833 /* AppUtil.m */; };
 		7118EB4819EF6B41002CF833 /* CLIColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 7118EB4719EF6B41002CF833 /* CLIColor.m */; };
 		7118EB5919EF6B54002CF833 /* DDAbstractDatabaseLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 7118EB4B19EF6B54002CF833 /* DDAbstractDatabaseLogger.m */; };
@@ -216,7 +217,6 @@
 		71860C0719DE544D00D01AA9 /* KnowledgeDownloadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 71860C0619DE544D00D01AA9 /* KnowledgeDownloadManager.m */; };
 		71860C0A19DE546700D01AA9 /* KnowledgeDownloadItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 71860C0919DE546700D01AA9 /* KnowledgeDownloadItem.m */; };
 		71860C0E19DE8DE600D01AA9 /* UUIDUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 71860C0D19DE8DE600D01AA9 /* UUIDUtil.m */; };
-		718707B019F9FFD500F49D23 /* MediaPlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 718707AF19F9FFD500F49D23 /* MediaPlayerViewController.m */; };
 		718707B219FA00A000F49D23 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 718707B119FA00A000F49D23 /* MediaPlayer.framework */; };
 		718707B519FA3B2F00F49D23 /* ErrorInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 718707B419FA3B2F00F49D23 /* ErrorInfo.m */; };
 		71BCED2619FCCB2E003B061A /* KnowledgeMetaEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 71BCED2519FCCB2E003B061A /* KnowledgeMetaEntity.m */; };
@@ -513,6 +513,8 @@
 		7116EEF919FCE9E000336309 /* libUMFeedback.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libUMFeedback.a; path = depends/umeng/libUMFeedback.a; sourceTree = "<group>"; };
 		7116EEFA19FCE9E000336309 /* umFeedback.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = umFeedback.bundle; path = depends/umeng/umFeedback.bundle; sourceTree = "<group>"; };
 		7116EF0519FEA73B00336309 /* dev_note.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = dev_note.txt; path = doc/dev_note.txt; sourceTree = "<group>"; };
+		7116EF0719FF545500336309 /* DirectionMPMoviePlayerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DirectionMPMoviePlayerViewController.h; path = src/common/media/controller/DirectionMPMoviePlayerViewController.h; sourceTree = "<group>"; };
+		7116EF0819FF545500336309 /* DirectionMPMoviePlayerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DirectionMPMoviePlayerViewController.m; path = src/common/media/controller/DirectionMPMoviePlayerViewController.m; sourceTree = "<group>"; };
 		7118EB1F19ED1F80002CF833 /* AppUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppUtil.h; path = src/util/AppUtil.h; sourceTree = "<group>"; };
 		7118EB2019ED1F80002CF833 /* AppUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppUtil.m; path = src/util/AppUtil.m; sourceTree = "<group>"; };
 		7118EB4619EF6B41002CF833 /* CLIColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CLIColor.h; path = depends/CocoaLumberjack/Classes/CLI/CLIColor.h; sourceTree = "<group>"; };
@@ -695,8 +697,6 @@
 		71860C0919DE546700D01AA9 /* KnowledgeDownloadItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KnowledgeDownloadItem.m; path = src/knowledge/knowledge_download/KnowledgeDownloadItem.m; sourceTree = "<group>"; };
 		71860C0C19DE8DE600D01AA9 /* UUIDUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UUIDUtil.h; path = src/util/UUIDUtil.h; sourceTree = "<group>"; };
 		71860C0D19DE8DE600D01AA9 /* UUIDUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UUIDUtil.m; path = src/util/UUIDUtil.m; sourceTree = "<group>"; };
-		718707AE19F9FFD500F49D23 /* MediaPlayerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MediaPlayerViewController.h; path = src/common/media/controller/MediaPlayerViewController.h; sourceTree = "<group>"; };
-		718707AF19F9FFD500F49D23 /* MediaPlayerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MediaPlayerViewController.m; path = src/common/media/controller/MediaPlayerViewController.m; sourceTree = "<group>"; };
 		718707B119FA00A000F49D23 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		718707B319FA3B2F00F49D23 /* ErrorInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ErrorInfo.h; path = src/error/ErrorInfo.h; sourceTree = "<group>"; };
 		718707B419FA3B2F00F49D23 /* ErrorInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ErrorInfo.m; path = src/error/ErrorInfo.m; sourceTree = "<group>"; };
@@ -2015,8 +2015,8 @@
 		718707AD19F9FF8700F49D23 /* controller */ = {
 			isa = PBXGroup;
 			children = (
-				718707AE19F9FFD500F49D23 /* MediaPlayerViewController.h */,
-				718707AF19F9FFD500F49D23 /* MediaPlayerViewController.m */,
+				7116EF0719FF545500336309 /* DirectionMPMoviePlayerViewController.h */,
+				7116EF0819FF545500336309 /* DirectionMPMoviePlayerViewController.m */,
 			);
 			name = controller;
 			sourceTree = "<group>";
@@ -2266,7 +2266,6 @@
 				710C035619E1C90E00C27A33 /* SBJsonStreamParserAdapter.m in Sources */,
 				06AA7F6619F4FC7E00570289 /* RegisterViewController.m in Sources */,
 				06AA7F5919F4FC7E00570289 /* CustomLoginModel.m in Sources */,
-				718707B019F9FFD500F49D23 /* MediaPlayerViewController.m in Sources */,
 				710C02C719E189A200C27A33 /* DrawableConfig.m in Sources */,
 				7118EB8819EF6BE3002CF833 /* GettingStarted.md in Sources */,
 				710C032B19E1C8D000C27A33 /* AFNetworkReachabilityManager.m in Sources */,
@@ -2285,6 +2284,7 @@
 				715EE9A919E832ED005A4F78 /* JSONModelError.m in Sources */,
 				710C03A219E2EDB800C27A33 /* KnowledgeSearchEntity.m in Sources */,
 				06AAC9F219F67C9800A758DB /* DeviceStatusUtil.m in Sources */,
+				7116EF0919FF545500336309 /* DirectionMPMoviePlayerViewController.m in Sources */,
 				06AA7F6719F4FC7E00570289 /* RegisterModel.m in Sources */,
 				06AA7F6919F4FC7E00570289 /* CustomRegisterView.m in Sources */,
 				710C035319E1C90E00C27A33 /* SBJsonParser.m in Sources */,

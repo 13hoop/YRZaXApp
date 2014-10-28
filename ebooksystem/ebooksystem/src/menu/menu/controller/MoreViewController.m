@@ -149,9 +149,10 @@
                 }
                 else
                 {
-                    UIAlertView *alert=[[UIAlertView alloc] initWithTitle:nil message:@"请您先登录" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-                    alert.backgroundColor=[UIColor lightGrayColor];
+                    UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"温馨提示" message:@"您还没有登录,请您先登录" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+//                    alert.backgroundColor=[UIColor lightGrayColor];
                     [alert show];
+                
                 }
                
             }

@@ -32,7 +32,7 @@
     [self removeFromSuperview];
     self.rechargeText=[[CustomTextField alloc] initWithFrame:self.bounds];
     //开启一键清除功能
-    self.rechargeText.clearsOnBeginEditing=YES;
+
     self.rechargeText.clearButtonMode=UITextFieldViewModeAlways;
     self.rechargeText.rightViewMode=UITextFieldViewModeAlways;
     self.rechargeText.backgroundColor=[UIColor colorWithHexString:@"#4e4c4c" alpha:1];

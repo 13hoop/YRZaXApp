@@ -35,12 +35,27 @@
     self.table.backgroundColor=[UIColor colorWithHexString:@"393636" alpha:1];
     self.table.delegate=self;
     self.table.dataSource=self;
-    [self.table setSeparatorInset:UIEdgeInsetsZero];
+    //    [self.table setSeparatorInset:UIEdgeInsetsZero];
     self.table.showsHorizontalScrollIndicator=NO;
     self.table.showsVerticalScrollIndicator=NO;
     self.table.separatorStyle=UITableViewCellSeparatorStyleSingleLine;
     self.table.separatorColor=[UIColor colorWithHexString:@"#302d2d" alpha:1];
     self.table.bounces=NO;
+    
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0) {
+        self.table.separatorInset = UIEdgeInsetsZero;
+    }
+    
+    // No separator insets
+    {
+        if ([self.table respondsToSelector:@selector(separatorInset)]) {
+            self.table.separatorInset = UIEdgeInsetsZero;
+        }
+        
+        if ([self.table respondsToSelector:@selector(layoutMargins)]) {
+            self.table.layoutMargins = UIEdgeInsetsZero;
+        }
+    }
 }
 #pragma mark table的代理
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -83,6 +98,18 @@
     //change select style and backgroundcolor
     self.cell.selectedBackgroundView=[[UIView alloc] initWithFrame:self.cell.frame];
     self.cell.selectedBackgroundView.backgroundColor=[UIColor colorWithHexString:@"#6d6d6d" alpha:1];
+    
+    // No separator insets
+    {
+        if ([self.cell respondsToSelector:@selector(separatorInset)]) {
+            self.cell.separatorInset = UIEdgeInsetsZero;
+        }
+        
+        if ([self.cell respondsToSelector:@selector(layoutMargins)]) {
+            self.cell.layoutMargins = UIEdgeInsetsZero;
+        }
+    }
+    
     switch (section) {
         case 0:
 
@@ -148,7 +175,8 @@
                 {
                     self.cell.textLabel.text=@"分享应用到";
                     self.cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-                    
+                    self.cell.selectionStyle=UITableViewCellAccessoryNone;
+
                     
                     
                 }
@@ -203,14 +231,14 @@
     {
         if (section==1)
         {
-            return 53.0;
+            return 58.0;
         }
     }
-    return 27.0;
+    return 28.0;
 }
 -(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-    NSString *titleStr=@"购买《干货系列》书籍的读者，在此输入封面验证码，即可获赠价值20元的红包";
+    NSString *titleStr=@"购买《干货系列》书籍的读者，输入封面验证码可获赠红包余额可用于购买我们即将上线的收费内容";
     if (section==1)
     {
         return titleStr;
@@ -219,6 +247,10 @@
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
+    if(section==0)
+    {
+        return 10;
+    }
     if (section==2) {
         return 20;
     }
@@ -256,7 +288,7 @@
         titleLabel.backgroundColor = [UIColor clearColor];
         titleLabel.font=[UIFont systemFontOfSize:14.0f];
         titleLabel.numberOfLines=0;
-        titleLabel.text = @"购买《干货系列》书籍的读者，在此输入封面验证码，即可获赠价值20元的红包";
+        titleLabel.text = @"购买《干货系列》书籍的读者，输入封面验证码可获赠红包余额可用于购买我们即将上线的收费内容";
         [myView addSubview:titleLabel];
     }
     

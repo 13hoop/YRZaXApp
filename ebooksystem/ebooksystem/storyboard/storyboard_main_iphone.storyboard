@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="arx-i1-1v7">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="arx-i1-1v7">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
@@ -118,31 +118,11 @@
                     <navigationItem key="navigationItem" id="TkO-tj-qKP"/>
                     <connections>
                         <outlet property="webView" destination="fvP-Mr-1Tm" id="CIw-og-Dd4"/>
-                        <segue destination="ell-e1-tcl" kind="push" identifier="goto_media_player_view_controller" id="lhz-0Z-fYd"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7WS-i1-ad0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1324" y="36"/>
-        </scene>
-        <!--Media Player View Controller-->
-        <scene sceneID="L9c-Cb-y2m">
-            <objects>
-                <viewController id="ell-e1-tcl" customClass="MediaPlayerViewController" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="55i-Nt-Pce"/>
-                        <viewControllerLayoutGuide type="bottom" id="EoR-nJ-jPO"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="XoK-dh-kdN">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                    <navigationItem key="navigationItem" id="uQM-af-w6A"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="okL-Vc-CZi" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1793" y="36"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="AuR-Cq-NMT">

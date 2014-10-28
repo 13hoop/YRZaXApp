@@ -99,7 +99,7 @@
 }
 -(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-    NSString *titleStr=@"购买《干货系列》书籍的读者，在此输入封面验证码，即可获赠价值20元的红包";
+    NSString *titleStr=@"购买《干货系列》书籍的读者，输入封面验证码可获赠红包余额可用于购买我们即将上线的收费内容";
     return titleStr;
 
 }
@@ -117,7 +117,7 @@
         titleLabel.backgroundColor = [UIColor clearColor];
         titleLabel.font=[UIFont systemFontOfSize:14.0f];
         titleLabel.numberOfLines=0;
-        titleLabel.text = @"购买《干货系列》书籍的读者，在此输入封面验证码，即可获赠价值20元的红包";
+        titleLabel.text = @"购买《干货系列》书籍的读者，输入封面验证码可获赠红包余额可用于购买我们即将上线的收费内容";
         [backgorundView addSubview:titleLabel];
     }
     return backgorundView;

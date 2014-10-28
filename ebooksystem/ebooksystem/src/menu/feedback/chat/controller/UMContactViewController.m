@@ -7,7 +7,7 @@
 //
 
 #import "UMContactViewController.h"
-
+#import "UIColor+Hex.h"
 
 #import "StatisticsManager.h"
 

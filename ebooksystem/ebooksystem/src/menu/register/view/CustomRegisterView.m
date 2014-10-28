@@ -46,7 +46,6 @@
         self.text.borderStyle=UITextBorderStyleNone;
         self.text.tag=1000+i;
         //开启一键轻触功能
-        self.text.clearsOnBeginEditing=YES;
         self.text.clearButtonMode=UITextFieldViewModeAlways;
         self.text.rightViewMode=UITextFieldViewModeAlways;
         //屏蔽首字母大写

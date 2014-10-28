@@ -12,6 +12,7 @@
 #import "LogoutModel.h"
 #import "DeviceStatusUtil.h"
 #import "UIColor+Hex.h"
+#import "LogUtil.h"
 #define NAVBAR_HEIGHT 44
 #define LOGOUTVIEW_X 64
 #define PROMPTVIEW_HEIGHT 30
@@ -86,18 +87,18 @@
     if ([currentNetStatus isEqualToString:@"no connect"]) {
         //登出成功
         //弹出窗口提示用户登出成功，然后跳转到更多页面
-        self.promptLable=[[UILabel alloc] initWithFrame:CGRectMake((self.view.frame.size.width-PROMPTVIEW_WIDTH_LOCAL)/2, self.view.frame.size.height-PROMPTVIEW_HEIGHT-DISTANCE, PROMPTVIEW_WIDTH_LOCAL, PROMPTVIEW_HEIGHT)];
-        self.promptLable.text=@"本地登出成功";
-        self.promptLable.font=[UIFont systemFontOfSize:12.0f];
-        self.promptLable.backgroundColor=[UIColor lightGrayColor];
-        [self.view addSubview:self.promptLable];
+//        self.promptLable=[[UILabel alloc] initWithFrame:CGRectMake((self.view.frame.size.width-PROMPTVIEW_WIDTH_LOCAL)/2, self.view.frame.size.height-PROMPTVIEW_HEIGHT-DISTANCE, PROMPTVIEW_WIDTH_LOCAL, PROMPTVIEW_HEIGHT)];
+//        self.promptLable.text=@"本地登出成功";
+//        self.promptLable.font=[UIFont systemFontOfSize:12.0f];
+//        self.promptLable.backgroundColor=[UIColor lightGrayColor];
+//        [self.view addSubview:self.promptLable];
         //
         NSTimer *myTimer = [NSTimer  timerWithTimeInterval:2.0 target:self selector:@selector(timeFired)userInfo:nil repeats:NO];
         [[NSRunLoop  currentRunLoop] addTimer:myTimer forMode:NSDefaultRunLoopMode];
         //
         NSTimer *Timer = [NSTimer  timerWithTimeInterval:0.4 target:self selector:@selector(changeAlpha)userInfo:nil repeats:YES];
         [[NSRunLoop  currentRunLoop] addTimer:Timer forMode:NSDefaultRunLoopMode];
-        
+        LogWarn(@"本地登出成功");
 
     }
     else
@@ -117,17 +118,18 @@
             {
                 //登出成功
                 //弹出窗口提示用户登出成功，然后跳转到更多页面
-                self.promptLable=[[UILabel alloc] initWithFrame:CGRectMake((self.view.frame.size.width-PROMPTVIEW_WIDTH)/2, self.view.frame.size.height-PROMPTVIEW_HEIGHT-DISTANCE, PROMPTVIEW_WIDTH, PROMPTVIEW_HEIGHT)];
-                self.promptLable.text=@"登出成功";
-                self.promptLable.font=[UIFont systemFontOfSize:12.0f];
-                self.promptLable.backgroundColor=[UIColor lightGrayColor];
-                [self.view addSubview:self.promptLable];
+//                self.promptLable=[[UILabel alloc] initWithFrame:CGRectMake((self.view.frame.size.width-PROMPTVIEW_WIDTH)/2, self.view.frame.size.height-PROMPTVIEW_HEIGHT-DISTANCE, PROMPTVIEW_WIDTH, PROMPTVIEW_HEIGHT)];
+//                self.promptLable.text=@"登出成功";
+//                self.promptLable.font=[UIFont systemFontOfSize:12.0f];
+//                self.promptLable.backgroundColor=[UIColor lightGrayColor];
+//                [self.view addSubview:self.promptLable];
                 //
                 NSTimer *myTimer = [NSTimer  timerWithTimeInterval:2.0 target:self selector:@selector(timeFired)userInfo:nil repeats:NO];
                 [[NSRunLoop  currentRunLoop] addTimer:myTimer forMode:NSDefaultRunLoopMode];
                 //
                 NSTimer *Timer = [NSTimer  timerWithTimeInterval:0.4 target:self selector:@selector(changeAlpha)userInfo:nil repeats:YES];
                 [[NSRunLoop  currentRunLoop] addTimer:Timer forMode:NSDefaultRunLoopMode];
+                LogWarn(@"有网状态登出成功");
     
             }
             else

@@ -15,12 +15,15 @@
 #import "KnowledgeManager.h"
 #import "StatisticsManager.h"
 
-#import "MediaPlayerViewController.h"
+//#import <MediaPlayer/MediaPlayer.h>
+#import "DirectionMPMoviePlayerViewController.h"
+
 #import "MoreViewController.h"
 
 #import "WebViewJavascriptBridge.h"
 
 #import "LogUtil.h"
+#import "DeviceUtil.h"
 
 
 #import "StatisticsManager.h"
@@ -56,8 +59,14 @@
 // 打开播放链接
 - (void)gotoMediaPlayerViewController:(NSString *)url;
 
+// 视频播放开始
+- (void)playVideo:(NSString *)urlStr;
+// 视频播放结束
+- (void)movieFinishedCallback:(NSNotification*) aNotification;
+
 // 延迟执行
 - (void)performBlock:(void(^)())block afterDelay:(NSTimeInterval)delay;
+
 
 @end
 
@@ -297,7 +306,7 @@
         LogDebug(@"CommonWebViewController::playVideo() called: %@", dataId);
         
         NSString *urlStr = (NSString *)dataId;
-        [self gotoMediaPlayerViewController:urlStr];
+        [self playVideo:urlStr];
     }];
     
     // pageStatistic()
@@ -309,6 +318,17 @@
         
         [[StatisticsManager instance] event:eventName label:args];
     }];
+    
+    // 获取机器型号
+    [self.javascriptBridge registerHandler:@"getDeviceModel" handler:^(id data, WVJBResponseCallback responseCallback) {
+        LogDebug(@"CommonWebViewController::getDeviceModel() called: %@", data);
+        
+        if (responseCallback) {
+            NSString *model = [DeviceUtil getModel];
+            responseCallback(model);
+        }
+    }];
+    
     
     // 发送消息给 html
     //    [self.javascriptBridge send:@"Well hello there"];
@@ -328,7 +348,9 @@
 
 // 更新webview
 - (BOOL)updateWebView {
+    [((UIScrollView *)[self.webView.subviews objectAtIndex:0]) setShowsVerticalScrollIndicator:NO]; // 去除webView右侧垂直滚动条
     //    self.webView.delegate = self;
+    [((UIScrollView *)[self.webView.subviews objectAtIndex:0]) setBounces:NO];
     
     if (self.pageId == nil) {
         return NO;
@@ -385,27 +407,46 @@
     return YES;
 }
 
-#pragma mark - segue
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if ([segue.destinationViewController isKindOfClass:[MediaPlayerViewController class]]) {
-        MediaPlayerViewController *mediaPlayerViewController = (MediaPlayerViewController *)segue.destinationViewController;
-        
-        // test for play video
-        {
-            NSURL *url = nil;
-
-            NSString *urlStr = (NSString *)sender;
-            if (urlStr != nil && urlStr.length > 0) {
-                url = [NSURL URLWithString:[urlStr stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-            }
-            
-            mediaPlayerViewController.url = url;
-        }
+#pragma mark - play video
+- (void)playVideo:(NSString *)urlStr {
+    if (urlStr == nil || urlStr.length <= 0) {
+        // todo: show alert view
+        return;
     }
+    
+    NSURL *url = [NSURL URLWithString:[urlStr stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    if (url == nil) {
+        return;
+    }
+    
+    // 播放
+//    MPMoviePlayerViewController *playerViewController = [[MPMoviePlayerViewController alloc] initWithContentURL:url];
+    
+    DirectionMPMoviePlayerViewController *playerViewController = [[DirectionMPMoviePlayerViewController alloc] initWithContentURL:url];
+    playerViewController.moviePlayer.controlStyle = MPMovieControlStyleFullscreen;
+    playerViewController.view.frame = self.view.frame; // 全屏
+    playerViewController.moviePlayer.scalingMode = MPMovieScalingModeAspectFit;
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(movieFinishedCallback:)
+                                                 name:MPMoviePlayerPlaybackDidFinishNotification
+                                               object:[playerViewController moviePlayer]];
+    
+    //---play movie---
+    [[playerViewController moviePlayer] play];
+    
+    // 注: 用present会导致playerViewController中设置的transform不生效, 故转为push
+//    [self presentMoviePlayerViewControllerAnimated:playerViewController];
+    [self.navigationController pushViewController:playerViewController animated:YES];
 }
 
-- (void)gotoMediaPlayerViewController:(NSString *)url {
-    [self performSegueWithIdentifier:@"goto_media_player_view_controller" sender:url];
+- (void)movieFinishedCallback:(NSNotification*) aNotification {
+    MPMoviePlayerController *playerViewController = [aNotification object];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:MPMoviePlayerPlaybackDidFinishNotification object:playerViewController];
+    [playerViewController stop];
+    
+//    [self dismissMoviePlayerViewControllerAnimated];
+    
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark - delay run
@@ -439,4 +480,86 @@
     
 }
 
+#pragma mark - 屏幕旋转
+//
+//- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
+//    if (interfaceOrientation==UIInterfaceOrientationLandscapeLeft) {
+//        //zuo
+//    }
+//    if (interfaceOrientation==UIInterfaceOrientationLandscapeRight) {
+//        //you
+//    }
+//    if (interfaceOrientation==UIInterfaceOrientationPortrait) {
+//        //shang
+//    }
+//    if (interfaceOrientation==UIInterfaceOrientationPortraitUpsideDown) {
+//        //xia
+//    }
+//    return YES;
+//}
+//
+//- (BOOL)shouldAutorotate {
+//    return YES;
+//}
+//
+//
+//
+//- (NSUInteger)supportedInterfaceOrientations {
+////    return UIInterfaceOrientationMaskAllButUpsideDown;
+//    return UIInterfaceOrientationMaskAll;
+////    return UIInterfaceOrientationPortrait;
+//}
+//
+//- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
+//    //宣告一個UIDevice指標，並取得目前Device的狀況
+//    UIDevice *device = [UIDevice currentDevice] ;
+//    //取得當前Device的方向，來當作判斷敘述。（Device的方向型態為Integer）
+//    switch (device.orientation) {
+//        case UIDeviceOrientationFaceUp:
+//            NSLog(@"螢幕朝上平躺");
+//            break;
+//        case UIDeviceOrientationFaceDown:
+//            NSLog(@"螢幕朝下平躺");
+//            break;
+//            //系統無法判斷目前Device的方向，有可能是斜置
+//        case UIDeviceOrientationUnknown:
+//            NSLog(@"未知方向");
+//            break;
+//        case UIDeviceOrientationLandscapeLeft:
+//            NSLog(@"螢幕向左橫置");
+//            break;
+//        case UIDeviceOrientationLandscapeRight:
+//            NSLog(@"螢幕向右橫置");
+//            break;
+//        case UIDeviceOrientationPortrait:
+//            NSLog(@"螢幕直立");
+//            break;
+//        case UIDeviceOrientationPortraitUpsideDown:
+//            NSLog(@"螢幕直立，上下顛倒");
+//            break;
+//        default:
+//            NSLog(@"無法辨識");
+//            break;    
+//    }
+//    
+//    CGRect frame = self.view.frame;
+//    self.webView.frame = frame;
+//    
+//    if (toInterfaceOrientation == UIInterfaceOrientationLandscapeLeft) { // 横屏, home在右
+//        
+//        ;
+//    }
+//    else if (toInterfaceOrientation == UIInterfaceOrientationLandscapeRight) { // 横屏, home在左
+//        ;
+//    }
+//    else if (toInterfaceOrientation == UIInterfaceOrientationPortrait) { // 竖屏, home在下
+//        ;
+//    }
+//    else if (toInterfaceOrientation == UIInterfaceOrientationPortraitUpsideDown) { // 竖屏, home在上
+//        ;
+//    }
+//
+//    [super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
+//}
+//
 @end

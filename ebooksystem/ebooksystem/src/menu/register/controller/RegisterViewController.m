@@ -55,7 +55,8 @@
 {
     //navigationControler pop到指定的页面上
     NSArray *controllerArr=self.navigationController.viewControllers;
-    [self.navigationController popToViewController:[controllerArr objectAtIndex:1] animated:YES];
+    [self.navigationController popViewControllerAnimated:YES];
+//    [self.navigationController popToViewController:[controllerArr objectAtIndex:1] animated:YES];
 }
 
 #pragma mark create customregisterView
