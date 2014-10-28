@@ -200,6 +200,21 @@ ul,ol,dl{
     max-height: 32px;
     overflow: hidden;
     color: #535862;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.sub-book-name-wrap{
+    margin: 5px 12px 0;
+    text-align: center;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    color: #807972;
+    font-size: 12px;
+}
+.sub-book-name-wrap strong{
+    font-weight: bold;
+    color: #535862;
 }
 .book-item-not-ready, .book-can-download{
     background: #f0f0f0 !important;

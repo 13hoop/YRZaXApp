@@ -90,6 +90,7 @@
                 '<img src="./assets/' + item.book_cover + '.png" />' +
                 '<div class="update-indicator-wrap"><span class="update-indicator-text">新</span></div>' +
                 '<div class="book-name-wrap">' + item.name_ch  + '</div>' +
+                '<div class="sub-book-name-wrap">' + item.sub_name + '</div>' +
                 '<div class="download-mask">' +
                 '<div class="download-progress">' +
                 '<span class="download-progress-inner"></span>' +
