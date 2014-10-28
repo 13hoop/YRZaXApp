@@ -148,7 +148,8 @@
                 {
                     self.cell.textLabel.text=@"分享应用到";
                     self.cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-                    
+                    self.cell.selectionStyle=UITableViewCellAccessoryNone;
+
                     
                     
                 }
@@ -203,14 +204,14 @@
     {
         if (section==1)
         {
-            return 53.0;
+            return 58.0;
         }
     }
-    return 27.0;
+    return 28.0;
 }
 -(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-    NSString *titleStr=@"购买《干货系列》书籍的读者，在此输入封面验证码，即可获赠价值20元的红包";
+    NSString *titleStr=@"购买《干货系列》书籍的读者，输入封面验证码可获赠红包余额可用于购买我们即将上线的收费内容";
     if (section==1)
     {
         return titleStr;
@@ -219,6 +220,10 @@
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
+    if(section==0)
+    {
+        return 10;
+    }
     if (section==2) {
         return 20;
     }
@@ -256,7 +261,7 @@
         titleLabel.backgroundColor = [UIColor clearColor];
         titleLabel.font=[UIFont systemFontOfSize:14.0f];
         titleLabel.numberOfLines=0;
-        titleLabel.text = @"购买《干货系列》书籍的读者，在此输入封面验证码，即可获赠价值20元的红包";
+        titleLabel.text = @"购买《干货系列》书籍的读者，输入封面验证码可获赠红包余额可用于购买我们即将上线的收费内容";
         [myView addSubview:titleLabel];
     }
     
