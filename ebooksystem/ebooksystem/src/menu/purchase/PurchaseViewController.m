@@ -10,7 +10,12 @@
 #import "CustomNavigationBar.h"
 #import "TBActivityView.h"
 #import "UIColor+Hex.h"
+#import "MRActivityIndicatorView.h"
+
 @interface PurchaseViewController ()<CustomNavigationBarDelegate,UIWebViewDelegate>
+{
+    MRActivityIndicatorView *activityIndicatorView;
+}
 @property(nonatomic,strong)UIWebView *webview;
 @property(nonatomic,strong)UIActivityIndicatorView *activityIndicator;
 @property(nonatomic,strong)TBActivityView *tbactivityView;
@@ -56,8 +61,11 @@
 }
 -(void)createActivityIndicator
 {
-    self.tbactivityView=[[TBActivityView alloc] initWithFrame:CGRectMake(0, (self.view.frame.size.height-30)/2, 320, 30)];
-    [self.view addSubview:self.tbactivityView];
+//    self.tbactivityView=[[TBActivityView alloc] initWithFrame:CGRectMake(0, (self.view.frame.size.height-30)/2, 320, 30)];
+//    [self.view addSubview:self.tbactivityView];
+    activityIndicatorView=[[MRActivityIndicatorView alloc] initWithFrame:CGRectMake((self.view.frame.size.width-30)/2, (self.view.frame.size.height-30)/2,30, 30)];
+    [self.view addSubview:activityIndicatorView];
+
     
 }
 
@@ -74,11 +82,29 @@
 #pragma mark webview delegate method
 -(void)webViewDidStartLoad:(UIWebView *)webView
 {
-    [self.tbactivityView startAnimate];
+//    [self.tbactivityView startAnimate];
+    [self showProgressAsActivityIndicator];
 }
 -(void)webViewDidFinishLoad:(UIWebView *)webView
 {
-    [self.tbactivityView stopAnimate];
+//    [self.tbactivityView stopAnimate];
+    [self hideProgressOfActivityIndicator];
+}
+#pragma mark - KnowledgeManagerDelegate methods
+- (void)showProgressAsActivityIndicator {
+    if (activityIndicatorView) {
+        activityIndicatorView.hidden = NO;
+        activityIndicatorView.hidesWhenStopped = YES;
+        activityIndicatorView.tintColor = [UIColor blueColor];
+        activityIndicatorView.backgroundColor = [UIColor clearColor];
+        [activityIndicatorView startAnimating];
+    }
 }
 
+- (void)hideProgressOfActivityIndicator {
+    if (activityIndicatorView) {
+        [activityIndicatorView stopAnimating];
+        //    activityIndicatorView.hidden = YES;
+    }
+}
 @end
