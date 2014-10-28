@@ -97,6 +97,10 @@
             return;
         }
 
+        if( utils.isIphone4() ){
+            document.body.classList.add('in-iphone4');
+        }
+
         bridgeIOS.getNodeDataByIdAndQueryId( {
             dataId : currentID, 
             queryId : queryID
@@ -123,6 +127,8 @@
             }
 
             renderChildList( data );
+
+            document.body.classList.add( 'page-ready');
 
             //统计页面展现PV
             var args = {

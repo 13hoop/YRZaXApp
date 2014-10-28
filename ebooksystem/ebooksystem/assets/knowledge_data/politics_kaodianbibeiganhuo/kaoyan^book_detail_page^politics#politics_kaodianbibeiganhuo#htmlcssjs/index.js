@@ -42,6 +42,10 @@
             return;
         }
 
+        if( utils.isIphone4() ){
+            document.body.classList.add('in-iphone4');
+        }
+
         bookID = searchConf.book_id;
 
         topicID = searchConf.topic_id;
@@ -107,6 +111,8 @@
 
         //渲染当前ID对应的知识点
         showKnowledgeById( currentID, queryID );
+
+        document.body.classList.add( 'page-ready');
 
         //统计页面展现PV
         var args = {

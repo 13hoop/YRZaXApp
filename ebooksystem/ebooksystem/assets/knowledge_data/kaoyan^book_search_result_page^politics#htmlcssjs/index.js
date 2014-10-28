@@ -155,6 +155,10 @@ function showSearchResult(data){
         clearInputBtn = document.querySelector('#clear-input-btn');
         searchBtn = document.querySelector('#search-btn');
         searchResult = document.querySelector('#search-result-con');
+
+        if( utils.isIphone4() ){
+            document.body.classList.add('in-iphone4');
+        }
         
         setupEvent();
         // var data = bridgeIOS.getNodeDataById( currentID, function(data){
@@ -183,6 +187,8 @@ function showSearchResult(data){
         // } );
 
         searchInput.focus();
+
+        document.body.classList.add( 'page-ready');
         
         //统计页面展现PV
         var args = {
