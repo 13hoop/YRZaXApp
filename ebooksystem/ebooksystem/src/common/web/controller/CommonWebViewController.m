@@ -328,6 +328,7 @@
 
 // 更新webview
 - (BOOL)updateWebView {
+    [((UIScrollView *)[self.webView.subviews objectAtIndex:0]) setShowsVerticalScrollIndicator:NO]; // 去除webView右侧垂直滚动条
     //    self.webView.delegate = self;
     
     if (self.pageId == nil) {
