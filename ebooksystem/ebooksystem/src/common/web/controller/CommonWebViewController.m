@@ -15,7 +15,9 @@
 #import "KnowledgeManager.h"
 #import "StatisticsManager.h"
 
-#import "MediaPlayerViewController.h"
+//#import <MediaPlayer/MediaPlayer.h>
+#import "DirectionMPMoviePlayerViewController.h"
+
 #import "MoreViewController.h"
 
 #import "WebViewJavascriptBridge.h"
@@ -56,8 +58,14 @@
 // 打开播放链接
 - (void)gotoMediaPlayerViewController:(NSString *)url;
 
+// 视频播放开始
+- (void)playVideo:(NSString *)urlStr;
+// 视频播放结束
+- (void)movieFinishedCallback:(NSNotification*) aNotification;
+
 // 延迟执行
 - (void)performBlock:(void(^)())block afterDelay:(NSTimeInterval)delay;
+
 
 @end
 
@@ -297,7 +305,7 @@
         LogDebug(@"CommonWebViewController::playVideo() called: %@", dataId);
         
         NSString *urlStr = (NSString *)dataId;
-        [self gotoMediaPlayerViewController:urlStr];
+        [self playVideo:urlStr];
     }];
     
     // pageStatistic()
@@ -387,27 +395,48 @@
     return YES;
 }
 
-#pragma mark - segue
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if ([segue.destinationViewController isKindOfClass:[MediaPlayerViewController class]]) {
-        MediaPlayerViewController *mediaPlayerViewController = (MediaPlayerViewController *)segue.destinationViewController;
-        
-        // test for play video
-        {
-            NSURL *url = nil;
-
-            NSString *urlStr = (NSString *)sender;
-            if (urlStr != nil && urlStr.length > 0) {
-                url = [NSURL URLWithString:[urlStr stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-            }
-            
-            mediaPlayerViewController.url = url;
-        }
+#pragma mark - play video
+- (void)playVideo:(NSString *)urlStr {
+    if (urlStr == nil || urlStr.length <= 0) {
+        // todo: show alert view
+        return;
     }
+    
+    NSURL *url = [NSURL URLWithString:[urlStr stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    if (url == nil) {
+        return;
+    }
+    
+    // 播放
+//    MPMoviePlayerViewController *playerViewController = [[MPMoviePlayerViewController alloc] initWithContentURL:url];
+    
+    DirectionMPMoviePlayerViewController *playerViewController = [[DirectionMPMoviePlayerViewController alloc] initWithContentURL:url];
+    playerViewController.moviePlayer.controlStyle = MPMovieControlStyleFullscreen;
+    playerViewController.moviePlayer.scalingMode = MPMovieScalingModeAspectFit;
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(movieFinishedCallback:)
+                                                 name:MPMoviePlayerPlaybackDidFinishNotification
+                                               object:[playerViewController moviePlayer]];
+    
+    //---play movie---
+    [[playerViewController moviePlayer] play];
+    
+    [self presentMoviePlayerViewControllerAnimated:playerViewController];
 }
 
-- (void)gotoMediaPlayerViewController:(NSString *)url {
-    [self performSegueWithIdentifier:@"goto_media_player_view_controller" sender:url];
+- (void)movieFinishedCallback:(NSNotification*) aNotification {
+    MPMoviePlayerController *playerViewController = [aNotification object];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:MPMoviePlayerPlaybackDidFinishNotification object:playerViewController];
+    [playerViewController stop];
+    
+    [self dismissMoviePlayerViewControllerAnimated];
+    //    [playerViewController.view removeFromSuperview];
+    //     [playerViewController dismissModalViewControllerAnimated:YES];
+    //    [self.view removeFromParentViewController];
+    //    [self.view removeFromSuperView];
+    //    [player autorelease];
+    
+//    [self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark - delay run
