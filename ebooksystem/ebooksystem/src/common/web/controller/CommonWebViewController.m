@@ -412,6 +412,7 @@
     
     DirectionMPMoviePlayerViewController *playerViewController = [[DirectionMPMoviePlayerViewController alloc] initWithContentURL:url];
     playerViewController.moviePlayer.controlStyle = MPMovieControlStyleFullscreen;
+    playerViewController.view.frame = self.view.frame; // 全屏
     playerViewController.moviePlayer.scalingMode = MPMovieScalingModeAspectFit;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(movieFinishedCallback:)
@@ -468,6 +469,88 @@
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
     
+}
+
+#pragma mark - 屏幕旋转
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
+    if (interfaceOrientation==UIInterfaceOrientationLandscapeLeft) {
+        //zuo
+    }
+    if (interfaceOrientation==UIInterfaceOrientationLandscapeRight) {
+        //you
+    }
+    if (interfaceOrientation==UIInterfaceOrientationPortrait) {
+        //shang
+    }
+    if (interfaceOrientation==UIInterfaceOrientationPortraitUpsideDown) {
+        //xia
+    }
+    return YES;
+}
+
+- (BOOL)shouldAutorotate {
+    return YES;
+}
+
+
+
+- (NSUInteger)supportedInterfaceOrientations {
+//    return UIInterfaceOrientationMaskAllButUpsideDown;
+    return UIInterfaceOrientationMaskAll;
+//    return UIInterfaceOrientationPortrait;
+}
+
+- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
+    //宣告一個UIDevice指標，並取得目前Device的狀況
+    UIDevice *device = [UIDevice currentDevice] ;
+    //取得當前Device的方向，來當作判斷敘述。（Device的方向型態為Integer）
+    switch (device.orientation) {
+        case UIDeviceOrientationFaceUp:
+            NSLog(@"螢幕朝上平躺");
+            break;
+        case UIDeviceOrientationFaceDown:
+            NSLog(@"螢幕朝下平躺");
+            break;
+            //系統無法判斷目前Device的方向，有可能是斜置
+        case UIDeviceOrientationUnknown:
+            NSLog(@"未知方向");
+            break;
+        case UIDeviceOrientationLandscapeLeft:
+            NSLog(@"螢幕向左橫置");
+            break;
+        case UIDeviceOrientationLandscapeRight:
+            NSLog(@"螢幕向右橫置");
+            break;
+        case UIDeviceOrientationPortrait:
+            NSLog(@"螢幕直立");
+            break;
+        case UIDeviceOrientationPortraitUpsideDown:
+            NSLog(@"螢幕直立，上下顛倒");
+            break;
+        default:
+            NSLog(@"無法辨識");
+            break;    
+    }
+    
+    CGRect frame = self.view.frame;
+    self.webView.frame = frame;
+    
+    if (toInterfaceOrientation == UIInterfaceOrientationLandscapeLeft) { // 横屏, home在右
+        
+        ;
+    }
+    else if (toInterfaceOrientation == UIInterfaceOrientationLandscapeRight) { // 横屏, home在左
+        ;
+    }
+    else if (toInterfaceOrientation == UIInterfaceOrientationPortrait) { // 竖屏, home在下
+        ;
+    }
+    else if (toInterfaceOrientation == UIInterfaceOrientationPortraitUpsideDown) { // 竖屏, home在上
+        ;
+    }
+
+    [super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
 }
 
 @end
