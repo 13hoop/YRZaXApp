@@ -44,6 +44,12 @@
     return [WebConfig instance];
 }
 
+#pragma mark - user
+// user config
+- (UserConfig *)userConfig {
+    return [UserConfig instance];
+}
+
 #pragma mark - error
 // error config
 - (ErrorConfig *)errorConfig {
