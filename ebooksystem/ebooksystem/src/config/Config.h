@@ -12,6 +12,7 @@
 #import "KnowledgeDataConfig.h"
 #import "DrawableConfig.h"
 #import "WebConfig.h"
+#import "UserConfig.h"
 #import "ErrorConfig.h"
 
 
@@ -38,6 +39,10 @@
 #pragma mark - web
 // web config
 - (WebConfig *)webConfig;
+
+#pragma mark - user
+// user config
+- (UserConfig *)userConfig;
 
 #pragma mark - error
 // error config

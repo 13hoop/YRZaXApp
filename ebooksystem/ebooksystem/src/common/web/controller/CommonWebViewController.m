@@ -346,11 +346,33 @@
     return YES;
 }
 
+- (UIColor *)getColor:(NSString*)hexColor
+{
+    unsigned int red,green,blue;
+    NSRange range;
+    range.length = 2;
+    
+    range.location = 0;
+    [[NSScanner scannerWithString:[hexColor substringWithRange:range]]scanHexInt:&red];
+    
+    range.location = 2;
+    [[NSScanner scannerWithString:[hexColor substringWithRange:range]]scanHexInt:&green];
+    
+    range.location = 4;
+    [[NSScanner scannerWithString:[hexColor substringWithRange:range]]scanHexInt:&blue];
+    
+    return [UIColor colorWithRed:(float)(red/255.0f)green:(float)(green / 255.0f) blue:(float)(blue / 255.0f)alpha:1.0f];
+}
+
 // 更新webview
 - (BOOL)updateWebView {
     [((UIScrollView *)[self.webView.subviews objectAtIndex:0]) setShowsVerticalScrollIndicator:NO]; // 去除webView右侧垂直滚动条
-    //    self.webView.delegate = self;
     [((UIScrollView *)[self.webView.subviews objectAtIndex:0]) setBounces:NO];
+    
+    //    self.webView.delegate = self;
+//    self.webView.backgroundColor = [UIColor clearColor];
+//    self.webView.opaque = NO;
+//    self.webView.backgroundColor = [self getColor:@"353232"];
     
     if (self.pageId == nil) {
         return NO;
@@ -367,6 +389,13 @@
     //        NSString *urlStrWithParams = [NSString stringWithFormat:@"%@?page_id=%@&data_id=%@", [url absoluteString], self.pageId, dataId];
     NSString *urlStrWithParams = [NSString stringWithFormat:@"%@?page_id=%@", [url absoluteString], self.pageId];
     NSURL *urlWithParams = [[NSURL alloc] initWithString:urlStrWithParams];
+    
+    // test only
+    {
+////    urlWithParams = [[NSURL alloc] initWithString:@"http://www.baidu.com"]; // test only
+//    NSString *tmp = @"http://www.zaxue100.com/index.php?c=kaoyan_english_realexam_ctrl&m=year_list_page&year=2014&device=android";
+//    urlWithParams = [NSURL URLWithString:[tmp stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    }
     
     [self.webView loadRequest:[[NSURLRequest alloc] initWithURL:urlWithParams]];
     
