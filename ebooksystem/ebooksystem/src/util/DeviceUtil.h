@@ -36,6 +36,9 @@ typedef enum {
 // The value of this property is the same for apps that come from the same vendor running on the same device. A different value is returned for apps on the same device that come from different vendors, and for apps on different devices regardless of vendor.
 + (NSString *)getVendorId;
 
+// 获取机器型号, 如iphone4, ipad1等
++ (NSString *)getModel;
+
 /******************************************************************************
  函数名称 : + (UIDeviceResolution) currentResolution
  函数描述 : 获取当前分辨率

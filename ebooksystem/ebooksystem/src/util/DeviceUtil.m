@@ -14,6 +14,11 @@
     return [[[UIDevice currentDevice] identifierForVendor] UUIDString];
 }
 
+// 获取机器型号, 如iphone4, ipad1等
++ (NSString *)getModel {
+    return [UIDevice currentDevice].model;
+}
+
 /******************************************************************************
  函数名称 : + (UIDeviceResolution) currentResolution
  函数描述 : 获取当前分辨率

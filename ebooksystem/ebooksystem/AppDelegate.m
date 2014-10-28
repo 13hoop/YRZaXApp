@@ -15,6 +15,7 @@
 #import "CoreDataUtil.h"
 #import "LogUtil.h"
 #import "PathUtil.h"
+#include "DeviceUtil.h"
 
 #import "StatisticsManager.h"
 
@@ -58,6 +59,8 @@
     // Config the logger
     [LogUtil init];
     
+    NSString *model = [DeviceUtil getModel];
+    LogInfo(@"model: %@", model);
     LogInfo(@"Bundle path: %@", [PathUtil getBundlePath]);
     LogInfo(@"Log file path: %@", [LogUtil getLogFilePath]);
     
