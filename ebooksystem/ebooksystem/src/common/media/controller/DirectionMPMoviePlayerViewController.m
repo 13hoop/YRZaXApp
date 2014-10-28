@@ -16,6 +16,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    CGAffineTransform transform = CGAffineTransformIdentity;
+    transform = CGAffineTransformRotate(transform, M_PI/2);
+    self.view.transform = transform;
     // Do any additional setup after loading the view.
 }
 
@@ -33,10 +37,12 @@
     // Pass the selected object to the new view controller.
 }
 */
+//
+//- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+//{
+////    return UIDeviceOrientationIsLandscape(interfaceOrientation);
+//    return (interfaceOrientation != UIDeviceOrientationPortraitUpsideDown);
+//}
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-    return UIDeviceOrientationIsLandscape(interfaceOrientation);
-}
 
 @end
