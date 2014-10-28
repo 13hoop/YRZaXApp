@@ -41,6 +41,10 @@
     self.table.separatorStyle=UITableViewCellSeparatorStyleSingleLine;
     self.table.separatorColor=[UIColor colorWithHexString:@"#302d2d" alpha:1];
     self.table.bounces=NO;
+    
+    if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0) {
+        self.table.separatorInset = UIEdgeInsetsZero;
+    }
 }
 #pragma mark table的代理
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -83,6 +87,7 @@
     //change select style and backgroundcolor
     self.cell.selectedBackgroundView=[[UIView alloc] initWithFrame:self.cell.frame];
     self.cell.selectedBackgroundView.backgroundColor=[UIColor colorWithHexString:@"#6d6d6d" alpha:1];
+    
     switch (section) {
         case 0:
 
