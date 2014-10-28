@@ -29,7 +29,7 @@
     manager.responseSerializer.acceptableContentTypes=[NSSet setWithObject:@"text/html"];
     NSDictionary *parameter=@{@"encrypt_method":@"0",@"encrypt_key_type":@"0",@"user_name":[[NSUserDefaults standardUserDefaults] objectForKey:@"userInfoName"],@"device_id":device_id};
     
-    [manager POST:@"http://s-115744.gotocdn.com:8296/index.php?c=passportctrl&m=get_user_info" parameters:parameter success:^(AFHTTPRequestOperation *operation,id responsrObject){
+    [manager POST:@"http://zaxue100.com/index.php?c=passportctrl&m=get_user_info" parameters:parameter success:^(AFHTTPRequestOperation *operation,id responsrObject){
         
         NSDictionary *dic=responsrObject;
         NSLog(@"获取用户信息返回的字典dic=====%@",dic);

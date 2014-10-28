@@ -12,6 +12,10 @@
 #import "RechargeModel.h"
 #import "UserManager.h"
 #import "UIColor+Hex.h"
+#import "UserManager.h"
+
+
+
 #define TABLEVIEW_Y 64
 #define NAVBAR_HEIGHT 44 
 #define NAVBAR_Y 20 
@@ -88,6 +92,11 @@
     NSString *message=nil;
     if ([msg isEqualToString:@"success"]) {
         message=@"充值成功";
+        UserManager *manager=[UserManager shareInstance];
+        manager.balance_delegate=self;
+        [manager getUserInfo];
+        NSLog(@"余额信息====%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"surplus_score"]);
+        [self.navigationController popViewControllerAnimated:YES];
     }
     else
     {

@@ -22,6 +22,8 @@
 
 #import "StatisticsManager.h"
 #import "UIColor+Hex.h"
+#import "UserManager.h"
+#import "LogUtil.h"
 
 
 
@@ -51,6 +53,7 @@
     self.view.backgroundColor=[UIColor colorWithHexString:@"#242021" alpha:1];
     [self addNavigationBar];
     [self addCustomMoreview];
+    [self getNewBalance];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -73,12 +76,14 @@
     }
     if ([[NSUserDefaults standardUserDefaults] objectForKey:@"surplus_score"]) {
         self.moreView.lable.text=[[NSUserDefaults standardUserDefaults] objectForKey:@"surplus_score"];
+        NSLog(@"余额====%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"surplus_score"]);
         
     }
     else
     {
         self.moreView.lable.text=@"0.00";
     }
+    NSLog(@"#$$$$$$$$$$$$$");
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -234,5 +239,30 @@
     NSLog(@"appInfo==%@",appInfo);
     
 }
+#pragma mark 每次进入到menu都要获取最新的余额
+-(void)getNewBalance
+{
+    NSString *userName=[[NSUserDefaults standardUserDefaults]objectForKey:@"userInfoName"];
+//    NSLog(@"userName=====%@",userName);
+    if (userName==nil || [userName isEqualToString:@""]) {
+         LogWarn(@"当前无用户，所以无法取到余额信息");
+
+        
+    }
+    else
+    {
+       
+        UserManager *manager=[UserManager shareInstance];
+        [manager getUserInfo];
+//        NSLog(@"user====%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"userInfoName"]);
+        NSLog(@"最新的余额是%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"surplus_score"]);
+    }
+   
+}
+//#pragma mark  userManager delegate
+//-(void)getNewBalance:(NSString *)balance
+//{
+//    self.moreView.lable.text=balance;
+//}
 
 @end

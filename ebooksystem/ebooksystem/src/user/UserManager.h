@@ -15,6 +15,8 @@
 @optional
 
 -(void)getUserBalance:(NSString *)balance;
+//用在菜单页中
+-(void)getNewBalance:(NSString *)balance;
 -(void)getUserinfo:(NSString *)userInfo;
 //recharge
 -(void)getRechargeMessage:(NSString *)msg;
@@ -27,7 +29,7 @@
 
 @property(nonatomic,weak)id<UserManagerDelegate>userInfo_delegate;
 @property(nonatomic,weak)id<UserManagerDelegate> recharge_delegate;
-
+@property(nonatomic,weak)id<UserManagerDelegate> balance_delegate;
 #pragma mark - singleton
 + (UserManager *)instance;
 + (UserManager *)shareInstance;

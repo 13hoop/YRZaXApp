@@ -208,7 +208,7 @@
     manager.responseSerializer.acceptableContentTypes=[NSSet setWithObject:@"text/html"];
     NSDictionary *paramater=@{@"encrypt_method":@"0",@"encrypt_key_type":@"0",@"user_name":[[NSUserDefaults standardUserDefaults] objectForKey:@"userInfoName"]};
     
-    [manager POST:@"http://s-115744.gotocdn.com:8296/index.php?c=passportctrl&m=get_user_info" parameters:paramater success:^(AFHTTPRequestOperation *operation,id responseObject){
+    [manager POST:@"http://zaxue100.com/index.php?c=passportctrl&m=get_user_info" parameters:paramater success:^(AFHTTPRequestOperation *operation,id responseObject){
         NSDictionary *dic=responseObject;
         //解析-得到用户的邮箱
         NSString *email=[self getEmailFromDictionary:dic];
@@ -364,7 +364,7 @@
     manager.responseSerializer.acceptableContentTypes=[NSSet setWithObject:@"text/html"];
     NSDictionary *parameter=@{@"encrypt_method":@"0",@"encrypt_key_type":@"0",@"user_name":[[NSUserDefaults standardUserDefaults] objectForKey:@"userInfoName"],@"device_id":device_id};
     
-    [manager POST:@"http://s-115744.gotocdn.com:8296/index.php?c=passportctrl&m=get_user_info" parameters:parameter success:^(AFHTTPRequestOperation *operation,id responsrObject){
+    [manager POST:@"http://zaxue100.com/index.php?c=passportctrl&m=get_user_info" parameters:parameter success:^(AFHTTPRequestOperation *operation,id responsrObject){
         
         NSDictionary *dic=responsrObject;
         NSString *dataStr=dic[@"data"];
@@ -375,6 +375,15 @@
         SBJsonParser *parser=[[SBJsonParser alloc] init];
         NSDictionary *data=[parser objectWithString:stra];
         NSString *surplus_score=data[@"surplus_score"];
+        [self.balance_delegate getNewBalance:surplus_score];
+        [[NSUserDefaults standardUserDefaults] setObject:surplus_score forKey:@"surplus_score"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        
+        NSLog(@" set STR=====%@",surplus_score);
+        NSLog(@" set surplus_score====%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"surplus_score"]);
+        
+        
+        
         NSString *email=data[@"email"];
         //储存用户的邮箱
         NSUserDefaults *userDefault=[NSUserDefaults standardUserDefaults];
@@ -427,7 +436,7 @@
         NSDictionary *parameter=@{@"encrypt_method":@"2",@"encrypt_key_type":@"3",@"user_name":[[NSUserDefaults standardUserDefaults] objectForKey:@"userInfoName"],@"device_id":[DeviceUtil getVendorId],@"data":string};
        
         
-        [manager POST:@"http://s-115744.gotocdn.com:8296/index.php?c=chargectrl&m=recharge" parameters:parameter success:^(AFHTTPRequestOperation *operation ,id responseobject){
+        [manager POST:@"http://zaxue100.com/index.php?c=chargectrl&m=recharge" parameters:parameter success:^(AFHTTPRequestOperation *operation ,id responseobject){
             NSDictionary *dic=responseobject;
             
             NSString *dataStr=dic[@"data"];
