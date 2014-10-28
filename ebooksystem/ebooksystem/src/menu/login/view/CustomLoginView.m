@@ -51,7 +51,6 @@
         text.placeholder=[placeHolderArr objectAtIndex:i];
         text.tag=1000+i;
         //开启一键清除功能
-        text.clearsOnBeginEditing=YES;
         text.clearButtonMode=UITextFieldViewModeAlways;
         text.rightViewMode=UITextFieldViewModeAlways;
         //屏蔽首字母大写
