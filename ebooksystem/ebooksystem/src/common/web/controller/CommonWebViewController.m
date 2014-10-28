@@ -23,6 +23,7 @@
 #import "WebViewJavascriptBridge.h"
 
 #import "LogUtil.h"
+#import "DeviceUtil.h"
 
 
 #import "StatisticsManager.h"
@@ -317,6 +318,17 @@
         
         [[StatisticsManager instance] event:eventName label:args];
     }];
+    
+    // 获取机器型号
+    [self.javascriptBridge registerHandler:@"getDeviceModel" handler:^(id data, WVJBResponseCallback responseCallback) {
+        LogDebug(@"CommonWebViewController::getDeviceModel() called: %@", data);
+        
+        if (responseCallback) {
+            NSString *model = [DeviceUtil getModel];
+            responseCallback(model);
+        }
+    }];
+    
     
     // 发送消息给 html
     //    [self.javascriptBridge send:@"Well hello there"];
