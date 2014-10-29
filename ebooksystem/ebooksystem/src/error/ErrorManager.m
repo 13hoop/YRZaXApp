@@ -80,8 +80,6 @@ void CustomSignalHandler(int signal) {
 - (BOOL)sendCrashToServer {
     // 启动后台任务
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        
-        
         // 读crash文件, 回发服务端
         // [Config instance].errorConfig.crashFilepath
         UserInfo *curUserInfo = [[UserManager instance] getCurUser];
