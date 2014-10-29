@@ -36,11 +36,18 @@
 @property(nonatomic,strong)CustomMoreView *moreView;
 @property(nonatomic,strong) UserManager *manage;
 @property(nonatomic,strong)UpdateManager *updatemanager;
-@property(nonatomic,strong)UpdateAppViewController *updateApp;
+
+// 新版app下载地址
+@property (nonatomic, copy) NSString *higherVersionAppDownloadUrl;
+
 @end
 
 
 @implementation MoreViewController
+
+@synthesize higherVersionAppDownloadUrl;
+
+
 
 #pragma mark - app events
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
@@ -274,8 +281,11 @@
             }
             else
             {
-                self.updateApp=[[UpdateAppViewController alloc] init];
-                self.updateApp.updateUrlStr=updateInfo.appDownloadUrl;
+                self.moreView.upDateLable.text=@"检测到新版本";
+                
+                self.higherVersionAppDownloadUrl = updateInfo.appDownloadUrl;
+                
+                
                 //            NSLog(@"appDownloadUrl====%@",updateInfo.appDownloadUrl);
                 NSString *desc=updateInfo.appVersionDesc;
                 NSString *version=updateInfo.appVersionStr;
@@ -295,9 +305,13 @@
 #pragma mark alertView delegate method
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
+    if (higherVersionAppDownloadUrl == nil) {
+        return;
+    }
+    
     if (buttonIndex !=alertView.cancelButtonIndex) {
 //        [self.navigationController pushViewController:self.updateApp animated:YES];
-        NSURL *requestURL = [NSURL URLWithString:[self.updateApp.updateUrlStr stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+        NSURL *requestURL = [NSURL URLWithString:[self.higherVersionAppDownloadUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
         
         [[UIApplication sharedApplication] openURL:requestURL];
     }
