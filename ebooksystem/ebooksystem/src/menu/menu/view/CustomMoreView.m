@@ -47,7 +47,7 @@
     self.table.showsVerticalScrollIndicator=NO;
     self.table.separatorStyle=UITableViewCellSeparatorStyleSingleLine;
     self.table.separatorColor=[UIColor colorWithHexString:@"#302d2d" alpha:1];
-    self.table.bounces=NO;
+    self.table.bounces=YES;
     
     if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0) {
         self.table.separatorInset = UIEdgeInsetsZero;
@@ -271,9 +271,9 @@
     {
         return 10;
     }
-    if (section==2) {
-        return 20;
-    }
+//    if (section==2) {
+//        return 20;
+//    }
     return 1;
 
 }
@@ -330,7 +330,15 @@
     self.cell.backgroundColor=[UIColor colorWithHexString:@"#413e3e" alpha:1];
     
 }
-
+//去掉粘性效果
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    CGFloat sectionHeaderHeight = 40;
+    if (scrollView.contentOffset.y<=sectionHeaderHeight&&scrollView.contentOffset.y>=0) {
+        scrollView.contentInset = UIEdgeInsetsMake(-scrollView.contentOffset.y, 0, 0, 0);
+    } else if (scrollView.contentOffset.y>=sectionHeaderHeight) {
+        scrollView.contentInset = UIEdgeInsetsMake(-sectionHeaderHeight, 0, 0, 0);
+    }
+}
 
 
 @end

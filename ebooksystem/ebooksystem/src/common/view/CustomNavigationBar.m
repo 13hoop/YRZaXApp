@@ -39,7 +39,7 @@
    
     self.backgroundView.backgroundColor=[UIColor colorWithHexString:@"#242021" alpha:1];
     //创建标题
-    self.titleLable=[[UILabel alloc] initWithFrame:CGRectMake((self.backgroundView.frame.size.width-100)/2,12, 100, 16)];
+    self.titleLable=[[UILabel alloc] initWithFrame:CGRectMake((self.backgroundView.frame.size.width-100)/2,(50-16)/2, 100, 16)];
     self.titleLable.textAlignment=UITextAlignmentCenter;
     self.titleLable.textColor=[UIColor colorWithHexString:@"#ffffff " alpha:1];
     self.titleLable.font=[UIFont systemFontOfSize:18.0f];
@@ -48,7 +48,7 @@
     [self.backgroundView addSubview:self.titleLable];
     
     //返回图标
-    self.imageReturn=[[UIImageView alloc] initWithFrame:CGRectMake(13, 11, 11, 19)];
+    self.imageReturn=[[UIImageView alloc] initWithFrame:CGRectMake(13, (50-19)/2, 11, 19)];
 
     NSString *path=[[[Config instance] drawableConfig] getImageFullPath:@"backNew.png"];
     UIImage *image=[UIImage imageNamed:path];
@@ -56,7 +56,7 @@
     [self.backgroundView addSubview:self.imageReturn];
     //返回按钮
     self.backButton=[UIButton buttonWithType:UIButtonTypeCustom];
-    self.backButton.frame=CGRectMake(21, 15, 40, 12);
+    self.backButton.frame=CGRectMake(21, (50-12)/2, 40, 12);
     [self.backButton setTitle:@"返回" forState:UIControlStateNormal];
     self.backButton.titleLabel.font=[UIFont systemFontOfSize:14.0f];
     self.backButton.titleLabel.textColor=[UIColor colorWithHexString:@"#ffffff" alpha:1];
