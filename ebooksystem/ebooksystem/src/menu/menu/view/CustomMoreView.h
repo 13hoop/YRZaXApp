@@ -18,6 +18,8 @@
 //实现注册成功时显示用户名的功能
 @property(nonatomic,strong)UILabel *userNameLable;
 @property(nonatomic,strong)UILabel *lable;
+//提示文字
+@property(nonatomic,strong)UILabel *upDateLable;
 
 @property(nonatomic,strong)NSString *userName;
 @property(nonatomic,strong)NSString *balance;
