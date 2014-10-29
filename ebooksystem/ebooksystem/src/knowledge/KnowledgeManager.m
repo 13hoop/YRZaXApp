@@ -160,6 +160,10 @@
 
 #pragma mark - register data files
 - (BOOL)registerDataFiles {
+    // 1. 清除已有的knowledge metas
+    [[KnowledgeMetaManager instance] clearKnowledgeMetas];
+    
+    // 2. 写入新的knowledge metas
     NSString *knowledgeDataRootPathInApp = [[Config instance] knowledgeDataConfig].knowledgeDataRootPathInApp;
     
     // 遍历meta.json

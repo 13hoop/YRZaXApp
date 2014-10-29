@@ -29,6 +29,9 @@
 // delete knowledge meta
 - (BOOL)deleteKnowledgeMetaWithDataId:(NSString *)dataId andDataType:(DataType)dataType;
 
+// clear knowledge metas
+- (BOOL)clearKnowledgeMetas;
+
 #pragma mark - getter
 // get knowledge metas
 - (NSArray *)getKnowledgeMetaWithDataId:(NSString *)dataId;

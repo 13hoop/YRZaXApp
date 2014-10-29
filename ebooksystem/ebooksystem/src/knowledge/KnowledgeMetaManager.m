@@ -239,6 +239,38 @@
         [[CoreDataUtil instance].managedObjectContext deleteObject:entity];
     }
     
+    NSError *error = nil;
+    if (![[CoreDataUtil instance].managedObjectContext save:&error]) {
+        LogError(@"[KnowledgeMetaManager-deleteKnowledgeMetaWithDataId:andDataType:] failed when save to context, error: %@", [error localizedDescription]);
+        return NO;
+    }
+    
+    return YES;
+}
+
+// clear knowledge metas
+- (BOOL)clearKnowledgeMetas {
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    
+    // Entity
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"KnowledgeMetaEntity" inManagedObjectContext:[CoreDataUtil instance].managedObjectContext];
+    [fetchRequest setEntity:entity];
+    
+    // Fetch
+    NSError *error = nil;
+    NSArray *fetchedObjects = [[CoreDataUtil instance].managedObjectContext executeFetchRequest:fetchRequest error:&error];
+    if (fetchedObjects != nil &&
+        fetchedObjects.count > 0) {
+        for (NSManagedObject *entity in fetchedObjects) {
+            [[CoreDataUtil instance].managedObjectContext deleteObject:entity];
+        }
+    }
+    
+    if (![[CoreDataUtil instance].managedObjectContext save:&error]) {
+        LogError(@"[KnowledgeMetaManager-clearKnowledgeMetas] failed when save to context, error: %@", [error localizedDescription]);
+        return NO;
+    }
+    
     return YES;
 }
 
