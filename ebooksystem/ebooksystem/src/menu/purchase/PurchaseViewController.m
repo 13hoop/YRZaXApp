@@ -42,7 +42,7 @@
 }
 -(void)createNavigationBar
 {
-    CustomNavigationBar *nav=[[CustomNavigationBar alloc] initWithFrame:CGRectMake(0, 20, self.view.frame.size.width, 44)];
+    CustomNavigationBar *nav=[[CustomNavigationBar alloc] initWithFrame:CGRectMake(0, 20, self.view.frame.size.width, 50)];
     nav.customNav_delegate=self;
     nav.title=@"购买图书";
     [self.view addSubview:nav];
@@ -50,7 +50,7 @@
 -(void)createWebView
 {
     
-    self.webview=[[UIWebView alloc] initWithFrame:CGRectMake(0, 44, self.view.frame.size.width, self.view.frame.size.height-44)];
+    self.webview=[[UIWebView alloc] initWithFrame:CGRectMake(0, 50, self.view.frame.size.width, self.view.frame.size.height-50)];
     self.webview.autoresizingMask=UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     self.webview.scalesPageToFit=YES;
     self.webview.delegate=self;

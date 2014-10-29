@@ -113,14 +113,14 @@
 
 #pragma mark - 添加自定义控件
 -(void)addNavigationBar {
-    self.navBar = [[CustomNavigationBar alloc] initWithFrame:CGRectMake(0, 20, self.view.frame.size.width, 44)];
+    self.navBar = [[CustomNavigationBar alloc] initWithFrame:CGRectMake(0, 20, self.view.frame.size.width, 50)];
     self.navBar.title = @"更多";
     self.navBar.customNav_delegate = self;
     [self.view addSubview:self.navBar];
 }
 
 -(void)addCustomMoreview {
-    self.moreView = [[CustomMoreView alloc] initWithFrame:CGRectMake(0, 64, self.view.frame.size.width, self.view.frame.size.height - 64)];
+    self.moreView = [[CustomMoreView alloc] initWithFrame:CGRectMake(0, 70, self.view.frame.size.width, self.view.frame.size.height - 70)];
     self.moreView.more_delegate = self;
     [self.view addSubview:self.moreView];
 }

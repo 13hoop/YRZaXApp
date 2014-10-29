@@ -16,8 +16,8 @@
 
 
 
-#define TABLEVIEW_Y 64
-#define NAVBAR_HEIGHT 44 
+#define TABLEVIEW_Y 70
+#define NAVBAR_HEIGHT 50
 #define NAVBAR_Y 20 
 #define NAVBAR_X 0
 @interface RechargeViewController ()<CustomNavigationBarDelegate,CustomRechargeViewDelegate,RechargeModelDelegate,UserManagerDelegate>

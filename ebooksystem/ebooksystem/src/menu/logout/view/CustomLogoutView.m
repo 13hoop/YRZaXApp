@@ -37,7 +37,7 @@
     [self addSubview:backgroundView];
     //创建登陆框
     NSString *userName=[NSString stringWithFormat:@"用户名：%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"userInfoName"]];
-    NSString *password=[NSString stringWithFormat:@"密码：%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"userinfoPassword"]];
+    NSString *password=[NSString stringWithFormat:@"邮箱：%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"userInfoEmail"]];
     NSArray *placeHolderArr=[[NSArray alloc] initWithObjects:userName,password, nil];
     for (NSUInteger i=0; i<2; i++)
     {
