@@ -174,7 +174,7 @@
     manager.responseSerializer.acceptableContentTypes=[NSSet setWithObject:@"text/html"];
     NSDictionary *parameters=@{@"encrypt_method":@"2",@"encrypt_key_type":@"2",@"user_name":self.userName,@"device_id":device_id,@"data":jsonString};
 
-    [manager POST:@"http://s-115744.gotocdn.com:8296/index.php?c=passportctrl&m=login" parameters:parameters success:^(AFHTTPRequestOperation *operation,id responsrObject){
+    [manager POST:@"http://zaxue100.com/index.php?c=passportctrl&m=login" parameters:parameters success:^(AFHTTPRequestOperation *operation,id responsrObject){
                NSDictionary *dic=responsrObject;
                 NSLog(@"dic=====%@",dic);
                 NSString *dataStr=dic[@"data"];
@@ -233,6 +233,7 @@
     NSLog(@"%@",balance);
     NSUserDefaults *userDefaults=[NSUserDefaults standardUserDefaults];
     [userDefaults setObject:balance forKey:@"surplus_score"];
+    NSLog(@"LOGINVIEWCONTROLLER=====%@",balance);
     [userDefaults synchronize];
     //
     UserInfo *userinfo=[[UserInfo alloc] init];

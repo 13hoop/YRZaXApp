@@ -234,6 +234,10 @@
 
         initSearchBox();
 
+        if( utils.isIphone4() ){
+            document.body.classList.add('in-iphone4');
+        }
+
         // 渲染页面
         bridge.getNodeDataByIdAndQueryId( { dataId : currentID, queryId : queryID}, function( dataStr ){
 
@@ -249,6 +253,9 @@
             }
             var book_arr = data.book_arr;
             renderChildList( book_arr, {} );
+
+            document.body.classList.add( 'page-ready');
+
             // var updateIDArr = [];
             // book_arr.forEach(function(item){
             //     updateIDArr.push( item.update_id );

@@ -154,7 +154,7 @@
                     self.cell.textLabel.backgroundColor=[UIColor clearColor];
                     self.lable=[[UILabel alloc] initWithFrame:CGRectMake(50,0, 100,44)];
                     self.lable.textColor=[UIColor colorWithHexString:@"#44a0ff" alpha:1];
-                    
+//                    [self addObserver:self forKeyPath:@"balance" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:NULL];
                     [self.cell.textLabel addSubview:self.lable];
                     //取消选中效果
                     self.cell.selectionStyle=UITableViewCellAccessoryNone;
@@ -318,7 +318,14 @@
     self.cell.backgroundColor=[UIColor colorWithHexString:@"#413e3e" alpha:1];
     
 }
-
+//#pragma mark kvo delegate method
+//-(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+//{
+//    if([keyPath isEqualToString:@"balance"])
+//    {
+//        self.lable.text=[[NSUserDefaults standardUserDefaults] objectForKey:@"surplus_score"];
+//    }
+//}
 
 
 @end

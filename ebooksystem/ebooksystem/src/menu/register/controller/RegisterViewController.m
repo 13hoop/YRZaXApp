@@ -107,7 +107,7 @@
         [userDefaults synchronize];
         // navigationControler pop  moreviewcontroller
         NSArray *controllerArr=self.navigationController.viewControllers;
-        [self.navigationController popToViewController:[controllerArr objectAtIndex:1] animated:YES];
+        [self.navigationController popViewControllerAnimated:YES];
 
     }
 }

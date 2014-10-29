@@ -80,5 +80,9 @@
             }, false );
         }
     };
+    //是否爱疯4
+    utils.isIphone4 = function () {
+        return window.screen.height <= 480;
+    };
 
 }();

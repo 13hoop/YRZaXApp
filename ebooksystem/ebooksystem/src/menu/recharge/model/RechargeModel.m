@@ -39,14 +39,14 @@
         NSDictionary *parameter=@{@"encrypt_method":@"2",@"encrypt_key_type":@"3",@"user_name":[[NSUserDefaults standardUserDefaults] objectForKey:@"userInfoName"],@"device_id":[DeviceUtil getVendorId],@"data":string};
         NSLog(@"vendorId====%@",[DeviceUtil getVendorId]);
         
-        [manager POST:@"http://s-115744.gotocdn.com:8296/index.php?c=chargectrl&m=recharge" parameters:parameter success:^(AFHTTPRequestOperation *operation ,id responseobject){
+        [manager POST:@"http://zaxue100.com/index.php?c=chargectrl&m=recharge" parameters:parameter success:^(AFHTTPRequestOperation *operation ,id responseobject){
             NSDictionary *dic=responseobject;
             
             NSString *dataStr=dic[@"data"];
             NSData *dataData=[dataStr dataUsingEncoding:NSUTF8StringEncoding];
             NSDictionary *data=[NSJSONSerialization JSONObjectWithData:dataData options:0 error:nil];
             NSLog(@"message===%@",data[@"msg"]);
-            NSLog(@"浩宇");
+           
             
             //
             [self.recharge_delegate getRechargeMessage:data[@"msg"]];

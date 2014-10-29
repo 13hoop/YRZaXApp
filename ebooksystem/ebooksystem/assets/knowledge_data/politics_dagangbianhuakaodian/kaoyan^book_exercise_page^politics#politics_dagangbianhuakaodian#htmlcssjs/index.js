@@ -39,6 +39,10 @@
         document.documentElement.classList.add( pageDisplayMode);
         utils.initPageHeader();
 
+        if( utils.isIphone4() ){
+            document.body.classList.add('in-iphone4');
+        }
+
         var searchConf = utils.getSearchConf();
         currentID = searchConf.data_id;
         exerciseIndex = parseInt( searchConf.exercise_index, 10 ) || 0;
@@ -80,6 +84,8 @@
             switchView.setTotalNum( exerciseArray.length );
 
             renderExercise( exerciseIndex );
+
+            document.body.classList.add( 'page-ready');
 
             //统计页面展现PV
             var args = {

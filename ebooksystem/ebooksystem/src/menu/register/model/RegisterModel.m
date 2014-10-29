@@ -36,7 +36,7 @@
 {
     AFHTTPRequestOperationManager *manager=[AFHTTPRequestOperationManager manager];
     manager.responseSerializer.acceptableContentTypes=[NSSet setWithObject:@"text/html"];    
-    [manager GET:@"http://s-115744.gotocdn.com:8296/index.php?c=passportctrl&m=get_public_key" parameters:nil success:^(AFHTTPRequestOperation *operation,id responseObject){
+    [manager GET:@"http://zaxue100.com/index.php?c=passportctrl&m=get_public_key" parameters:nil success:^(AFHTTPRequestOperation *operation,id responseObject){
         NSDictionary *dic=responseObject;
        //get string
         NSString *jsonStr=dic[@"data"];
@@ -86,12 +86,14 @@
     AFHTTPRequestOperationManager *manager=[AFHTTPRequestOperationManager manager];
     manager.responseSerializer.acceptableContentTypes=[NSSet setWithObject:@"text/html"];
     NSDictionary *parameter=@{@"encrypt_method":@"1",@"encrypt_key_type":@"1",@"user_name":self.userInfo.userName,@"device_id":[DeviceUtil getVendorId],@"data":jsonString};
-    [manager POST:@"http://s-115744.gotocdn.com:8296/index.php?c=passportctrl&m=register" parameters:parameter success:^(AFHTTPRequestOperation *operation,id responseObject){
+    [manager POST:@"http://zaxue100.com/index.php?c=passportctrl&m=register" parameters:parameter success:^(AFHTTPRequestOperation *operation,id responseObject){
         NSDictionary *dic=responseObject;
         NSString *dataStr=dic[@"data"];
         NSData *data=[dataStr dataUsingEncoding:NSUTF8StringEncoding];
         NSDictionary *dataDic=[NSJSONSerialization JSONObjectWithData:data options:0 error:0];
         NSLog(@"注册信息是：%@",dataDic);
+    
+        NSLog(@"信息===%@",dataDic[@"msg"]);
         [self.register_delegate registerMessage:dataDic anduserInfo:self.userInfo];
         
     } failure:^(AFHTTPRequestOperation *operation,NSError *error){

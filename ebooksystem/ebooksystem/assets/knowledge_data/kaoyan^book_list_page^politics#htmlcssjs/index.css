@@ -104,7 +104,16 @@ ul,ol,dl{
 #main-wrap{
     padding-top: 50px;
 }
-
+.in-iphone4{
+    padding-bottom: 90px;
+}
+body{
+    opacity: 0;
+    -webkit-transition: opacity .2s ease-in .2s;
+}
+.page-ready{
+    opacity: 1;
+}
 
 /*******************************页面相关样式***********************************/
 /*menu btn*/
