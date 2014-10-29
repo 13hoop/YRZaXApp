@@ -22,6 +22,7 @@
 
 #import "LoginViewController.h"
 
+#import "AppUtil.h"
 #import "PathUtil.h"
 #import "CoreDataUtil.h"
 #import "MD5Util.h"
@@ -121,14 +122,39 @@
 }
 
 - (BOOL)knowledgeDataInited {
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    BOOL knowledgeInited = [userDefaults boolForKey:[[Config instance] knowledgeDataConfig].keyForKnowledgeDataInitedFlag];
-    return knowledgeInited;
+    BOOL inited = YES;
+    
+    do {
+        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+        BOOL knowledgeInited = [userDefaults boolForKey:[[Config instance] knowledgeDataConfig].keyForKnowledgeDataInitedFlag];
+        if (!knowledgeInited) {
+            inited = NO;
+            break;
+        }
+        
+        NSString *initedOnAppVersion = [userDefaults stringForKey:[Config instance].knowledgeDataConfig.keyForKnowledgeDataInitAppVersion];
+        NSString *curAppVersion = [AppUtil getAppVersionStr];
+        if ((initedOnAppVersion == nil && curAppVersion) ||
+            ![initedOnAppVersion isEqualToString:curAppVersion]) {
+            inited = NO;
+            break;
+        }
+    } while (0);
+    
+    return inited;
 }
 
 - (BOOL)updateKnowledgeDataInitFlag:(BOOL)value {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    
+    // 写初始化标记
     [userDefaults setBool:value forKey:[[Config instance] knowledgeDataConfig].keyForKnowledgeDataInitedFlag];
+    
+    // 写app版本号
+    NSString *curAppVersion = [AppUtil getAppVersionStr];
+    [userDefaults setObject:curAppVersion forKey:[Config instance].knowledgeDataConfig.keyForKnowledgeDataInitAppVersion];
+    
+    
     return YES;
 }
 
