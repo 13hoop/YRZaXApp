@@ -20,7 +20,6 @@
 #define FONT_SIZE 15.0f
 @interface CustomMoreView ()<UITableViewDelegate,UITableViewDataSource>
 @property(nonatomic,strong)UITableView *table;
-@property(nonatomic,strong)UILabel *upDateLable;
 @property(nonatomic,strong)UITableViewCell *cell;
 @end
 
@@ -196,7 +195,7 @@
 //                        self.cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
                         self.cell.textLabel.text=@"软件更新";
                         [self.upDateLable removeFromSuperview];
-                        self.upDateLable=[[UILabel alloc] initWithFrame:CGRectMake(self.cell.frame.size.width-100, 0, 100, 44)];
+                        self.upDateLable=[[UILabel alloc] initWithFrame:CGRectMake(self.cell.frame.size.width-150, 0, 150, 44)];
                         self.upDateLable.font=[UIFont systemFontOfSize:13.0f];
                         self.upDateLable.textColor=[UIColor lightGrayColor];
                         [self.cell addSubview:self.upDateLable];

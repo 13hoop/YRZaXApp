@@ -24,7 +24,7 @@
 #import "UIColor+Hex.h"
 #import "UserManager.h"
 #import "LogUtil.h"
-
+#import "MobClick.h"
 
 
 //#define UMENG_APPKEY @"5420c86efd98c51541017684"
@@ -195,11 +195,11 @@
                         
                         
                         //软件更新
-                        [[StatisticsManager instance] checkUpdate];
+//                        [[StatisticsManager instance] checkUpdate];
                         //                            [MobClick checkUpdate:@"新版本" cancelButtonTitle:@"稍后更新" otherButtonTitles:@"立即更新"];
                         
-                        //                            //软件更新自定义
-                        //                            [MobClick checkUpdateWithDelegate:self selector:@selector(appUpdate:)];
+                        //软件更新自定义
+                        [MobClick checkUpdateWithDelegate:self selector:@selector(appUpdate:)];
 
                         
                     }
@@ -209,10 +209,10 @@
                         {
 //                            //软件更新
 //                            [[StatisticsManager instance] checkUpdate];
-////                            [MobClick checkUpdate:@"新版本" cancelButtonTitle:@"稍后更新" otherButtonTitles:@"立即更新"];
-//                            
+//                            [MobClick checkUpdate:@"新版本" cancelButtonTitle:@"稍后更新" otherButtonTitles:@"立即更新"];
+//
 ////                            //软件更新自定义
-////                            [MobClick checkUpdateWithDelegate:self selector:@selector(appUpdate:)];
+//                            [MobClick checkUpdateWithDelegate:self selector:@selector(appUpdate:)];
                             
                             AboutUsViewController *aboutUsview = [[AboutUsViewController alloc] init];
                             [self.navigationController pushViewController:aboutUsview animated:YES];
@@ -259,6 +259,21 @@
     //在这里面修改cell上面的lable的显示
     //定制alertView在这里面实现
     NSLog(@"appInfo==%@",appInfo);
+    NSString *update=appInfo[@"update"];
+    BOOL updateBool=[update boolValue];
+    NSLog(@"%hhd",updateBool);
+    if ([update isEqualToString:@"NO"])
+    {
+        self.moreView.upDateLable.text=@"当前已经是最新版本";
+//        UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"更新提示" message:@"当前已经是最新版本" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定" , nil];
+//        [alert show];
+
+    }
+    else
+    {
+        [[StatisticsManager instance] checkUpdate];
+        
+    }
     
 }
 #pragma mark 每次进入到menu都要获取最新的余额
