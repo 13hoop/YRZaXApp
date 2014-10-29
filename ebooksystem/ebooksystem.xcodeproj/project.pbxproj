@@ -152,6 +152,8 @@
 		7118EB9919EF6C54002CF833 /* uncrustify.cfg in Resources */ = {isa = PBXBuildFile; fileRef = 7118EB9519EF6C54002CF833 /* uncrustify.cfg */; };
 		7118EB9C19EF7109002CF833 /* LogUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 7118EB9B19EF7109002CF833 /* LogUtil.m */; };
 		711E2CEB19FFCE6F000A8D04 /* UserConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 711E2CEA19FFCE6F000A8D04 /* UserConfig.m */; };
+		711E2CF31A00C3C3000A8D04 /* UpdateManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 711E2CF21A00C3C3000A8D04 /* UpdateManager.m */; };
+		711E2CF61A00C51E000A8D04 /* UpdateConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 711E2CF51A00C51E000A8D04 /* UpdateConfig.m */; };
 		7134FB2019E4D952004AB7A8 /* KnowledgeDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7134FB1F19E4D952004AB7A8 /* KnowledgeDataManager.m */; };
 		7134FB2319E4DE4E004AB7A8 /* KnowledgeSearchManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7134FB2219E4DE4E004AB7A8 /* KnowledgeSearchManager.m */; };
 		713D863E19E91654006446D5 /* DateUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 713D863D19E91654006446D5 /* DateUtil.m */; };
@@ -570,6 +572,10 @@
 		711E2CE819FFBEF1000A8D04 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		711E2CE919FFCE6F000A8D04 /* UserConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserConfig.h; path = src/config/UserConfig.h; sourceTree = "<group>"; };
 		711E2CEA19FFCE6F000A8D04 /* UserConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserConfig.m; path = src/config/UserConfig.m; sourceTree = "<group>"; };
+		711E2CF11A00C3C3000A8D04 /* UpdateManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UpdateManager.h; path = src/update/UpdateManager.h; sourceTree = "<group>"; };
+		711E2CF21A00C3C3000A8D04 /* UpdateManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UpdateManager.m; path = src/update/UpdateManager.m; sourceTree = "<group>"; };
+		711E2CF41A00C51E000A8D04 /* UpdateConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UpdateConfig.h; path = src/config/UpdateConfig.h; sourceTree = "<group>"; };
+		711E2CF51A00C51E000A8D04 /* UpdateConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UpdateConfig.m; path = src/config/UpdateConfig.m; sourceTree = "<group>"; };
 		7134FB1E19E4D952004AB7A8 /* KnowledgeDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KnowledgeDataManager.h; path = src/knowledge/KnowledgeDataManager.h; sourceTree = "<group>"; };
 		7134FB1F19E4D952004AB7A8 /* KnowledgeDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KnowledgeDataManager.m; path = src/knowledge/KnowledgeDataManager.m; sourceTree = "<group>"; };
 		7134FB2119E4DE4E004AB7A8 /* KnowledgeSearchManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KnowledgeSearchManager.h; path = src/knowledge/KnowledgeSearchManager.h; sourceTree = "<group>"; };
@@ -1532,6 +1538,15 @@
 			name = Documentation;
 			sourceTree = "<group>";
 		};
+		711E2CF01A00C39B000A8D04 /* update */ = {
+			isa = PBXGroup;
+			children = (
+				711E2CF11A00C3C3000A8D04 /* UpdateManager.h */,
+				711E2CF21A00C3C3000A8D04 /* UpdateManager.m */,
+			);
+			name = update;
+			sourceTree = "<group>";
+		};
 		713D863F19EA96BB006446D5 /* ZipArchive */ = {
 			isa = PBXGroup;
 			children = (
@@ -1769,6 +1784,7 @@
 				71860BDB19DC6D3900D01AA9 /* knowledge */,
 				71860BD319DC4E5C00D01AA9 /* download */,
 				715EE98019E6CF51005A4F78 /* statistics */,
+				711E2CF01A00C39B000A8D04 /* update */,
 				7156B09E19F7A85100B3A521 /* error */,
 				71860C0B19DE8DA000D01AA9 /* util */,
 			);
@@ -1846,6 +1862,8 @@
 				7156B0A619F8A6DD00B3A521 /* ErrorConfig.m */,
 				711E2CE919FFCE6F000A8D04 /* UserConfig.h */,
 				711E2CEA19FFCE6F000A8D04 /* UserConfig.m */,
+				711E2CF41A00C51E000A8D04 /* UpdateConfig.h */,
+				711E2CF51A00C51E000A8D04 /* UpdateConfig.m */,
 			);
 			name = config;
 			sourceTree = "<group>";
@@ -2037,7 +2055,6 @@
 				0690781119CFD62700CD9C3D /* Sources */,
 				0690781219CFD62700CD9C3D /* Frameworks */,
 				0690781319CFD62700CD9C3D /* Resources */,
-				7118EB2219EE242A002CF833 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -2136,22 +2153,6 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
-/* Begin PBXShellScriptBuildPhase section */
-		7118EB2219EE242A002CF833 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "if [ $CONFIGURATION == Release ]; then\necho \"Bumping build number...\"\nplist=${PROJECT_DIR}/${INFOPLIST_FILE}\n\n#increment the build number (ie 115 to 116)\nbuildnum=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"${plist}\")\nif [[ \"${buildnum}\" == \"\" ]]; then\necho \"No build number in $plist\"\nexit 2\nfi\n\nbuildnum=$(expr $buildnum + 1)\n/usr/libexec/Plistbuddy -c \"Set CFBundleVersion $buildnum\" \"${plist}\"\necho \"Bumped build number to $buildnum\"\n\nelse\necho $CONFIGURATION \" build - Not bumping build number.\"\nfi";
-		};
-/* End PBXShellScriptBuildPhase section */
-
 /* Begin PBXSourcesBuildPhase section */
 		0690781119CFD62700CD9C3D /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -2232,6 +2233,7 @@
 				71860BE919DC7B4300D01AA9 /* KnowledgeDataConfig.m in Sources */,
 				06AA7E9319F4FAE100570289 /* SecurityUtil.m in Sources */,
 				06AA7F5B19F4FC7E00570289 /* CustomLoginView.m in Sources */,
+				711E2CF61A00C51E000A8D04 /* UpdateConfig.m in Sources */,
 				06AA7F6519F4FC7E00570289 /* CustomViewCellTableViewCell.m in Sources */,
 				06AA7F6419F4FC7E00570289 /* CustomRechargeView.m in Sources */,
 				715EE97719E52749005A4F78 /* BaseTitleBar.m in Sources */,
@@ -2333,6 +2335,7 @@
 				0690782719CFD62700CD9C3D /* main.m in Sources */,
 				06AA7F5F19F4FC7E00570289 /* MoreViewController.m in Sources */,
 				7159EC5719E4373C00288CF2 /* CoreDataUtil.m in Sources */,
+				711E2CF31A00C3C3000A8D04 /* UpdateManager.m in Sources */,
 				7156B0A419F7AD0C00B3A521 /* UncaughtExceptionHandler.m in Sources */,
 				710C039C19E2ECA400C27A33 /* KnowledgeMeta.m in Sources */,
 				7156B0B019F8BC5100B3A521 /* UIImage+MRImageEffects.m in Sources */,
