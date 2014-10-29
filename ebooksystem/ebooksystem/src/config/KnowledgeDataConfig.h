@@ -25,6 +25,8 @@
 #pragma mark - data related properties
 // knowledge data init mode
 @property (nonatomic, copy) NSString *keyForKnowledgeDataInitedFlag;
+// app version key, for storing in user defaults
+@property (nonatomic, copy) NSString *keyForKnowledgeDataInitAppVersion;
 
 // knowledge data root path in assets
 @property (nonatomic, copy) NSString *knowledgeDataRootPathInAssets;

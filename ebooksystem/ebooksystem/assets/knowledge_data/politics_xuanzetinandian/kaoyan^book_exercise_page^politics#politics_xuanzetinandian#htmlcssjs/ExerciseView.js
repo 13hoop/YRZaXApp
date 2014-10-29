@@ -90,7 +90,13 @@ ExerciseView.prototype = {
         //渲染答案及解析
         this.analysisWrap.style.display = 'none';
         var analysis = '<div>【正确答案】' + obj.answers.join('') + '</div>';
-        analysis += '<div>【题目解析】' + obj.analysis + '</div>';
+        if( obj.bibei || obj.kuozhan ){
+            analysis += '<div>【考点必背】' + obj.bibei + '</div>';
+            analysis += '<div>【考点拓展】' + obj.kuozhan + '</div>';
+        }else{
+            analysis += '<div>【题目解析】' + obj.analysis + '</div>';
+        }
+
         this.analysisInner.innerHTML = analysis;
         //渲染选项
         var optionsHTML = '';
@@ -107,6 +113,8 @@ ExerciseView.prototype = {
                 '</li>';
         }
         this.optionList.innerHTML = optionsHTML;
+
+        this.questionWrap.scrollIntoView();
     },
 
     showAnswer : function(){
@@ -131,6 +139,8 @@ ExerciseView.prototype = {
                 }
             }
         }
+
+        this.optionList.scrollIntoView();
     },
     onItemClick : function(){},
     canSelect : function(){

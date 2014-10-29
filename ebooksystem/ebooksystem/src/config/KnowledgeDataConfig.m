@@ -33,6 +33,8 @@
 @synthesize dataUrlForUpdate;
 
 @synthesize keyForKnowledgeDataInitedFlag = _keyForKnowledgeDataInitedFlag;
+@synthesize keyForKnowledgeDataInitAppVersion = _keyForKnowledgeDataInitAppVersion;
+
 @synthesize knowledgeDataRootPathInAssets = _knowledgeDataRootPathInAssets;
 @synthesize knowledgeDataRootPathInDocuments = _knowledgeDataRootPathInDocuments;
 @synthesize knowledgeDataRootPathInApp = _knowledgeDataRootPathInApp;
@@ -77,6 +79,11 @@
 // knowledge inited flag key, for storing in user defaults
 - (NSString *)keyForKnowledgeDataInitedFlag {
     return @"knowledge_data_inited";
+}
+
+// app version key, for storing in user defaults
+- (NSString *)keyForKnowledgeDataInitAppVersion {
+    return @"knowledge_data_inited_on_app_version";
 }
 
 // knowledge data root path in assets

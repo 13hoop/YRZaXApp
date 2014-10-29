@@ -133,8 +133,7 @@ function showSearchResult(data){
                     + ' data-topic-query_id="' + obj.topic_query_id + '" '
                     + ' data-data_id="' + obj.id + '" '
                     + ' data-query_id="' + obj.query_id + '" '
-                    + ' data-page_id="' + obj.page_id + '" >' 
-                    + '<h3 class="search-title">' + obj.title + '</h3>'
+                    + ' data-page_id="' + obj.page_id + '" >'
                     + '<div class="search-desc">' + obj.title + '</div>'
                     + '<span class="right-arrow"></span>'
                  + '</div>';
@@ -186,6 +185,7 @@ function showSearchResult(data){
         
         // } );
 
+        searchInput.value = '';
         searchInput.focus();
 
         document.body.classList.add( 'page-ready');
