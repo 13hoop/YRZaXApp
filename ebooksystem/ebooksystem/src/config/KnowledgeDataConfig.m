@@ -52,15 +52,18 @@
 
 #pragma mark - properties
 - (NSString *)dataUrlForDownload {
-    return @"http://www.zaxue100.com/index.php?c=check_update_ctrl&m=get_version";
+//    return @"http://www.zaxue100.com/index.php?c=check_update_ctrl&m=get_version";
+    return [NSString stringWithFormat:@"http://%@/index.php?c=check_update_ctrl&m=get_version", [Config instance].appConfig.httpDomain];
 }
 
 - (NSString *)dataUrlForVersion {
-    return @"http://sdata.zaxue100.com/kaoyan/app-update-pack/kaoyan_data_version.json";
+//    return @"http://sdata.zaxue100.com/kaoyan/app-update-pack/kaoyan_data_version.json";
+    return [NSString stringWithFormat:@"http://%@/kaoyan/app-update-pack/kaoyan_data_version.json", [Config instance].appConfig.httpDomainForData];
 }
 
 - (NSString *)dataUrlForUpdate {
-    return @"http://www.zaxue100.com/index.php?c=check_update_ctrl&m=get_update";
+//    return @"http://www.zaxue100.com/index.php?c=check_update_ctrl&m=get_update";
+    return [NSString stringWithFormat:@"http://%@/index.php?c=check_update_ctrl&m=get_update", [Config instance].appConfig.httpDomain];
 }
 
 #pragma mark - singleton

@@ -10,6 +10,8 @@
 
 #import "PathUtil.h"
 
+#import "AppConfig.h"
+
 
 
 @interface ErrorConfig ()
@@ -36,13 +38,17 @@
 #pragma mark - properties
 - (NSString *)errorUrlByGet {
     // http://log.zaxue100.com/e.html?par1=**&par2=
-    return @"http://log.zaxue100.com/e.html?"; // online
+//    return @"http://log.zaxue100.com/e.html?"; // online
 //    return @"http://118.244.235.155:8296/e.html?"; // offline
+    
+    return [NSString stringWithFormat:@"http://%@/e.html?", [AppConfig instance].httpDomainForLog];
 }
 
 - (NSString *)errorUrlByPost {
-    return @"http://log.zaxue100.com/index.php?c=errorctrl&m=upload"; // online
+//    return @"http://log.zaxue100.com/index.php?c=errorctrl&m=upload"; // online
 //    return @"http://118.244.235.155:8296/index.php?c=errorctrl&m=upload"; // offline
+    
+    return [NSString stringWithFormat:@"http://%@/index.php?c=errorctrl&m=upload", [AppConfig instance].httpDomainForLog];
 }
 
 - (NSString *)errorDataRootDirName {
