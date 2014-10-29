@@ -83,8 +83,11 @@
 #pragma mark registerModel delegate method
 -(void)registerMessage:(NSDictionary *)data anduserInfo:(RegisterUserInfo *)userInfo
 {
-   
-    if (data[@"status"]<0 || data[@"msg"]==NULL) {
+    NSString *status=data[@"status"];
+    NSLog(@"status===%@",status);
+    NSInteger statusInteger=[status integerValue];
+    NSLog(@"statusInteger====%d",statusInteger);
+    if (statusInteger<0 || data[@"msg"]==NULL || [data[@"msg"] isEqualToString:@"success"]==NO) {
         //注册失败
         LogError(@"register failed because of %@",data[@"msg"]);
         UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"错误提示" message:data[@"msg"] delegate:nil cancelButtonTitle:nil otherButtonTitles:@"重新输入", nil];
@@ -107,7 +110,8 @@
         [userDefaults synchronize];
         // navigationControler pop  moreviewcontroller
         NSArray *controllerArr=self.navigationController.viewControllers;
-        [self.navigationController popViewControllerAnimated:YES];
+        
+        [self.navigationController popToViewController:controllerArr[2] animated:YES];
 
     }
 }

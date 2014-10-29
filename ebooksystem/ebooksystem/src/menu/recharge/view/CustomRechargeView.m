@@ -122,7 +122,7 @@
         UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, 300, 53)];
         titleLabel.textColor=[UIColor colorWithHexString:@"#aaaaaa" alpha:1];
         titleLabel.backgroundColor = [UIColor clearColor];
-        titleLabel.font=[UIFont systemFontOfSize:14.0f];
+        titleLabel.font=[UIFont systemFontOfSize:13.0f];
         titleLabel.textAlignment = NSTextAlignmentCenter;
         titleLabel.numberOfLines=0;
         titleLabel.text = [Config instance].userConfig.tipForUserCharge;

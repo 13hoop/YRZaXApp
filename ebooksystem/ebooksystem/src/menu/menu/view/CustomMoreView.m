@@ -81,7 +81,7 @@
             return 2;
         }
         else{
-            return 5;
+            return 4;
         }
     }
 }
@@ -181,38 +181,50 @@
             {
                 if (row==1)
                 {
-                    self.cell.textLabel.text=@"分享应用到";
+//                    self.cell.textLabel.text=@"分享应用到";
+//                    self.cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+//                    self.cell.selectionStyle=UITableViewCellAccessoryNone;
+                    self.cell.textLabel.text=@"意见反馈";
                     self.cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-                    self.cell.selectionStyle=UITableViewCellAccessoryNone;
-
                     
                     
                 }
                 else
                 {
                     if (row==2) {
-                        self.cell.textLabel.text=@"意见反馈";
-                        self.cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+//                        self.cell.textLabel.text=@"意见反馈";
+//                        self.cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+                        self.cell.textLabel.text=@"软件更新";
+                        [self.upDateLable removeFromSuperview];
+                        self.upDateLable=[[UILabel alloc] initWithFrame:CGRectMake(self.cell.frame.size.width-100, 0, 100, 44)];
+                        self.upDateLable.font=[UIFont systemFontOfSize:13.0f];
+                        self.upDateLable.textColor=[UIColor lightGrayColor];
+                        [self.cell addSubview:self.upDateLable];
+                        
                     }
                     else
                     {
                         if (row==3) {
-                            self.cell.textLabel.text=@"软件更新";
-                            [self.upDateLable removeFromSuperview];
-                            self.upDateLable=[[UILabel alloc] initWithFrame:CGRectMake(self.cell.frame.size.width-100, 0, 100, 44)];
-                            self.upDateLable.font=[UIFont systemFontOfSize:13.0f];
-                            self.upDateLable.textColor=[UIColor lightGrayColor];
-                            [self.cell addSubview:self.upDateLable];
+//                            self.cell.textLabel.text=@"软件更新";
+//                            [self.upDateLable removeFromSuperview];
+//                            self.upDateLable=[[UILabel alloc] initWithFrame:CGRectMake(self.cell.frame.size.width-100, 0, 100, 44)];
+//                            self.upDateLable.font=[UIFont systemFontOfSize:13.0f];
+//                            self.upDateLable.textColor=[UIColor lightGrayColor];
+//                            [self.cell addSubview:self.upDateLable];
+                            
+                            self.cell.textLabel.text=@"关于咋学";
+                            self.cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+
                         }
-                        else
-                        {
-                            if (row==4) {
-                                self.cell.textLabel.text=@"关于咋学";
-                                self.cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-                            }
-                          
-                           
-                        }
+//                        else
+//                        {
+//                            if (row==4) {
+////                                self.cell.textLabel.text=@"关于咋学";
+////                                self.cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+//                            }
+//                          
+//                           
+//                        }
                     }
                 }
                 
@@ -277,7 +289,7 @@
     
     if (indexPath.section==2)
     {
-        if (indexPath.row==3)
+        if (indexPath.row==2)
         {
             self.upDateLable.text=@"正在检查更新...";
         }
@@ -294,7 +306,7 @@
         UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, 300, 53)];
         titleLabel.textColor=[UIColor colorWithHexString:@"5d5b5b" alpha:1];
         titleLabel.backgroundColor = [UIColor clearColor];
-        titleLabel.font=[UIFont systemFontOfSize:14.0f];
+        titleLabel.font=[UIFont systemFontOfSize:13.0f];
         titleLabel.textAlignment = NSTextAlignmentCenter;
         titleLabel.numberOfLines=0;
         titleLabel.text = [Config instance].userConfig.tipForUserCharge;
@@ -318,14 +330,7 @@
     self.cell.backgroundColor=[UIColor colorWithHexString:@"#413e3e" alpha:1];
     
 }
-//#pragma mark kvo delegate method
-//-(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
-//{
-//    if([keyPath isEqualToString:@"balance"])
-//    {
-//        self.lable.text=[[NSUserDefaults standardUserDefaults] objectForKey:@"surplus_score"];
-//    }
-//}
+
 
 
 @end

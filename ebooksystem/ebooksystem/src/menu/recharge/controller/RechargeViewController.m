@@ -80,9 +80,12 @@
 //    model.recharge_delegate=self;
 //
 //    [model getRecharge:cardID];
+    
     UserManager *manager=[UserManager shareInstance];
     manager.recharge_delegate=self;
     [manager getRecharge:cardID];
+    
+   
     
 }
 #pragma mark userManager Delegate method
@@ -91,20 +94,17 @@
     
     NSString *message=nil;
     if ([msg isEqualToString:@"success"]) {
-        message=@"充值成功";
         UserManager *manager=[UserManager shareInstance];
-        manager.balance_delegate=self;
-        [manager getUserInfo];
-        NSLog(@"余额信息====%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"surplus_score"]);
+        [manager getBalance];
         [self.navigationController popViewControllerAnimated:YES];
     }
     else
     {
         message=msg;
+        UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"充值信息" message:message delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+        alert.backgroundColor=[UIColor lightGrayColor];
+        [alert show];
     }
-    UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"充值信息" message:message delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-    alert.backgroundColor=[UIColor lightGrayColor];
-    [alert show];
     
 }
 @end
