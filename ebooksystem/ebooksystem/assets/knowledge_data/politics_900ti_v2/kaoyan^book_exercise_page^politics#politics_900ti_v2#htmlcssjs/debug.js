@@ -111,6 +111,7 @@ bridgeIOS.getNodeDataByIdAndQueryId = function( args, callback ){
     }
 
     out.data = arr;
+    //out.index = '9';
 
     if( typeof callback === 'function' ){
         callback( JSON.stringify(out) );
