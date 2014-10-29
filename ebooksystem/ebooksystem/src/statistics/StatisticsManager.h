@@ -15,10 +15,6 @@
 // app key, form umeng
 @property (nonatomic, copy, readonly) NSString *appKeyFromUmeng;
 
-// channel
-@property (nonatomic, copy) NSString *channel;
-
-
 
 #pragma mark - singleton
 + (StatisticsManager *)instance;
