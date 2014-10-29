@@ -369,13 +369,12 @@
         NSDictionary *dic=responsrObject;
         NSString *dataStr=dic[@"data"];
         NSString *jsonStr=[SecurityUtil AES128Decrypt:dataStr andwithPassword:[[NSUserDefaults standardUserDefaults] objectForKey:@"userinfoPassword"]];
-        NSLog(@"解密后的字符串是%@",jsonStr);
+//        NSLog(@"userManager.h解密后的字符串是%@",jsonStr);
         jsonStr=[jsonStr stringByReplacingOccurrencesOfString:@"\0" withString:@""];
         NSString *stra=[self JSONString:jsonStr];
         SBJsonParser *parser=[[SBJsonParser alloc] init];
         NSDictionary *data=[parser objectWithString:stra];
         NSString *surplus_score=data[@"surplus_score"];
-        [self.balance_delegate getNewBalance:surplus_score];
         [[NSUserDefaults standardUserDefaults] setObject:surplus_score forKey:@"surplus_score"];
         [[NSUserDefaults standardUserDefaults] synchronize];
         
@@ -435,7 +434,6 @@
         
         NSDictionary *parameter=@{@"encrypt_method":@"2",@"encrypt_key_type":@"3",@"user_name":[[NSUserDefaults standardUserDefaults] objectForKey:@"userInfoName"],@"device_id":[DeviceUtil getVendorId],@"data":string};
        
-        
         [manager POST:@"http://zaxue100.com/index.php?c=chargectrl&m=recharge" parameters:parameter success:^(AFHTTPRequestOperation *operation ,id responseobject){
             NSDictionary *dic=responseobject;
             
@@ -460,6 +458,43 @@
 
 }
 
+
+//实现充值后刷新余额
+-(void)getBalance
+{
+    dispatch_queue_t t=dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    dispatch_async(t, ^{
+        //再次发起网络请求,获取用户的余额信息
+        NSString *device_id=[DeviceUtil getVendorId];
+        AFHTTPRequestOperationManager *manager=[AFHTTPRequestOperationManager manager];
+        manager.responseSerializer.acceptableContentTypes=[NSSet setWithObject:@"text/html"];
+        NSDictionary *parameter=@{@"encrypt_method":@"0",@"encrypt_key_type":@"0",@"user_name":[[NSUserDefaults standardUserDefaults] objectForKey:@"userInfoName"],@"device_id":device_id};
+        
+        [manager POST:@"http://zaxue100.com/index.php?c=passportctrl&m=get_user_info" parameters:parameter success:^(AFHTTPRequestOperation *operation,id responsrObject){
+            
+            NSDictionary *dic=responsrObject;
+            NSString *dataStr=dic[@"data"];
+            NSString *jsonStr=[SecurityUtil AES128Decrypt:dataStr andwithPassword:[[NSUserDefaults standardUserDefaults] objectForKey:@"userinfoPassword"]];
+            jsonStr=[jsonStr stringByReplacingOccurrencesOfString:@"\0" withString:@""];
+            NSString *stra=[self JSONString:jsonStr];
+            SBJsonParser *parser=[[SBJsonParser alloc] init];
+            NSDictionary *data=[parser objectWithString:stra];
+            NSString *surplus_score=data[@"surplus_score"];
+            [[NSUserDefaults standardUserDefaults] setObject:surplus_score forKey:@"surplus_score"];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+            [self.upDateBalance_delegate upDateBalance:surplus_score];
+            
+            NSLog(@" set STR=====%@",surplus_score);
+            NSLog(@" set surplus_score====%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"surplus_score"]);
+            
+        } failure:^(AFHTTPRequestOperation *operation,NSError *error){
+            NSLog(@"登陆失败");
+            LogError(@"get userInfo failed because of net connect");
+           
+        }];
+    });
+
+}
 
 
 @end

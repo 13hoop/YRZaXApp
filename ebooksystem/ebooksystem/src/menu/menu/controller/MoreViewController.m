@@ -29,10 +29,12 @@
 
 //#define UMENG_APPKEY @"5420c86efd98c51541017684"
 
-@interface MoreViewController ()<CustomNavigationBarDelegate,CustomMoreViewDelegate>
+@interface MoreViewController ()<CustomNavigationBarDelegate,CustomMoreViewDelegate,UserManagerDelegate>
 
 @property(nonatomic,strong)CustomNavigationBar *navBar;
 @property(nonatomic,strong)CustomMoreView *moreView;
+@property(nonatomic,strong) UserManager *manage;
+
 
 @end
 
@@ -54,6 +56,10 @@
     [self addNavigationBar];
     [self addCustomMoreview];
     [self getNewBalance];
+    self.manage=[UserManager shareInstance];
+    self.manage.upDateBalance_delegate=self;
+    
+   
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -76,14 +82,13 @@
     }
     if ([[NSUserDefaults standardUserDefaults] objectForKey:@"surplus_score"]) {
         self.moreView.lable.text=[[NSUserDefaults standardUserDefaults] objectForKey:@"surplus_score"];
-        NSLog(@"余额====%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"surplus_score"]);
-        
+
     }
     else
     {
         self.moreView.lable.text=@"0.00";
     }
-    NSLog(@"#$$$$$$$$$$$$$");
+    
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -177,35 +182,52 @@
                 if(row==1)
                 {
                     //友盟分享
+                    
+                    //意见反馈
+                    [self showNativeFeedbackWithAppkey:[[StatisticsManager instance] appKeyFromUmeng]];
                 }
                 else
                 {
                     if (row == 2)
                     {
-                        //意见反馈
-                        [self showNativeFeedbackWithAppkey:[[StatisticsManager instance] appKeyFromUmeng]];
+//                        //意见反馈
+//                        [self showNativeFeedbackWithAppkey:[[StatisticsManager instance] appKeyFromUmeng]];
+                        
+                        
+                        //软件更新
+                        [[StatisticsManager instance] checkUpdate];
+                        //                            [MobClick checkUpdate:@"新版本" cancelButtonTitle:@"稍后更新" otherButtonTitles:@"立即更新"];
+                        
+                        //                            //软件更新自定义
+                        //                            [MobClick checkUpdateWithDelegate:self selector:@selector(appUpdate:)];
+
+                        
                     }
                     else
                     {
                         if (row == 3)
                         {
-                            //软件更新
-                            [[StatisticsManager instance] checkUpdate];
-//                            [MobClick checkUpdate:@"新版本" cancelButtonTitle:@"稍后更新" otherButtonTitles:@"立即更新"];
+//                            //软件更新
+//                            [[StatisticsManager instance] checkUpdate];
+////                            [MobClick checkUpdate:@"新版本" cancelButtonTitle:@"稍后更新" otherButtonTitles:@"立即更新"];
+//                            
+////                            //软件更新自定义
+////                            [MobClick checkUpdateWithDelegate:self selector:@selector(appUpdate:)];
                             
-//                            //软件更新自定义
-//                            [MobClick checkUpdateWithDelegate:self selector:@selector(appUpdate:)];
-                        }
-                        else
-                        {
-                            //关于
-                            if (row==4)
-                            {
-                                AboutUsViewController *aboutUsview = [[AboutUsViewController alloc] init];
-                                [self.navigationController pushViewController:aboutUsview animated:YES];
-                            }
+                            AboutUsViewController *aboutUsview = [[AboutUsViewController alloc] init];
+                            [self.navigationController pushViewController:aboutUsview animated:YES];
                             
                         }
+//                        else
+//                        {
+//                            //关于
+//                            if (row==4)
+//                            {
+////                                AboutUsViewController *aboutUsview = [[AboutUsViewController alloc] init];
+////                                [self.navigationController pushViewController:aboutUsview animated:YES];
+//                            }
+//                            
+//                        }
                         
                     }
                 }
@@ -243,26 +265,25 @@
 -(void)getNewBalance
 {
     NSString *userName=[[NSUserDefaults standardUserDefaults]objectForKey:@"userInfoName"];
-//    NSLog(@"userName=====%@",userName);
-    if (userName==nil || [userName isEqualToString:@""]) {
+    if (userName==nil || [userName isEqualToString:@""] ||[[NSUserDefaults standardUserDefaults] objectForKey:@"userInfoName"]==NULL)
+    {
          LogWarn(@"当前无用户，所以无法取到余额信息");
-
         
     }
     else
     {
        
         UserManager *manager=[UserManager shareInstance];
-        [manager getUserInfo];
-//        NSLog(@"user====%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"userInfoName"]);
-        NSLog(@"最新的余额是%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"surplus_score"]);
+        [manager getBalance];
+        LogWarn(@"最新的余额是%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"surplus_score"]);
     }
    
 }
-//#pragma mark  userManager delegate
-//-(void)getNewBalance:(NSString *)balance
-//{
-//    self.moreView.lable.text=balance;
-//}
+#pragma mark updateBalabce delegate method
+-(void)upDateBalance:(NSString *)balance
+{
+    
+    self.moreView.lable.text=[[NSUserDefaults standardUserDefaults] objectForKey:@"surplus_score"];
+}
 
 @end

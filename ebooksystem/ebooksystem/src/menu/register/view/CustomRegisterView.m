@@ -52,6 +52,10 @@
         self.text.autocapitalizationType = UITextAutocapitalizationTypeNone;
         self.text.font=[UIFont systemFontOfSize:13.0f];
         self.text.delegate=self;
+        //设置后两个输入框为密码模式
+        if (self.text.tag==1002 || self.text.tag==1003) {
+            self.text.secureTextEntry=YES;
+        }
         [self addSubview:self.text];
         
     }
