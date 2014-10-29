@@ -122,8 +122,8 @@ body{
     right: 0;
     height: 100%;
     padding: 0 20px;
-    font-size: 17px;
-    color: #44a0ff;
+    background: url(./assets/menu_icon.png) no-repeat center center;
+    background-size: 15px 12px;
 }
 /*搜索框入口*/
 .search-entrance-wrap{
