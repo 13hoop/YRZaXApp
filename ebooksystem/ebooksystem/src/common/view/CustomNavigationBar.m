@@ -42,7 +42,7 @@
     self.titleLable=[[UILabel alloc] initWithFrame:CGRectMake((self.backgroundView.frame.size.width-80)/2,14, 80, 16)];
     self.titleLable.textAlignment=UITextAlignmentCenter;
     self.titleLable.textColor=[UIColor colorWithHexString:@"#d0cfcf" alpha:1];
-    self.titleLable.font=[UIFont systemFontOfSize:16.0f];
+    self.titleLable.font=[UIFont systemFontOfSize:18.0f];
     //使用kvo来得到值
     [self addObserver:self forKeyPath:@"title" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:NULL];
     [self.backgroundView addSubview:self.titleLable];
@@ -50,15 +50,15 @@
     //返回图标
     self.imageReturn=[[UIImageView alloc] initWithFrame:CGRectMake(13, 13, 10, 15)];
 
-    NSString *path=[[[Config instance] drawableConfig] getImageFullPath:@"back.png"];
+    NSString *path=[[[Config instance] drawableConfig] getImageFullPath:@"backNew.png"];
     UIImage *image=[UIImage imageNamed:path];
     self.imageReturn.image=image;
     [self.backgroundView addSubview:self.imageReturn];
     //返回按钮
     self.backButton=[UIButton buttonWithType:UIButtonTypeCustom];
-    self.backButton.frame=CGRectMake(19, 16, 40, 12);
+    self.backButton.frame=CGRectMake(21, 15, 40, 12);
     [self.backButton setTitle:@"返回" forState:UIControlStateNormal];
-    self.backButton.titleLabel.font=[UIFont systemFontOfSize:12.0f];
+    self.backButton.titleLabel.font=[UIFont systemFontOfSize:14.0f];
     self.backButton.titleLabel.textColor=[UIColor colorWithHexString:@"#d0cfcf" alpha:1];
 //    [self.backButton addTarget:self action:@selector(btnDown:) forControlEvents:UIControlEventTouchUpInside];
     [self.backgroundView addSubview:self.backButton];
