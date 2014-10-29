@@ -10,6 +10,8 @@
 
 #import "MobClick.h"
 
+#import "Config.h"
+
 
 #import "AppUtil.h"
 
@@ -49,9 +51,7 @@
 
 // channel
 - (NSString *)channel {
-    if (_channel == nil) {
-        _channel = @"";
-    }
+    _channel = [Config instance].channel;
     
     return _channel;
 }
