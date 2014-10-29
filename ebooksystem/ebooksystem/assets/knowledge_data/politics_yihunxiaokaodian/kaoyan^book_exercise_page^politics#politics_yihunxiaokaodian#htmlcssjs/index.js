@@ -23,6 +23,21 @@
     var exerciseView;
     //前后练习题切换
     var switchView;
+    //page title el
+    var pageTitleEl;
+
+    var numberToChineseMap = {
+        'index_0' : '一',
+        'index_1' : '二',
+        'index_2' : '三',
+        'index_3' : '四',
+        'index_4' : '五',
+        'index_5' : '六',
+        'index_6' : '七',
+        'index_7' : '八',
+        'index_8' : '九',
+        'index_9' : '十'
+    };
 
     app.run = function(){
 
@@ -42,6 +57,8 @@
         if( utils.isIphone4() ){
             document.body.classList.add('in-iphone4');
         }
+
+        pageTitleEl = document.querySelector('#page-header .page-title');
 
         var searchConf = utils.getSearchConf();
         currentID = searchConf.data_id;
@@ -64,6 +81,13 @@
             if( ! exerciseArray || exerciseArray.length < 1 ){
                 alert('木有找到该组练习题');
                 return;
+            }
+
+            var groupIndex = parseInt( data.index, 10 );
+            if( ! isNaN(groupIndex) && numberToChineseMap['index_' + groupIndex] ){
+                pageTitleEl.innerHTML = '第' + ( numberToChineseMap['index_' + groupIndex] ) + '组';
+            }else{
+                pageTitleEl.innerHTML = '练习题';
             }
 
             exerciseView = new ExerciseView({

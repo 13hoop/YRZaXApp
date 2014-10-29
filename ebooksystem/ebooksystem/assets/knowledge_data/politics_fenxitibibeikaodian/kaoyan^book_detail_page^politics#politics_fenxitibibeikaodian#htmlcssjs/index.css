@@ -59,8 +59,10 @@ ul,ol,dl{
     top: 0;
     height: 100%;
     line-height: 50px;
-    padding: 0 20px;
+    padding: 0 20px 0 29px;
     font-size: 14px;
+    background: url(./assets/back_arrow.png) no-repeat 13px center;
+    background-size: 11px 19px;
 }
 .page-title{
     font-size: 20px;

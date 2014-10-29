@@ -55,7 +55,7 @@
     self.webview.scalesPageToFit=YES;
     self.webview.delegate=self;
     [self.view addSubview:self.webview];
-    NSURLRequest *request=[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://product.dangdang.com/23559777.html"]];
+    NSURLRequest *request=[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://zaxue100.com/book_link/mobile_politics_books.html"]];
     [self.webview loadRequest:request];
     
 }
