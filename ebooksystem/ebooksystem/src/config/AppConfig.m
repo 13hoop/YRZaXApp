@@ -10,6 +10,13 @@
 
 @interface AppConfig ()
 
+#pragma mark - properties
+@property (nonatomic, assign) BOOL isOnlineMode;
+@property (nonatomic, copy) NSString *httpDomainForOnlineMode;
+@property (nonatomic, copy) NSString *httpDomainForOfflineMode;
+
+@property (nonatomic, copy) NSString *httpLogDomainForOnlineMode;
+
 #pragma mark - methods
 // 加载配置文件
 - (BOOL)loadConfigFile;
@@ -18,11 +25,21 @@
 
 @implementation AppConfig
 
+@synthesize isOnlineMode = _isOnlineMode;
+@synthesize httpDomainForOnlineMode = _httpDomainForOnlineMode;
+@synthesize httpDomainForOfflineMode = _httpDomainForOfflineMode;
+@synthesize httpDomain = _httpDomain;
+@synthesize httpDomainForLog = _httpDomainForLog;
+@synthesize httpDomainForData = _httpDomainForData;
+
+@synthesize httpLogDomainForOnlineMode = _httpLogDomainForOnlineMode;
+
 @synthesize channel = _channel;
 @synthesize appNameForCheckUpdate = _appNameForCheckUpdate;
 
 @synthesize appVersionNum = _appVersionNum;
 @synthesize appMode = _appMode;
+
 
 
 #pragma mark - properties
@@ -58,6 +75,16 @@
     NSString *confFilepath = [NSString stringWithFormat:@"%@/%@/%@/%@", [[NSBundle mainBundle] resourcePath], @"assets", @"conf", @"ebooksystem_conf.plist"];
     NSDictionary *dict = [[NSDictionary alloc] initWithContentsOfFile:confFilepath];
     if (dict) {
+        _isOnlineMode = (BOOL)[dict objectForKey:@"is_online_mode"];
+        _httpDomainForOnlineMode = (NSString *)[dict objectForKey:@"http_domain_for_online_mode"];
+        _httpDomainForOfflineMode = (NSString *)[dict objectForKey:@"http_domain_for_offline_mode"];
+        _httpDomain = (_isOnlineMode ? _httpDomainForOnlineMode : _httpDomainForOfflineMode);
+        
+        _httpLogDomainForOnlineMode = (NSString *)[dict objectForKey:@"http_log_domain_for_online_mode"];
+        _httpDomainForLog = (_isOnlineMode ? _httpLogDomainForOnlineMode : _httpDomainForOfflineMode);
+        
+        _httpDomainForData = (NSString *)[dict objectForKey:@"http_sdata_domain_for_online_mode"];
+        
         _channel = (NSString *)[dict objectForKey:@"channel"];
         _appNameForCheckUpdate = (NSString *)[dict objectForKey:@"app_name_for_check_update"];
     }

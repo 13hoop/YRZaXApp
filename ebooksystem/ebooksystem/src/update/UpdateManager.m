@@ -16,6 +16,7 @@
 #import "AppUtil.h"
 #import "DateUtil.h"
 #import "LogUtil.h"
+#import "PathUtil.h"
 
 
 
@@ -73,6 +74,8 @@
             updateInfo.shouldUpdate = (updatable ? @"YES" : @"NO");
         }
     }
+    
+    [PathUtil deletePath:savePath];
     
     // 调用delegate方法
     if (self.delegate && [self.delegate respondsToSelector:@selector(onCheckUpdateResult:)]) {
