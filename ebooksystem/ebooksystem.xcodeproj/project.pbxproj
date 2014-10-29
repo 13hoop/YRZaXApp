@@ -66,6 +66,7 @@
 		06AAC9F319F67C9800A758DB /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 06AAC9F119F67C9800A758DB /* Reachability.m */; };
 		06AAC9F919F67E1D00A758DB /* PurchaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06AAC9F619F67E1D00A758DB /* PurchaseViewController.m */; };
 		06AAC9FA19F67E1D00A758DB /* TBActivityView.m in Sources */ = {isa = PBXBuildFile; fileRef = 06AAC9F819F67E1D00A758DB /* TBActivityView.m */; };
+		06ADE6D21A00E4770015A686 /* UpdateAppViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06ADE6D11A00E4770015A686 /* UpdateAppViewController.m */; };
 		06B7F86319D53AF50017EA4D /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 06B7F86219D53AF50017EA4D /* libz.dylib */; };
 		710C02B119E0394100C27A33 /* SubjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 710C02B019E0394100C27A33 /* SubjectViewController.m */; };
 		710C02B519E03E4F00C27A33 /* KnowledgeSubject.m in Sources */ = {isa = PBXBuildFile; fileRef = 710C02B419E03E4F00C27A33 /* KnowledgeSubject.m */; };
@@ -416,6 +417,8 @@
 		06AAC9F619F67E1D00A758DB /* PurchaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PurchaseViewController.m; sourceTree = "<group>"; };
 		06AAC9F719F67E1D00A758DB /* TBActivityView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TBActivityView.h; sourceTree = "<group>"; };
 		06AAC9F819F67E1D00A758DB /* TBActivityView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TBActivityView.m; sourceTree = "<group>"; };
+		06ADE6D01A00E4770015A686 /* UpdateAppViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpdateAppViewController.h; sourceTree = "<group>"; };
+		06ADE6D11A00E4770015A686 /* UpdateAppViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UpdateAppViewController.m; sourceTree = "<group>"; };
 		06B7F86219D53AF50017EA4D /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		710C02AF19E0394100C27A33 /* SubjectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SubjectViewController.h; path = src/subject/controller/SubjectViewController.h; sourceTree = "<group>"; };
 		710C02B019E0394100C27A33 /* SubjectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SubjectViewController.m; path = src/subject/controller/SubjectViewController.m; sourceTree = "<group>"; };
@@ -1017,6 +1020,7 @@
 		06AA7EF819F4FC7E00570289 /* menu */ = {
 			isa = PBXGroup;
 			children = (
+				06ADE6CF1A00E45E0015A686 /* upDateApp */,
 				06AAC9F419F67E1D00A758DB /* purchase */,
 				06AA7EF919F4FC7E00570289 /* about */,
 				06AA7F0019F4FC7E00570289 /* feedback */,
@@ -1322,6 +1326,15 @@
 				06AAC9F819F67E1D00A758DB /* TBActivityView.m */,
 			);
 			path = purchase;
+			sourceTree = "<group>";
+		};
+		06ADE6CF1A00E45E0015A686 /* upDateApp */ = {
+			isa = PBXGroup;
+			children = (
+				06ADE6D01A00E4770015A686 /* UpdateAppViewController.h */,
+				06ADE6D11A00E4770015A686 /* UpdateAppViewController.m */,
+			);
+			path = upDateApp;
 			sourceTree = "<group>";
 		};
 		710C02A819DE985200C27A33 /* storyboard */ = {
@@ -2332,6 +2345,7 @@
 				71860BFF19DE50C300D01AA9 /* IASequentialDownloadHandler.m in Sources */,
 				710C033019E1C8D000C27A33 /* AFURLSessionManager.m in Sources */,
 				7118EB8119EF6BE3002CF833 /* CustomContext.md in Sources */,
+				06ADE6D21A00E4770015A686 /* UpdateAppViewController.m in Sources */,
 				7156B0BF19F8BC7700B3A521 /* MRNavigationBarProgressView.m in Sources */,
 				06AA7F6319F4FC7E00570289 /* RechargeModel.m in Sources */,
 				06AA7F5A19F4FC7E00570289 /* CustomLoginNavgationBar.m in Sources */,

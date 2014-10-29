@@ -24,18 +24,19 @@
 #import "UIColor+Hex.h"
 #import "UserManager.h"
 #import "LogUtil.h"
-#import "MobClick.h"
-
+//#import "MobClick.h"
+#import "UpdateManager.h"
+#import "UpdateAppViewController.h"
 
 //#define UMENG_APPKEY @"5420c86efd98c51541017684"
 
-@interface MoreViewController ()<CustomNavigationBarDelegate,CustomMoreViewDelegate,UserManagerDelegate>
+@interface MoreViewController ()<CustomNavigationBarDelegate,CustomMoreViewDelegate,UserManagerDelegate,UpdateManagerDelegate,UIAlertViewDelegate>
 
 @property(nonatomic,strong)CustomNavigationBar *navBar;
 @property(nonatomic,strong)CustomMoreView *moreView;
 @property(nonatomic,strong) UserManager *manage;
-
-
+@property(nonatomic,strong)UpdateManager *updatemanager;
+@property(nonatomic,strong)UpdateAppViewController *updateApp;
 @end
 
 
@@ -199,7 +200,11 @@
                         //                            [MobClick checkUpdate:@"新版本" cancelButtonTitle:@"稍后更新" otherButtonTitles:@"立即更新"];
                         
                         //软件更新自定义
-                        [MobClick checkUpdateWithDelegate:self selector:@selector(appUpdate:)];
+//                        [MobClick checkUpdateWithDelegate:self selector:@selector(appUpdate:)];
+                        self.updatemanager=[UpdateManager instance];
+                        self.updatemanager.delegate=self;
+                        [self.updatemanager checkUpdate];
+                        
 
                         
                     }
@@ -254,28 +259,49 @@
     [self.navigationController pushViewController:feedbackViewController animated:YES];
 }
 
-//自动更新会将这个方法作为参数传到mobclick中
-- (void)appUpdate:(NSDictionary *)appInfo {
-    //在这里面修改cell上面的lable的显示
-    //定制alertView在这里面实现
-    NSLog(@"appInfo==%@",appInfo);
-    NSString *update=appInfo[@"update"];
-    BOOL updateBool=[update boolValue];
-    NSLog(@"%hhd",updateBool);
-    if ([update isEqualToString:@"NO"])
-    {
-        self.moreView.upDateLable.text=@"当前已经是最新版本";
-//        UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"更新提示" message:@"当前已经是最新版本" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定" , nil];
-//        [alert show];
 
+#pragma mark updateManager delegate method
+-(void)onCheckUpdateResult:(UpdateInfo *)updateInfo
+{
+    NSString *status=updateInfo.status;
+    if ([status isEqualToString:@"0"])
+    {
+        NSString *shouldUpdate=updateInfo.shouldUpdate;
+        if ([shouldUpdate isEqualToString:@"NO"])
+        {
+            self.moreView.upDateLable.text=@"当前已经是最新版本";
+        }
+        else
+        {
+            self.updateApp=[[UpdateAppViewController alloc] init];
+            self.updateApp.updateUrlStr=updateInfo.appDownloadUrl;
+//            NSLog(@"appDownloadUrl====%@",updateInfo.appDownloadUrl);
+            NSString *desc=updateInfo.appVersionDesc;
+            NSString *version=updateInfo.appVersionStr;
+            NSString *title=[NSString stringWithFormat:@"有新版本可供更新%@",version];
+            NSString *msg=[NSString stringWithFormat:@"更新信息：%@",desc];
+            UIAlertView *alert=[[UIAlertView alloc] initWithTitle:title message:msg delegate:self cancelButtonTitle:@"忽略" otherButtonTitles:@"更新", nil];
+            [alert show];
+        }
     }
     else
     {
-        [[StatisticsManager instance] checkUpdate];
-        
+        LogError(@"检查版本更新出错");
+    }
+}
+
+#pragma mark alertView delegate method
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex !=alertView.cancelButtonIndex) {
+        [self.navigationController pushViewController:self.updateApp animated:YES];
     }
     
 }
+
+
+
+
 #pragma mark 每次进入到menu都要获取最新的余额
 -(void)getNewBalance
 {
