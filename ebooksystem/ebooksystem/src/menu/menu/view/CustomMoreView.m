@@ -332,7 +332,7 @@
 }
 //去掉粘性效果
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    CGFloat sectionHeaderHeight = 40;
+    CGFloat sectionHeaderHeight = 56;
     if (scrollView.contentOffset.y<=sectionHeaderHeight&&scrollView.contentOffset.y>=0) {
         scrollView.contentInset = UIEdgeInsetsMake(-scrollView.contentOffset.y, 0, 0, 0);
     } else if (scrollView.contentOffset.y>=sectionHeaderHeight) {
