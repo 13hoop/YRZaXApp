@@ -296,7 +296,9 @@
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     if (buttonIndex !=alertView.cancelButtonIndex) {
-        [self.navigationController pushViewController:self.updateApp animated:YES];
+//        [self.navigationController pushViewController:self.updateApp animated:YES];
+        NSURL *requestURL = [[NSURL alloc] initWithString:self.updateApp.updateUrlStr];
+        [[UIApplication sharedApplication] openURL:requestURL];
     }
     
 }
