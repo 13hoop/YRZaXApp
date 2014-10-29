@@ -13,6 +13,7 @@
 #import "DrawableConfig.h"
 #import "WebConfig.h"
 #import "UserConfig.h"
+#import "UpdateConfig.h"
 #import "ErrorConfig.h"
 
 
@@ -46,6 +47,10 @@
 #pragma mark - user
 // user config
 - (UserConfig *)userConfig;
+
+#pragma mark - update
+// update config
+- (UpdateConfig *)updateConfig;
 
 #pragma mark - error
 // error config

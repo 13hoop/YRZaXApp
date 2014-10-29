@@ -77,6 +77,12 @@
     return [UserConfig instance];
 }
 
+#pragma mark - update
+// update config
+- (UpdateConfig *)updateConfig {
+    return [UpdateConfig instance];
+}
+
 #pragma mark - error
 // error config
 - (ErrorConfig *)errorConfig {
