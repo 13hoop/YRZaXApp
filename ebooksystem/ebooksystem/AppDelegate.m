@@ -15,7 +15,8 @@
 #import "CoreDataUtil.h"
 #import "LogUtil.h"
 #import "PathUtil.h"
-#include "DeviceUtil.h"
+#import "DeviceUtil.h"
+#import "AppUtil.h"
 
 #import "StatisticsManager.h"
 #import "UpdateManager.h"
@@ -261,6 +262,15 @@
 //- (NSURL *)applicationDocumentsDirectory
 //{
 //    return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
+//}
+
+//// 跳转到app store去评分
+//-(void)goToAppStore
+//{
+//    NSString *str = [NSString stringWithFormat:
+//                     @"itms-apps://ax.itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?type=Purple+Software&id=%d",appID]; //appID 解释如下
+//    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:str]];
+//    
 //}
 
 @end
