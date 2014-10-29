@@ -263,31 +263,33 @@
 #pragma mark updateManager delegate method
 -(void)onCheckUpdateResult:(UpdateInfo *)updateInfo
 {
-    NSString *status=updateInfo.status;
-    if ([status isEqualToString:@"0"])
-    {
-        NSString *shouldUpdate=updateInfo.shouldUpdate;
-        if ([shouldUpdate isEqualToString:@"NO"])
+    dispatch_async(dispatch_get_main_queue(), ^{
+        NSString *status=updateInfo.status;
+        if ([status isEqualToString:@"0"])
         {
-            self.moreView.upDateLable.text=@"当前已经是最新版本";
+            NSString *shouldUpdate=updateInfo.shouldUpdate;
+            if ([shouldUpdate isEqualToString:@"NO"])
+            {
+                self.moreView.upDateLable.text=@"当前已经是最新版本";
+            }
+            else
+            {
+                self.updateApp=[[UpdateAppViewController alloc] init];
+                self.updateApp.updateUrlStr=updateInfo.appDownloadUrl;
+                //            NSLog(@"appDownloadUrl====%@",updateInfo.appDownloadUrl);
+                NSString *desc=updateInfo.appVersionDesc;
+                NSString *version=updateInfo.appVersionStr;
+                NSString *title=[NSString stringWithFormat:@"有新版本可供更新%@",version];
+                NSString *msg=[NSString stringWithFormat:@"更新信息：%@",desc];
+                UIAlertView *alert=[[UIAlertView alloc] initWithTitle:title message:msg delegate:self cancelButtonTitle:@"忽略" otherButtonTitles:@"更新", nil];
+                [alert show];
+            }
         }
         else
         {
-            self.updateApp=[[UpdateAppViewController alloc] init];
-            self.updateApp.updateUrlStr=updateInfo.appDownloadUrl;
-//            NSLog(@"appDownloadUrl====%@",updateInfo.appDownloadUrl);
-            NSString *desc=updateInfo.appVersionDesc;
-            NSString *version=updateInfo.appVersionStr;
-            NSString *title=[NSString stringWithFormat:@"有新版本可供更新%@",version];
-            NSString *msg=[NSString stringWithFormat:@"更新信息：%@",desc];
-            UIAlertView *alert=[[UIAlertView alloc] initWithTitle:title message:msg delegate:self cancelButtonTitle:@"忽略" otherButtonTitles:@"更新", nil];
-            [alert show];
+            LogError(@"检查版本更新出错");
         }
-    }
-    else
-    {
-        LogError(@"检查版本更新出错");
-    }
+    });
 }
 
 #pragma mark alertView delegate method
