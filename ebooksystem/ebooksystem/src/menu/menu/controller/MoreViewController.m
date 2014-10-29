@@ -297,7 +297,8 @@
 {
     if (buttonIndex !=alertView.cancelButtonIndex) {
 //        [self.navigationController pushViewController:self.updateApp animated:YES];
-        NSURL *requestURL = [[NSURL alloc] initWithString:self.updateApp.updateUrlStr];
+        NSURL *requestURL = [NSURL URLWithString:[self.updateApp.updateUrlStr stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+        
         [[UIApplication sharedApplication] openURL:requestURL];
     }
     
