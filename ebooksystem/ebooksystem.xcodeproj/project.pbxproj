@@ -154,6 +154,7 @@
 		711E2CEB19FFCE6F000A8D04 /* UserConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 711E2CEA19FFCE6F000A8D04 /* UserConfig.m */; };
 		711E2CF31A00C3C3000A8D04 /* UpdateManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 711E2CF21A00C3C3000A8D04 /* UpdateManager.m */; };
 		711E2CF61A00C51E000A8D04 /* UpdateConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 711E2CF51A00C51E000A8D04 /* UpdateConfig.m */; };
+		711E2CF91A00CC2E000A8D04 /* UpdateInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 711E2CF81A00CC2E000A8D04 /* UpdateInfo.m */; };
 		7134FB2019E4D952004AB7A8 /* KnowledgeDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7134FB1F19E4D952004AB7A8 /* KnowledgeDataManager.m */; };
 		7134FB2319E4DE4E004AB7A8 /* KnowledgeSearchManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7134FB2219E4DE4E004AB7A8 /* KnowledgeSearchManager.m */; };
 		713D863E19E91654006446D5 /* DateUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 713D863D19E91654006446D5 /* DateUtil.m */; };
@@ -576,6 +577,8 @@
 		711E2CF21A00C3C3000A8D04 /* UpdateManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UpdateManager.m; path = src/update/UpdateManager.m; sourceTree = "<group>"; };
 		711E2CF41A00C51E000A8D04 /* UpdateConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UpdateConfig.h; path = src/config/UpdateConfig.h; sourceTree = "<group>"; };
 		711E2CF51A00C51E000A8D04 /* UpdateConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UpdateConfig.m; path = src/config/UpdateConfig.m; sourceTree = "<group>"; };
+		711E2CF71A00CC2E000A8D04 /* UpdateInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UpdateInfo.h; path = src/update/UpdateInfo.h; sourceTree = "<group>"; };
+		711E2CF81A00CC2E000A8D04 /* UpdateInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UpdateInfo.m; path = src/update/UpdateInfo.m; sourceTree = "<group>"; };
 		7134FB1E19E4D952004AB7A8 /* KnowledgeDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KnowledgeDataManager.h; path = src/knowledge/KnowledgeDataManager.h; sourceTree = "<group>"; };
 		7134FB1F19E4D952004AB7A8 /* KnowledgeDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KnowledgeDataManager.m; path = src/knowledge/KnowledgeDataManager.m; sourceTree = "<group>"; };
 		7134FB2119E4DE4E004AB7A8 /* KnowledgeSearchManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KnowledgeSearchManager.h; path = src/knowledge/KnowledgeSearchManager.h; sourceTree = "<group>"; };
@@ -1541,6 +1544,8 @@
 		711E2CF01A00C39B000A8D04 /* update */ = {
 			isa = PBXGroup;
 			children = (
+				711E2CF71A00CC2E000A8D04 /* UpdateInfo.h */,
+				711E2CF81A00CC2E000A8D04 /* UpdateInfo.m */,
 				711E2CF11A00C3C3000A8D04 /* UpdateManager.h */,
 				711E2CF21A00C3C3000A8D04 /* UpdateManager.m */,
 			);
@@ -2310,6 +2315,7 @@
 				7156B0C819F8BC9F00B3A521 /* MRWeakProxy.m in Sources */,
 				71BCED2619FCCB2E003B061A /* KnowledgeMetaEntity.m in Sources */,
 				710C032C19E1C8D000C27A33 /* AFSecurityPolicy.m in Sources */,
+				711E2CF91A00CC2E000A8D04 /* UpdateInfo.m in Sources */,
 				7156B0C019F8BC7700B3A521 /* MRProgressOverlayView.m in Sources */,
 				7118EB2119ED1F80002CF833 /* AppUtil.m in Sources */,
 				715EE9A619E832ED005A4F78 /* JSONModel.m in Sources */,

@@ -8,6 +8,9 @@
 
 #import "UpdateConfig.h"
 
+#import "AppConfig.h"
+
+
 @implementation UpdateConfig
 
 
@@ -25,7 +28,7 @@
 
 // 检查更新的url
 - (NSString *)urlForCheckUpdate {
-    return @"";
+    return [NSString stringWithFormat:@"http://s-115744.gotocdn.com:8296/index.php?c=apps_update_ctrl&m=get_update_info&appname=%@&channel=%@", [AppConfig instance].appNameForCheckUpdate, [AppConfig instance].channel];
 }
 
 

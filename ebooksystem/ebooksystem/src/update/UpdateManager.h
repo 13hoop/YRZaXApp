@@ -8,13 +8,16 @@
 
 #import <Foundation/Foundation.h>
 
+#import "UpdateInfo.h"
+
+
 @class UpdateManager;
 
 
 @protocol UpdateManagerDelegate <NSObject>
 
 // 响应检查结果
-- (void)onCheckUpdateResult:(NSDictionary *)checkResult;
+- (void)onCheckUpdateResult:(UpdateInfo *)updateInfo;
 
 @end
 

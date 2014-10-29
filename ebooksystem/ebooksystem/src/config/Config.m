@@ -10,10 +10,6 @@
 
 @interface Config ()
 
-#pragma mark - methods
-// 加载配置文件
-- (BOOL)loadConfigFile;
-
 
 @end
 
@@ -22,8 +18,6 @@
 
 @implementation Config
 
-@synthesize channel = _channel;
-
 
 #pragma mark - singleton
 + (Config *)instance {
@@ -31,22 +25,12 @@
     static dispatch_once_t predicate;
     dispatch_once(&predicate, ^{
         instance = [[self alloc] init];
-        [instance loadConfigFile];
     });
     
     return instance;
 }
 
-// 加载配置文件
-- (BOOL)loadConfigFile {
-    NSString *confFilepath = [NSString stringWithFormat:@"%@/%@/%@/%@", [[NSBundle mainBundle] resourcePath], @"assets", @"conf", @"ebooksystem_conf.plist"];
-    NSDictionary *dict = [[NSDictionary alloc] initWithContentsOfFile:confFilepath];
-    if (dict) {
-        _channel = (NSString *)[dict objectForKey:@"channel"];
-    }
-    
-    return YES;
-}
+
 
 
 #pragma mark - app

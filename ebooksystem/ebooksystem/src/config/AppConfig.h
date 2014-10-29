@@ -17,6 +17,9 @@ typedef enum {
 @interface AppConfig : NSObject
 
 #pragma mark - properties
+@property (nonatomic, copy) NSString *channel;
+@property (nonatomic, copy) NSString *appNameForCheckUpdate;
+
 // app version in num
 @property (nonatomic, assign) NSInteger appVersionNum;
 

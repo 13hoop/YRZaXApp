@@ -21,7 +21,7 @@
 @interface Config : NSObject
 
 #pragma mark - properties
-@property (nonatomic, copy) NSString *channel;
+
 
 
 #pragma mark - singleton

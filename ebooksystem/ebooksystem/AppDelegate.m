@@ -18,6 +18,7 @@
 #include "DeviceUtil.h"
 
 #import "StatisticsManager.h"
+#import "UpdateManager.h"
 
 
 
@@ -69,6 +70,8 @@
     
     // 安装异常处理函数
     [ErrorManager installUncaughtExceptionHandler];
+    
+    [[UpdateManager instance] checkUpdate];
     
     // Override point for customization after application launch.
 //    UIColor *color = [UIColor colorWithRed:107/255.0f green:211/255.0f blue:217/255.0f alpha:1.0f];

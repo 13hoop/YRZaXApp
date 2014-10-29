@@ -4,5 +4,7 @@
 <dict>
 	<key>channel</key>
 	<string>apple_app_store</string>
+	<key>app_name_for_check_update</key>
+	<string>ios_kaoyan_politics</string>
 </dict>
 </plist>

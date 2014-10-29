@@ -36,7 +36,6 @@
 @implementation StatisticsManager
 
 @synthesize appKeyFromUmeng = _appKeyFromUmeng;
-@synthesize channel = _channel;
 
 
 #pragma mark - properties
@@ -48,14 +47,6 @@
     
     return _appKeyFromUmeng;
 }
-
-// channel
-- (NSString *)channel {
-    _channel = [Config instance].channel;
-    
-    return _channel;
-}
-
 
 #pragma mark - singleton
 + (StatisticsManager *)instance {
@@ -74,7 +65,7 @@
 
 // 初始化友盟相关内容
 - (void)initUmeng {
-    [MobClick startWithAppkey:self.appKeyFromUmeng reportPolicy:BATCH channelId:self.channel];
+    [MobClick startWithAppkey:self.appKeyFromUmeng reportPolicy:BATCH channelId:[Config instance].appConfig.channel];
     
     // 1. set app version
     NSString *appVersion = [AppUtil getAppVersionStr];
