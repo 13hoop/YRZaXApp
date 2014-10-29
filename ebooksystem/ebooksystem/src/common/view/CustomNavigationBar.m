@@ -39,7 +39,7 @@
    
     self.backgroundView.backgroundColor=[UIColor colorWithHexString:@"#2d2727" alpha:1];
     //创建标题
-    self.titleLable=[[UILabel alloc] initWithFrame:CGRectMake((self.backgroundView.frame.size.width-80)/2,14, 80, 16)];
+    self.titleLable=[[UILabel alloc] initWithFrame:CGRectMake((self.backgroundView.frame.size.width-100)/2,14, 100, 16)];
     self.titleLable.textAlignment=UITextAlignmentCenter;
     self.titleLable.textColor=[UIColor colorWithHexString:@"#d0cfcf" alpha:1];
     self.titleLable.font=[UIFont systemFontOfSize:18.0f];
