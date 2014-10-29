@@ -116,7 +116,6 @@
 		7116EEFB19FCE9E000336309 /* libMobClickLibrary.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7116EEF819FCE9E000336309 /* libMobClickLibrary.a */; };
 		7116EEFC19FCE9E000336309 /* libUMFeedback.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7116EEF919FCE9E000336309 /* libUMFeedback.a */; };
 		7116EEFD19FCE9E000336309 /* umFeedback.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7116EEFA19FCE9E000336309 /* umFeedback.bundle */; };
-		7116EF0619FEA73B00336309 /* dev_note.txt in Resources */ = {isa = PBXBuildFile; fileRef = 7116EF0519FEA73B00336309 /* dev_note.txt */; };
 		7116EF0919FF545500336309 /* DirectionMPMoviePlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7116EF0819FF545500336309 /* DirectionMPMoviePlayerViewController.m */; };
 		7118EB2119ED1F80002CF833 /* AppUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 7118EB2019ED1F80002CF833 /* AppUtil.m */; };
 		7118EB4819EF6B41002CF833 /* CLIColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 7118EB4719EF6B41002CF833 /* CLIColor.m */; };
@@ -2110,7 +2109,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7116EF0619FEA73B00336309 /* dev_note.txt in Resources */,
 				710C038B19E2458C00C27A33 /* assets in Resources */,
 				7118EB9919EF6C54002CF833 /* uncrustify.cfg in Resources */,
 				06AA7EEB19F4FAF600570289 /* rsa_private_key.pem in Resources */,
