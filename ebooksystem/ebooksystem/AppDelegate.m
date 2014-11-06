@@ -15,18 +15,20 @@
 #import "CoreDataUtil.h"
 #import "LogUtil.h"
 #import "PathUtil.h"
-#include "DeviceUtil.h"
+#import "DeviceUtil.h"
+#import "AppUtil.h"
 
 #import "StatisticsManager.h"
 #import "UpdateManager.h"
+#import "UpdateAppViewController.h"
 
 
 
-
-@interface AppDelegate ()
+@interface AppDelegate ()<UpdateManagerDelegate>
 
 // 初始化app
 //- (BOOL)initApp;
+
 
 @end
 
@@ -71,7 +73,9 @@
     // 安装异常处理函数
     [ErrorManager installUncaughtExceptionHandler];
     
+    [UpdateManager instance].delegate=self;
     [[UpdateManager instance] checkUpdate];
+
     
     // Override point for customization after application launch.
 //    UIColor *color = [UIColor colorWithRed:107/255.0f green:211/255.0f blue:217/255.0f alpha:1.0f];
@@ -258,6 +262,15 @@
 //- (NSURL *)applicationDocumentsDirectory
 //{
 //    return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
+//}
+
+//// 跳转到app store去评分
+//-(void)goToAppStore
+//{
+//    NSString *str = [NSString stringWithFormat:
+//                     @"itms-apps://ax.itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?type=Purple+Software&id=%d",appID]; //appID 解释如下
+//    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:str]];
+//    
 //}
 
 @end

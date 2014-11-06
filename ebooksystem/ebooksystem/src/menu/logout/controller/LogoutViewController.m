@@ -13,8 +13,8 @@
 #import "DeviceStatusUtil.h"
 #import "UIColor+Hex.h"
 #import "LogUtil.h"
-#define NAVBAR_HEIGHT 44
-#define LOGOUTVIEW_X 64
+#define NAVBAR_HEIGHT 50
+#define LOGOUTVIEW_X 70
 #define PROMPTVIEW_HEIGHT 30
 #define PROMPTVIEW_WIDTH 50
 #define DISTANCE 100

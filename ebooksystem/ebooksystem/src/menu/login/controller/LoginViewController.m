@@ -31,7 +31,7 @@
 #import "LogUtil.h"
 #import "UIColor+Hex.h"
 
-#define CUSTOMVIEW_X 64
+#define CUSTOMVIEW_X 70
 @interface LoginViewController ()<CustomNavigationBarDelegate,CustomLoginNavgationBarDelegate,CustomLoginViewDelegate,UserManagerDelegate>
 
 {
@@ -67,7 +67,7 @@
 -(void)addNavigationBar
 {
     
-    self.navBar=[[CustomLoginNavgationBar alloc] initWithFrame:CGRectMake(0, 20, self.view.frame.size.width, 44)];
+    self.navBar=[[CustomLoginNavgationBar alloc] initWithFrame:CGRectMake(0, 20, self.view.frame.size.width, 50)];
     self.navBar.title=@"登录";
     self.navBar.customNav_delegate=self;
     self.navBar.customRegistration_delegate=self;

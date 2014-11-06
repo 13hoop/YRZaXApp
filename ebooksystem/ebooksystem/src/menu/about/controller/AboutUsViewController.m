@@ -14,6 +14,8 @@
 #import "StatisticsManager.h"
 #import "UIColor+Hex.h"
 
+
+
 @interface AboutUsViewController ()<CustomNavigationBarDelegate>
 
 @end
@@ -42,14 +44,14 @@
 
 -(void)createCustomAboutUs
 {
-    CustomAboutUsview *custom=[[CustomAboutUsview alloc] initWithFrame:CGRectMake(0, 64, self.view.frame.size.width, self.view.frame.size.height-64)];
+    CustomAboutUsview *custom=[[CustomAboutUsview alloc] initWithFrame:CGRectMake(0, 70, self.view.frame.size.width, self.view.frame.size.height-70)];
     
     [self.view addSubview:custom];
 }
 
 -(void)creatCustomNavigationBar
 {
-    CustomNavigationBar *navigationBar=[[CustomNavigationBar alloc] initWithFrame:CGRectMake(0, 20, 320, 44)];
+    CustomNavigationBar *navigationBar=[[CustomNavigationBar alloc] initWithFrame:CGRectMake(0, 20, 320, 50)];
     navigationBar.title=@"关于咋学";
     navigationBar.customNav_delegate=self;
     [self.view addSubview:navigationBar];

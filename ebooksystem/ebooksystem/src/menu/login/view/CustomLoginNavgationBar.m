@@ -29,10 +29,10 @@
 {
     self.rightBUtton=[UIButton buttonWithType:UIButtonTypeCustom];
     //CGRectMake(10, 0, 40, 44);
-    self.rightBUtton.frame=CGRectMake(self.frame.size.width-50, 0, 40, 44);
+    self.rightBUtton.frame=CGRectMake(self.frame.size.width-50, 15, 40, 20);
     [self.rightBUtton setTitle:@"注册" forState:UIControlStateNormal];
     [self.rightBUtton setTitleColor:[UIColor colorWithHexString:@"44a0ff" alpha:1] forState:UIControlStateNormal];
-     self.rightBUtton.titleLabel.font=[UIFont systemFontOfSize:13.0f];
+     self.rightBUtton.titleLabel.font=[UIFont systemFontOfSize:15.0f];
     [self.rightBUtton addTarget:self action:@selector(btn:) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:self.rightBUtton];
     

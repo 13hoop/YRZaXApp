@@ -17,6 +17,10 @@ typedef enum {
 @interface AppConfig : NSObject
 
 #pragma mark - properties
+@property (nonatomic, copy, readonly) NSString *httpDomain;
+@property (nonatomic, copy, readonly) NSString *httpDomainForLog;
+@property (nonatomic, copy, readonly) NSString *httpDomainForData;
+
 @property (nonatomic, copy) NSString *channel;
 @property (nonatomic, copy) NSString *appNameForCheckUpdate;
 

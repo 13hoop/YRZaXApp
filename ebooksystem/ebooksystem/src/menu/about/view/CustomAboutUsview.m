@@ -9,6 +9,7 @@
 #import "CustomAboutUsview.h"
 #import "UIColor+Hex.h"
 #import "Config.h"
+#import "AppUtil.h"
 #define SCREEN_HEIGHT 480
 #define HEIGHT self.frame.size.height
 #define WIDTH self.frame.size.width
@@ -46,7 +47,8 @@
     [self.upView addSubview:imageview];
     //create versionLable
     self.versionLable=[[UILabel alloc] initWithFrame:CGRectMake(0, self.upView.frame.size.height*0.7, self.frame.size.width, LABLE_HEIGHT)];
-    self.versionLable.text=@"当前版本：V1.0.1";
+    NSString *currentVersion = [AppUtil getAppVersionStr];
+    self.versionLable.text=currentVersion;
     self.versionLable.textColor=[UIColor lightGrayColor];
     self.versionLable.font=[UIFont systemFontOfSize:14.0f];
     self.versionLable.textAlignment=UITextAlignmentCenter;
@@ -111,7 +113,7 @@
     UILabel *copyRightLable=[[UILabel alloc] initWithFrame:CGRectMake(54, customHeight+self.infoView.frame.size.height+self.upView.frame.size.height+16, self.infoView.frame.size.width,10)];
     copyRightLable.font=[UIFont systemFontOfSize:10.0f];
     copyRightLable.textColor=[UIColor colorWithHexString:@"#7d7c7c" alpha:1];
-    copyRightLable.text=@"©2014-2015 Sanwei ALL Rights Reserved";
+    copyRightLable.text=@"©2014-2015 Sanwei All Rights Reserved";
     [self addSubview:copyRightLable];
 }
 

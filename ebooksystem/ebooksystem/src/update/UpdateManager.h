@@ -25,7 +25,7 @@
 
 @interface UpdateManager : NSObject
 
-@property (nonatomic, copy) id<UpdateManagerDelegate> delegate;
+@property (nonatomic, retain) id<UpdateManagerDelegate> delegate;
 
 
 #pragma mark - singleton

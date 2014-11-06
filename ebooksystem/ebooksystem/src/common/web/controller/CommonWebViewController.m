@@ -27,11 +27,11 @@
 
 
 #import "StatisticsManager.h"
+#import "UpdateManager.h"
 
 
 
-
-@interface CommonWebViewController () <UIWebViewDelegate>
+@interface CommonWebViewController () <UIWebViewDelegate,UpdateManagerDelegate,UIAlertViewDelegate>
 
 #pragma mark - outlets
 @property (strong, nonatomic) IBOutlet UIWebView *webView;
@@ -40,6 +40,7 @@
 // bridge between webview and js
 @property (nonatomic, copy) WebViewJavascriptBridge *javascriptBridge;
 
+@property(nonatomic,strong)NSString *updateAppURL;
 
 #pragma mark - methods
 // 初始化webView
@@ -117,6 +118,7 @@
     
     [self initWebView];
     [self updateWebView];
+    [self updateApp];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -591,4 +593,52 @@
 //    [super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
 //}
 //
+
+-(void)updateApp
+{
+    [UpdateManager instance].delegate=self;
+    [[UpdateManager instance] checkUpdate];
+}
+-(void)onCheckUpdateResult:(UpdateInfo *)updateInfo
+{
+    dispatch_async(dispatch_get_main_queue(), ^{
+        NSString *status=updateInfo.status;
+        if ([status isEqualToString:@"0"])
+        {
+            NSString *shouldUpdate=updateInfo.shouldUpdate;
+            if ([shouldUpdate isEqualToString:@"NO"])
+            {
+                LogInfo(@"已经是最新版本");
+            }
+            else
+            {
+                
+                //            NSLog(@"appDownloadUrl====%@",updateInfo.appDownloadUrl);
+                self.updateAppURL=updateInfo.appDownloadUrl;
+                NSString *desc=updateInfo.appVersionDesc;
+                NSString *version=updateInfo.appVersionStr;
+                NSString *title=[NSString stringWithFormat:@"有新版本可供更新%@",version];
+                NSString *msg=[NSString stringWithFormat:@"更新信息：%@",desc];
+                UIAlertView *alert=[[UIAlertView alloc] initWithTitle:title message:msg delegate:self cancelButtonTitle:@"忽略" otherButtonTitles:@"更新", nil];
+                [alert show];
+            }
+        }
+        else
+        {
+            LogError(@"检查版本更新出错");
+        }
+    });
+
+}
+#pragma mark alertView delegate method
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex !=alertView.cancelButtonIndex) {
+        //        [self.navigationController pushViewController:self.updateApp animated:YES];
+        NSURL *requestURL = [NSURL URLWithString:[self.updateAppURL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+        
+        [[UIApplication sharedApplication] openURL:requestURL];
+    }
+    
+}
 @end

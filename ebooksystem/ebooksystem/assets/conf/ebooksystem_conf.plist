@@ -6,5 +6,15 @@
 	<string>apple_app_store</string>
 	<key>app_name_for_check_update</key>
 	<string>ios_kaoyan_politics</string>
+	<key>is_online_mode</key>
+	<true/>
+	<key>http_domain_for_online_mode</key>
+	<string>www.zaxue100.com</string>
+	<key>http_log_domain_for_online_mode</key>
+	<string>log.zaxue100.com</string>
+	<key>http_sdata_domain_for_online_mode</key>
+	<string>sdata.zaxue100.com</string>
+	<key>http_domain_for_offline_mode</key>
+	<string>118.244.235.155:8296</string>
 </dict>
 </plist>

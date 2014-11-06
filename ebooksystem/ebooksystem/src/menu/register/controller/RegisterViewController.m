@@ -16,7 +16,7 @@
 #import "LogUtil.h"
 #import "UIColor+Hex.h"
 
-#define REGISTERVIEW_X 64
+#define REGISTERVIEW_X 70
 @interface RegisterViewController ()<CustomNavigationBarDelegate,CustomRegisterViewDelegate,RegisterModelDelegate>
 
 @property(nonatomic,strong)CustomNavigationBar *navBar;
@@ -45,7 +45,7 @@
 -(void)addNavigationBar
 {
     
-    self.navBar=[[CustomNavigationBar alloc] initWithFrame:CGRectMake(0, 20, self.view.frame.size.width, 44)];
+    self.navBar=[[CustomNavigationBar alloc] initWithFrame:CGRectMake(0, 20, self.view.frame.size.width, 50)];
     self.navBar.title=@"新用户注册";
     self.navBar.customNav_delegate=self;
     [self.view addSubview:self.navBar];
