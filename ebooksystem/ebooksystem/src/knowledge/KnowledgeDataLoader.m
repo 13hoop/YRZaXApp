@@ -151,8 +151,8 @@
                 break;
             }
             
-            KnowledgeDataIndex *dataIndex = (KnowledgeDataIndex *)queryObj;
-            if (dataIndex == nil) {
+            NSMutableArray *indexArray = (NSMutableArray *)queryObj;
+            if (indexArray == nil || indexArray.count <= 0) {
                 shouldLoadIndex = YES;
                 break;
             }

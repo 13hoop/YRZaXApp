@@ -142,7 +142,15 @@ body{
     background: url('./assets/main_portal_search_icon.png') no-repeat left center;
     background-size: 16px 16px;
 }
-
+/*顶部banner区域*/
+#banner-con{
+    overflow: hidden;
+    position: relative;
+    margin: 9px 0;
+}
+.banner-item img{
+    max-width: 100%;
+}
 /*书籍列表区域*/
 #book-list-con{
     border-top-width: 1px;

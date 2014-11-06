@@ -21,6 +21,13 @@
         <div id="search-entrance-wrap" class="search-entrance-wrap">
             <span class="search-entrance-text">输入政治书上的编码</span>
         </div>
+        <div id="banner-con">
+            <ul id="banner-list">
+                <li class="banner-item">
+                    <img class="banner-img" src="./assets/banner-default.png" />
+                </li>
+            </ul>
+        </div>
         <div id="book-list-con" class="clearfix common-split-border"></div>
     </div>
 
@@ -39,5 +46,6 @@
         console.info( 'app run');
         app.run();
     </script>
+    <script src="http://zaxue100.com/index.php?c=app_banner_ctrl&m=get_banner_data&callback=app.banner_data_ready&fr=iphone"></script>
 </body>
 </html>

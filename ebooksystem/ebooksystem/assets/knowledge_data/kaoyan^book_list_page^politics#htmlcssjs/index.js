@@ -29,6 +29,9 @@
     var pageDisplayMode = 'page-mode-night';
     //政治搜索入口页面的page_id
     var searchPageID = '08713289f9a7eb4edf10e80b44fe3c1b';
+    //顶部banner内层容器
+    var bannerList;
+    var bannerItemClass = 'banner-item';
 
 //渲染书籍列表
     function renderChildList( data, bookStatusMap ){
@@ -214,6 +217,30 @@
         }
     }
 
+    app._setupDOM = function () {
+        bannerList = document.querySelector('#banner-list');
+
+    };
+
+    app._setupEvent = function(){
+        if( bannerList ){
+            bannerList.addEventListener( 'click', function(e){
+                var target = e.target;
+                while( target && target != bannerList
+                        && ! target.classList.contains( bannerItemClass) ){
+                    target = target.parentNode;
+                }
+                if( target && target.classList.contains(bannerItemClass) ){
+                    var url = target.getAttribute('data-url');
+                    if( ! utils.isString(url) || ! url ){
+                        return;
+                    }
+                    //打开对应URL的页面
+                    bridgeIOS.showWebUrl( url );
+                }
+            }, false );
+        }
+    };
 
 //页面启动入口函数
     app.run = function(){
@@ -237,6 +264,9 @@
         if( utils.isIphone4() ){
             document.body.classList.add('in-iphone4');
         }
+
+        app._setupDOM();
+        app._setupEvent();
 
         // 渲染页面
         bridge.getNodeDataByIdAndQueryId( { dataId : currentID, queryId : queryID}, function( dataStr ){
@@ -303,6 +333,25 @@
             clearTimeout( downloadProgressTimer );
             downloadProgressTimer = null;
         }
+    };
+    //获取到最新的banner数据
+    app.banner_data_ready = function ( bannerArr ) {
+        if( ! utils.isArray( bannerArr) || bannerArr.length < 1 ){
+            return;
+        }
+        var html = '';
+        //暂时只取第一条来显示
+        var obj = bannerArr[0];
+        html += '<li class="' + bannerItemClass + '" data-url="' + obj.url + '">' +
+                '<img onerror="app.bannerImgError(this);" class="banner-img" src="' + obj.img_url + '" />' +
+                '</li>';
+
+        bannerList.innerHTML = html;
+    };
+    app.bannerImgError = function(img){
+        img.parentNode.parentNode.removeChild( img.parentNode );
+        img.onerror = null;
+        img = null;
     };
 
     function beginDownload(id, el, pageID, getArgs, postArgs){
