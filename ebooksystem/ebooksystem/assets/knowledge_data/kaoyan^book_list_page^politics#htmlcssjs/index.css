@@ -146,10 +146,10 @@ body{
 #banner-con{
     overflow: hidden;
     position: relative;
-    margin: 9px 0;
 }
 .banner-item img{
     max-width: 100%;
+    display: block;
 }
 /*书籍列表区域*/
 #book-list-con{
