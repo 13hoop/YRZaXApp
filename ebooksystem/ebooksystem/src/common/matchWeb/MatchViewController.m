@@ -11,6 +11,10 @@
 #import "WebViewJavascriptBridge.h"
 #import "LogUtil.h"
 
+#import "UMSocial.h"
+#import "UMSocialSnsService.h"
+#import "UMSocialScreenShoter.h"
+
 
 @interface MatchViewController ()<UIWebViewDelegate>
 
@@ -123,7 +127,30 @@
     NSString *title=[shareDic objectForKey:@"title"];
     BOOL shouldScreen_shot=(BOOL)[shareDic objectForKey:@"screen_shot"];
     
+    NSString *shareString=[NSString stringWithFormat:@"%@:%@",title,urlString];
+    
     NSLog(@"点击了分享");
+    //(1)使用ui，分享url定义的图片
+    [[UMSocialData defaultData].urlResource setResourceType:UMSocialUrlResourceTypeImage url:imageString];
+    //(2)使用ui,分享截屏图片
+    UIImage *image = [[UMSocialScreenShoterDefault screenShoter] getScreenShot];
+    //不同的平台分享不同的内容
+    //新浪微博平台
+    [UMSocialData defaultData].extConfig.sinaData.shareText = @"分享到新浪微博内容";
+    //腾讯
+    [UMSocialData defaultData].extConfig.tencentData.shareImage = [UIImage imageNamed:@"meinv.jpg"]; //分享到腾讯微博图片
+    //设置微信好友分享url图片
+//    [UMSocialData defaultData].extConfig.wechatSessionData.shareImage=[UIImage imageNamed:@"wechat.jpg"];
+    [[UMSocialData defaultData].extConfig.wechatSessionData.urlResource setResourceType:UMSocialUrlResourceTypeImage url:imageString];
+    //设置微信朋友圈的分享视频
+    [[UMSocialData defaultData].extConfig.wechatTimelineData.urlResource setResourceType:UMSocialUrlResourceTypeImage url:imageString];
+//    [[UMSocialData defaultData].extConfig.wechatTimelineData.urlResource setResourceType:UMSocialUrlResourceTypeVideo url:@"http://v.youku.com/v_show/id_XNjQ1NjczNzEy.html?f=21207816&ev=2"];
+    
+    
+    
+    
+    [UMSocialSnsService presentSnsIconSheetView:self appKey:@"543dea72fd98c5fc98004e08" shareText:shareString shareImage:nil shareToSnsNames:[NSArray arrayWithObjects:UMShareToSina,UMShareToTencent,UMShareToRenren,UMShareToWechatSession,UMShareToWechatTimeline,UMShareToQzone,UMShareToQQ,UMShareToEmail,nil] delegate:nil];
+    
     
 }
 

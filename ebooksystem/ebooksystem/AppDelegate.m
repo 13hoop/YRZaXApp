@@ -22,7 +22,11 @@
 #import "UpdateManager.h"
 #import "UpdateAppViewController.h"
 
+#import "UMSocial.h"
+#import "UMSocialWechatHandler.h"
+#import "UMSocialQQHandler.h"
 
+#define UMAPPKEY @"543dea72fd98c5fc98004e08"
 
 @interface AppDelegate ()<UpdateManagerDelegate>
 
@@ -57,7 +61,7 @@
     
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
 
-    
+    [self umengShare];
     
     // Config the logger
     [LogUtil init];
@@ -130,6 +134,25 @@
 //    
 //    NSLog(@"online config has fininshed and note = %@", note.userInfo);
 //}
+
+-(void)umengShare
+{
+    [UMSocialData setAppKey:UMAPPKEY];
+    //wechat---需要填写appkey 和 appSecret
+    [UMSocialWechatHandler setWXAppId:@"wxd930ea5d5a258f4f" appSecret:@"db426a9829e4b49a0dcac7b4162da6b6" url:@"http://www.baidu.com"];
+    //qqzone ----需要注册，填写id和url
+    //设置分享到QQ空间的应用Id，和分享url 链接
+    [UMSocialQQHandler setQQWithAppId:@"100424468" appKey:@"c7394704798a158208a74ab60104f0ba" url:@"http://www.baidu.com"];
+    
+}
+
+- (BOOL)application:(UIApplication *)application
+            openURL:(NSURL *)url
+  sourceApplication:(NSString *)sourceApplication
+         annotation:(id)annotation
+{
+    return  [UMSocialSnsService handleOpenURL:url];
+}
 
 //禁止横屏的方法
 -(NSUInteger)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window
