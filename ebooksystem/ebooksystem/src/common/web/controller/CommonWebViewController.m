@@ -29,6 +29,7 @@
 #import "StatisticsManager.h"
 #import "UpdateManager.h"
 
+#import "MatchViewController.h"
 
 
 @interface CommonWebViewController () <UIWebViewDelegate,UpdateManagerDelegate,UIAlertViewDelegate>
@@ -329,6 +330,16 @@
             NSString *model = [DeviceUtil getModel];
             responseCallback(model);
         }
+    }];
+    //
+    [self.javascriptBridge registerHandler:@"showWebUrl" handler:^(id data, WVJBResponseCallback responseCallback) {
+        LogDebug(@"CommonWebViewController::showWebUrl() called: %@", data);
+        
+        NSString *webUrl=(NSString *)data;
+        MatchViewController *match=[[MatchViewController alloc] init];
+        match.webUrl=webUrl;
+        [self.navigationController pushViewController:match animated:YES];
+        
     }];
     
     
@@ -641,4 +652,6 @@
     }
     
 }
+#pragma mark into matchViewController
+
 @end

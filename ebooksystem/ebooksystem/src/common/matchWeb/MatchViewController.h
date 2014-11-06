@@ -10,7 +10,5 @@
 
 @interface MatchViewController : UIViewController
 @property(nonatomic,strong)NSString *webUrl;
--(void)showWebUrl:(NSString *)url;
-//js调用接口
--(void)share:(NSDictionary *)shareDic;
+
 @end
