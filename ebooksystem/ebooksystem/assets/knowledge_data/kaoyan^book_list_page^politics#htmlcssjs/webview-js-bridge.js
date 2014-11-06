@@ -136,12 +136,12 @@ function dump(arr,level) {
     // pageError()
     bridgeIOS.pageError = function(message) {
         alert("page error: " + message);
-    }
+    };
 
     // goSearchPage()
     bridgeIOS.goSearchPage = function() {
         alert("goSearchPage()");
-    }
+    };
     
     // pageStatistic()
     bridgeIOS.pageStatistic = function(eventName, args) {
@@ -153,7 +153,16 @@ function dump(arr,level) {
         bridgeIOS.callOC("pageStatistic", data, function(responseData){
                          // do nothing
         });
-    }
+    };
+
+    // showWebUrl()
+    bridgeIOS.showWebUrl = function(data, callback) {
+        bridgeIOS.callOC("showWebUrl", data, function(responseData){
+            if (callback) {
+                callback(responseData);
+            }
+        });
+    };
     
 }();
 

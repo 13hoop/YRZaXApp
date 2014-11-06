@@ -211,4 +211,8 @@ bridgeIOS.getBookArrayStatus = function( idArrayStr, callback ){
         alert('点击 菜单 按钮');
     };
 
+    bridgeIOS.showWebUrl = function (url) {
+        location.href = url;
+    };
+
 }();
