@@ -101,6 +101,7 @@
         UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"温馨提示" message:@
                             "由于您的网络状况不佳，导致注册失败，请检查您的网络" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"重试", nil];
         [alert show];
+        
     }];
 
 }
