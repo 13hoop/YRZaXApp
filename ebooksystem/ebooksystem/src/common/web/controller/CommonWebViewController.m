@@ -32,7 +32,7 @@
 #import "MatchViewController.h"
 
 
-@interface CommonWebViewController () <UIWebViewDelegate,UpdateManagerDelegate,UIAlertViewDelegate>
+@interface CommonWebViewController () <UIWebViewDelegate, UpdateManagerDelegate, UIAlertViewDelegate>
 
 #pragma mark - outlets
 @property (strong, nonatomic) IBOutlet UIWebView *webView;
@@ -57,9 +57,6 @@
 - (BOOL)showPageWithPageId:(NSString *)pageId andArgs:(NSString *)args;
 // 跳转到指定的url
 - (BOOL)showPageWithURL:(NSString *)urlStr;
-
-// 打开播放链接
-- (void)gotoMediaPlayerViewController:(NSString *)url;
 
 // 视频播放开始
 - (void)playVideo:(NSString *)urlStr;
@@ -610,6 +607,7 @@
     [UpdateManager instance].delegate=self;
     [[UpdateManager instance] checkUpdate];
 }
+
 -(void)onCheckUpdateResult:(UpdateInfo *)updateInfo
 {
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -641,6 +639,7 @@
     });
 
 }
+
 #pragma mark alertView delegate method
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
