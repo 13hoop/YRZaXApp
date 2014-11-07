@@ -52,7 +52,9 @@
     
     [self createWeb];
     [self initWebView];
-    [self writeJSintowebview];
+  
+    [self writeJsonToWebview];
+//    self.webview.delegate=self;
     
 }
 
@@ -61,8 +63,6 @@
     // Dispose of any resources that can be recreated.
 }
 
-
-
 -(void)createWeb
 {
 //    NSURLRequest *request=[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.zaxue100.com"]];
@@ -70,10 +70,12 @@
 
     //给出具体样式后再修改
     self.webview=[[UIWebView alloc] initWithFrame:self.view.bounds];
+    
     self.webview.delegate=self;
     [self.webview loadRequest:request];
     [self.view addSubview:self.webview];
 }
+
 - (BOOL)initWebView {
 //    self.webview.delegate = self.javascriptBridge;
     
@@ -82,6 +84,7 @@
         LogDebug(@"CommonWebViewController::showMenu() called: %@", data);
         //判断是否可以继续回退
         BOOL iscan = self.webview.canGoBack;
+        NSLog(@"iscanBack=====%hhd",iscan);
         if (iscan) {
             [self.webview goBack];
         }
@@ -154,14 +157,21 @@
     
 }
 
-//-(void)webViewDidStartLoad:(UIWebView *)webView
-//{
-//    NSString *filePath = [[NSBundle mainBundle] pathForResource:@"webview-js-bridge" ofType:@"js"];
-//    NSString *jsString = [[NSString alloc] initWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:nil];
-//    NSLog(@"hahao====%@",jsString);
-//    [self.webview stringByEvaluatingJavaScriptFromString:jsString];
-//}
--(void)writeJSintowebview
+-(BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
+{
+    
+    return YES;
+}
+-(void)webViewDidStartLoad:(UIWebView *)webView
+{
+   
+    [self writeJsonToWebview];
+    static int times = 0;
+    ++times;
+    NSLog(@"====webViewDidStartLoad was called %d times", times);
+}
+
+-(void)writeJsonToWebview
 {
     NSString *filePath = [[NSBundle mainBundle] pathForResource:@"webview-js-bridge" ofType:@"js"];
     NSString *jsString = [[NSString alloc] initWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:nil];
