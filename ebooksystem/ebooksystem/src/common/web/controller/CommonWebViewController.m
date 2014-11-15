@@ -335,6 +335,8 @@
         NSString *webUrl=(NSString *)data;
         MatchViewController *match=[[MatchViewController alloc] init];
         match.webUrl=webUrl;
+        //实验版
+//        match.webUrl=@"http://www.sina.com.cn";
         [self.navigationController pushViewController:match animated:YES];
         
     }];

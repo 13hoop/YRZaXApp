@@ -25,6 +25,7 @@
 #import "UMSocial.h"
 #import "UMSocialWechatHandler.h"
 #import "UMSocialQQHandler.h"
+#import "UMSocialSinaHandler.h"
 
 #define UMAPPKEY @"543dea72fd98c5fc98004e08"
 
@@ -139,10 +140,12 @@
 {
     [UMSocialData setAppKey:UMAPPKEY];
     //wechat---需要填写appkey 和 appSecret
-    [UMSocialWechatHandler setWXAppId:@"wxd930ea5d5a258f4f" appSecret:@"db426a9829e4b49a0dcac7b4162da6b6" url:@"http://www.baidu.com"];
+    [UMSocialWechatHandler setWXAppId:@"wxb4cfa6949e15a303" appSecret:@"42846370c09438a05448519e76952326" url:@"http://www.baidu.com"];
     //qqzone ----需要注册，填写id和url
     //设置分享到QQ空间的应用Id，和分享url 链接
-    [UMSocialQQHandler setQQWithAppId:@"100424468" appKey:@"c7394704798a158208a74ab60104f0ba" url:@"http://www.baidu.com"];
+    [UMSocialQQHandler setQQWithAppId:@"1102966210" appKey:@"RGudHqtJ5mvFYLsY" url:@"http://www.baidu.com"];
+    //设置新浪微博
+    [UMSocialSinaHandler openSSOWithRedirectURL:nil];
     
 }
 

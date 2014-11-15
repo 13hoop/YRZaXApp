@@ -10,7 +10,7 @@
 
 #import "WebViewJavascriptBridge.h"
 #import "LogUtil.h"
-
+#import "UIColor+Hex.h"
 #import "UMSocial.h"
 #import "UMSocialSnsService.h"
 #import "UMSocialScreenShoter.h"
@@ -38,7 +38,7 @@
 // webview
 - (UIWebView *)webView {
     if (_webView == nil) {
-        _webView = [[UIWebView alloc] initWithFrame:self.view.bounds];
+        _webView = [[UIWebView alloc] initWithFrame:CGRectMake(0,20, self.view.frame.size.width, self.view.frame.size.height-20)];
         _webView.delegate = self;
         
         [self.view addSubview:_webView];
@@ -66,12 +66,16 @@
     [super viewDidLoad];
     
     [self initWebView];
-    
+    self.view.backgroundColor=[UIColor colorWithHexString:@"#4C501D" alpha:1];
+    self.automaticallyAdjustsScrollViewInsets = NO;
+    self.webView.scrollView.bounces=NO;
+    self.webView.scrollView.showsVerticalScrollIndicator=NO;
   
-    [self writeJsonToWebView:self.webView];
+//    [self injectJSToWebView:self.webView];
 //    self.webview.delegate=self;
     
     [self updateWebView];
+
     
 }
 
@@ -90,15 +94,16 @@
         LogDebug(@"CommonWebViewController::showMenu() called: %@", data);
         //判断是否可以继续回退
         BOOL iscan = self.webView.canGoBack;
-        NSLog(@"iscanBack=====%hhd",iscan);
-        if (iscan) {
-            [self.webView goBack];
-        }
-        else
-        {
-            [self.navigationController popViewControllerAnimated:YES];
-        }
-        
+//        NSLog(@"iscanBack=====%hhd",iscan);
+//        if (iscan) {
+//            [self.webView goBack];
+//            
+//        }
+//        else
+//        {
+//            [self.navigationController popViewControllerAnimated:YES];
+//        }
+        [self.navigationController popViewControllerAnimated:YES];
     }];
     
     //-(void)share:(NSDictionary *)shareDic
@@ -117,7 +122,7 @@
 
 - (BOOL)updateWebView {
     // load url
-    //    NSURLRequest *request=[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.zaxue100.com"]];
+//    self.webUrl=@"http://pk2015.zaxue100.com";
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:self.webUrl]];
     
     [self.webView loadRequest:request];
@@ -130,47 +135,83 @@
 -(void)share:(NSDictionary *)shareDic
 {
     /*
-     {
-     url : '',
-     img_url : '',
-     title : '',
-     screen_shot : true | false
-     
-     }
+     url :
+     img_url :
+     weixin_img_url :
+     title :
+     content :
+     screen_shot : false
      */
+    //title
+    NSString *titleAll=[shareDic objectForKey:@"title"];
     //分享链接
-    NSString *urlString=[shareDic objectForKey:@"url"];
-    NSURL *weburl=[NSURL URLWithString:urlString];
+    NSString *callBackUrl=[shareDic objectForKey:@"url"];
+//    NSURL *weburl=[NSURL URLWithString:urlString];
     //分享的图片链接
     NSString *imageString=[shareDic objectForKey:@"img_url"];
-    NSURL *imageUrl=[NSURL URLWithString:imageString];
-    //分享的title
-    NSString *title=[shareDic objectForKey:@"title"];
+    //是否截屏
     BOOL shouldScreen_shot=(BOOL)[shareDic objectForKey:@"screen_shot"];
+    //微信使用的url
+    NSString *weixinImageUrl=[shareDic objectForKey:@"weixin_img_url"];
+    //分享内容
+    NSString *shareString=[shareDic objectForKey:@"content"];
     
-    NSString *shareString=[NSString stringWithFormat:@"%@:%@",title,urlString];
     
-    NSLog(@"点击了分享");
+    /*
     //(1)使用ui，分享url定义的图片
     [[UMSocialData defaultData].urlResource setResourceType:UMSocialUrlResourceTypeImage url:imageString];
     //(2)使用ui,分享截屏图片
-    UIImage *image = [[UMSocialScreenShoterDefault screenShoter] getScreenShot];
+//    UIImage *image = [[UMSocialScreenShoterDefault screenShoter] getScreenShot];
     //不同的平台分享不同的内容
     //新浪微博平台
     [UMSocialData defaultData].extConfig.sinaData.shareText = @"分享到新浪微博内容";
     //腾讯
     [UMSocialData defaultData].extConfig.tencentData.shareImage = [UIImage imageNamed:@"meinv.jpg"]; //分享到腾讯微博图片
-    //设置微信好友分享url图片
-//    [UMSocialData defaultData].extConfig.wechatSessionData.shareImage=[UIImage imageNamed:@"wechat.jpg"];
-    [[UMSocialData defaultData].extConfig.wechatSessionData.urlResource setResourceType:UMSocialUrlResourceTypeImage url:imageString];
-    //设置微信朋友圈的分享视频
-    [[UMSocialData defaultData].extConfig.wechatTimelineData.urlResource setResourceType:UMSocialUrlResourceTypeImage url:imageString];
-//    [[UMSocialData defaultData].extConfig.wechatTimelineData.urlResource setResourceType:UMSocialUrlResourceTypeVideo url:@"http://v.youku.com/v_show/id_XNjQ1NjczNzEy.html?f=21207816&ev=2"];
+     */
+    
+    //1、分享到QQ
+    [UMSocialData defaultData].extConfig.qqData.shareText=shareString;
+    //分享到QQ的title
+    [UMSocialData defaultData].extConfig.qqData.title=titleAll;
+    //分享到QQ的image
+    [[UMSocialData defaultData].extConfig.qqData.urlResource setResourceType:UMSocialUrlResourceTypeImage url:weixinImageUrl];
+    //点击分享的内容跳转到的网站
+    [UMSocialData defaultData].extConfig.qqData.url = callBackUrl;
     
     
     
     
-    [UMSocialSnsService presentSnsIconSheetView:self appKey:@"543dea72fd98c5fc98004e08" shareText:shareString shareImage:nil shareToSnsNames:[NSArray arrayWithObjects:UMShareToSina,UMShareToTencent,UMShareToRenren,UMShareToWechatSession,UMShareToWechatTimeline,UMShareToQzone,UMShareToQQ,UMShareToEmail,nil] delegate:nil];
+    
+    
+    
+    //2、分享到qq空间的图片
+    [[UMSocialData defaultData].extConfig.qzoneData.urlResource setResourceType:UMSocialUrlResourceTypeImage url:weixinImageUrl];
+    //分享qq空间的title
+    [UMSocialData defaultData].extConfig.qzoneData.title = titleAll;
+    //分享qq空间的内容
+    [UMSocialData defaultData].extConfig.qzoneData.shareText=shareString;
+    //回调的url
+     [UMSocialData defaultData].extConfig.qzoneData.url = callBackUrl;
+    
+    
+    //3、设置微信好友分享url图片
+    [[UMSocialData defaultData].extConfig.wechatSessionData.urlResource setResourceType:UMSocialUrlResourceTypeImage url:weixinImageUrl];
+    //设置微信的分享文字
+    [UMSocialData defaultData].extConfig.wechatSessionData.shareText=shareString;
+    //设置微信的title
+    [UMSocialData defaultData].extConfig.wechatSessionData.title=titleAll;
+    //回调的url
+    [UMSocialData defaultData].extConfig.wechatSessionData.url=callBackUrl;
+    
+    
+    //4、设置微信朋友圈的分享的URL图片
+    [[UMSocialData defaultData].extConfig.wechatTimelineData.urlResource setResourceType:UMSocialUrlResourceTypeImage url:weixinImageUrl];
+    //设置微信朋友圈的分享文字
+    [UMSocialData defaultData].extConfig.wechatTimelineData.shareText=shareString;
+    //
+    [UMSocialData defaultData].extConfig.wechatTimelineData.url=callBackUrl;
+    
+    [UMSocialSnsService presentSnsIconSheetView:self appKey:@"543dea72fd98c5fc98004e08" shareText:shareString shareImage:nil shareToSnsNames:[NSArray arrayWithObjects:UMShareToWechatSession,UMShareToWechatTimeline,UMShareToQzone,UMShareToQQ,nil] delegate:nil];
 }
 
 #pragma mark - web view delegate methods
@@ -181,31 +222,21 @@
     return YES;
 }
 
--(void)webViewDidStartLoad:(UIWebView *)webView
-{
-   
-//    [self writeJsonToWebView:webView];
-//    static int times = 0;
-//    ++times;
-//    NSLog(@"====webViewDidStartLoad was called %d times", times);
-}
-
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
-    [self writeJsonToWebView:webView];
+    [self injectJSToWebView:webView];
     
-    static int times = 0;
-    ++times;
-    NSLog(@"====webViewDidStartLoad was called %d times", times);
 }
 
 #pragma mark - js injection
 
--(void)writeJsonToWebView:(UIWebView *)webView
+-(void)injectJSToWebView:(UIWebView *)webView
 {
     NSString *filePath = [[NSBundle mainBundle] pathForResource:@"webview-js-bridge" ofType:@"js"];
     NSString *jsString = [[NSString alloc] initWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:nil];
-    NSLog(@"hahao====%@",jsString);
     [webView stringByEvaluatingJavaScriptFromString:jsString];
 }
+
+
+
 
 @end
