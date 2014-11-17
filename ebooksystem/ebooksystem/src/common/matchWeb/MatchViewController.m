@@ -23,9 +23,12 @@
 @interface MatchViewController () <UIWebViewDelegate>
 
 #pragma mark - properties
+
+@property (nonatomic, copy) NSString *userAgent;
+
 // bridge between webview and js
 @property (nonatomic, strong) WebViewJavascriptBridge *javascriptBridge;
-@property(nonatomic, strong)UIWebView *webView;
+@property (nonatomic, strong) UIWebView *webView;
 
 #pragma mark - methods
 - (BOOL)updateWebView;
@@ -37,11 +40,31 @@
 
 @implementation MatchViewController
 
+@synthesize userAgent = _userAgent;
+@synthesize webUrl = _webUrl;
 @synthesize webView = _webView;
 @synthesize javascriptBridge = _javascriptBridge;
 
 
 #pragma mark - properties
+// user agent
+- (NSString *)userAgent {
+    return @"ZAXUE_ANDROID_POLITICS_APP";
+}
+
+// webUrl
+- (NSString *)webUrl {
+    if (_webUrl != nil && ![_webUrl hasSuffix:self.userAgent]) {
+        NSString *connector = @"&";
+        if ([_webUrl hasSuffix:@"/"]) {
+            connector = @"\?";
+        }
+        _webUrl = [NSString stringWithFormat:@"%@%@ua=%@", _webUrl, connector, self.userAgent];
+    }
+    
+    return _webUrl;
+}
+
 // webview
 - (UIWebView *)webView {
     if (_webView == nil) {
@@ -72,11 +95,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [CustomURLProtocol register];
+//    [CustomURLProtocol register];
     
     [self initWebView];
     
-    self.view.backgroundColor=[UIColor colorWithHexString:@"#4C501D" alpha:1];
+    self.view.backgroundColor = [UIColor colorWithHexString:@"#4C501D" alpha:1];
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.webView.scrollView.bounces = NO;
     self.webView.scrollView.showsVerticalScrollIndicator = NO;
