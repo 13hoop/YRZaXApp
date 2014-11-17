@@ -185,6 +185,7 @@
 		711E2CF91A00CC2E000A8D04 /* UpdateInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 711E2CF81A00CC2E000A8D04 /* UpdateInfo.m */; };
 		7134FB2019E4D952004AB7A8 /* KnowledgeDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7134FB1F19E4D952004AB7A8 /* KnowledgeDataManager.m */; };
 		7134FB2319E4DE4E004AB7A8 /* KnowledgeSearchManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7134FB2219E4DE4E004AB7A8 /* KnowledgeSearchManager.m */; };
+		7138C2EC1A19E259007789FE /* CustomURLProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 7138C2EB1A19E259007789FE /* CustomURLProtocol.m */; };
 		713D863E19E91654006446D5 /* DateUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 713D863D19E91654006446D5 /* DateUtil.m */; };
 		713D864519EA96DD006446D5 /* ZipArchive.mm in Sources */ = {isa = PBXBuildFile; fileRef = 713D864319EA96DD006446D5 /* ZipArchive.mm */; };
 		713D864F19EA96ED006446D5 /* ioapi.c in Sources */ = {isa = PBXBuildFile; fileRef = 713D864719EA96ED006446D5 /* ioapi.c */; };
@@ -660,6 +661,8 @@
 		7134FB1F19E4D952004AB7A8 /* KnowledgeDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KnowledgeDataManager.m; path = src/knowledge/KnowledgeDataManager.m; sourceTree = "<group>"; };
 		7134FB2119E4DE4E004AB7A8 /* KnowledgeSearchManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KnowledgeSearchManager.h; path = src/knowledge/KnowledgeSearchManager.h; sourceTree = "<group>"; };
 		7134FB2219E4DE4E004AB7A8 /* KnowledgeSearchManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KnowledgeSearchManager.m; path = src/knowledge/KnowledgeSearchManager.m; sourceTree = "<group>"; };
+		7138C2EA1A19E259007789FE /* CustomURLProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CustomURLProtocol.h; path = src/common/web/model/CustomURLProtocol.h; sourceTree = "<group>"; };
+		7138C2EB1A19E259007789FE /* CustomURLProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CustomURLProtocol.m; path = src/common/web/model/CustomURLProtocol.m; sourceTree = "<group>"; };
 		713D863C19E91654006446D5 /* DateUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DateUtil.h; path = src/util/DateUtil.h; sourceTree = "<group>"; };
 		713D863D19E91654006446D5 /* DateUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DateUtil.m; path = src/util/DateUtil.m; sourceTree = "<group>"; };
 		713D864119EA96DD006446D5 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = README.md; path = depends/ZipArchive/README.md; sourceTree = "<group>"; };
@@ -1793,6 +1796,15 @@
 			name = update;
 			sourceTree = "<group>";
 		};
+		7138C2E91A19E21F007789FE /* model */ = {
+			isa = PBXGroup;
+			children = (
+				7138C2EA1A19E259007789FE /* CustomURLProtocol.h */,
+				7138C2EB1A19E259007789FE /* CustomURLProtocol.m */,
+			);
+			name = model;
+			sourceTree = "<group>";
+		};
 		713D863F19EA96BB006446D5 /* ZipArchive */ = {
 			isa = PBXGroup;
 			children = (
@@ -1913,6 +1925,7 @@
 		715EE96F19E526E1005A4F78 /* web */ = {
 			isa = PBXGroup;
 			children = (
+				7138C2E91A19E21F007789FE /* model */,
 				715EE97019E526E6005A4F78 /* controller */,
 			);
 			name = web;
@@ -2556,6 +2569,7 @@
 				713D863E19E91654006446D5 /* DateUtil.m in Sources */,
 				715EE9A919E832ED005A4F78 /* JSONModelError.m in Sources */,
 				710C03A219E2EDB800C27A33 /* KnowledgeSearchEntity.m in Sources */,
+				7138C2EC1A19E259007789FE /* CustomURLProtocol.m in Sources */,
 				06AAC9F219F67C9800A758DB /* DeviceStatusUtil.m in Sources */,
 				7116EF0919FF545500336309 /* DirectionMPMoviePlayerViewController.m in Sources */,
 				06AA7F6719F4FC7E00570289 /* RegisterModel.m in Sources */,

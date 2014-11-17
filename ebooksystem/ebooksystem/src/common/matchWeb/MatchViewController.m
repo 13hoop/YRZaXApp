@@ -16,6 +16,8 @@
 #import "UMSocialScreenShoter.h"
 
 #import "DirectionMPMoviePlayerViewController.h"
+#import "CustomURLProtocol.h"
+
 
 
 @interface MatchViewController () <UIWebViewDelegate>
@@ -70,18 +72,19 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [CustomURLProtocol register];
+    
     [self initWebView];
+    
     self.view.backgroundColor=[UIColor colorWithHexString:@"#4C501D" alpha:1];
     self.automaticallyAdjustsScrollViewInsets = NO;
-    self.webView.scrollView.bounces=NO;
-    self.webView.scrollView.showsVerticalScrollIndicator=NO;
+    self.webView.scrollView.bounces = NO;
+    self.webView.scrollView.showsVerticalScrollIndicator = NO;
   
 //    [self injectJSToWebView:self.webView];
 //    self.webview.delegate=self;
     
     [self updateWebView];
-
-    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -228,7 +231,6 @@
 // 播放视频
 - (void)playVideo:(NSString *)urlStr {
     if (urlStr == nil || urlStr.length <= 0) {
-        // todo: show alert view
         return;
     }
     
@@ -236,6 +238,9 @@
     if (url == nil) {
         return;
     }
+    
+    // 不要加
+//    [CustomURLProtocol injectURL:urlStr cookie:@"User-Agent:ZAXUE_IOS_POLITICS_APP"];
     
     // 播放
     //    MPMoviePlayerViewController *playerViewController = [[MPMoviePlayerViewController alloc] initWithContentURL:url];
