@@ -134,7 +134,7 @@
 
                 var url = target.getAttribute('data-url');
                 if( url ){
-                    bridgeAndroid.showSafeURL(url);
+                    bridge.showSafeURL(url);
                     return;
                 }
 
