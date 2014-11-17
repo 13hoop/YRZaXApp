@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface MatchViewController : UIViewController
-@property(nonatomic,strong)NSString *webUrl;
+
+@property (nonatomic,strong)NSString *webUrl;
 
 @end
