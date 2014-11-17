@@ -301,6 +301,14 @@
         [self showPageWithPageId:pageID andArgs:args];
     }];
     
+    // showSafeURL()
+    [self.javascriptBridge registerHandler:@"showSafeURL" handler:^(id dataId, WVJBResponseCallback responseCallback) {
+        LogDebug(@"CommonWebViewController::showSafeURL() called: %@", dataId);
+        
+        NSString *urlStr = (NSString *)dataId;
+        [self showPageWithURL:urlStr];
+    }];
+    
     // playVideo()
     [self.javascriptBridge registerHandler:@"playVideo" handler:^(id dataId, WVJBResponseCallback responseCallback) {
         LogDebug(@"CommonWebViewController::playVideo() called: %@", dataId);
@@ -328,17 +336,16 @@
             responseCallback(model);
         }
     }];
-    //
+    
+    // 进入政治客观题大赛入口页
     [self.javascriptBridge registerHandler:@"showWebUrl" handler:^(id data, WVJBResponseCallback responseCallback) {
         LogDebug(@"CommonWebViewController::showWebUrl() called: %@", data);
         
-        NSString *webUrl=(NSString *)data;
-        MatchViewController *match=[[MatchViewController alloc] init];
-        match.webUrl=webUrl;
-        //实验版
-//        match.webUrl=@"http://www.sina.com.cn";
-        [self.navigationController pushViewController:match animated:YES];
+        NSString *webUrl = (NSString *)data;
+        MatchViewController *match = [[MatchViewController alloc] init];
+        match.webUrl = webUrl;
         
+        [self.navigationController pushViewController:match animated:YES];
     }];
     
     

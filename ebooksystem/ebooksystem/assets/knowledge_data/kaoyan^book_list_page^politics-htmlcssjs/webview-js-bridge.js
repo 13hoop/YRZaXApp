@@ -165,6 +165,7 @@ function dump(arr,level) {
     };
     // showSafeURL()
     bridgeIOS.showSafeURL = function(data, callback) {
+        alert('will call showSafeURL');
         bridgeIOS.callOC("showSafeURL", data, function(responseData){
             if (callback) {
                 callback(responseData);
