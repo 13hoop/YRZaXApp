@@ -30,6 +30,12 @@
     </div>
 
     <script src="./classList.js"></script>
+    <script src="./fastclick.js"></script>
+    <script>
+        window.addEventListener('load', function(){
+            new FastClick(document.body);
+        }, false );
+    </script>
     <script>
         if( location.href.indexOf('debug=1') > 0 ){
             document.write('<script src="./debug.js"><\/script>');
