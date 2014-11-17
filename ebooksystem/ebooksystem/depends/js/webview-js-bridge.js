@@ -74,6 +74,14 @@ function dump(arr,level) {
         bridgeIOS.callOC( 'goBack', data );
     };
     
+    // playVideo()
+    bridgeIOS.playVideo = function(data, callback) {
+        bridgeIOS.callOC('playVideo', data, function(responseData){
+                         if (callback) {
+                            callback(responseData);
+                         }
+        });
+    };
     
 }();
 
@@ -122,6 +130,6 @@ function init() {
     init();
     
     // native暴露给JS的接口对象
-    //    var bridgeIOS = window.bridgeIOS;
-    //alert(dump(bridgeIOS));
+//    var bridgeIOS = window.bridgeIOS;
+//    alert(dump(bridgeIOS));
 }();

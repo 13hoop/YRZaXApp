@@ -57,6 +57,8 @@
 - (BOOL)showPageWithPageId:(NSString *)pageId andArgs:(NSString *)args;
 // 跳转到指定的url
 - (BOOL)showPageWithURL:(NSString *)urlStr;
+// 打开新的webView, 并跳转到指定的url
+- (BOOL)showSafeURL:(NSString *)urlStr;
 
 // 视频播放开始
 - (void)playVideo:(NSString *)urlStr;
@@ -306,7 +308,7 @@
         LogDebug(@"CommonWebViewController::showSafeURL() called: %@", dataId);
         
         NSString *urlStr = (NSString *)dataId;
-        [self showPageWithURL:urlStr];
+        [self showSafeURL:urlStr];
     }];
     
     // playVideo()
@@ -451,6 +453,18 @@
     NSURL *url = [NSURL URLWithString:[urlStr stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
     
     [self.webView loadRequest:[[NSURLRequest alloc] initWithURL:url]];
+    
+    return YES;
+}
+
+// 打开新的webView, 并跳转到指定的url
+- (BOOL)showSafeURL:(NSString *)urlStr {
+//    NSURL *url = [NSURL URLWithString:[urlStr stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    
+    MatchViewController *matchViewController = [[MatchViewController alloc] init];
+    matchViewController.webUrl = urlStr;
+    
+    [self.navigationController pushViewController:matchViewController animated:YES];
     
     return YES;
 }

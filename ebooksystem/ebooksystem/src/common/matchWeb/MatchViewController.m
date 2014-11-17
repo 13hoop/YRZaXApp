@@ -15,8 +15,10 @@
 #import "UMSocialSnsService.h"
 #import "UMSocialScreenShoter.h"
 
+#import "DirectionMPMoviePlayerViewController.h"
 
-@interface MatchViewController ()<UIWebViewDelegate>
+
+@interface MatchViewController () <UIWebViewDelegate>
 
 #pragma mark - properties
 // bridge between webview and js
@@ -25,6 +27,9 @@
 
 #pragma mark - methods
 - (BOOL)updateWebView;
+
+// 播放视频
+- (void)playVideo:(NSString *)urlStr;
 
 @end
 
@@ -38,7 +43,7 @@
 // webview
 - (UIWebView *)webView {
     if (_webView == nil) {
-        _webView = [[UIWebView alloc] initWithFrame:CGRectMake(0,20, self.view.frame.size.width, self.view.frame.size.height-20)];
+        _webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 20, self.view.frame.size.width, self.view.frame.size.height-20)];
         _webView.delegate = self;
         
         [self.view addSubview:_webView];
@@ -91,9 +96,9 @@
     
     // goback()
     [self.javascriptBridge registerHandler:@"goBack" handler:^(id data, WVJBResponseCallback responseCallback) {
-        LogDebug(@"CommonWebViewController::showMenu() called: %@", data);
-        //判断是否可以继续回退
-        BOOL iscan = self.webView.canGoBack;
+        LogDebug(@"MatchViewController::goBack() called: %@", data);
+        // 判断是否可以继续回退
+//        BOOL iscan = self.webView.canGoBack;
 //        NSLog(@"iscanBack=====%hhd",iscan);
 //        if (iscan) {
 //            [self.webView goBack];
@@ -106,15 +111,20 @@
         [self.navigationController popViewControllerAnimated:YES];
     }];
     
-    //-(void)share:(NSDictionary *)shareDic
     [self.javascriptBridge registerHandler:@"share" handler:^(id data, WVJBResponseCallback responseCallback) {
-        LogDebug(@"CommonWebViewController::share() called: %@", data);
+        LogDebug(@"MatchViewController::share() called: %@", data);
         
-        NSDictionary *shareDic=(NSDictionary *)data;
+        NSDictionary *shareDic = (NSDictionary *)data;
         
         [self share:shareDic];
+    }];
+    
+    // playVideo()
+    [self.javascriptBridge registerHandler:@"playVideo" handler:^(id dataId, WVJBResponseCallback responseCallback) {
+        LogDebug(@"MatchViewController::playVideo() called: %@", dataId);
         
-        
+        NSString *urlStr = (NSString *)dataId;
+        [self playVideo:urlStr];
     }];
     
     return YES;
@@ -214,22 +224,64 @@
     [UMSocialSnsService presentSnsIconSheetView:self appKey:@"543dea72fd98c5fc98004e08" shareText:shareString shareImage:nil shareToSnsNames:[NSArray arrayWithObjects:UMShareToWechatSession,UMShareToWechatTimeline,UMShareToQzone,UMShareToQQ,nil] delegate:nil];
 }
 
+#pragma mark - play video
+// 播放视频
+- (void)playVideo:(NSString *)urlStr {
+    if (urlStr == nil || urlStr.length <= 0) {
+        // todo: show alert view
+        return;
+    }
+    
+    NSURL *url = [NSURL URLWithString:[urlStr stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    if (url == nil) {
+        return;
+    }
+    
+    // 播放
+    //    MPMoviePlayerViewController *playerViewController = [[MPMoviePlayerViewController alloc] initWithContentURL:url];
+    
+    DirectionMPMoviePlayerViewController *playerViewController = [[DirectionMPMoviePlayerViewController alloc] initWithContentURL:url];
+    playerViewController.moviePlayer.controlStyle = MPMovieControlStyleFullscreen;
+    playerViewController.view.frame = self.view.frame; // 全屏
+    playerViewController.moviePlayer.scalingMode = MPMovieScalingModeAspectFit;
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(movieFinishedCallback:)
+                                                 name:MPMoviePlayerPlaybackDidFinishNotification
+                                               object:[playerViewController moviePlayer]];
+    
+    //---play movie---
+    [[playerViewController moviePlayer] play];
+    
+    // 注: 用present会导致playerViewController中设置的transform不生效, 故转为push
+    //    [self presentMoviePlayerViewControllerAnimated:playerViewController];
+    [self.navigationController pushViewController:playerViewController animated:YES];
+}
+
+- (void)movieFinishedCallback:(NSNotification*) aNotification {
+    MPMoviePlayerController *playerViewController = [aNotification object];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:MPMoviePlayerPlaybackDidFinishNotification object:playerViewController];
+    [playerViewController stop];
+    
+    //    [self dismissMoviePlayerViewControllerAnimated];
+    
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 #pragma mark - web view delegate methods
 
 -(BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
 {
-    
+    [self injectJSToWebView:webView];
     return YES;
 }
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
     [self injectJSToWebView:webView];
-    
 }
 
 #pragma mark - js injection
 
--(void)injectJSToWebView:(UIWebView *)webView
+- (void)injectJSToWebView:(UIWebView *)webView
 {
     NSString *filePath = [[NSBundle mainBundle] pathForResource:@"webview-js-bridge" ofType:@"js"];
     NSString *jsString = [[NSString alloc] initWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:nil];
