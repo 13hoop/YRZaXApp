@@ -54,8 +54,12 @@
 
 // webUrl
 - (NSString *)webUrl {
-    if (_webUrl != nil && ![_webUrl containsString:self.userAgent]) {
-        _webUrl = [NSString stringWithFormat:@"%@&ua=%@", _webUrl, self.userAgent];
+    if (_webUrl != nil && ![_webUrl hasSuffix:self.userAgent]) {
+        NSString *connector = @"&";
+        if ([_webUrl hasSuffix:@"/"]) {
+            connector = @"\?";
+        }
+        _webUrl = [NSString stringWithFormat:@"%@%@ua=%@", _webUrl, connector, self.userAgent];
     }
     
     return _webUrl;
