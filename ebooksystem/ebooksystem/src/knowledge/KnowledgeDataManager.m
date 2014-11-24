@@ -1111,7 +1111,7 @@
         }
         
         for (NSString *data in dataArray) {
-            if (data && data.length > 0) {
+            if (data && data.length > 0 && ![searchedArray containsObject:data]) {
                 [searchedArray addObject:data];
             }
         }
