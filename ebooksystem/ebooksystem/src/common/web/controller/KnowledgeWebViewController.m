@@ -6,13 +6,16 @@
 //  Copyright (c) 2014 sanweishuku. All rights reserved.
 //
 
-#import "CommonWebViewController.h"
+#import "KnowledgeWebViewController.h"
 
 #import "Config.h"
+
+#import "KnowledgeSubject.h"
 
 #import "KnowledgeManager.h"
 #import "StatisticsManager.h"
 
+//#import <MediaPlayer/MediaPlayer.h>
 #import "DirectionMPMoviePlayerViewController.h"
 
 #import "MoreViewController.h"
@@ -29,16 +32,16 @@
 #import "MatchViewController.h"
 
 
-@interface CommonWebViewController () <UIWebViewDelegate, UIAlertViewDelegate>
+@interface KnowledgeWebViewController () <UIWebViewDelegate, UpdateManagerDelegate, UIAlertViewDelegate>
 
 #pragma mark - outlets
-@property (strong, nonatomic) UIWebView *webView;
+@property (strong, nonatomic) IBOutlet UIWebView *webView;
 
 #pragma mark - properties
 // bridge between webview and js
 @property (nonatomic, copy) WebViewJavascriptBridge *javascriptBridge;
 
-
+@property(nonatomic,strong)NSString *updateAppURL;
 
 #pragma mark - methods
 // 初始化webView
@@ -71,23 +74,15 @@
 
 
 
-@implementation CommonWebViewController
+@implementation KnowledgeWebViewController
 
-@synthesize webView = _webView;
 @synthesize javascriptBridge = _javascriptBridge;
+
+//@synthesize knowledgeSubject = _knowledgeSubject;
+@synthesize pageId = _pageId;
 
 
 #pragma mark - properties
-// webView
-- (UIWebView *)webView {
-    if (_webView == nil) {
-        _webView = [[UIWebView alloc] initWithFrame:self.view.bounds];
-        [self.view addSubview:_webView];
-    }
-    
-    return _webView;
-}
-
 // bridge between webview and js
 - (WebViewJavascriptBridge *)javascriptBridge {
     if (_javascriptBridge == nil) {
@@ -102,8 +97,14 @@
     return _javascriptBridge;
 }
 
+//- (void)setKnowledgeSubject:(KnowledgeSubject *)knowledgeSubject {
+//    _knowledgeSubject = knowledgeSubject;
+//}
+
+
 #pragma mark - app life
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+{
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
@@ -111,11 +112,13 @@
     return self;
 }
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     
     [self initWebView];
     [self updateWebView];
+    [self updateApp];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -124,24 +127,47 @@
     [self updateNavigationBar];
     
     // 友盟统计
-    [[StatisticsManager instance] beginLogPageView:@"CommonWebView"];
+    [[StatisticsManager instance] beginLogPageView:@"KnowledgeWebViewController"];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
+    
+    
+//    // test video play
+//    {
+//        [self performBlock:^{
+//            [self gotoMediaPlayerViewController];
+//        } afterDelay:1];
+//    }
 }
 
-- (void)didReceiveMemoryWarning {
+- (void)didReceiveMemoryWarning
+{
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
--(void)viewWillDisappear:(BOOL)animated {
+-(void)viewWillDisappear:(BOOL)animated
+{
     [super viewWillDisappear:animated];
     
     // 友盟统计
-    [[StatisticsManager instance] endLogPageView:@"CommonWebView"];
+    [[StatisticsManager instance] endLogPageView:@"KnowledgeWebViewController"];
 }
+
+/*
+#pragma mark - Navigation
+
+// In a storyboard-based application, you will often want to do a little preparation before navigation
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    // Get the new view controller using [segue destinationViewController].
+    // Pass the selected object to the new view controller.
+}
+*/
+
+
 
 #pragma mark - ui related methods
 // update navigation bar
@@ -156,7 +182,7 @@
     // 注册obj-c方法, 供js调用
     // test method
     [self.javascriptBridge registerHandler:@"testObjCCallback" handler:^(id data, WVJBResponseCallback responseCallback) {
-        LogDebug(@"CommonWebViewController::testObjcCallback() called: %@", data);
+        LogDebug(@"KnowledgeWebViewController::testObjcCallback() called: %@", data);
         
         if (responseCallback != nil) {
             responseCallback(@"Response from testObjcCallback");
@@ -165,22 +191,24 @@
     
     // goBack()
     [self.javascriptBridge registerHandler:@"goBack" handler:^(id data, WVJBResponseCallback responseCallback) {
-        LogDebug(@"CommonWebViewController::goBack() called: %@", data);
-        [self.navigationController popViewControllerAnimated:YES];
+        LogDebug(@"KnowledgeWebViewController::goBack() called: %@", data);
+        [self.webView goBack];
+//        [self.navigationController popViewControllerAnimated:YES];
     }];
     
-//    // showMenu()
-//    [self.javascriptBridge registerHandler:@"showMenu" handler:^(id data, WVJBResponseCallback responseCallback) {
-//        LogDebug(@"CommonWebViewController::showMenu() called: %@", data);
-//        
-//        MoreViewController *more = [[MoreViewController alloc] init];
-//        [self.navigationController pushViewController:more animated:YES];
-//    }];
+    // showMenu()
+    [self.javascriptBridge registerHandler:@"showMenu" handler:^(id data, WVJBResponseCallback responseCallback) {
+        LogDebug(@"KnowledgeWebViewController::showMenu() called: %@", data);
+        
+        // native menu
+        MoreViewController *more = [[MoreViewController alloc] init];
+        [self.navigationController pushViewController:more animated:YES];
+    }];
     
     // getNodeDataById()
     // deprecated: 读取数据, 非index方式
     [self.javascriptBridge registerHandler:@"getNodeDataById" handler:^(id dataId, WVJBResponseCallback responseCallback) {
-        LogDebug(@"CommonWebViewController::getNodeDataById() called: %@", dataId);
+        LogDebug(@"KnowledgeWebViewController::getNodeDataById() called: %@", dataId);
         
         if (responseCallback != nil) {
             NSString *data = [[KnowledgeManager instance] getLocalData:dataId];
@@ -191,7 +219,7 @@
     // getNodeDataByIdAndQueryId()
     // 读取数据, index方式
     [self.javascriptBridge registerHandler:@"getNodeDataByIdAndQueryId" handler:^(id data, WVJBResponseCallback responseCallback) {
-        LogDebug(@"CommonWebViewController::getNodeDataByIdAndQueryId() called: %@", data);
+        LogDebug(@"KnowledgeWebViewController::getNodeDataByIdAndQueryId() called: %@", data);
         
         NSString *dataId = [data objectForKey:@"dataId"];
         NSString *queryId = [data objectForKey:@"queryId"];
@@ -215,7 +243,7 @@
     
     // searchData()
     [self.javascriptBridge registerHandler:@"searchData" handler:^(id data, WVJBResponseCallback responseCallback) {
-        LogDebug(@"CommonWebViewController::searchData() called: %@", data);
+        LogDebug(@"KnowledgeWebViewController::searchData() called: %@", data);
         
         NSString *searchId = (NSString *)data;
         
@@ -227,7 +255,7 @@
     
     // hasNodeDownloaded()
     [self.javascriptBridge registerHandler:@"hasNodeDownloaded" handler:^(id dataId, WVJBResponseCallback responseCallback) {
-        LogDebug(@"CommonWebViewController::hasNodeDownloaded() called: %@", dataId);
+        LogDebug(@"KnowledgeWebViewController::hasNodeDownloaded() called: %@", dataId);
         
         NSString *pagePath = [[KnowledgeManager instance] getPagePath:dataId];
         BOOL downloaded = (pagePath == nil || pagePath.length <= 0 ? NO : YES);
@@ -239,7 +267,7 @@
     
     // tryDownloadNodeById()
     [self.javascriptBridge registerHandler:@"tryDownloadNodeById" handler:^(id dataId, WVJBResponseCallback responseCallback) {
-        LogDebug(@"CommonWebViewController::tryDownloadNodeById() called: %@", dataId);
+        LogDebug(@"KnowledgeWebViewController::tryDownloadNodeById() called: %@", dataId);
         
         [[KnowledgeManager instance] getRemoteData:dataId];
         
@@ -249,7 +277,7 @@
     
     // getDataStatus()
     [self.javascriptBridge registerHandler:@"getDataStatus" handler:^(id dataId, WVJBResponseCallback responseCallback) {
-        LogDebug(@"CommonWebViewController::getDataStatus() called: %@", dataId);
+        LogDebug(@"KnowledgeWebViewController::getDataStatus() called: %@", dataId);
         
         if (responseCallback != nil) {
             // status##desc
@@ -260,14 +288,14 @@
     
     // startCheckDataUpdate()
     [self.javascriptBridge registerHandler:@"startCheckDataUpdate" handler:^(id data, WVJBResponseCallback responseCallback) {
-        LogDebug(@"CommonWebViewController::startCheckDataUpdate() called: %@", data);
+        LogDebug(@"KnowledgeWebViewController::startCheckDataUpdate() called: %@", data);
         
         [[KnowledgeManager instance] startCheckDataUpdate];
     }];
     
     // showPageById()
     [self.javascriptBridge registerHandler:@"showPageById" handler:^(id data, WVJBResponseCallback responseCallback) {
-        LogDebug(@"CommonWebViewController::showPageById() called: %@", data);
+        LogDebug(@"KnowledgeWebViewController::showPageById() called: %@", data);
         
         NSString *pageID = [data objectForKey:@"pageID"];
         NSString *args = [data objectForKey:@"args"];
@@ -278,7 +306,7 @@
     
     // showSafeURL()
     [self.javascriptBridge registerHandler:@"showSafeURL" handler:^(id dataId, WVJBResponseCallback responseCallback) {
-        LogDebug(@"CommonWebViewController::showSafeURL() called: %@", dataId);
+        LogDebug(@"KnowledgeWebViewController::showSafeURL() called: %@", dataId);
         
         NSString *urlStr = (NSString *)dataId;
         [self showSafeURL:urlStr];
@@ -294,7 +322,7 @@
     
     // pageStatistic()
     [self.javascriptBridge registerHandler:@"pageStatistic" handler:^(id data, WVJBResponseCallback responseCallback) {
-        LogDebug(@"CommonWebViewController::pageStatistic() called: %@", data);
+        LogDebug(@"KnowledgeWebViewController::pageStatistic() called: %@", data);
         
         NSString *eventName = [data objectForKey:@"eventName"];
         NSString *args = [data objectForKey:@"args"];
@@ -304,7 +332,7 @@
     
     // 获取机器型号
     [self.javascriptBridge registerHandler:@"getDeviceModel" handler:^(id data, WVJBResponseCallback responseCallback) {
-        LogDebug(@"CommonWebViewController::getDeviceModel() called: %@", data);
+        LogDebug(@"KnowledgeWebViewController::getDeviceModel() called: %@", data);
         
         if (responseCallback) {
             NSString *model = [DeviceUtil getModel];
@@ -314,7 +342,7 @@
     
     // 进入政治客观题大赛入口页
     [self.javascriptBridge registerHandler:@"showWebUrl" handler:^(id data, WVJBResponseCallback responseCallback) {
-        LogDebug(@"CommonWebViewController::showWebUrl() called: %@", data);
+        LogDebug(@"KnowledgeWebViewController::showWebUrl() called: %@", data);
         
         NSString *webUrl = (NSString *)data;
         MatchViewController *match = [[MatchViewController alloc] init];
@@ -340,7 +368,8 @@
     return YES;
 }
 
-- (UIColor *)getColor:(NSString*)hexColor {
+- (UIColor *)getColor:(NSString*)hexColor
+{
     unsigned int red,green,blue;
     NSRange range;
     range.length = 2;
@@ -367,12 +396,28 @@
 //    self.webView.opaque = NO;
 //    self.webView.backgroundColor = [self getColor:@"353232"];
     
-    if (self.url == nil) {
+    if (self.pageId == nil) {
         return NO;
     }
     
-    // 打开url对应的页面
-    NSURL *urlWithParams = [[NSURL alloc] initWithString:self.url];
+    // 打开pageId对应的页面
+    NSString *pagePath = [[KnowledgeManager instance] getPagePath:self.pageId];
+    if (pagePath == nil || pagePath.length <= 0) {
+        return NO;
+    }
+    // 加载指定的html文件
+    NSURL *url = [[NSURL alloc] initFileURLWithPath:[NSString stringWithFormat:@"%@/%@", pagePath, @"index.html"]];
+    
+    //        NSString *urlStrWithParams = [NSString stringWithFormat:@"%@?page_id=%@&data_id=%@", [url absoluteString], self.pageId, dataId];
+    NSString *urlStrWithParams = [NSString stringWithFormat:@"%@?page_id=%@", [url absoluteString], self.pageId];
+    NSURL *urlWithParams = [[NSURL alloc] initWithString:urlStrWithParams];
+    
+    // test only
+    {
+////    urlWithParams = [[NSURL alloc] initWithString:@"http://www.baidu.com"]; // test only
+//    NSString *tmp = @"http://www.zaxue100.com/index.php?c=kaoyan_english_realexam_ctrl&m=year_list_page&year=2014&device=android";
+//    urlWithParams = [NSURL URLWithString:[tmp stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    }
     
     [self.webView loadRequest:[[NSURLRequest alloc] initWithURL:urlWithParams]];
     
@@ -449,7 +494,7 @@
                                                  name:MPMoviePlayerPlaybackDidFinishNotification
                                                object:[playerViewController moviePlayer]];
     
-    // play video
+    //---play movie---
     [[playerViewController moviePlayer] play];
     
     // 注: 用present会导致playerViewController中设置的transform不生效, 故转为push
@@ -497,87 +542,46 @@
     
 }
 
-#pragma mark - 屏幕旋转
-//
-//- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-//    if (interfaceOrientation==UIInterfaceOrientationLandscapeLeft) {
-//        //zuo
-//    }
-//    if (interfaceOrientation==UIInterfaceOrientationLandscapeRight) {
-//        //you
-//    }
-//    if (interfaceOrientation==UIInterfaceOrientationPortrait) {
-//        //shang
-//    }
-//    if (interfaceOrientation==UIInterfaceOrientationPortraitUpsideDown) {
-//        //xia
-//    }
-//    return YES;
-//}
-//
-//- (BOOL)shouldAutorotate {
-//    return YES;
-//}
-//
-//
-//
-//- (NSUInteger)supportedInterfaceOrientations {
-////    return UIInterfaceOrientationMaskAllButUpsideDown;
-//    return UIInterfaceOrientationMaskAll;
-////    return UIInterfaceOrientationPortrait;
-//}
-//
-//- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
-//    //宣告一個UIDevice指標，並取得目前Device的狀況
-//    UIDevice *device = [UIDevice currentDevice] ;
-//    //取得當前Device的方向，來當作判斷敘述。（Device的方向型態為Integer）
-//    switch (device.orientation) {
-//        case UIDeviceOrientationFaceUp:
-//            NSLog(@"螢幕朝上平躺");
-//            break;
-//        case UIDeviceOrientationFaceDown:
-//            NSLog(@"螢幕朝下平躺");
-//            break;
-//            //系統無法判斷目前Device的方向，有可能是斜置
-//        case UIDeviceOrientationUnknown:
-//            NSLog(@"未知方向");
-//            break;
-//        case UIDeviceOrientationLandscapeLeft:
-//            NSLog(@"螢幕向左橫置");
-//            break;
-//        case UIDeviceOrientationLandscapeRight:
-//            NSLog(@"螢幕向右橫置");
-//            break;
-//        case UIDeviceOrientationPortrait:
-//            NSLog(@"螢幕直立");
-//            break;
-//        case UIDeviceOrientationPortraitUpsideDown:
-//            NSLog(@"螢幕直立，上下顛倒");
-//            break;
-//        default:
-//            NSLog(@"無法辨識");
-//            break;    
-//    }
-//    
-//    CGRect frame = self.view.frame;
-//    self.webView.frame = frame;
-//    
-//    if (toInterfaceOrientation == UIInterfaceOrientationLandscapeLeft) { // 横屏, home在右
-//        
-//        ;
-//    }
-//    else if (toInterfaceOrientation == UIInterfaceOrientationLandscapeRight) { // 横屏, home在左
-//        ;
-//    }
-//    else if (toInterfaceOrientation == UIInterfaceOrientationPortrait) { // 竖屏, home在下
-//        ;
-//    }
-//    else if (toInterfaceOrientation == UIInterfaceOrientationPortraitUpsideDown) { // 竖屏, home在上
-//        ;
-//    }
-//
-//    [super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
-//}
-//
+#pragma mark - 更新
+- (void)updateApp {
+    [UpdateManager instance].delegate=self;
+    [[UpdateManager instance] checkUpdate];
+}
+
+- (void)onCheckUpdateResult:(UpdateInfo *)updateInfo {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        NSString *status=updateInfo.status;
+        if ([status isEqualToString:@"0"]) {
+            NSString *shouldUpdate=updateInfo.shouldUpdate;
+            if ([shouldUpdate isEqualToString:@"NO"]) {
+                LogInfo(@"已经是最新版本");
+            }
+            else {
+                
+                //            NSLog(@"appDownloadUrl====%@",updateInfo.appDownloadUrl);
+                self.updateAppURL=updateInfo.appDownloadUrl;
+                NSString *desc=updateInfo.appVersionDesc;
+                NSString *version=updateInfo.appVersionStr;
+                NSString *title=[NSString stringWithFormat:@"有新版本可供更新%@",version];
+                NSString *msg=[NSString stringWithFormat:@"更新信息：%@",desc];
+                UIAlertView *alert=[[UIAlertView alloc] initWithTitle:title message:msg delegate:self cancelButtonTitle:@"忽略" otherButtonTitles:@"更新", nil];
+                [alert show];
+            }
+        }
+        else {
+            LogError(@"检查版本更新出错");
+        }
+    });
+}
+
+#pragma mark alertView delegate method
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex != alertView.cancelButtonIndex) {
+        //        [self.navigationController pushViewController:self.updateApp animated:YES];
+        NSURL *requestURL = [NSURL URLWithString:[self.updateAppURL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+        
+        [[UIApplication sharedApplication] openURL:requestURL];
+    }
+}
 
 @end

@@ -14,7 +14,7 @@
 #import "ErrorManager.h"
 
 #import "ProgressOverlayViewController.h"
-#import "CommonWebViewController.h"
+#import "KnowledgeWebViewController.h"
 
 #import "TimeWatcher.h"
 
@@ -237,8 +237,8 @@
 
 #pragma mark - segue
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if ([segue.destinationViewController isKindOfClass:[CommonWebViewController class]]) {
-        CommonWebViewController *commonWebViewController = (CommonWebViewController *)segue.destinationViewController;
+    if ([segue.destinationViewController isKindOfClass:[KnowledgeWebViewController class]]) {
+        KnowledgeWebViewController *commonWebViewController = (KnowledgeWebViewController *)segue.destinationViewController;
         commonWebViewController.pageId = @"f6d2e269b46917647fbcd57fee1dbf07";
     }
 }

@@ -8,17 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
-@class KnowledgeSubject;
-
-
 
 @interface CommonWebViewController : UIViewController
 
 #pragma mark - properties
-@property (nonatomic, copy) KnowledgeSubject *knowledgeSubject;
 
-// web view展现时, 需要展示的page id
-@property (nonatomic, copy) NSString *pageId;
+// web view展现时, 需要展示的url
+@property (nonatomic, copy) NSString *url;
 
 
 
