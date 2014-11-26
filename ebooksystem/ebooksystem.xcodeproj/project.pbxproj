@@ -70,8 +70,6 @@
 		06AAC9F919F67E1D00A758DB /* PurchaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06AAC9F619F67E1D00A758DB /* PurchaseViewController.m */; };
 		06AAC9FA19F67E1D00A758DB /* TBActivityView.m in Sources */ = {isa = PBXBuildFile; fileRef = 06AAC9F819F67E1D00A758DB /* TBActivityView.m */; };
 		06B7F86319D53AF50017EA4D /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 06B7F86219D53AF50017EA4D /* libz.dylib */; };
-		06DC83091A2488DF00B3A7C0 /* AliPayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06DC83061A2488DF00B3A7C0 /* AliPayViewController.m */; };
-		06DC830A1A2488DF00B3A7C0 /* Order.m in Sources */ = {isa = PBXBuildFile; fileRef = 06DC83081A2488DF00B3A7C0 /* Order.m */; };
 		06DC831E1A24893400B3A7C0 /* base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 06DC830E1A24893400B3A7C0 /* base64.m */; };
 		06DC831F1A24893400B3A7C0 /* DataSigner.m in Sources */ = {isa = PBXBuildFile; fileRef = 06DC83111A24893400B3A7C0 /* DataSigner.m */; };
 		06DC83201A24893400B3A7C0 /* DataVerifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 06DC83131A24893400B3A7C0 /* DataVerifier.m */; };
@@ -80,8 +78,11 @@
 		06DC83231A24893400B3A7C0 /* openssl_wrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 06DC83191A24893400B3A7C0 /* openssl_wrapper.m */; };
 		06DC83241A24893400B3A7C0 /* RSADataSigner.m in Sources */ = {isa = PBXBuildFile; fileRef = 06DC831B1A24893400B3A7C0 /* RSADataSigner.m */; };
 		06DC83251A24893400B3A7C0 /* RSADataVerifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 06DC831D1A24893400B3A7C0 /* RSADataVerifier.m */; };
-		06DC83281A24897D00B3A7C0 /* AlipaySDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 06DC83261A24897D00B3A7C0 /* AlipaySDK.bundle */; };
-		06DC83291A24897D00B3A7C0 /* AlipaySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06DC83271A24897D00B3A7C0 /* AlipaySDK.framework */; };
+		06DC83301A256F1300B3A7C0 /* AliPayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06DC832D1A256F1300B3A7C0 /* AliPayViewController.m */; };
+		06DC83311A256F1300B3A7C0 /* Order.m in Sources */ = {isa = PBXBuildFile; fileRef = 06DC832F1A256F1300B3A7C0 /* Order.m */; };
+		06DC83341A256FAD00B3A7C0 /* AlipaySDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 06DC83321A256FAD00B3A7C0 /* AlipaySDK.bundle */; };
+		06DC83351A256FAD00B3A7C0 /* AlipaySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06DC83331A256FAD00B3A7C0 /* AlipaySDK.framework */; };
+		06DC83361A25700100B3A7C0 /* AlipaySDK.bundle in Frameworks */ = {isa = PBXBuildFile; fileRef = 06DC83321A256FAD00B3A7C0 /* AlipaySDK.bundle */; };
 		710C02B119E0394100C27A33 /* SubjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 710C02B019E0394100C27A33 /* SubjectViewController.m */; };
 		710C02B519E03E4F00C27A33 /* KnowledgeSubject.m in Sources */ = {isa = PBXBuildFile; fileRef = 710C02B419E03E4F00C27A33 /* KnowledgeSubject.m */; };
 		710C02BA19E0457A00C27A33 /* SubjectTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 710C02B819E0457A00C27A33 /* SubjectTableViewCell.m */; };
@@ -390,10 +391,6 @@
 		06AAC9F719F67E1D00A758DB /* TBActivityView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TBActivityView.h; sourceTree = "<group>"; };
 		06AAC9F819F67E1D00A758DB /* TBActivityView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TBActivityView.m; sourceTree = "<group>"; };
 		06B7F86219D53AF50017EA4D /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
-		06DC83051A2488DF00B3A7C0 /* AliPayViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AliPayViewController.h; sourceTree = "<group>"; };
-		06DC83061A2488DF00B3A7C0 /* AliPayViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AliPayViewController.m; sourceTree = "<group>"; };
-		06DC83071A2488DF00B3A7C0 /* Order.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Order.h; sourceTree = "<group>"; };
-		06DC83081A2488DF00B3A7C0 /* Order.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Order.m; sourceTree = "<group>"; };
 		06DC830D1A24893400B3A7C0 /* base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = base64.h; sourceTree = "<group>"; };
 		06DC830E1A24893400B3A7C0 /* base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = base64.m; sourceTree = "<group>"; };
 		06DC830F1A24893400B3A7C0 /* config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = config.h; sourceTree = "<group>"; };
@@ -411,8 +408,12 @@
 		06DC831B1A24893400B3A7C0 /* RSADataSigner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSADataSigner.m; sourceTree = "<group>"; };
 		06DC831C1A24893400B3A7C0 /* RSADataVerifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSADataVerifier.h; sourceTree = "<group>"; };
 		06DC831D1A24893400B3A7C0 /* RSADataVerifier.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSADataVerifier.m; sourceTree = "<group>"; };
-		06DC83261A24897D00B3A7C0 /* AlipaySDK.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = AlipaySDK.bundle; sourceTree = "<group>"; };
-		06DC83271A24897D00B3A7C0 /* AlipaySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AlipaySDK.framework; sourceTree = "<group>"; };
+		06DC832C1A256F1300B3A7C0 /* AliPayViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AliPayViewController.h; sourceTree = "<group>"; };
+		06DC832D1A256F1300B3A7C0 /* AliPayViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AliPayViewController.m; sourceTree = "<group>"; };
+		06DC832E1A256F1300B3A7C0 /* Order.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Order.h; sourceTree = "<group>"; };
+		06DC832F1A256F1300B3A7C0 /* Order.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Order.m; sourceTree = "<group>"; };
+		06DC83321A256FAD00B3A7C0 /* AlipaySDK.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = AlipaySDK.bundle; sourceTree = "<group>"; };
+		06DC83331A256FAD00B3A7C0 /* AlipaySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AlipaySDK.framework; sourceTree = "<group>"; };
 		710C02AF19E0394100C27A33 /* SubjectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SubjectViewController.h; path = src/subject/controller/SubjectViewController.h; sourceTree = "<group>"; };
 		710C02B019E0394100C27A33 /* SubjectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SubjectViewController.m; path = src/subject/controller/SubjectViewController.m; sourceTree = "<group>"; };
 		710C02B319E03E4F00C27A33 /* KnowledgeSubject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KnowledgeSubject.h; path = src/subject/model/KnowledgeSubject.h; sourceTree = "<group>"; };
@@ -846,6 +847,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				06DC83351A256FAD00B3A7C0 /* AlipaySDK.framework in Frameworks */,
+				06DC83361A25700100B3A7C0 /* AlipaySDK.bundle in Frameworks */,
 				71314D251A246BDD004D1873 /* libUMSocial_Sdk_ScreenShot_1.0.a in Frameworks */,
 				06A980671A0B7674004E7E6C /* libsqlite3.dylib in Frameworks */,
 				06A980651A0B7660004E7E6C /* libiconv.dylib in Frameworks */,
@@ -854,7 +857,6 @@
 				7116EEFC19FCE9E000336309 /* libUMFeedback.a in Frameworks */,
 				71314D301A246C09004D1873 /* libSocialWechat.a in Frameworks */,
 				718707B219FA00A000F49D23 /* MediaPlayer.framework in Frameworks */,
-				06DC83291A24897D00B3A7C0 /* AlipaySDK.framework in Frameworks */,
 				715EE9BE19E83366005A4F78 /* SystemConfiguration.framework in Frameworks */,
 				7116EEFB19FCE9E000336309 /* libMobClickLibrary.a in Frameworks */,
 				71314D1E1A246BC6004D1873 /* libSocialQQ.a in Frameworks */,
@@ -912,8 +914,6 @@
 		0690781719CFD62700CD9C3D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				06DC83261A24897D00B3A7C0 /* AlipaySDK.bundle */,
-				06DC83271A24897D00B3A7C0 /* AlipaySDK.framework */,
 				06A980661A0B7674004E7E6C /* libsqlite3.dylib */,
 				06A980641A0B7660004E7E6C /* libiconv.dylib */,
 				06A980621A0B763F004E7E6C /* CoreTelephony.framework */,
@@ -1600,21 +1600,11 @@
 			path = purchase;
 			sourceTree = "<group>";
 		};
-		06DC83041A2488DF00B3A7C0 /* Alipays */ = {
-			isa = PBXGroup;
-			children = (
-				06DC83051A2488DF00B3A7C0 /* AliPayViewController.h */,
-				06DC83061A2488DF00B3A7C0 /* AliPayViewController.m */,
-				06DC83071A2488DF00B3A7C0 /* Order.h */,
-				06DC83081A2488DF00B3A7C0 /* Order.m */,
-			);
-			name = Alipays;
-			path = src/Alipays;
-			sourceTree = "<group>";
-		};
 		06DC830B1A24893400B3A7C0 /* AliPay */ = {
 			isa = PBXGroup;
 			children = (
+				06DC83321A256FAD00B3A7C0 /* AlipaySDK.bundle */,
+				06DC83331A256FAD00B3A7C0 /* AlipaySDK.framework */,
 				06DC830C1A24893400B3A7C0 /* Util */,
 			);
 			name = AliPay;
@@ -1643,6 +1633,26 @@
 				06DC831D1A24893400B3A7C0 /* RSADataVerifier.m */,
 			);
 			path = Util;
+			sourceTree = "<group>";
+		};
+		06DC832A1A256F1300B3A7C0 /* payment */ = {
+			isa = PBXGroup;
+			children = (
+				06DC832B1A256F1300B3A7C0 /* Alipays */,
+			);
+			name = payment;
+			path = src/payment;
+			sourceTree = "<group>";
+		};
+		06DC832B1A256F1300B3A7C0 /* Alipays */ = {
+			isa = PBXGroup;
+			children = (
+				06DC832C1A256F1300B3A7C0 /* AliPayViewController.h */,
+				06DC832D1A256F1300B3A7C0 /* AliPayViewController.m */,
+				06DC832E1A256F1300B3A7C0 /* Order.h */,
+				06DC832F1A256F1300B3A7C0 /* Order.m */,
+			);
+			path = Alipays;
 			sourceTree = "<group>";
 		};
 		710C02A819DE985200C27A33 /* storyboard */ = {
@@ -2148,7 +2158,7 @@
 		71860B6A19DC204C00D01AA9 /* src */ = {
 			isa = PBXGroup;
 			children = (
-				06DC83041A2488DF00B3A7C0 /* Alipays */,
+				06DC832A1A256F1300B3A7C0 /* payment */,
 				71860BDA19DC6D1B00D01AA9 /* data */,
 				7156B0CE19F8F04C00B3A521 /* startup */,
 				06AA7EF819F4FC7E00570289 /* menu */,
@@ -2510,13 +2520,13 @@
 				06AA7EEB19F4FAF600570289 /* rsa_private_key.pem in Resources */,
 				715EE97E19E594D9005A4F78 /* WebViewJavascriptBridge.js.txt in Resources */,
 				71314D521A246C68004D1873 /* UMSShareListController.xib in Resources */,
+				06DC83341A256FAD00B3A7C0 /* AlipaySDK.bundle in Resources */,
 				71CC8B5F1A1B1C9F00DF59D9 /* VERSION in Resources */,
 				71CC8BAC1A1B1CC300DF59D9 /* rsa.h.bak in Resources */,
 				710C02C119E054B700C27A33 /* res in Resources */,
 				71314D4D1A246C68004D1873 /* UMSCommentInputControlleriPad.xib in Resources */,
 				71314D4B1A246C68004D1873 /* UMSCommentDetailController.xib in Resources */,
 				710C02BD19E0547600C27A33 /* storyboard_main_iphone.storyboard in Resources */,
-				06DC83281A24897D00B3A7C0 /* AlipaySDK.bundle in Resources */,
 				06A980171A0B609A004E7E6C /* webview-js-bridge.js in Resources */,
 				71314D501A246C68004D1873 /* UMSLoginViewController.xib in Resources */,
 				71314D291A246BF3004D1873 /* ios-social-sdk-shake.html in Resources */,
@@ -2589,7 +2599,6 @@
 				71860BDE19DC6DA500D01AA9 /* KnowledgeManager.m in Sources */,
 				715EE9A719E832ED005A4F78 /* JSONModelArray.m in Sources */,
 				715EE99519E81794005A4F78 /* DeviceUtil.m in Sources */,
-				06DC83091A2488DF00B3A7C0 /* AliPayViewController.m in Sources */,
 				710C035B19E1C90E00C27A33 /* SBJsonTokeniser.m in Sources */,
 				71860C0A19DE546700D01AA9 /* KnowledgeDownloadItem.m in Sources */,
 				715EE9BC19E8332B005A4F78 /* JSONValueTransformer.m in Sources */,
@@ -2630,6 +2639,7 @@
 				715EE97819E52749005A4F78 /* QBTitleView.m in Sources */,
 				7156B09A19F50F1400B3A521 /* AppConfig.m in Sources */,
 				71314D5E1A246D48004D1873 /* UpdateAppViewController.m in Sources */,
+				06DC83311A256F1300B3A7C0 /* Order.m in Sources */,
 				71860BE919DC7B4300D01AA9 /* KnowledgeDataConfig.m in Sources */,
 				06AA7E9319F4FAE100570289 /* SecurityUtil.m in Sources */,
 				06AA7F5B19F4FC7E00570289 /* CustomLoginView.m in Sources */,
@@ -2711,6 +2721,7 @@
 				71860C0E19DE8DE600D01AA9 /* UUIDUtil.m in Sources */,
 				710C032819E1C8D000C27A33 /* AFHTTPRequestOperation.m in Sources */,
 				06AA7F6C19F4FD1400570289 /* UserManager.m in Sources */,
+				06DC83301A256F1300B3A7C0 /* AliPayViewController.m in Sources */,
 				715EE9B619E8331C005A4F78 /* JSONModel+networking.m in Sources */,
 				06AA7F5719F4FC7E00570289 /* LoginViewController.m in Sources */,
 				06AAC9FA19F67E1D00A758DB /* TBActivityView.m in Sources */,
@@ -2736,7 +2747,6 @@
 				71860BFF19DE50C300D01AA9 /* IASequentialDownloadHandler.m in Sources */,
 				710C033019E1C8D000C27A33 /* AFURLSessionManager.m in Sources */,
 				7118EB8119EF6BE3002CF833 /* CustomContext.md in Sources */,
-				06DC830A1A2488DF00B3A7C0 /* Order.m in Sources */,
 				7156B0BF19F8BC7700B3A521 /* MRNavigationBarProgressView.m in Sources */,
 				06AA7F6319F4FC7E00570289 /* RechargeModel.m in Sources */,
 				06AA7F5A19F4FC7E00570289 /* CustomLoginNavgationBar.m in Sources */,
@@ -2908,6 +2918,7 @@
 					"$(PROJECT_DIR)/ebooksystem/depends/umengShare/UMSocial_Sdk_Extra_Frameworks/TencentOpenAPI",
 					"$(PROJECT_DIR)/ebooksystem/depends/umeng/share/UMSocial_Sdk_Extra_Frameworks/TencentOpenAPI",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/ebooksystem/depends/AliPay",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ebooksystem/ebooksystem-Prefix.pch";
@@ -2959,6 +2970,7 @@
 					"$(PROJECT_DIR)/ebooksystem/depends/umengShare/UMSocial_Sdk_Extra_Frameworks/TencentOpenAPI",
 					"$(PROJECT_DIR)/ebooksystem/depends/umeng/share/UMSocial_Sdk_Extra_Frameworks/TencentOpenAPI",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/ebooksystem/depends/AliPay",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ebooksystem/ebooksystem-Prefix.pch";
