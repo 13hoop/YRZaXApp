@@ -70,6 +70,7 @@
 		06AAC9F919F67E1D00A758DB /* PurchaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06AAC9F619F67E1D00A758DB /* PurchaseViewController.m */; };
 		06AAC9FA19F67E1D00A758DB /* TBActivityView.m in Sources */ = {isa = PBXBuildFile; fileRef = 06AAC9F819F67E1D00A758DB /* TBActivityView.m */; };
 		06B7F86319D53AF50017EA4D /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 06B7F86219D53AF50017EA4D /* libz.dylib */; };
+		06CFD7451A25A83400D787FD /* AliPayManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 06CFD7441A25A83400D787FD /* AliPayManager.m */; };
 		06DC831E1A24893400B3A7C0 /* base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 06DC830E1A24893400B3A7C0 /* base64.m */; };
 		06DC831F1A24893400B3A7C0 /* DataSigner.m in Sources */ = {isa = PBXBuildFile; fileRef = 06DC83111A24893400B3A7C0 /* DataSigner.m */; };
 		06DC83201A24893400B3A7C0 /* DataVerifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 06DC83131A24893400B3A7C0 /* DataVerifier.m */; };
@@ -391,6 +392,9 @@
 		06AAC9F719F67E1D00A758DB /* TBActivityView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TBActivityView.h; sourceTree = "<group>"; };
 		06AAC9F819F67E1D00A758DB /* TBActivityView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TBActivityView.m; sourceTree = "<group>"; };
 		06B7F86219D53AF50017EA4D /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		06CFD7431A25A83400D787FD /* AliPayManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AliPayManager.h; sourceTree = "<group>"; };
+		06CFD7441A25A83400D787FD /* AliPayManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AliPayManager.m; sourceTree = "<group>"; };
+		06CFD7461A25AC3900D787FD /* PartnerConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PartnerConfig.h; sourceTree = "<group>"; };
 		06DC830D1A24893400B3A7C0 /* base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = base64.h; sourceTree = "<group>"; };
 		06DC830E1A24893400B3A7C0 /* base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = base64.m; sourceTree = "<group>"; };
 		06DC830F1A24893400B3A7C0 /* config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = config.h; sourceTree = "<group>"; };
@@ -1651,6 +1655,9 @@
 				06DC832D1A256F1300B3A7C0 /* AliPayViewController.m */,
 				06DC832E1A256F1300B3A7C0 /* Order.h */,
 				06DC832F1A256F1300B3A7C0 /* Order.m */,
+				06CFD7431A25A83400D787FD /* AliPayManager.h */,
+				06CFD7441A25A83400D787FD /* AliPayManager.m */,
+				06CFD7461A25AC3900D787FD /* PartnerConfig.h */,
 			);
 			path = Alipays;
 			sourceTree = "<group>";
@@ -2744,6 +2751,7 @@
 				7118EB6719EF6B7F002CF833 /* DDDispatchQueueLogFormatter.m in Sources */,
 				710C035D19E1C90E00C27A33 /* SBJsonWriter.m in Sources */,
 				06DC831E1A24893400B3A7C0 /* base64.m in Sources */,
+				06CFD7451A25A83400D787FD /* AliPayManager.m in Sources */,
 				71860BFF19DE50C300D01AA9 /* IASequentialDownloadHandler.m in Sources */,
 				710C033019E1C8D000C27A33 /* AFURLSessionManager.m in Sources */,
 				7118EB8119EF6BE3002CF833 /* CustomContext.md in Sources */,
