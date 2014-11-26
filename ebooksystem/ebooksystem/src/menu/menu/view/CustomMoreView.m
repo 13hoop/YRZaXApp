@@ -20,17 +20,8 @@
 #define FONT_SIZE 15.0f
 
 
-typedef enum {
-    MENU_STYLE_OLD = 0, // 老菜单样式
-    MENU_STYLE_NEW // 新菜单样式
-} MenuStyle;
-
-
-
 @interface CustomMoreView() <UITableViewDelegate, UITableViewDataSource>
 
-// 菜单样式
-@property (nonatomic, assign) MenuStyle menuStyle;
 
 @property (nonatomic, strong) UITableView *table;
 @property (nonatomic, strong) UITableViewCell *cell;

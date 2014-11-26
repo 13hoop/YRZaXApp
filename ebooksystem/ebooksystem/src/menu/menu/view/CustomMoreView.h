@@ -8,6 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
+typedef enum {
+    MENU_STYLE_OLD = 0, // 老菜单样式
+    MENU_STYLE_NEW // 新菜单样式
+} MenuStyle;
 
 typedef enum {
     VIEW_ITEM_NONE = -1, // 空
@@ -25,8 +29,6 @@ typedef enum {
 
 @protocol CustomMoreViewDelegate <NSObject>
 
--(void)getSelectIndexPath:(NSIndexPath*)indexPath;
-
 // 点击某item后的响应
 - (void)viewItemClicked:(ViewItemId)viewItemId;
 
@@ -35,6 +37,9 @@ typedef enum {
 @interface CustomMoreView : UIView
 // delegate
 @property(nonatomic, weak) id<CustomMoreViewDelegate> more_delegate;
+
+// 菜单样式
+@property (nonatomic, assign) MenuStyle menuStyle;
 
 // ui
 // 实现注册成功时显示用户名的功能

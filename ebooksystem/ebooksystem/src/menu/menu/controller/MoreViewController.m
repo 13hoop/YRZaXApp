@@ -69,30 +69,33 @@
     [self addNavigationBar];
     [self addCustomMoreview];
     [self getNewBalance];
-    self.manage=[UserManager shareInstance];
+    self.manage = [UserManager shareInstance];
     self.manage.upDateBalance_delegate = self;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-    // 问题：每次pop回去，页面就消失了，所以self.moreview就不存在了，即使在userdefault中存在，也不会已出现就显示出来。
     self.navigationController.navigationBarHidden = YES;
     [super viewWillAppear:animated];
     
     [[StatisticsManager instance] beginLogPageView:@"PageMore"];
     
-    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"userInfoName"]) {
-         self.moreView.userNameLabel.text = [[NSUserDefaults standardUserDefaults] objectForKey:@"userInfoName"];
-    }
-    else {
-        self.moreView.userNameLabel.textColor = [UIColor colorWithHexString:@"aaaaaa" alpha:1];
-        self.moreView.userNameLabel.text = @"登录体验更多精彩内容";
-    }
-    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"surplus_score"]) {
-        self.moreView.lable.text = [[NSUserDefaults standardUserDefaults] objectForKey:@"surplus_score"];
-
-    }
-    else {
-        self.moreView.lable.text = @"0.00";
+    if (self.moreView.menuStyle == MENU_STYLE_OLD) {
+        // 用户信息
+        if ([[NSUserDefaults standardUserDefaults] objectForKey:@"userInfoName"]) {
+            self.moreView.userNameLabel.text = [[NSUserDefaults standardUserDefaults] objectForKey:@"userInfoName"];
+        }
+        else {
+            self.moreView.userNameLabel.textColor = [UIColor colorWithHexString:@"aaaaaa" alpha:1];
+            self.moreView.userNameLabel.text = @"登录体验更多精彩内容";
+        }
+        
+        // 余额
+        if ([[NSUserDefaults standardUserDefaults] objectForKey:@"surplus_score"]) {
+            self.moreView.lable.text = [[NSUserDefaults standardUserDefaults] objectForKey:@"surplus_score"];
+        }
+        else {
+            self.moreView.lable.text = @"0.00";
+        }
     }
 }
 
@@ -128,133 +131,6 @@
 }
 
 #pragma mark - CustomMoreView delegate method
--(void)getSelectIndexPath:(NSIndexPath *)indexPath {
-    NSInteger section = indexPath.section;
-    NSInteger row = indexPath.row;
-    switch (section) {
-        case 0:
-            //　登入/登出
-            if (row == 0) {
-                // 登出
-                if ([[NSUserDefaults standardUserDefaults] objectForKey:@"userInfoName"] != NULL) {
-                    // 进入到用户信息界面,
-                    // 只要登陆成功了，本地就会存储相关的用户名和密码
-                    // 因此需要退出登录时把本地的数据置为空
-                    
-                    // native logout
-                    LogoutViewController *logout = [[LogoutViewController alloc] init];
-                    [self.navigationController pushViewController:logout animated:YES];
-                }
-                //　登入
-                else {
-                    self.moreView.userNameLabel.text = @"登录";
-                    
-//                    // native login
-//                    LoginViewController *login = [[LoginViewController alloc] init];
-//                    [self.navigationController pushViewController:login animated:YES];
-                    
-                    // web loging
-                    CommonWebViewController *webViewController = [[CommonWebViewController alloc] init];
-                    webViewController.url = [Config instance].userConfig.urlForLogin;
-                    [self.navigationController pushViewController:webViewController animated:YES];
-                }
-            }
-            break;
-        case 1:
-            if (row == 0) {
-                //进行正版验证
-                if ([[NSUserDefaults standardUserDefaults] objectForKey:@"userInfoName"])
-                {
-                    RechargeViewController *recharge=[[RechargeViewController alloc] init];
-                    [self.navigationController pushViewController:recharge animated:YES];
-                }
-                else
-                {
-                    UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"温馨提示" message:@"您还没有登录,请您先登录" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
-//                    alert.backgroundColor=[UIColor lightGrayColor];
-                    [alert show];
-                
-                }
-               
-            }
-            
-            break;
-        case 2:
-            if (row==0)
-            {
-                //购买干货书籍
-                
-                PurchaseViewController *purchase=[[PurchaseViewController alloc] init];
-                [self.navigationController pushViewController:purchase animated:YES];
-                
-            }
-            else
-            {
-                if(row==1)
-                {
-                    //友盟分享
-                    
-                    //意见反馈
-                    [self showNativeFeedbackWithAppkey:[[StatisticsManager instance] appKeyFromUmeng]];
-                }
-                else
-                {
-                    if (row == 2)
-                    {
-//                        //意见反馈
-//                        [self showNativeFeedbackWithAppkey:[[StatisticsManager instance] appKeyFromUmeng]];
-                        
-                        
-                        //软件更新
-//                        [[StatisticsManager instance] checkUpdate];
-                        //                            [MobClick checkUpdate:@"新版本" cancelButtonTitle:@"稍后更新" otherButtonTitles:@"立即更新"];
-                        
-                        //软件更新自定义
-//                        [MobClick checkUpdateWithDelegate:self selector:@selector(appUpdate:)];
-                        self.updatemanager=[UpdateManager instance];
-                        self.updatemanager.delegate=self;
-                        [self.updatemanager checkUpdate];
-                        
-
-                        
-                    }
-                    else
-                    {
-                        if (row == 3)
-                        {
-//                            //软件更新
-//                            [[StatisticsManager instance] checkUpdate];
-//                            [MobClick checkUpdate:@"新版本" cancelButtonTitle:@"稍后更新" otherButtonTitles:@"立即更新"];
-//
-////                            //软件更新自定义
-//                            [MobClick checkUpdateWithDelegate:self selector:@selector(appUpdate:)];
-//
-                            //暂时关掉
-//                            AboutUsViewController *aboutUsview = [[AboutUsViewController alloc] init];
-//                            [self.navigationController pushViewController:aboutUsview animated:YES];
-                            
-                            [self toAlipay];
-                        }
-//                        else
-//                        {
-//                            //关于
-//                            if (row==4)
-//                            {
-////                                AboutUsViewController *aboutUsview = [[AboutUsViewController alloc] init];
-////                                [self.navigationController pushViewController:aboutUsview animated:YES];
-//                            }
-//                            
-//                        }
-                        
-                    }
-                }
-            }
-           
-            break;
-        default:
-            break;
-    }
-}
 
 // 点击某item后的响应
 - (void)viewItemClicked:(ViewItemId)viewItemId {
