@@ -31,7 +31,7 @@
 #import "UpdateAppViewController.h"
 
 #import "CommonWebViewController.h"
-
+#import "AliPayViewController.h"
 
 //#define UMENG_APPKEY @"5420c86efd98c51541017684"
 
@@ -228,10 +228,12 @@
 //
 ////                            //软件更新自定义
 //                            [MobClick checkUpdateWithDelegate:self selector:@selector(appUpdate:)];
+//
+                            //暂时关掉
+//                            AboutUsViewController *aboutUsview = [[AboutUsViewController alloc] init];
+//                            [self.navigationController pushViewController:aboutUsview animated:YES];
                             
-                            AboutUsViewController *aboutUsview = [[AboutUsViewController alloc] init];
-                            [self.navigationController pushViewController:aboutUsview animated:YES];
-                            
+                            [self toAlipay];
                         }
 //                        else
 //                        {
@@ -347,6 +349,13 @@
 {
     
     self.moreView.lable.text=[[NSUserDefaults standardUserDefaults] objectForKey:@"surplus_score"];
+}
+#pragma mark test alipay
+-(void)toAlipay
+{
+    AliPayViewController *alipay=[[AliPayViewController alloc] init];
+    [self.navigationController pushViewController:alipay animated:YES];
+    
 }
 
 @end
