@@ -56,6 +56,12 @@
     NSString *seller = @"yingtehua8@sina.com";
     //私钥是支付宝给的，还是自己生成的？
     NSString *privateKey=@"MIICdQIBADANBgkqhkiG9w0BAQEFAASCAl8wggJbAgEAAoGBAL0M8jaJCm9bMb7PjgI0wR9+mpzWTcNTwTyYBEXmrJg3MjRVluUezDjQhQBSrgaMTeM40cz+1Nt/f1OlS/vB9PzGSF+MDty6zS0NQEEvVjUUge7PsOtbPDIEmuPppKIj4wETfavaZt7j4/kVuABDC2P1DpPRP686dJsNTkSO5qrNAgMBAAECgYApxEVy9P3gMkagQFzAcgVEvwTLp7EQeV2U1IUFKHxzOKaX11z6C77UwoTP2HRoL/E5RSFc5+QBBn8L7NYHrgdAu4L5Kl048saM53QyXJviQs7lgxDSBbo+EHDY9OJJsVRalpqKSirgBZmce/M4/tNhDxUfV5yXvxOC43JEr92UIQJBAPXbahDDMN+D0MqG1y0zPyU5bJwopXsSLIxpqp4vRmHokMxlber5HGMgSSnVQ9x9j974G1RSamqV34xwnqPzIlUCQQDE2ZPgtKd9Te19kGpmmCs64iqlkUVabAuKI8wMyx4hGZx6/EpeufFiTpF3F3YDN37JOenBefLL9UIkrOrjXI6ZAkBmpX75FKV5DG3FwNph0r2QaxM/d3DvmzziOtOzS4WVJyYdUFO+ANerQzWIs7OrgPjqXKf8YpRvf7dfyT1SshYpAkAhj0qDw6jOVwvHHWjWZtjv6AEHSxX8zXDGM0YlZDeVww0Hdp2jOqYpcWWhXRGUiNCHs+TjREwdc4m8QPKmom/5AkAYGRw6TLB/XWfEvlGLMHMmbZWMXDBdBmlIN+JK2oRjIoTryG35KlXzAHWcAq2xVhvCd6gJjz9arUmqewOLBMWn";
+    
+    /*
+    NSString *partner=@"2088611384912771";
+    NSString *seller=@"swsk@diyebook.cn";
+    NSString *privateKey=@"MIICXAIBAAKBgQC1wDDxBnf7U/Sn7gCXllBu8M/pV7vyf/FrUrcfb+AU5SwXUD4w\nyt30P75k70EZ7u8Ix2cBMQg129Uif0Pd5UX/6G+ISNo3NnUF01FdcUsnTQT7ZCIB\nYOvY4wYsvvox5qbANDhAPByS4hXVWH6j9GqYD3zLvYpC9WQB+l2eZD3otwIDAQAB\nAoGAcJrut6YmWBSgFBslSsXad6HDbvLog0o5rSDGTDfoQYnrU1Zn8Zr/AQEtWSPS\n1dpvRqUkcFyMlbHpz0HCLoyKXQJ7AhpL+B4irAqxCm0d3P2B2e9ehuW3et+eING9\nw2pNRR+SG/AzlZTEeB8RuV+wTXmUpYh7ka7AOSGZJCYEdoECQQDtyAkMcUrpCgua\niSh6g8fCEWsyowWpZ79vmAUMRJVXs4g5zDmn79VAdb1Ka6QemchrVdM7E45mglBC\nbsFA0AfHAkEAw60kdsEGECsIdkjrKLYCVizKA2R2ryDVPRoSUCL0ZXxDbCPgbs2N\nYoOXNooU4mO0np2oaAbrkmAEk8eWJtR3kQJBAJDP97rNMKsWhBScnbtnkHu/sgKH\nyEXwumUTN1fOWQmtfDR/DUoaxUxZqGuvfKdqTuYXwepDscD6cjjTTPzU9TcCQEv4\n3HBzDwyV+KocM5lR2WRl7WUVy3LBV6lqhvOwLp18epzw7QF4M02tc7dMM0GWnpj6\n81i4XxwsxXovAqA+29ECQHItkKDXqbeUWD6FMsHchQj2EckvnnRdz8JmayyjPBQI\nmSihJZUK9MT+yZItzH5Id0LarB5EqKbmM8XXpdoxhD0=";
+     */
     /*============================================================================*/
     /*============================================================================*/
     /*============================================================================*/
