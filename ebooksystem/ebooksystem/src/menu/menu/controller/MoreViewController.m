@@ -262,7 +262,7 @@
         case VIEW_ITEM_USER_INFO_VIA_WEB:
         {
             CommonWebViewController *webViewController = [[CommonWebViewController alloc] init];
-            webViewController.url = [Config instance].userConfig.urlForLogin;
+            webViewController.url = [Config instance].userConfig.urlForUserInfo;
             [self.navigationController pushViewController:webViewController animated:YES];
         }
             break;

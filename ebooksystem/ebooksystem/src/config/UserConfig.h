@@ -17,6 +17,9 @@
 // 有关用户充值的提示信息
 - (NSString *)tipForUserCharge;
 
+// 用户信息url
+- (NSString *)urlForUserInfo;
+
 // 登入url
 - (NSString *)urlForLogin;
 
