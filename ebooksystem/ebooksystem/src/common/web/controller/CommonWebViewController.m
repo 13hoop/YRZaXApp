@@ -490,7 +490,7 @@
 }
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
-    
+    [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies];
 }
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {

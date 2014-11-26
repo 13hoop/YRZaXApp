@@ -29,7 +29,7 @@
 
 #define UMAPPKEY @"543dea72fd98c5fc98004e08"
 
-@interface AppDelegate ()<UpdateManagerDelegate>
+@interface AppDelegate ()
 
 // 初始化app
 //- (BOOL)initApp;
