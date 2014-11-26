@@ -52,11 +52,10 @@
     /*============================================================================*/
     /*=======================需要填写商户app申请的===================================*/
     /*============================================================================*/
-    NSString *partner = @"2088101568353491";
-    NSString *seller = @"2088101568353491";
+    NSString *partner = @"2088511933544308";
+    NSString *seller = @"yingtehua8@sina.com";
     //私钥是支付宝给的，还是自己生成的？
-    NSString *privateKey =
-    @"MIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBAKcfzYN+td5aBCYUngMZu/i8WUazan7p+yPmiyO8aNZA2HSvbIfeTdx5g+PVqrQ3J9TypxVTtG4ukFn7OwimP+AYN4/5ZUsdYug0DalDhIrUeh6xX6uiS73Vw+m3a5GX5q/YdoIGDJFAY8eJjkqb7cYHnrNUo/9PKkQq+LJzjsCtAgMBAAECgYBbyEN9q+EFtDoDD9+XpFJvUEFXasFZ4fZiyQIxJhANWp+FtbHNDHGGW9XrEjUltATUFk9cjxPQTxJH2ImbPnJlJBXWVCdsxScf8cEYXeAvcQzYT8yPUzXmkdgcs+aZXF9v7XDNbGLL6iYjHqx9mZBivyj1IIr0+wPKLfM9q9BVoQJBAN7HUmgj0qU+sZkRRElr6S4SrvNLuM6D/d6wM7U3sp6sGp6aUk/c1VGSrcaU+fbxxovHBLnzM2IGPiS+O7vlsWsCQQDAC9lZghqpu11KzeQLnjLMCtkXUmAxkuAsWKEKUOkGI8qtw2nxIofjw2gjQQmWmkRzn1GsYup/M5PeEwFWFqRHAkEA1B8yJhrF/bW+YSMBxG9NriL4Fo0pQOqJFjrsYUbReyggiJgkfAqny25ArO85O5tnE7zCkVQyvsl27oF8WyMQVQJAbotjhR5a8rCjNtflGLrrSoBEDiSgsmh1GZG6wRFp0NrxY6xEY0UZK4Xjf8eEGWibVmKyxKP7j1TFHOObtU47KQJAbRxr5A+6bKU8eujxMwEvsZn0t3+sss6K6Vs6rH6EOkDN3vPBqL1sXlp6eZekrt5YDiXFDAsLjju3CKsoRHclBg==";
+    NSString *privateKey=@"MIICdQIBADANBgkqhkiG9w0BAQEFAASCAl8wggJbAgEAAoGBAL0M8jaJCm9bMb7PjgI0wR9+mpzWTcNTwTyYBEXmrJg3MjRVluUezDjQhQBSrgaMTeM40cz+1Nt/f1OlS/vB9PzGSF+MDty6zS0NQEEvVjUUge7PsOtbPDIEmuPppKIj4wETfavaZt7j4/kVuABDC2P1DpPRP686dJsNTkSO5qrNAgMBAAECgYApxEVy9P3gMkagQFzAcgVEvwTLp7EQeV2U1IUFKHxzOKaX11z6C77UwoTP2HRoL/E5RSFc5+QBBn8L7NYHrgdAu4L5Kl048saM53QyXJviQs7lgxDSBbo+EHDY9OJJsVRalpqKSirgBZmce/M4/tNhDxUfV5yXvxOC43JEr92UIQJBAPXbahDDMN+D0MqG1y0zPyU5bJwopXsSLIxpqp4vRmHokMxlber5HGMgSSnVQ9x9j974G1RSamqV34xwnqPzIlUCQQDE2ZPgtKd9Te19kGpmmCs64iqlkUVabAuKI8wMyx4hGZx6/EpeufFiTpF3F3YDN37JOenBefLL9UIkrOrjXI6ZAkBmpX75FKV5DG3FwNph0r2QaxM/d3DvmzziOtOzS4WVJyYdUFO+ANerQzWIs7OrgPjqXKf8YpRvf7dfyT1SshYpAkAhj0qDw6jOVwvHHWjWZtjv6AEHSxX8zXDGM0YlZDeVww0Hdp2jOqYpcWWhXRGUiNCHs+TjREwdc4m8QPKmom/5AkAYGRw6TLB/XWfEvlGLMHMmbZWMXDBdBmlIN+JK2oRjIoTryG35KlXzAHWcAq2xVhvCd6gJjz9arUmqewOLBMWn";
     /*============================================================================*/
     /*============================================================================*/
     /*============================================================================*/
