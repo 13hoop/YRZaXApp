@@ -473,7 +473,6 @@
 #pragma mark - play video
 - (void)playVideo:(NSString *)urlStr {
     if (urlStr == nil || urlStr.length <= 0) {
-        // todo: show alert view
         return;
     }
     

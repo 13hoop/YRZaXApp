@@ -19,6 +19,12 @@
     return @"购买干货系列书籍的读者，输入验证码可获赠红包\n余额可用于购买我们即将上线的收费内容";
 }
 
+// 用户信息url
+- (NSString *)urlForUserInfo {
+//    return @"http://test.zaxue100.com/index.php?c=passportctrl&m=show_userinfo_page";
+    return @"http://test.zaxue100.com/index.php?c=passportctrl&m=show_userinfo_page&srcurl=http%3A%2F%2Ftest.zaxue100.com%2Findex.php%3Fc%3Dpassportctrl%26m%3Dshow_userinfo_page%26back_to_app%3D1";
+}
+
 // 登入url
 - (NSString *)urlForLogin {
     return @"http://test.zaxue100.com:8296/index.php?c=passportctrl&m=show_login_page";
