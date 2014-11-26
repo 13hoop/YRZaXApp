@@ -28,6 +28,10 @@
 
 #import "MatchViewController.h"
 
+#import "UMSocial.h"
+#import "UMSocialSnsService.h"
+#import "UMSocialScreenShoter.h"
+
 
 @interface CommonWebViewController () <UIWebViewDelegate, UIAlertViewDelegate>
 
@@ -57,6 +61,8 @@
 // 打开新的webView, 并跳转到指定的url
 - (BOOL)showSafeURL:(NSString *)urlStr;
 
+-(void)share:(NSDictionary *)shareDic;
+
 // 视频播放开始
 - (void)playVideo:(NSString *)urlStr;
 // 视频播放结束
@@ -64,7 +70,6 @@
 
 // 延迟执行
 - (void)performBlock:(void(^)())block afterDelay:(NSTimeInterval)delay;
-
 
 @end
 
@@ -91,12 +96,11 @@
 // bridge between webview and js
 - (WebViewJavascriptBridge *)javascriptBridge {
     if (_javascriptBridge == nil) {
-        _javascriptBridge = [WebViewJavascriptBridge bridgeForWebView:self.webView
-                                                    handler:^(id data, WVJBResponseCallback responseCallback) {
-                                                        LogDebug(@"Received message from javascript: %@", data);
-                                                        responseCallback(@"'response data from obj-c'");
-                                                    }];
-//        [self initWebView];
+        _javascriptBridge = [WebViewJavascriptBridge bridgeForWebView:self.webView webViewDelegate:self handler:^(id data, WVJBResponseCallback responseCallback) {
+            LogDebug(@"Received message from javascript: %@", data);
+            responseCallback(@"'response data from obj-c'");
+        }];
+        //        [self initWebView];
     }
     
     return _javascriptBridge;
@@ -284,6 +288,14 @@
         [self showSafeURL:urlStr];
     }];
     
+    [self.javascriptBridge registerHandler:@"share" handler:^(id data, WVJBResponseCallback responseCallback) {
+        LogDebug(@"MatchViewController::share() called: %@", data);
+        
+        NSDictionary *shareDic = (NSDictionary *)data;
+        
+        [self share:shareDic];
+    }];
+    
     // playVideo()
     [self.javascriptBridge registerHandler:@"playVideo" handler:^(id dataId, WVJBResponseCallback responseCallback) {
         LogDebug(@"CommonWebViewController::playVideo() called: %@", dataId);
@@ -430,6 +442,90 @@
     return YES;
 }
 
+#pragma mark - share
+
+-(void)share:(NSDictionary *)shareDic {
+    /*
+     url :
+     img_url :
+     weixin_img_url :
+     title :
+     content :
+     screen_shot : false
+     */
+    //title
+    NSString *titleAll=[shareDic objectForKey:@"title"];
+    //分享链接
+    NSString *callBackUrl=[shareDic objectForKey:@"url"];
+    //    NSURL *weburl=[NSURL URLWithString:urlString];
+    //分享的图片链接
+    NSString *imageString=[shareDic objectForKey:@"img_url"];
+    //是否截屏
+    BOOL shouldScreen_shot=(BOOL)[shareDic objectForKey:@"screen_shot"];
+    //微信使用的url
+    NSString *weixinImageUrl=[shareDic objectForKey:@"weixin_img_url"];
+    //分享内容
+    NSString *shareString=[shareDic objectForKey:@"content"];
+    
+    
+    /*
+     //(1)使用ui，分享url定义的图片
+     [[UMSocialData defaultData].urlResource setResourceType:UMSocialUrlResourceTypeImage url:imageString];
+     //(2)使用ui,分享截屏图片
+     //    UIImage *image = [[UMSocialScreenShoterDefault screenShoter] getScreenShot];
+     //不同的平台分享不同的内容
+     //新浪微博平台
+     [UMSocialData defaultData].extConfig.sinaData.shareText = @"分享到新浪微博内容";
+     //腾讯
+     [UMSocialData defaultData].extConfig.tencentData.shareImage = [UIImage imageNamed:@"meinv.jpg"]; //分享到腾讯微博图片
+     */
+    
+    //1、分享到QQ
+    [UMSocialData defaultData].extConfig.qqData.shareText=shareString;
+    //分享到QQ的title
+    [UMSocialData defaultData].extConfig.qqData.title=titleAll;
+    //分享到QQ的image
+    [[UMSocialData defaultData].extConfig.qqData.urlResource setResourceType:UMSocialUrlResourceTypeImage url:weixinImageUrl];
+    //点击分享的内容跳转到的网站
+    [UMSocialData defaultData].extConfig.qqData.url = callBackUrl;
+    
+    
+    
+    
+    
+    
+    
+    //2、分享到qq空间的图片
+    [[UMSocialData defaultData].extConfig.qzoneData.urlResource setResourceType:UMSocialUrlResourceTypeImage url:weixinImageUrl];
+    //分享qq空间的title
+    [UMSocialData defaultData].extConfig.qzoneData.title = titleAll;
+    //分享qq空间的内容
+    [UMSocialData defaultData].extConfig.qzoneData.shareText=shareString;
+    //回调的url
+    [UMSocialData defaultData].extConfig.qzoneData.url = callBackUrl;
+    
+    
+    //3、设置微信好友分享url图片
+    [[UMSocialData defaultData].extConfig.wechatSessionData.urlResource setResourceType:UMSocialUrlResourceTypeImage url:weixinImageUrl];
+    //设置微信的分享文字
+    [UMSocialData defaultData].extConfig.wechatSessionData.shareText=shareString;
+    //设置微信的title
+    [UMSocialData defaultData].extConfig.wechatSessionData.title=titleAll;
+    //回调的url
+    [UMSocialData defaultData].extConfig.wechatSessionData.url=callBackUrl;
+    
+    
+    //4、设置微信朋友圈的分享的URL图片
+    [[UMSocialData defaultData].extConfig.wechatTimelineData.urlResource setResourceType:UMSocialUrlResourceTypeImage url:weixinImageUrl];
+    //设置微信朋友圈的分享文字
+    [UMSocialData defaultData].extConfig.wechatTimelineData.shareText=shareString;
+    //
+    [UMSocialData defaultData].extConfig.wechatTimelineData.url=callBackUrl;
+    
+    [UMSocialSnsService presentSnsIconSheetView:self appKey:@"543dea72fd98c5fc98004e08" shareText:shareString shareImage:nil shareToSnsNames:[NSArray arrayWithObjects:UMShareToWechatSession,UMShareToWechatTimeline,UMShareToQzone,UMShareToQQ,nil] delegate:nil];
+}
+
+
 #pragma mark - play video
 - (void)playVideo:(NSString *)urlStr {
     if (urlStr == nil || urlStr.length <= 0) {
@@ -483,23 +579,25 @@
     NSLog(@"MyJavascriptBridgeDelegate received message: %@", message);
 }
 
+#pragma mark - web view delegate methods
 
-#pragma mark - web view delegate
-
-- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
+-(BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
+{
+    [self injectJSToWebView:webView];
     return YES;
 }
 
-- (void)webViewDidStartLoad:(UIWebView *)webView {
-    
-}
-
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
-    [[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies];
+    [self injectJSToWebView:webView];
 }
 
-- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
-    
+#pragma mark - js injection
+
+- (void)injectJSToWebView:(UIWebView *)webView
+{
+    NSString *filePath = [[NSBundle mainBundle] pathForResource:@"webview-js-bridge" ofType:@"js"];
+    NSString *jsString = [[NSString alloc] initWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:nil];
+    [webView stringByEvaluatingJavaScriptFromString:jsString];
 }
 
 #pragma mark - 屏幕旋转
