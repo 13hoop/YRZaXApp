@@ -372,9 +372,14 @@
     }
     
     // 打开url对应的页面
-    NSURL *urlWithParams = [[NSURL alloc] initWithString:self.url];
+    NSString *connector = @"&";
+    if ([self.url hasSuffix:@"/"]) {
+        connector = @"\?";
+    }
+    NSString *urlStrWithParams = [NSString stringWithFormat:@"%@%@back_to_app=1", self.url, connector];
+    NSURL *finalUrl = [NSURL URLWithString:urlStrWithParams];
     
-    [self.webView loadRequest:[[NSURLRequest alloc] initWithURL:urlWithParams]];
+    [self.webView loadRequest:[[NSURLRequest alloc] initWithURL:finalUrl]];
     
     return YES;
 }

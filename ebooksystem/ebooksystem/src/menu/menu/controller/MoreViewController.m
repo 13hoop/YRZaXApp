@@ -81,11 +81,11 @@
     [[StatisticsManager instance] beginLogPageView:@"PageMore"];
     
     if ([[NSUserDefaults standardUserDefaults] objectForKey:@"userInfoName"]) {
-         self.moreView.userNameLable.text = [[NSUserDefaults standardUserDefaults] objectForKey:@"userInfoName"];
+         self.moreView.userNameLabel.text = [[NSUserDefaults standardUserDefaults] objectForKey:@"userInfoName"];
     }
     else {
-        self.moreView.userNameLable.textColor = [UIColor colorWithHexString:@"aaaaaa" alpha:1];
-        self.moreView.userNameLable.text = @"登录体验更多精彩内容";
+        self.moreView.userNameLabel.textColor = [UIColor colorWithHexString:@"aaaaaa" alpha:1];
+        self.moreView.userNameLabel.text = @"登录体验更多精彩内容";
     }
     if ([[NSUserDefaults standardUserDefaults] objectForKey:@"surplus_score"]) {
         self.moreView.lable.text = [[NSUserDefaults standardUserDefaults] objectForKey:@"surplus_score"];
@@ -147,7 +147,7 @@
                 }
                 //　登入
                 else {
-                    self.moreView.userNameLable.text = @"登录";
+                    self.moreView.userNameLabel.text = @"登录";
                     
 //                    // native login
 //                    LoginViewController *login = [[LoginViewController alloc] init];
@@ -254,8 +254,100 @@
         default:
             break;
     }
-    
-    
+}
+
+// 点击某item后的响应
+- (void)viewItemClicked:(ViewItemId)viewItemId {
+    switch (viewItemId) {
+        case VIEW_ITEM_USER_INFO_VIA_WEB:
+        {
+            CommonWebViewController *webViewController = [[CommonWebViewController alloc] init];
+            webViewController.url = [Config instance].userConfig.urlForLogin;
+            [self.navigationController pushViewController:webViewController animated:YES];
+        }
+            break;
+            
+        case VIEW_ITEM_USER_INFO_VIA_NATIVE:
+        {
+            //　登入/登出
+            // 登出
+            if ([[NSUserDefaults standardUserDefaults] objectForKey:@"userInfoName"] != NULL) {
+                // 进入到用户信息界面,
+                // 只要登陆成功了，本地就会存储相关的用户名和密码
+                // 因此需要退出登录时把本地的数据置为空
+                
+                // native logout
+                LogoutViewController *logout = [[LogoutViewController alloc] init];
+                [self.navigationController pushViewController:logout animated:YES];
+            }
+            // 登入
+            else {
+                self.moreView.userNameLabel.text = @"登录";
+                
+                // native login
+                LoginViewController *login = [[LoginViewController alloc] init];
+                [self.navigationController pushViewController:login animated:YES];
+            }
+        }
+            break;
+            
+        case VIEW_ITEM_USER_CHARGE:
+        {
+            // 进行正版验证
+            if ([[NSUserDefaults standardUserDefaults] objectForKey:@"userInfoName"]) {
+                RechargeViewController *recharge=[[RechargeViewController alloc] init];
+                [self.navigationController pushViewController:recharge animated:YES];
+            }
+            else {
+                UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"温馨提示" message:@"您还没有登录,请您先登录" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
+                //                    alert.backgroundColor=[UIColor lightGrayColor];
+                [alert show];
+            }
+        }
+            break;
+            
+        case VIEW_ITEM_PURCHASE:
+        {
+            // 购买干货书籍
+            PurchaseViewController *purchase=[[PurchaseViewController alloc] init];
+            [self.navigationController pushViewController:purchase animated:YES];
+        }
+            break;
+            
+        case VIEW_ITEM_FEEDBACK:
+        {
+            // 意见反馈
+            [self showNativeFeedbackWithAppkey:[[StatisticsManager instance] appKeyFromUmeng]];
+        }
+            break;
+            
+        case VIEW_ITEM_CHECK_APP_UPDATE:
+        {
+            // 软件更新
+            self.updatemanager=[UpdateManager instance];
+            self.updatemanager.delegate=self;
+            [self.updatemanager checkUpdate];
+        }
+            break;
+            
+        case VIEW_ITEM_ABOUT_APP:
+        {
+            // 关于
+            AboutUsViewController *aboutUsview = [[AboutUsViewController alloc] init];
+            [self.navigationController pushViewController:aboutUsview animated:YES];
+        }
+            break;
+            
+        case VIEW_ITEM_TEST:
+        {
+            // 测试
+            [self toAlipay];
+        }
+            break;
+            
+        default:
+            break;
+    }
 }
 
 #pragma mark - UMdelegate
@@ -282,11 +374,11 @@
             NSString *shouldUpdate=updateInfo.shouldUpdate;
             if ([shouldUpdate isEqualToString:@"NO"])
             {
-                self.moreView.upDateLable.text=@"当前已经是最新版本";
+                self.moreView.updateLable.text=@"当前已经是最新版本";
             }
             else
             {
-                self.moreView.upDateLable.text=@"检测到新版本";
+                self.moreView.updateLable.text=@"检测到新版本";
                 
                 self.higherVersionAppDownloadUrl = updateInfo.appDownloadUrl;
                 

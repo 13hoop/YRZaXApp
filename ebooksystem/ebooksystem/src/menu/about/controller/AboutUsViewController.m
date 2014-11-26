@@ -52,8 +52,8 @@
 -(void)creatCustomNavigationBar
 {
     CustomNavigationBar *navigationBar=[[CustomNavigationBar alloc] initWithFrame:CGRectMake(0, 20, 320, 50)];
-    navigationBar.title=@"关于咋学";
-    navigationBar.customNav_delegate=self;
+    navigationBar.title = @"关于咋学";
+    navigationBar.customNav_delegate = self;
     [self.view addSubview:navigationBar];
     
 }
