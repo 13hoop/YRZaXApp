@@ -31,7 +31,6 @@
 #import "UpdateAppViewController.h"
 
 #import "CommonWebViewController.h"
-#import "AliPayViewController.h"
 #import "TestViewController.h"
 
 
@@ -223,7 +222,7 @@
         {
             // 测试
             [self showTestViewController];
-//            [self toAlipay];
+
         }
             break;
             
@@ -324,12 +323,7 @@
     self.moreView.lable.text=[[NSUserDefaults standardUserDefaults] objectForKey:@"surplus_score"];
 }
 #pragma mark test alipay
--(void)toAlipay
-{
-    AliPayViewController *alipay=[[AliPayViewController alloc] init];
-    [self.navigationController pushViewController:alipay animated:YES];
-    
-}
+
 
 - (BOOL)showTestViewController {
     UIStoryboard* mainStoryboard = [UIStoryboard storyboardWithName:@"storyboard_main_iphone" bundle:nil];
