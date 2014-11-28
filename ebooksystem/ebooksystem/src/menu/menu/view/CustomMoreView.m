@@ -86,7 +86,7 @@
     }
 }
 
-#pragma mark table的代理
+#pragma mark - table view methods
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return (self.menuStyle == MENU_STYLE_NEW ? 2 : 3);
 }
@@ -362,7 +362,7 @@
     return 44;
 }
 
-#pragma mark 段头的height和title
+#pragma mark - 段头的height和title
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     CGFloat height = 0.0;
     

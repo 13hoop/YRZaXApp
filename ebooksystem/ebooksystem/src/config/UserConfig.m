@@ -12,6 +12,12 @@
 
 @implementation UserConfig
 
+@synthesize tipForUserCharge = _tipForUserCharge;
+@synthesize urlForUserInfo = _urlForUserInfo;
+@synthesize urlForLogin = _urlForLogin;
+@synthesize urlForLogout = _urlForLogout;
+@synthesize urlForCharge = _urlForCharge;
+
 
 #pragma mark - properties
 // 有关用户充值的提示信息

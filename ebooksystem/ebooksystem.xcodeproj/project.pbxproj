@@ -249,6 +249,8 @@
 		715EE9BC19E8332B005A4F78 /* JSONValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 715EE9BA19E8332B005A4F78 /* JSONValueTransformer.m */; };
 		715EE9BE19E83366005A4F78 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 715EE9BD19E83366005A4F78 /* SystemConfiguration.framework */; };
 		715EE9C119E839F6005A4F78 /* CryptUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 715EE9C019E839F6005A4F78 /* CryptUtil.m */; };
+		7164E6B41A26DABD00EA5C04 /* TestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7164E6B31A26DABD00EA5C04 /* TestViewController.m */; };
+		7164E6B71A26F3C000EA5C04 /* PaymentConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 7164E6B61A26F3C000EA5C04 /* PaymentConfig.m */; };
 		71860BDE19DC6DA500D01AA9 /* KnowledgeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 71860BDD19DC6DA500D01AA9 /* KnowledgeManager.m */; };
 		71860BE319DC754C00D01AA9 /* Config.m in Sources */ = {isa = PBXBuildFile; fileRef = 71860BE219DC754C00D01AA9 /* Config.m */; };
 		71860BE919DC7B4300D01AA9 /* KnowledgeDataConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 71860BE819DC7B4300D01AA9 /* KnowledgeDataConfig.m */; };
@@ -732,6 +734,10 @@
 		715EE9BD19E83366005A4F78 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		715EE9BF19E839F6005A4F78 /* CryptUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CryptUtil.h; path = src/util/CryptUtil.h; sourceTree = "<group>"; };
 		715EE9C019E839F6005A4F78 /* CryptUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CryptUtil.m; path = src/util/CryptUtil.m; sourceTree = "<group>"; };
+		7164E6B21A26DABD00EA5C04 /* TestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TestViewController.h; path = src/test/controller/TestViewController.h; sourceTree = "<group>"; };
+		7164E6B31A26DABD00EA5C04 /* TestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TestViewController.m; path = src/test/controller/TestViewController.m; sourceTree = "<group>"; };
+		7164E6B51A26F3C000EA5C04 /* PaymentConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PaymentConfig.h; path = src/config/PaymentConfig.h; sourceTree = "<group>"; };
+		7164E6B61A26F3C000EA5C04 /* PaymentConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PaymentConfig.m; path = src/config/PaymentConfig.m; sourceTree = "<group>"; };
 		71860BDC19DC6DA500D01AA9 /* KnowledgeManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KnowledgeManager.h; path = src/knowledge/KnowledgeManager.h; sourceTree = "<group>"; };
 		71860BDD19DC6DA500D01AA9 /* KnowledgeManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KnowledgeManager.m; path = src/knowledge/KnowledgeManager.m; sourceTree = "<group>"; };
 		71860BE119DC754C00D01AA9 /* Config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Config.h; path = src/config/Config.h; sourceTree = "<group>"; };
@@ -1471,8 +1477,8 @@
 		06AA7F2A19F4FC7E00570289 /* menu */ = {
 			isa = PBXGroup;
 			children = (
-				06AA7F2B19F4FC7E00570289 /* controller */,
 				06AA7F2E19F4FC7E00570289 /* view */,
+				06AA7F2B19F4FC7E00570289 /* controller */,
 			);
 			path = menu;
 			sourceTree = "<group>";
@@ -2162,23 +2168,41 @@
 			name = JSONModelTransformations;
 			sourceTree = "<group>";
 		};
+		7164E6B01A26DA7200EA5C04 /* test */ = {
+			isa = PBXGroup;
+			children = (
+				7164E6B11A26DA8B00EA5C04 /* controller */,
+			);
+			name = test;
+			sourceTree = "<group>";
+		};
+		7164E6B11A26DA8B00EA5C04 /* controller */ = {
+			isa = PBXGroup;
+			children = (
+				7164E6B21A26DABD00EA5C04 /* TestViewController.h */,
+				7164E6B31A26DABD00EA5C04 /* TestViewController.m */,
+			);
+			name = controller;
+			sourceTree = "<group>";
+		};
 		71860B6A19DC204C00D01AA9 /* src */ = {
 			isa = PBXGroup;
 			children = (
-				06DC832A1A256F1300B3A7C0 /* payment */,
+				71860B7F19DC228400D01AA9 /* common */,
+				71860BDF19DC73C200D01AA9 /* config */,
 				71860BDA19DC6D1B00D01AA9 /* data */,
 				7156B0CE19F8F04C00B3A521 /* startup */,
 				06AA7EF819F4FC7E00570289 /* menu */,
 				710C02AD19E038F000C27A33 /* subject */,
-				71860B7F19DC228400D01AA9 /* common */,
-				71860BDF19DC73C200D01AA9 /* config */,
 				715EE98419E6D81C005A4F78 /* user */,
+				06DC832A1A256F1300B3A7C0 /* payment */,
 				71860BDB19DC6D3900D01AA9 /* knowledge */,
 				71860BD319DC4E5C00D01AA9 /* download */,
 				715EE98019E6CF51005A4F78 /* statistics */,
 				711E2CF01A00C39B000A8D04 /* update */,
 				7156B09E19F7A85100B3A521 /* error */,
 				71860C0B19DE8DA000D01AA9 /* util */,
+				7164E6B01A26DA7200EA5C04 /* test */,
 			);
 			name = src;
 			sourceTree = "<group>";
@@ -2257,6 +2281,8 @@
 				711E2CEA19FFCE6F000A8D04 /* UserConfig.m */,
 				711E2CF41A00C51E000A8D04 /* UpdateConfig.h */,
 				711E2CF51A00C51E000A8D04 /* UpdateConfig.m */,
+				7164E6B51A26F3C000EA5C04 /* PaymentConfig.h */,
+				7164E6B61A26F3C000EA5C04 /* PaymentConfig.m */,
 			);
 			name = config;
 			sourceTree = "<group>";
@@ -2647,6 +2673,7 @@
 				7156B09A19F50F1400B3A521 /* AppConfig.m in Sources */,
 				71314D5E1A246D48004D1873 /* UpdateAppViewController.m in Sources */,
 				06DC83311A256F1300B3A7C0 /* Order.m in Sources */,
+				7164E6B71A26F3C000EA5C04 /* PaymentConfig.m in Sources */,
 				71860BE919DC7B4300D01AA9 /* KnowledgeDataConfig.m in Sources */,
 				06AA7E9319F4FAE100570289 /* SecurityUtil.m in Sources */,
 				06AA7F5B19F4FC7E00570289 /* CustomLoginView.m in Sources */,
@@ -2722,6 +2749,7 @@
 				06AA7F6919F4FC7E00570289 /* CustomRegisterView.m in Sources */,
 				710C035319E1C90E00C27A33 /* SBJsonParser.m in Sources */,
 				0690782B19CFD62700CD9C3D /* AppDelegate.m in Sources */,
+				7164E6B41A26DABD00EA5C04 /* TestViewController.m in Sources */,
 				710C030E19E1C8B600C27A33 /* UIActivityIndicatorView+AFNetworking.m in Sources */,
 				710C035A19E1C90E00C27A33 /* SBJsonStreamWriterState.m in Sources */,
 				71860BFB19DE50C300D01AA9 /* IACacheManager.m in Sources */,

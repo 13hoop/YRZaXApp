@@ -385,7 +385,7 @@
     
     // 打开url对应的页面
     NSString *connector = @"&";
-    if ([self.url hasSuffix:@"/"]) {
+    if ([self.url hasSuffix:@"/"] || [self.url hasSuffix:@".html"] || [self.url hasSuffix:@"php"]) {
         connector = @"\?";
     }
     NSString *urlStrWithParams = [NSString stringWithFormat:@"%@%@back_to_app=1", self.url, connector];

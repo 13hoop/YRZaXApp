@@ -30,9 +30,6 @@
     return instance;
 }
 
-
-
-
 #pragma mark - app
 // app config
 - (AppConfig *)appConfig {
@@ -73,5 +70,10 @@
     return [ErrorConfig instance];
 }
 
+#pragma mark - payment
+// payment
+- (PaymentConfig *)paymentConfig {
+    return [PaymentConfig instance];
+}
 
 @end

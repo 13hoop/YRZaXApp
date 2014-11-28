@@ -10,11 +10,12 @@
 
 @interface WebConfig : NSObject
 
+#pragma mark - properties
+// web request params
+@property (nonatomic, copy, readonly) NSString *userAgent;
+
 #pragma mark - methods
 // singleton
 + (WebConfig *)instance;
-
-// web request params
-- (NSString *)userAgent;
 
 @end

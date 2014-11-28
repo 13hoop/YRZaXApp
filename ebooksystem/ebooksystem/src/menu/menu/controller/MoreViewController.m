@@ -32,10 +32,12 @@
 
 #import "CommonWebViewController.h"
 #import "AliPayViewController.h"
+#import "TestViewController.h"
+
 
 //#define UMENG_APPKEY @"5420c86efd98c51541017684"
 
-@interface MoreViewController () <CustomNavigationBarDelegate,CustomMoreViewDelegate,UserManagerDelegate,UpdateManagerDelegate,UIAlertViewDelegate>
+@interface MoreViewController () <CustomNavigationBarDelegate, CustomMoreViewDelegate, UserManagerDelegate, UpdateManagerDelegate, UIAlertViewDelegate>
 
 @property(nonatomic,strong) CustomNavigationBar *navBar;
 @property(nonatomic,strong) CustomMoreView *moreView;
@@ -44,6 +46,9 @@
 
 // 新版app下载地址
 @property (nonatomic, copy) NSString *higherVersionAppDownloadUrl;
+
+
+- (BOOL)showTestViewController;
 
 @end
 
@@ -217,7 +222,8 @@
         case VIEW_ITEM_TEST:
         {
             // 测试
-            [self toAlipay];
+            [self showTestViewController];
+//            [self toAlipay];
         }
             break;
             
@@ -305,7 +311,6 @@
     }
     else
     {
-       
         UserManager *manager=[UserManager shareInstance];
         [manager getBalance];
         LogWarn(@"最新的余额是%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"surplus_score"]);
@@ -325,5 +330,14 @@
     [self.navigationController pushViewController:alipay animated:YES];
     
 }
+
+- (BOOL)showTestViewController {
+    UIStoryboard* mainStoryboard = [UIStoryboard storyboardWithName:@"storyboard_main_iphone" bundle:nil];
+    TestViewController *testViewController = [mainStoryboard instantiateViewControllerWithIdentifier:@"test_view_controller"];
+    [self.navigationController pushViewController:testViewController animated:YES];
+    
+    return YES;
+}
+
 
 @end
