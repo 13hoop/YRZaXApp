@@ -15,7 +15,8 @@
 #pragma mark - properties
 // 支付宝网页支付的url
 - (NSString *)urlForAliPayViaWeb {
-    return @"http://118.244.235.155:8296/alipay/wap/php/index.php";
+//    return @"http://118.244.235.155:8296/alipay/wap/php/index.php";
+    return @"http://118.244.235.155:8296/pay/ali/wap/index.php";
 }
 
 #pragma mark - methods
