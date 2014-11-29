@@ -32,6 +32,8 @@
 #import "UMSocialSnsService.h"
 #import "UMSocialScreenShoter.h"
 
+#import "UIColor+Hex.h"
+
 
 @interface CommonWebViewController () <UIWebViewDelegate, UIAlertViewDelegate>
 
@@ -86,7 +88,7 @@
 // webView
 - (UIWebView *)webView {
     if (_webView == nil) {
-        _webView = [[UIWebView alloc] initWithFrame:self.view.bounds];
+        _webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 20, self.view.frame.size.width, self.view.frame.size.height - 20)];
         [self.view addSubview:_webView];
     }
     
@@ -117,6 +119,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    self.view.backgroundColor = [UIColor colorWithHexString:@"#242021" alpha:1];
+    self.automaticallyAdjustsScrollViewInsets = NO;
     
     [self initWebView];
     [self updateWebView];

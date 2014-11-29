@@ -23,7 +23,7 @@
 #import "PurchaseViewController.h"
 
 #import "StatisticsManager.h"
-#import "UIColor+Hex.h"
+
 #import "UserManager.h"
 #import "LogUtil.h"
 //#import "MobClick.h"
