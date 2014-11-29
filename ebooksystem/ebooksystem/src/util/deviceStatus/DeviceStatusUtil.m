@@ -14,7 +14,8 @@
 -(NSString *)GetCurrntNet
 {
     NSString* result;
-    Reachability *r = [Reachability reachabilityWithHostName:@"www.apple.com"];
+//    Reachability *r = [Reachability reachabilityWithHostName:@"www.apple.com"];
+    Reachability *r = [Reachability reachabilityWithHostName:@"www.baidu.com"];
     switch ([r currentReachabilityStatus]) {
         case NotReachable:// 没有网络连接
             result=@"no connect";
@@ -34,7 +35,7 @@
 {
     UIInterfaceOrientation orientation =[UIApplication sharedApplication].statusBarOrientation;
     if(orientation == UIDeviceOrientationLandscapeLeft ||orientation == UIDeviceOrientationLandscapeRight){
-        // 横屏。
+        // 横屏
         return YES;
     }else{
         return NO;

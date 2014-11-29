@@ -146,7 +146,7 @@
             DeviceStatusUtil *deviceStatus = [[DeviceStatusUtil alloc] init];
             NSString *currentConnectStatus = [deviceStatus GetCurrntNet];
             if ([currentConnectStatus isEqualToString:@"no connect"]) {
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"温馨提示" message:@"当前无网络连接，请检查您的网络设置" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"立即检查", nil];
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"温馨提示" message:@"当前无网络连接，请检查您的网络设置" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
                 [alert show];
             }
             else {
