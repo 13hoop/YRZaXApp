@@ -32,7 +32,7 @@
 
 #import "CommonWebViewController.h"
 #import "TestViewController.h"
-
+#import "DeviceStatusUtil.h"
 
 //#define UMENG_APPKEY @"5420c86efd98c51541017684"
 
@@ -141,9 +141,22 @@
     switch (viewItemId) {
         case VIEW_ITEM_USER_INFO_VIA_WEB:
         {
-            CommonWebViewController *webViewController = [[CommonWebViewController alloc] init];
-            webViewController.url = [Config instance].userConfig.urlForUserInfo;
-            [self.navigationController pushViewController:webViewController animated:YES];
+            
+            //判断是否有网络连接
+            DeviceStatusUtil *deviceStatus = [[DeviceStatusUtil alloc] init];
+            NSString *currentConnectStatus = [deviceStatus GetCurrntNet];
+            if ([currentConnectStatus isEqualToString:@"no connect"]) {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"温馨提示" message:@"当前无网络连接，请检查您的网络设置" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"立即检查", nil];
+                [alert show];
+            }
+            else {
+                CommonWebViewController *webViewController = [[CommonWebViewController alloc] init];
+                webViewController.url = [Config instance].userConfig.urlForUserInfo;
+                [self.navigationController pushViewController:webViewController animated:YES];
+            }
+            
+           
+                
         }
             break;
             
@@ -168,6 +181,8 @@
                 LoginViewController *login = [[LoginViewController alloc] init];
                 [self.navigationController pushViewController:login animated:YES];
             }
+
+           
         }
             break;
             
