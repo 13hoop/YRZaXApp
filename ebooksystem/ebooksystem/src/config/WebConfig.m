@@ -16,7 +16,8 @@
 #pragma mark - properties
 // web request params
 - (NSString *)userAgent {
-    return @"com.diyebook.ebooksystem.app.ios";
+//    return @"com.diyebook.ebooksystem.app.ios";
+    return @"ZAXUE_IOS_POLITICS_APP";
 }
 
 #pragma mark - methods

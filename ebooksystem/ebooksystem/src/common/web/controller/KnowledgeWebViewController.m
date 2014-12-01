@@ -227,7 +227,7 @@
         
         if (responseCallback != nil) {
             NSArray *dataArray = [[KnowledgeManager instance] getLocalDataWithDataId:dataId andQueryId:queryId andIndexFilename:indexFilename];
-//            NSLog(@"====dataArray: %@", dataArray);
+//            LogDebug(@"====dataArray: %@", dataArray);
             NSString *data = nil;
             for (NSString *dataStr in dataArray) {
                 if (dataStr == nil || dataStr.length <= 0) {
@@ -519,13 +519,17 @@
 
 #pragma mark - WebViewJavascriptBridge delegate methods
 - (void)javascriptBridge:(WebViewJavascriptBridge *)bridge receivedMessage:(NSString *)message fromWebView:(UIWebView *)webView {
-    NSLog(@"MyJavascriptBridgeDelegate received message: %@", message);
+    LogDebug(@"MyJavascriptBridgeDelegate received message: %@", message);
 }
 
 
 #pragma mark - web view delegate
 
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
+    if (request) {
+        LogDebug(@"[KnowledgeWebViewController] Web request: UA: %@", [request valueForHTTPHeaderField:@"User-Agent"]);
+    }
+    
     return YES;
 }
 
@@ -543,7 +547,7 @@
 
 #pragma mark - 更新
 - (void)updateApp {
-    [UpdateManager instance].delegate=self;
+    [UpdateManager instance].delegate = self;
     [[UpdateManager instance] checkUpdate];
 }
 
@@ -557,7 +561,7 @@
             }
             else {
                 
-                //            NSLog(@"appDownloadUrl====%@",updateInfo.appDownloadUrl);
+                //            LogDebug(@"appDownloadUrl====%@",updateInfo.appDownloadUrl);
                 self.updateAppURL=updateInfo.appDownloadUrl;
                 NSString *desc=updateInfo.appVersionDesc;
                 NSString *version=updateInfo.appVersionStr;

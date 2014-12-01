@@ -12,6 +12,9 @@
 
 #pragma mark - methods
 
+// 检查网络请求中的User-Agent字段
++ (BOOL)checkUserAgent;
+
 /**
  * quest
  *

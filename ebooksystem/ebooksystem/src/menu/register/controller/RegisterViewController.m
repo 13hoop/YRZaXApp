@@ -67,36 +67,29 @@
     [self.view addSubview:registerView];
 }
 
-
-
 #pragma mark customRegisterView delegate method
 -(void)registerClick:(RegisterUserInfo *)userInfo
 {
-    NSLog(@"将自定义控件中的注册信息传递到了controller中username====%@",userInfo.userName);
     RegisterModel *model=[[RegisterModel alloc] init];
     model.register_delegate=self;
     [model getUserInfo:userInfo];
     [model getPublickey];
-    
-    
 }
+
 #pragma mark registerModel delegate method
 -(void)registerMessage:(NSDictionary *)data anduserInfo:(RegisterUserInfo *)userInfo
 {
     NSString *status=data[@"status"];
-    NSLog(@"status===%@",status);
+    LogDebug(@"status===%@",status);
     NSInteger statusInteger=[status integerValue];
-    NSLog(@"statusInteger====%d",statusInteger);
+    LogDebug(@"statusInteger====%ld",(long)statusInteger);
     if (statusInteger<0 || data[@"msg"]==NULL || [data[@"msg"] isEqualToString:@"success"]==NO) {
         //注册失败
         LogError(@"register failed because of %@",data[@"msg"]);
         UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"错误提示" message:data[@"msg"] delegate:nil cancelButtonTitle:nil otherButtonTitles:@"重新输入", nil];
         [alert show];
-        
     }
-    else
-    {
-        
+    else {
         //添加新用户到（保存登陆过本台设备的用户数组）数组中----加密----------
         //成为当前用户
         NSUserDefaults *userDefaults=[NSUserDefaults standardUserDefaults];
@@ -112,15 +105,13 @@
         NSArray *controllerArr=self.navigationController.viewControllers;
         
         [self.navigationController popToViewController:controllerArr[2] animated:YES];
-
     }
 }
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-
 
 @end

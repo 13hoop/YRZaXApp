@@ -18,17 +18,22 @@
 #import "DirectionMPMoviePlayerViewController.h"
 #import "CustomURLProtocol.h"
 
+#import "Config.h"
+
+#import "WebUtil.h"
+#import "LogUtil.h"
+
 
 
 @interface MatchViewController () <UIWebViewDelegate>
 
 #pragma mark - properties
 
-@property (nonatomic, copy) NSString *userAgent;
-
 // bridge between webview and js
 @property (nonatomic, strong) WebViewJavascriptBridge *javascriptBridge;
 @property (nonatomic, strong) UIWebView *webView;
+@property (nonatomic,strong) NSString *oldUserAgent;
+
 
 #pragma mark - methods
 - (BOOL)updateWebView;
@@ -36,30 +41,27 @@
 // 播放视频
 - (void)playVideo:(NSString *)urlStr;
 
+// 设置user agent
+- (BOOL)checkUserAgent;
+
 @end
 
 @implementation MatchViewController
 
-@synthesize userAgent = _userAgent;
 @synthesize webUrl = _webUrl;
 @synthesize webView = _webView;
 @synthesize javascriptBridge = _javascriptBridge;
 
 
 #pragma mark - properties
-// user agent
-- (NSString *)userAgent {
-    return @"ZAXUE_ANDROID_POLITICS_APP";
-}
-
 // webUrl
 - (NSString *)webUrl {
-    if (_webUrl != nil && ![_webUrl hasSuffix:self.userAgent]) {
+    if (_webUrl != nil && ![_webUrl hasSuffix:[Config instance].webConfig.userAgent]) {
         NSString *connector = @"&";
         if ([_webUrl hasSuffix:@"/"]) {
             connector = @"\?";
         }
-        _webUrl = [NSString stringWithFormat:@"%@%@ua=%@", _webUrl, connector, self.userAgent];
+        _webUrl = [NSString stringWithFormat:@"%@%@ua=%@", _webUrl, connector, [Config instance].webConfig.userAgent];
     }
     
     return _webUrl;
@@ -98,7 +100,6 @@
 //    [CustomURLProtocol register];
     
     [self initWebView];
-    
     self.view.backgroundColor = [UIColor colorWithHexString:@"#4C501D" alpha:1];
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.webView.scrollView.bounces = NO;
@@ -106,7 +107,6 @@
   
 //    [self injectJSToWebView:self.webView];
 //    self.webview.delegate=self;
-    
     [self updateWebView];
 }
 
@@ -125,7 +125,7 @@
         LogDebug(@"MatchViewController::goBack() called: %@", data);
         // 判断是否可以继续回退
 //        BOOL iscan = self.webView.canGoBack;
-//        NSLog(@"iscanBack=====%hhd",iscan);
+//        LogDebug(@"iscanBack=====%hhd",iscan);
 //        if (iscan) {
 //            [self.webView goBack];
 //            
@@ -157,10 +157,12 @@
 }
 
 - (BOOL)updateWebView {
-    // load url
-//    self.webUrl=@"http://pk2015.zaxue100.com";
-    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:self.webUrl]];
+    // 在加载loadRuquest之前设置userAgent
+//    [self checkUserAgent];
     
+    // load url
+    //    self.webUrl=@"http://pk2015.zaxue100.com"; // test
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:self.webUrl]];
     [self.webView loadRequest:request];
     
     return YES;
@@ -168,8 +170,7 @@
 
 #pragma mark - share
 
--(void)share:(NSDictionary *)shareDic
-{
+- (void)share:(NSDictionary *)shareDic {
     /*
      url :
      img_url :
@@ -213,12 +214,7 @@
     [[UMSocialData defaultData].extConfig.qqData.urlResource setResourceType:UMSocialUrlResourceTypeImage url:weixinImageUrl];
     //点击分享的内容跳转到的网站
     [UMSocialData defaultData].extConfig.qqData.url = callBackUrl;
-    
-    
-    
-    
-    
-    
+
     
     //2、分享到qq空间的图片
     [[UMSocialData defaultData].extConfig.qzoneData.urlResource setResourceType:UMSocialUrlResourceTypeImage url:weixinImageUrl];
@@ -297,8 +293,11 @@
 
 #pragma mark - web view delegate methods
 
--(BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
-{
+-(BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
+    if (request) {
+        LogDebug(@"[MatchViewConroller] Web request: UA: %@", [request valueForHTTPHeaderField:@"User-Agent"]);
+    }
+    
     [self injectJSToWebView:webView];
     return YES;
 }
@@ -309,14 +308,16 @@
 
 #pragma mark - js injection
 
-- (void)injectJSToWebView:(UIWebView *)webView
-{
+- (void)injectJSToWebView:(UIWebView *)webView {
     NSString *filePath = [[NSBundle mainBundle] pathForResource:@"webview-js-bridge" ofType:@"js"];
     NSString *jsString = [[NSString alloc] initWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:nil];
     [webView stringByEvaluatingJavaScriptFromString:jsString];
 }
 
+#pragma mark - set User Agent
 
-
+- (BOOL)checkUserAgent {
+    return [WebUtil checkUserAgent];
+}
 
 @end
