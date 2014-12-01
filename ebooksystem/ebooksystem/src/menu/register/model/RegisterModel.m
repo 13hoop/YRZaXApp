@@ -58,8 +58,7 @@
     CRSA *crsa=[CRSA shareInstance];
     [crsa generatersa_public_keyWithpublicString:publicKeyString];
     BOOL isfind =[crsa importRSAKeyWithType:KeyTypePublic];
-    NSLog(@"fina publicKey==%hhd",isfind);
-    LogInfo(@"find publicKey? %hhd",isfind);
+    LogDebug(@"find publicKey? %hhd", isfind);
     [self encryptByRsa];
     
 }
@@ -73,10 +72,10 @@
     NSString *jsonString=[jsonWriter stringWithObject:userInfoDic error:&error];
     
     NSString *encodeString=[crsa encryptByRsa:jsonString withKeyType:KeyTypePublic];
-    NSLog(@"encodeString=====%@",encodeString);
+    LogDebug(@"encodeString=====%@",encodeString);
     //decrypt for test
     NSString *decodeString=[crsa decryptByRsa:encodeString withKeyType:KeyTypePrivate];
-    NSLog(@"decodeString======%@",decodeString);
+    LogDebug(@"decodeString======%@",decodeString);
     [self getRegisterResult:encodeString];
     
     
@@ -91,9 +90,9 @@
         NSString *dataStr=dic[@"data"];
         NSData *data=[dataStr dataUsingEncoding:NSUTF8StringEncoding];
         NSDictionary *dataDic=[NSJSONSerialization JSONObjectWithData:data options:0 error:0];
-        NSLog(@"注册信息是：%@",dataDic);
+        LogDebug(@"注册信息是：%@", dataDic);
     
-        NSLog(@"信息===%@",dataDic[@"msg"]);
+        LogDebug(@"信息===%@", dataDic[@"msg"]);
         [self.register_delegate registerMessage:dataDic anduserInfo:self.userInfo];
         
     } failure:^(AFHTTPRequestOperation *operation,NSError *error){
@@ -101,7 +100,6 @@
         UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"温馨提示" message:@
                             "由于您的网络状况不佳，导致注册失败，请检查您的网络" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"重试", nil];
         [alert show];
-        
     }];
 
 }

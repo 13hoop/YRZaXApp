@@ -279,7 +279,7 @@
                 self.higherVersionAppDownloadUrl = updateInfo.appDownloadUrl;
                 
                 
-                //            NSLog(@"appDownloadUrl====%@",updateInfo.appDownloadUrl);
+                //            LogDebug(@"appDownloadUrl====%@",updateInfo.appDownloadUrl);
                 NSString *desc=updateInfo.appVersionDesc;
                 NSString *version=updateInfo.appVersionStr;
                 NSString *title=[NSString stringWithFormat:@"有新版本可供更新%@",version];

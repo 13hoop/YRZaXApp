@@ -10,12 +10,11 @@
 #import "AFNetworking.h"
 #import "UIKit+AFNetworking.h"
 #import "LogUtil.h"
+
+
 @implementation LogoutModel
 
-
--(void)logout
-{
-    NSLog(@"告诉服务器，我要退出");
+- (void)logout {
     AFHTTPRequestOperationManager *manager=[AFHTTPRequestOperationManager manager];
     //使用最新版的AFNetworking发起get和post请求需要指定响应的类型，也就是下面这句话。
     manager.responseSerializer.acceptableContentTypes=[NSSet setWithObject:@"text/html"];
@@ -29,10 +28,10 @@
         [self.logout_delegate logoutMessage:data[@"msg"]];
         
     } failure:^(AFHTTPRequestOperation *operation,NSError *error){
-        NSLog(@"请求失败");
         LogError(@"logout fail because of net connect ");
         [self.logout_delegate errorMessage];
     }];
-    
 }
+
+
 @end

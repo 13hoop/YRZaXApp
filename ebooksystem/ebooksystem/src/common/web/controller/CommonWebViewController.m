@@ -589,6 +589,10 @@
 
 -(BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
 {
+    if (request) {
+        LogDebug(@"[CommonWebViewController] Web request: UA: %@", [request valueForHTTPHeaderField:@"User-Agent"]);
+    }
+    
     [self injectJSToWebView:webView];
     return YES;
 }

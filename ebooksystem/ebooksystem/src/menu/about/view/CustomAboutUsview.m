@@ -108,8 +108,6 @@
     [self addSubview:companyLable];
     //create
     
-    
-    NSLog(@"haoyu== %d",customHeight);
     UILabel *copyRightLable=[[UILabel alloc] initWithFrame:CGRectMake(54, customHeight+self.infoView.frame.size.height+self.upView.frame.size.height+16, self.infoView.frame.size.width,10)];
     copyRightLable.font=[UIFont systemFontOfSize:10.0f];
     copyRightLable.textColor=[UIColor colorWithHexString:@"#7d7c7c" alpha:1];

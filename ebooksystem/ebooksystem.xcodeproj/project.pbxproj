@@ -70,7 +70,6 @@
 		06AAC9F919F67E1D00A758DB /* PurchaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06AAC9F619F67E1D00A758DB /* PurchaseViewController.m */; };
 		06AAC9FA19F67E1D00A758DB /* TBActivityView.m in Sources */ = {isa = PBXBuildFile; fileRef = 06AAC9F819F67E1D00A758DB /* TBActivityView.m */; };
 		06B7F86319D53AF50017EA4D /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 06B7F86219D53AF50017EA4D /* libz.dylib */; };
-		06CB01961A2AC9B20092828C /* ResetUserAgentUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 06CB01951A2AC9B20092828C /* ResetUserAgentUtil.m */; };
 		710C02B119E0394100C27A33 /* SubjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 710C02B019E0394100C27A33 /* SubjectViewController.m */; };
 		710C02B519E03E4F00C27A33 /* KnowledgeSubject.m in Sources */ = {isa = PBXBuildFile; fileRef = 710C02B419E03E4F00C27A33 /* KnowledgeSubject.m */; };
 		710C02BA19E0457A00C27A33 /* SubjectTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 710C02B819E0457A00C27A33 /* SubjectTableViewCell.m */; };
@@ -381,8 +380,6 @@
 		06AAC9F719F67E1D00A758DB /* TBActivityView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TBActivityView.h; sourceTree = "<group>"; };
 		06AAC9F819F67E1D00A758DB /* TBActivityView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TBActivityView.m; sourceTree = "<group>"; };
 		06B7F86219D53AF50017EA4D /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
-		06CB01941A2AC9B20092828C /* ResetUserAgentUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ResetUserAgentUtil.h; path = src/util/ResetUserAgentUtil.h; sourceTree = "<group>"; };
-		06CB01951A2AC9B20092828C /* ResetUserAgentUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ResetUserAgentUtil.m; path = src/util/ResetUserAgentUtil.m; sourceTree = "<group>"; };
 		710C02AF19E0394100C27A33 /* SubjectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SubjectViewController.h; path = src/subject/controller/SubjectViewController.h; sourceTree = "<group>"; };
 		710C02B019E0394100C27A33 /* SubjectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SubjectViewController.m; path = src/subject/controller/SubjectViewController.m; sourceTree = "<group>"; };
 		710C02B319E03E4F00C27A33 /* KnowledgeSubject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KnowledgeSubject.h; path = src/subject/model/KnowledgeSubject.h; sourceTree = "<group>"; };
@@ -2254,8 +2251,6 @@
 				7118EB9B19EF7109002CF833 /* LogUtil.m */,
 				7156B0D319F9012900B3A521 /* TimeWatcher.h */,
 				7156B0D419F9012900B3A521 /* TimeWatcher.m */,
-				06CB01941A2AC9B20092828C /* ResetUserAgentUtil.h */,
-				06CB01951A2AC9B20092828C /* ResetUserAgentUtil.m */,
 			);
 			name = util;
 			sourceTree = "<group>";
@@ -2574,7 +2569,6 @@
 				715EE97819E52749005A4F78 /* QBTitleView.m in Sources */,
 				7156B09A19F50F1400B3A521 /* AppConfig.m in Sources */,
 				71314D5E1A246D48004D1873 /* UpdateAppViewController.m in Sources */,
-				06CB01961A2AC9B20092828C /* ResetUserAgentUtil.m in Sources */,
 				7164E6B71A26F3C000EA5C04 /* PaymentConfig.m in Sources */,
 				71860BE919DC7B4300D01AA9 /* KnowledgeDataConfig.m in Sources */,
 				06AA7E9319F4FAE100570289 /* SecurityUtil.m in Sources */,
