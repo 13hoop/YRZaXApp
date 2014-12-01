@@ -100,7 +100,14 @@
 //    [CustomURLProtocol register];
     
     [self initWebView];
-    self.view.backgroundColor = [UIColor colorWithHexString:@"#4C501D" alpha:1];
+    
+    if ([self.shouldChangeBackground isEqualToString:@"needChange"]) {
+        self.view.backgroundColor=[UIColor colorWithHexString:@"#242021" alpha:1];
+    }
+    else {
+        self.view.backgroundColor = [UIColor colorWithHexString:@"#4C501D" alpha:1];
+    }
+    
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.webView.scrollView.bounces = NO;
     self.webView.scrollView.showsVerticalScrollIndicator = NO;

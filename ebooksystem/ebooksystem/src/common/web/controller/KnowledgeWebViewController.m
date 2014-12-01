@@ -31,6 +31,8 @@
 
 #import "MatchViewController.h"
 
+#import "UIColor+Hex.h"
+
 
 @interface KnowledgeWebViewController () <UIWebViewDelegate, UpdateManagerDelegate, UIAlertViewDelegate>
 
@@ -115,7 +117,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+    self.view.backgroundColor=[UIColor colorWithHexString:@"#242021" alpha:1];
     [self initWebView];
     [self updateWebView];
     [self updateApp];
@@ -464,7 +466,7 @@
     
     MatchViewController *matchViewController = [[MatchViewController alloc] init];
     matchViewController.webUrl = urlStr;
-    
+    matchViewController.shouldChangeBackground=@"needChange";
     [self.navigationController pushViewController:matchViewController animated:YES];
     
     return YES;
