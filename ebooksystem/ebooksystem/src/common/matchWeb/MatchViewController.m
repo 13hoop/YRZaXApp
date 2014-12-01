@@ -17,7 +17,7 @@
 
 #import "DirectionMPMoviePlayerViewController.h"
 #import "CustomURLProtocol.h"
-
+#import "ResetUserAgentUtil.h"
 
 
 @interface MatchViewController () <UIWebViewDelegate>
@@ -29,6 +29,8 @@
 // bridge between webview and js
 @property (nonatomic, strong) WebViewJavascriptBridge *javascriptBridge;
 @property (nonatomic, strong) UIWebView *webView;
+@property (nonatomic,strong) NSString *oldUserAgent;
+
 
 #pragma mark - methods
 - (BOOL)updateWebView;
@@ -47,9 +49,10 @@
 
 
 #pragma mark - properties
-// user agent
+// user agent？？？
 - (NSString *)userAgent {
-    return @"ZAXUE_ANDROID_POLITICS_APP";
+    return @"ZAXUE_IOS_POLITICS_APP";
+    
 }
 
 // webUrl
@@ -60,6 +63,8 @@
             connector = @"\?";
         }
         _webUrl = [NSString stringWithFormat:@"%@%@ua=%@", _webUrl, connector, self.userAgent];
+//        _webUrl = [NSString stringWithFormat:@"%@", _webUrl];
+
     }
     
     return _webUrl;
@@ -98,7 +103,6 @@
 //    [CustomURLProtocol register];
     
     [self initWebView];
-    
     self.view.backgroundColor = [UIColor colorWithHexString:@"#4C501D" alpha:1];
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.webView.scrollView.bounces = NO;
@@ -106,7 +110,6 @@
   
 //    [self injectJSToWebView:self.webView];
 //    self.webview.delegate=self;
-    
     [self updateWebView];
 }
 
@@ -159,8 +162,11 @@
 - (BOOL)updateWebView {
     // load url
 //    self.webUrl=@"http://pk2015.zaxue100.com";
-    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:self.webUrl]];
+    //在加载loadRuquest之前设置userAgent
     
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:self.webUrl]];
+    [self resetUserAgent];
+
     [self.webView loadRequest:request];
     
     return YES;
@@ -299,12 +305,16 @@
 
 -(BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
 {
+    if (webView) {
+        NSLog(@"UA==========%@",[request valueForHTTPHeaderField:@"User-Agent"]);
+    }
     [self injectJSToWebView:webView];
     return YES;
 }
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
     [self injectJSToWebView:webView];
+
 }
 
 #pragma mark - js injection
@@ -315,6 +325,19 @@
     NSString *jsString = [[NSString alloc] initWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:nil];
     [webView stringByEvaluatingJavaScriptFromString:jsString];
 }
+
+#pragma mark set User Agent
+
+-(BOOL)resetUserAgent
+{
+    
+    BOOL isSuccess=[ResetUserAgentUtil resetUserAgent];
+    if (isSuccess) {
+        return YES;
+    }
+    return NO;
+}
+
 
 
 

@@ -43,6 +43,7 @@
 #pragma mark - properties
 // bridge between webview and js
 @property (nonatomic, copy) WebViewJavascriptBridge *javascriptBridge;
+//UA
 
 
 
