@@ -107,7 +107,6 @@
     else {
         self.view.backgroundColor = [UIColor colorWithHexString:@"#4C501D" alpha:1];
     }
-    
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.webView.scrollView.bounces = NO;
     self.webView.scrollView.showsVerticalScrollIndicator = NO;
@@ -158,6 +157,11 @@
         
         NSString *urlStr = (NSString *)dataId;
         [self playVideo:urlStr];
+    }];
+    
+    //change Background
+    [self.javascriptBridge registerHandler:@"setStatusBarBackground" handler:^(id data, WVJBResponseCallback responseCallback) {
+        [self changeBackgourndColorWithColor:data];
     }];
     
     return YES;
@@ -325,6 +329,13 @@
 
 - (BOOL)checkUserAgent {
     return [WebUtil checkUserAgent];
+}
+
+
+#pragma test changeColor
+-(void)changeBackgourndColorWithColor:(NSString *)colorString
+{
+    self.view.backgroundColor = [UIColor colorWithHexString:colorString alpha:1];
 }
 
 @end

@@ -83,6 +83,11 @@ function dump(arr,level) {
         });
     };
     
+    bridgeIOS.setStatusBarBackground = function(data){
+        bridgeIOS.callOC( 'setStatusBarBackground', data );
+    };
+
+    
 }();
 
 // init
