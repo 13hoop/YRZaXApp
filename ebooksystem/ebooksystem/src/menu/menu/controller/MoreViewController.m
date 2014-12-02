@@ -141,7 +141,6 @@
     switch (viewItemId) {
         case VIEW_ITEM_USER_INFO_VIA_WEB:
         {
-            
             //判断是否有网络连接
             DeviceStatusUtil *deviceStatus = [[DeviceStatusUtil alloc] init];
             NSString *currentConnectStatus = [deviceStatus GetCurrntNet];
@@ -154,9 +153,6 @@
                 webViewController.url = [Config instance].userConfig.urlForUserInfo;
                 [self.navigationController pushViewController:webViewController animated:YES];
             }
-            
-           
-                
         }
             break;
             

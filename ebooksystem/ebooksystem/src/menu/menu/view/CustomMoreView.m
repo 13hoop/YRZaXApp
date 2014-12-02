@@ -101,8 +101,8 @@
                 break;
                 
             case 1:
-//                numberOfRows = 4; // 不带测试按钮
-                numberOfRows = 5; // 带测试按钮
+                numberOfRows = 4; // 不带测试按钮
+//                numberOfRows = 5; // 带测试按钮
                 break;
                 
             default:

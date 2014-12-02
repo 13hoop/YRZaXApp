@@ -161,7 +161,7 @@
 
 #pragma mark - web view methods
 - (BOOL)initWebView {
-    self.webView.delegate = self.javascriptBridge;
+//    self.webView.delegate = self.javascriptBridge;
     
     // 注册obj-c方法, 供js调用
     // test method
@@ -341,6 +341,10 @@
         [self.navigationController pushViewController:match animated:YES];
     }];
     
+    //change Background
+    [self.javascriptBridge registerHandler:@"setStatusBarBackground" handler:^(id data, WVJBResponseCallback responseCallback) {
+        [self changeBackgourndColorWithColor:data];
+    }];
     
     // 发送消息给 html
     //    [self.javascriptBridge send:@"Well hello there"];
@@ -597,6 +601,12 @@
     return YES;
 }
 
+-(void)webViewDidStartLoad:(UIWebView *)webView
+{
+    [self injectJSToWebView:webView];
+
+}
+
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
     [self injectJSToWebView:webView];
 }
@@ -692,5 +702,11 @@
 //    [super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
 //}
 //
+
+#pragma mark change background
+-(void)changeBackgourndColorWithColor:(NSString *)colorString
+{
+    self.view.backgroundColor = [UIColor colorWithHexString:colorString alpha:1];
+}
 
 @end
