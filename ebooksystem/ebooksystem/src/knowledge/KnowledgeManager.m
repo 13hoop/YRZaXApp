@@ -154,11 +154,53 @@
     NSString *curAppVersion = [AppUtil getAppVersionStr];
     [userDefaults setObject:curAppVersion forKey:[Config instance].knowledgeDataConfig.keyForKnowledgeDataInitAppVersion];
     
-    
     return YES;
 }
 
 #pragma mark - register data files
+//- (BOOL)registerDataFiles {
+//    // 1. 清除已有的knowledge metas
+//    [[KnowledgeMetaManager instance] clearKnowledgeMetas];
+//    
+//    // 2. 写入新的knowledge metas
+//    NSString *knowledgeDataRootPathInApp = [[Config instance] knowledgeDataConfig].knowledgeDataRootPathInApp;
+//    
+//    // 遍历meta.json
+//    NSDirectoryEnumerator *dirEnum = [[NSFileManager defaultManager] enumeratorAtPath:knowledgeDataRootPathInApp];
+//    NSString *path = nil;
+//    while ((path = [dirEnum nextObject]) != nil) {
+//        NSString *fullPath = [NSString stringWithFormat:@"%@/%@", knowledgeDataRootPathInApp, path];
+//        
+//        BOOL isDir = NO;
+//        BOOL exists = [[NSFileManager defaultManager] fileExistsAtPath:fullPath isDirectory:&isDir];
+//        if (isDir) {
+//            continue;
+//        }
+//        
+//        // 若为meta.json
+//        if ([fullPath hasSuffix:[Config instance].knowledgeDataConfig.knowledgeMetaFilename]) {
+//            // 构造KnowledgeMeta对象
+//            NSArray *knowledgeMetas = [[KnowledgeMetaManager instance] loadKnowledgeMeta:fullPath];
+//            if (knowledgeMetas == nil || knowledgeMetas.count <= 0) {
+//                continue;
+//            }
+//            
+//            for (id obj in knowledgeMetas) {
+//                KnowledgeMeta *knowledgeMeta = (KnowledgeMeta *)obj;
+//                if (knowledgeMeta == nil) {
+//                    continue;
+//                }
+//                
+//                // 保存到db
+//                [[KnowledgeMetaManager instance] saveKnowledgeMeta:knowledgeMeta];
+//                LogDebug(@"[KnowledgeManager-registerDataFiles] registered file: %@", fullPath);
+//            }
+//        }
+//    }
+//    
+//    return YES;
+//}
+
 - (BOOL)registerDataFiles {
     // 1. 清除已有的knowledge metas
     [[KnowledgeMetaManager instance] clearKnowledgeMetas];
@@ -166,7 +208,9 @@
     // 2. 写入新的knowledge metas
     NSString *knowledgeDataRootPathInApp = [[Config instance] knowledgeDataConfig].knowledgeDataRootPathInApp;
     
-    // 遍历meta.json
+    // 收集需要处理的meta.json
+    NSMutableArray *metasToProcess = [[NSMutableArray alloc] init];
+    
     NSDirectoryEnumerator *dirEnum = [[NSFileManager defaultManager] enumeratorAtPath:knowledgeDataRootPathInApp];
     NSString *path = nil;
     while ((path = [dirEnum nextObject]) != nil) {
@@ -180,22 +224,39 @@
         
         // 若为meta.json
         if ([fullPath hasSuffix:[Config instance].knowledgeDataConfig.knowledgeMetaFilename]) {
-            // 构造KnowledgeMeta对象
-            NSArray *knowledgeMetas = [[KnowledgeMetaManager instance] loadKnowledgeMeta:fullPath];
-            if (knowledgeMetas == nil || knowledgeMetas.count <= 0) {
+            [metasToProcess addObject:fullPath];
+        }
+    }
+    
+    // 遍历meta.json
+    for (int i = 0; i < metasToProcess.count; ++i) {
+        NSString *fullPath = metasToProcess[i];
+        if (fullPath == nil || [fullPath isEqualToString:@""]) {
+            continue;
+        }
+        
+        float progressValue = ((i + 1) * 100.0f) / metasToProcess.count;
+        NSNumber *progress = [NSNumber numberWithFloat:progressValue];
+        
+        if (self.delegate && [self.delegate respondsToSelector:@selector(dataInitEndedWithResult:andDesc:)]) {
+            [self.delegate dataInitProgressChangedTo:progress withDesc:@"初始化数据"];
+        }
+        
+        // 构造KnowledgeMeta对象
+        NSArray *knowledgeMetas = [[KnowledgeMetaManager instance] loadKnowledgeMeta:fullPath];
+        if (knowledgeMetas == nil || knowledgeMetas.count <= 0) {
+            continue;
+        }
+        
+        for (id obj in knowledgeMetas) {
+            KnowledgeMeta *knowledgeMeta = (KnowledgeMeta *)obj;
+            if (knowledgeMeta == nil) {
                 continue;
             }
             
-            for (id obj in knowledgeMetas) {
-                KnowledgeMeta *knowledgeMeta = (KnowledgeMeta *)obj;
-                if (knowledgeMeta == nil) {
-                    continue;
-                }
-                
-                // 保存到db
-                [[KnowledgeMetaManager instance] saveKnowledgeMeta:knowledgeMeta];
-                LogDebug(@"[KnowledgeManager-registerDataFiles] registered file: %@", fullPath);
-            }
+            // 保存到db
+            [[KnowledgeMetaManager instance] saveKnowledgeMeta:knowledgeMeta];
+            LogDebug(@"[KnowledgeManager-registerDataFiles] registered file: %@", fullPath);
         }
     }
     

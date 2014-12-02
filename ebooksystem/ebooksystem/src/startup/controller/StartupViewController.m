@@ -169,31 +169,31 @@
             case UIDevice_iPhone_Res_320_480:
                 imageFilename = @"startup_640_960.png";
                 activityIndicatorView.frame = CGRectMake(98, 307, 20, 20);
-                tipLabel.frame = CGRectMake(130, 304, 120, 26);
+                tipLabel.frame = CGRectMake(120, 304, 140, 26);
                 break;
                 
             case UIDevice_iPhone_Res_640_960:
                 imageFilename = @"startup_640_960.png";
                 activityIndicatorView.frame = CGRectMake(98, 307, 20, 20);
-                tipLabel.frame = CGRectMake(130, 304, 120, 26);
+                tipLabel.frame = CGRectMake(120, 304, 140, 26);
                 break;
                 
             case UIDevice_iPhone_Res_640_1136:
                 imageFilename = @"startup_640_1136.png";
                 activityIndicatorView.frame = CGRectMake(98, 395, 20, 20);
-                tipLabel.frame = CGRectMake(130, 392, 120, 26);
+                tipLabel.frame = CGRectMake(120, 392, 140, 26);
                 break;
                 
             case UIDevice_iPhone_Res_750_1334:
                 imageFilename = @"startup_750_1334.png";
                 activityIndicatorView.frame = CGRectMake(98, 395, 20, 20);
-                tipLabel.frame = CGRectMake(130, 392, 120, 26);
+                tipLabel.frame = CGRectMake(120, 392, 140, 26);
                 break;
                 
             case UIDevice_iPhone_Res_1080_1920:
                 imageFilename = @"startup_1080_1920.png";
                 activityIndicatorView.frame = CGRectMake(98, 395, 20, 20);
-                tipLabel.frame = CGRectMake(130, 392, 120, 26);
+                tipLabel.frame = CGRectMake(120, 392, 140, 26);
                 break;
                 
             default:
@@ -286,7 +286,7 @@
     [progressOverlayViewController showSmallProgressViewWithLongTitleLabelText:desc];
 }
 
-- (void)changeProgressOfOverlay:(NSString *)progress {
+- (void)changeProgressOfOverlay:(NSNumber *)progress {
     if (progressOverlayViewController) {
         [progressOverlayViewController updateProgress:[progress integerValue]];
     }
@@ -319,10 +319,10 @@
     // 更新进度
     dispatch_async(dispatch_get_main_queue(), ^{
         if (tipLabel) {
-            tipLabel.text = desc;
+            tipLabel.text = [NSString stringWithFormat:@"%@ %ld%%", desc, (long)[progress integerValue]];
         }
         
-        [self changeProgressOfOverlay:desc];
+        [self changeProgressOfOverlay:progress];
     });
 }
 
