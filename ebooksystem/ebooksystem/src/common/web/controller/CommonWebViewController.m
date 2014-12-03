@@ -10,12 +10,9 @@
 
 #import "Config.h"
 
-#import "KnowledgeSubject.h"
-
 #import "KnowledgeManager.h"
 #import "StatisticsManager.h"
 
-//#import <MediaPlayer/MediaPlayer.h>
 #import "DirectionMPMoviePlayerViewController.h"
 
 #import "MoreViewController.h"
@@ -31,17 +28,24 @@
 
 #import "MatchViewController.h"
 
+#import "UMSocial.h"
+#import "UMSocialSnsService.h"
+#import "UMSocialScreenShoter.h"
 
-@interface CommonWebViewController () <UIWebViewDelegate, UpdateManagerDelegate, UIAlertViewDelegate>
+#import "UIColor+Hex.h"
+
+
+@interface CommonWebViewController () <UIWebViewDelegate, UIAlertViewDelegate>
 
 #pragma mark - outlets
-@property (strong, nonatomic) IBOutlet UIWebView *webView;
+@property (strong, nonatomic) UIWebView *webView;
 
 #pragma mark - properties
 // bridge between webview and js
 @property (nonatomic, copy) WebViewJavascriptBridge *javascriptBridge;
+//UA
 
-@property(nonatomic,strong)NSString *updateAppURL;
+
 
 #pragma mark - methods
 // 初始化webView
@@ -60,6 +64,8 @@
 // 打开新的webView, 并跳转到指定的url
 - (BOOL)showSafeURL:(NSString *)urlStr;
 
+-(void)share:(NSDictionary *)shareDic;
+
 // 视频播放开始
 - (void)playVideo:(NSString *)urlStr;
 // 视频播放结束
@@ -68,7 +74,6 @@
 // 延迟执行
 - (void)performBlock:(void(^)())block afterDelay:(NSTimeInterval)delay;
 
-
 @end
 
 
@@ -76,35 +81,36 @@
 
 @implementation CommonWebViewController
 
+@synthesize webView = _webView;
 @synthesize javascriptBridge = _javascriptBridge;
-
-@synthesize knowledgeSubject = _knowledgeSubject;
-@synthesize pageId = _pageId;
 
 
 #pragma mark - properties
+// webView
+- (UIWebView *)webView {
+    if (_webView == nil) {
+        _webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 20, self.view.frame.size.width, self.view.frame.size.height - 20)];
+        [self.view addSubview:_webView];
+    }
+    
+    return _webView;
+}
+
 // bridge between webview and js
 - (WebViewJavascriptBridge *)javascriptBridge {
     if (_javascriptBridge == nil) {
-        _javascriptBridge = [WebViewJavascriptBridge bridgeForWebView:self.webView
-                                                    handler:^(id data, WVJBResponseCallback responseCallback) {
-                                                        LogDebug(@"Received message from javascript: %@", data);
-                                                        responseCallback(@"'response data from obj-c'");
-                                                    }];
-//        [self initWebView];
+        _javascriptBridge = [WebViewJavascriptBridge bridgeForWebView:self.webView webViewDelegate:self handler:^(id data, WVJBResponseCallback responseCallback) {
+            LogDebug(@"Received message from javascript: %@", data);
+            responseCallback(@"'response data from obj-c'");
+        }];
+        //        [self initWebView];
     }
     
     return _javascriptBridge;
 }
 
-- (void)setKnowledgeSubject:(KnowledgeSubject *)knowledgeSubject {
-    _knowledgeSubject = knowledgeSubject;
-}
-
-
 #pragma mark - app life
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
@@ -112,13 +118,14 @@
     return self;
 }
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
+    
+    self.view.backgroundColor = [UIColor colorWithHexString:@"#242021" alpha:1];
+    self.automaticallyAdjustsScrollViewInsets = NO;
     
     [self initWebView];
     [self updateWebView];
-    [self updateApp];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -132,42 +139,19 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    
-    
-//    // test video play
-//    {
-//        [self performBlock:^{
-//            [self gotoMediaPlayerViewController];
-//        } afterDelay:1];
-//    }
 }
 
-- (void)didReceiveMemoryWarning
-{
+- (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
--(void)viewWillDisappear:(BOOL)animated
-{
+-(void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     
     // 友盟统计
     [[StatisticsManager instance] endLogPageView:@"CommonWebView"];
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
-
-
 
 #pragma mark - ui related methods
 // update navigation bar
@@ -177,7 +161,7 @@
 
 #pragma mark - web view methods
 - (BOOL)initWebView {
-    self.webView.delegate = self.javascriptBridge;
+//    self.webView.delegate = self.javascriptBridge;
     
     // 注册obj-c方法, 供js调用
     // test method
@@ -192,17 +176,16 @@
     // goBack()
     [self.javascriptBridge registerHandler:@"goBack" handler:^(id data, WVJBResponseCallback responseCallback) {
         LogDebug(@"CommonWebViewController::goBack() called: %@", data);
-        [self.webView goBack];
-//        [self.navigationController popViewControllerAnimated:YES];
+        [self.navigationController popViewControllerAnimated:YES];
     }];
     
-    // showMenu()
-    [self.javascriptBridge registerHandler:@"showMenu" handler:^(id data, WVJBResponseCallback responseCallback) {
-        LogDebug(@"CommonWebViewController::showMenu() called: %@", data);
-        
-        MoreViewController *more = [[MoreViewController alloc] init];
-        [self.navigationController pushViewController:more animated:YES];
-    }];
+//    // showMenu()
+//    [self.javascriptBridge registerHandler:@"showMenu" handler:^(id data, WVJBResponseCallback responseCallback) {
+//        LogDebug(@"CommonWebViewController::showMenu() called: %@", data);
+//        
+//        MoreViewController *more = [[MoreViewController alloc] init];
+//        [self.navigationController pushViewController:more animated:YES];
+//    }];
     
     // getNodeDataById()
     // deprecated: 读取数据, 非index方式
@@ -311,6 +294,14 @@
         [self showSafeURL:urlStr];
     }];
     
+    [self.javascriptBridge registerHandler:@"share" handler:^(id data, WVJBResponseCallback responseCallback) {
+        LogDebug(@"MatchViewController::share() called: %@", data);
+        
+        NSDictionary *shareDic = (NSDictionary *)data;
+        
+        [self share:shareDic];
+    }];
+    
     // playVideo()
     [self.javascriptBridge registerHandler:@"playVideo" handler:^(id dataId, WVJBResponseCallback responseCallback) {
         LogDebug(@"CommonWebViewController::playVideo() called: %@", dataId);
@@ -350,6 +341,10 @@
         [self.navigationController pushViewController:match animated:YES];
     }];
     
+    //change Background
+    [self.javascriptBridge registerHandler:@"setStatusBarBackground" handler:^(id data, WVJBResponseCallback responseCallback) {
+        [self changeBackgourndColorWithColor:data];
+    }];
     
     // 发送消息给 html
     //    [self.javascriptBridge send:@"Well hello there"];
@@ -367,8 +362,7 @@
     return YES;
 }
 
-- (UIColor *)getColor:(NSString*)hexColor
-{
+- (UIColor *)getColor:(NSString*)hexColor {
     unsigned int red,green,blue;
     NSRange range;
     range.length = 2;
@@ -395,30 +389,19 @@
 //    self.webView.opaque = NO;
 //    self.webView.backgroundColor = [self getColor:@"353232"];
     
-    if (self.pageId == nil) {
+    if (self.url == nil) {
         return NO;
     }
     
-    // 打开pageId对应的页面
-    NSString *pagePath = [[KnowledgeManager instance] getPagePath:self.pageId];
-    if (pagePath == nil || pagePath.length <= 0) {
-        return NO;
+    // 打开url对应的页面
+    NSString *connector = @"&";
+    if ([self.url hasSuffix:@"/"] || [self.url hasSuffix:@".html"] || [self.url hasSuffix:@"php"]) {
+        connector = @"\?";
     }
-    // 加载指定的html文件
-    NSURL *url = [[NSURL alloc] initFileURLWithPath:[NSString stringWithFormat:@"%@/%@", pagePath, @"index.html"]];
+    NSString *urlStrWithParams = [NSString stringWithFormat:@"%@%@back_to_app=1", self.url, connector];
+    NSURL *finalUrl = [NSURL URLWithString:urlStrWithParams];
     
-    //        NSString *urlStrWithParams = [NSString stringWithFormat:@"%@?page_id=%@&data_id=%@", [url absoluteString], self.pageId, dataId];
-    NSString *urlStrWithParams = [NSString stringWithFormat:@"%@?page_id=%@", [url absoluteString], self.pageId];
-    NSURL *urlWithParams = [[NSURL alloc] initWithString:urlStrWithParams];
-    
-    // test only
-    {
-////    urlWithParams = [[NSURL alloc] initWithString:@"http://www.baidu.com"]; // test only
-//    NSString *tmp = @"http://www.zaxue100.com/index.php?c=kaoyan_english_realexam_ctrl&m=year_list_page&year=2014&device=android";
-//    urlWithParams = [NSURL URLWithString:[tmp stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-    }
-    
-    [self.webView loadRequest:[[NSURLRequest alloc] initWithURL:urlWithParams]];
+    [self.webView loadRequest:[[NSURLRequest alloc] initWithURL:finalUrl]];
     
     return YES;
 }
@@ -469,6 +452,90 @@
     return YES;
 }
 
+#pragma mark - share
+
+-(void)share:(NSDictionary *)shareDic {
+    /*
+     url :
+     img_url :
+     weixin_img_url :
+     title :
+     content :
+     screen_shot : false
+     */
+    //title
+    NSString *titleAll=[shareDic objectForKey:@"title"];
+    //分享链接
+    NSString *callBackUrl=[shareDic objectForKey:@"url"];
+    //    NSURL *weburl=[NSURL URLWithString:urlString];
+    //分享的图片链接
+    NSString *imageString=[shareDic objectForKey:@"img_url"];
+    //是否截屏
+    BOOL shouldScreen_shot=(BOOL)[shareDic objectForKey:@"screen_shot"];
+    //微信使用的url
+    NSString *weixinImageUrl=[shareDic objectForKey:@"weixin_img_url"];
+    //分享内容
+    NSString *shareString=[shareDic objectForKey:@"content"];
+    
+    
+    /*
+     //(1)使用ui，分享url定义的图片
+     [[UMSocialData defaultData].urlResource setResourceType:UMSocialUrlResourceTypeImage url:imageString];
+     //(2)使用ui,分享截屏图片
+     //    UIImage *image = [[UMSocialScreenShoterDefault screenShoter] getScreenShot];
+     //不同的平台分享不同的内容
+     //新浪微博平台
+     [UMSocialData defaultData].extConfig.sinaData.shareText = @"分享到新浪微博内容";
+     //腾讯
+     [UMSocialData defaultData].extConfig.tencentData.shareImage = [UIImage imageNamed:@"meinv.jpg"]; //分享到腾讯微博图片
+     */
+    
+    //1、分享到QQ
+    [UMSocialData defaultData].extConfig.qqData.shareText=shareString;
+    //分享到QQ的title
+    [UMSocialData defaultData].extConfig.qqData.title=titleAll;
+    //分享到QQ的image
+    [[UMSocialData defaultData].extConfig.qqData.urlResource setResourceType:UMSocialUrlResourceTypeImage url:weixinImageUrl];
+    //点击分享的内容跳转到的网站
+    [UMSocialData defaultData].extConfig.qqData.url = callBackUrl;
+    
+    
+    
+    
+    
+    
+    
+    //2、分享到qq空间的图片
+    [[UMSocialData defaultData].extConfig.qzoneData.urlResource setResourceType:UMSocialUrlResourceTypeImage url:weixinImageUrl];
+    //分享qq空间的title
+    [UMSocialData defaultData].extConfig.qzoneData.title = titleAll;
+    //分享qq空间的内容
+    [UMSocialData defaultData].extConfig.qzoneData.shareText=shareString;
+    //回调的url
+    [UMSocialData defaultData].extConfig.qzoneData.url = callBackUrl;
+    
+    
+    //3、设置微信好友分享url图片
+    [[UMSocialData defaultData].extConfig.wechatSessionData.urlResource setResourceType:UMSocialUrlResourceTypeImage url:weixinImageUrl];
+    //设置微信的分享文字
+    [UMSocialData defaultData].extConfig.wechatSessionData.shareText=shareString;
+    //设置微信的title
+    [UMSocialData defaultData].extConfig.wechatSessionData.title=titleAll;
+    //回调的url
+    [UMSocialData defaultData].extConfig.wechatSessionData.url=callBackUrl;
+    
+    
+    //4、设置微信朋友圈的分享的URL图片
+    [[UMSocialData defaultData].extConfig.wechatTimelineData.urlResource setResourceType:UMSocialUrlResourceTypeImage url:weixinImageUrl];
+    //设置微信朋友圈的分享文字
+    [UMSocialData defaultData].extConfig.wechatTimelineData.shareText=shareString;
+    //
+    [UMSocialData defaultData].extConfig.wechatTimelineData.url=callBackUrl;
+    
+    [UMSocialSnsService presentSnsIconSheetView:self appKey:@"543dea72fd98c5fc98004e08" shareText:shareString shareImage:nil shareToSnsNames:[NSArray arrayWithObjects:UMShareToWechatSession,UMShareToWechatTimeline,UMShareToQzone,UMShareToQQ,nil] delegate:nil];
+}
+
+
 #pragma mark - play video
 - (void)playVideo:(NSString *)urlStr {
     if (urlStr == nil || urlStr.length <= 0) {
@@ -493,7 +560,7 @@
                                                  name:MPMoviePlayerPlaybackDidFinishNotification
                                                object:[playerViewController moviePlayer]];
     
-    //---play movie---
+    // play video
     [[playerViewController moviePlayer] play];
     
     // 注: 用present会导致playerViewController中设置的transform不生效, 故转为push
@@ -518,28 +585,39 @@
 }
 
 #pragma mark - WebViewJavascriptBridge delegate methods
-- (void)javascriptBridge:(WebViewJavascriptBridge *)bridge receivedMessage:(NSString *)message fromWebView:(UIWebView *)webView
-{
+- (void)javascriptBridge:(WebViewJavascriptBridge *)bridge receivedMessage:(NSString *)message fromWebView:(UIWebView *)webView {
     NSLog(@"MyJavascriptBridgeDelegate received message: %@", message);
 }
 
+#pragma mark - web view delegate methods
 
-#pragma mark - web view delegate
-
-- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
+-(BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
+{
+    if (request) {
+        LogDebug(@"[CommonWebViewController] Web request: UA: %@", [request valueForHTTPHeaderField:@"User-Agent"]);
+    }
+    
+    [self injectJSToWebView:webView];
     return YES;
 }
 
-- (void)webViewDidStartLoad:(UIWebView *)webView {
-    
+-(void)webViewDidStartLoad:(UIWebView *)webView
+{
+    [self injectJSToWebView:webView];
+
 }
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
-    
+    [self injectJSToWebView:webView];
 }
 
-- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
-    
+#pragma mark - js injection
+
+- (void)injectJSToWebView:(UIWebView *)webView
+{
+    NSString *filePath = [[NSBundle mainBundle] pathForResource:@"webview-js-bridge" ofType:@"js"];
+    NSString *jsString = [[NSString alloc] initWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:nil];
+    [webView stringByEvaluatingJavaScriptFromString:jsString];
 }
 
 #pragma mark - 屏幕旋转
@@ -625,55 +703,10 @@
 //}
 //
 
--(void)updateApp
+#pragma mark change background
+-(void)changeBackgourndColorWithColor:(NSString *)colorString
 {
-    [UpdateManager instance].delegate=self;
-    [[UpdateManager instance] checkUpdate];
+    self.view.backgroundColor = [UIColor colorWithHexString:colorString alpha:1];
 }
-
--(void)onCheckUpdateResult:(UpdateInfo *)updateInfo
-{
-    dispatch_async(dispatch_get_main_queue(), ^{
-        NSString *status=updateInfo.status;
-        if ([status isEqualToString:@"0"])
-        {
-            NSString *shouldUpdate=updateInfo.shouldUpdate;
-            if ([shouldUpdate isEqualToString:@"NO"])
-            {
-                LogInfo(@"已经是最新版本");
-            }
-            else
-            {
-                
-                //            NSLog(@"appDownloadUrl====%@",updateInfo.appDownloadUrl);
-                self.updateAppURL=updateInfo.appDownloadUrl;
-                NSString *desc=updateInfo.appVersionDesc;
-                NSString *version=updateInfo.appVersionStr;
-                NSString *title=[NSString stringWithFormat:@"有新版本可供更新%@",version];
-                NSString *msg=[NSString stringWithFormat:@"更新信息：%@",desc];
-                UIAlertView *alert=[[UIAlertView alloc] initWithTitle:title message:msg delegate:self cancelButtonTitle:@"忽略" otherButtonTitles:@"更新", nil];
-                [alert show];
-            }
-        }
-        else
-        {
-            LogError(@"检查版本更新出错");
-        }
-    });
-
-}
-
-#pragma mark alertView delegate method
--(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if (buttonIndex !=alertView.cancelButtonIndex) {
-        //        [self.navigationController pushViewController:self.updateApp animated:YES];
-        NSURL *requestURL = [NSURL URLWithString:[self.updateAppURL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-        
-        [[UIApplication sharedApplication] openURL:requestURL];
-    }
-    
-}
-#pragma mark into matchViewController
 
 @end

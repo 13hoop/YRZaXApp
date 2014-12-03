@@ -8,12 +8,25 @@
 
 #import "WebUtil.h"
 
+#import "Config.h"
+
 #import "LogUtil.h"
 
 
 @implementation WebUtil
 
 #pragma mark - methods
+
++ (BOOL)checkUserAgent {
+    NSString *originalUserAgent = [[[UIWebView alloc] init] stringByEvaluatingJavaScriptFromString:@"navigator.userAgent"];
+    
+    NSString *newUserAgent = [[NSString alloc] initWithFormat:@"%@ %@", originalUserAgent, [Config instance].webConfig.userAgent];
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:newUserAgent, @"UserAgent", nil];
+    
+    [[NSUserDefaults standardUserDefaults] registerDefaults:dict];
+    
+    return YES;
+}
 
 /**
  * quest

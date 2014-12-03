@@ -253,15 +253,14 @@ static UITapGestureRecognizer *tapRecognizer;
         [self.view addSubview:self.mContactView];
         [btn setTitle:@"下次再说" forState:UIControlStateNormal];
     }
-    else
-    {
+    else {
         [self.mContactView removeFromSuperview];
         [btn setTitle:@"完善信息" forState:UIControlStateNormal];
     }
 
-     self.isSelected=! self.isSelected;
-    NSLog(@"点击了，点击了");
+     self.isSelected = !self.isSelected;
 }
+
 - (void)didTapAnywhere:(UITapGestureRecognizer *)recognizer {
     [self.mTextField resignFirstResponder];
 }

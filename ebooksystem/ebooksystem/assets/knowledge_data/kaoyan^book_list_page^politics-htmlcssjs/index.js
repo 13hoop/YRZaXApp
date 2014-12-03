@@ -32,6 +32,8 @@
     //顶部banner内层容器
     var bannerList;
     var bannerItemClass = 'banner-item';
+    //需要在线检查是否打开的书籍，检查结果
+    var bookCheckFlags = {};
 
 //渲染书籍列表
     function renderChildList( data, bookStatusMap ){
@@ -41,7 +43,19 @@
         var downloadArr = [];       //当前正在下载、解压中的书籍ID数组
         var updateID = null;
 
+        var bookNum = 0;
+
         data.forEach( function( item, index ){
+
+            //有的书籍，根据在线请求开关来决定是否上线
+            if( item.check_flag_id ){
+                if( bookCheckFlags[item.check_flag_id] !== '1'){
+                    return;
+                }
+            }
+
+
+            bookNum++;
 
             var isOnline = item.is_online === '1';
             var extraClass = '';
@@ -49,6 +63,10 @@
                 extraClass = ' book-item-not-ready ';
             }
             var elemID = 'book-item-' + index;
+
+            if( item.is_new === '1' ){
+                extraClass = ' book-item-new ';
+            }
 
             // var bookStatusStr = bookStatusMap[item.update_id];
             // var statusArray = bookStatusStr.split('##');
@@ -84,7 +102,7 @@
 
             html += '<div class="book-item common-hoverable-item common-split-border ' + extraClass + '" ' +
                 ' data-is_online="' + item.is_online + '" ' +
-            ' data-url="' + item.url + '" ' +
+            ' data-url="' + (item.url || '') + '" ' +
                 ' data-update_id="' + item.update_id + '" ' +
                 ' data-file_size="' + ( item.file_size || 2 ) + '" ' +
                 ' data-page_id="' + item.page_id + '" ' +
@@ -106,7 +124,7 @@
 
         });
 
-        if( data.length % 2 === 1 ){
+        if( bookNum % 2 === 1 ){
             //书籍数量为奇数，加一本占位
             html += '<div class="book-item common-hoverable-item common-split-border " data-is_online="0" ></div>';
         }
@@ -250,7 +268,7 @@
     };
 
 //页面启动入口函数
-    app.run = function(){
+    app.run = function( args ){
 
         var searchConf = utils.getSearchConf();
 
@@ -496,6 +514,13 @@
         }
     }
 
-
+    //在线设置书籍的开关状态
+    app.setFlag = function( flagArray ){
+        if( utils.isArray( flagArray) && flagArray.length > 0 ){
+            flagArray.forEach( function( obj, index ){
+               bookCheckFlags[obj.id] = obj.status;
+            });
+        }
+    };
 
 }();

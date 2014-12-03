@@ -92,10 +92,38 @@
             </objects>
             <point key="canvasLocation" x="795" y="36"/>
         </scene>
-        <!--Common Web View Controller-->
+        <!--Test View Controller-->
+        <scene sceneID="wSs-lb-QZL">
+            <objects>
+                <viewController storyboardIdentifier="test_view_controller" id="DrR-XM-51x" customClass="TestViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="l7f-DZ-qvV"/>
+                        <viewControllerLayoutGuide type="bottom" id="jkh-9x-rf5"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="x2Z-3S-qZG">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="dEH-3Y-Bd5">
+                                <rect key="frame" x="0.0" y="50" width="320" height="790"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="separatorColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <connections>
+                        <outlet property="tableView" destination="dEH-3Y-Bd5" id="BKr-zB-Rhx"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="yJq-HS-PuV" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="793" y="736"/>
+        </scene>
+        <!--Knowledge Web View Controller-->
         <scene sceneID="QCC-aN-rq6">
             <objects>
-                <viewController storyboardIdentifier="common_web_view_controller" id="pjZ-Ar-ujS" customClass="CommonWebViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="common_web_view_controller" id="pjZ-Ar-ujS" customClass="KnowledgeWebViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="4Et-yh-tmc"/>
                         <viewControllerLayoutGuide type="bottom" id="Gwy-7f-CFH"/>

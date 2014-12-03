@@ -48,17 +48,13 @@
     self.webview.delegate=self;
     [self.view addSubview:self.webview];
     NSURLRequest *request=[NSURLRequest requestWithURL:[NSURL URLWithString:self.updateUrlStr]];
-    NSLog(@"链接======%@",self.updateUrlStr);
+
     [self.webview loadRequest:request];
-    
 }
 -(void)createActivityIndicator
 {
-    
     activityIndicatorView=[[MRActivityIndicatorView alloc] initWithFrame:CGRectMake((self.view.frame.size.width-30)/2, (self.view.frame.size.height-30)/2,30, 30)];
     [self.view addSubview:activityIndicatorView];
-    
-    
 }
 
 #pragma mark customNavigationBar delegate method

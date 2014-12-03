@@ -36,7 +36,8 @@
         'index_6' : '七',
         'index_7' : '八',
         'index_8' : '九',
-        'index_9' : '十'
+        'index_9' : '十',
+        'index_10' : '十一'
     };
 
     app.run = function(){

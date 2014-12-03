@@ -10,6 +10,16 @@
 
 @implementation WebConfig
 
+@synthesize userAgent = _userAgent;
+
+
+#pragma mark - properties
+// web request params
+- (NSString *)userAgent {
+//    return @"com.diyebook.ebooksystem.app.ios";
+    return @"ZAXUE_IOS_POLITICS_APP";
+}
+
 #pragma mark - methods
 // singleton
 + (WebConfig *)instance {
@@ -20,12 +30,6 @@
     });
     
     return instance;
-}
-
-
-// web request params
-- (NSString *)userAgent {
-    return @"com.diyebook.ebooksystem.app.ios";
 }
 
 @end

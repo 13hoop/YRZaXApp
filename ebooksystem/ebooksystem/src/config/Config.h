@@ -15,6 +15,7 @@
 #import "UserConfig.h"
 #import "UpdateConfig.h"
 #import "ErrorConfig.h"
+#import "PaymentConfig.h"
 
 
 
@@ -55,5 +56,9 @@
 #pragma mark - error
 // error config
 - (ErrorConfig *)errorConfig;
+
+#pragma mark - payment
+// payment
+- (PaymentConfig *)paymentConfig;
 
 @end

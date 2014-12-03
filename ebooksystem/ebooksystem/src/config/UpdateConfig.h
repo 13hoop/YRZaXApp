@@ -10,12 +10,13 @@
 
 @interface UpdateConfig : NSObject
 
+// 检查更新的url
+@property (nonatomic, copy, readonly) NSString *urlForCheckUpdate;
+
+
 #pragma mark - methods
 // singleton
 + (UpdateConfig *)instance;
-
-// 检查更新的url
-- (NSString *)urlForCheckUpdate;
 
 
 @end

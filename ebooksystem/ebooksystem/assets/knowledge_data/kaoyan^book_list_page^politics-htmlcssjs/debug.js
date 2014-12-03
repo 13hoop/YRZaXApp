@@ -29,6 +29,36 @@ var queryID = args.queryId;
     var out = [
         {
             id : '000',
+            query_id : '000',
+            page_id : '000',
+            update_id : '000-2',
+            book_cover : 'qihang20days20ti',
+            name_ch : '20天20题电子书',
+            sub_name : 'sub name ',
+            is_online : '1',
+            name_en : '',
+            desc : '书籍描述',
+            file_size : '10',
+            check_flag_id : '20_day_20_exers',
+            is_new : '1'
+        },
+        {
+            id : '000',
+            query_id : '000',
+            page_id : '000',
+            update_id : '000-2',
+            book_cover : '20days20timike',
+            name_ch : '20天20题密课',
+            sub_name : 'sub name ',
+            is_online : '1',
+            name_en : '',
+            desc : '书籍描述',
+            file_size : '10',
+            check_flag_id : '',
+            is_new : '1'
+        },
+        {
+            id : '000',
             query_id : '000', 
             page_id : '000',
             update_id : '000-2',

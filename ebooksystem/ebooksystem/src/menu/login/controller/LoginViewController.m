@@ -31,6 +31,9 @@
 #import "LogUtil.h"
 #import "UIColor+Hex.h"
 
+#import "LogUtil.h"
+
+
 #define CUSTOMVIEW_X 70
 @interface LoginViewController ()<CustomNavigationBarDelegate,CustomLoginNavgationBarDelegate,CustomLoginViewDelegate,UserManagerDelegate>
 
@@ -176,15 +179,16 @@
 
     [manager POST:@"http://zaxue100.com/index.php?c=passportctrl&m=login" parameters:parameters success:^(AFHTTPRequestOperation *operation,id responsrObject){
                NSDictionary *dic=responsrObject;
-                NSLog(@"dic=====%@",dic);
+                LogDebug(@"dic=====%@",dic);
+        
                 NSString *dataStr=dic[@"data"];
                 NSData *dataData=[dataStr dataUsingEncoding:NSUTF8StringEncoding];
                 NSDictionary *data=[NSJSONSerialization JSONObjectWithData:dataData options:0 error:nil];
                 //*********测试********
-                NSLog(@"登陆成功服务器返回的信息msg===%@",data[@"msg"]);
+                LogDebug(@"登陆成功服务器返回的信息msg===%@",data[@"msg"]);
        
               if ([data[@"msg"] isEqualToString:@"success"]) {
-                    NSLog(@"登录成功");
+                    LogDebug(@"登录成功");
                     //登录成功后要把数据保存在本地，在用户信息中可以读取这些数据，并返回到更多页面
                   
                     //可变数组在遍历的时候不能进行删改的操作
@@ -194,12 +198,12 @@
                     [userDefaults setObject:model.userName forKey:@"userInfoName"];
                     [userDefaults setObject:model.passWord forKey:@"userinfoPassword"];
                     [userDefaults synchronize];
-                    NSLog(@"model.user===%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"userInfoName"]);
+                    LogDebug(@"model.user===%@",[[NSUserDefaults standardUserDefaults] objectForKey:@"userInfoName"]);
         
                   
                     CustomMoreView *moreview=[[CustomMoreView alloc] init];
                     moreview.userName=[[NSUserDefaults standardUserDefaults] objectForKey:@"userInfoName"];
-                    NSLog(@"使用kvo后，给赋值%@",moreview.userName);
+                    LogDebug(@"使用kvo后，给赋值%@",moreview.userName);
                   
                   //再次发起网络请求--获取用户所有信息
                   UserManager *manager=[UserManager shareInstance];
@@ -217,7 +221,7 @@
                }
        
             } failure:^(AFHTTPRequestOperation *operation,NSError *error){
-                NSLog(@"登陆失败");
+                LogDebug(@"登陆失败");
                 LogError(@"net connect error");
                 UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"温馨提示" message:@"网络状况不佳，请设置您的网络" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"重试", nil];
                 [alert show];
@@ -230,10 +234,10 @@
 -(void)getUserBalance:(NSString *)balance
 {
     //获取到余额信息
-    NSLog(@"%@",balance);
+    LogDebug(@"%@",balance);
     NSUserDefaults *userDefaults=[NSUserDefaults standardUserDefaults];
     [userDefaults setObject:balance forKey:@"surplus_score"];
-    NSLog(@"LOGINVIEWCONTROLLER=====%@",balance);
+    LogDebug(@"LOGINVIEWCONTROLLER=====%@",balance);
     [userDefaults synchronize];
     //
     UserInfo *userinfo=[[UserInfo alloc] init];
@@ -259,30 +263,25 @@
     userinfo.balance=@"1000";
     userinfo.email=@"1223556769@qq.com";
     BOOL issave=[manager saveUserInfo:userinfo];
-    NSLog(@"issave=====%hhd",issave);
+    LogDebug(@"issave=====%hhd",issave);
     NSUserDefaults *userDefault=[NSUserDefaults standardUserDefaults];
     NSMutableArray *arr=[userDefault objectForKey:@"usedUserArray"];
     for (NSDictionary *dic in arr) {
-        NSLog(@"%@",dic[@"userInfoName"]);
+        LogDebug(@"%@",dic[@"userInfoName"]);
     }
-    NSLog(@"到此执行了");
 //    [manager removeAllUserInfo];
-    
-
-    
 }
+
 //test net status
 -(void)testNetStatus
 {
     DeviceStatusUtil *device=[[DeviceStatusUtil alloc] init];
     BOOL is=[device isHorizontalScreen];
-    NSLog(@"是否是横屏%hhd",is);
+    LogDebug(@"是否是横屏%hhd",is);
     CGSize ff=[DeviceStatusUtil screenSize];
-    NSLog(@"当前屏幕的高度是%f",ff.height);
+    LogDebug(@"当前屏幕的高度是%f",ff.height);
     NSString *deviceStr=[device checkDevice];
-    NSLog(@"device===%@",deviceStr);
-    
-    
+    LogDebug(@"device===%@",deviceStr);
 }
 - (void)didReceiveMemoryWarning
 {

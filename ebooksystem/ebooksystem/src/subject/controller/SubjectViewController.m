@@ -13,7 +13,7 @@
 
 #import "ProgressOverlayViewController.h"
 #import "MoreViewController.h"
-#import "CommonWebViewController.h"
+#import "KnowledgeWebViewController.h"
 
 
 #import "BaseTitleBar.h"
@@ -290,13 +290,13 @@
     // todo: 根据iphone还是ipad来查找不同的storyboard
     UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"storyboard_main_iphone" bundle:nil];
     
-    CommonWebViewController *commonWebViewController = [storyBoard instantiateViewControllerWithIdentifier:@"common_web_view_controller"];
+    KnowledgeWebViewController *commonWebViewController = [storyBoard instantiateViewControllerWithIdentifier:@"common_web_view_controller"];
     if (commonWebViewController == nil) {
         return;
     }
     
-    KnowledgeSubject *subject = [self.subjects objectAtIndex:indexPath.row];
-    commonWebViewController.knowledgeSubject = subject;
+//    KnowledgeSubject *subject = [self.subjects objectAtIndex:indexPath.row];
+//    commonWebViewController.knowledgeSubject = subject;
     
     [self.navigationController pushViewController:commonWebViewController animated:YES];
 }

@@ -63,7 +63,7 @@
     [self addSubview:self.infoView];
     NSArray *lableWidth=[[NSArray alloc] initWithObjects:@"70",@"70",@"60",@"100",@"70", nil];
     NSArray *titleArr=[NSArray arrayWithObjects:@"官方网站：",@"新浪微博：",@"微信号：",@"用户交流QQ群：",@"客服邮箱：", nil];
-    NSArray *contentArr=[NSArray arrayWithObjects:@"www.zaxue100.com",@"@咋学",@"zaxueapp或直接搜索“咋学”添加",@"162140049",@"bug@diyebook.cn", nil];
+    NSArray *contentArr=[NSArray arrayWithObjects:@"www.zaxue100.com",@"@咋学",@"zaxueapp或直接搜索“咋学”添加",@"95174151",@"bug@diyebook.cn", nil];
     NSArray *imageArray=[NSArray arrayWithObjects:[[[Config instance] drawableConfig] getImageFullPath:@"guanwang.png"],[[[Config instance] drawableConfig] getImageFullPath:@"weibo.png"],[[[Config instance] drawableConfig] getImageFullPath:@"weixin.png"],[[[Config instance] drawableConfig] getImageFullPath:@"yonghuqun.png"],[[[Config instance] drawableConfig] getImageFullPath:@"xinxiang.png"], nil];
     //create itemLable
     for (NSUInteger i=0; i<5; i++) {
@@ -108,8 +108,6 @@
     [self addSubview:companyLable];
     //create
     
-    
-    NSLog(@"haoyu== %d",customHeight);
     UILabel *copyRightLable=[[UILabel alloc] initWithFrame:CGRectMake(54, customHeight+self.infoView.frame.size.height+self.upView.frame.size.height+16, self.infoView.frame.size.width,10)];
     copyRightLable.font=[UIFont systemFontOfSize:10.0f];
     copyRightLable.textColor=[UIColor colorWithHexString:@"#7d7c7c" alpha:1];
