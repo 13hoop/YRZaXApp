@@ -309,7 +309,7 @@
             var book_arr = data.book_arr;
             renderChildList( book_arr, {} );
 
-            document.body.classList.add( 'page-ready');
+//            document.body.classList.add( 'page-ready');
 
             // var updateIDArr = [];
             // book_arr.forEach(function(item){
