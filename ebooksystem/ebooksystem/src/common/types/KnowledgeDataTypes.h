@@ -27,7 +27,7 @@ typedef enum {
 typedef enum {
     DATA_TYPE_UNKNOWN = -1,
     DATA_TYPE_META, // meta数据
-    DATA_TYPE_DATA_SOURCE, // data数据, 用作app的数据源
+    DATA_TYPE_DATA_SOURCE = 1, // data数据, 用作app的数据源 H:好像是我修改的
     DATA_TYPE_RENDER, // render数据, 用来对数据源进行渲染. e.g, html, css, js, etc.
     DATA_TYPE_DATA_UGC // 用户产生的数据, 如学习记录等
 } DataType;
@@ -87,6 +87,12 @@ typedef enum {
     DATA_STATUS_UPDATE_PREPARING, // 准备更新
     DATA_STATUS_UPDATE_IN_PROGRESS, // 更新中
     DATA_STATUS_UPDATE_COMPLETED, // 更新完成
+    //新添加的字段
+    APP_VERSION_LOW,//app版本过低
+    APP_VERSION_HIGH,//app版本过高
+    NO_PERMISSION,//没有权限
+    DATA_STATUS_DOWNLOAD_FAILED,//数据下载失败
+    
 } DataStatus;
 
 /**
@@ -150,7 +156,7 @@ typedef enum {
 
 // 本地数据信息集合
 @property (nonatomic, copy) NSArray<DataInfo> *dataInfo;
-
+//@property (nonatomic, strong) NSMutableArray <DataInfo>*dataInfo;
 @end
 
 
@@ -184,6 +190,7 @@ typedef enum {
 @interface ServerResponseUpdateInfoDetail : JSONModel
 
 // 是否需要更新app. 0: no, 1: yes
+
 @property (nonatomic, copy) NSString *needUpdateApp;
 // 数据id
 @property (nonatomic, copy) NSString *dataId;
@@ -197,25 +204,82 @@ typedef enum {
 @property (nonatomic, copy) NSString *decryptKey;
 
 // 版本说明信息
-@property (nonatomic, copy) NSString *updateType;
+//@property (nonatomic, copy) NSString *updateType;
 // 版本说明信息
 @property (nonatomic, copy) NSString *updateInfo;
 // 数据发布时间
 @property (nonatomic, copy) NSDate *releaseTime;
+//是否有权限
+@property (nonatomic, copy) NSString *is_permissioned;
+//是否需要更新data
+@property (nonatomic, copy) NSString *need_update_data;
 
 
 @end
 
 /**
- * 关于data更新的服务器响应
+ * 关于data更新的服务器响应 --- data对应的字段
  */
 @interface ServerResponseUpdateInfo : JSONModel
 
 @property (nonatomic, assign) NSInteger status;
 @property (nonatomic, copy) NSString *message;
+@property (nonatomic, copy)NSString *msg_log;
 @property (nonatomic, copy) NSArray *details;
 
 @end
+
+
+/**
+ *服务器返回的响应中data Dic对应的json数据。
+ */
+@interface  ServerResponseDataDic: JSONModel
+
+//update status 0，1
+@property (nonatomic,copy) NSString<Optional> *status;
+//message
+@property (nonatomic,copy) NSString<Optional> *message;
+//message log
+@property (nonatomic,copy) NSString<Optional> *messageLog;
+//update info
+@property (nonatomic,copy) NSArray *updateInfo;
+
+
+@end
+
+
+/**
+ *服务器返回的响应中dataUpdateinfo对应的json数据。
+ */
+
+//2.0中服务器的返回值新添加了一个data字典
+@interface ServerResponseData : JSONModel
+//status
+@property (nonatomic,copy) NSString<Optional> *status;
+//need_update_app
+@property (nonatomic,assign) NSUInteger needUpdateApp;
+//need_update_data
+@property (nonatomic,assign) NSUInteger needUpdateData;
+//is_permissioned
+@property (nonatomic,assign) NSUInteger isPermissioned;
+//data_id
+@property (nonatomic,copy) NSString *dataId;
+//data_version_cur
+@property (nonatomic,copy) NSString *currentDataVersion;
+//data version latest
+@property (nonatomic,copy) NSString *latestDataVersion;
+//download url
+@property (nonatomic,copy) NSString *downloadUrl;
+//data encrypt key
+@property (nonatomic,copy) NSString *dataEncryptKey;
+//update info
+@property (nonatomic,copy) NSString *updateInfo;
+//data release time
+@property (nonatomic,copy) NSString *dataReleaseTime;
+
+@end
+
+
 
 /**
  * 关于data的服务器响应
@@ -223,7 +287,10 @@ typedef enum {
 @interface ServerResponseOfKnowledgeData : JSONModel
 
 #pragma properties
-// encryptMethod
+
+/*
+ 1.0中服务器返回的字段
+
 @property (nonatomic, assign) NSInteger encryptMethod;
 // encryptKeyType
 @property (nonatomic, assign) NSInteger encryptKeyType;
@@ -240,8 +307,31 @@ typedef enum {
 
 //@property (nonatomic, copy) ServerResponseDataInfo<Optional> *dataInfo;
 @property (nonatomic, copy) ServerResponseUpdateInfo<Optional> *updateInfo;
+*/
+
+//encryptMethod
+@property (nonatomic, assign) NSInteger encryptMethod;
+// encryptKeyType
+@property (nonatomic, assign) NSInteger encryptKeyType;
+//g_user_id
+@property (nonatomic, copy) NSString *gUserId;
+//app platform
+@property (nonatomic, assign) NSInteger appPlatform;
+//app version
+@property (nonatomic, copy) NSString *appVersion;
+//session id
+@property (nonatomic,copy) NSString<Optional> *sessionId;
+// data string, which is encoded
+//@property (nonatomic, copy) ServerResponseData<Optional> *data;
+// data string, which is encoded
+@property (nonatomic, copy) NSString *data;
+
+//@property (nonatomic, copy) ServerResponseDataInfo<Optional> *dataInfo;
+@property (nonatomic, copy) ServerResponseUpdateInfo<Optional> *updateInfo;
 
 @end
+
+
 
 
 /**
@@ -249,6 +339,8 @@ typedef enum {
  */
 @interface ServerDataVersionInfo : JSONModel
 
+/*
+ 1.0版本中的数据版本文件中的信息
 // 数据id
 @property (nonatomic, copy) NSString<Optional> *dataId;
 // 数据英文名
@@ -263,6 +355,21 @@ typedef enum {
 @property (nonatomic, copy) NSString<Optional> *appVersionMax;
 // 此数据的app的更新信息
 @property (nonatomic, copy) NSString<Optional> *updateInfo;
+*/
+
+//2.0版中少了一个dataNameEn字段。
+@property (nonatomic,copy)NSString<Optional> *dataId;
+// 数据当前版本号. 此字段为app中为避免性能损失而自行添加, 非server提供
+@property (nonatomic, copy) NSString<Optional> *dataCurVersion;
+// 数据当前最新的版本号
+@property (nonatomic,copy)NSString<Optional> *dataLatestVersion;
+// 适配此数据的app最低版本
+@property (nonatomic, copy) NSString<Optional> *appVersionMin;
+// 适配此数据的app最高版本
+@property (nonatomic, copy) NSString<Optional> *appVersionMax;
+// 此数据的app的更新信息
+@property (nonatomic, copy) NSString<Optional> *updateInfo;
+
 
 
 @end

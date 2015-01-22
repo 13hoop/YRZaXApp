@@ -74,7 +74,7 @@ function dump(arr,level) {
         bridgeIOS.callOC( 'goBack', data );
     };
     
-    // playVideo()
+    // playVideo() you
     bridgeIOS.playVideo = function(data, callback) {
         bridgeIOS.callOC('playVideo', data, function(responseData){
                          if (callback) {
@@ -86,7 +86,77 @@ function dump(arr,level) {
     bridgeIOS.setStatusBarBackground = function(data){
         bridgeIOS.callOC( 'setStatusBarBackground', data );
     };
+    //wu   getCurStudyType
+    bridgeIOS.getCurStudyType = function(callback){
+        bridgeIOS.callOC( 'getCurStudyType',function(responseData){
+                         if (callback) {
+                         callback(responseData);
+                         }
+                         }  );
+    };
+    
+    //getData
+    bridgeIOS.getData = function(data,callback){
+        bridgeIOS.callOC( 'getData',data,function(responseData){
+                         if (callback) {
+                         callback(responseData);
+                         }
+                         }  );
+    };
+    
+    //renderPage
+    bridgeIOS.renderPage = function(data,callback){
+        bridgeIOS.callOC( 'renderPage',data,function(responseData){
+                         if (callback) {
+                         callback(responseData);
+                         }
+                         }  );
+    };
+    //setCurStudyType
+    bridgeIOS.setCurStudyType = function(data,callback){
+        bridgeIOS.callOC( 'setCurStudyType',data,function(responseData){
+                         if (callback) {
+                         callback(responseData);
+                         }
+                         }  );
+    };
+    
+    //getBookList
+    bridgeIOS.getBookList = function(data,callback){
+        bridgeIOS.callOC( 'getBookList',data,function(responseData){
+                         if (callback) {
+                         callback(responseData);
+                         }
+                         }  );
+    };
 
+    //checkUpdate
+    bridgeIOS.checkUpdate = function(data,callback){
+        bridgeIOS.callOC( 'checkUpdate',data,function(responseData){
+                         if (callback) {
+                         callback(responseData);
+                         }
+                         }  );
+    };
+    
+    //startDownload
+    bridgeIOS.startDownload = function(data,callback){
+        bridgeIOS.callOC( 'startDownload',data,function(responseData){
+                         if (callback) {
+                         callback(responseData);
+                         }
+                         }  );
+    };
+    //queryDownloadProgress
+    bridgeIOS.queryDownloadProgress = function(data,callback){
+        bridgeIOS.callOC( 'queryDownloadProgress',data,function(responseData){
+                         if (callback) {
+                         callback(responseData);
+                         }
+                         }  );
+    };
+    
+    
     
 }();
 

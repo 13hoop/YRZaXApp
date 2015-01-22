@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "IADownloadManager.h"
+#define kAFNetworkingIncompleteDownloadFolderName @"Incomplete"
 
 @class AFHTTPRequestOperation;
 

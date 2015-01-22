@@ -44,10 +44,16 @@
 // get searchable knowledge metas
 - (NSArray *)getSearchableKnowledgeMetas;
 
+//H:get knowledge metas with dataId and dataStatus
+- (NSArray *)getKnowledgeMetaWithDataId:(NSString *)dataId andDataStatus:(DataStatus)dataStatus;
+
+
+
 #pragma mark - setter
 // 更新数据的状态及描述
 - (BOOL)setDataStatusTo:(DataStatus)status andDataStatusDescTo:(NSString *)desc forDataWithDataId:(NSString *)dataId andType:(DataType)dataType;
 
-
+//H:更新数据在app中的相对路径，数据状态，以及更新版本号的操作
+- (BOOL)setDataStatusTo:(DataStatus)status andDataPath:(NSString *)dataPath andDataCurVersion:(NSString *)curVersion andDataStorageType:(DataStorageType)dataStorageType forDataWithDataId:(NSString *)dataId andType:(DataType)dataType;
 
 @end

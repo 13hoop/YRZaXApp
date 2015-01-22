@@ -16,6 +16,6 @@
 // web view展现时, 需要展示的url
 @property (nonatomic, copy) NSString *url;
 
-
+@property (nonatomic,strong) NSString *dataStoreLocation;
 
 @end

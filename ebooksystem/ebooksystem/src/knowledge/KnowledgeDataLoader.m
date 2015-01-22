@@ -60,8 +60,10 @@
 
 #pragma mark - load knowledge index file
 // 加载index文件
-- (BOOL)loadKnowledgeIndex:(NSString *)indexFilename forData:(NSString *)dataId;
+- (BOOL)loadKnowledgeIndex:(NSString *)indexFilename forData:(NSString *)dataId withDataStoreLocation:(NSString *)dataStoreLocation;
 
+//H:根据数据库中dataStoreLocation来加载knowLedgeIndex文件
+//- (BOOL)loadKnowledgeIndex:(NSString *)indexFilename forData:(NSString *)dataId;
 
 @end
 
@@ -164,7 +166,13 @@
                 indexFilename = [self decideIndexFilename:queryId];
             }
             
-            BOOL ret = [self loadKnowledgeIndex:indexFilename forData:dataId];
+            //结合
+            //H:在这里做了修改：
+            NSString *dataStoreLocationStr = [[NSUserDefaults standardUserDefaults] objectForKey:@"dataStoreLocation"];
+            BOOL ret = [self loadKnowledgeIndex:indexFilename forData:dataId withDataStoreLocation:dataStoreLocationStr];
+            [[NSUserDefaults standardUserDefaults] setValue:nil forKey:@"dataStoreLocation"];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+            
             if (!ret) {
                 LogError(@"[KnowledgeLoader-getKnowledgeDataWithDataId:andQueryId:andIndexFilename:] failed since fail to load index from file: %@", indexFilename);
                 return nil;
@@ -246,6 +254,7 @@
 }
 
 #pragma mark - load knowledge index file
+/*H：数据库中添加进dataStoreLocation这个字段后可以解开直接使用
 // 加载index文件
 - (BOOL)loadKnowledgeIndex:(NSString *)indexFilename forData:(NSString *)dataId {
     NSArray *knowledgeMetaEntities = [[KnowledgeMetaManager instance] getKnowledgeMetaWithDataId:dataId];
@@ -274,7 +283,19 @@
     }
 
     // 逐行读取文件
-    NSString *fullIndexFilepath = [NSString stringWithFormat:@"%@/%@/%@", [Config instance].knowledgeDataConfig.knowledgeDataRootPathInApp, targetKnowledgeMeta.dataPath, indexFilename];
+//    NSString *fullIndexFilepath = [NSString stringWithFormat:@"%@/%@/%@", [Config instance].knowledgeDataConfig.knowledgeDataRootPathInApp, targetKnowledgeMeta.dataPath, indexFilename];
+    //H:新修改的
+    NSString *fullIndexFilepath = nil;
+    if ([targetKnowledgeMeta.dataStoreLocation isEqualToString:@"appBundle"]) {
+        fullIndexFilepath = [NSString stringWithFormat:@"%@/%@/%@", [Config instance].knowledgeDataConfig.knowledgeDataRootPathInApp, targetKnowledgeMeta.dataPath, indexFilename];
+    }
+    else{
+        if ([targetKnowledgeMeta.dataStoreLocation isEqualToString:@"sandBox"]) {
+            fullIndexFilepath = [NSString stringWithFormat:@"%@/%@/%@",[[Config instance] knowledgeDataConfig].knowledgeDataRootPathInDocuments,targetKnowledgeMeta.dataPath,indexFilename];
+        }
+        
+    }
+    
     
     FILE *fp = fopen([fullIndexFilepath UTF8String], "r");
     if (fp == NULL) {
@@ -341,6 +362,137 @@
     
     return YES;
 }
+ */
+//H:写了一个字段进去
+- (BOOL)loadKnowledgeIndex:(NSString *)indexFilename forData:(NSString *)dataId withDataStoreLocation:(NSString *)dataStoreLocation {
+    NSArray *knowledgeMetaEntities = [[KnowledgeMetaManager instance] getKnowledgeMetaWithDataId:dataId];
+    
+    // add
+    if (knowledgeMetaEntities == nil || knowledgeMetaEntities.count <= 0) {
+        return NO;
+    }
+    
+    KnowledgeMeta *targetKnowledgeMeta = nil;
+    for (id obj in knowledgeMetaEntities) {
+        KnowledgeMetaEntity *knowledgeMetaEntity = (KnowledgeMetaEntity *)obj;
+        if (knowledgeMetaEntity == nil) {
+            continue;
+        }
+        
+        KnowledgeMeta *knowledgeMeta = [KnowledgeMeta fromKnowledgeMetaEntity:knowledgeMetaEntity];
+        if (knowledgeMeta) {
+            targetKnowledgeMeta = knowledgeMeta;
+            break;
+        }
+    }
+    
+    if (targetKnowledgeMeta == nil || targetKnowledgeMeta.dataPath == nil || targetKnowledgeMeta.dataPath.length <= 0) {
+        return NO;
+    }
+    
+    // 逐行读取文件
+    //    NSString *fullIndexFilepath = [NSString stringWithFormat:@"%@/%@/%@", [Config instance].knowledgeDataConfig.knowledgeDataRootPathInApp, targetKnowledgeMeta.dataPath, indexFilename];
+    //H:新修改的
+    NSString *fullIndexFilepath = nil;
+    
+    if (targetKnowledgeMeta.dataStorageType == DATA_STORAGE_APP_ASSETS) {
+//        fullIndexFilepath = [NSString stringWithFormat:@"%@/%@/%@", [Config instance].knowledgeDataConfig.knowledgeDataRootPathInApp, targetKnowledgeMeta.dataPath, indexFilename];
+        fullIndexFilepath = [NSString stringWithFormat:@"%@/%@/%@", [Config instance].knowledgeDataConfig.knowledgeDataRootPathInAssets, targetKnowledgeMeta.dataPath, indexFilename];
+        NSLog(@"读取bundle下的index文件");
+
+    }
+    else {
+        if (targetKnowledgeMeta.dataStorageType == DATA_STORAGE_INTERNAL_STORAGE) {
+            fullIndexFilepath = [NSString stringWithFormat:@"%@/%@/%@",[[Config instance] knowledgeDataConfig].knowledgeDataRootPathInDocuments,targetKnowledgeMeta.dataPath,indexFilename];
+            NSLog(@"读取sandBox下的index文件");
+        }
+        
+        
+    }
+    
+    
+    FILE *fp = fopen([fullIndexFilepath UTF8String], "r");
+    if (fp == NULL) {
+        return NO;
+    }
+    
+    char buffer[MAX_LINE_LENGTH];
+    while (fgets(buffer, MAX_LINE_LENGTH, fp) != NULL) {
+        NSString *line = [NSString stringWithUTF8String:buffer];
+        NSArray *fields = [line componentsSeparatedByString:@"\t"];
+        if (fields == nil || fields.count < 4) {
+            continue;
+        }
+        
+        NSString *queryId = [fields objectAtIndex:0];
+        NSString *dataFilename = [fields objectAtIndex:1];
+        NSInteger offset = [[fields objectAtIndex:2] integerValue];
+        NSInteger len = [[fields objectAtIndex:3] integerValue];
+        
+        KnowledgeDataIndex *index = [[KnowledgeDataIndex alloc] init];
+        //H:查找shit文件
+        if (targetKnowledgeMeta.dataStorageType == DATA_STORAGE_APP_ASSETS) {
+            index.fullDataFilepath = [NSString stringWithFormat:@"%@/%@/%@", [Config instance].knowledgeDataConfig.knowledgeDataRootPathInAssets, targetKnowledgeMeta.dataPath, dataFilename];
+            NSLog(@"读取的是bundle目录下的shit文件==%@",index.fullDataFilepath);
+
+        }
+        else {
+            if (targetKnowledgeMeta.dataStorageType == DATA_STORAGE_INTERNAL_STORAGE) {
+                index.fullDataFilepath = [NSString stringWithFormat:@"%@/%@/%@", [Config instance].knowledgeDataConfig.knowledgeDataRootPathInDocuments, targetKnowledgeMeta.dataPath, dataFilename];
+                 NSLog(@"读取的是sandBox目录下的shit文件==%@",index.fullDataFilepath);
+            }
+            
+           
+        }
+        //H:通过刚开始设置app数据增量或者全量来去不同的目录
+//        index.fullDataFilepath = [NSString stringWithFormat:@"%@/%@/%@", [Config instance].knowledgeDataConfig.knowledgeDataRootPathInApp, targetKnowledgeMeta.dataPath, dataFilename];
+        index.offset = offset;
+        index.len = len;
+        
+        // 添加到knowledgeDataMap中
+        {
+            NSMutableDictionary *queryDict = nil;
+            
+            // 在dict中查找, 若无, 则创建
+            id obj = [self.knowledgeDataDict objectForKey:dataId];
+            if (obj == nil) {
+                // <query_id, [{data_file_name, offset, len, last_used_time}, ...]>
+                NSMutableArray *indexArray = [[NSMutableArray alloc] init];
+                [indexArray addObject:index];
+                
+                queryDict = [[NSMutableDictionary alloc] init];
+                [queryDict setObject:indexArray forKey:queryId];
+                
+                //                queryDict = [[NSMutableDictionary alloc] initWithObjects:[NSArray arrayWithObjects:index, nil] forKeys:[NSArray arrayWithObjects:queryId, nil]];
+                [self.knowledgeDataDict setObject:queryDict forKey:dataId];
+            }
+            else {
+                queryDict = (NSMutableDictionary *)obj;
+                if (queryDict == nil) {
+                    queryDict = [[NSMutableDictionary alloc] init];
+                }
+                
+                if (queryDict) {
+                    NSMutableArray *indexArray = [queryDict objectForKey:queryId];
+                    if (indexArray == nil) {
+                        indexArray = [[NSMutableArray alloc] init];
+                    }
+                    
+                    [indexArray addObject:index];
+                    
+                    [queryDict setObject:indexArray forKey:queryId];
+                    //                    [queryDict setObject:index forKey:queryId];
+                }
+            }
+        }
+    }
+    
+    fclose(fp);
+    
+    return YES;
+
+}
+
 
 #pragma mark - test
 - (BOOL)test {

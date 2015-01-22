@@ -41,10 +41,10 @@
 
 + (JSONKeyMapper*)keyMapper {
     return [[JSONKeyMapper alloc] initWithJSONToModelBlock:^NSString *(NSString *keyName) {
-        if ([keyName isEqual:@"id"]) {
+        if ([keyName isEqual:@"data_id"]) {
             return @"dataId";
         }
-        else if ([keyName isEqual:@"version"]) {
+        else if ([keyName isEqual:@"data_version"]) {
             return @"curVersion";
         }
         else {
@@ -53,10 +53,10 @@
     }
                                           modelToJSONBlock:^NSString *(NSString *keyName) {
                                               if ([keyName isEqual:@"dataId"]) {
-                                                  return @"id";
+                                                  return @"data_id";
                                               }
                                               else if ([keyName isEqual:@"curVersion"]) {
-                                                  return @"version";
+                                                  return @"data_version";
                                               }
                                               else {
                                                   return keyName;
@@ -188,24 +188,28 @@
 @synthesize decryptKey;
 
 // 版本说明信息
-@synthesize updateType;
+//@synthesize updateType;
 // 版本说明信息
 @synthesize updateInfo;
 // 数据发布时间
 @synthesize releaseTime;
+//是否有权限
+@synthesize is_permissioned;
+//是否需要更新data
+@synthesize need_update_data;
 
 + (JSONKeyMapper*)keyMapper {
     return [[JSONKeyMapper alloc] initWithJSONToModelBlock:^NSString *(NSString *keyName) {
-        if ([keyName isEqual:@"id"]) {
+        if ([keyName isEqual:@"data_id"]) {
             return @"dataId";
         }
         else if ([keyName isEqual:@"need_update_app"]) {
             return @"needUpdateApp";
         }
-        else if ([keyName isEqual:@"cur_version"]) {
+        else if ([keyName isEqual:@"data_version_cur"]) {
             return @"curVersion";
         }
-        else if ([keyName isEqual:@"latest_version"]) {
+        else if ([keyName isEqual:@"data_version_latest"]) {
             return @"latestVersion";
         }
         else if ([keyName isEqual:@"download_url"]) {
@@ -220,7 +224,7 @@
         else if ([keyName isEqual:@"update_info"]) {
             return @"updateInfo";
         }
-        else if ([keyName isEqual:@"release_time"]) {
+        else if ([keyName isEqual:@"data_release_time"]) {
             return @"releaseTime";
         }
         else {
@@ -229,16 +233,16 @@
     }
                                           modelToJSONBlock:^NSString *(NSString *keyName) {
                                               if ([keyName isEqual:@"dataId"]) {
-                                                  return @"id";
+                                                  return @"data_id";
                                               }
                                               else if ([keyName isEqual:@"needUpdateApp"]) {
                                                   return @"need_update_app";
                                               }
                                               else if ([keyName isEqual:@"curVersion"]) {
-                                                  return @"cur_version";
+                                                  return @"data_version_cur";
                                               }
                                               else if ([keyName isEqual:@"latestVersion"]) {
-                                                  return @"latest_version";
+                                                  return @"data_version_latest";
                                               }
                                               else if ([keyName isEqual:@"downloadUrl"]) {
                                                   return @"download_url";
@@ -253,7 +257,7 @@
                                                   return @"update_info";
                                               }
                                               else if ([keyName isEqual:@"releaseTime"]) {
-                                                  return @"release_time";
+                                                  return @"data_release_time";
                                               }
                                               else {
                                                   return keyName;
@@ -272,6 +276,7 @@
 @synthesize status;
 @synthesize message;
 @synthesize details;
+@synthesize msg_log;
 
 + (JSONKeyMapper*)keyMapper {
     return [[JSONKeyMapper alloc] initWithJSONToModelBlock:^NSString *(NSString *keyName) {
@@ -301,6 +306,111 @@
 
 @end
 
+
+/**
+ *关于服务器响应中data对应的json字符串解析
+ */
+
+
+
+
+
+
+
+
+/**
+ *关于服务器响应中data中updateInfo对应的array的解析
+ */
+@implementation ServerResponseData
+@synthesize needUpdateApp;
+@synthesize needUpdateData;
+@synthesize isPermissioned;
+@synthesize dataId;
+@synthesize currentDataVersion;
+@synthesize latestDataVersion;
+@synthesize downloadUrl;
+@synthesize dataEncryptKey;
+@synthesize updateInfo;
+@synthesize dataReleaseTime;
+
++ (JSONKeyMapper*)keyMapper {
+    return [[JSONKeyMapper alloc] initWithJSONToModelBlock:^NSString *(NSString *keyName) {
+        if ([keyName isEqual:@"need_update_app"]) {
+            return @"needUpdateApp";
+        }
+        else if ([keyName isEqual:@"need_update_data"]) {
+            return @"needUpdateData";
+        }
+        else if ([keyName isEqual:@"is_permissioned"]) {
+            return @"isPermissioned";
+        }
+        else if ([keyName isEqual:@"data_id"]) {
+            return @"dataId";
+        }
+        else if ([keyName isEqual:@"data_version_cur"]) {
+            return @"currentDataVersion";
+        }
+        else if ([keyName isEqual:@"data_version_latest"]) {
+            return @"latestDataVersion";
+        }
+        else if ([keyName isEqual:@"download_url"]) {
+            return @"downloadUrl";
+        }
+        else if ([keyName isEqual:@"data_encrypt_key"]) {
+            return @"dataEncryptKey";
+        }
+        else if ([keyName isEqual:@"update_info"]) {
+            return @"updateInfo";
+        }
+        else if ([keyName isEqual:@"data_release_time"]) {
+            return @"dataReleaseTime";
+        }
+        else {
+            return keyName;
+        }
+    }
+                                          modelToJSONBlock:^NSString *(NSString *keyName) {
+                                              if ([keyName isEqual:@"needUpdateApp"]) {
+                                                  return @"need_update_app";
+                                              }
+                                              else if ([keyName isEqual:@"needUpdateData"]) {
+                                                  return @"need_update_data";
+                                              }
+                                              else if ([keyName isEqual:@"isPermissioned"]) {
+                                                  return @"is_permissioned";
+                                              }
+                                              else if ([keyName isEqual:@"dataId"]) {
+                                                  return @"data_id";
+                                              }
+                                              else if ([keyName isEqual:@"currentDataVersion"]) {
+                                                  return @"data_version_cur";
+                                              }
+                                              else if ([keyName isEqual:@"latestDataVersion"]) {
+                                                  return @"data_version_latest";
+                                              }
+                                              else if ([keyName isEqual:@"downloadUrl"]) {
+                                                  return @"download_url";
+                                              }
+                                              else if ([keyName isEqual:@"dataEncryptKey"]) {
+                                                  return @"data_encrypt_key";
+                                              }
+                                              else if ([keyName isEqual:@"updateInfo"]) {
+                                                  return @"update_info";
+                                              }
+                                              else if ([keyName isEqual:@"dataReleaseTime"]) {
+                                                  return @"data_release_time";
+                                              }
+                                              else {
+                                                  return keyName;
+                                              }
+                                          }];
+}
+
+
+@end
+
+
+
 /**
  * 关于data的服务器响应
  */
@@ -309,14 +419,13 @@
 #pragma properties
 @synthesize encryptMethod;
 @synthesize encryptKeyType;
-@synthesize username;
+@synthesize gUserId;
+@synthesize data;
 @synthesize appPlatform;
 @synthesize appVersion;
-@synthesize deviceId;
-@synthesize data;
+@synthesize sessionId;
 
-//@synthesize dataInfo;
-@synthesize updateInfo;
+
 
 + (JSONKeyMapper*)keyMapper {
     return [[JSONKeyMapper alloc] initWithJSONToModelBlock:^NSString *(NSString *keyName) {
@@ -326,8 +435,8 @@
         else if ([keyName isEqual:@"encrypt_key_type"]) {
             return @"encryptKeyType";
         }
-        else if ([keyName isEqual:@"user_name"]) {
-            return @"username";
+        else if ([keyName isEqual:@"g_user_id"]) {
+            return @"gUserId";
         }
         else if ([keyName isEqual:@"app_platform"]) {
             return @"appPlatform";
@@ -335,10 +444,10 @@
         else if ([keyName isEqual:@"app_version"]) {
             return @"appVersion";
         }
-        else if ([keyName isEqual:@"device_id"]) {
-            return @"deviceId";
+        else if ([keyName isEqual:@"session_id"]) {
+            return @"sessionId";
         }
-        else {
+        else {//data字段不需要解析吗？
             return keyName;
         }
     }
@@ -349,8 +458,8 @@
                                               else if ([keyName isEqual:@"encryptKeyType"]) {
                                                   return @"encrypt_key_type";
                                               }
-                                              else if ([keyName isEqual:@"username"]) {
-                                                  return @"user_name";
+                                              else if ([keyName isEqual:@"gUserId"]) {
+                                                  return @"g_user_id";
                                               }
                                               else if ([keyName isEqual:@"appPlatform"]) {
                                                   return @"app_platform";
@@ -358,9 +467,10 @@
                                               else if ([keyName isEqual:@"appVersion"]) {
                                                   return @"app_version";
                                               }
-                                              else if ([keyName isEqual:@"deviceId"]) {
-                                                  return @"device_id";
-                                              }                                              else {
+                                              else if ([keyName isEqual:@"sessionId"]) {
+                                                  return @"session_id";
+                                              }
+                                              else {
                                                   return keyName;
                                               }
                                           }];
@@ -376,7 +486,7 @@
 @implementation ServerDataVersionInfo
 
 @synthesize dataId;
-@synthesize dataNameEn;
+
 @synthesize dataCurVersion;
 @synthesize dataLatestVersion;
 @synthesize appVersionMin;
@@ -386,16 +496,17 @@
 
 + (JSONKeyMapper*)keyMapper {
     return [[JSONKeyMapper alloc] initWithJSONToModelBlock:^NSString *(NSString *keyName) {
-        if ([keyName isEqual:@"id"]) {
+        if ([keyName isEqual:@"data_id"]) {
             return @"dataId";
         }
-        else if ([keyName isEqual:@"data_name_en"]) {
-            return @"dataNameEn";
-        }
-        else if ([keyName isEqual:@"cur_version"]) {
+        //2.0中版本文件中不返回这个字段，所以注掉
+//        else if ([keyName isEqual:@"data_name_en"]) {
+//            return @"dataNameEn";
+//        }
+        else if ([keyName isEqual:@"cur_version"]) {//版本信息文件中没有这个字段不会报错吗？
             return @"dataCurVersion";
         }
-        else if ([keyName isEqual:@"version"]) {
+        else if ([keyName isEqual:@"data_version"]) {
             return @"dataLatestVersion";
         }
         else if ([keyName isEqual:@"app_version_low"]) {
@@ -413,16 +524,16 @@
     }
                                           modelToJSONBlock:^NSString *(NSString *keyName) {
                                               if ([keyName isEqual:@"dataId"]) {
-                                                  return @"id";
+                                                  return @"data_id";
                                               }
-                                              else if ([keyName isEqual:@"dataNameEn"]) {
-                                                  return @"data_name_en";
-                                              }
+//                                              else if ([keyName isEqual:@"dataNameEn"]) {
+//                                                  return @"data_name_en";
+//                                              }
                                               else if ([keyName isEqual:@"dataCurVersion"]) {
                                                   return @"cur_version";
                                               }
                                               else if ([keyName isEqual:@"dataLatestVersion"]) {
-                                                  return @"version";
+                                                  return @"data_version";
                                               }
                                               else if ([keyName isEqual:@"appVersionMin"]) {
                                                   return @"app_version_low";

@@ -32,6 +32,8 @@
 #import "MatchViewController.h"
 
 #import "UIColor+Hex.h"
+#import "NSUserDefaultUtil.h"
+#import "PathUtil.h"
 
 
 @interface KnowledgeWebViewController () <UIWebViewDelegate, UpdateManagerDelegate, UIAlertViewDelegate>
@@ -117,6 +119,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+//    self.dataStoreLocation = @"sandBox";
     self.view.backgroundColor=[UIColor colorWithHexString:@"#242021" alpha:1];
     [self initWebView];
     [self updateWebView];
@@ -134,14 +137,7 @@
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    
-    
-//    // test video play
-//    {
-//        [self performBlock:^{
-//            [self gotoMediaPlayerViewController];
-//        } afterDelay:1];
-//    }
+
 }
 
 - (void)didReceiveMemoryWarning
@@ -158,17 +154,6 @@
     [[StatisticsManager instance] endLogPageView:@"KnowledgeWebViewController"];
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
-
 
 
 #pragma mark - ui related methods
@@ -179,7 +164,7 @@
 
 #pragma mark - web view methods
 - (BOOL)initWebView {
-    self.webView.delegate = self.javascriptBridge;
+//    self.webView.delegate = self.javascriptBridge;
     
     // 注册obj-c方法, 供js调用
     // test method
@@ -242,6 +227,118 @@
             responseCallback(data);
         }
     }];
+    
+    
+    
+    //getData      ********     *********
+    [self.javascriptBridge registerHandler:@"getData" handler:^(id data,WVJBResponseCallback responseCallback){
+        LogDebug(@"KnowledgeWebViewController::getData() called: %@", data);
+        NSString *dataId = [data objectForKey:@"bookID"];
+        NSString *queryId = [data objectForKey:@"queryID"];
+       
+        if (responseCallback != nil) {
+            NSArray *dataArray = [[KnowledgeManager instance] getLocalDataWithDataId:dataId andQueryId:queryId andIndexFilename:nil];
+            NSString *data = nil;
+            for (NSString *dataStr in dataArray) {
+                if (dataStr == nil || dataStr.length <= 0) {
+                    continue;
+                }
+                
+                data = dataStr;
+                break;
+            }
+            responseCallback(data);
+        }
+    }];
+    
+  
+    //renderPage   *******       ********
+    [self.javascriptBridge registerHandler:@"renderPage" handler:^(id data,WVJBResponseCallback responseCallback){
+        LogDebug(@"KnowledgeWebViewController::renderPage() called: %@", data);
+        NSError *error = nil;
+        NSDictionary *dic = [NSJSONSerialization JSONObjectWithStream:data options:0 error:&error];
+        if (error) {
+            NSLog(@"error======%@",error);
+        }
+        [self showPageWithDictionary:dic];
+        
+    }];
+    //getCurStudyType
+    [self.javascriptBridge registerHandler:@"getCurStudyType" handler:^(id data ,WVJBResponseCallback responseCallback){
+        //在nsuserDefault中设置一个curStudyType字段，用来存储当前用户的学习状态
+        LogDebug(@"KnowledgeWebViewController::getCurStudyType() called: %@", data);
+        if (responseCallback != nil) {
+            NSString *data =nil;
+            NSString *curStudyType = [NSUserDefaultUtil getCurStudyType];
+            if (curStudyType != nil && curStudyType.length > 0) {
+                data = curStudyType;
+                
+                responseCallback(data);
+            }
+        }
+        
+    }];
+    
+    //setCurStudyType
+    [self.javascriptBridge registerHandler:@"setCurStudyType" handler:^(id data,WVJBResponseCallback responseCallback){
+        LogDebug(@"KnowledgeWebViewController::setCurStudyType() called: %@", data);
+        NSString *curStudyType = [data objectForKey:@"studyType"];
+        if (curStudyType != nil && curStudyType.length > 0) {
+           BOOL isSuccess = [NSUserDefaultUtil setCurStudyTypeWithType:curStudyType];
+            if (isSuccess) {
+                NSString *data = @"1";
+                responseCallback(data);
+            }
+            else {
+                NSString *data = @"0";
+                responseCallback(data);
+            }
+            
+            }
+        else {
+            LogError(@"KnowledgeWebViewController::setCurStudyType() failed because of curStudyType is equal to nil");
+            NSString *data = @"0";
+            responseCallback(data);//失败返回0；
+        }
+    }];
+    
+    //getBookList
+    [self.javascriptBridge registerHandler:@"getBookList" handler:^(id data,WVJBResponseCallback responseCallback){
+        LogDebug(@"KnowledgeWebViewController::getBookList() called: %@", data);
+        NSString *book_category = [data objectForKey:@"book_category"];//值：0，1
+        //根据book_category遍历数据库，将数据平成json格式返回给JS
+        
+
+    }];
+    
+    //checkUpdate
+    [self.javascriptBridge registerHandler:@"checkUpdate" handler:^(id data,WVJBResponseCallback responseCallback){
+        LogDebug(@"KnowledgeWebViewController::checkUpdate() called: %@", data);
+        NSString *book_category = [data objectForKey:@"book_category"];//值：0，1
+        //检查某类书籍是否有更新，需要从数据库中查找（方法：1、先进行更新的两步，把更新记录到数据库中 2、根据dataStatus和book_category来遍历数据库）
+        //返回0，1
+        
+
+    }];
+    
+    //startDownload
+    [self.javascriptBridge registerHandler:@"startDownload" handler:^(id data, WVJBResponseCallback responseCallback) {
+        LogDebug(@"KnowledgeWebViewController::startDownload() called: %@", data);
+        NSString *book_id = [data objectForKey:@"book_id"];
+        
+        
+    }];
+    
+    //queryDownloadProgress
+    [self.javascriptBridge registerHandler:@"queryDownloadProgress" handler:^(id data, WVJBResponseCallback responseCallback) {
+        LogDebug(@"KnowledgeWebViewController::startDownload() called: %@", data);
+        NSArray *book_ids = [data objectForKey:@"book_ids"];
+        //根据book_ids来获取下载进度，需要从数据库中去，（一开始下载就要将进度写到数据库中，然后就开始读）
+        
+    }];
+    
+    
+    
     
     // searchData()
     [self.javascriptBridge registerHandler:@"searchData" handler:^(id data, WVJBResponseCallback responseCallback) {
@@ -393,11 +490,6 @@
     [((UIScrollView *)[self.webView.subviews objectAtIndex:0]) setShowsVerticalScrollIndicator:NO]; // 去除webView右侧垂直滚动条
     [((UIScrollView *)[self.webView.subviews objectAtIndex:0]) setBounces:NO];
     
-    //    self.webView.delegate = self;
-//    self.webView.backgroundColor = [UIColor clearColor];
-//    self.webView.opaque = NO;
-//    self.webView.backgroundColor = [self getColor:@"353232"];
-    
     if (self.pageId == nil) {
         return NO;
     }
@@ -410,23 +502,29 @@
     // 加载指定的html文件
     NSURL *url = [[NSURL alloc] initFileURLWithPath:[NSString stringWithFormat:@"%@/%@", pagePath, @"index.html"]];
     
-    //        NSString *urlStrWithParams = [NSString stringWithFormat:@"%@?page_id=%@&data_id=%@", [url absoluteString], self.pageId, dataId];
     NSString *urlStrWithParams = [NSString stringWithFormat:@"%@?page_id=%@", [url absoluteString], self.pageId];
     NSURL *urlWithParams = [[NSURL alloc] initWithString:urlStrWithParams];
     
-    // test only
-    {
-////    urlWithParams = [[NSURL alloc] initWithString:@"http://www.baidu.com"]; // test only
-//    NSString *tmp = @"http://www.zaxue100.com/index.php?c=kaoyan_english_realexam_ctrl&m=year_list_page&year=2014&device=android";
-//    urlWithParams = [NSURL URLWithString:[tmp stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    //直接拼一个地址为书包页
+    NSString *bundlePath = [PathUtil getBundlePath];
+    NSString *myBagUrlStrWithParams = [NSString stringWithFormat:@"%@/%@/%@/%@/%@", bundlePath, @"assets",@"native-html",@"schoolbag.html",@"?study_type=1"];
+    NSURL *myBagUrl = [NSURL URLWithString:myBagUrlStrWithParams];
+    //H:change for 2.0
+    if (self.webURLStr == nil || self.webURLStr.length <= 0) {
+        [self.webView loadRequest:[[NSURLRequest alloc] initWithURL:myBagUrl]];
+
     }
-    
-    [self.webView loadRequest:[[NSURLRequest alloc] initWithURL:urlWithParams]];
-    
+    else {
+        NSURL *urlWithParams = [[NSURL alloc] initWithString:self.webURLStr];
+        [self.webView loadRequest:[[NSURLRequest alloc] initWithURL:urlWithParams]];
+    }
     return YES;
 }
 
-// 跳转到指定的页面
+#pragma mark 2.0版本中展示html页面
+//2.0版本需要修改的地方，传来的是一个json字符串，json解析完成后得到的是一个字典
+
+// 1.0中跳转到指定的页面
 - (BOOL)showPageWithPageId:(NSString *)pageId andArgs:(NSString *)args {
     NSString *htmlFilePath = [[KnowledgeManager instance] getPagePath:pageId];
     if (htmlFilePath == nil || htmlFilePath.length <= 0) {
@@ -451,7 +549,7 @@
     return YES;
 }
 
-// 跳转到指定的url
+// 1.0 跳转到指定的url
 - (BOOL)showPageWithURL:(NSString *)urlStr {
     NSURL *url = [NSURL URLWithString:[urlStr stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
     
@@ -460,7 +558,8 @@
     return YES;
 }
 
-// 打开新的webView, 并跳转到指定的url
+
+// 1.0中打开新的webView, 并跳转到指定的url
 - (BOOL)showSafeURL:(NSString *)urlStr {
 //    NSURL *url = [NSURL URLWithString:[urlStr stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
     
@@ -471,6 +570,75 @@
     
     return YES;
 }
+
+
+//2.0中跳转到指定页面
+- (BOOL)showPageWithDictionary:(NSDictionary *)dic {
+    NSString *target = dic[@"target"];
+    if ([target isEqualToString:@"self"]) {
+        
+        NSString *book_id = dic[@"book_id"];
+        
+        NSString *htmlFilePath = [[KnowledgeManager instance] getPagePath:book_id];
+        if (htmlFilePath == nil || htmlFilePath.length <= 0) {
+            return NO;
+        }
+        NSString *page_type = dic[@"page_type"];
+        
+        // 加载指定的html文件
+        NSURL *url = [[NSURL alloc] initFileURLWithPath:[NSString stringWithFormat:@"%@/%@/%@", htmlFilePath,page_type, @".html"]];
+        
+        NSString *urlStrWithParams = nil;
+        NSString *args = dic[@"getArgs"];
+        
+        if (args != nil && args.length > 0) {
+            urlStrWithParams = [NSString stringWithFormat:@"%@?%@", [url absoluteString], args];
+        }
+        else {
+            urlStrWithParams = [NSString stringWithFormat:@"%@", [url absoluteString]];
+        }
+        
+        NSURL *urlWithParams = [[NSURL alloc] initWithString:urlStrWithParams];
+        
+        [self.webView loadRequest:[[NSURLRequest alloc] initWithURL:urlWithParams]];
+        
+        return YES;
+    }
+    else
+    {
+        if ([target isEqualToString:@"activity"]) {
+            NSString *book_id = dic[@"book_id"];
+            
+            NSString *htmlFilePath = [[KnowledgeManager instance] getPagePath:book_id];
+            if (htmlFilePath == nil || htmlFilePath.length <= 0) {
+                return NO;
+            }
+            NSString *page_type = dic[@"page_type"];
+            
+            // 加载指定的html文件
+            NSURL *url = [[NSURL alloc] initFileURLWithPath:[NSString stringWithFormat:@"%@/%@/%@", htmlFilePath,page_type, @".html"]];
+            
+            NSString *urlStrWithParams = nil;
+            NSString *args = dic[@"getArgs"];
+            if (args != nil && args.length > 0) {
+                urlStrWithParams = [NSString stringWithFormat:@"%@?%@", [url absoluteString], args];
+            }
+            else {
+                urlStrWithParams = [NSString stringWithFormat:@"%@", [url absoluteString]];
+
+            }
+            //打开新的controller
+         return [self showSafeURL:urlStrWithParams];
+
+        }
+    }
+    
+    return YES;
+    
+}
+
+
+
 
 #pragma mark - play video
 - (void)playVideo:(NSString *)urlStr {

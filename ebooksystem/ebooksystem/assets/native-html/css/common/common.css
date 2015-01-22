@@ -1,0 +1,92 @@
+html, body, div, span, object, iframe,h1, h2, h3, h4, h5, h6, p, blockquote, pre,a, abbr, acronym, address, code, b,del, dfn, em, img, q, dl, dt, dd, ol, ul, li,fieldset, form, label, legend,table, caption, tbody, tfoot, thead, tr, th, td,article, aside, dialog, figure, footer, header,hgroup, nav, section{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: "微软雅黑", arial;
+    -webkit-tap-highlight-color:transparent;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    outline: none;
+}
+html{
+    -webkit-user-select: none;
+}
+ul,ol,dl{
+    list-style: none;
+}
+.clearfix:after{
+    content: '\020';
+    display: block;
+    clear: both;
+    visibility: hidden;
+    height: 0;
+    font-size: 0;
+}
+
+body{
+    background: #fcfcfc;
+}
+
+/***在模拟native时，用如下样式**/
+html.fake-native, .fake-native body{
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+}
+.fake-native .activity, .fake-native .fragment{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+
+/****自定义对话框组件样式**/
+.dialog-mask{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-color: rgba(0,0,0, .4);
+    z-index: 101;
+    display: none;
+}
+.dialog{
+    position: absolute;
+    width: 80%;
+    left: 50%;
+    top: 50%;
+    -webkit-transform: translate3d(-50%,-50%,0);
+    background: #fff;
+}
+.dialog-content{
+    padding: 15px;
+    font-size: 14px;
+}
+.dialog-btns{
+    padding: 10px;
+    text-align: center;
+}
+.btn{
+    display: inline-block;
+}
+.dialog .btn{
+    width: 70px;
+    height: 28px;
+    font-size: 13px;
+    line-height: 28px;
+    border-radius: 5px;
+
+}
+.dialog .btn-ok{
+    background-color: #ff6767;
+    color: #fff;
+}
+.dialog .btn-cancel{
+    background-color: #000;
+    color: #fff;
+    margin-right: 15px;
+}
+
+.dialog-show{
+    display: block;
+}

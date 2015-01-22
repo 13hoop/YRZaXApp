@@ -240,7 +240,7 @@
     knowledgeMeta.desc = [dict objectForKey:@"desc"];
     
     knowledgeMeta.dataType = DATA_TYPE_DATA_SOURCE;
-    knowledgeMeta.dataStorageType = DATA_STORAGE_INTERNAL_STORAGE;
+    knowledgeMeta.dataStorageType = DATA_STORAGE_APP_ASSETS;
     knowledgeMeta.dataPathType = (DataPathType)[[dict objectForKey:@"path_type"] integerValue];
     knowledgeMeta.dataPath = [dict objectForKey:@"path"];
     

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html class="fake-native">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+    <title>我的书包</title>
+    <link rel="stylesheet" href="./css/common/reset.css"/>
+    <link rel="stylesheet" href="./css/common/common.css"/>
+    <link rel="stylesheet" href="./css/schoolbag/schoolbag.css"/>
+</head>
+<body>
+
+    <div id="main-wrap" class="activity">
+        <section id="bag-page" class="fragment">
+            <header class="fragment-header">
+                <h1>我的书包</h1>
+                <span class="setting-btn"></span>
+            </header>
+            <div class="fragment-body">
+                <div class="scroll-wrap">
+                    <ul id="book-list" class="clearfix">
+
+                    </ul>
+                </div>
+
+            </div>
+        </section>
+    </div>
+
+    <script type="text/tpl" id="book-item-tpl">
+        <li class="book-item" >
+            <div class="cover-container">
+                <div class="cover-wrap">
+                    <img class="cover-img" />
+                    <span class="download-btn"></span>
+                    <div class="downloading-wrap">
+                        <div class="downloading-inner">
+                            <div class="progress-bg"></div>
+                            <div class="progress"></div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="book-info">
+                <div class="book-name"></div>
+                <div class="book-editor"></div>
+                <div class="has-update">有更新</div>
+            </div>
+        </li>
+    </script>
+
+    <script src="./js/lib/es5-shim.min.js"></script>
+    <script src="./js/lib/EventEmitter-4.0.3.min.js"></script>
+    <script src="./js/lib/zepto.min.js"></script>
+    <script src="./js/common/samaConfig.js"></script>
+    <script src="./js/common/debug.js"></script>
+    <script src="./js/common/utils.js"></script>
+    <script src="./js/common/Dialog.js"></script>
+    <script src="./js/common/bridgeXXX.js"></script>
+    <script src="./js/schoolbag/BookItem.js"></script>
+    <script src="./js/schoolbag/downloadManager.js"></script>
+    <script src="./js/schoolbag/app.js"></script>
+    <script>
+        app.init();
+    </script>
+</body>
+</html>

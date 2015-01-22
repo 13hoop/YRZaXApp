@@ -28,8 +28,15 @@
 #import "UMSocialQQHandler.h"
 #import "UMSocialSinaHandler.h"
 
+#import "UMessage.h"
+
+#import "ZBarSDK.h"
+
 
 #define UMAPPKEY @"543dea72fd98c5fc98004e08"
+
+#define UMSYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
+#define _IPHONE80_ 80000
 
 @interface AppDelegate() //<UpdateManagerDelegate>
 
@@ -92,7 +99,7 @@
     // 设置navigationBar的背景色
 //    UIColor *color = [UIColor colorWithRed:107/255.0f green:211/255.0f blue:217/255.0f alpha:1.0f];
 //    [[UINavigationBar appearance] setBarTintColor:color];
-    return YES;
+//    return YES;
     
 //    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
 //    // Override point for customization after application launch.
@@ -106,6 +113,63 @@
 //    
 //    [self.window makeKeyAndVisible];
 //    return YES;
+    
+    
+    //友盟消息推送
+    [UMessage startWithAppkey:UMAPPKEY launchOptions:launchOptions];
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= _IPHONE80_
+    if(UMSYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@"8.0"))
+    {
+        //register remoteNotification types
+        UIMutableUserNotificationAction *action1 = [[UIMutableUserNotificationAction alloc] init];
+        action1.identifier = @"action1_identifier";
+        action1.title=@"Accept";
+        action1.activationMode = UIUserNotificationActivationModeForeground;//当点击的时候启动程序
+        
+        UIMutableUserNotificationAction *action2 = [[UIMutableUserNotificationAction alloc] init];  //第二按钮
+        action2.identifier = @"action2_identifier";
+        action2.title=@"Reject";
+        action2.activationMode = UIUserNotificationActivationModeBackground;//当点击的时候不启动程序，在后台处理
+        action2.authenticationRequired = YES;//需要解锁才能处理，如果action.activationMode = UIUserNotificationActivationModeForeground;则这个属性被忽略；
+        action2.destructive = YES;
+        
+        UIMutableUserNotificationCategory *categorys = [[UIMutableUserNotificationCategory alloc] init];
+        categorys.identifier = @"category1";//这组动作的唯一标示
+        [categorys setActions:@[action1,action2] forContext:(UIUserNotificationActionContextDefault)];
+        
+        UIUserNotificationSettings *userSettings = [UIUserNotificationSettings settingsForTypes:UIUserNotificationTypeBadge|UIUserNotificationTypeSound|UIUserNotificationTypeAlert
+                                                                                     categories:[NSSet setWithObject:categorys]];
+        [UMessage registerRemoteNotificationAndUserNotificationSettings:userSettings];
+        
+    } else{
+        //register remoteNotification types
+        [UMessage registerForRemoteNotificationTypes:UIRemoteNotificationTypeBadge
+         |UIRemoteNotificationTypeSound
+         |UIRemoteNotificationTypeAlert];
+    }
+#else
+    //register remoteNotification types
+    [UMessage registerForRemoteNotificationTypes:UIRemoteNotificationTypeBadge
+     |UIRemoteNotificationTypeSound
+     |UIRemoteNotificationTypeAlert];
+#endif
+    
+    //for log
+    [UMessage setLogEnabled:YES];
+    
+    
+    
+    //使用Zbar进行二维码扫描
+    [ZBarReaderView class];
+    return YES;
+    
+}
+#pragma mark umeng push used method
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+    [UMessage registerDeviceToken:deviceToken];
+}
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
+    [UMessage didReceiveRemoteNotification:userInfo];
 }
 
 //-(void)UmengMethod

@@ -10,7 +10,7 @@
 
 #import "UUIDUtil.h"
 #import "LogUtil.h"
-
+#import "NSUserDefaultUtil.h"
 
 
 @interface KnowledgeDownloadManager() <KnowledgeDownloadItemDelegate> {

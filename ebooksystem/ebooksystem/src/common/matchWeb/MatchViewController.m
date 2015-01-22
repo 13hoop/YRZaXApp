@@ -22,17 +22,21 @@
 
 #import "WebUtil.h"
 #import "LogUtil.h"
-
-
+#import "KnowledgeManager.h"
+#import "KnowledgeWebViewController.h"
+#import "NSUserDefaultUtil.h"
+#import "PathUtil.h"
+#import "OperateCookie.h"
+#import "SBJson.h"
 
 @interface MatchViewController () <UIWebViewDelegate>
 
 #pragma mark - properties
-
 // bridge between webview and js
 @property (nonatomic, strong) WebViewJavascriptBridge *javascriptBridge;
 @property (nonatomic, strong) UIWebView *webView;
 @property (nonatomic,strong) NSString *oldUserAgent;
+
 
 
 #pragma mark - methods
@@ -48,9 +52,9 @@
 
 @implementation MatchViewController
 
-@synthesize webUrl = _webUrl;
-@synthesize webView = _webView;
-@synthesize javascriptBridge = _javascriptBridge;
+//@synthesize webUrl = _webUrl;
+//@synthesize webView = _webView;
+//@synthesize javascriptBridge = _javascriptBridge;
 
 
 #pragma mark - properties
@@ -86,7 +90,7 @@
             LogDebug(@"Received message from javascript: %@", data);
             responseCallback(@"'response data from obj-c'");
         }];
-        //        [self initWebView];
+                [self initWebView];
     }
     
     return _javascriptBridge;
@@ -114,6 +118,7 @@
 //    [self injectJSToWebView:self.webView];
 //    self.webview.delegate=self;
     [self updateWebView];
+    [self checkCookie];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -124,22 +129,12 @@
 #pragma mark - init
 
 - (BOOL)initWebView {
-//    self.webview.delegate = self.javascriptBridge;
+//    self.webView.delegate = self.javascriptBridge;
     
     // goback()
     [self.javascriptBridge registerHandler:@"goBack" handler:^(id data, WVJBResponseCallback responseCallback) {
         LogDebug(@"MatchViewController::goBack() called: %@", data);
-        // 判断是否可以继续回退
-//        BOOL iscan = self.webView.canGoBack;
-//        LogDebug(@"iscanBack=====%hhd",iscan);
-//        if (iscan) {
-//            [self.webView goBack];
-//            
-//        }
-//        else
-//        {
-//            [self.navigationController popViewControllerAnimated:YES];
-//        }
+
         [self.navigationController popViewControllerAnimated:YES];
     }];
     
@@ -164,8 +159,230 @@
         [self changeBackgourndColorWithColor:data];
     }];
     
+    
+    //js要求调到新的页面时，调到这个里面：
+    //getData      ********     *********
+    [self.javascriptBridge registerHandler:@"getData" handler:^(id data,WVJBResponseCallback responseCallback){
+        LogDebug(@"KnowledgeWebViewController::getData() called: %@", data);
+        NSString *dataId = [data objectForKey:@"bookID"];
+        NSString *queryId = [data objectForKey:@"queryID"];
+        
+        if (responseCallback != nil) {
+            NSArray *dataArray = [[KnowledgeManager instance] getLocalDataWithDataId:dataId andQueryId:queryId andIndexFilename:nil];
+            NSString *data = nil;
+            for (NSString *dataStr in dataArray) {
+                if (dataStr == nil || dataStr.length <= 0) {
+                    continue;
+                }
+                
+                data = dataStr;
+                break;
+            }
+            responseCallback(data);
+        }
+    }];
+    
+    
+    
+    //renderPage   *******       ********
+    [self.javascriptBridge registerHandler:@"renderPage" handler:^(id data,WVJBResponseCallback responseCallback){
+        LogDebug(@"KnowledgeWebViewController::renderPage() called: %@", data);
+        NSError *error = nil;
+        NSDictionary *dic = [NSJSONSerialization JSONObjectWithStream:data options:0 error:&error];
+        if (error) {
+            NSLog(@"error======%@",error);
+        }
+        [self showPageWithDictionary:dic];
+        
+    }];
+    //getCurStudyType
+    [self.javascriptBridge registerHandler:@"getCurStudyType" handler:^(id data ,WVJBResponseCallback responseCallback){
+        //在nsuserDefault中设置一个curStudyType字段，用来存储当前用户的学习状态
+        LogDebug(@"KnowledgeWebViewController::getCurStudyType() called: %@", data);
+        if (responseCallback != nil) {
+            NSString *data =nil;
+            NSString *curStudyType = [NSUserDefaultUtil getCurStudyType];
+            if (curStudyType != nil && curStudyType.length > 0) {
+                data = curStudyType;
+                
+                responseCallback(data);
+            }
+        }
+        
+    }];
+    
+    //setCurStudyType
+    [self.javascriptBridge registerHandler:@"setCurStudyType" handler:^(id data,WVJBResponseCallback responseCallback){
+        LogDebug(@"KnowledgeWebViewController::setCurStudyType() called: %@", data);
+        NSString *curStudyType = data;
+        if (curStudyType != nil && curStudyType.length > 0) {
+            BOOL isSuccess = [NSUserDefaultUtil setCurStudyTypeWithType:curStudyType];
+            if (isSuccess) {
+                NSString *data = @"1";
+                responseCallback(data);
+            }
+            else {
+                NSString *data = @"0";
+                responseCallback(data);
+            }
+            
+        }
+        else {
+            LogError(@"KnowledgeWebViewController::setCurStudyType() failed because of curStudyType is equal to nil");
+            NSString *data = @"0";
+            responseCallback(data);//失败返回0；
+        }
+       
+    }];
+    
+    //getBookList
+    [self.javascriptBridge registerHandler:@"getBookList" handler:^(id data,WVJBResponseCallback responseCallback){
+        LogDebug(@"KnowledgeWebViewController::getBookList() called: %@", data);
+        NSString *book_category = data;//值：0，1
+        //根据book_category遍历数据库，将数据拼成json格式返回给JS。（具体操作：1、就是根据book_category做遍历数据库的操作 2、book_status ：下载过程中用的download_Status字段（下载成功，下载失败，下载中）也是修改这个字段。）
+        NSLog(@"调用getBooklist了，js注入成功了");
+//         [self justForTest];
+//        [self justForMoreDownloadTest];
+        NSString *string = [self fileToJsonString];
+        if (responseCallback != nil) {
+            responseCallback(string);
+        }
+        
+
+        
+    }];
+    
+    //checkUpdate
+    [self.javascriptBridge registerHandler:@"checkUpdate" handler:^(id data,WVJBResponseCallback responseCallback){
+        LogDebug(@"KnowledgeWebViewController::checkUpdate() called: %@", data);
+        NSString *book_category = data;//值：0，1
+        //检查某类书籍是否有更新，需要从数据库中查找（方法：1、获取更新数据的版本文件 2、把是否有更新的信息存储到数据库中，只需要返回给js是否开始检查的通知即可，不需要检查更新的结果给JS）。
+        //返回0，1
+        
+        
+    }];
+    
+    //startDownload
+    [self.javascriptBridge registerHandler:@"startDownload" handler:^(id data, WVJBResponseCallback responseCallback) {
+        LogDebug(@"KnowledgeWebViewController::startDownload() called: %@", data);
+                [self output];
+        NSString *book_id = data;
+        //下载的过程就是只有一步，拿到data_id后直接开始下载。（具体操作：1、根据book_id去下载 2、将下载的进度实时存到数据库中即可，不需要做读取的操作，也不需要将进度返回给JS。只需要告诉JS是否已经开始下载）。
+        
+    }];
+    
+    //queryDownloadProgress
+    [self.javascriptBridge registerHandler:@"queryDownloadProgress" handler:^(id data, WVJBResponseCallback responseCallback) {
+        LogDebug(@"KnowledgeWebViewController::startDownload() called: %@", data);
+        NSError *error = nil;
+        NSArray *book_ids = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
+        //操作：遍历获取到的book_id数组
+        //根据book_ids来获取下载进度，需要从数据库中取到，（具体操作：1、根据book_id对数据库做读取操作 2、返回结果是一个json，其中downLoad_status需要设计具体有哪些状态）。
+        
+        
+    }];
+    //goUserSettingPage
+    [self.javascriptBridge registerHandler:@"goUserSettingPage" handler:^(id data, WVJBResponseCallback responseCallback) {
+        //跳转到设置页面
+    }];
+    //goDiscoverPage
+    [self.javascriptBridge registerHandler:@"goDiscoverPage" handler:^(id data, WVJBResponseCallback responseCallback) {
+        //跳转到发现页
+    }];
+    //getCoverSrc
+    [self.javascriptBridge registerHandler:@"getCoverSrc" handler:^(id data, WVJBResponseCallback responseCallback) {
+        //跳转到发现页
+    }];
+    
+    
+    
+    
     return YES;
 }
+-(void)output {
+    NSLog(@"调了，调了");
+}
+
+#pragma mark 2.0调用的接口
+//2.0中跳转到指定页面
+- (BOOL)showPageWithDictionary:(NSDictionary *)dic {
+    NSString *target = dic[@"target"];
+    if ([target isEqualToString:@"self"]) {
+        
+        NSString *book_id = dic[@"book_id"];
+        
+        NSString *htmlFilePath = [[KnowledgeManager instance] getPagePath:book_id];
+        if (htmlFilePath == nil || htmlFilePath.length <= 0) {
+            return NO;
+        }
+        NSString *page_type = dic[@"page_type"];
+        
+        // 加载指定的html文件
+        NSURL *url = [[NSURL alloc] initFileURLWithPath:[NSString stringWithFormat:@"%@/%@/%@", htmlFilePath,page_type, @".html"]];
+        
+        NSString *urlStrWithParams = nil;
+        NSString *args = dic[@"getArgs"];
+        
+        if (args != nil && args.length > 0) {
+            urlStrWithParams = [NSString stringWithFormat:@"%@?%@", [url absoluteString], args];
+        }
+        else {
+            urlStrWithParams = [NSString stringWithFormat:@"%@", [url absoluteString]];
+        }
+        
+        NSURL *urlWithParams = [[NSURL alloc] initWithString:urlStrWithParams];
+        
+        [self.webView loadRequest:[[NSURLRequest alloc] initWithURL:urlWithParams]];
+        
+        return YES;
+    }
+    else
+    {
+        if ([target isEqualToString:@"activity"]) {
+            NSString *book_id = dic[@"book_id"];
+            
+            NSString *htmlFilePath = [[KnowledgeManager instance] getPagePath:book_id];
+            if (htmlFilePath == nil || htmlFilePath.length <= 0) {
+                return NO;
+            }
+            NSString *page_type = dic[@"page_type"];
+            
+            // 加载指定的html文件
+            NSURL *url = [[NSURL alloc] initFileURLWithPath:[NSString stringWithFormat:@"%@/%@/%@", htmlFilePath,page_type, @".html"]];
+            
+            NSString *urlStrWithParams = nil;
+            NSString *args = dic[@"getArgs"];
+            if (args != nil && args.length > 0) {
+                urlStrWithParams = [NSString stringWithFormat:@"%@?%@", [url absoluteString], args];
+            }
+            else {
+                urlStrWithParams = [NSString stringWithFormat:@"%@", [url absoluteString]];
+                
+            }
+            //打开新的controller
+            return [self showSafeURL:urlStrWithParams];
+            
+        }
+    }
+    
+    return YES;
+    
+}
+//2.0中打开新的webView, 并跳转到指定的url
+- (BOOL)showSafeURL:(NSString *)urlStr {
+    //    NSURL *url = [NSURL URLWithString:[urlStr stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    
+    /*
+     复用knowledgeWebViewcontroller 和MatchViewController,需要重复包含头文件，问题：
+        同一个类的不同对象，同时扔到nav管理的栈中，会报错？
+     */
+    KnowledgeWebViewController *knowLedge = [[KnowledgeWebViewController alloc] init];
+    knowLedge.webURLStr = urlStr;
+    [self.navigationController pushViewController:knowLedge animated:YES];
+    
+    return YES;
+}
+
 
 - (BOOL)updateWebView {
     // 在加载loadRuquest之前设置userAgent
@@ -173,7 +390,12 @@
     
     // load url
     //    self.webUrl=@"http://pk2015.zaxue100.com"; // test
-    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:self.webUrl]];
+    NSString *bundlePath = [PathUtil getBundlePath];
+    NSString *myBagUrlStrWithParams = [NSString stringWithFormat:@"%@/%@/%@/%@%@", bundlePath, @"assets",@"native-html",@"schoolbag.html",@"?study_type=1"];
+    NSLog(@"要显示的本地html链接是%@",myBagUrlStrWithParams);
+    NSURL *myBagUrl = [NSURL URLWithString:myBagUrlStrWithParams];
+    NSURLRequest *request = [NSURLRequest requestWithURL:myBagUrl];
+    
     [self.webView loadRequest:request];
     
     return YES;
@@ -336,6 +558,45 @@
 -(void)changeBackgourndColorWithColor:(NSString *)colorString
 {
     self.view.backgroundColor = [UIColor colorWithHexString:colorString alpha:1];
+}
+
+#pragma  get session
+- (void)checkCookie {
+    [OperateCookie checkCookie];
+}
+
+#pragma mark test
+- (void)justForTest {
+    KnowledgeManager *manager = [KnowledgeManager instance];
+    [manager getUpdateInfoFileFromServerAndUpdateDataBase];
+}
+
+- (void)justForMoreDownloadTest {
+    KnowledgeManager *manager = [KnowledgeManager instance];
+    NSArray *book_ids = [NSArray arrayWithObjects:@"test_book_4",@"test_book_5",@"test_book_6", nil];
+    for (int i =0; i<3; i++) {
+        [manager startDownloadDataManagerWithDataId:[book_ids objectAtIndex:i]];
+    }
+}
+- (NSString *)fileToJsonString {
+    NSString *filePath = [[NSBundle mainBundle] pathForResource:@"book-list-json-2" ofType:@"json"];
+    NSFileHandle *fileHandler = [NSFileHandle fileHandleForReadingAtPath:filePath];
+    NSData *data = [fileHandler readDataToEndOfFile];
+    NSString *string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+//    string = [string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+//    string = [string stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+//    string = [string stringByReplacingOccurrencesOfString:@"\r" withString:@""];
+//    NSMutableArray *array = [[NSMutableArray alloc]initWithCapacity:0];
+//    NSDictionary *dic  = [NSJSONSerialization JSONObjectWithData:(NSData *)string options:NSJSONReadingMutableLeaves error:nil];
+//    NSArray *arr = [dic objectForKey:@"people"];
+    SBJsonParser *parse = [[SBJsonParser alloc] init];
+    NSArray *arr = [parse objectWithString:string];
+//    NSLog(@"%@",arr);
+//    NSLog(@"array === %@",jsonObject);
+    SBJsonWriter *writer = [[SBJsonWriter alloc] init];
+    NSString *jsonString = [writer stringWithObject:arr];
+    NSLog(@"%@",jsonString);
+    return jsonString;
 }
 
 @end

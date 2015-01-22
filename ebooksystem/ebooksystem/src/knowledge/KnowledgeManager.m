@@ -30,12 +30,12 @@
 #import "SecurityUtil.h"
 #import "LogUtil.h"
 #import "TimeWatcher.h"
-
+#import "SBJsonWriter.h"
 
 
 // KnowledgeManager
 @interface KnowledgeManager() <KnowledgeDataStatusDelegate> {
-    
+   
 }
 
 // init
@@ -270,8 +270,9 @@
 }
 
 #pragma mark - methods for js call
+/*
 // get page path
-- (NSString *)getPagePath:(NSString *)pageId {
+- (NSString *)getPagePath:(NSString *)pageId withDataStoreLocation:(NSString *)dataStoreLocation {
     NSArray *metaArray = [[KnowledgeMetaManager instance] getKnowledgeMetaWithDataId:pageId];
 //    NSArray *metaArray = [[KnowledgeMetaManager instance] getKnowledgeMetaWithDataId:pageId andDataType:DATA_TYPE_DATA_SOURCE];
     if (metaArray == nil || metaArray.count <= 0) {
@@ -285,13 +286,76 @@
             continue;
         }
         
-        NSString *knowledgeDataRootPathInApp = [[Config instance] knowledgeDataConfig].knowledgeDataRootPathInApp;
+        //H:修改
+        NSString *knowledgeDataRootPathInApp = nil;
+        if (dataStoreLocation == nil || dataStoreLocation.length <=0 ||[dataStoreLocation isEqualToString:@"appBundle"]) {
+            knowledgeDataRootPathInApp = [[Config instance] knowledgeDataConfig].knowledgeDataRootPathInApp;
+//            knowledgeDataRootPathInApp = [[Config instance] knowledgeDataConfig].knowledgeDataRootPathInDocuments;
+        }
+        else {
+            
+            if ([dataStoreLocation isEqualToString:@"sandBox"]) {
+                //H:修改到沙盒中目录下：
+                knowledgeDataRootPathInApp = [[Config instance] knowledgeDataConfig].knowledgeDataRootPathInDocuments;
+                NSLog(@"第一：加载沙盒中的html页面===%@",knowledgeDataRootPathInApp);
+            }
+            
+        }
+        
         NSString *fullFilePath = [NSString stringWithFormat:@"%@/%@", knowledgeDataRootPathInApp, knowledgeMetaEntity.dataPath];
         return fullFilePath;
     }
     
     return nil;
 }
+ */
+//H:支持从sandBox和bundle目录下获取：
+- (NSString *)getPagePath:(NSString *)pageId {
+    NSArray *metaArray = [[KnowledgeMetaManager instance] getKnowledgeMetaWithDataId:pageId];
+//        NSArray *metaArray = [[KnowledgeMetaManager instance] getKnowledgeMetaWithDataId:pageId andDataType:DATA_TYPE_DATA_SOURCE];
+    if (metaArray == nil || metaArray.count <= 0) {
+        return nil;
+    }
+    
+    // 返回首个
+    for (id obj in metaArray) {
+        KnowledgeMetaEntity *knowledgeMetaEntity = (KnowledgeMetaEntity *)obj;
+        if (knowledgeMetaEntity == nil) {
+            continue;
+        }
+        
+        /*
+         H:修改说明 （1）加载app自带的meta的文件到数据库时，dataStorageType赋值为：DATA_STORAGE_APP_ASSETS
+         更新后的数据将这个字段设为DATA_STORAGE_INTERNAL_STORAGE。
+                   （2）为了能够分别找到bundle目录下的文件和sandBox目录下的文件，需要根据dataStorageType字段来判断。
+         */
+        
+        //判断最新数据是在app中还是sandBox中
+        NSString *knowledgeDataRootPathInApp = nil;
+        if ([knowledgeMetaEntity.dataStorageType isEqualToNumber:[NSNumber numberWithInteger:DATA_STORAGE_APP_ASSETS]]) {
+//            knowledgeDataRootPathInApp = [[Config instance] knowledgeDataConfig].knowledgeDataRootPathInApp;
+            knowledgeDataRootPathInApp = [[Config instance] knowledgeDataConfig].knowledgeDataRootPathInAssets;
+
+             NSLog(@"读取Bundle下的html页面和数据===%@",knowledgeDataRootPathInApp);
+        }
+        else {
+            
+            if ([knowledgeMetaEntity.dataStorageType isEqualToNumber:[NSNumber numberWithInteger:DATA_STORAGE_INTERNAL_STORAGE]]) {
+                //H:修改到沙盒中目录下：
+                knowledgeDataRootPathInApp = [[Config instance] knowledgeDataConfig].knowledgeDataRootPathInDocuments;
+                NSLog(@"读取sandBox中的html页面和数据===%@",knowledgeDataRootPathInApp);
+            }
+            
+        }
+        
+        NSString *fullFilePath = [NSString stringWithFormat:@"%@/%@", knowledgeDataRootPathInApp, knowledgeMetaEntity.dataPath];
+        return fullFilePath;
+    }
+    
+    return nil;
+
+}
+
 
 #pragma mark - local data fetch
 // get local data
@@ -325,6 +389,7 @@
     return [[KnowledgeDataManager instance] startDownloadData:dataId];
 }
 
+
 #pragma mark - data status delegate
 - (BOOL)knowledgeData:(NSString *)dataId downloadedToPath:(NSString *)dataPath successfully:(BOOL)succ {
     return YES;
@@ -333,7 +398,28 @@
 - (BOOL)knowledgeDataAtPath:(NSString *)dataPath updatedSuccessfully:(BOOL)succ {
     return YES;
 }
-
+//H:
+- (void)isShouldUpdateWithUpdateMessage:(NSString *)updateMessage {
+    [self.delegate isShouldUpdateWithUpdateMessage:updateMessage];
+}
+- (BOOL)DownLoadKnowledgedata:(BOOL)isSuccess andDownLoadItem:(KnowledgeDownloadItem *)downloadItem {
+    [self.delegate knowledgeDownloadManagerIsSuccess:isSuccess andDownloadItem:downloadItem];
+    return YES;
+}
+- (BOOL)DownLoadKnowledgedataWithProgress:(float)progress andDownloadItem:(KnowledgeDownloadItem *)downloadItem {
+    [self.delegate knowledgeDownloadManagerWithProgress:progress andDownloadItem:downloadItem];
+    return YES;
+}
+//代理传值
+- (BOOL)returnUpdatableDataVersionInfo:(NSArray *)updatableDataVersionInfoArray {
+    //代理属性调用代理方法
+    return [self.delegate returnUpdatableDataVersionInfoArrayManager:updatableDataVersionInfoArray];
+    
+}
+//备用--promopt
+- (BOOL)returnPromptInformationToJSWithInformation:(NSString *)promptInfo {
+    return [self.delegate returnPromptInformationToJSWithInformation:promptInfo];
+}
 #pragma mark - local data search
 //// search data
 //- (NSString *)searchLocalData:(NSString *)searchId {
@@ -406,7 +492,9 @@
 #pragma mark - data update
 // check data update
 - (BOOL)startCheckDataUpdate {
+    //为了2.0修改了
     return [[KnowledgeDataManager instance] startUpdateData];
+   
 }
 
 #pragma mark -
@@ -484,4 +572,29 @@
     LogInfo(@"[KnowledgeManager-test()], end");
 }
 
+
+#pragma mark H:check update self method
+
+//H:从服务器获取数据更新信息，并同本地版本比较，获取更新信息。
+- (BOOL)getUpdateInfoFileFromServerAndUpdateDataBase {
+    //
+    [KnowledgeDataManager instance].dataStatusDelegate = self;
+    return [[KnowledgeDataManager instance] getUpdateInfoFileFromServerAndUpdateDataBase];
+}
+//H:下载一本新书
+- (BOOL)startDownloadDataManagerWithDataId:(NSString *)dataId {
+   return [[KnowledgeDataManager instance] startDownloadDataWithDataId:dataId];
+}
+//H:根据js传来的参数进行解析
+- (NSString *)getUpdateInfoFormDataBaseWithDataString:(NSString *)dataString {
+    //需要修改
+    NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:(NSData *)dataString options:0 error:nil];
+    //for 循环遍历 and 拼成json字符串
+    NSString *dataId = [dic objectForKey:@"dataId"];
+    DataStatus dataStatus = DATA_STATUS_UPDATE_DETECTED;
+    NSArray *dataIdArr = [[KnowledgeMetaManager instance] getKnowledgeMetaWithDataId:dataId andDataStatus:dataStatus];
+    SBJsonWriter *writer = [[SBJsonWriter alloc] init];
+    NSString *updatableDataStr = [writer stringWithObject:dataIdArr];
+    return updatableDataStr;
+}
 @end

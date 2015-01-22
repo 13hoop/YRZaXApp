@@ -238,7 +238,7 @@
     // hasNodeDownloaded()
     [self.javascriptBridge registerHandler:@"hasNodeDownloaded" handler:^(id dataId, WVJBResponseCallback responseCallback) {
         LogDebug(@"CommonWebViewController::hasNodeDownloaded() called: %@", dataId);
-        
+        //H：这里添加了一个字段dataStoreLocation
         NSString *pagePath = [[KnowledgeManager instance] getPagePath:dataId];
         BOOL downloaded = (pagePath == nil || pagePath.length <= 0 ? NO : YES);
         
@@ -408,6 +408,7 @@
 
 // 跳转到指定的页面
 - (BOOL)showPageWithPageId:(NSString *)pageId andArgs:(NSString *)args {
+    //H:
     NSString *htmlFilePath = [[KnowledgeManager instance] getPagePath:pageId];
     if (htmlFilePath == nil || htmlFilePath.length <= 0) {
         return NO;

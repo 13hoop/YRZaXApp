@@ -18,8 +18,11 @@
 //@property (nonatomic, copy) KnowledgeSubject *knowledgeSubject;
 
 // web view展现时, 需要展示的page id
-@property (nonatomic, copy) NSString *pageId;
+@property (nonatomic, strong) NSString *pageId;
 
+@property (nonatomic,strong) NSString *dataStoreLocation;
 
+//2.0中为了能在MatchViewController中将数据传回KnowledgeWebViewController中
+@property (nonatomic,strong) NSString *webURLStr;
 
 @end

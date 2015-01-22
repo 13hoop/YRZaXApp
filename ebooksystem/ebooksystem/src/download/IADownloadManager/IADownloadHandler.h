@@ -15,7 +15,7 @@
 @property (nonatomic, strong) IAProgressBlock progressBlock;
 @property (nonatomic, strong) IACompletionBlock completionBlock;
 @property (nonatomic, assign) int tag;
-@property (nonatomic, assign) id<IADownloadManagerDelegate> delegate;
+@property (nonatomic, weak) id<IADownloadManagerDelegate> delegate;
 
 + (IADownloadHandler*) downloadingHandlerWithURL:(NSURL*)url
                                    progressBlock:(IAProgressBlock)progressBlock
