@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="6252" systemVersion="14A389" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="KnowledgeMetaEntity" representedClassName="KnowledgeMetaEntity" syncable="YES">
+        <attribute name="bookCategory" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="bookMeta" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="checkTime" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="childIds" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="coverSrc" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="curVersion" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="dataId" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="dataNameCh" optional="YES" attributeType="String" syncable="YES"/>
@@ -34,7 +37,7 @@
         <attribute name="searchId" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
-        <element name="KnowledgeMetaEntity" positionX="-63" positionY="-18" width="128" height="420"/>
+        <element name="KnowledgeMetaEntity" positionX="-63" positionY="-18" width="128" height="465"/>
         <element name="KnowledgeSearchEntity" positionX="-54" positionY="144" width="128" height="105"/>
     </elements>
 </model>

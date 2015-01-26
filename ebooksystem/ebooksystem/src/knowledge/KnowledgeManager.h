@@ -57,6 +57,9 @@
 // get data status
 - (NSString *)getDataStatus:(NSString *)dataId;
 
+//2.0 get book list
+- (NSArray *)getBookList:(NSString *)bookCategoy;
+
 #pragma mark - test
 // test
 - (void)test;

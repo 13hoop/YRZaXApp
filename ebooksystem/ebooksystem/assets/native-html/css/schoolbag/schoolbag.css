@@ -92,7 +92,7 @@
     bottom: 6px;
     width: 33px;
     height: 33px;
-    background: url(./assets/3x/donwload-btn.png) no-repeat 0 0;
+    background: url(./assets/3x/download-btn.png) no-repeat 0 0;
     background-size: 33px 33px;
 }
 .book-not-offline .download-btn{

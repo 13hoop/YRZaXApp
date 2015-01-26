@@ -1,13 +1,12 @@
 //
-//  MatchViewController.m
+//  RenderKnowledgeViewController.m
 //  ebooksystem
 //
-//  Created by wanghaoyu on 14-11-5.
-//  Copyright (c) 2014年 sanweishuku. All rights reserved.
+//  Created by wanghaoyu on 15/1/23.
+//  Copyright (c) 2015年 sanweishuku. All rights reserved.
 //
 
-#import "MatchViewController.h"
-
+#import "RenderKnowledgeViewController.h"
 #import "WebViewJavascriptBridge.h"
 #import "LogUtil.h"
 #import "UIColor+Hex.h"
@@ -29,9 +28,10 @@
 #import "OperateCookie.h"
 #import "SBJson.h"
 #import "KnowledgeMetaManager.h"
-#import "RenderKnowledgeViewController.h"
+#import "MatchViewController.h"
 
-@interface MatchViewController () <UIWebViewDelegate>
+
+@interface RenderKnowledgeViewController ()<UIWebViewDelegate>
 
 #pragma mark - properties
 // bridge between webview and js
@@ -49,15 +49,12 @@
 
 // 设置user agent
 - (BOOL)checkUserAgent;
+//加载html页面的的方法
+//加载页面上的data的方法
 
 @end
 
-@implementation MatchViewController
-
-//@synthesize webUrl = _webUrl;
-//@synthesize webView = _webView;
-//@synthesize javascriptBridge = _javascriptBridge;
-
+@implementation RenderKnowledgeViewController
 
 #pragma mark - properties
 // webUrl
@@ -92,7 +89,7 @@
             LogDebug(@"Received message from javascript: %@", data);
             responseCallback(@"'response data from obj-c'");
         }];
-                [self initWebView];
+        [self initWebView];
     }
     
     return _javascriptBridge;
@@ -102,10 +99,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-//    [CustomURLProtocol register];
-    //状态栏显示
-
     [self initWebView];
     
     if ([self.shouldChangeBackground isEqualToString:@"needChange"]) {
@@ -117,17 +110,13 @@
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.webView.scrollView.bounces = NO;
     self.webView.scrollView.showsVerticalScrollIndicator = NO;
-  
-//    [self injectJSToWebView:self.webView];
-//    self.webview.delegate=self;
+    
+    //    [self injectJSToWebView:self.webView];
+    //    self.webview.delegate=self;
     [self updateWebView];
     [self checkCookie];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [[UIApplication sharedApplication] setStatusBarHidden:false];
-
-}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -136,17 +125,17 @@
 #pragma mark - init
 
 - (BOOL)initWebView {
-//    self.webView.delegate = self.javascriptBridge;
+    //    self.webView.delegate = self.javascriptBridge;
     
     // goback()
     [self.javascriptBridge registerHandler:@"goBack" handler:^(id data, WVJBResponseCallback responseCallback) {
-        LogDebug(@"MatchViewController::goBack() called: %@", data);
-
+        LogDebug(@"RenderKnowledgeViewController::goBack() called: %@", data);
+        
         [self.navigationController popViewControllerAnimated:YES];
     }];
     
     [self.javascriptBridge registerHandler:@"share" handler:^(id data, WVJBResponseCallback responseCallback) {
-        LogDebug(@"MatchViewController::share() called: %@", data);
+        LogDebug(@"RenderKnowledgeViewController::share() called: %@", data);
         
         NSDictionary *shareDic = (NSDictionary *)data;
         
@@ -155,7 +144,7 @@
     
     // playVideo()
     [self.javascriptBridge registerHandler:@"playVideo" handler:^(id dataId, WVJBResponseCallback responseCallback) {
-        LogDebug(@"MatchViewController::playVideo() called: %@", dataId);
+        LogDebug(@"RenderKnowledgeViewController::playVideo() called: %@", dataId);
         
         NSString *urlStr = (NSString *)dataId;
         [self playVideo:urlStr];
@@ -170,11 +159,12 @@
     //js要求调到新的页面时，调到这个里面：
     //getData      ********     *********
     [self.javascriptBridge registerHandler:@"getData" handler:^(id data,WVJBResponseCallback responseCallback){
-        LogDebug(@"MatchViewController::getData() called: %@", data);
+        LogDebug(@"RenderKnowledgeViewController::getData() called: %@", data);
         SBJsonParser *parser = [[SBJsonParser alloc] init];
         NSDictionary *dataDic = [parser objectWithString:data];
         NSString *dataId = [dataDic objectForKey:@"book_id"];
         NSString *queryId = [dataDic objectForKey:@"query_id"];
+        
         if (responseCallback != nil) {
             NSArray *dataArray = [[KnowledgeManager instance] getLocalDataWithDataId:dataId andQueryId:queryId andIndexFilename:nil];
             NSString *data = nil;
@@ -182,8 +172,12 @@
                 if (dataStr == nil || dataStr.length <= 0) {
                     continue;
                 }
-                
                 data = dataStr;
+//                SBJsonParser *parse = [[SBJsonParser alloc] init];
+//                id objc = [parse objectWithString:dataStr];
+//                SBJsonWriter *writer = [[SBJsonWriter alloc] init];
+//                data = [writer stringWithObject:objc];
+//                NSLog(@"data====%@",data);
                 break;
             }
             responseCallback(data);
@@ -194,7 +188,7 @@
     
     //renderPage   *******       ********
     [self.javascriptBridge registerHandler:@"renderPage" handler:^(id data,WVJBResponseCallback responseCallback){
-        LogDebug(@"MatchViewController::renderPage() called: %@", data);
+        LogDebug(@"RenderKnowledgeViewController::renderPage() called: %@", data);
         SBJsonParser *parse = [[SBJsonParser alloc] init];
         NSDictionary *dic = [parse objectWithString:data];
         [self showPageWithDictionary:dic];
@@ -203,7 +197,7 @@
     //getCurStudyType
     [self.javascriptBridge registerHandler:@"getCurStudyType" handler:^(id data ,WVJBResponseCallback responseCallback){
         //在nsuserDefault中设置一个curStudyType字段，用来存储当前用户的学习状态
-        LogDebug(@"MatchViewController::getCurStudyType() called: %@", data);
+        LogDebug(@"RenderKnowledgeViewController::getCurStudyType() called: %@", data);
         if (responseCallback != nil) {
             NSString *data =nil;
             NSString *curStudyType = [NSUserDefaultUtil getCurStudyType];
@@ -218,7 +212,7 @@
     
     //setCurStudyType
     [self.javascriptBridge registerHandler:@"setCurStudyType" handler:^(id data,WVJBResponseCallback responseCallback){
-        LogDebug(@"MatchViewController::setCurStudyType() called: %@", data);
+        LogDebug(@"RenderKnowledgeViewController::setCurStudyType() called: %@", data);
         NSString *curStudyType = data;
         if (curStudyType != nil && curStudyType.length > 0) {
             BOOL isSuccess = [NSUserDefaultUtil setCurStudyTypeWithType:curStudyType];
@@ -233,39 +227,33 @@
             
         }
         else {
-            LogError(@"MatchViewController::setCurStudyType() failed because of curStudyType is equal to nil");
+            LogError(@"RenderKnowledgeViewController::setCurStudyType() failed because of curStudyType is equal to nil");
             NSString *data = @"0";
             responseCallback(data);//失败返回0；
         }
-       
+        
     }];
     
     //getBookList
     [self.javascriptBridge registerHandler:@"getBookList" handler:^(id data,WVJBResponseCallback responseCallback){
-        LogDebug(@"MatchViewController::getBookList() called: %@", data);
+        LogDebug(@"RenderKnowledgeViewController::getBookList() called: %@", data);
         NSString *book_category = data;//值：0，1
         //根据book_category遍历数据库，将数据拼成json格式返回给JS。（具体操作：1、就是根据book_category做遍历数据库的操作 2、book_status ：下载过程中用的download_Status字段（下载成功，下载失败，下载中）也是修改这个字段。）
         NSLog(@"调用getBooklist了，js注入成功了");
-         [self justForTest];
-//        [self justForMoreDownloadTest];
-        //读取文件的方式，取得booklist
-        NSString *string1 = [self fileToJsonString];
-        NSArray *bookListArr = [[KnowledgeManager instance] getBookList:book_category];
-        SBJsonWriter *writer = [[SBJsonWriter alloc] init];
-        NSString *string = [writer stringWithObject:bookListArr];
-        NSLog(@"%@",string);
-        
+        [self justForTest];
+        //        [self justForMoreDownloadTest];
+        NSString *string = [self fileToJsonString];
         if (responseCallback != nil) {
             responseCallback(string);
         }
         
-
+        
         
     }];
     
     //checkUpdate
     [self.javascriptBridge registerHandler:@"checkUpdate" handler:^(id data,WVJBResponseCallback responseCallback){
-        LogDebug(@"MatchViewController::checkUpdate() called: %@", data);
+        LogDebug(@"RenderKnowledgeViewController::checkUpdate() called: %@", data);
         NSString *book_category = data;//值：0，1 还需要分类型吗？
         //检查某类书籍是否有更新，需要从数据库中查找（方法：1、获取更新数据的版本文件 2、把是否有更新的信息存储到数据库中，只需要返回给js是否开始检查的通知即可，不需要检查更新的结果给JS）。
         //返回0，1
@@ -288,8 +276,8 @@
     
     //startDownload
     [self.javascriptBridge registerHandler:@"startDownload" handler:^(id data, WVJBResponseCallback responseCallback) {
-        LogDebug(@"MatchViewController::startDownload() called: %@", data);
-                [self output];
+        LogDebug(@"RenderKnowledgeViewController::startDownload() called: %@", data);
+        [self output];
         NSString *book_id = data;
         NSLog(@"调了=====%@",book_id);
         //下载的过程就是只有一步，拿到data_id后直接开始下载。（具体操作：1、根据book_id去下载 2、将下载的进度实时存到数据库中即可，不需要做读取的操作，也不需要将进度返回给JS。只需要告诉JS是否已经开始下载）。
@@ -314,7 +302,7 @@
     
     //queryBookStatus
     [self.javascriptBridge registerHandler:@"queryBookStatus" handler:^(id data, WVJBResponseCallback responseCallback) {
-        LogDebug(@"MatchViewController::startDownload() called: %@", data);
+        LogDebug(@"RenderKnowledgeViewController::startDownload() called: %@", data);
         
         SBJsonParser *parse = [[SBJsonParser alloc] init];
         NSArray *book_ids = [parse objectWithString:data];
@@ -322,21 +310,21 @@
         //操作：遍历获取到的book_id数组
         //根据book_ids来获取下载进度，需要从数据库中取到，（具体操作：1、根据book_id对数据库做读取操作 2、返回结果是一个json，其中downLoad_status需要返回汉字）。
         NSMutableArray *booksArray = [NSMutableArray array];
-            for (NSString *bookId in book_ids) {
-                if (bookId ==nil) {
-                    continue;
-                }
-                //根据book_id从数据库中去相应的状态
-                NSMutableDictionary *dic = [self getDicFormDataBase:bookId];
-                [booksArray addObject:dic];
+        for (NSString *bookId in book_ids) {
+            if (bookId ==nil) {
+                continue;
             }
+            //根据book_id从数据库中去相应的状态
+            NSMutableDictionary *dic = [self getDicFormDataBase:bookId];
+            [booksArray addObject:dic];
+        }
         SBJsonWriter *writer = [[SBJsonWriter alloc] init];
         NSString *jsonStr = [writer stringWithObject:booksArray];
         if (responseCallback != nil) {
             responseCallback(jsonStr);
         }
         
-       
+        
         
     }];
     //goUserSettingPage
@@ -363,9 +351,6 @@
     
     return YES;
 }
--(void)output {
-    NSLog(@"调了，调了");
-}
 
 #pragma mark 2.0调用的接口
 //2.0中跳转到指定页面
@@ -379,13 +364,17 @@
         if (htmlFilePath == nil || htmlFilePath.length <= 0) {
             return NO;
         }
+        
         NSString *page_type = dic[@"page_type"];
         
         // 加载指定的html文件
         NSURL *url = [[NSURL alloc] initFileURLWithPath:[NSString stringWithFormat:@"%@/%@/%@", htmlFilePath,page_type, @".html"]];
         
         NSString *urlStrWithParams = nil;
+        //应该用这个，但是JS没改，仍然使用老的参数命名：data		@"{\"target\":\"activity\",\"book_id\":\"test_book_4\",\"page_type\":\"outline-1\",\"getArgs\":\"book_id=test_book_4&query_id=top_1\"}"
+//        NSString *args = dic[@"get_args"];
         NSString *args = dic[@"getArgs"];
+        
         
         if (args != nil && args.length > 0) {
             urlStrWithParams = [NSString stringWithFormat:@"%@?%@", [url absoluteString], args];
@@ -415,16 +404,20 @@
             NSString *urlStr = [NSString stringWithFormat:@"%@/%@/%@%@", htmlFilePath,@"render",page_type, @".html"];
             
             NSString *urlStrWithParams = nil;
-            NSString *args = dic[@"get_args"];
+//            NSString *args = dic[@"get_Args"];
+            NSString *args = dic[@"getArgs"];
             if (args != nil && args.length > 0) {
-                urlStrWithParams = [NSString stringWithFormat:@"%@%@", urlStr, args];
+                urlStrWithParams = [NSString stringWithFormat:@"%@?%@", urlStr, args];
             }
             else {
                 urlStrWithParams = [NSString stringWithFormat:@"%@", urlStr];
                 
             }
             //打开新的controller
-            return [self showSafeURL:urlStrWithParams];
+//            return [self showSafeURL:urlStrWithParams];
+            [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:urlStrWithParams]]];
+             return  YES;
+
             
         }
     }
@@ -432,31 +425,23 @@
     return YES;
     
 }
-//2.0中打开新的webView, 并跳转到指定的url
+
 - (BOOL)showSafeURL:(NSString *)urlStr {
     
-
-    RenderKnowledgeViewController *render = [[RenderKnowledgeViewController alloc] init];
-    render.webUrl = urlStr;
-    [self.navigationController pushViewController:render animated:YES];
-    
-   
+    MatchViewController *match  = [[MatchViewController alloc] init];
+    match.webUrl = urlStr;
+    [self.navigationController pushViewController:match animated:YES];
     
     return YES;
 }
 
-
 - (BOOL)updateWebView {
     // 在加载loadRuquest之前设置userAgent
-//    [self checkUserAgent];
+    //    [self checkUserAgent];
     
     // load url
-    //    self.webUrl=@"http://pk2015.zaxue100.com"; // test
-    NSString *bundlePath = [PathUtil getBundlePath];
-    NSString *myBagUrlStrWithParams = [NSString stringWithFormat:@"%@/%@/%@/%@%@", bundlePath, @"assets",@"native-html",@"schoolbag.html",@"?study_type=1"];
-    NSLog(@"要显示的本地html链接是%@",myBagUrlStrWithParams);
-    NSURL *myBagUrl = [NSURL URLWithString:myBagUrlStrWithParams];
-    NSURLRequest *request = [NSURLRequest requestWithURL:myBagUrl];
+    NSURL *Url = [NSURL URLWithString:self.webUrl];
+    NSURLRequest *request = [NSURLRequest requestWithURL:Url];
     
     [self.webView loadRequest:request];
     
@@ -478,7 +463,7 @@
     NSString *titleAll=[shareDic objectForKey:@"title"];
     //分享链接
     NSString *callBackUrl=[shareDic objectForKey:@"url"];
-//    NSURL *weburl=[NSURL URLWithString:urlString];
+    //    NSURL *weburl=[NSURL URLWithString:urlString];
     //分享的图片链接
     NSString *imageString=[shareDic objectForKey:@"img_url"];
     //是否截屏
@@ -490,15 +475,15 @@
     
     
     /*
-    //(1)使用ui，分享url定义的图片
-    [[UMSocialData defaultData].urlResource setResourceType:UMSocialUrlResourceTypeImage url:imageString];
-    //(2)使用ui,分享截屏图片
-//    UIImage *image = [[UMSocialScreenShoterDefault screenShoter] getScreenShot];
-    //不同的平台分享不同的内容
-    //新浪微博平台
-    [UMSocialData defaultData].extConfig.sinaData.shareText = @"分享到新浪微博内容";
-    //腾讯
-    [UMSocialData defaultData].extConfig.tencentData.shareImage = [UIImage imageNamed:@"meinv.jpg"]; //分享到腾讯微博图片
+     //(1)使用ui，分享url定义的图片
+     [[UMSocialData defaultData].urlResource setResourceType:UMSocialUrlResourceTypeImage url:imageString];
+     //(2)使用ui,分享截屏图片
+     //    UIImage *image = [[UMSocialScreenShoterDefault screenShoter] getScreenShot];
+     //不同的平台分享不同的内容
+     //新浪微博平台
+     [UMSocialData defaultData].extConfig.sinaData.shareText = @"分享到新浪微博内容";
+     //腾讯
+     [UMSocialData defaultData].extConfig.tencentData.shareImage = [UIImage imageNamed:@"meinv.jpg"]; //分享到腾讯微博图片
      */
     
     //1、分享到QQ
@@ -509,7 +494,7 @@
     [[UMSocialData defaultData].extConfig.qqData.urlResource setResourceType:UMSocialUrlResourceTypeImage url:weixinImageUrl];
     //点击分享的内容跳转到的网站
     [UMSocialData defaultData].extConfig.qqData.url = callBackUrl;
-
+    
     
     //2、分享到qq空间的图片
     [[UMSocialData defaultData].extConfig.qzoneData.urlResource setResourceType:UMSocialUrlResourceTypeImage url:weixinImageUrl];
@@ -518,7 +503,7 @@
     //分享qq空间的内容
     [UMSocialData defaultData].extConfig.qzoneData.shareText=shareString;
     //回调的url
-     [UMSocialData defaultData].extConfig.qzoneData.url = callBackUrl;
+    [UMSocialData defaultData].extConfig.qzoneData.url = callBackUrl;
     
     
     //3、设置微信好友分享url图片
@@ -554,7 +539,7 @@
     }
     
     // 不要加
-//    [CustomURLProtocol injectURL:urlStr cookie:@"User-Agent:ZAXUE_IOS_POLITICS_APP"];
+    //    [CustomURLProtocol injectURL:urlStr cookie:@"User-Agent:ZAXUE_IOS_POLITICS_APP"];
     
     // 播放
     //    MPMoviePlayerViewController *playerViewController = [[MPMoviePlayerViewController alloc] initWithContentURL:url];
@@ -590,7 +575,7 @@
 
 -(BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
     if (request) {
-        LogDebug(@"[MatchViewConroller] Web request: UA: %@", [request valueForHTTPHeaderField:@"User-Agent"]);
+        LogDebug(@"[RenderKnowledgeViewController] Web request: UA: %@", [request valueForHTTPHeaderField:@"User-Agent"]);
     }
     
     [self injectJSToWebView:webView];
@@ -645,13 +630,13 @@
     NSFileHandle *fileHandler = [NSFileHandle fileHandleForReadingAtPath:filePath];
     NSData *data = [fileHandler readDataToEndOfFile];
     NSString *string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-
+    
     SBJsonParser *parse = [[SBJsonParser alloc] init];
     NSArray *arr = [parse objectWithString:string];
-
+    
     SBJsonWriter *writer = [[SBJsonWriter alloc] init];
     NSString *jsonString = [writer stringWithObject:arr];
-//    NSLog(@"%@",jsonString);
+    //    NSLog(@"%@",jsonString);
     return jsonString;
 }
 
@@ -680,7 +665,7 @@
         }
         else if (dicBookStatusInteger >= 4 && dicBookStatusInteger <=6) {
             dicBookStatus = @"解包";
-//            downLoadStatus = @""
+            //            downLoadStatus = @""
         }
         else if (dicBookStatusInteger == 10) {
             dicBookStatus = @"完成";
@@ -691,9 +676,9 @@
         else {
             dicBookStatus = @"校验";
         }
-//        else {
-//            
-//        }
+        //        else {
+        //
+        //        }
         NSString *dicBookStatusDetails = [entity valueForKey:@"dataStatusDesc"];
         //
         [dic setValue:dicBookId forKey:@"book_id"];
@@ -705,5 +690,16 @@
     
 }
 
+
+- (void)createWebview {
+    UIWebView *web = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height - 44)];
+    [web loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:self.webUrl]]];
+
+    [self.view addSubview:web];
+}
+
+-(void)output {
+    NSLog(@"调了，调了");
+}
 
 @end

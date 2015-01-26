@@ -119,8 +119,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-//    self.dataStoreLocation = @"sandBox";
     self.view.backgroundColor=[UIColor colorWithHexString:@"#242021" alpha:1];
+    self.view.backgroundColor = [UIColor whiteColor];
     [self initWebView];
     [self updateWebView];
     [self updateApp];
@@ -260,7 +260,7 @@
         if (error) {
             NSLog(@"error======%@",error);
         }
-        [self showPageWithDictionary:dic];
+//        [self showPageWithDictionary:dic];
         
     }];
     //getCurStudyType
@@ -487,8 +487,14 @@
 
 // 更新webview
 - (BOOL)updateWebView {
+    
     [((UIScrollView *)[self.webView.subviews objectAtIndex:0]) setShowsVerticalScrollIndicator:NO]; // 去除webView右侧垂直滚动条
     [((UIScrollView *)[self.webView.subviews objectAtIndex:0]) setBounces:NO];
+    //2.0新开controller页面
+    if (self.webURLStr !=nil && self.webURLStr.length >0) {
+        [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:self.webURLStr]]];
+        return YES;
+    }
     
     if (self.pageId == nil) {
         return NO;
@@ -514,10 +520,8 @@
         [self.webView loadRequest:[[NSURLRequest alloc] initWithURL:myBagUrl]];
 
     }
-    else {
-        NSURL *urlWithParams = [[NSURL alloc] initWithString:self.webURLStr];
-        [self.webView loadRequest:[[NSURLRequest alloc] initWithURL:urlWithParams]];
-    }
+    
+    
     return YES;
 }
 

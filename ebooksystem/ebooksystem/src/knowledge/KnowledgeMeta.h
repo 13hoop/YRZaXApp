@@ -53,6 +53,10 @@
 @property (nonatomic, copy) NSString *latestVersion;
 @property (nonatomic, copy) NSDate *releaseTime;
 
+@property (nonatomic, copy) NSString *bookCategory;
+@property (nonatomic, copy) NSString *bookMeta;
+@property (nonatomic, copy) NSString *coverSrc;
+
 // 检索倒排表
 @property (nonatomic, copy) NSArray *searchReverseInfo;
 

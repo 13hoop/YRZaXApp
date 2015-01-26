@@ -63,8 +63,8 @@
      * @param args.target  {String} 'activity' 代表用新的 activity 渲染新页面；'self' 表示在当前webview内渲染
      * @param args.book_id {String} 书籍的id
      * @param args.page_type {String} 页面需要的HTML文件的名字，用 page_type + '.html' 就可以拼出最终要渲染的HTML文件
-     * @param args.getArgs {String} 新页面的 URL 中的 search 部分参数，需要native拼接到 .html? 后面
-     * @param args.postArgs {String} 新页面需要的大量数据，可能通过这个参数来传递，一般不会用到
+     * @param args.get_args {String} 新页面的 URL 中的 search 部分参数，需要native拼接到 .html? 后面
+     * @param args.post_args {String} 新页面需要的大量数据，可能通过这个参数来传递，一般不会用到
      */
     bridgeXXX.renderPage = function( args ){
 
@@ -175,6 +175,39 @@
         if( bridge ){
             bridge.goDiscoverPage();
         }
+    };
+
+    /**
+     * 获取用户信息
+     * @param callback {Function}
+     * @return {String}  { user_name : '用户名', avatar_src : '用户头像图片URL', balance : '用户的咋学币余额' }
+     */
+    bridgeXXX.getUserInfo = function( callback ){
+        var bridge = bridgeXXX.getBridge();
+        if( bridgeXXX.isAndroid() ){
+            var data = bridge.getUserInfo(  );
+            if( typeof  callback === 'function' ){
+                callback( data );
+            }
+        }else if( bridgeXXX.isIOS() ){
+            bridge.getCoverSrc( callback );
+        }
+    };
+
+    /**
+     * 在 个人中心  页面，点击不同icon，跳转到不同功能页面
+     * @param args {JSON}
+     * @param args.action {String} APP内不同功能页面的type
+     *                             "modify_user_info" -> "修改账户信息"
+     *                             "setting" -> "设置"
+     *                             "note" -> "笔记"
+     *                             "error_list" -> "错题集"
+     * @param args.target {String}  activity 代表在 新的 activity  打开
+     */
+    bridgeXXX.showAppPageByAction = function( args ){
+        var bridge = bridgeXXX.getBridge();
+        args = JSON.stringify( args );
+        bridge.showAppPageByAction( args );
     };
 
 }( window );

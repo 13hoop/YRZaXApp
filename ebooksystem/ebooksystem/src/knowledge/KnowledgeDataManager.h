@@ -26,6 +26,7 @@
 - (BOOL)returnUpdatableDataVersionInfo:(NSArray *)updatableDataVersionInfoArray;
 //若是没有需要更新的信息，给js提示。--备用
 - (BOOL)returnPromptInformationToJSWithInformation:(NSString *)promptInfo;
+
 @end
 
 
@@ -67,6 +68,9 @@
 // check data update, and auto apply update
 - (BOOL)startUpdateData:(NSString *)dataId;
 
+
+
+
 #pragma mark - search
 // search data
 - (NSArray *)searchData:(NSString *)searchId;
@@ -80,5 +84,11 @@
 - (BOOL)getUpdateInfoFileFromServerAndUpdateDataBase;
 //H:下载新书：
 - (BOOL)startDownloadDataWithDataId:(NSString *)dataId;
+
+#pragma mark - getBooklist
+
+//2.0 get Book List
+- (NSArray *)getBookList:(NSString *)bookCategory;
+
 
 @end

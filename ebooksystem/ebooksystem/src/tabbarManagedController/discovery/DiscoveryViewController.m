@@ -7,15 +7,11 @@
 //
 
 #import "DiscoveryViewController.h"
-#import "PurchaseTabViewController.h"
-#import "KnowledgeMetaManager.h"
-#import "KnowledgeDataTypes.h"
+#import "discoveryWebView.h"
+#import "discoveryModel.h"
 @interface DiscoveryViewController ()
 
-@property (nonatomic,strong) IBOutlet UIButton *nextBtn;
-
-@property (nonatomic,strong) UISwipeGestureRecognizer *swipeGestureRecognizerLeft;
-@property (nonatomic,strong) UISwipeGestureRecognizer *swipeGestureRecognizerRight;
+@property (nonatomic,strong) discoveryWebView *discoverWeb;
 
 
 @end
@@ -24,66 +20,35 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    self.view.backgroundColor = [UIColor yellowColor];
 //    self.tabBarController.selectedIndex = 2;
-    self.swipeGestureRecognizerLeft = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(checkSwipGestureDirectionWith:)];
-        self.swipeGestureRecognizerLeft.direction = UISwipeGestureRecognizerDirectionLeft;
-    self.swipeGestureRecognizerLeft.numberOfTouchesRequired = 1;//手指个数
-    
-    [self.view addGestureRecognizer:self.swipeGestureRecognizerLeft];
-    
-    //add gestureRecognizer right
-    self.swipeGestureRecognizerRight = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(checkSwipGestureDirectionWith:)];
-        self.swipeGestureRecognizerRight.direction = UISwipeGestureRecognizerDirectionRight;
-    self.swipeGestureRecognizerRight.numberOfTouchesRequired = 1;//手指个数
-    [self.view addGestureRecognizer:self.swipeGestureRecognizerRight];
+    //消除状态栏的20像素差
+    self.automaticallyAdjustsScrollViewInsets = NO;
+   
+    [self makeWebView];
+    [self test];
     
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [[UIApplication sharedApplication] setStatusBarHidden:TRUE];
+
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
-#pragma mark 通过判断手指滑动方向，切换tab
-- (void)checkSwipGestureDirectionWith:(UISwipeGestureRecognizer*)gesture {
+//创建webview
+- (void)makeWebView {
+     self.discoverWeb = [[discoveryWebView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
     
-    [self swip:gesture];
-    NSLog(@"滑动了");
+    [self.view addSubview:self.discoverWeb];
 }
 
-
-- (void)swip:(UISwipeGestureRecognizer *)swip
-
-{
-    
-    NSUInteger index = self.tabBarController.selectedIndex;
-    
-    NSUInteger count = [self.tabBarController.viewControllers count];
-    
-    
-    
-    if (swip.direction == UISwipeGestureRecognizerDirectionLeft && ++index == count){
-        
-        index = 0;
-    }
-    else if (swip.direction == UISwipeGestureRecognizerDirectionRight && --index < 0)
-        
-        index = count-1;
-    
-    
-    
-    [self.tabBarController setSelectedIndex:index];
-    
-    
-}
-
-- (IBAction)next:(id)sender {
-//    PurchaseTabViewController *pb = [[PurchaseTabViewController alloc] init];
-//    [self.navigationController pushViewController:pb animated:YES];
-    
-    [[KnowledgeMetaManager instance] setDataStatusTo:DATA_STATUS_DOWNLOAD_FAILED andDataStatusDescTo:@"100" forDataWithDataId:@"test_book_1" andType:DATA_TYPE_DATA_SOURCE];
+- (void)test {
+    NSArray *arr = [NSArray arrayWithObjects:@"test_book_4", nil];
+    discoveryModel *disMod = [[discoveryModel alloc] init];
+    [disMod getBookInfoWithDataIds:arr];
 }
 
 @end

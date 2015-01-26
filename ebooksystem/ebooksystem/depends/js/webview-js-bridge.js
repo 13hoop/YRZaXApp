@@ -155,7 +155,38 @@ function dump(arr,level) {
                          }
                          }  );
     };
-    
+    //getCoverSrc
+    bridgeIOS.getCoverSrc = function(data,callback){
+        bridgeIOS.callOC( 'getCoverSrc',data,function(responseData){
+                         if (callback) {
+                         callback(responseData);
+                         }
+                         }  );
+    };
+    //goDiscoverPage
+    bridgeIOS.goDiscoverPage = function(data,callback){
+        bridgeIOS.callOC( 'goDiscoverPage',function(responseData){
+                         if (callback) {
+                         callback(responseData);
+                         }
+                         }  );
+    };
+    //goUserSettingPage
+    bridgeIOS.goUserSettingPage = function(data,callback){
+        bridgeIOS.callOC( 'goUserSettingPage',function(responseData){
+                         if (callback) {
+                         callback(responseData);
+                         }
+                         });
+    };
+    //queryBookStatus
+    bridgeIOS.queryBookStatus = function(data,callback){
+        bridgeIOS.callOC( 'queryBookStatus',data,function(responseData){
+                         if (callback) {
+                         callback(responseData);
+                         }
+                         }  );
+    };
     
     
 }();

@@ -242,8 +242,8 @@
         <!--看书的webview-->
         <scene sceneID="c8C-ba-Hhz">
             <objects>
-                <viewController id="ZLj-TZ-gJD" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="ym9-df-nRa">
+                <viewController id="ZLj-TZ-gJD" customClass="KnowledgeWebViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="ym9-df-nRa" customClass="k">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -278,24 +278,9 @@
                     <view key="view" contentMode="scaleToFill" id="O9C-dW-F7U">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="OPR-PM-9qa">
-                                <rect key="frame" x="118" y="180" width="111" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="进入到购买页面">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="next:" destination="QCI-pp-HAT" eventType="touchUpInside" id="mBP-Lm-g3l"/>
-                                </connections>
-                            </button>
-                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="HBU-Ak-Tit"/>
-                    <connections>
-                        <outlet property="nextBtn" destination="OPR-PM-9qa" id="wJa-fi-RaT"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ExF-07-j5E" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

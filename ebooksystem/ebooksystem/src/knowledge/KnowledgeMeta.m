@@ -63,6 +63,11 @@
 @synthesize latestVersion;
 @synthesize releaseTime;
 
+@synthesize bookCategory;
+@synthesize bookMeta;
+@synthesize coverSrc;
+
+
 @synthesize searchReverseInfo;
 
 
@@ -94,6 +99,7 @@
     knowledgeMeta.parentNameEn = knowledgeMetaEntity.parentNameEn;
     knowledgeMeta.parentNameCh = knowledgeMetaEntity.parentNameCh;
     
+    
     // child ids
     {
         if (knowledgeMetaEntity.childIds != nil && knowledgeMetaEntity.childIds.length > 0) {
@@ -120,6 +126,11 @@
     knowledgeMeta.curVersion = knowledgeMetaEntity.curVersion;
     knowledgeMeta.latestVersion = knowledgeMetaEntity.latestVersion;
     knowledgeMeta.releaseTime = knowledgeMetaEntity.releaseTime;
+    //2.0中新增三个字段
+
+    knowledgeMeta.bookCategory = knowledgeMetaEntity.bookCategory;
+    knowledgeMeta.coverSrc = knowledgeMetaEntity.coverSrc;
+    knowledgeMeta.bookMeta = knowledgeMetaEntity.bookMeta;
     
     return knowledgeMeta;
 }
@@ -176,7 +187,32 @@
     [knowledgeMetaEntity setValue:self.curVersion forKey:@"curVersion"];
     [knowledgeMetaEntity setValue:self.latestVersion forKey:@"latestVersion"];
     [knowledgeMetaEntity setValue:self.releaseTime forKey:@"releaseTime"];
+    //2.0中新增的三个字段
+    //bookMeta
+    if (self.bookMeta != nil && self.bookMeta.length > 0) {
+        [knowledgeMetaEntity setValue:self.bookMeta forKey:@"bookMeta"];
+    }
+    else {
+        [knowledgeMetaEntity setValue:@"" forKey:@"bookMeta"];
+        
+    }
+    //bookCategory
+    if (self.bookCategory != nil && self.bookCategory.length > 0) {
+        [knowledgeMetaEntity setValue:self.bookCategory forKey:@"bookCategory"];
+    }
+    else {
+        [knowledgeMetaEntity setValue:@"" forKey:@"bookCategory"];
+ 
+    }
+    //coverSrc
+    if (self.coverSrc != nil && self.coverSrc.length > 0) {
+        [knowledgeMetaEntity setValue:self.coverSrc forKey:@"coverSrc"];
 
+    }
+    else {
+        [knowledgeMetaEntity setValue:@"" forKey:@"coverSrc"];
+
+    }
     return YES;
 }
 
@@ -214,6 +250,8 @@
 //    return searchEnties;
 //}
 
+
+//存到数据库之前的将json数据转换成knowledgeMeta的操作，或者不转换也行，没有的就不转换，直接存空字符串进去。
 // parse knowledge meta from json string
 + (KnowledgeMeta *)parseJsonString:(NSString *)json {
     if (json == nil || json.length <= 0) {

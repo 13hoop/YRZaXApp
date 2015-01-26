@@ -457,6 +457,11 @@
 //    return searchResult;
 //}
 
+
+
+
+
+
 // search data
 - (NSString *)searchLocalData:(NSString *)searchId {
     NSArray *knowledgeSearchResults = [[KnowledgeDataManager instance] searchData:searchId];
@@ -570,6 +575,13 @@
     }
     
     LogInfo(@"[KnowledgeManager-test()], end");
+}
+
+
+#pragma mark - 2.0 getBookList
+- (NSArray *)getBookList:(NSString *)bookCategoy {
+    NSArray *bookListArr = [[KnowledgeDataManager instance] getBookList:bookCategoy];
+    return bookListArr;
 }
 
 

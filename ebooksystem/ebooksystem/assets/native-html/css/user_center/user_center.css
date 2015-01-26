@@ -1,0 +1,59 @@
+
+body{
+    background: #f5f5f9;
+    overflow-y: auto;
+}
+.fragment-header{
+    height: 233px;
+    text-align: center;
+    padding: 28px 0 0;
+    background: url(./assets/top-bg.png) repeat-x 0 100%;
+    background-size: 360px 233px;
+}
+.fragment-header h1{
+    color: #fffff3;
+    height: 20px;
+    line-height: 20px;
+    font-size: 20px;
+}
+.avatar-img{
+    display: block;
+    width: 53px;
+    height: 53px;
+    border-radius: 100%;
+    margin: 21px auto 14px;
+}
+.user-name{
+    color: #fcfcfc;
+    margin: 8px auto;
+}
+.balance{
+    color: #fe710c;
+    margin: 8px auto 7px;
+}
+.modify-info-btn{
+    color: #898989;
+}
+
+
+
+/*动作列表*/
+.action-item{
+    float: left;
+    color: #737373;
+    text-align: center;
+    width: 33.33333%;
+    height: 120px;
+    border-bottom: 1px solid #dcdcdc;
+    border-right: 1px solid transparent;
+    background: #fcfcfc;
+}
+.action-item:nth-of-type(2n), .action-item:nth-of-type(2n + 1){
+    border-right-color: #dcdcdc;
+}
+.action-img{
+    display: block;
+    width: 60px;
+    height: 60px;
+    margin: 19px auto 7px;
+}

@@ -81,9 +81,14 @@
 		06CD8D931A6CB4F100667432 /* selectCourseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06CD8D921A6CB4F100667432 /* selectCourseViewController.m */; };
 		06CE685C1A679E8100D10F51 /* QuestionAndAnswerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06CE685B1A679E8100D10F51 /* QuestionAndAnswerViewController.m */; };
 		06CE68601A679F2900D10F51 /* MySchoolBagViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06CE685F1A679F2900D10F51 /* MySchoolBagViewController.m */; };
+		06CEBA711A72410F00D8FE03 /* RenderKnowledgeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06CEBA701A72410F00D8FE03 /* RenderKnowledgeViewController.m */; };
+		06CEE6311A734E8C000ADCE3 /* SecondRenderKnowledgeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06CEE6301A734E8C000ADCE3 /* SecondRenderKnowledgeViewController.m */; };
 		06CF20B61A70D1A100DD2721 /* 封面图片-2-base64.txt in Resources */ = {isa = PBXBuildFile; fileRef = 06CF20B51A70D1A100DD2721 /* 封面图片-2-base64.txt */; };
 		06CF20BA1A70F40F00DD2721 /* book-list-json-2.json in Resources */ = {isa = PBXBuildFile; fileRef = 06CF20B91A70F40F00DD2721 /* book-list-json-2.json */; };
 		06D02C781A68A7F10047103A /* NSUserDefaultUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 06D02C771A68A7F10047103A /* NSUserDefaultUtil.m */; };
+		06D1D2AD1A74C39D00F5B8FC /* KnowledgeMetaEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 06D1D2AC1A74C39D00F5B8FC /* KnowledgeMetaEntity.m */; };
+		06D1D2B31A750ECD00F5B8FC /* discoveryWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = 06D1D2B21A750ECD00F5B8FC /* discoveryWebView.m */; };
+		06D1D2B61A751CF300F5B8FC /* discoveryModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 06D1D2B51A751CF300F5B8FC /* discoveryModel.m */; };
 		06D360501A62204400F2FF44 /* ZBarScanViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06D3604F1A62204400F2FF44 /* ZBarScanViewController.m */; };
 		06D418041A47B023007565F0 /* TestMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06D418021A47B023007565F0 /* TestMainViewController.m */; };
 		06D418051A47B023007565F0 /* TestMainViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06D418031A47B023007565F0 /* TestMainViewController.xib */; };
@@ -286,7 +291,6 @@
 		71860C0E19DE8DE600D01AA9 /* UUIDUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 71860C0D19DE8DE600D01AA9 /* UUIDUtil.m */; };
 		718707B219FA00A000F49D23 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 718707B119FA00A000F49D23 /* MediaPlayer.framework */; };
 		718707B519FA3B2F00F49D23 /* ErrorInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 718707B419FA3B2F00F49D23 /* ErrorInfo.m */; };
-		71BCED2619FCCB2E003B061A /* KnowledgeMetaEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 71BCED2519FCCB2E003B061A /* KnowledgeMetaEntity.m */; };
 		71CC8B5C1A1B1C9F00DF59D9 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 71CC8B581A1B1C9F00DF59D9 /* libcrypto.a */; };
 		71CC8B5D1A1B1C9F00DF59D9 /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 71CC8B591A1B1C9F00DF59D9 /* libssl.a */; };
 		71CC8B5E1A1B1C9F00DF59D9 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 71CC8B5A1A1B1C9F00DF59D9 /* LICENSE */; };
@@ -433,10 +437,20 @@
 		06CE685B1A679E8100D10F51 /* QuestionAndAnswerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuestionAndAnswerViewController.m; sourceTree = "<group>"; };
 		06CE685E1A679F2900D10F51 /* MySchoolBagViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MySchoolBagViewController.h; sourceTree = "<group>"; };
 		06CE685F1A679F2900D10F51 /* MySchoolBagViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MySchoolBagViewController.m; sourceTree = "<group>"; };
+		06CEBA6F1A72410F00D8FE03 /* RenderKnowledgeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RenderKnowledgeViewController.h; sourceTree = "<group>"; };
+		06CEBA701A72410F00D8FE03 /* RenderKnowledgeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RenderKnowledgeViewController.m; sourceTree = "<group>"; };
+		06CEE62F1A734E8C000ADCE3 /* SecondRenderKnowledgeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SecondRenderKnowledgeViewController.h; sourceTree = "<group>"; };
+		06CEE6301A734E8C000ADCE3 /* SecondRenderKnowledgeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SecondRenderKnowledgeViewController.m; sourceTree = "<group>"; };
 		06CF20B51A70D1A100DD2721 /* 封面图片-2-base64.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "封面图片-2-base64.txt"; sourceTree = "<group>"; };
 		06CF20B91A70F40F00DD2721 /* book-list-json-2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "book-list-json-2.json"; sourceTree = "<group>"; };
 		06D02C761A68A7F10047103A /* NSUserDefaultUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NSUserDefaultUtil.h; path = src/util/NSUserDefaultUtil.h; sourceTree = "<group>"; };
 		06D02C771A68A7F10047103A /* NSUserDefaultUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NSUserDefaultUtil.m; path = src/util/NSUserDefaultUtil.m; sourceTree = "<group>"; };
+		06D1D2AB1A74C39D00F5B8FC /* KnowledgeMetaEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KnowledgeMetaEntity.h; path = src/data/model/KnowledgeMetaEntity.h; sourceTree = "<group>"; };
+		06D1D2AC1A74C39D00F5B8FC /* KnowledgeMetaEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KnowledgeMetaEntity.m; path = src/data/model/KnowledgeMetaEntity.m; sourceTree = "<group>"; };
+		06D1D2B11A750ECD00F5B8FC /* discoveryWebView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = discoveryWebView.h; sourceTree = "<group>"; };
+		06D1D2B21A750ECD00F5B8FC /* discoveryWebView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = discoveryWebView.m; sourceTree = "<group>"; };
+		06D1D2B41A751CF300F5B8FC /* discoveryModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = discoveryModel.h; sourceTree = "<group>"; };
+		06D1D2B51A751CF300F5B8FC /* discoveryModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = discoveryModel.m; sourceTree = "<group>"; };
 		06D3604E1A62204400F2FF44 /* ZBarScanViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZBarScanViewController.h; sourceTree = "<group>"; };
 		06D3604F1A62204400F2FF44 /* ZBarScanViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZBarScanViewController.m; sourceTree = "<group>"; };
 		06D418011A47B023007565F0 /* TestMainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestMainViewController.h; sourceTree = "<group>"; };
@@ -831,8 +845,6 @@
 		718707B119FA00A000F49D23 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
 		718707B319FA3B2F00F49D23 /* ErrorInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ErrorInfo.h; path = src/error/ErrorInfo.h; sourceTree = "<group>"; };
 		718707B419FA3B2F00F49D23 /* ErrorInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ErrorInfo.m; path = src/error/ErrorInfo.m; sourceTree = "<group>"; };
-		71BCED2419FCCB2E003B061A /* KnowledgeMetaEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KnowledgeMetaEntity.h; path = src/data/model/KnowledgeMetaEntity.h; sourceTree = "<group>"; };
-		71BCED2519FCCB2E003B061A /* KnowledgeMetaEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KnowledgeMetaEntity.m; path = src/data/model/KnowledgeMetaEntity.m; sourceTree = "<group>"; };
 		71CC8B581A1B1C9F00DF59D9 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libcrypto.a; sourceTree = "<group>"; };
 		71CC8B591A1B1C9F00DF59D9 /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libssl.a; sourceTree = "<group>"; };
 		71CC8B5A1A1B1C9F00DF59D9 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
@@ -1065,6 +1077,10 @@
 				06CF20B91A70F40F00DD2721 /* book-list-json-2.json */,
 				06A8A9EA1A0A0B9300407E89 /* MatchViewController.h */,
 				06A8A9EB1A0A0B9300407E89 /* MatchViewController.m */,
+				06CEBA6F1A72410F00D8FE03 /* RenderKnowledgeViewController.h */,
+				06CEBA701A72410F00D8FE03 /* RenderKnowledgeViewController.m */,
+				06CEE62F1A734E8C000ADCE3 /* SecondRenderKnowledgeViewController.h */,
+				06CEE6301A734E8C000ADCE3 /* SecondRenderKnowledgeViewController.m */,
 			);
 			name = matchWeb;
 			path = src/common/matchWeb;
@@ -1703,6 +1719,10 @@
 			children = (
 				06B5FC141A5FBBEE0031DDB4 /* DiscoveryViewController.h */,
 				06B5FC151A5FBBEE0031DDB4 /* DiscoveryViewController.m */,
+				06D1D2B11A750ECD00F5B8FC /* discoveryWebView.h */,
+				06D1D2B21A750ECD00F5B8FC /* discoveryWebView.m */,
+				06D1D2B41A751CF300F5B8FC /* discoveryModel.h */,
+				06D1D2B51A751CF300F5B8FC /* discoveryModel.m */,
 			);
 			path = discovery;
 			sourceTree = "<group>";
@@ -2019,8 +2039,8 @@
 		710C038F19E2E40B00C27A33 /* model */ = {
 			isa = PBXGroup;
 			children = (
-				71BCED2419FCCB2E003B061A /* KnowledgeMetaEntity.h */,
-				71BCED2519FCCB2E003B061A /* KnowledgeMetaEntity.m */,
+				06D1D2AB1A74C39D00F5B8FC /* KnowledgeMetaEntity.h */,
+				06D1D2AC1A74C39D00F5B8FC /* KnowledgeMetaEntity.m */,
 				710C03A019E2EDB800C27A33 /* KnowledgeSearchEntity.h */,
 				710C03A119E2EDB800C27A33 /* KnowledgeSearchEntity.m */,
 			);
@@ -2862,6 +2882,7 @@
 				06CE685C1A679E8100D10F51 /* QuestionAndAnswerViewController.m in Sources */,
 				06D4181F1A47B898007565F0 /* VideoDownloadManager.m in Sources */,
 				710C033519E1C8E600C27A33 /* EGOCache.m in Sources */,
+				06D1D2B61A751CF300F5B8FC /* discoveryModel.m in Sources */,
 				715EE98F19E7FCDB005A4F78 /* WebUtil.m in Sources */,
 				715EE9BB19E8332B005A4F78 /* JSONKeyMapper.m in Sources */,
 				7118EB5D19EF6B54002CF833 /* DDLog.m in Sources */,
@@ -2876,6 +2897,7 @@
 				715EE97919E52749005A4F78 /* UIImage+tintedImage.m in Sources */,
 				71860BDE19DC6DA500D01AA9 /* KnowledgeManager.m in Sources */,
 				715EE9A719E832ED005A4F78 /* JSONModelArray.m in Sources */,
+				06CEBA711A72410F00D8FE03 /* RenderKnowledgeViewController.m in Sources */,
 				715EE99519E81794005A4F78 /* DeviceUtil.m in Sources */,
 				710C035B19E1C90E00C27A33 /* SBJsonTokeniser.m in Sources */,
 				71860C0A19DE546700D01AA9 /* KnowledgeDownloadItem.m in Sources */,
@@ -2930,6 +2952,7 @@
 				06AA7F6519F4FC7E00570289 /* CustomViewCellTableViewCell.m in Sources */,
 				06AA7F6419F4FC7E00570289 /* CustomRechargeView.m in Sources */,
 				715EE97719E52749005A4F78 /* BaseTitleBar.m in Sources */,
+				06CEE6311A734E8C000ADCE3 /* SecondRenderKnowledgeViewController.m in Sources */,
 				710C031019E1C8B600C27A33 /* UIButton+AFNetworking.m in Sources */,
 				7134FB2019E4D952004AB7A8 /* KnowledgeDataManager.m in Sources */,
 				715EE98C19E7F517005A4F78 /* KnowledgeDataTypes.m in Sources */,
@@ -2951,6 +2974,7 @@
 				06D418141A47B804007565F0 /* IADownloadHandler.m in Sources */,
 				7134FB2319E4DE4E004AB7A8 /* KnowledgeSearchManager.m in Sources */,
 				06AA7F6819F4FC7E00570289 /* RegisterUserInfo.m in Sources */,
+				06D1D2B31A750ECD00F5B8FC /* discoveryWebView.m in Sources */,
 				7118EB8C19EF6BE3002CF833 /* PerUserLogLevels.md in Sources */,
 				06AA7E9119F4FAE100570289 /* NSString+Hashing.m in Sources */,
 				715EE9A819E832ED005A4F78 /* JSONModelClassProperty.m in Sources */,
@@ -2990,6 +3014,7 @@
 				7118EB8519EF6BE3002CF833 /* DynamicLogLevels.md in Sources */,
 				06AA7E8F19F4FAE100570289 /* CRSA.m in Sources */,
 				06AA7F4F19F4FC7E00570289 /* CustomAboutUsview.m in Sources */,
+				06D1D2AD1A74C39D00F5B8FC /* KnowledgeMetaEntity.m in Sources */,
 				713D863E19E91654006446D5 /* DateUtil.m in Sources */,
 				715EE9A919E832ED005A4F78 /* JSONModelError.m in Sources */,
 				710C03A219E2EDB800C27A33 /* KnowledgeSearchEntity.m in Sources */,
@@ -3014,7 +3039,6 @@
 				06AAC9FA19F67E1D00A758DB /* TBActivityView.m in Sources */,
 				06B5FC161A5FBBEE0031DDB4 /* DiscoveryViewController.m in Sources */,
 				7156B0C819F8BC9F00B3A521 /* MRWeakProxy.m in Sources */,
-				71BCED2619FCCB2E003B061A /* KnowledgeMetaEntity.m in Sources */,
 				710C032C19E1C8D000C27A33 /* AFSecurityPolicy.m in Sources */,
 				711E2CF91A00CC2E000A8D04 /* UpdateInfo.m in Sources */,
 				7156B0C019F8BC7700B3A521 /* MRProgressOverlayView.m in Sources */,

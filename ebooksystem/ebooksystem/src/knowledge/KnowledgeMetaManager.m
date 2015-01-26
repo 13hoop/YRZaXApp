@@ -392,6 +392,45 @@
 
 }
 
+//  2.0 get knowledge meta according to bookCategory
+- (NSArray *)getKnowledgeMetaWithBookCategory:(NSString *)bookCategory {
+    NSMutableArray *metaArray = [[NSMutableArray alloc] init];
+    
+    
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    
+    // Entity
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"KnowledgeMetaEntity" inManagedObjectContext:[CoreDataUtil instance].managedObjectContext];
+    [fetchRequest setEntity:entity];
+    
+    // Predicate  -----根据bookcategory来构造查询条件,查询条件
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"bookCategory=%@",bookCategory];
+    [fetchRequest setPredicate:predicate];
+    
+    // Fetch
+    NSError *error = nil;
+    NSArray *fetchedObjects = [[CoreDataUtil instance].managedObjectContext executeFetchRequest:fetchRequest error:&error];
+    if (fetchedObjects != nil &&
+        fetchedObjects.count > 0) {
+        for (NSManagedObject *entity in fetchedObjects) {
+            [metaArray addObject:entity];
+        }
+    }
+    
+    if (metaArray == nil || metaArray.count <= 0) {
+        return nil;
+    }
+    return metaArray;
+}
+
+
+
+
+
+
+
+
+
 
 #pragma mark - setter
 // 更新数据的状态及状态描述
@@ -489,8 +528,9 @@
     return knowledgeMetas;
 }
 
-//H:第二次解包完成后，调用的修改数据库的方法
-- (BOOL)setDataStatusTo:(DataStatus)status andDataPath:(NSString *)dataPath andDataCurVersion:(NSString *)curVersion andDataStorageType:(DataStorageType)dataStorageType forDataWithDataId:(NSString *)dataId andType:(DataType)dataType {
+#pragma mark setter for 2.0
+//H2.0:1获取到服务器的response 2将解压后的目录移动到指定目录下时会调用的方法
+- (BOOL)setDataStatusTo:(DataStatus)status andDataStatusDescTo:(NSString *)desc andDataLatestVersion:(NSString *)latestVersion andDataPath:(NSString *)dataPath andDataStorageType:(DataStorageType)dataStorageType forDataWithDataId:(NSString *)dataId andType:(DataType)dataType {
     if (dataId == nil) {
         return YES; // nothing to save, return YES
     }
@@ -516,24 +556,44 @@
             for (NSManagedObject *entity in fetchedObjects) {
                 [entity setValue:[NSNumber numberWithInteger:status] forKey:@"dataStatus"];
                 [entity setValue:[NSNumber numberWithInteger:dataStorageType] forKey:@"dataStorageType"];
-                // dataPath
+                // dataStatusDesc
                 {
-                    //H:若是路径为空，肯定不能运行
-                    if (dataPath == nil ||dataPath.length <= 0) {
-                        continue;
-                    }
-                    [entity setValue:dataPath forKey:@"dataPath"];
+                    NSString *dataStatusDesc = ((desc == nil || desc.length <= 0) ? @"" : desc);
+                    [entity setValue:dataStatusDesc forKey:@"dataStatusDesc"];
                 }
                 
-                // curVersion
+                // updateInfo
                 {
-                    // H:将新下载的数据的版本号存到数据库，版本号为空也会出错
-                    if (curVersion == nil ||curVersion.length <= 0) {
-                        continue;
-                        }
-                        [entity setValue:curVersion forKey:@"curVersion"];
-                    
+                    // 检测到有更新时, 将更新信息也记录到updateInfo
+                    if (status == DATA_STATUS_UPDATE_DETECTED) {
+                        NSString *updateInfo = ((desc == nil || desc.length <= 0) ? @"" : desc);
+                        [entity setValue:updateInfo forKey:@"updateInfo"];
+                    }
                 }
+                // latestVersion
+                {
+                    // 在获取到数据的最新版本号时将数据的版本号存到数据库的latestVersion字段
+                    if (status == DATA_STATUS_UPDATE_DETECTED) {
+                        NSString *latestVersionStr = ((latestVersion == nil || latestVersion.length <= 0) ? @"" : latestVersion);
+                        [entity setValue:latestVersionStr forKey:@"latestVersion"];
+                    }
+                }
+                //将latestVersion字段值赋值给curVersion字段
+                {
+                    if (status == DATA_STATUS_UPDATE_COMPLETED) {
+                        NSString *latestVersionStr = [entity valueForKey:@"latestVersion"];
+                        [entity setValue:latestVersionStr forKey:@"curVersion"];
+                    }
+                }
+                //dataPath
+                {
+                    //将第一次下载、更新下载的文件移动到指定目录下后将文件所在的相对路径保存到数据库
+                    if (status == DATA_STATUS_UPDATE_COMPLETED) {
+                        NSString *dataPathStr = ((dataPath == nil || dataPath.length <= 0) ? @"" : dataPath);
+                        [entity setValue:dataPathStr forKey:@"dataPath"];
+                    }
+                }
+                
                 
                 if (![[CoreDataUtil instance].managedObjectContext save:&error]) {
                     LogError(@"[KnowledgeMetaManager-setDataStatusTo:andDataStatusDescTo:forDataWithDataId:andType:] update failed when save to context, error: %@", [error localizedDescription]);
@@ -547,5 +607,4 @@
     
     return saved;
 }
-
 @end

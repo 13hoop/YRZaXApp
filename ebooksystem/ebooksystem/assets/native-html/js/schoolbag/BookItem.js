@@ -47,7 +47,7 @@
     $.extend( BookItem.prototype, {
 
         _setupEvent : function(){
-            this.$el.on( 'tap', '.download-btn', this._beginDownload.bind(this) );
+            this.$el.on( 'tap', '.download-btn', this.beginDownload.bind(this) );
             this.$el.on( 'tap', '.cover-img', this._bookClick.bind( this ) );
         },
 
@@ -104,7 +104,7 @@
             if( bookStatus === BOOK_STATUS.BOOK_NOT_DOWNLOAD ){
                 //书籍未下载
                 className = notOfflineClass;
-            }else if( bookStatus === BOOK_STATUS.BOOK_IS_DOWNLOADING ){
+            }else if( this.isBookDownloading() ){
                 //下载中
                 className = downloadingClass;
             }else if( bookStatus === BOOK_STATUS.BOOK_NEED_UPDATE ){
@@ -138,7 +138,7 @@
             this.$coverImage.attr( 'src', coverSrc );
         },
 
-        _beginDownload : function(){
+        beginDownload : function(){
             if( ! this._data ){
                 return;
             }
@@ -159,7 +159,7 @@
                 height : progress + '%'
             });
 
-            if( state.book_status === '完成' && progress >= 100 ){
+            if( state.book_status === BOOK_STATUS.BOOK_READY && progress >= 100 ){
                 //书籍已经下载、解压、更新数据库索引完成，可以访问了
                 this._data.book_status = BOOK_STATUS.BOOK_READY;
                 this.$el.removeClass( downloadingClass + ' ' + notOfflineClass + ' ' + bookCanUpdateClass );
@@ -173,8 +173,14 @@
             return this._data.book_status === BOOK_STATUS.BOOK_READY ;
         },
 
+        //正在下载中、正在更新中，都属于书籍处于 “下载进程”，需要轮训新的进度
         isBookDownloading : function(){
-            return this._data.book_status === BOOK_STATUS.BOOK_IS_DOWNLOADING;
+            return this._data.book_status === BOOK_STATUS.BOOK_IS_DOWNLOADING || this._data.book_status === BOOK_STATUS.BOOK_IS_UPDATING;
+        },
+
+        //是否上一次下载进程，被异常中断，如果异常中断，需要在进入“我的书包”页时，自动重启下载进程
+        isLastDownloadInterrupted : function(){
+            return this._data.book_status === BOOK_STATUS.LAST_DOWNLOAD_INTERRUPTED;
         },
 
         _bookClick : function(){
@@ -188,27 +194,27 @@
             if( status === BOOK_STATUS.BOOK_NOT_DOWNLOAD ){
                 //var out = window.confirm('书籍尚未下载到本地，是否立即下载？');
                 //if( out ){
-                //    this._beginDownload();
+                //    this.beginDownload();
                 //    return;
                 //}
                 Dialog.confirm({
                     content : '书籍尚未下载到本地，是否立即下载？',
                     onOK : function(){
-                        that._beginDownload();
+                        that.beginDownload();
                     }
                 });
                 return;
             }else if( status === BOOK_STATUS.BOOK_NEED_UPDATE ){
                 //var out = window.confirm('书籍有更新，是否立即更新？');
                 //if( out ){
-                //    this._beginDownload();
+                //    this.beginDownload();
                 //}else{
                 //    this.trigger( 'enterBook', [this]);
                 //}
                 Dialog.confirm({
                     content : '书籍有更新，是否立即更新？',
                     onOK : function(){
-                        that._beginDownload();
+                        that.beginDownload();
                     },
                     onCancel : function(){
                         that.trigger( 'enterBook', [that]);

@@ -29,7 +29,9 @@ typedef enum {
     DATA_TYPE_META, // meta数据
     DATA_TYPE_DATA_SOURCE = 1, // data数据, 用作app的数据源 H:好像是我修改的
     DATA_TYPE_RENDER, // render数据, 用来对数据源进行渲染. e.g, html, css, js, etc.
-    DATA_TYPE_DATA_UGC // 用户产生的数据, 如学习记录等
+    DATA_TYPE_DATA_UGC, // 用户产生的数据, 如学习记录等
+    DATA_TYPE_TEMPLATE  //试读数据，下载下来的试读数据
+    
 } DataType;
 
 /**
@@ -92,6 +94,7 @@ typedef enum {
     APP_VERSION_HIGH,//app版本过高
     NO_PERMISSION,//没有权限
     DATA_STATUS_DOWNLOAD_FAILED,//数据下载失败
+    DATA_STATUS_DOWNLOAD_PAUSE //数据下载暂停
     
 } DataStatus;
 

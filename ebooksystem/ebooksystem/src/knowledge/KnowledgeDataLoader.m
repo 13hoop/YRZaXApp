@@ -60,8 +60,7 @@
 
 #pragma mark - load knowledge index file
 // 加载index文件
-- (BOOL)loadKnowledgeIndex:(NSString *)indexFilename forData:(NSString *)dataId withDataStoreLocation:(NSString *)dataStoreLocation;
-
+- (BOOL)loadKnowledgeIndex:(NSString *)indexFilename forData:(NSString *)dataId;
 //H:根据数据库中dataStoreLocation来加载knowLedgeIndex文件
 //- (BOOL)loadKnowledgeIndex:(NSString *)indexFilename forData:(NSString *)dataId;
 
@@ -167,11 +166,13 @@
             }
             
             //结合
+            BOOL ret = [self loadKnowledgeIndex:indexFilename forData:dataId];
+
             //H:在这里做了修改：
-            NSString *dataStoreLocationStr = [[NSUserDefaults standardUserDefaults] objectForKey:@"dataStoreLocation"];
-            BOOL ret = [self loadKnowledgeIndex:indexFilename forData:dataId withDataStoreLocation:dataStoreLocationStr];
-            [[NSUserDefaults standardUserDefaults] setValue:nil forKey:@"dataStoreLocation"];
-            [[NSUserDefaults standardUserDefaults] synchronize];
+//            NSString *dataStoreLocationStr = [[NSUserDefaults standardUserDefaults] objectForKey:@"dataStoreLocation"];
+//            BOOL ret = [self loadKnowledgeIndex:indexFilename forData:dataId withDataStoreLocation:dataStoreLocationStr];
+//            [[NSUserDefaults standardUserDefaults] setValue:nil forKey:@"dataStoreLocation"];
+//            [[NSUserDefaults standardUserDefaults] synchronize];
             
             if (!ret) {
                 LogError(@"[KnowledgeLoader-getKnowledgeDataWithDataId:andQueryId:andIndexFilename:] failed since fail to load index from file: %@", indexFilename);
@@ -254,7 +255,6 @@
 }
 
 #pragma mark - load knowledge index file
-/*H：数据库中添加进dataStoreLocation这个字段后可以解开直接使用
 // 加载index文件
 - (BOOL)loadKnowledgeIndex:(NSString *)indexFilename forData:(NSString *)dataId {
     NSArray *knowledgeMetaEntities = [[KnowledgeMetaManager instance] getKnowledgeMetaWithDataId:dataId];
@@ -281,17 +281,17 @@
     if (targetKnowledgeMeta == nil || targetKnowledgeMeta.dataPath == nil || targetKnowledgeMeta.dataPath.length <= 0) {
         return NO;
     }
-
     // 逐行读取文件
 //    NSString *fullIndexFilepath = [NSString stringWithFormat:@"%@/%@/%@", [Config instance].knowledgeDataConfig.knowledgeDataRootPathInApp, targetKnowledgeMeta.dataPath, indexFilename];
     //H:新修改的
     NSString *fullIndexFilepath = nil;
-    if ([targetKnowledgeMeta.dataStoreLocation isEqualToString:@"appBundle"]) {
-        fullIndexFilepath = [NSString stringWithFormat:@"%@/%@/%@", [Config instance].knowledgeDataConfig.knowledgeDataRootPathInApp, targetKnowledgeMeta.dataPath, indexFilename];
+    if (targetKnowledgeMeta.dataStorageType == DATA_STORAGE_APP_ASSETS) {
+        fullIndexFilepath = [NSString stringWithFormat:@"%@/%@/%@/%@", [Config instance].knowledgeDataConfig.knowledgeDataRootPathInApp, targetKnowledgeMeta.dataPath,@"data", indexFilename];
     }
     else{
-        if ([targetKnowledgeMeta.dataStoreLocation isEqualToString:@"sandBox"]) {
-            fullIndexFilepath = [NSString stringWithFormat:@"%@/%@/%@",[[Config instance] knowledgeDataConfig].knowledgeDataRootPathInDocuments,targetKnowledgeMeta.dataPath,indexFilename];
+        if (targetKnowledgeMeta.dataStorageType == DATA_STORAGE_INTERNAL_STORAGE) {
+            fullIndexFilepath = [NSString stringWithFormat:@"%@/%@/%@/%@",[[Config instance] knowledgeDataConfig].knowledgeDataRootPathInDocuments,targetKnowledgeMeta.dataPath,@"data",indexFilename];
+            LogInfo(@"knowledgeDataLoader--loadKnowledgeIndex:forData: 加载的是SandBox里面的数据");
         }
         
     }
@@ -316,7 +316,20 @@
         NSInteger len = [[fields objectAtIndex:3] integerValue];
         
         KnowledgeDataIndex *index = [[KnowledgeDataIndex alloc] init];
-        index.fullDataFilepath = [NSString stringWithFormat:@"%@/%@/%@", [Config instance].knowledgeDataConfig.knowledgeDataRootPathInApp, targetKnowledgeMeta.dataPath, dataFilename];
+        if (targetKnowledgeMeta.dataStorageType == DATA_STORAGE_APP_ASSETS) {
+            index.fullDataFilepath = [NSString stringWithFormat:@"%@/%@/%@/%@", [Config instance].knowledgeDataConfig.knowledgeDataRootPathInAssets, targetKnowledgeMeta.dataPath,@"data", dataFilename];
+            NSLog(@"读取的是bundle目录下的shit文件==%@",index.fullDataFilepath);
+            
+        }
+        else {
+            if (targetKnowledgeMeta.dataStorageType == DATA_STORAGE_INTERNAL_STORAGE) {
+                index.fullDataFilepath = [NSString stringWithFormat:@"%@/%@/%@/%@", [Config instance].knowledgeDataConfig.knowledgeDataRootPathInDocuments, targetKnowledgeMeta.dataPath,@"data", dataFilename];
+                NSLog(@"读取的是sandBox目录下的shit文件==%@",index.fullDataFilepath);
+            }
+            
+            
+        }
+
         index.offset = offset;
         index.len = len;
         
@@ -362,7 +375,7 @@
     
     return YES;
 }
- */
+/*
 //H:写了一个字段进去
 - (BOOL)loadKnowledgeIndex:(NSString *)indexFilename forData:(NSString *)dataId withDataStoreLocation:(NSString *)dataStoreLocation {
     NSArray *knowledgeMetaEntities = [[KnowledgeMetaManager instance] getKnowledgeMetaWithDataId:dataId];
@@ -493,7 +506,7 @@
 
 }
 
-
+*/
 #pragma mark - test
 - (BOOL)test {
     NSString *dataId = @"9999eed5e71a0ff16bafc9f082bc9999";

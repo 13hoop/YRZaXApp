@@ -370,11 +370,11 @@
             }
             //后续需要写读文件内容，存到数据库中的操作。，存到数据库中的操作。存book的相对路径，修改book的版本号，修改dataStatus。（在调用该方法的函数内写）
             
-            /*
+            //dataStatusDesc置为100
             dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                [[KnowledgeMetaManager instance] setDataStatusTo:DATA_STATUS_UPDATE_COMPLETED andDataPath:downloadTitle andDataCurVersion:@ andDataStorageType:DATA_STORAGE_INTERNAL_STORAGE forDataWithDataId:downloadTitle andType:DATA_TYPE_DATA_SOURCE];
+                [[KnowledgeMetaManager instance]setDataStatusTo:DATA_STATUS_UPDATE_COMPLETED andDataStatusDescTo:@"100" andDataLatestVersion:nil andDataPath:downloadTitle andDataStorageType:DATA_STORAGE_INTERNAL_STORAGE forDataWithDataId:downloadTitle andType:DATA_TYPE_DATA_SOURCE];
             });
-            */
+            
             
         }
         else {
@@ -1068,7 +1068,7 @@
                 NSString *isPermissioned = [NSString stringWithFormat:@"%@",[detail valueForKey:@"is_permissioned"]];
                 NSString *dataId = [detail valueForKey:@"data_id"];
                 NSString *updateInfo = [detail valueForKey:@"update_info"];
-                
+                NSString *dataLatestVersion = [detail valueForKey:@"data_version_latest"];
                 
                 //判断服务器返回的各种状态，根据状态修改数据库中的DataStatus字段
                 if ([needUpdateApp isEqualToString:@"1"]) {
@@ -1088,7 +1088,10 @@
                 }
                 else {
                 
-                BOOL retVal = [[KnowledgeMetaManager instance] setDataStatusTo:DATA_STATUS_UPDATE_DETECTED andDataStatusDescTo:updateInfo forDataWithDataId:dataId andType:DATA_TYPE_DATA_SOURCE];
+//  1.0 setter             BOOL retVal = [[KnowledgeMetaManager instance] setDataStatusTo:DATA_STATUS_UPDATE_DETECTED andDataStatusDescTo:updateInfo forDataWithDataId:dataId andType:DATA_TYPE_DATA_SOURCE];
+                    //2.0 setter
+                    BOOL retVal = [[KnowledgeMetaManager instance] setDataStatusTo:DATA_STATUS_UPDATE_DETECTED andDataStatusDescTo:updateInfo andDataLatestVersion:dataLatestVersion andDataPath:nil andDataStorageType:DATA_STORAGE_INTERNAL_STORAGE forDataWithDataId:dataId andType:DATA_TYPE_DATA_SOURCE];
+                    
                 LogInfo(@"[KnowledgeDataManager-getUpdateInfoFileFromServerAndUpdateDataBase] %@ to mark data %@ as having update", (retVal ? @"successfully" : @"failed"), dataId);
                 }
                 
@@ -1098,7 +1101,7 @@
         }
         
         //8.由更新模式决定是否需要自动更新
-        if ([Config instance].knowledgeDataConfig.knowledgeDataUpdateMode == DATA_UPDATE_MODE_CHECK_AND_UPDATE) {
+        if ([Config instance].knowledgeDataConfig.knowledgeDataUpdateMode == DATA_UPDATE_MODE_CHECK) {
             [self startDownloadWithResponse:response];
         }
          
@@ -1528,6 +1531,7 @@
     // 将下载进度更新到coreData
     dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [[KnowledgeMetaManager instance] setDataStatusTo:DATA_STATUS_DOWNLOAD_IN_PROGRESS andDataStatusDescTo:[NSString stringWithFormat:@"%lf", progress] forDataWithDataId:downloadItem.title andType:DATA_TYPE_DATA_SOURCE];
+        NSLog(@"进度=====%lf",progress);
     });
     //H：自己方便写
     [self.dataStatusDelegate DownLoadKnowledgedataWithProgress:progress andDownloadItem:downloadItem];
@@ -1625,6 +1629,73 @@
     return searchedArray;
 }
 
-
+#pragma mark  - 2.0 get book list
+- (NSArray *)getBookList:(NSString *)bookCategory {
+    NSMutableArray *arr = [NSMutableArray array];
+    
+    NSArray *knowledgeMetas = [[KnowledgeMetaManager instance] getKnowledgeMetaWithBookCategory:bookCategory];
+    if (knowledgeMetas == nil || knowledgeMetas.count <= 0) {
+        return nil;
+    }
+    //从每个entity中取以下内容
+    //{book_id, book_category, book_status, cur_version, book_meta_json}
+    for (NSManagedObject *entity in knowledgeMetas) {
+        if (entity == nil) {
+            continue;
+        }
+        NSString *bookId = nil;
+        NSString *booKcategory = nil;
+        NSString *bookStatus = nil;
+        NSString *bookStatusStr = nil;
+        NSString *curVersion = nil;
+        NSString *bookMeta = nil;
+        bookId = [entity valueForKey:@"dataId"];
+        booKcategory = [entity valueForKey:@"bookCategory"];
+        bookStatus = [entity valueForKey:@"dataStatus"];
+        //转换成int来判断
+        int bookStatusInt = [bookStatus intValue];
+        if (bookStatusInt >= 1 && bookStatusInt <= 3) {
+            bookStatusStr = @"下载中";
+        }
+        else if (bookStatusInt == 7) {
+            bookStatusStr = @"可更新";
+        }
+        else if (bookStatusInt == 8 || bookStatusInt ==9) {
+            bookStatusStr = @"更新中";
+        }
+        else if (bookStatusInt == 10) {
+            bookStatusStr = @"完成";
+        }
+        else if (bookStatusInt == 11) {
+            bookStatusStr = @"APP版本过低";
+        }
+        else if (bookStatusInt == 12) {
+            bookStatusStr = @"APP版本过高";
+        }
+        else if (bookStatusInt == 15) {
+            bookStatusStr = @"下载暂停";
+        }
+        else if (bookStatusInt == -1  || bookStatusInt > 15) {
+            bookStatusStr = @"未下载";
+        }
+        
+        
+        curVersion = [entity valueForKey:@"curVersion"];
+        bookMeta = [entity valueForKey:@"bookMeta"];
+        //组成dic
+        NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+        [dic setValue:bookId forKey:@"book_id"];
+        [dic setValue:booKcategory forKey:@"book_category"];
+        [dic setValue:bookStatusStr forKey:@"book_status"];
+        [dic setValue:curVersion forKey:@"cur_version"];
+        [dic setValue:bookMeta forKey:@"book_meta_json"];
+        //
+        [arr addObject: dic];
+        
+    }
+    //转成json string
+    return  arr;
+    
+}
 
 @end

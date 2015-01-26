@@ -126,6 +126,8 @@
 
             var docFrag = document.createDocumentFragment();
 
+            var that = this;
+
             var addedNum = 0;
 
             for( var i = 0, len = arr.length; i < len; i++ ){
@@ -152,6 +154,14 @@
 
                 if( view.isBookDownloading() ){
                     downloadManager.addDownloadingBook( view );
+                }else if( view.isLastDownloadInterrupted() ){
+                    //上一次下载进程被异常中断，自动重启下载
+                    setTimeout( ( function(bookView){
+                        return function(){
+                            bookView.beginDownload();
+                            bookView = null;
+                        };
+                    })(view), 15);
                 }
 
                 bridgeXXX.getCoverSrc( item.book_id, ( function(bookView){
@@ -215,8 +225,8 @@
                     target : 'activity',
                     book_id : bookView.getBookID(),
                     page_type : 'index',
-                    getArgs : getArgs,
-                    postArgs : ''
+                    get_args : getArgs,
+                    post_args : ''
                 });
             }
         }
