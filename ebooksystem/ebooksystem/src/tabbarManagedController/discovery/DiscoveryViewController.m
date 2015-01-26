@@ -40,7 +40,7 @@
 
 //创建webview
 - (void)makeWebView {
-     self.discoverWeb = [[discoveryWebView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+     self.discoverWeb = [[discoveryWebView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height-48)];
     
     [self.view addSubview:self.discoverWeb];
 }

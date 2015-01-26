@@ -57,7 +57,7 @@
                   symbolName = "-[KnowledgeDataManager knowledgeDownloadItem:didFinish:response:]"
                   moduleName = "ebooksystem"
                   urlString = "file:///Users/wanghaoyu/Desktop/workspace/tmp/app-ios-ebooksystem/ebooksystem/ebooksystem/src/knowledge/KnowledgeDataManager.m"
-                  timestampString = "443928980.20217"
+                  timestampString = "443936233.649956"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "1559"
@@ -71,7 +71,7 @@
                   symbolName = "__65-[KnowledgeDataManager knowledgeDownloadItem:didFinish:response:]_block_invoke"
                   moduleName = "ebooksystem"
                   urlString = "file:///Users/wanghaoyu/Desktop/workspace/tmp/app-ios-ebooksystem/ebooksystem/ebooksystem/src/knowledge/KnowledgeDataManager.m"
-                  timestampString = "443928980.202346"
+                  timestampString = "443936233.650093"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "1559"
@@ -119,7 +119,7 @@
                   symbolName = "-[KnowledgeDataManager processDownloadedDataPack:]"
                   moduleName = "ebooksystem"
                   urlString = "file:///Users/wanghaoyu/Desktop/workspace/tmp/app-ios-ebooksystem/ebooksystem/ebooksystem/src/knowledge/KnowledgeDataManager.m"
-                  timestampString = "443928980.203941"
+                  timestampString = "443936233.651423"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "177"
@@ -133,7 +133,7 @@
                   symbolName = "__50-[KnowledgeDataManager processDownloadedDataPack:]_block_invoke"
                   moduleName = "ebooksystem"
                   urlString = "file:///Users/wanghaoyu/Desktop/workspace/tmp/app-ios-ebooksystem/ebooksystem/ebooksystem/src/knowledge/KnowledgeDataManager.m"
-                  timestampString = "443928980.204104"
+                  timestampString = "443936233.651551"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "177"
@@ -165,7 +165,7 @@
                   symbolName = "-[KnowledgeDataManager processDownloadedDataPack:]"
                   moduleName = "ebooksystem"
                   urlString = "file:///Users/wanghaoyu/Desktop/workspace/tmp/app-ios-ebooksystem/ebooksystem/ebooksystem/src/knowledge/KnowledgeDataManager.m"
-                  timestampString = "443928980.205042"
+                  timestampString = "443936233.652239"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "191"
@@ -179,7 +179,7 @@
                   symbolName = "__50-[KnowledgeDataManager processDownloadedDataPack:]_block_invoke82"
                   moduleName = "ebooksystem"
                   urlString = "file:///Users/wanghaoyu/Desktop/workspace/tmp/app-ios-ebooksystem/ebooksystem/ebooksystem/src/knowledge/KnowledgeDataManager.m"
-                  timestampString = "443928980.205166"
+                  timestampString = "443936233.652362"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "191"
@@ -211,7 +211,7 @@
                   symbolName = "-[KnowledgeDataManager processZippedDataFile:withDecryptKey:withDownloadItemTitle:]"
                   moduleName = "ebooksystem"
                   urlString = "file:///Users/wanghaoyu/Desktop/workspace/tmp/app-ios-ebooksystem/ebooksystem/ebooksystem/src/knowledge/KnowledgeDataManager.m"
-                  timestampString = "443928980.206232"
+                  timestampString = "443936233.653117"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "347"
@@ -225,7 +225,7 @@
                   symbolName = "__83-[KnowledgeDataManager processZippedDataFile:withDecryptKey:withDownloadItemTitle:]_block_invoke"
                   moduleName = "ebooksystem"
                   urlString = "file:///Users/wanghaoyu/Desktop/workspace/tmp/app-ios-ebooksystem/ebooksystem/ebooksystem/src/knowledge/KnowledgeDataManager.m"
-                  timestampString = "443928980.206375"
+                  timestampString = "443936233.653254"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "347"
@@ -273,7 +273,7 @@
                   symbolName = "-[RenderKnowledgeViewController initWebView]"
                   moduleName = "ebooksystem"
                   urlString = "file:///Users/wanghaoyu/Desktop/workspace/tmp/app-ios-ebooksystem/ebooksystem/ebooksystem/src/common/matchWeb/RenderKnowledgeViewController.m"
-                  timestampString = "443928980.207461"
+                  timestampString = "443936233.654422"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "161"
@@ -287,7 +287,7 @@
                   symbolName = "__44-[RenderKnowledgeViewController initWebView]_block_invoke119"
                   moduleName = "ebooksystem"
                   urlString = "file:///Users/wanghaoyu/Desktop/workspace/tmp/app-ios-ebooksystem/ebooksystem/ebooksystem/src/common/matchWeb/RenderKnowledgeViewController.m"
-                  timestampString = "443928980.207576"
+                  timestampString = "443936233.654557"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "161"
@@ -351,7 +351,7 @@
                   symbolName = "-[RenderKnowledgeViewController initWebView]"
                   moduleName = "ebooksystem"
                   urlString = "file:///Users/wanghaoyu/Desktop/workspace/tmp/app-ios-ebooksystem/ebooksystem/ebooksystem/src/common/matchWeb/RenderKnowledgeViewController.m"
-                  timestampString = "443928980.209161"
+                  timestampString = "443936233.656207"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "190"
@@ -365,7 +365,7 @@
                   symbolName = "__44-[RenderKnowledgeViewController initWebView]_block_invoke_2"
                   moduleName = "ebooksystem"
                   urlString = "file:///Users/wanghaoyu/Desktop/workspace/tmp/app-ios-ebooksystem/ebooksystem/ebooksystem/src/common/matchWeb/RenderKnowledgeViewController.m"
-                  timestampString = "443928980.209345"
+                  timestampString = "443936233.656357"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "190"
@@ -413,22 +413,6 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "ebooksystem/src/common/matchWeb/RenderKnowledgeViewController.m"
-            timestampString = "443783162.289297"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "404"
-            endingLineNumber = "404"
-            landmarkName = "-showPageWithDictionary:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "ebooksystem/src/knowledge/KnowledgeDataManager.m"
             timestampString = "443765973.734978"
             startingColumnNumber = "9223372036854775807"
@@ -445,7 +429,7 @@
                   symbolName = "-[KnowledgeDataManager processZippedDataFile:withDecryptKey:withDownloadItemTitle:]"
                   moduleName = "ebooksystem"
                   urlString = "file:///Users/wanghaoyu/Desktop/workspace/tmp/app-ios-ebooksystem/ebooksystem/ebooksystem/src/knowledge/KnowledgeDataManager.m"
-                  timestampString = "443928980.211635"
+                  timestampString = "443936233.658081"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "347"
@@ -459,7 +443,7 @@
                   symbolName = "__83-[KnowledgeDataManager processZippedDataFile:withDecryptKey:withDownloadItemTitle:]_block_invoke"
                   moduleName = "ebooksystem"
                   urlString = "file:///Users/wanghaoyu/Desktop/workspace/tmp/app-ios-ebooksystem/ebooksystem/ebooksystem/src/knowledge/KnowledgeDataManager.m"
-                  timestampString = "443928980.211751"
+                  timestampString = "443936233.658221"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "347"
@@ -684,11 +668,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ebooksystem/src/common/matchWeb/MatchViewController.m"
-            timestampString = "443882549.247802"
+            timestampString = "443930919.181113"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "643"
-            endingLineNumber = "643"
+            startingLineNumber = "644"
+            endingLineNumber = "644"
             landmarkName = "-fileToJsonString"
             landmarkType = "5">
          </BreakpointContent>
@@ -754,6 +738,182 @@
             startingLineNumber = "65"
             endingLineNumber = "65"
             landmarkName = "-getBookInfoWithDataIds:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ebooksystem/src/common/matchWeb/RenderKnowledgeViewController.m"
+            timestampString = "443931122.771415"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "576"
+            endingLineNumber = "576"
+            landmarkName = "-webView:shouldStartLoadWithRequest:navigationType:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ebooksystem/src/common/matchWeb/RenderKnowledgeViewController.m"
+            timestampString = "443935582.019258"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "586"
+            endingLineNumber = "586"
+            landmarkName = "-webViewDidFinishLoad:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ebooksystem/src/knowledge/KnowledgeDataManager.m"
+            timestampString = "443932604.563582"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1473"
+            endingLineNumber = "1473"
+            landmarkName = "-getDataUpdateInfo:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ebooksystem/src/knowledge/KnowledgeDataManager.m"
+            timestampString = "443932612.088873"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1507"
+            endingLineNumber = "1507"
+            landmarkName = "-getDataUpdateInfo:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ebooksystem/src/knowledge/KnowledgeDataManager.m"
+            timestampString = "443932690.644341"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "744"
+            endingLineNumber = "744"
+            landmarkName = "-startDownloadWithResponse:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ebooksystem/src/knowledge/KnowledgeDataManager.m"
+            timestampString = "443932697.583813"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "772"
+            endingLineNumber = "772"
+            landmarkName = "-startDownloadWithResponse:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ebooksystem/src/knowledge/KnowledgeDataManager.m"
+            timestampString = "443932897.250766"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "781"
+            endingLineNumber = "781"
+            landmarkName = "-startDownloadWithResponse:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ebooksystem/src/knowledge/KnowledgeDataManager.m"
+            timestampString = "443932899.459869"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "788"
+            endingLineNumber = "788"
+            landmarkName = "-startDownloadWithResponse:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ebooksystem/src/knowledge/KnowledgeDataManager.m"
+            timestampString = "443933116.919222"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "182"
+            endingLineNumber = "182"
+            landmarkName = "-processDownloadedDataPack:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ebooksystem/src/knowledge/KnowledgeDataManager.m"
+            timestampString = "443933976.404885"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "1441"
+            endingLineNumber = "1441"
+            landmarkName = "-getDataUpdateInfo:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ebooksystem/src/common/matchWeb/RenderKnowledgeViewController.m"
+            timestampString = "443935671.428503"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "591"
+            endingLineNumber = "591"
+            landmarkName = "-injectJSToWebView:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

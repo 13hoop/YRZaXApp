@@ -372,8 +372,8 @@
         
         NSString *urlStrWithParams = nil;
         //应该用这个，但是JS没改，仍然使用老的参数命名：data		@"{\"target\":\"activity\",\"book_id\":\"test_book_4\",\"page_type\":\"outline-1\",\"getArgs\":\"book_id=test_book_4&query_id=top_1\"}"
-//        NSString *args = dic[@"get_args"];
-        NSString *args = dic[@"getArgs"];
+        NSString *args = dic[@"get_args"];
+//        NSString *args = dic[@"getArgs"];
         
         
         if (args != nil && args.length > 0) {
@@ -404,10 +404,10 @@
             NSString *urlStr = [NSString stringWithFormat:@"%@/%@/%@%@", htmlFilePath,@"render",page_type, @".html"];
             
             NSString *urlStrWithParams = nil;
-//            NSString *args = dic[@"get_Args"];
-            NSString *args = dic[@"getArgs"];
+            NSString *args = dic[@"get_args"];
+//            NSString *args = dic[@"getArgs"];
             if (args != nil && args.length > 0) {
-                urlStrWithParams = [NSString stringWithFormat:@"%@?%@", urlStr, args];
+                urlStrWithParams = [NSString stringWithFormat:@"%@%@", urlStr, args];
             }
             else {
                 urlStrWithParams = [NSString stringWithFormat:@"%@", urlStr];
@@ -577,8 +577,8 @@
     if (request) {
         LogDebug(@"[RenderKnowledgeViewController] Web request: UA: %@", [request valueForHTTPHeaderField:@"User-Agent"]);
     }
-    
     [self injectJSToWebView:webView];
+    NSLog(@" url === %@",request.URL);
     return YES;
 }
 

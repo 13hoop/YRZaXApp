@@ -256,7 +256,7 @@
         NSLog(@"%@",string);
         
         if (responseCallback != nil) {
-            responseCallback(string);
+            responseCallback(string1);
         }
         
 
@@ -385,7 +385,8 @@
         NSURL *url = [[NSURL alloc] initFileURLWithPath:[NSString stringWithFormat:@"%@/%@/%@", htmlFilePath,page_type, @".html"]];
         
         NSString *urlStrWithParams = nil;
-        NSString *args = dic[@"getArgs"];
+//        NSString *args = dic[@"getArgs"];
+        NSString *args = dic[@"get_args"];
         
         if (args != nil && args.length > 0) {
             urlStrWithParams = [NSString stringWithFormat:@"%@?%@", [url absoluteString], args];
