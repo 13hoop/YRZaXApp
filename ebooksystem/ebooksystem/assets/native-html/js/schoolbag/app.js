@@ -63,27 +63,6 @@
 
             this.studyType = searchConf.study_type;
 
-
-            ////测试修改 用户选择的 考试类型
-            //setTypeWrap.addEventListener( 'click', function(e){
-            //    var target = e.target;
-            //    var type = target.getAttribute('data-type');
-            //    if( type ){
-            //        bridgeXXX.setCurStudyType( type, function( data ){
-            //            if( data === bridgeXXX.constant.START_DOWNLOAD_SUCCESS ){
-            //                alert('设置考试类型【' + type + '】成功');
-            //            }else{
-            //                alert('设置考试类型失败！');
-            //            }
-            //        } );
-            //    }
-            //}, false );
-
-            //Dialog.alert({
-            //    content : '测试看看范德萨发撒飞洒划分为我额uwfaosfadsfs我额urweur；撒合肥市大黄蜂'
-            //});
-
-
             this._setupEvent();
 
             bridgeXXX.getBookList( this.studyType, this.showBookList.bind( this ) );

@@ -11,6 +11,7 @@
 @interface RenderKnowledgeViewController : UIViewController
 
 @property (nonatomic,strong) NSString *webUrl;
-@property (nonatomic,strong)NSString *shouldChangeBackground;
-
+@property (nonatomic,strong) NSString *shouldChangeBackground;
+//设置一个flag，用来区分是哪个页面过来，要展示那个页面
+@property (nonatomic,strong) NSString *flag;
 @end

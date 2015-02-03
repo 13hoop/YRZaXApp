@@ -180,6 +180,8 @@ static UITapGestureRecognizer *tapRecognizer;
 
 }
 
+
+
 - (void)handleKeyboard {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
@@ -530,6 +532,7 @@ static UITapGestureRecognizer *tapRecognizer;
 -(void)viewWillAppear:(BOOL)animated
 {
     self.navigationController.navigationBarHidden=NO;
+    self.tabBarController.tabBar.hidden = YES;
     [super viewWillAppear:animated];
     
     [[StatisticsManager instance] beginLogPageView:@"PageFeedback"];
@@ -538,7 +541,7 @@ static UITapGestureRecognizer *tapRecognizer;
 -(void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    
+    self.tabBarController.tabBar.hidden = NO;
     [[StatisticsManager instance] endLogPageView:@"PageFeedback"];
 }
 @end

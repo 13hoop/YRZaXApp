@@ -10,6 +10,7 @@
 
 @interface discoveryModel : NSObject
 
-- (NSDictionary *)getBookInfoWithDataIds:(NSArray *)dataIds;
+- (BOOL)getBookInfoWithDataIds:(NSArray *)dataIds;
+- (BOOL)parseServerResponse:(NSString *)responseStr;
 
 @end

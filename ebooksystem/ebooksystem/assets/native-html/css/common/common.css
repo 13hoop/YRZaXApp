@@ -26,6 +26,21 @@ body{
     background: #fcfcfc;
 }
 
+/*通用向右箭头*/
+.right-arrow{
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border: 1px solid #bbb;
+    border-width: 1px 1px 0 0;
+    -webkit-transform: rotate(45deg);
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    margin-top: -5px;
+}
+
+
 /***在模拟native时，用如下样式**/
 html.fake-native, .fake-native body{
     height: 100%;
@@ -38,6 +53,61 @@ html.fake-native, .fake-native body{
     height: 100%;
 }
 
+/*header*/
+.fragment-header{
+    height: 44px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    background: #e95510;
+    color: #fffff3;
+    line-height: 44px;
+    z-index: 5;
+    border-bottom: 1px solid #bc3e03;
+}
+.common-back{
+    position: absolute;
+    height: 100%;
+    left: 0;
+    padding: 0 30px;
+    color: #ccc;
+    text-decoration: none;
+}
+.common-back:before{
+    position: absolute;
+    content: '\020';
+    border: 0 solid #fff;
+    border-width: 0 0 2px 2px;
+    height: 13px;
+    width: 13px;
+    background: transparent;
+    -webkit-transform: rotate(45deg);
+    left: 17px;
+    top: 18px;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+.fragment-title{
+    height: 100%;
+    font-size: 17px;
+}
+
+.fake-native .fragment-body{
+    position: absolute;
+    left: 0;
+    top: 44px;
+    width: 100%;
+    bottom: 0;
+    overflow: hidden;
+}
+.fake-native .scroll-wrap{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+}
 
 /****自定义对话框组件样式**/
 .dialog-mask{
@@ -82,7 +152,7 @@ html.fake-native, .fake-native body{
     color: #fff;
 }
 .dialog .btn-cancel{
-    background-color: #000;
+    background-color: #A09C9C;
     color: #fff;
     margin-right: 15px;
 }

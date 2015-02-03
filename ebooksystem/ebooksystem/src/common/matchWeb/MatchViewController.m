@@ -30,6 +30,8 @@
 #import "SBJson.h"
 #import "KnowledgeMetaManager.h"
 #import "RenderKnowledgeViewController.h"
+#import "FirstReuseViewController.h"
+
 
 @interface MatchViewController () <UIWebViewDelegate>
 
@@ -125,13 +127,29 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-    [[UIApplication sharedApplication] setStatusBarHidden:false];
 
+    [[UIApplication sharedApplication] setStatusBarHidden:false];
+    self.navigationController.navigationBarHidden = YES;
+    [self.webView reload];
 }
-- (void)didReceiveMemoryWarning {
+
+
+- (void)didReceiveMemoryWarning
+{
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"WARNING" message:@"MemoryWarning,Please release memory immediately" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"ok", nil];
+    [alert show];
+    /*
+    NSLog(@"MatchViewController didReceiveMemoryWarning");
+    
+    if (self.isViewLoaded && self.view.window == nil) {
+        self.view = nil;
+        NSLog(@"MatchViewController warning");
+    }
+     */
 }
+
 
 #pragma mark - init
 
@@ -245,18 +263,19 @@
         LogDebug(@"MatchViewController::getBookList() called: %@", data);
         NSString *book_category = data;//值：0，1
         //根据book_category遍历数据库，将数据拼成json格式返回给JS。（具体操作：1、就是根据book_category做遍历数据库的操作 2、book_status ：下载过程中用的download_Status字段（下载成功，下载失败，下载中）也是修改这个字段。）
-        NSLog(@"调用getBooklist了，js注入成功了");
-         [self justForTest];
-//        [self justForMoreDownloadTest];
-        //读取文件的方式，取得booklist
-        NSString *string1 = [self fileToJsonString];
+        
+        NSMutableArray *arr = [NSMutableArray array];
         NSArray *bookListArr = [[KnowledgeManager instance] getBookList:book_category];
+        if (bookListArr != nil || bookListArr.count > 0) {
+            //
+            arr = (NSMutableArray *)bookListArr;
+        }
         SBJsonWriter *writer = [[SBJsonWriter alloc] init];
-        NSString *string = [writer stringWithObject:bookListArr];
+        NSString *string = [writer stringWithObject:arr];
         NSLog(@"%@",string);
         
         if (responseCallback != nil) {
-            responseCallback(string1);
+            responseCallback(string);//getBookList和queryBookStatus若是数组为空，都必须返回“[]”,格式字符串否则解析JS失败。
         }
         
 
@@ -342,22 +361,37 @@
     //goUserSettingPage
     [self.javascriptBridge registerHandler:@"goUserSettingPage" handler:^(id data, WVJBResponseCallback responseCallback) {
         //跳转到设置页面
+        RenderKnowledgeViewController *render = [[RenderKnowledgeViewController alloc] init];
+        NSString *bundlePath = [PathUtil getBundlePath];
+         NSString *userCenterUrlStrWithParams = [NSString stringWithFormat:@"%@/%@/%@/%@", bundlePath, @"assets",@"native-html",@"user_center.html"];
+        render.webUrl = userCenterUrlStrWithParams;
+        [self.navigationController pushViewController:render animated:YES];
+        
     }];
     //goDiscoverPage
     [self.javascriptBridge registerHandler:@"goDiscoverPage" handler:^(id data, WVJBResponseCallback responseCallback) {
         //跳转到发现页
+        self.tabBarController.selectedIndex = 1;
     }];
     //getCoverSrc
     [self.javascriptBridge registerHandler:@"getCoverSrc" handler:^(id data, WVJBResponseCallback responseCallback) {
         //获取封面
         NSString *book_id = data;
         if (responseCallback != nil) {
-            NSString *imageStr = [self getImage];
-            responseCallback(imageStr);
+            NSString *partialPathInSandBox = [self getCoverImageFilePath:book_id];
+            NSString *documentPath = [PathUtil getDocumentsPath];
+            NSString *coverImagePathStr = [NSString stringWithFormat:@"%@/%@",documentPath,partialPathInSandBox];
+            LogInfo(@"=======封面的URL====%@",coverImagePathStr);
+            responseCallback(coverImagePathStr);
         }
         //
     }];
     //
+    
+    
+    
+    
+    
     
     
     
@@ -425,7 +459,7 @@
                 
             }
             //打开新的controller
-            return [self showSafeURL:urlStrWithParams];
+            return [self readBookWithSafeUrl:urlStrWithParams];
             
         }
     }
@@ -433,32 +467,41 @@
     return YES;
     
 }
-//2.0中打开新的webView, 并跳转到指定的url
-- (BOOL)showSafeURL:(NSString *)urlStr {
-    
 
-    RenderKnowledgeViewController *render = [[RenderKnowledgeViewController alloc] init];
-    render.webUrl = urlStr;
-    [self.navigationController pushViewController:render animated:YES];
-    
-   
-    
+//看书时，新开一个controller 
+- (BOOL)readBookWithSafeUrl:(NSString *)urlStr {
+    FirstReuseViewController *first = [[FirstReuseViewController alloc] init];
+    first.webUrl = urlStr;
+    [self.navigationController pushViewController:first animated:YES];
     return YES;
 }
 
 
-- (BOOL)updateWebView {
-    // 在加载loadRuquest之前设置userAgent
-//    [self checkUserAgent];
+
+//2.0中打开在线的webView, 并跳转到指定的url
+- (BOOL)showSafeURL:(NSString *)urlStr {
     
-    // load url
-    //    self.webUrl=@"http://pk2015.zaxue100.com"; // test
+    RenderKnowledgeViewController *render = [[RenderKnowledgeViewController alloc] init];
+    render.webUrl = urlStr;
+    [self.navigationController pushViewController:render animated:YES];
+    return YES;
+}
+
+
+
+- (BOOL)goUserCenterWithUrl:(NSString *)urlStr {
+    RenderKnowledgeViewController *render = [[RenderKnowledgeViewController alloc] init];
+    render.webUrl = urlStr;
+    [self.navigationController pushViewController:render animated:YES];
+    return YES;
+}
+
+- (BOOL)updateWebView {
+   
     NSString *bundlePath = [PathUtil getBundlePath];
-    NSString *myBagUrlStrWithParams = [NSString stringWithFormat:@"%@/%@/%@/%@%@", bundlePath, @"assets",@"native-html",@"schoolbag.html",@"?study_type=1"];
-    NSLog(@"要显示的本地html链接是%@",myBagUrlStrWithParams);
+    NSString *myBagUrlStrWithParams = [NSString stringWithFormat:@"%@/%@/%@/%@%@", bundlePath, @"assets",@"native-html",@"schoolbag.html",@"?study_type=0"];
     NSURL *myBagUrl = [NSURL URLWithString:myBagUrlStrWithParams];
     NSURLRequest *request = [NSURLRequest requestWithURL:myBagUrl];
-    
     [self.webView loadRequest:request];
     
     return YES;
@@ -594,7 +637,7 @@
         LogDebug(@"[MatchViewConroller] Web request: UA: %@", [request valueForHTTPHeaderField:@"User-Agent"]);
     }
     
-    [self injectJSToWebView:webView];
+//    [self injectJSToWebView:webView];
     return YES;
 }
 
@@ -665,7 +708,9 @@
 #pragma mark getknowledgeMeta
 //get dic :{book_id, book_status, book_status_detail}
 - (NSMutableDictionary *)getDicFormDataBase:(NSString *)bookId {
+    //
     NSArray *bookArr = [[KnowledgeMetaManager instance] getKnowledgeMetaWithDataId:bookId andDataType:DATA_TYPE_DATA_SOURCE];
+//    NSArray *bookArr = [[KnowledgeMetaManager instance] getKnowledgeMetaWithDataId:bookId];
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
     for (NSManagedObject *entity in bookArr) {
         if (entity == nil) {
@@ -690,7 +735,8 @@
             dicBookStatus = @"更新本地文件";
         }
         else {
-            dicBookStatus = @"校验";
+//            dicBookStatus = @"校验";
+            dicBookStatus = @"无权限";
         }
 //        else {
 //            
@@ -705,6 +751,30 @@
     return dic;
     
 }
+
+
+#pragma mark get cover image filePath
+
+- (NSString *)getCoverImageFilePath:(NSString *)dataId {
+    //从db中获取书分封面图片信息不能限定dataType
+    NSArray *bookArr = [[KnowledgeMetaManager instance] getKnowledgeMetaWithDataId:dataId andDataType:DATA_TYPE_DATA_SOURCE];
+//    NSArray *bookArr = [[KnowledgeMetaManager instance] getKnowledgeMetaWithDataId:dataId];
+    NSString *coverSrc = nil;
+    for (NSManagedObject *entity in bookArr) {
+        if (entity == nil) {
+            continue;
+        }
+         coverSrc = [entity valueForKey:@"coverSrc"];
+        if (coverSrc == nil) {
+            LogInfo(@"[ MatchViewController - getConverImageFilePath ]:get coverImage failed because of coverImage url is nil");
+            return nil;
+        }
+    }
+    return coverSrc;
+}
+
+
+ 
 
 
 @end

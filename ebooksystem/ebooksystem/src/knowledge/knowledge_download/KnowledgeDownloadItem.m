@@ -83,6 +83,7 @@
 
 #pragma mark - download
 - (BOOL)startDownload {
+    LogDebug(@"开始下载");
     [IADownloadManager downloadItemWithURL:self.downloadUrl useCache:YES saveToPath:self.savePath];
     
     [IADownloadManager attachListener:self toURL:self.downloadUrl];

@@ -88,7 +88,7 @@
             if (fileDescriptor > 0) close(fileDescriptor);
         }
         
-        //自己写，抓取异常--类似java中的异常机制，并打印导致异常原因。
+        //自己写，捕获异常--类似java中的异常机制，并打印导致异常原因。
         @try{
             //isResuming是一个很重要的参数，实现断点续传必须要设置参数为YES
             operation.outputStream = [[NSOutputStream alloc] initToFileAtPath:op->_tempFilePath append:isResuming];

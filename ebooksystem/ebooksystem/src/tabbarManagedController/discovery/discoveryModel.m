@@ -13,65 +13,35 @@
 #import "AppUtil.h"
 #import "Config.h"
 #import "WebUtil.h"
+#import "KnowledgeManager.h"
+#import "KnowledgeDownloadManager.h"
+#import "PathUtil.h"
+#import "IADownloadManager.h"
 
 @implementation discoveryModel
 
-- (NSDictionary *)getBookInfoWithDataIds:(NSArray *)dataIds {
+- (BOOL)getBookInfoWithDataIds:(NSArray *)dataIds {
     
-    
-    //appversion
-   NSString *appVersion = [NSString stringWithFormat:@"%@",[AppUtil getAppVersionStr]];
+    dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
     //data
-    NSMutableArray *arr = [NSMutableArray array];
+    NSMutableArray *arr = [[NSMutableArray alloc] init];// [NSMutableArray array];
     if (dataIds == nil || dataIds.count <= 0) {
-        return nil;
+        return;
     }
-    
-    //先默认传给我一个字符串
+    //js掉native接口传一个字符串参数
     for (NSString *bookId in dataIds) {
-        
-        NSMutableDictionary *dic = [NSMutableDictionary dictionary];
-        
         if (bookId == nil) {
             continue;
         }
+        
+        NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+        
         [dic setValue:bookId forKey:@"data_id"];
-        [dic setValue:@"0.0.0.0" forKey:@"data_version"];
+        [dic setValue:@"" forKey:@"data_version"];
+        
         [arr addObject:dic];
         
     }
-     /*
-    SBJsonWriter *writer = [[SBJsonWriter alloc] init];
-    NSString *dataJsonString = [writer stringWithObject:arr];
-    
-    AFHTTPRequestOperationManager *manager=[AFHTTPRequestOperationManager manager];
-    manager.responseSerializer.acceptableContentTypes=[NSSet setWithObject:@"text/html"];
-    NSDictionary *parameter=@{@"encrypt_method":@"0",@"encrypt_key_type":@"0",@"g_user_id":@"",@"app_platform":@"1",@"app_version":appVersion,@"data":dataJsonString};
-    
-    [manager POST:@"http://test.zaxue100.com/index.php?c=Info_desk_ctrl&m=get_book_meta" parameters:parameter success:^(AFHTTPRequestOperation *operation,id responsrObject){
-        NSDictionary *dic=responsrObject;
-        LogDebug(@"获取用户信息返回的字典dic=====%@", dic);
-        //服务器返回的是一个字符串
-        NSString *jsonStr= nil;
-        
-        jsonStr=[jsonStr stringByReplacingOccurrencesOfString:@"\0" withString:@""];
-        NSString *stra=[self JSONString:jsonStr];
-        SBJsonParser *parser=[[SBJsonParser alloc] init];
-        NSDictionary *responseDic = [parser objectWithString:responsrObject];
-        NSLog(@"获取书籍信息为====%@",responseDic);
-        //储存用户的邮箱
-        
-    } failure:^(AFHTTPRequestOperation *operation,NSError *error){
-        LogDebug(@"网络请求失败");
-        NSLog(@"errpr====%@",error);
-    }];
-*/
-    
-    
-    
-    
-    
-
     
     // headers
     NSString *userAgent = [Config instance].webConfig.userAgent;
@@ -86,8 +56,7 @@
     [data setValue:@"0" forKey:@"encrypt_method"]; // 对称加密
     [data setValue:@"0" forKey:@"encrypt_key_type"];
     [data setValue:@"1" forKey:@"app_platform"]; // ios
-    [data setValue:nil forKey:@"g_user_id"];
-    
+    [data setValue:@"" forKey:@"g_user_id"];
     
     
     {
@@ -126,26 +95,60 @@
         
         LogDebug(@"[KnowledgeDataManager-getDataUpdateInfo -- look is json String:] encryptedContent: %@", jsonOfDataUpdateRequestInfo);
         //        [data setValue:encryptedContent forKey:@"data"];
-        //data对应的需要是一个json字符串，浩哥上述操作是拼接了一个json格式的字符串
         [data setValue:jsonOfDataUpdateRequestInfo forKey:@"data"];
-        NSLog(@"发给server的json======%@",jsonOfDataUpdateRequestInfo);
     }
     
     
     // 发送web请求, 获取响应
-    NSURL *url = [NSURL URLWithString:@"http://test.zaxue100.com/index.php?c=Info_desk_ctrl&m=get_book_meta"];
+    NSURL *url = [NSURL URLWithString:@"http://test.zaxue100.com/index.php?c=info_desk_ctrl&m=get_book_meta"];
     NSString *serverResponseStr = [WebUtil sendRequestTo:url usingVerb:@"POST" withHeader:headers andData:data];
     if (serverResponseStr == nil || serverResponseStr.length <= 0) {
-        return nil;
+        LogError(@"[discoveryModel - getBookInfoWithDataIds]: request failed ,serverResponseStr is  equal to nil ");
+        return;
     }
-    NSLog(@"%@",serverResponseStr);
-    
-    
-    
-    
-
-    return nil;
+    //解析获取到的服务器响应信息
+    BOOL success = [self parseServerResponse:serverResponseStr];
+        if (!success) {
+            LogError (@"[discoverModel - getBookInfoWithDataIds ]: parseServerResponse failed ");
+            return;
+        }
+    });
+    return YES;
 }
+
+//解析服务器返回的响应，并下载试读书
+- (BOOL)parseServerResponse:(NSString *)responseStr {
+    if (responseStr == nil || responseStr.length <= 0) {
+        LogDebug(@"discoverModel -- parseServerResponse: server responseStr is equal to nil");
+
+        return  NO;
+    }
+    SBJsonParser *parse = [[SBJsonParser alloc] init];
+    NSDictionary *responseDic = [parse objectWithString:responseStr];
+    //parse data key matching the value  :
+   NSString *dataStr = [responseDic objectForKey:@"data"];
+    //get data_id
+    NSArray *dataArr = [parse objectWithString:dataStr];
+    if (dataArr == nil || dataArr.count <= 0 ) {
+        LogDebug(@"discoverModel -- parseServerResponse: dataArr is nil");
+        return NO;
+    }
+    for (NSDictionary *dic  in dataArr) {
+        if (dic == nil) {
+            continue;
+        }
+        NSString *bookId = [dic objectForKey:@"data_id"];
+        //1 将data对应的数据存储到数据库中
+        [[KnowledgeManager instance] registerBookMetaInfo:dic];
+        //2 下载封面图片
+        [self coverImageFileOperation:dic];
+        //3 下载试读书
+        [[KnowledgeManager instance] startDownloadDataManagerWithDataId:bookId];
+        }
+    
+    return YES;
+}
+
 
 
 -(NSString *)JSONString:(NSString *)aString {
@@ -160,6 +163,52 @@
     return [NSString stringWithString:s];
 }
 
-//保存到数据库
+- (BOOL)coverImageFileOperation:(NSDictionary *)dic {
+    
+    NSString *coverImageStr = [dic objectForKey:@"cover_src"];
+    NSString *bookId = [dic objectForKey:@"data_id"];
+    NSURL *coverUrl = [NSURL URLWithString:coverImageStr];
+    NSString *lastPartMent = [coverUrl lastPathComponent];//图片名
+    NSString *extension = [[lastPartMent componentsSeparatedByString:@"."] lastObject];//图片拓展名 png jpg
+    NSString *insideSandBoxPath = [NSString stringWithFormat:@"knowledge_data/coverImage/%@/%@",bookId,lastPartMent];
+    NSString *downloadRootPath = [PathUtil getDocumentsPath];
+    //coverImage的保存路径
+    NSString *savePath = [NSString stringWithFormat:@"%@/%@", downloadRootPath, insideSandBoxPath];
+    LogDebug(@"下载目录是======%@",savePath);
+    
+    // 3 下载,
+    //        [KnowledgeDownloadManager instance].delegate = self;
+    
+    if (coverImageStr == nil || savePath ==nil) {
+        LogInfo(@"discoveryModel - parseServerResponse : coverImageStr or savePath is nil");
+        return NO;
+    }
+    // 4 移除旧的封面图片
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    BOOL isExit =[fileManager fileExistsAtPath:savePath];
+    if (isExit) {
+        //移除旧的封面图片
+        BOOL isRemoved =  [fileManager removeItemAtPath:savePath error:nil];
+        if (!isRemoved) {
+            LogInfo(@"discoverModel - parseServerRes:remove  old cover image failed");
+        }
+    }
+    BOOL isDir;
+
+    NSString *pathTest = [savePath stringByDeletingLastPathComponent];
+    NSLog(@"path =====%@",pathTest);
+    BOOL exit = [fileManager fileExistsAtPath:pathTest isDirectory:&isDir];
+    if (!isDir || !exit) {
+        [fileManager createDirectoryAtPath:pathTest withIntermediateDirectories:YES attributes:nil error:nil];
+    }
+//    BOOL isSuccess = [[KnowledgeDownloadManager instance] startDownloadWithTitle:bookId andDesc:@"封面图片" andDownloadUrl:coverUrl andSavePath:savePath andTag:nil];
+    
+    BOOL succeeded = [[KnowledgeDownloadManager instance] directDownloadWithUrl: coverUrl andSavePath: savePath];
+    NSLog(@"====%@",savePath);
+    BOOL ret = [fileManager fileExistsAtPath:savePath];
+    
+    return ret;
+}
+
 
 @end

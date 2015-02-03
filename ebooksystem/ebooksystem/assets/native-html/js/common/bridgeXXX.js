@@ -180,17 +180,40 @@
     /**
      * 获取用户信息
      * @param callback {Function}
-     * @return {String}  { user_name : '用户名', avatar_src : '用户头像图片URL', balance : '用户的咋学币余额' }
+     * @return {String}  { user_id : '', user_name : '用户名', avatar_src : '用户头像图片URL', balance : '用户的咋学币余额', mobile : '用户手机号' }
      */
-    bridgeXXX.getUserInfo = function( callback ){
+    bridgeXXX.getCurUserInfo = function( callback ){
         var bridge = bridgeXXX.getBridge();
         if( bridgeXXX.isAndroid() ){
-            var data = bridge.getUserInfo(  );
+            var data = bridge.getCurUserInfo(  );
             if( typeof  callback === 'function' ){
                 callback( data );
             }
         }else if( bridgeXXX.isIOS() ){
-            bridge.getCoverSrc( callback );
+            bridge.getCurUserInfo( callback );
+        }
+    };
+
+    /**
+     * 修改APP内当前用户的信息
+     * @param data {JSON}
+     * @param data.user_id {String} 全局的用户惟一ID
+     * @param data.user_name {String} 用户名
+     * @param data.balance {String} 用户余额
+     * @param data.mobile {String} 用户手机号
+     * @param callback {Function}
+     * @return '0' 失败； '1' 成功
+     */
+    bridgeXXX.setCurUserInfo = function( data, callback ){
+        data = JSON.stringify( data );
+        var bridge = bridgeXXX.getBridge();
+        if( bridgeXXX.isAndroid() ){
+            var out = bridge.setCurUserInfo( data );
+            if( typeof  callback === 'function' ){
+                callback( out );
+            }
+        }else if( bridgeXXX.isIOS() ){
+            bridge.setCurUserInfo( data, callback );
         }
     };
 
@@ -200,6 +223,10 @@
      * @param args.action {String} APP内不同功能页面的type
      *                             "modify_user_info" -> "修改账户信息"
      *                             "setting" -> "设置"
+     *                             "system_info" -> "系统消息"
+     *                             "recharge" -> "充值",
+     *                             "feedback" -> "意见反馈"
+     *                             "validate" -> "正版验证"
      *                             "note" -> "笔记"
      *                             "error_list" -> "错题集"
      * @param args.target {String}  activity 代表在 新的 activity  打开
@@ -208,6 +235,92 @@
         var bridge = bridgeXXX.getBridge();
         args = JSON.stringify( args );
         bridge.showAppPageByAction( args );
+    };
+
+    /**
+     * 在  系统消息  页面，获取APP本地的系统消息数组列表
+     * @param callback {Function} 回调函数
+     * @return {String} [  { title: '消息title', desc : '消息简要描述', url : '点击后跳转的在线URL', timestamp : 消息的时间戳（单位：秒） } ]
+     */
+    bridgeXXX.getSystemInfoList = function( callback ){
+        var bridge = bridgeXXX.getBridge();
+        if( bridgeXXX.isAndroid() ){
+            var data = bridge.getSystemInfoList(  );
+            if( typeof  callback === 'function' ){
+                callback( data );
+            }
+        }else if( bridgeXXX.isIOS() ){
+            bridge.getSystemInfoList( callback );
+        }
+    };
+
+    bridgeXXX.showURL = function( args ){
+        var bridge = bridgeXXX.getBridge();
+        args = JSON.stringify( args );
+        bridge.showURL( args );
+    };
+
+    bridgeXXX.goBack = function(){
+        var bridge = bridgeXXX.getBridge();
+
+        bridge.goBack(  );
+    };
+
+    bridgeXXX.goBackHistory = function(){
+        if( history.length > 1 ){
+            history.back();
+        }else{
+            bridgeXXX.goBack();
+        }
+    };
+
+    /**
+     * 给咋学打分
+     */
+    bridgeXXX.voteForZaxue = function(){
+        var bridge = bridgeXXX.getBridge();
+
+        bridge.voteForZaxue(  );
+    };
+
+    /**
+     * 分享到朋友圈
+     * @param args {JSON}
+     * @param args.title {String} 标题
+     * @param args.content {String} 简要内容
+     * @param args.image_url {String} 缩略图URL
+     * @param args.target_url {String} 点击后回流URL
+     */
+    bridgeXXX.shareApp = function( args ){
+        var bridge = bridgeXXX.getBridge();
+        args = JSON.stringify( args );
+        bridge.shareApp( args );
+    };
+
+    /**
+     * 检查APP是否有更新
+     * @param callback {Function} 回调函数
+     * @return {JSON}  { has_update : '0 无更新；1 有更新' }
+     */
+    bridgeXXX.checkAppUpdate = function( callback ){
+        var bridge = bridgeXXX.getBridge();
+        if( bridgeXXX.isAndroid() ){
+            var out = bridge.checkAppUpdate( );
+            if( typeof  callback === 'function' ){
+                callback( out );
+            }
+        }else if( bridgeXXX.isIOS() ){
+            bridge.checkAppUpdate( callback );
+        }
+    };
+
+    /**
+     * 打开 APP内 “关于” 页面
+     */
+    bridgeXXX.showAboutPage = function(){
+        var bridge = bridgeXXX.getBridge();
+
+        bridge.showAboutPage(  );
     };
 
 }( window );

@@ -28,6 +28,7 @@
     return YES;
 }
 
+
 /**
  * quest
  *
@@ -47,12 +48,21 @@
         params = [[NSMutableString alloc] init];
         for(id key in data){
             NSString *encodedkey = [key stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+            NSString *encodedValue = [[data objectForKey:key] stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet characterSetWithCharactersInString:@";/?@&=+$" ]];
+//            NSString *encodedValue = [[data objectForKey:key] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
             
-            CFStringRef value = (__bridge CFStringRef)[[data objectForKey:key] copy];
-            CFStringRef encodedValue = CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, value, NULL, (CFStringRef)@";/?:@&=+$", kCFStringEncodingUTF8);
+            LogDebug(@"==== >cur key: %@, cur value: %@", key, [data objectForKey:key]);
+            
+            //url编码的方法有bug：会导致内存溢出
+//            CFStringRef value = (__bridge CFStringRef)[[data objectForKey:key] copy];
+//           
+//            CFStringRef encodedValue = CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, value, NULL, (CFStringRef)@";/?:@&=+$", kCFStringEncodingUTF8);
+//            CFStringRef encodedValue = CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, value, NULL, (CFStringRef)@"!*'();:@&=+$,/?%#[]", kCFStringEncodingUTF8);
+
             [params appendFormat:@"%@=%@&", encodedkey, encodedValue];
+            
             //            CFRelease(value); // comment out to avoid error: CFString release]: message sent to deallocated instance
-            CFRelease(encodedValue);
+//            CFRelease(encodedValue);
         }
         [params deleteCharactersInRange:NSMakeRange([params length] - 1, 1)];
     }

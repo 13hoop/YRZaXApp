@@ -15,6 +15,8 @@
         $balance : null,
         $modifyInfoBtn : null,
 
+        $loginBtn : null,
+
         $actionList : null,
 
         init : function(){
@@ -23,13 +25,35 @@
             this.$userName = $('.user-name');
             this.$balance = $('.balance');
             this.$modifyInfoBtn = $('.modify-info-btn');
+            this.$loginBtn = $('.login-btn');
+
+            var $backBtn = $('.common-back');
+            $backBtn.on( 'tap', function(){
+                bridgeXXX.goBack();
+            } );
 
 
             this.$actionList = $('.action-list');
 
             var that = this;
 
-            bridgeXXX.getUserInfo( function( data ){
+            bridgeXXX.getCurUserInfo( function( data ){
+
+                var isNotLogin = data === '{}';
+                if( isNotLogin ){
+                    //用户未登录
+                    that.$loginBtn.on('tap', function(){
+                        bridgeXXX.showURL({
+                            target : 'activity',
+                            url : 'http://test.zaxue100.com/index.php?c=passportctrl&m=show_login_page&back_to_app=1'
+                        });
+                    } );
+                    that.$loginBtn.css({
+                        display : 'inline-block'
+                    });
+                    return;
+                }
+
                 try{
                     data = JSON.parse( data );
                 }catch(e){
@@ -39,9 +63,12 @@
                     return;
                 }
 
-                that.$avatar.attr( 'src', data.avatar_src );
-                that.$userName.text( data.user_name );
-                that.$balance.text( '余额：' + data.balance + ' 咋学币');
+                that.$avatar.attr( 'src', data.avatar_src).show();
+                that.$userName.text( data.user_name).show();
+                that.$modifyInfoBtn.css({
+                    display : 'inline-block'
+                });
+                that.$balance.text( '余额：' + data.balance + ' 咋学币').show();
 
             });
 

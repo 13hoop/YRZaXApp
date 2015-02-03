@@ -46,4 +46,10 @@
     return fullPath;
 }
 
+// tabbar image's full path
+
+- (NSString *)getTabbarItemImageFullPath:(NSString *)imageFileName {
+    NSString *fullPath = [NSString stringWithFormat:@"%@/tabbarItem/%@", self.drawableRootPath, imageFileName];
+    return fullPath;
+}
 @end

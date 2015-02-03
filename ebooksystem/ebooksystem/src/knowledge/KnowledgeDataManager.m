@@ -770,7 +770,9 @@
         NSString *title = [NSString stringWithFormat:@"%@", [detail valueForKey:@"data_id"]];
         NSString *desc = [NSString stringWithFormat:@"desc_dataId_%@", dataId];
         NSString *downloadUrlStr = [NSString stringWithFormat:@"%@", [detail valueForKey:@"download_url"]];
-        NSURL *downloadUrl = [NSURL URLWithString:[downloadUrlStr stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+//        NSURL *downloadUrl = [NSURL URLWithString:[downloadUrlStr stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+        NSURL *downloadUrl = [[NSURL alloc] initWithString:downloadUrlStr];
+        
         if (downloadUrl == nil) {
             continue;
         }
@@ -906,7 +908,11 @@
 - (BOOL)startDownloadDataWithDataId:(NSString *)dataId {
     //（1）js传一个dataId到 native ，native根据dataId从数据库中取出对应dataId的当前版本号
     NSString *dataCurVersion = nil;
+    //限定dataType
+    
     dataCurVersion = [[KnowledgeMetaManager instance] getKnowledgeDataVersionWithDataId:dataId andDataType:DATA_TYPE_DATA_SOURCE];
+    
+//    dataCurVersion = [[KnowledgeMetaManager instance] getKnowledgeDataVersionWithDataId:dataId];
     
     if (dataCurVersion == nil || dataCurVersion.length <=0) {//下载一本新书
         LogDebug(@"Debug | [KnowLedgeDataManager-startDownloadDataWithDataId] : get current version info failed because of no data found");
@@ -1407,7 +1413,7 @@
     [data setValue:@"0" forKey:@"encrypt_method"]; // 对称加密
     [data setValue:@"0" forKey:@"encrypt_key_type"];
     [data setValue:@"1" forKey:@"app_platform"]; // ios
-    [data setValue:nil forKey:@"g_user_id"];
+    [data setValue:@"" forKey:@"g_user_id"];
     
     
     
@@ -1649,9 +1655,13 @@
         NSString *bookStatusStr = nil;
         NSString *curVersion = nil;
         NSString *bookMeta = nil;
+        NSString *bookReadType = nil;
+        NSString *completeBookId = nil;
         bookId = [entity valueForKey:@"dataId"];
         booKcategory = [entity valueForKey:@"bookCategory"];
         bookStatus = [entity valueForKey:@"dataStatus"];
+        bookReadType = [entity valueForKey:@"bookReadType"];
+        completeBookId = [entity valueForKey:@"completeBookId"];
         //转换成int来判断
         int bookStatusInt = [bookStatus intValue];
         if (bookStatusInt >= 1 && bookStatusInt <= 3) {
@@ -1672,6 +1682,9 @@
         else if (bookStatusInt == 12) {
             bookStatusStr = @"APP版本过高";
         }
+        else if (bookStatusInt == 14) {
+            bookStatusStr = @"下载失败";
+        }
         else if (bookStatusInt == 15) {
             bookStatusStr = @"下载暂停";
         }
@@ -1686,9 +1699,12 @@
         NSMutableDictionary *dic = [NSMutableDictionary dictionary];
         [dic setValue:bookId forKey:@"book_id"];
         [dic setValue:booKcategory forKey:@"book_category"];
+        [dic setValue:bookReadType forKey:@"book_read_type"];
+        [dic setValue:completeBookId forKey:@"complete_book_id"];
         [dic setValue:bookStatusStr forKey:@"book_status"];
         [dic setValue:curVersion forKey:@"cur_version"];
         [dic setValue:bookMeta forKey:@"book_meta_json"];
+        
         //
         [arr addObject: dic];
         

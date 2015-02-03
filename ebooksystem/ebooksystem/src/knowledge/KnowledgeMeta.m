@@ -66,7 +66,8 @@
 @synthesize bookCategory;
 @synthesize bookMeta;
 @synthesize coverSrc;
-
+@synthesize completeBookId;
+@synthesize bookReadType;
 
 @synthesize searchReverseInfo;
 
@@ -126,12 +127,13 @@
     knowledgeMeta.curVersion = knowledgeMetaEntity.curVersion;
     knowledgeMeta.latestVersion = knowledgeMetaEntity.latestVersion;
     knowledgeMeta.releaseTime = knowledgeMetaEntity.releaseTime;
-    //2.0中新增三个字段
+    //2.0中新增几个字段
 
     knowledgeMeta.bookCategory = knowledgeMetaEntity.bookCategory;
     knowledgeMeta.coverSrc = knowledgeMetaEntity.coverSrc;
     knowledgeMeta.bookMeta = knowledgeMetaEntity.bookMeta;
-    
+    knowledgeMeta.completeBookId = knowledgeMetaEntity.completeBookId;
+    knowledgeMeta.bookReadType = knowledgeMetaEntity.bookReadType;
     return knowledgeMeta;
 }
 
@@ -187,7 +189,8 @@
     [knowledgeMetaEntity setValue:self.curVersion forKey:@"curVersion"];
     [knowledgeMetaEntity setValue:self.latestVersion forKey:@"latestVersion"];
     [knowledgeMetaEntity setValue:self.releaseTime forKey:@"releaseTime"];
-    //2.0中新增的三个字段
+    //2.0中新增的四个字段
+    
     //bookMeta
     if (self.bookMeta != nil && self.bookMeta.length > 0) {
         [knowledgeMetaEntity setValue:self.bookMeta forKey:@"bookMeta"];
@@ -196,6 +199,7 @@
         [knowledgeMetaEntity setValue:@"" forKey:@"bookMeta"];
         
     }
+    
     //bookCategory
     if (self.bookCategory != nil && self.bookCategory.length > 0) {
         [knowledgeMetaEntity setValue:self.bookCategory forKey:@"bookCategory"];
@@ -204,6 +208,7 @@
         [knowledgeMetaEntity setValue:@"" forKey:@"bookCategory"];
  
     }
+    
     //coverSrc
     if (self.coverSrc != nil && self.coverSrc.length > 0) {
         [knowledgeMetaEntity setValue:self.coverSrc forKey:@"coverSrc"];
@@ -213,6 +218,26 @@
         [knowledgeMetaEntity setValue:@"" forKey:@"coverSrc"];
 
     }
+    
+    //completeBookId
+    if (self.completeBookId != nil && self.completeBookId.length > 0) {
+        [knowledgeMetaEntity setValue:self.completeBookId forKey:@"completeBookId"];
+
+    }
+    else {
+        [knowledgeMetaEntity setValue:@"" forKey:@"completeBookId"];
+    }
+    
+    //bookReadType
+    if (self.bookReadType != nil && self.bookReadType.length > 0) {
+        [knowledgeMetaEntity setValue:self.bookReadType forKey:@"bookReadType"];
+        
+    }
+    else {
+        [knowledgeMetaEntity setValue:@"" forKey:@"bookReadType"];
+    }
+    
+    
     return YES;
 }
 
@@ -250,7 +275,7 @@
 //    return searchEnties;
 //}
 
-
+//将在发现页中点的一本书的信息写到数据库中
 //存到数据库之前的将json数据转换成knowledgeMeta的操作，或者不转换也行，没有的就不转换，直接存空字符串进去。
 // parse knowledge meta from json string
 + (KnowledgeMeta *)parseJsonString:(NSString *)json {
@@ -469,6 +494,123 @@
     }
     
     return searchReverseInfoArray;
+}
+#pragma mark for  2.0 parse server response book_meta dic
++ (KnowledgeMeta *)parseBookMetaDic:(NSDictionary *)bookMetaDic {
+    
+    
+    if(bookMetaDic == nil) {
+        return nil;
+    }
+    //1解析服务器响应的data对应的字典
+    //data_meta 直接将这个字符串存到数据库中就可以。
+    NSString *dataMeta = [bookMetaDic objectForKey:@"data_meta"];
+    //data_id 保存到数据库
+    NSString *dataId = [bookMetaDic objectForKey:@"data_id"];
+    //complete_book_id 主要目的是用来找到存放到数据库中的试读数据的相对路径
+    NSString *completeBookId = [bookMetaDic objectForKey:@"complete_book_id"];
+    //data_version,存到数据库中的latestVersion中
+    NSString *dataVersion = [bookMetaDic objectForKey:@"data_version"];
+    //data_category,存到数据库
+    NSString *dataCategory = [bookMetaDic objectForKey:@"data_category"];
+    //data_type 保存到数据库
+    NSString *dataType = [bookMetaDic objectForKey:@"data_type"];
+    
+    //cover_src 1把封面图片拉倒本地 2将图片在sandBox的相对地址存到数据库中 3返给JS的是图片在app中的地址（file://格式）
+    NSString *coverSrc = [bookMetaDic objectForKey:@"cover_src"];
+    
+    NSURL *coverUrl = [NSURL URLWithString:coverSrc];
+    NSString *lastPartMent = [coverUrl lastPathComponent];//图片名
+    NSString *extension = [[lastPartMent componentsSeparatedByString:@"."] lastObject];//图片拓展名 png jpg
+    NSString *insideSandBoxPath = [NSString stringWithFormat:@"knowledge_data/coverImage/%@/%@",dataId,lastPartMent];
+    //将服务器响应的信息，存到knowledgeMeta对象中。
+    KnowledgeMeta *knowledgeMeta = [[KnowledgeMeta alloc] init];
+    
+    knowledgeMeta.dataId = dataId;
+    knowledgeMeta.bookCategory = dataCategory;
+    knowledgeMeta.bookMeta = dataMeta;
+    knowledgeMeta.completeBookId =completeBookId;
+    knowledgeMeta.coverSrc = insideSandBoxPath;//在第一次加载的时候就将coverImage的相对路径存到数据库中。
+    
+    
+    knowledgeMeta.dataNameEn = @"";
+    knowledgeMeta.dataNameCh = @"";
+    knowledgeMeta.desc = @"";
+    knowledgeMeta.dataType = DATA_TYPE_DATA_SOURCE;
+    if ([dataType isEqualToString:@"complete_book"]) {//整书
+    knowledgeMeta.bookReadType = @"全书";
+    }
+    else  if([dataType isEqualToString:@"partial_book"]){
+        //试读数据
+        knowledgeMeta.bookReadType = @"试读";
+    }
+    else {
+        knowledgeMeta.bookReadType = @"未知";
+    }
+    
+    knowledgeMeta.dataStorageType = DATA_STORAGE_INTERNAL_STORAGE;
+    knowledgeMeta.dataPathType = DATA_PATH_TYPE_FILE;//先置为0,后续有影响再修改
+    knowledgeMeta.dataPath = @"";//这时是没有数据的存储路径的，只有下载或者更新后才会有这个字段
+    
+    knowledgeMeta.dataSearchType = DATA_SEARCH_IGNORE;//搜索类型先置为0
+    
+    knowledgeMeta.dataStatus = DATA_STATUS_UNKNOWN;//必须是未下载状态，很重要。
+    knowledgeMeta.dataStatusDesc = @"";
+    
+    knowledgeMeta.parentId = @"";
+    knowledgeMeta.parentNameEn = @"";
+    knowledgeMeta.parentNameCh = @"";
+    
+    knowledgeMeta.childIds = nil;
+    
+    // sibling ids
+    knowledgeMeta.siblingIds = nil;
+            
+    knowledgeMeta.nodeContentDir = @"";
+    knowledgeMeta.isUpdateSeed = NO;//是否为更新依据，默认置为NO
+    
+    // update time
+    {
+        knowledgeMeta.updateTime = nil;
+        
+        NSDate *curDate = [NSDate date];
+        knowledgeMeta.updateTime = curDate;
+    }
+    
+    knowledgeMeta.updateType = DATA_UPDATE_TYPE_NODE;
+    knowledgeMeta.updateInfo = @"";
+    
+    // check time
+    {
+        knowledgeMeta.checkTime = nil;
+        NSDate *curDate = [NSDate date];
+        knowledgeMeta.checkTime = curDate;//需要修改
+        
+    }
+    
+    knowledgeMeta.curVersion = @"";//当前版本号一定要置为空，很重要
+    
+    // latest version
+    {
+        knowledgeMeta.latestVersion = dataVersion;//书籍未下载，将从服务器获取到的版本号存到latestVersion字段。
+//        if (knowledgeMeta.latestVersion == nil) {
+//            knowledgeMeta.latestVersion = knowledgeMeta.curVersion;
+//        }
+    }
+    
+    // release time
+    {
+        knowledgeMeta.releaseTime = nil;
+    }
+    
+    // search reverse info
+    {
+        knowledgeMeta.searchReverseInfo = nil;//暂时先置为空
+    }
+    
+
+    
+    return knowledgeMeta;
 }
 
 @end

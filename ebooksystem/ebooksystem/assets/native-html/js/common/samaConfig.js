@@ -17,6 +17,8 @@
         BOOK_IS_DOWNLOADING : '下载中',
         //书籍上一次下载过程被异常中断，需要自动重新启动下载进程
         LAST_DOWNLOAD_INTERRUPTED : '下载暂停',
+        //本次下载失败
+        DOWNLOAD_FAIL : '下载失败',
         //书籍有更新
         BOOK_NEED_UPDATE : '可更新',
         //书籍正在更新中

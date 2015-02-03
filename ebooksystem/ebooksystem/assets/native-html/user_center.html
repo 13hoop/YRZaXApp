@@ -13,11 +13,13 @@
     <div id="main-wrap" class="activity">
         <section id="user-center-page" class="fragment">
             <header class="fragment-header">
+                <span class="common-back"></span>
                 <h1>个人中心</h1>
                 <img class="avatar-img" alt="头像" src="./css/user_center/assets/avatar-default.png"/>
-                <div class="user-name"></div>
-                <div class="balance"></div>
-                <div class="modify-info-btn">修改账号信息</div>
+                <div class="info-item user-name"></div>
+                <div class="info-item balance"></div>
+                <div class="info-item modify-info-btn">修改账号信息<span class="right-arrow"></span></div>
+                <div class="info-item login-btn">立即登录<span class="right-arrow"></span></div>
             </header>
             <div class="fragment-body">
                 <div class="scroll-wrap">
@@ -30,11 +32,11 @@
                             <img class="action-img" src="./css/user_center/assets/cuotiji.png" alt="笔记"/>
                             <div class="action-name">错题集</div>
                         </div>
-                        <div class="action-item" data-action="showNotesPage">
+                        <div class="action-item" data-action="system_info">
                             <img class="action-img" src="./css/user_center/assets/xiaoxiliebiao.png" alt="笔记"/>
-                            <div class="action-name">消息推送</div>
+                            <div class="action-name">系统消息</div>
                         </div>
-                        <div class="action-item" data-action="showNotesPage">
+                        <div class="action-item" data-action="recharge">
                             <img class="action-img" src="./css/user_center/assets/chongzhi.png" alt="笔记"/>
                             <div class="action-name">充值</div>
                         </div>
@@ -42,11 +44,11 @@
                             <img class="action-img" src="./css/user_center/assets/xiaofeijilu.png" alt="笔记"/>
                             <div class="action-name">消费记录</div>
                         </div>
-                        <div class="action-item" data-action="showNotesPage">
+                        <div class="action-item" data-action="feedback">
                             <img class="action-img" src="./css/user_center/assets/wentifankui.png" alt="笔记"/>
                             <div class="action-name">意见反馈</div>
                         </div>
-                        <div class="action-item" data-action="showNotesPage">
+                        <div class="action-item" data-action="validate">
                             <img class="action-img" src="./css/user_center/assets/zhengbanyanzheng.png" alt="笔记"/>
                             <div class="action-name">正版验证</div>
                         </div>
@@ -75,7 +77,13 @@
     <script src="./js/common/bridgeXXX.js"></script>
     <script src="./js/user_center/app.js"></script>
     <script>
-        app.init();
+        if( window.samaBridgeReady ){
+            app.init();
+        }else{
+            document.addEventListener('SamaBridgeReady', function(){
+                app.init();
+            }, false );
+        }
     </script>
 </body>
 </html>

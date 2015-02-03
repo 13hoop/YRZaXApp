@@ -85,8 +85,8 @@
 		06CEE6311A734E8C000ADCE3 /* SecondRenderKnowledgeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06CEE6301A734E8C000ADCE3 /* SecondRenderKnowledgeViewController.m */; };
 		06CF20B61A70D1A100DD2721 /* 封面图片-2-base64.txt in Resources */ = {isa = PBXBuildFile; fileRef = 06CF20B51A70D1A100DD2721 /* 封面图片-2-base64.txt */; };
 		06CF20BA1A70F40F00DD2721 /* book-list-json-2.json in Resources */ = {isa = PBXBuildFile; fileRef = 06CF20B91A70F40F00DD2721 /* book-list-json-2.json */; };
+		06CF7AF01A78FE680001F80D /* KnowledgeMetaEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 06CF7AEF1A78FE680001F80D /* KnowledgeMetaEntity.m */; };
 		06D02C781A68A7F10047103A /* NSUserDefaultUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 06D02C771A68A7F10047103A /* NSUserDefaultUtil.m */; };
-		06D1D2AD1A74C39D00F5B8FC /* KnowledgeMetaEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 06D1D2AC1A74C39D00F5B8FC /* KnowledgeMetaEntity.m */; };
 		06D1D2B31A750ECD00F5B8FC /* discoveryWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = 06D1D2B21A750ECD00F5B8FC /* discoveryWebView.m */; };
 		06D1D2B61A751CF300F5B8FC /* discoveryModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 06D1D2B51A751CF300F5B8FC /* discoveryModel.m */; };
 		06D360501A62204400F2FF44 /* ZBarScanViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06D3604F1A62204400F2FF44 /* ZBarScanViewController.m */; };
@@ -103,6 +103,9 @@
 		06D418231A47B9A9007565F0 /* kaodianbibeiganhuo.png in Resources */ = {isa = PBXBuildFile; fileRef = 06D418201A47B9A8007565F0 /* kaodianbibeiganhuo.png */; };
 		06D418241A47B9A9007565F0 /* kaodianzhongdiannandian.png in Resources */ = {isa = PBXBuildFile; fileRef = 06D418211A47B9A9007565F0 /* kaodianzhongdiannandian.png */; };
 		06D418251A47B9A9007565F0 /* xuanzetinandian.png in Resources */ = {isa = PBXBuildFile; fileRef = 06D418221A47B9A9007565F0 /* xuanzetinandian.png */; };
+		06D77BFE1A7F8BC100AC6F78 /* FirstReuseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06D77BFD1A7F8BC100AC6F78 /* FirstReuseViewController.m */; };
+		06D77C011A7F8BDE00AC6F78 /* SecondReuseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06D77C001A7F8BDE00AC6F78 /* SecondReuseViewController.m */; };
+		06DBACCB1A7A0D3100B3A555 /* PersionalCenterUrlConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 06DBACCA1A7A0D3100B3A555 /* PersionalCenterUrlConfig.m */; };
 		06DBF0631A64BC2800804D66 /* ScanQRCodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06DBF0621A64BC2800804D66 /* ScanQRCodeViewController.m */; };
 		06DBF0661A64D39300804D66 /* ScanQRCodeTabViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06DBF0651A64D39300804D66 /* ScanQRCodeTabViewController.m */; };
 		06DBF0701A650ADA00804D66 /* PurchaseTabViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06DBF06F1A650ADA00804D66 /* PurchaseTabViewController.m */; };
@@ -443,10 +446,10 @@
 		06CEE6301A734E8C000ADCE3 /* SecondRenderKnowledgeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SecondRenderKnowledgeViewController.m; sourceTree = "<group>"; };
 		06CF20B51A70D1A100DD2721 /* 封面图片-2-base64.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "封面图片-2-base64.txt"; sourceTree = "<group>"; };
 		06CF20B91A70F40F00DD2721 /* book-list-json-2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "book-list-json-2.json"; sourceTree = "<group>"; };
+		06CF7AEE1A78FE680001F80D /* KnowledgeMetaEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KnowledgeMetaEntity.h; path = src/data/model/KnowledgeMetaEntity.h; sourceTree = "<group>"; };
+		06CF7AEF1A78FE680001F80D /* KnowledgeMetaEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KnowledgeMetaEntity.m; path = src/data/model/KnowledgeMetaEntity.m; sourceTree = "<group>"; };
 		06D02C761A68A7F10047103A /* NSUserDefaultUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NSUserDefaultUtil.h; path = src/util/NSUserDefaultUtil.h; sourceTree = "<group>"; };
 		06D02C771A68A7F10047103A /* NSUserDefaultUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NSUserDefaultUtil.m; path = src/util/NSUserDefaultUtil.m; sourceTree = "<group>"; };
-		06D1D2AB1A74C39D00F5B8FC /* KnowledgeMetaEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KnowledgeMetaEntity.h; path = src/data/model/KnowledgeMetaEntity.h; sourceTree = "<group>"; };
-		06D1D2AC1A74C39D00F5B8FC /* KnowledgeMetaEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KnowledgeMetaEntity.m; path = src/data/model/KnowledgeMetaEntity.m; sourceTree = "<group>"; };
 		06D1D2B11A750ECD00F5B8FC /* discoveryWebView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = discoveryWebView.h; sourceTree = "<group>"; };
 		06D1D2B21A750ECD00F5B8FC /* discoveryWebView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = discoveryWebView.m; sourceTree = "<group>"; };
 		06D1D2B41A751CF300F5B8FC /* discoveryModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = discoveryModel.h; sourceTree = "<group>"; };
@@ -475,6 +478,12 @@
 		06D418201A47B9A8007565F0 /* kaodianbibeiganhuo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = kaodianbibeiganhuo.png; sourceTree = "<group>"; };
 		06D418211A47B9A9007565F0 /* kaodianzhongdiannandian.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = kaodianzhongdiannandian.png; sourceTree = "<group>"; };
 		06D418221A47B9A9007565F0 /* xuanzetinandian.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = xuanzetinandian.png; sourceTree = "<group>"; };
+		06D77BFC1A7F8BC100AC6F78 /* FirstReuseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FirstReuseViewController.h; sourceTree = "<group>"; };
+		06D77BFD1A7F8BC100AC6F78 /* FirstReuseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FirstReuseViewController.m; sourceTree = "<group>"; };
+		06D77BFF1A7F8BDE00AC6F78 /* SecondReuseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SecondReuseViewController.h; sourceTree = "<group>"; };
+		06D77C001A7F8BDE00AC6F78 /* SecondReuseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SecondReuseViewController.m; sourceTree = "<group>"; };
+		06DBACC91A7A0D3100B3A555 /* PersionalCenterUrlConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PersionalCenterUrlConfig.h; path = src/config/PersionalCenterUrlConfig.h; sourceTree = "<group>"; };
+		06DBACCA1A7A0D3100B3A555 /* PersionalCenterUrlConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PersionalCenterUrlConfig.m; path = src/config/PersionalCenterUrlConfig.m; sourceTree = "<group>"; };
 		06DBF0611A64BC2800804D66 /* ScanQRCodeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScanQRCodeViewController.h; sourceTree = "<group>"; };
 		06DBF0621A64BC2800804D66 /* ScanQRCodeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScanQRCodeViewController.m; sourceTree = "<group>"; };
 		06DBF0641A64D39300804D66 /* ScanQRCodeTabViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScanQRCodeTabViewController.h; sourceTree = "<group>"; };
@@ -1830,6 +1839,26 @@
 			path = src/knowledge/Video_download;
 			sourceTree = "<group>";
 		};
+		06D77BFB1A7F8B6500AC6F78 /* commomKnowledge */ = {
+			isa = PBXGroup;
+			children = (
+				06D77BFC1A7F8BC100AC6F78 /* FirstReuseViewController.h */,
+				06D77BFD1A7F8BC100AC6F78 /* FirstReuseViewController.m */,
+				06D77BFF1A7F8BDE00AC6F78 /* SecondReuseViewController.h */,
+				06D77C001A7F8BDE00AC6F78 /* SecondReuseViewController.m */,
+			);
+			name = commomKnowledge;
+			path = src/common/commomKnowledge;
+			sourceTree = "<group>";
+		};
+		06DBACC81A7A08CF00B3A555 /* personalCenter */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = personalCenter;
+			path = src/common/personalCenter;
+			sourceTree = "<group>";
+		};
 		06DBF0601A64BC0C00804D66 /* ScanQRCode */ = {
 			isa = PBXGroup;
 			children = (
@@ -2039,8 +2068,8 @@
 		710C038F19E2E40B00C27A33 /* model */ = {
 			isa = PBXGroup;
 			children = (
-				06D1D2AB1A74C39D00F5B8FC /* KnowledgeMetaEntity.h */,
-				06D1D2AC1A74C39D00F5B8FC /* KnowledgeMetaEntity.m */,
+				06CF7AEE1A78FE680001F80D /* KnowledgeMetaEntity.h */,
+				06CF7AEF1A78FE680001F80D /* KnowledgeMetaEntity.m */,
 				710C03A019E2EDB800C27A33 /* KnowledgeSearchEntity.h */,
 				710C03A119E2EDB800C27A33 /* KnowledgeSearchEntity.m */,
 			);
@@ -2476,6 +2505,8 @@
 		71860B7F19DC228400D01AA9 /* common */ = {
 			isa = PBXGroup;
 			children = (
+				06D77BFB1A7F8B6500AC6F78 /* commomKnowledge */,
+				06DBACC81A7A08CF00B3A555 /* personalCenter */,
 				06A8A9E91A0A0B6C00407E89 /* matchWeb */,
 				06AA7EEC19F4FBBB00570289 /* color */,
 				06AA7EEF19F4FBBB00570289 /* CSUItextfield */,
@@ -2550,6 +2581,8 @@
 				711E2CF51A00C51E000A8D04 /* UpdateConfig.m */,
 				7164E6B51A26F3C000EA5C04 /* PaymentConfig.h */,
 				7164E6B61A26F3C000EA5C04 /* PaymentConfig.m */,
+				06DBACC91A7A0D3100B3A555 /* PersionalCenterUrlConfig.h */,
+				06DBACCA1A7A0D3100B3A555 /* PersionalCenterUrlConfig.m */,
 			);
 			name = config;
 			sourceTree = "<group>";
@@ -2888,6 +2921,7 @@
 				7118EB5D19EF6B54002CF833 /* DDLog.m in Sources */,
 				06D02C781A68A7F10047103A /* NSUserDefaultUtil.m in Sources */,
 				7156B0A119F7A8A500B3A521 /* ErrorManager.m in Sources */,
+				06D77BFE1A7F8BC100AC6F78 /* FirstReuseViewController.m in Sources */,
 				06AA7F5D19F4FC7E00570289 /* LogoutModel.m in Sources */,
 				06AA7F5C19F4FC7E00570289 /* LogoutViewController.m in Sources */,
 				7118EB8419EF6BE3002CF833 /* CustomLogLevels.md in Sources */,
@@ -2908,6 +2942,7 @@
 				06AA7F4E19F4FC7E00570289 /* AboutUsViewController.m in Sources */,
 				06AA7F6019F4FC7E00570289 /* CustomMoreView.m in Sources */,
 				06CD8D931A6CB4F100667432 /* selectCourseViewController.m in Sources */,
+				06D77C011A7F8BDE00AC6F78 /* SecondReuseViewController.m in Sources */,
 				710C030F19E1C8B600C27A33 /* UIAlertView+AFNetworking.m in Sources */,
 				7118EB5919EF6B54002CF833 /* DDAbstractDatabaseLogger.m in Sources */,
 				71860BE319DC754C00D01AA9 /* Config.m in Sources */,
@@ -2946,6 +2981,7 @@
 				71314D5E1A246D48004D1873 /* UpdateAppViewController.m in Sources */,
 				7164E6B71A26F3C000EA5C04 /* PaymentConfig.m in Sources */,
 				71860BE919DC7B4300D01AA9 /* KnowledgeDataConfig.m in Sources */,
+				06CF7AF01A78FE680001F80D /* KnowledgeMetaEntity.m in Sources */,
 				06AA7E9319F4FAE100570289 /* SecurityUtil.m in Sources */,
 				06AA7F5B19F4FC7E00570289 /* CustomLoginView.m in Sources */,
 				711E2CF61A00C51E000A8D04 /* UpdateConfig.m in Sources */,
@@ -3010,11 +3046,11 @@
 				710C035C19E1C90E00C27A33 /* SBJsonUTF8Stream.m in Sources */,
 				7118EB4819EF6B41002CF833 /* CLIColor.m in Sources */,
 				7118EB8019EF6BE3002CF833 /* Architecture.md in Sources */,
+				06DBACCB1A7A0D3100B3A555 /* PersionalCenterUrlConfig.m in Sources */,
 				7156B0AF19F8BC5100B3A521 /* MRBlurView.m in Sources */,
 				7118EB8519EF6BE3002CF833 /* DynamicLogLevels.md in Sources */,
 				06AA7E8F19F4FAE100570289 /* CRSA.m in Sources */,
 				06AA7F4F19F4FC7E00570289 /* CustomAboutUsview.m in Sources */,
-				06D1D2AD1A74C39D00F5B8FC /* KnowledgeMetaEntity.m in Sources */,
 				713D863E19E91654006446D5 /* DateUtil.m in Sources */,
 				715EE9A919E832ED005A4F78 /* JSONModelError.m in Sources */,
 				710C03A219E2EDB800C27A33 /* KnowledgeSearchEntity.m in Sources */,

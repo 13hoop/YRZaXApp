@@ -69,6 +69,9 @@
 //    NSLog(@"{\"oid\": \"%@\"}", deviceID);
     
     
+    // 2.0 app 启动时检查下载进度，设置dataStatus
+    [[KnowledgeManager instance] modifyDataStatusWithDataType];
+    
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
 
     [self initUmengShare];
@@ -92,6 +95,7 @@
     [ErrorManager installUncaughtExceptionHandler];
     
     // 检查更新, 已转到KnowledgeWebViewController中进行
+    //2.0 中检查更新转到发现页中进行
 //    [UpdateManager instance].delegate = self;
 //    [[UpdateManager instance] checkUpdate];
 
@@ -266,7 +270,7 @@
 //    
 //}
 
-#pragma mark - 更新
+#pragma mark - 更新 delegate  method
 //- (void)onCheckUpdateResult:(UpdateInfo *)updateInfo {
 //    dispatch_async(dispatch_get_main_queue(), ^{
 //        NSString *status=updateInfo.status;

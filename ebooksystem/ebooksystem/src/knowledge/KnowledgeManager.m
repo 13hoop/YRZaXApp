@@ -31,7 +31,7 @@
 #import "LogUtil.h"
 #import "TimeWatcher.h"
 #import "SBJsonWriter.h"
-
+#import "KnowledgeDataTypes.h"
 
 // KnowledgeManager
 @interface KnowledgeManager() <KnowledgeDataStatusDelegate> {
@@ -262,6 +262,28 @@
     
     return YES;
 }
+
+#pragma mark register  book data info for 2.0
+- (BOOL)registerBookMetaInfo:(NSDictionary *)partialBookMeta {
+    // 1. 清除已有的knowledge metas   不能清空数据库
+//    [[KnowledgeMetaManager instance] clearKnowledgeMetas];
+    //2、解析发现页请求获得的dic
+    if (partialBookMeta == nil) {
+        LogInfo(@"knowledgemanager - registerBookMetaInfo : partialBookMeta is nil");
+        return NO;
+    }
+    //3、构造KnowledgeMeta对象
+    KnowledgeMeta *knowledgeMeta = [KnowledgeMeta parseBookMetaDic:partialBookMeta];
+    if (knowledgeMeta == nil) {
+        return NO;
+    }
+    //
+    //5、保存到db
+     BOOL ret = [[KnowledgeMetaManager instance] saveKnowledgeMeta:knowledgeMeta];
+    LogDebug(@"[KnowledgeManager-registerBookMetaInfo] registered file ");
+    return ret;
+}
+
 
 #pragma mark - init knowledge updater
 - (BOOL)initKnowledgeUpdater:(int)updateIntervalInMs {
@@ -608,5 +630,10 @@
     SBJsonWriter *writer = [[SBJsonWriter alloc] init];
     NSString *updatableDataStr = [writer stringWithObject:dataIdArr];
     return updatableDataStr;
+}
+
+//set download pause status
+- (void)modifyDataStatusWithDataType {
+    [[KnowledgeMetaManager instance] setDataStatusforDataWithDataType:DATA_TYPE_DATA_SOURCE];
 }
 @end

@@ -37,11 +37,11 @@
     self.backgroundView.userInteractionEnabled=YES;
     //需要修改为图片
    
-    self.backgroundView.backgroundColor=[UIColor colorWithHexString:@"#242021" alpha:1];
+    self.backgroundView.backgroundColor=[UIColor colorWithHexString:@"#e95510" alpha:1];
     //创建标题
     self.titleLable=[[UILabel alloc] initWithFrame:CGRectMake((self.backgroundView.frame.size.width-100)/2,(50-16)/2, 100, 16)];
     self.titleLable.textAlignment=UITextAlignmentCenter;
-    self.titleLable.textColor=[UIColor colorWithHexString:@"#ffffff " alpha:1];
+    self.titleLable.textColor=[UIColor colorWithHexString:@"#fffff3 " alpha:1];
     self.titleLable.font=[UIFont systemFontOfSize:18.0f];
     //使用kvo来得到值
     [self addObserver:self forKeyPath:@"title" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:NULL];
@@ -57,9 +57,9 @@
     //返回按钮
     self.backButton=[UIButton buttonWithType:UIButtonTypeCustom];
     self.backButton.frame=CGRectMake(21, (50-12)/2, 40, 12);
-    [self.backButton setTitle:@"返回" forState:UIControlStateNormal];
+//    [self.backButton setTitle:@"返回" forState:UIControlStateNormal];//2.0注掉
     self.backButton.titleLabel.font=[UIFont systemFontOfSize:14.0f];
-    self.backButton.titleLabel.textColor=[UIColor colorWithHexString:@"#ffffff" alpha:1];
+    self.backButton.titleLabel.textColor=[UIColor colorWithHexString:@"#fffff3" alpha:1];
 //    [self.backButton addTarget:self action:@selector(btnDown:) forControlEvents:UIControlEventTouchUpInside];
     [self.backgroundView addSubview:self.backButton];
     //创建button

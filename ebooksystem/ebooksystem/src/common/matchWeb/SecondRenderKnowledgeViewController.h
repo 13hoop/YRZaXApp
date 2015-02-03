@@ -10,4 +10,9 @@
 
 @interface SecondRenderKnowledgeViewController : UIViewController
 
+@property (nonatomic,strong) NSString *webUrl;
+@property (nonatomic,strong) NSString *shouldChangeBackground;
+//flag 区分是从哪个页面上过来的
+@property (nonatomic,strong) NSString *flag;
+
 @end

@@ -249,8 +249,21 @@
             return coverArray[index];
         },
 
-        getUserInfo : function( callback ){
+        getCurUserInfo : function( callback ){
+
             var data = JSON.stringify( userInfo );
+
+            data = '{}';
+
+            if( typeof callback === 'function' ){
+                callback( data );
+            }
+            return data;
+        },
+
+        setCurUserInfo : function( args, callback){
+            alert('setCurUserInfo: ' + args );
+            var data = '1';
             if( typeof callback === 'function' ){
                 callback( data );
             }
@@ -259,6 +272,114 @@
 
         showAppPageByAction : function( args ) {
             alert('打开APP内功能页面：' + args );
+        },
+
+        getSystemInfoList : function( callback ){
+            var now = ( new Date() ).getTime() / 1000;
+            var data = [
+                {
+                    title : '系统消息的title，比较短的',
+                    desc : 'i描述文字',
+                    timestamp : now,
+                    url : ''
+                },
+                {
+                    title : '这个系统消息的title可能比较长呢，万一显示两行，哦，可能超过两行怎么破，先多给点试试，在看表现',
+                    desc : '当然了，描述文字也可能会很长，既然title都可嗯哪个那么多问题，描述文字当然不能示弱了，对吧，应该有可能超过三行的情况，嗯，再来一个，一点试试，应该差不多了吧，按理说',
+                    timestamp : now,
+                    url : 'http://zaxue100.com/'
+                },
+                {
+                    title : 'aaa',
+                    desc : 'bb',
+                    timestamp : now,
+                    url : ''
+                },
+                {
+                    title : 'aaa',
+                    desc : 'bb',
+                    timestamp : now,
+                    url : 'http://zaxue100.com/'
+                },
+                {
+                    title : '这个系统消息的title可能比较长呢，万一显示两行，哦，可能超过两行怎么破，先多给点试试，在看表现',
+                    desc : '当然了，描述文字也可能会很长，既然title都可嗯哪个那么多问题，描述文字当然不能示弱了，对吧，应该有可能超过三行的情况，嗯，再来一个，一点试试，应该差不多了吧，按理说',
+                    timestamp : now,
+                    url : ''
+                },
+                {
+                    title : 'aaa',
+                    desc : 'bb',
+                    timestamp : now,
+                    url : ''
+                },
+                {
+                    title : 'aaa',
+                    desc : 'bb',
+                    timestamp : now,
+                    url : 'http://zaxue100.com/'
+                },
+                {
+                    title : '这个系统消息的title可能比较长呢，万一显示两行，哦，可能超过两行怎么破，先多给点试试，在看表现',
+                    desc : '当然了，描述文字也可能会很长，既然title都可嗯哪个那么多问题，描述文字当然不能示弱了，对吧，应该有可能超过三行的情况，嗯，再来一个，一点试试，应该差不多了吧，按理说',
+                    url : 'http://zaxue100.com/'
+                },
+                {
+                    title : 'aaa',
+                    desc : 'bb',
+                    timestamp : now,
+                    url : 'http://zaxue100.com/'
+                },
+                {
+                    title : '这个系统消息的title可能比较长呢，万一显示两行，哦，可能超过两行怎么破，先多给点试试，在看表现',
+                    desc : '当然了，描述文字也可能会很长，既然title都可嗯哪个那么多问题，描述文字当然不能示弱了，对吧，应该有可能超过三行的情况，嗯，再来一个，一点试试，应该差不多了吧，按理说',
+                    timestamp : now,
+                    url : 'http://zaxue100.com/'
+                },
+                {
+                    title : '这个系统消息的title可能比较长呢，万一显示两行，哦，可能超过两行怎么破，先多给点试试，在看表现',
+                    desc : '当然了，描述文字也可能会很长，既然title都可嗯哪个那么多问题，描述文字当然不能示弱了，对吧，应该有可能超过三行的情况，嗯，再来一个，一点试试，应该差不多了吧，按理说',
+                    timestamp : now,
+                    url : 'http://zaxue100.com/'
+                },
+                {
+                    title : 'aaa',
+                    desc : 'bb',
+                    timestamp : now,
+                    url : 'http://zaxue100.com/'
+                },
+                {
+                    title : 'aaa',
+                    desc : 'bb',
+                    timestamp : now,
+                    url : 'http://zaxue100.com/'
+                }
+            ];
+
+            data = JSON.stringify( data );
+            return data;
+        },
+
+        showURL : function( args ){
+
+            alert('showURL: ' + args );
+        },
+        goBack : function(){
+            alert('goBack: 返回上一个 activity ');
+        },
+
+        voteForZaxue : function(){
+            alert('给咋学打分');
+        },
+
+        shareApp : function( args ){
+            alert('分享到朋友圈：' + args );
+        },
+        checkAppUpdate : function( callback ){
+            return '1';
+        },
+        showAboutPage : function(){
+            alert('关于咋学');
         }
     };
 

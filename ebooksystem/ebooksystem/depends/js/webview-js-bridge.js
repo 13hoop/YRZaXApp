@@ -66,8 +66,8 @@ function dump(arr,level) {
     
     //////////////// useful functions ////////////////
     
-    bridgeIOS.share = function(data){
-        bridgeIOS.callOC( 'share', data );
+    bridgeIOS.shareApp = function(data){
+        bridgeIOS.callOC( 'shareApp', data );
     };
     
     bridgeIOS.goBack = function(data){
@@ -88,7 +88,7 @@ function dump(arr,level) {
     };
     //wu   getCurStudyType
     bridgeIOS.getCurStudyType = function(callback){
-        bridgeIOS.callOC( 'getCurStudyType',function(responseData){
+        bridgeIOS.callOC( 'getCurStudyType',data,function(responseData){
                          if (callback) {
                          callback(responseData);
                          }
@@ -179,6 +179,7 @@ function dump(arr,level) {
                          }
                          });
     };
+    
     //queryBookStatus
     bridgeIOS.queryBookStatus = function(data,callback){
         bridgeIOS.callOC( 'queryBookStatus',data,function(responseData){
@@ -189,49 +190,139 @@ function dump(arr,level) {
     };
     
     
+    //showURL
+    bridgeIOS.showURL = function(data,callback){
+        bridgeIOS.callOC( 'showURL',data,function(responseData){
+                         if (callback) {
+                         callback(responseData);
+                         }
+                         }  );
+    };
+    
+    //addToNative
+    bridgeIOS.addToNative = function(data,callback){
+        bridgeIOS.callOC( 'addToNative',data,function(responseData){
+                         if (callback) {
+                         callback(responseData);
+                         }
+                         }  );
+    };
+    
+    //showAppPageByAction
+    bridgeIOS.showAppPageByAction = function(data,callback){
+        bridgeIOS.callOC( 'showAppPageByAction',data,function(responseData){
+                         if (callback) {
+                         callback(responseData);
+                         }
+                         }  );
+    };
+    
+    //getCurUserInfo
+    bridgeIOS.getCurUserInfo = function(callback){
+        bridgeIOS.callOC( 'getCurUserInfo', null, function(responseData){
+//                         alert('in bridge js');
+                         if (callback) {
+                         callback(responseData);
+                         }
+                         }  );
+    };
+    
+    
+    
+    //setCurUserInfo
+    bridgeIOS.setCurUserInfo = function(data,callback){
+        bridgeIOS.callOC( 'setCurUserInfo',data,function(responseData){
+//                         alert(responseData);
+                         if (callback) {
+                         
+                         callback(responseData);
+                         }
+                         }  );
+    };
+    
+    //voteForZaxue
+    bridgeIOS.voteForZaxue = function(data,callback){
+        bridgeIOS.callOC( 'voteForZaxue',data,function(responseData){
+                         if (callback) {
+                         callback(responseData);
+                         }
+                         }  );
+    };
+    
+    //checkAppUpdate
+    bridgeIOS.checkAppUpdate = function(callback){
+        bridgeIOS.callOC( 'checkAppUpdate',null,function(responseData){
+                         if (callback) {
+                         callback(responseData);
+                         }
+                         }  );
+    };
+    
+    
+     //showAboutPage
+    bridgeIOS.showAboutPage = function(callback){
+        bridgeIOS.callOC( 'showAboutPage',null,function(responseData){
+                         if (callback) {
+                         callback(responseData);
+                         }
+                         }  );
+    };
+    
+    
+    
+    
+    
+    
+    
+    
+    
 }();
 
-// init
-function init() {
-    // native暴露给JS的接口对象
-    var bridgeIOS = window.bridgeIOS;
-    
-    // register handlers
-    bridgeIOS.connectWebViewJavascriptBridge(
-                                             function(bridge) {
-                                             // init the bridge
-                                             bridge.init(function(message, responseCallback) {
-                                                         //                                                         alert('Received message from obj-c: ' + message);
-                                                         if (responseCallback) {
-                                                         responseCallback("This is response data from js");
-                                                         }
-                                                         });
-                                             
-                                             // register handlers, for obj-c call
-                                             bridge.registerHandler("showAlert", function(data) { alert('showAlert(): ' + data) });
-                                             bridge.registerHandler("getCurrentPageUrl", function(data, responseCallback) {
-                                                                    responseCallback(document.location.toString())
-                                                                    });
-                                             
-                                             // call obj-c method
-                                             // bridge.callHandler("testObjCCallback", "jsjsjsjs", function(responseData){
-                                             //                    alert('Received responce from obj-c::testObjCCallback(), response data: ' + responseData)
-                                             // });
-                                             // bridge.callHandler("getNodeDataById", "dataId", function(responseData){
-                                             //                    alert('Received responce from obj-c::getNodeDataById(), response data: ' + responseData)
-                                             // });
-                                             
-                                             // send message to obj-c
-                                             // bridge.send('Please respond to this', function responseCallback(responseData) {
-                                             //             alert('Received message from obj-c: ' + responseData)
-                                             // });
-                                             
-                                             });
 
-}
+
 
 
 !function run() {
+    
+    // init
+    function init() {
+        // native暴露给JS的接口对象
+        var bridgeIOS = window.bridgeIOS;
+        
+        // register handlers
+        bridgeIOS.connectWebViewJavascriptBridge(
+                                                 function(bridge) {
+                                                 // init the bridge
+                                                 bridge.init(function(message, responseCallback) {
+                                                             //                                                         alert('Received message from obj-c: ' + message);
+                                                             if (responseCallback) {
+                                                             responseCallback("This is response data from js");
+                                                             }
+                                                             });
+                                                 
+                                                 // register handlers, for obj-c call
+                                                 bridge.registerHandler("showAlert", function(data) { alert('showAlert(): ' + data) });
+                                                 bridge.registerHandler("getCurrentPageUrl", function(data, responseCallback) {
+                                                                        responseCallback(document.location.toString())
+                                                                        });
+                                                 
+                                                 // call obj-c method
+                                                 // bridge.callHandler("testObjCCallback", "jsjsjsjs", function(responseData){
+                                                 //                    alert('Received responce from obj-c::testObjCCallback(), response data: ' + responseData)
+                                                 // });
+                                                 // bridge.callHandler("getNodeDataById", "dataId", function(responseData){
+                                                 //                    alert('Received responce from obj-c::getNodeDataById(), response data: ' + responseData)
+                                                 // });
+                                                 
+                                                 // send message to obj-c
+                                                 // bridge.send('Please respond to this', function responseCallback(responseData) {
+                                                 //             alert('Received message from obj-c: ' + responseData)
+                                                 // });
+                                                 
+                                                 });
+        
+    }
+    
     // init
     init();
     
@@ -239,3 +330,27 @@ function init() {
 //    var bridgeIOS = window.bridgeIOS;
 //    alert(dump(bridgeIOS));
 }();
+
+!function(){
+
+    
+    window.samaBridgeReady = true;
+    
+    var event;
+    var eventName = 'SamaBridgeReady';
+    
+    if( window.Event ){
+        event = new Event( eventName );
+        document.dispatchEvent( event );
+    }else if( document.createEvent ){
+        event = document.createEvent('HTMLEvents');
+        event.initEvent( eventName, false, false  );
+        document.dispatchEvent( event );
+    }
+    
+//    alert('after bridge inject');
+}();
+
+
+
+

@@ -24,5 +24,6 @@
 
 // startup image's full path
 - (NSString *)getStartupImageFullPath:(NSString *)imageFileName;
-
+// tabbar image's full path 
+- (NSString *)getTabbarItemImageFullPath:(NSString *)imageFileName;
 @end

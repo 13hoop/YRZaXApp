@@ -63,7 +63,14 @@
     <script src="./js/schoolbag/downloadManager.js"></script>
     <script src="./js/schoolbag/app.js"></script>
     <script>
-        app.init();
+        if( window.samaBridgeReady ){
+            app.init();
+        }else{
+            document.addEventListener('SamaBridgeReady', function(){
+                app.init();
+            }, false );
+        }
+
     </script>
 </body>
 </html>

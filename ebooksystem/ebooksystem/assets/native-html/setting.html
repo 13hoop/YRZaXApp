@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html class="fake-native">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+    <title>设置</title>
+    <link rel="stylesheet" href="./css/common/reset.css"/>
+    <link rel="stylesheet" href="./css/common/common.css"/>
+    <link rel="stylesheet" href="./css/setting/setting.css"/>
+</head>
+<body>
+
+    <div id="main-wrap" class="activity">
+        <section id="user-center-page" class="fragment">
+            <header class="fragment-header">
+                <span class="common-back"></span>
+                <h1>设置</h1>
+            </header>
+            <div class="fragment-body">
+                <div class="scroll-wrap">
+                    <div class="action-list">
+                        <div id="vote-btn" class="action-item has-border-top has-border-bottom">给咋学打分<span class="right-arrow"></span></div>
+                        <div id="share-btn" class="action-item has-border-bottom">分享到朋友圈<span class="right-arrow"></span></div>
+                        <div id="faq-btn" class="action-item has-margin-top has-border-top has-border-bottom">常见问题<span class="right-arrow"></span></div>
+                        <div id="check-update-btn" class="action-item has-margin-top has-border-top has-border-bottom">版本更新<span id="update-indicator"></span></div>
+                        <div id="about-btn" class="action-item  has-border-bottom">关于咋学<span class="right-arrow"></span></div>
+
+                    </div>
+                </div>
+
+            </div>
+        </section>
+    </div>
+
+
+    <script src="./js/lib/es5-shim.min.js"></script>
+    <script src="./js/lib/EventEmitter-4.0.3.min.js"></script>
+    <script src="./js/lib/zepto.min.js"></script>
+    <script src="./js/common/debug.js"></script>
+    <script src="./js/common/utils.js"></script>
+    <script src="./js/common/Dialog.js"></script>
+    <script src="./js/common/bridgeXXX.js"></script>
+    <script src="./js/setting/app.js"></script>
+    <script>
+        if( window.samaBridgeReady ){
+            app.init();
+        }else{
+            document.addEventListener('SamaBridgeReady', function(){
+                app.init();
+            }, false );
+        }
+    </script>
+</body>
+</html>

@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "KnowledgeDownloadItem.h"
 
+
 @protocol KnowledgeManagerDelegate;
 
 
@@ -33,6 +34,10 @@
 
 // register meta.json to db
 - (BOOL)registerDataFiles;
+
+// register book meta info for 2.0
+- (BOOL)registerBookMetaInfo:(NSDictionary *)partialBookMeta;
+
 
 
 #pragma mark - methods for js call
@@ -64,12 +69,20 @@
 // test
 - (void)test;
 
+#pragma mark - 2.0 add
 //H:从服务器获取数据更新信息，并同本地版本比较，获取更新信息。
 - (BOOL)getUpdateInfoFileFromServerAndUpdateDataBase;
+
 //H:下载一本新书
 - (BOOL)startDownloadDataManagerWithDataId:(NSString *)dataId;
+
 //H:根据js传来的dataId，从数据库中将查询到的对应信息返还给js。（包括：dataId,dataStatus,update_info）
 - (NSString *)getUpdateInfoFormDataBaseWithDataString:(NSString *)dataString;
+
+//check dataStatus and downloadProgress  modify dataStatus(downlaod pause)
+- (void)modifyDataStatusWithDataType;
+
+
 @end
 
 

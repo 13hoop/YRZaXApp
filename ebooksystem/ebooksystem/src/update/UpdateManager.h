@@ -34,6 +34,7 @@
 #pragma mark - check update
 - (BOOL)checkUpdate;
 
+- (BOOL)updateAble;
 @end
 
 

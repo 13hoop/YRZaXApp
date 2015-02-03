@@ -275,6 +275,45 @@
 }
 
 #pragma mark - get knowledge meta
+
+
+//get knowledge metas by dataType
+//app启动时根据dataType来查询数据库，确定book_id对应的dataStatus是否处于未下载状态
+- (NSArray *)getKnowledgeMetaWithDataType:(DataType)dataType {
+    NSMutableArray *metaArray = [[NSMutableArray alloc] init];
+    
+    
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    
+    // Entity
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"KnowledgeMetaEntity" inManagedObjectContext:[CoreDataUtil instance].managedObjectContext];
+    [fetchRequest setEntity:entity];
+    
+    // Predicate
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"dataType=%@", dataType];
+    [fetchRequest setPredicate:predicate];
+    
+    // Fetch
+    NSError *error = nil;
+    NSArray *fetchedObjects = [[CoreDataUtil instance].managedObjectContext executeFetchRequest:fetchRequest error:&error];
+    if (fetchedObjects != nil &&
+        fetchedObjects.count > 0) {
+        for (NSManagedObject *entity in fetchedObjects) {
+            [metaArray addObject:entity];
+        }
+    }
+    
+    if (metaArray == nil || metaArray.count <= 0) {
+        return nil;
+    }
+    return metaArray;
+}
+
+
+
+
+
+
 // get knowledge metas
 - (NSArray *)getKnowledgeMetaWithDataId:(NSString *)dataId {
     NSMutableArray *metaArray = [[NSMutableArray alloc] init];
@@ -359,6 +398,33 @@
     
     return dataCurVersion;
 }
+
+
+//get knowdgeMeta version according to dataId only
+- (NSString *)getKnowledgeDataVersionWithDataId:(NSString *)dataId {
+//    NSArray *knowledgeMetas = [self getKnowledgeMetaWithDataId:dataId andDataType:dataType];
+    NSArray *knowledgeMetas = [self getKnowledgeMetaWithDataId:dataId];
+    if (knowledgeMetas == nil || knowledgeMetas.count <= 0) {
+        return nil;
+    }
+    
+    // 确定数据的当前版本
+    NSString *dataCurVersion = nil;
+    for (id obj in knowledgeMetas) {
+        KnowledgeMeta *knowledgeMeta = (KnowledgeMeta *)obj;
+        if (knowledgeMeta == nil) {
+            continue;
+        }
+        
+        dataCurVersion = knowledgeMeta.curVersion;
+        break;
+    }
+    
+    return dataCurVersion;
+}
+
+
+
 
 //H:get knowledge metas with dataId and dataStatus
 - (NSArray *)getKnowledgeMetaWithDataId:(NSString *)dataId andDataStatus:(DataStatus)dataStatus {
@@ -607,4 +673,56 @@
     
     return saved;
 }
+
+//检查数据的状态和数据的下载进度，修改数据的状态
+- (BOOL)setDataStatusforDataWithDataType:(DataType)dataType {
+    
+    BOOL saved = NO;
+    
+    // 1. try update if exists
+    {
+        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+        
+        // Entity
+        NSEntityDescription *entity = [NSEntityDescription entityForName:@"KnowledgeMetaEntity" inManagedObjectContext:[CoreDataUtil instance].managedObjectContext];
+        [fetchRequest setEntity:entity];
+        
+        // Predicate
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"dataType=%@", [NSNumber numberWithInteger:DATA_TYPE_DATA_SOURCE]];
+        [fetchRequest setPredicate:predicate];
+        
+        NSError *error = nil;
+        NSArray *fetchedObjects = [[CoreDataUtil instance].managedObjectContext executeFetchRequest:fetchRequest error:&error];
+        if (fetchedObjects != nil &&
+            fetchedObjects.count > 0) {
+            // 若已有, 更新
+            for (NSManagedObject *entity in fetchedObjects) {
+                if (entity == nil) {
+                    continue;
+                }
+                NSString *progress = [entity valueForKey:@"dataStatusDesc"];
+                NSNumber *curDataStatusNum = [entity valueForKey:@"dataStatus"];
+                int curDataStatus = [curDataStatusNum intValue];
+                LogInfo(@"curDataStatus===========================%d",curDataStatus);
+                if ([progress isEqualToString:@"100"]==NO && curDataStatus != 10) {
+                    //dataStatus不等于DATA_STATUS_UPDATE_COMPLETED（10），progress不等于100，则设置为下载暂停的状态
+                    
+                    [entity setValue:[NSNumber numberWithInteger:DATA_STATUS_DOWNLOAD_PAUSE] forKey:@"dataStatus"];
+                }
+                //save
+                if (![[CoreDataUtil instance].managedObjectContext save:&error]) {
+                    LogError(@"[KnowledgeMetaManager-setDataStatusTo:andDataStatusDescTo:forDataWithDataId:andType:] update failed when save to context, error: %@", [error localizedDescription]);
+                    return NO;
+                }
+                
+            }
+            
+            saved = YES;
+        }
+    }
+    
+    return saved;
+
+}
+
 @end

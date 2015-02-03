@@ -2,7 +2,7 @@
 //  KnowledgeMetaEntity.h
 //  ebooksystem
 //
-//  Created by wanghaoyu on 15/1/25.
+//  Created by wanghaoyu on 15/1/28.
 //  Copyright (c) 2015年 sanweishuku. All rights reserved.
 //
 
@@ -12,8 +12,12 @@
 
 @interface KnowledgeMetaEntity : NSManagedObject
 
+@property (nonatomic, retain) NSString * bookCategory;
+@property (nonatomic, retain) NSString * bookMeta;
 @property (nonatomic, retain) NSDate * checkTime;
 @property (nonatomic, retain) NSString * childIds;
+@property (nonatomic, retain) NSString * completeBookId;
+@property (nonatomic, retain) NSString * coverSrc;
 @property (nonatomic, retain) NSString * curVersion;
 @property (nonatomic, retain) NSString * dataId;
 @property (nonatomic, retain) NSString * dataNameCh;
@@ -37,8 +41,6 @@
 @property (nonatomic, retain) NSString * updateInfo;
 @property (nonatomic, retain) NSDate * updateTime;
 @property (nonatomic, retain) NSNumber * updateType;
-@property (nonatomic, retain) NSString * bookCategory;
-@property (nonatomic, retain) NSString * bookMeta;
-@property (nonatomic, retain) NSString * coverSrc;
+@property (nonatomic, retain) NSString * bookReadType;
 
 @end

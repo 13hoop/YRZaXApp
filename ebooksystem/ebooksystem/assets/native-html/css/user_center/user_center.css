@@ -3,6 +3,14 @@ body{
     background: #f5f5f9;
     overflow-y: auto;
 }
+.common-back{
+    height: 44px;
+    top: 0;
+}
+.right-arrow{
+    margin-top: -6px;
+    right: 2px;
+}
 .fragment-header{
     height: 233px;
     text-align: center;
@@ -23,17 +31,31 @@ body{
     border-radius: 100%;
     margin: 21px auto 14px;
 }
+.info-item{
+    display: none;
+}
 .user-name{
     color: #fcfcfc;
     margin: 8px auto;
+    height: 20px;
+    line-height: 20px;
+    font-size: 21px;
 }
 .balance{
     color: #fe710c;
-    margin: 8px auto 7px;
+    margin: 8px auto 0;
+    height: 20px;
+    line-height: 20px;
+    font-size: 14px;
 }
-.modify-info-btn{
+.modify-info-btn, .login-btn{
+    position: relative;
     color: #898989;
+    height: 30px;
+    line-height: 30px;
+    padding: 0 14px 0 0;
 }
+
 
 
 

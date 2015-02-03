@@ -56,7 +56,8 @@
 @property (nonatomic, copy) NSString *bookCategory;
 @property (nonatomic, copy) NSString *bookMeta;
 @property (nonatomic, copy) NSString *coverSrc;
-
+@property (nonatomic, copy) NSString *completeBookId;
+@property (nonatomic ,copy) NSString *bookReadType;
 // 检索倒排表
 @property (nonatomic, copy) NSArray *searchReverseInfo;
 
@@ -74,6 +75,6 @@
 // 将json字符串解析为KnowledgeMeta对象
 + (KnowledgeMeta *)parseJsonString:(NSString *)json;
 
-
-
+// 2.0 解析发现页的获得的metaDic数据并转换成KnowledgeMeta
++ (KnowledgeMeta *)parseBookMetaDic:(NSDictionary *)bookMetaDic;
 @end

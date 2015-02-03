@@ -101,7 +101,7 @@
 
             var className = '';
 
-            if( bookStatus === BOOK_STATUS.BOOK_NOT_DOWNLOAD ){
+            if( bookStatus === BOOK_STATUS.BOOK_NOT_DOWNLOAD || bookStatus === BOOK_STATUS.DOWNLOAD_FAIL ){
                 //书籍未下载
                 className = notOfflineClass;
             }else if( this.isBookDownloading() ){
