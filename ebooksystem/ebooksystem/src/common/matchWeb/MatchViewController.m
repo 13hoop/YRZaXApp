@@ -78,7 +78,7 @@
 // webview
 - (UIWebView *)webView {
     if (_webView == nil) {
-        _webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 20, self.view.frame.size.width, self.view.frame.size.height-20)];
+        _webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
         _webView.delegate = self;
         
         [self.view addSubview:_webView];
@@ -120,8 +120,7 @@
     self.webView.scrollView.bounces = NO;
     self.webView.scrollView.showsVerticalScrollIndicator = NO;
   
-//    [self injectJSToWebView:self.webView];
-//    self.webview.delegate=self;
+
     [self updateWebView];
     [self checkCookie];
 }
@@ -497,9 +496,9 @@
 }
 
 - (BOOL)updateWebView {
-   
+    NSString *studyType = [NSUserDefaultUtil getCurStudyType];
     NSString *bundlePath = [PathUtil getBundlePath];
-    NSString *myBagUrlStrWithParams = [NSString stringWithFormat:@"%@/%@/%@/%@%@", bundlePath, @"assets",@"native-html",@"schoolbag.html",@"?study_type=0"];
+    NSString *myBagUrlStrWithParams = [NSString stringWithFormat:@"%@/%@/%@/%@%@%@", bundlePath, @"assets",@"native-html",@"schoolbag.html",@"?study_type=",studyType];
     NSURL *myBagUrl = [NSURL URLWithString:myBagUrlStrWithParams];
     NSURLRequest *request = [NSURLRequest requestWithURL:myBagUrl];
     [self.webView loadRequest:request];

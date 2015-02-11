@@ -10,4 +10,7 @@
 
 @interface QuestionAndAnswerViewController : UIViewController
 
+@property (nonatomic,strong) NSString *webUrl;
+@property (nonatomic,strong) NSString *shouldChangeBackground;
+
 @end

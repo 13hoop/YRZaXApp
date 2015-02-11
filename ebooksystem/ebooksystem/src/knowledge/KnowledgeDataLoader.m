@@ -167,7 +167,7 @@
             
             //结合
             BOOL ret = [self loadKnowledgeIndex:indexFilename forData:dataId];
-
+            NSLog(@"测试：加载的index文件是=======%@",indexFilename);
             //H:在这里做了修改：
 //            NSString *dataStoreLocationStr = [[NSUserDefaults standardUserDefaults] objectForKey:@"dataStoreLocation"];
 //            BOOL ret = [self loadKnowledgeIndex:indexFilename forData:dataId withDataStoreLocation:dataStoreLocationStr];
@@ -283,6 +283,10 @@
     }
     // 逐行读取文件
 //    NSString *fullIndexFilepath = [NSString stringWithFormat:@"%@/%@/%@", [Config instance].knowledgeDataConfig.knowledgeDataRootPathInApp, targetKnowledgeMeta.dataPath, indexFilename];
+    
+    
+    
+    
     //H:新修改的
     NSString *fullIndexFilepath = nil;
     if (targetKnowledgeMeta.dataStorageType == DATA_STORAGE_APP_ASSETS) {
@@ -317,7 +321,7 @@
         
         KnowledgeDataIndex *index = [[KnowledgeDataIndex alloc] init];
         if (targetKnowledgeMeta.dataStorageType == DATA_STORAGE_APP_ASSETS) {
-            index.fullDataFilepath = [NSString stringWithFormat:@"%@/%@/%@/%@", [Config instance].knowledgeDataConfig.knowledgeDataRootPathInAssets, targetKnowledgeMeta.dataPath,@"data", dataFilename];
+            index.fullDataFilepath = [NSString stringWithFormat:@"%@/%@/%@/%@", [Config instance].knowledgeDataConfig.knowledgeDataRootPathInAssets, targetKnowledgeMeta.dataPath,@"data", dataFilename];//获取shit的路径
             NSLog(@"读取的是bundle目录下的shit文件==%@",index.fullDataFilepath);
             
         }

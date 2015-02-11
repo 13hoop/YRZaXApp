@@ -77,14 +77,24 @@
 		06BBF80A1A6B66B8000C5DC6 /* OperateCookie.m in Sources */ = {isa = PBXBuildFile; fileRef = 06BBF8091A6B66B8000C5DC6 /* OperateCookie.m */; };
 		06CAA7AA1A4974DF00D3068A /* TestWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06CAA7A81A4974DF00D3068A /* TestWebViewController.m */; };
 		06CAA7AB1A4974DF00D3068A /* TestWebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06CAA7A91A4974DF00D3068A /* TestWebViewController.xib */; };
+		06CBC6191A8995D9000DADAE /* ScanQRCodeController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06CBC6181A8995D9000DADAE /* ScanQRCodeController.m */; };
 		06CD041A1A6372BE008CD07B /* ZXingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06CD04191A6372BE008CD07B /* ZXingViewController.m */; };
 		06CD8D931A6CB4F100667432 /* selectCourseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06CD8D921A6CB4F100667432 /* selectCourseViewController.m */; };
 		06CE685C1A679E8100D10F51 /* QuestionAndAnswerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06CE685B1A679E8100D10F51 /* QuestionAndAnswerViewController.m */; };
 		06CE68601A679F2900D10F51 /* MySchoolBagViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06CE685F1A679F2900D10F51 /* MySchoolBagViewController.m */; };
+		06CE7CE01A85C53200FEB1D7 /* SubjectChoose.m in Sources */ = {isa = PBXBuildFile; fileRef = 06CE7CDF1A85C53200FEB1D7 /* SubjectChoose.m */; };
+		06CE7CF01A86139100FEB1D7 /* BookMarkMeta.m in Sources */ = {isa = PBXBuildFile; fileRef = 06CE7CE81A86139100FEB1D7 /* BookMarkMeta.m */; };
+		06CE7CF11A86139100FEB1D7 /* BookMarkMetaManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 06CE7CEA1A86139100FEB1D7 /* BookMarkMetaManager.m */; };
+		06CE7CF21A86139100FEB1D7 /* CollectionMeta.m in Sources */ = {isa = PBXBuildFile; fileRef = 06CE7CED1A86139100FEB1D7 /* CollectionMeta.m */; };
+		06CE7CF31A86139100FEB1D7 /* UserRecordDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 06CE7CEF1A86139100FEB1D7 /* UserRecordDataManager.m */; };
+		06CE7CF91A86F86500FEB1D7 /* CollectionMetaManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 06CE7CF81A86F86500FEB1D7 /* CollectionMetaManager.m */; };
+		06CE7CFC1A88573900FEB1D7 /* CollectionEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 06CE7CFB1A88573900FEB1D7 /* CollectionEntity.m */; };
+		06CE940E1A8B39750009D59B /* PersonalCenterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06CE940D1A8B39750009D59B /* PersonalCenterViewController.m */; };
 		06CEBA711A72410F00D8FE03 /* RenderKnowledgeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06CEBA701A72410F00D8FE03 /* RenderKnowledgeViewController.m */; };
 		06CEE6311A734E8C000ADCE3 /* SecondRenderKnowledgeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06CEE6301A734E8C000ADCE3 /* SecondRenderKnowledgeViewController.m */; };
 		06CF20B61A70D1A100DD2721 /* 封面图片-2-base64.txt in Resources */ = {isa = PBXBuildFile; fileRef = 06CF20B51A70D1A100DD2721 /* 封面图片-2-base64.txt */; };
 		06CF20BA1A70F40F00DD2721 /* book-list-json-2.json in Resources */ = {isa = PBXBuildFile; fileRef = 06CF20B91A70F40F00DD2721 /* book-list-json-2.json */; };
+		06CF2ABF1A81E8140032CE5D /* BookMarkEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 06CF2ABE1A81E8140032CE5D /* BookMarkEntity.m */; };
 		06CF7AF01A78FE680001F80D /* KnowledgeMetaEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 06CF7AEF1A78FE680001F80D /* KnowledgeMetaEntity.m */; };
 		06D02C781A68A7F10047103A /* NSUserDefaultUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 06D02C771A68A7F10047103A /* NSUserDefaultUtil.m */; };
 		06D1D2B31A750ECD00F5B8FC /* discoveryWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = 06D1D2B21A750ECD00F5B8FC /* discoveryWebView.m */; };
@@ -106,6 +116,7 @@
 		06D77BFE1A7F8BC100AC6F78 /* FirstReuseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06D77BFD1A7F8BC100AC6F78 /* FirstReuseViewController.m */; };
 		06D77C011A7F8BDE00AC6F78 /* SecondReuseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06D77C001A7F8BDE00AC6F78 /* SecondReuseViewController.m */; };
 		06DBACCB1A7A0D3100B3A555 /* PersionalCenterUrlConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 06DBACCA1A7A0D3100B3A555 /* PersionalCenterUrlConfig.m */; };
+		06DBBE051A836FB100BED5B7 /* scanQRcodeDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 06DBBE041A836FB100BED5B7 /* scanQRcodeDataManager.m */; };
 		06DBF0631A64BC2800804D66 /* ScanQRCodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06DBF0621A64BC2800804D66 /* ScanQRCodeViewController.m */; };
 		06DBF0661A64D39300804D66 /* ScanQRCodeTabViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06DBF0651A64D39300804D66 /* ScanQRCodeTabViewController.m */; };
 		06DBF0701A650ADA00804D66 /* PurchaseTabViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06DBF06F1A650ADA00804D66 /* PurchaseTabViewController.m */; };
@@ -432,6 +443,8 @@
 		06CAA7A71A4974DF00D3068A /* TestWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestWebViewController.h; sourceTree = "<group>"; };
 		06CAA7A81A4974DF00D3068A /* TestWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestWebViewController.m; sourceTree = "<group>"; };
 		06CAA7A91A4974DF00D3068A /* TestWebViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TestWebViewController.xib; sourceTree = "<group>"; };
+		06CBC6171A8995D9000DADAE /* ScanQRCodeController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScanQRCodeController.h; sourceTree = "<group>"; };
+		06CBC6181A8995D9000DADAE /* ScanQRCodeController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScanQRCodeController.m; sourceTree = "<group>"; };
 		06CD04181A6372BE008CD07B /* ZXingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZXingViewController.h; sourceTree = "<group>"; };
 		06CD04191A6372BE008CD07B /* ZXingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZXingViewController.m; sourceTree = "<group>"; };
 		06CD8D911A6CB4F100667432 /* selectCourseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = selectCourseViewController.h; sourceTree = "<group>"; };
@@ -440,12 +453,30 @@
 		06CE685B1A679E8100D10F51 /* QuestionAndAnswerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuestionAndAnswerViewController.m; sourceTree = "<group>"; };
 		06CE685E1A679F2900D10F51 /* MySchoolBagViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MySchoolBagViewController.h; sourceTree = "<group>"; };
 		06CE685F1A679F2900D10F51 /* MySchoolBagViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MySchoolBagViewController.m; sourceTree = "<group>"; };
+		06CE7CDE1A85C53200FEB1D7 /* SubjectChoose.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubjectChoose.h; sourceTree = "<group>"; };
+		06CE7CDF1A85C53200FEB1D7 /* SubjectChoose.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SubjectChoose.m; sourceTree = "<group>"; };
+		06CE7CE71A86139100FEB1D7 /* BookMarkMeta.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BookMarkMeta.h; sourceTree = "<group>"; };
+		06CE7CE81A86139100FEB1D7 /* BookMarkMeta.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BookMarkMeta.m; sourceTree = "<group>"; };
+		06CE7CE91A86139100FEB1D7 /* BookMarkMetaManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BookMarkMetaManager.h; sourceTree = "<group>"; };
+		06CE7CEA1A86139100FEB1D7 /* BookMarkMetaManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BookMarkMetaManager.m; sourceTree = "<group>"; };
+		06CE7CEC1A86139100FEB1D7 /* CollectionMeta.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionMeta.h; sourceTree = "<group>"; };
+		06CE7CED1A86139100FEB1D7 /* CollectionMeta.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionMeta.m; sourceTree = "<group>"; };
+		06CE7CEE1A86139100FEB1D7 /* UserRecordDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserRecordDataManager.h; sourceTree = "<group>"; };
+		06CE7CEF1A86139100FEB1D7 /* UserRecordDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserRecordDataManager.m; sourceTree = "<group>"; };
+		06CE7CF71A86F86500FEB1D7 /* CollectionMetaManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionMetaManager.h; sourceTree = "<group>"; };
+		06CE7CF81A86F86500FEB1D7 /* CollectionMetaManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionMetaManager.m; sourceTree = "<group>"; };
+		06CE7CFA1A88573900FEB1D7 /* CollectionEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CollectionEntity.h; path = src/data/model/CollectionEntity.h; sourceTree = "<group>"; };
+		06CE7CFB1A88573900FEB1D7 /* CollectionEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CollectionEntity.m; path = src/data/model/CollectionEntity.m; sourceTree = "<group>"; };
+		06CE940C1A8B39750009D59B /* PersonalCenterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PersonalCenterViewController.h; sourceTree = "<group>"; };
+		06CE940D1A8B39750009D59B /* PersonalCenterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PersonalCenterViewController.m; sourceTree = "<group>"; };
 		06CEBA6F1A72410F00D8FE03 /* RenderKnowledgeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RenderKnowledgeViewController.h; sourceTree = "<group>"; };
 		06CEBA701A72410F00D8FE03 /* RenderKnowledgeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RenderKnowledgeViewController.m; sourceTree = "<group>"; };
 		06CEE62F1A734E8C000ADCE3 /* SecondRenderKnowledgeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SecondRenderKnowledgeViewController.h; sourceTree = "<group>"; };
 		06CEE6301A734E8C000ADCE3 /* SecondRenderKnowledgeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SecondRenderKnowledgeViewController.m; sourceTree = "<group>"; };
 		06CF20B51A70D1A100DD2721 /* 封面图片-2-base64.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "封面图片-2-base64.txt"; sourceTree = "<group>"; };
 		06CF20B91A70F40F00DD2721 /* book-list-json-2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "book-list-json-2.json"; sourceTree = "<group>"; };
+		06CF2ABD1A81E8140032CE5D /* BookMarkEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BookMarkEntity.h; path = src/data/model/BookMarkEntity.h; sourceTree = "<group>"; };
+		06CF2ABE1A81E8140032CE5D /* BookMarkEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BookMarkEntity.m; path = src/data/model/BookMarkEntity.m; sourceTree = "<group>"; };
 		06CF7AEE1A78FE680001F80D /* KnowledgeMetaEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KnowledgeMetaEntity.h; path = src/data/model/KnowledgeMetaEntity.h; sourceTree = "<group>"; };
 		06CF7AEF1A78FE680001F80D /* KnowledgeMetaEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KnowledgeMetaEntity.m; path = src/data/model/KnowledgeMetaEntity.m; sourceTree = "<group>"; };
 		06D02C761A68A7F10047103A /* NSUserDefaultUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NSUserDefaultUtil.h; path = src/util/NSUserDefaultUtil.h; sourceTree = "<group>"; };
@@ -484,6 +515,8 @@
 		06D77C001A7F8BDE00AC6F78 /* SecondReuseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SecondReuseViewController.m; sourceTree = "<group>"; };
 		06DBACC91A7A0D3100B3A555 /* PersionalCenterUrlConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PersionalCenterUrlConfig.h; path = src/config/PersionalCenterUrlConfig.h; sourceTree = "<group>"; };
 		06DBACCA1A7A0D3100B3A555 /* PersionalCenterUrlConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PersionalCenterUrlConfig.m; path = src/config/PersionalCenterUrlConfig.m; sourceTree = "<group>"; };
+		06DBBE031A836FB100BED5B7 /* scanQRcodeDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = scanQRcodeDataManager.h; sourceTree = "<group>"; };
+		06DBBE041A836FB100BED5B7 /* scanQRcodeDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = scanQRcodeDataManager.m; sourceTree = "<group>"; };
 		06DBF0611A64BC2800804D66 /* ScanQRCodeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScanQRCodeViewController.h; sourceTree = "<group>"; };
 		06DBF0621A64BC2800804D66 /* ScanQRCodeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScanQRCodeViewController.m; sourceTree = "<group>"; };
 		06DBF0641A64D39300804D66 /* ScanQRCodeTabViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScanQRCodeTabViewController.h; sourceTree = "<group>"; };
@@ -1710,6 +1743,7 @@
 		06B5FC0D1A5FB3820031DDB4 /* tabbarManagedController */ = {
 			isa = PBXGroup;
 			children = (
+				06CE940B1A8B31B80009D59B /* personalCenter */,
 				06CD8D901A6CB4D400667432 /* Select course */,
 				06CE685D1A679F0300D10F51 /* MySchoolBag */,
 				06CE68591A679E3600D10F51 /* Q&A */,
@@ -1732,6 +1766,8 @@
 				06D1D2B21A750ECD00F5B8FC /* discoveryWebView.m */,
 				06D1D2B41A751CF300F5B8FC /* discoveryModel.h */,
 				06D1D2B51A751CF300F5B8FC /* discoveryModel.m */,
+				06CE7CDE1A85C53200FEB1D7 /* SubjectChoose.h */,
+				06CE7CDF1A85C53200FEB1D7 /* SubjectChoose.m */,
 			);
 			path = discovery;
 			sourceTree = "<group>";
@@ -1788,6 +1824,49 @@
 				06CE685F1A679F2900D10F51 /* MySchoolBagViewController.m */,
 			);
 			path = MySchoolBag;
+			sourceTree = "<group>";
+		};
+		06CE7CE51A86139100FEB1D7 /* userRecordData */ = {
+			isa = PBXGroup;
+			children = (
+				06CE7CE61A86139100FEB1D7 /* bookMark */,
+				06CE7CEB1A86139100FEB1D7 /* collection */,
+				06CE7CEE1A86139100FEB1D7 /* UserRecordDataManager.h */,
+				06CE7CEF1A86139100FEB1D7 /* UserRecordDataManager.m */,
+			);
+			name = userRecordData;
+			path = src/userRecordData;
+			sourceTree = "<group>";
+		};
+		06CE7CE61A86139100FEB1D7 /* bookMark */ = {
+			isa = PBXGroup;
+			children = (
+				06CE7CE71A86139100FEB1D7 /* BookMarkMeta.h */,
+				06CE7CE81A86139100FEB1D7 /* BookMarkMeta.m */,
+				06CE7CE91A86139100FEB1D7 /* BookMarkMetaManager.h */,
+				06CE7CEA1A86139100FEB1D7 /* BookMarkMetaManager.m */,
+			);
+			path = bookMark;
+			sourceTree = "<group>";
+		};
+		06CE7CEB1A86139100FEB1D7 /* collection */ = {
+			isa = PBXGroup;
+			children = (
+				06CE7CEC1A86139100FEB1D7 /* CollectionMeta.h */,
+				06CE7CED1A86139100FEB1D7 /* CollectionMeta.m */,
+				06CE7CF71A86F86500FEB1D7 /* CollectionMetaManager.h */,
+				06CE7CF81A86F86500FEB1D7 /* CollectionMetaManager.m */,
+			);
+			path = collection;
+			sourceTree = "<group>";
+		};
+		06CE940B1A8B31B80009D59B /* personalCenter */ = {
+			isa = PBXGroup;
+			children = (
+				06CE940C1A8B39750009D59B /* PersonalCenterViewController.h */,
+				06CE940D1A8B39750009D59B /* PersonalCenterViewController.m */,
+			);
+			path = personalCenter;
 			sourceTree = "<group>";
 		};
 		06D418001A47AFEC007565F0 /* Test2.0 */ = {
@@ -1859,6 +1938,16 @@
 			path = src/common/personalCenter;
 			sourceTree = "<group>";
 		};
+		06DBBE021A83635E00BED5B7 /* scanQRcodeKnowledge */ = {
+			isa = PBXGroup;
+			children = (
+				06DBBE031A836FB100BED5B7 /* scanQRcodeDataManager.h */,
+				06DBBE041A836FB100BED5B7 /* scanQRcodeDataManager.m */,
+			);
+			name = scanQRcodeKnowledge;
+			path = src/scanQRcodeKnowledge;
+			sourceTree = "<group>";
+		};
 		06DBF0601A64BC0C00804D66 /* ScanQRCode */ = {
 			isa = PBXGroup;
 			children = (
@@ -1866,6 +1955,8 @@
 				06DBF0621A64BC2800804D66 /* ScanQRCodeViewController.m */,
 				06DBF0641A64D39300804D66 /* ScanQRCodeTabViewController.h */,
 				06DBF0651A64D39300804D66 /* ScanQRCodeTabViewController.m */,
+				06CBC6171A8995D9000DADAE /* ScanQRCodeController.h */,
+				06CBC6181A8995D9000DADAE /* ScanQRCodeController.m */,
 			);
 			path = ScanQRCode;
 			sourceTree = "<group>";
@@ -2072,6 +2163,10 @@
 				06CF7AEF1A78FE680001F80D /* KnowledgeMetaEntity.m */,
 				710C03A019E2EDB800C27A33 /* KnowledgeSearchEntity.h */,
 				710C03A119E2EDB800C27A33 /* KnowledgeSearchEntity.m */,
+				06CF2ABD1A81E8140032CE5D /* BookMarkEntity.h */,
+				06CF2ABE1A81E8140032CE5D /* BookMarkEntity.m */,
+				06CE7CFA1A88573900FEB1D7 /* CollectionEntity.h */,
+				06CE7CFB1A88573900FEB1D7 /* CollectionEntity.m */,
 			);
 			name = model;
 			sourceTree = "<group>";
@@ -2483,6 +2578,8 @@
 		71860B6A19DC204C00D01AA9 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				06CE7CE51A86139100FEB1D7 /* userRecordData */,
+				06DBBE021A83635E00BED5B7 /* scanQRcodeKnowledge */,
 				06B5FC0D1A5FB3820031DDB4 /* tabbarManagedController */,
 				71860B7F19DC228400D01AA9 /* common */,
 				71860BDF19DC73C200D01AA9 /* config */,
@@ -2901,6 +2998,7 @@
 				7156B0D519F9012900B3A521 /* TimeWatcher.m in Sources */,
 				710C032919E1C8D000C27A33 /* AFHTTPRequestOperationManager.m in Sources */,
 				715EE98A19E6D8D9005A4F78 /* UserInfo.m in Sources */,
+				06CE7CE01A85C53200FEB1D7 /* SubjectChoose.m in Sources */,
 				715EE99819E819E4005A4F78 /* MD5Util.m in Sources */,
 				715EE9B419E8331C005A4F78 /* JSONAPI.m in Sources */,
 				710C030D19E1C8B600C27A33 /* AFNetworkActivityIndicatorManager.m in Sources */,
@@ -2933,6 +3031,8 @@
 				715EE9A719E832ED005A4F78 /* JSONModelArray.m in Sources */,
 				06CEBA711A72410F00D8FE03 /* RenderKnowledgeViewController.m in Sources */,
 				715EE99519E81794005A4F78 /* DeviceUtil.m in Sources */,
+				06CF2ABF1A81E8140032CE5D /* BookMarkEntity.m in Sources */,
+				06CE7CF91A86F86500FEB1D7 /* CollectionMetaManager.m in Sources */,
 				710C035B19E1C90E00C27A33 /* SBJsonTokeniser.m in Sources */,
 				71860C0A19DE546700D01AA9 /* KnowledgeDownloadItem.m in Sources */,
 				715EE9BC19E8332B005A4F78 /* JSONValueTransformer.m in Sources */,
@@ -2956,6 +3056,7 @@
 				710C03A519E2F38E00C27A33 /* KnowledgeSearchReverseInfo.m in Sources */,
 				710C039219E2E45C00C27A33 /* ebooksystem.xcdatamodeld in Sources */,
 				7118EB8F19EF6BE3002CF833 /* XcodeColors.md in Sources */,
+				06CE7CF31A86139100FEB1D7 /* UserRecordDataManager.m in Sources */,
 				715EE9C119E839F6005A4F78 /* CryptUtil.m in Sources */,
 				713D865019EA96ED006446D5 /* mztools.c in Sources */,
 				715EE9AD19E8330C005A4F78 /* NSArray+JSONModel.m in Sources */,
@@ -2980,6 +3081,7 @@
 				7156B09A19F50F1400B3A521 /* AppConfig.m in Sources */,
 				71314D5E1A246D48004D1873 /* UpdateAppViewController.m in Sources */,
 				7164E6B71A26F3C000EA5C04 /* PaymentConfig.m in Sources */,
+				06CE7CF21A86139100FEB1D7 /* CollectionMeta.m in Sources */,
 				71860BE919DC7B4300D01AA9 /* KnowledgeDataConfig.m in Sources */,
 				06CF7AF01A78FE680001F80D /* KnowledgeMetaEntity.m in Sources */,
 				06AA7E9319F4FAE100570289 /* SecurityUtil.m in Sources */,
@@ -2989,6 +3091,7 @@
 				06AA7F6419F4FC7E00570289 /* CustomRechargeView.m in Sources */,
 				715EE97719E52749005A4F78 /* BaseTitleBar.m in Sources */,
 				06CEE6311A734E8C000ADCE3 /* SecondRenderKnowledgeViewController.m in Sources */,
+				06CE940E1A8B39750009D59B /* PersonalCenterViewController.m in Sources */,
 				710C031019E1C8B600C27A33 /* UIButton+AFNetworking.m in Sources */,
 				7134FB2019E4D952004AB7A8 /* KnowledgeDataManager.m in Sources */,
 				715EE98C19E7F517005A4F78 /* KnowledgeDataTypes.m in Sources */,
@@ -3005,8 +3108,10 @@
 				06AA7F5619F4FC7E00570289 /* UMFeedbackTableViewCellRight.m in Sources */,
 				7118EB6619EF6B7F002CF833 /* DDContextFilterLogFormatter.m in Sources */,
 				06A8A9EC1A0A0B9300407E89 /* MatchViewController.m in Sources */,
+				06CE7CF01A86139100FEB1D7 /* BookMarkMeta.m in Sources */,
 				710C032F19E1C8D000C27A33 /* AFURLResponseSerialization.m in Sources */,
 				710C035919E1C90E00C27A33 /* SBJsonStreamWriterAccumulator.m in Sources */,
+				06DBBE051A836FB100BED5B7 /* scanQRcodeDataManager.m in Sources */,
 				06D418141A47B804007565F0 /* IADownloadHandler.m in Sources */,
 				7134FB2319E4DE4E004AB7A8 /* KnowledgeSearchManager.m in Sources */,
 				06AA7F6819F4FC7E00570289 /* RegisterUserInfo.m in Sources */,
@@ -3067,8 +3172,10 @@
 				710C030E19E1C8B600C27A33 /* UIActivityIndicatorView+AFNetworking.m in Sources */,
 				710C035A19E1C90E00C27A33 /* SBJsonStreamWriterState.m in Sources */,
 				71860C0E19DE8DE600D01AA9 /* UUIDUtil.m in Sources */,
+				06CE7CF11A86139100FEB1D7 /* BookMarkMetaManager.m in Sources */,
 				06D360501A62204400F2FF44 /* ZBarScanViewController.m in Sources */,
 				710C032819E1C8D000C27A33 /* AFHTTPRequestOperation.m in Sources */,
+				06CE7CFC1A88573900FEB1D7 /* CollectionEntity.m in Sources */,
 				06AA7F6C19F4FD1400570289 /* UserManager.m in Sources */,
 				715EE9B619E8331C005A4F78 /* JSONModel+networking.m in Sources */,
 				06AA7F5719F4FC7E00570289 /* LoginViewController.m in Sources */,
@@ -3104,6 +3211,7 @@
 				7159EC5719E4373C00288CF2 /* CoreDataUtil.m in Sources */,
 				711E2CF31A00C3C3000A8D04 /* UpdateManager.m in Sources */,
 				7156B0A419F7AD0C00B3A521 /* UncaughtExceptionHandler.m in Sources */,
+				06CBC6191A8995D9000DADAE /* ScanQRCodeController.m in Sources */,
 				710C039C19E2ECA400C27A33 /* KnowledgeMeta.m in Sources */,
 				7156B0B019F8BC5100B3A521 /* UIImage+MRImageEffects.m in Sources */,
 			);

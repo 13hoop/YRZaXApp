@@ -8,7 +8,16 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol scanQRCodeDelegate <NSObject>
+
+- (void)getScanInfo:(NSString *)scaninfo;
+
+@end
+
+
 @interface ScanQRCodeViewController : UIViewController
+
+@property (nonatomic, weak) id <scanQRCodeDelegate> scanDelegate;
 
 
 @end

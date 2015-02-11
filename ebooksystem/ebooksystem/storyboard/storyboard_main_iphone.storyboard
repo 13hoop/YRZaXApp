@@ -349,11 +349,11 @@
             </objects>
             <point key="canvasLocation" x="1332" y="2060"/>
         </scene>
-        <!--扫一扫-->
+        <!--个人-->
         <scene sceneID="8JZ-7j-4KO">
             <objects>
                 <navigationController id="r1f-pd-Ehy" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="扫一扫" id="gfL-vW-XgX"/>
+                    <tabBarItem key="tabBarItem" title="个人" id="gfL-vW-XgX"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="vHT-eq-lLh">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -366,59 +366,16 @@
             </objects>
             <point key="canvasLocation" x="767" y="2790"/>
         </scene>
-        <!--ScanQR Code Tab View Controller-->
+        <!--Personal Center View Controller-->
         <scene sceneID="lzB-ZD-TA6">
             <objects>
-                <viewController id="C04-VL-fqk" customClass="ScanQRCodeTabViewController" sceneMemberID="viewController">
+                <viewController id="C04-VL-fqk" customClass="PersonalCenterViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="6ch-M9-gJE">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="Idb-0P-mav">
-                                <rect key="frame" x="0.0" y="355" width="99" height="37"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>
-                                <state key="normal" title="Zbar">
-                                    <color key="titleColor" red="0.43529411759999997" green="0.4431372549" blue="0.47450980390000003" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="ZbarBtn:" destination="C04-VL-fqk" eventType="touchUpInside" id="tiX-X8-Z5P"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="0Z2-Qm-lim">
-                                <rect key="frame" x="111" y="355" width="99" height="37"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>
-                                <state key="normal" title="Apple">
-                                    <color key="titleColor" red="0.43529411759999997" green="0.4431372549" blue="0.47450980390000003" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="appleBtn:" destination="C04-VL-fqk" eventType="touchUpInside" id="6rd-OP-faH"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="dVp-Lo-m1E">
-                                <rect key="frame" x="221" y="355" width="99" height="37"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" cocoaTouchSystemColor="viewFlipsideBackgroundColor"/>
-                                <state key="normal" title="ZXing">
-                                    <color key="titleColor" red="0.43529411759999997" green="0.4431372549" blue="0.47450980390000003" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="zxingBtn:" destination="C04-VL-fqk" eventType="touchUpInside" id="x8q-uq-WSS"/>
-                                </connections>
-                            </button>
-                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="1cT-0Q-QhY"/>
-                    <connections>
-                        <outlet property="appleBtn" destination="0Z2-Qm-lim" id="MHW-4h-wEZ"/>
-                        <outlet property="zBarBtn" destination="Idb-0P-mav" id="Ix9-lB-R7s"/>
-                        <outlet property="zxingBtn" destination="dVp-Lo-m1E" id="Knq-9w-hiI"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Iou-CL-ibz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

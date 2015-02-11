@@ -8,10 +8,15 @@
 
 #import <UIKit/UIKit.h>
 
+
+
+
+
 @interface FirstReuseViewController : UIViewController
 
-@property (nonatomic,strong)NSString *webUrl;
-
-@property (nonatomic,strong)NSString *shouldChangeBackground;
+@property (nonatomic,strong) NSString *webUrl;
+@property (nonatomic,strong) NSString *shouldChangeBackground;
+//判断本页是否需要刷新
+@property (nonatomic,strong) NSString *needRefresh;
 
 @end

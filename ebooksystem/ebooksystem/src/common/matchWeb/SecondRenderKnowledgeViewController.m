@@ -772,9 +772,17 @@
 #pragma mark getknowledgeMeta
 //get dic :{book_id, book_status, book_status_detail}
 - (NSMutableDictionary *)getDicFormDataBase:(NSString *)bookId {
+    //限制dataType
     NSArray *bookArr = [[KnowledgeMetaManager instance] getKnowledgeMetaWithDataId:bookId andDataType:DATA_TYPE_DATA_SOURCE];
-//    NSArray *bookArr = [[KnowledgeMetaManager instance] getKnowledgeMetaWithDataId:bookId];
     
+    //    NSArray *bookArr = [[KnowledgeMetaManager instance] getKnowledgeMetaWithDataId:bookId];
+    
+    
+    //1 数据库中没有bookId对应的记录，返回nil
+    if (bookArr == nil || bookArr.count <= 0) {
+        return nil;
+    }
+    //2 从数据库中查到对应的字段
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
     for (NSManagedObject *entity in bookArr) {
         if (entity == nil) {
@@ -782,35 +790,60 @@
         }
         NSString *dicBookId = [entity valueForKey:@"dataId"];
         NSNumber *dicBookStatusNum = [entity valueForKey:@"dataStatus"];
-        int dicBookStatusInteger = [dicBookStatusNum intValue];
-        NSString *dicBookStatus = nil;
-        NSString *downLoadStatus = nil;
-        if (dicBookStatusInteger >= 1 && dicBookStatusInteger <=3  ) {
-            dicBookStatus = @"下载";
+        int bookStatusInt = [dicBookStatusNum intValue];
+        NSString *bookStatusStr = nil;
+        NSString *downLoadStatus = nil;//该状态暂时未设置
+        
+        if (bookStatusInt >= 1 && bookStatusInt <= 3) {
+            bookStatusStr = @"下载中";
         }
-        else if (dicBookStatusInteger >= 4 && dicBookStatusInteger <=6) {
-            dicBookStatus = @"解包";
-            //            downLoadStatus = @""
+        else if (bookStatusInt == 7) {
+            bookStatusStr = @"可更新";
         }
-        else if (dicBookStatusInteger == 10) {
-            dicBookStatus = @"完成";
+        else if (bookStatusInt == 8 || bookStatusInt ==9) {
+            bookStatusStr = @"更新中";
         }
-        else if (dicBookStatusInteger >= 8 && dicBookStatusInteger <= 9) {
-            dicBookStatus = @"更新本地文件";
+        else if (bookStatusInt == 10) {
+            bookStatusStr = @"完成";
+        }
+        else if (bookStatusInt == 11) {
+            bookStatusStr = @"APP版本过低";
+        }
+        else if (bookStatusInt == 12) {
+            bookStatusStr = @"APP版本过高";
+        }
+        else if (bookStatusInt == 14) {
+            bookStatusStr = @"下载失败";
+        }
+        else if (bookStatusInt == 15) {
+            bookStatusStr = @"下载暂停";
+        }
+        else if (bookStatusInt == -1  || bookStatusInt > 15) {
+            bookStatusStr = @"未下载";
+        }
+        
+        NSString *dicBookStatusDetails = [entity valueForKey:@"dataStatusDesc"];
+        //将浮点型转换成integer型，再转换成字符串类型
+        NSString *downLoadProgressStr = nil;
+        CGFloat downLoadProgressFloat = [dicBookStatusDetails floatValue];
+        if (downLoadProgressFloat == 100) {
+            downLoadProgressStr = [NSString stringWithFormat:@"%@",@"100"];
         }
         else {
-            dicBookStatus = @"校验";
+            NSInteger downLoadProgress = (NSInteger)(downLoadProgressFloat*100);
+            downLoadProgressStr = [NSString stringWithFormat:@"%ld",(long)downLoadProgress];
         }
-        //        else {
-        //
-        //        }
-        NSString *dicBookStatusDetails = [entity valueForKey:@"dataStatusDesc"];
-        //
+        
+        
+        //构造字典
         [dic setValue:dicBookId forKey:@"book_id"];
-        [dic setValue:dicBookStatus forKey:@"book_status"];
-        [dic setValue:dicBookStatusDetails forKey:@"book_status_detail"];
+        [dic setValue:bookStatusStr forKey:@"book_status"];
+        [dic setValue:downLoadProgressStr forKey:@"book_status_detail"];
+        NSLog(@"总有一次点了是不能自动打开的==========这是的状态是%@ 下载进度是========%@ 下载的书是======%@",bookStatusStr,downLoadProgressStr,dicBookId);
+        
         
     }
+    
     return dic;
     
 }

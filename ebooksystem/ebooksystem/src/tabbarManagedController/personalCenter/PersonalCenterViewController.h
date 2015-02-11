@@ -1,22 +1,16 @@
 //
-//  SecondReuseViewController.h
+//  PersonalCenterViewController.h
 //  ebooksystem
 //
-//  Created by wanghaoyu on 15/2/2.
+//  Created by wanghaoyu on 15/2/11.
 //  Copyright (c) 2015年 sanweishuku. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 
-
-
-
-@interface SecondReuseViewController : UIViewController
+@interface PersonalCenterViewController : UIViewController
 
 @property (nonatomic,strong) NSString *webUrl;
 @property (nonatomic,strong) NSString *shouldChangeBackground;
-
-//判断本页是否需要刷新
-@property (nonatomic,strong) NSString *needRefresh;
 
 @end

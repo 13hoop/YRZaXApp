@@ -30,7 +30,17 @@
 #import "KnowledgeMetaManager.h"
 #import "SecondReuseViewController.h"
 
+#import "BookMarkMeta.h"
+#import "UUIDUtil.h"
+#import "UserRecordDataManager.h"
 
+#import "CollectionMeta.h"
+#import "ScanQRCodeViewController.h"
+
+#import "UMFeedbackViewController.h"
+#import "StatisticsManager.h"
+#import "PersionalCenterUrlConfig.h"
+#import "SecondRenderKnowledgeViewController.h"
 
 
 @interface FirstReuseViewController ()<UIWebViewDelegate>
@@ -73,7 +83,7 @@
 // webview
 - (UIWebView *)webView {
     if (_webView == nil) {
-        _webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 20, self.view.frame.size.width, self.view.frame.size.height-20)];
+        _webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
         _webView.delegate = self;
         
         [self.view addSubview:_webView];
@@ -99,7 +109,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self initWebView];
-    NSLog(@"现在进入了FirstReusecontroller中");
+    LogInfo(@"现在进入了FirstReusecontroller中");
     if ([self.shouldChangeBackground isEqualToString:@"needChange"]) {
         self.view.backgroundColor=[UIColor colorWithHexString:@"#242021" alpha:1];
     }
@@ -113,12 +123,31 @@
     //    [self injectJSToWebView:self.webView];
     //    self.webview.delegate=self;
     [self updateWebView];
+    
+    
 
     
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    //隐藏tabbar状态
+    self.tabBarController.tabBar.hidden = YES;
+    //隐藏掉状态栏
+    [[UIApplication sharedApplication] setStatusBarHidden:YES];
+    //隐藏navbar状态
+    self.navigationController.navigationBarHidden = YES;
+    //JS传来的need_refresh参数为0,暂定为每次都要刷新。
+    [self.webView reload];
+    //根据JS传的need_refresh参数决定当前页面是否需要刷新
+    if([self.needRefresh isEqualToString:@"1"]) {
+        [self.webView reload];//等于1是就刷新，反之不作处理
+    }
+    
+}
 
-
+- (void)viewWillDisappear:(BOOL)animated {
+    self.tabBarController.tabBar.hidden = NO;
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -148,8 +177,16 @@
     // goback()
     [self.javascriptBridge registerHandler:@"goBack" handler:^(id data, WVJBResponseCallback responseCallback) {
         LogDebug(@"FirstReuseViewController::goBack() called: %@", data);
-        
-        [self.navigationController popViewControllerAnimated:YES];
+        //
+        NSString *backInfo = data;
+        SBJsonParser *parse = [[SBJsonParser alloc] init];
+        NSDictionary *dic = [parse objectWithString:backInfo];
+        if (dic == nil) {
+            LogInfo(@"FirstReuseViewController::goBack() goback info is nil");
+        }
+        //
+        [self goBack:dic];
+
     }];
     //shareApp
     [self.javascriptBridge registerHandler:@"shareApp" handler:^(id data, WVJBResponseCallback responseCallback) {
@@ -225,6 +262,332 @@
         
     }];
     
+    //************* 书签的接口 **************
+    
+    //addBookmark
+    [self.javascriptBridge registerHandler:@"addBookmark" handler:^(id data ,WVJBResponseCallback responseCallback){
+        NSString *bookMarkInfoStr = data;
+        if (bookMarkInfoStr == nil || bookMarkInfoStr.length <= 0) {
+            LogError(@"FirstReuseViewController - addBookmark:failed to add booKMark because of data from JS is nil");
+            return;
+        }
+        SBJsonParser *parse = [[SBJsonParser alloc] init];
+        NSDictionary *bookMarkMetaDic = [parse objectWithString:bookMarkInfoStr];
+        if (bookMarkMetaDic == nil) {
+            LogError(@"FirstReuseViewController - addBookmark:SBJson parse JS's string error");
+            return;
+        }
+        BOOL ret = NO;
+        NSString *UUID = [NSString stringWithFormat:@"%@", [UUIDUtil getUUID]];
+        {
+            //转化成BookMarkMeta对象
+            
+            BookMarkMeta *bookMarkMeta = [[BookMarkMeta alloc] init];
+            bookMarkMeta.bookId = [bookMarkMetaDic objectForKey:@"book_id"];
+//            bookMarkMeta.bookMarkId = [bookMarkMetaDic objectForKey:@"bookmark_id"];
+            bookMarkMeta.bookMarkName = [bookMarkMetaDic objectForKey:@"bookmark_name"];
+            bookMarkMeta.bookMarkContent = [bookMarkMetaDic objectForKey:@"bookmark_content"];
+            bookMarkMeta.bookMarkType = [bookMarkMetaDic objectForKey:@"type"];
+            bookMarkMeta.targetId = [bookMarkMetaDic objectForKey:@"target_id"];
+            bookMarkMeta.bookMarkId = UUID;//bookMarkId 设置成为UUID
+        
+            //保存
+            UserRecordDataManager *manager = [UserRecordDataManager instance];
+            ret = [manager saveBookMarkMeta:bookMarkMeta];
+        }
+        
+        if (responseCallback != nil) {
+            if (ret) {
+                responseCallback(UUID);
+            }
+            else {
+                responseCallback(@"");
+            }
+        }
+        
+    }];
+    
+    //removeBookmark
+    [self.javascriptBridge registerHandler:@"removeBookmark" handler:^(id data ,WVJBResponseCallback responseCallback){
+        NSString *bookMarkInfoStr = data;
+        if (bookMarkInfoStr == nil) {
+            LogError(@"FirstReuseViewController - removeBookmark: remove booKMark failed because of data from JS is nil");
+            return;
+        }
+        //解析
+        SBJsonParser *parse = [[SBJsonParser alloc] init];
+        NSDictionary *dic = [parse objectWithString:bookMarkInfoStr];
+        if (dic == nil) {
+            LogError(@"FirstReuseViewController - removeBookmark: parse Error");
+            return;
+        }
+        UserRecordDataManager *manager = [UserRecordDataManager instance];
+        BOOL ret = [manager deleteBookMarkMetaWithUpdateInfoDic:dic];
+        if (responseCallback != nil) {
+            if (ret) {
+                responseCallback(@"1");
+            }
+            else {
+                responseCallback(@"0");
+            }
+        }
+        
+        
+    }];
+    
+    //updateBookmark
+    [self.javascriptBridge registerHandler:@"updateBookmark" handler:^(id data ,WVJBResponseCallback responseCallback){
+        //获取字符串并解析
+        NSString *updateInfoStr = data;
+        if (updateInfoStr == nil) {
+            LogError(@"FirstReuseViewController - updateBookmark: update booKMark failed because of data from JS is nil");
+            return;
+        }
+        SBJsonParser *parse = [[SBJsonParser alloc] init];
+        NSDictionary *dic = [parse objectWithString:updateInfoStr];
+        if (dic == nil) {
+            LogError(@"FirstReuseViewController - updateBookmark: parse error");
+            return;
+        }
+        NSString *bookMarkId = [dic objectForKey:@"bookmark_id"];
+        //update
+        UserRecordDataManager *manager = [UserRecordDataManager instance];
+        BOOL ret = [manager updateBookMarkMeta:dic];
+        if (responseCallback != nil) {
+            if (ret) {
+                responseCallback(bookMarkId);
+            }
+            else {
+                responseCallback(@"");//失败返回空字符串
+            }
+        }
+        
+        
+    }];
+    
+    
+    //getBookmarkList
+    [self.javascriptBridge registerHandler:@"getBookmarkList" handler:^(id data ,WVJBResponseCallback responseCallback){
+        
+        NSString *infoStr = data;
+        if (infoStr == nil || infoStr.length <= 0) {
+            LogError (@"FirstReuseViewController - getBookmarkList:get book mark list failed because data is nil ");
+            return ;
+        }
+        SBJsonParser *parse = [[SBJsonParser alloc] init];
+        NSDictionary *dic = [parse objectWithString:infoStr];
+        if(dic == nil) {
+            LogError(@"FirstReuseViewController - getBookmarkList:parse error");
+            return;
+        }
+        //获取相应的参数
+        NSString *bookId = [dic objectForKey:@"book_id"];//这三个参数都有可能为空
+        NSString *bookMarkType = [dic objectForKey:@"type"];
+        NSString *targetId = [dic objectForKey:@"target_id"];
+        //获取数据
+        UserRecordDataManager *manager = [UserRecordDataManager instance];
+        SBJsonWriter *writer = [[SBJsonWriter alloc] init];
+        if (bookId == nil || bookId.length <= 0) {//bookId为空时
+            
+            NSArray  *array = [manager getAllBookMark];
+            
+            if (array == nil || array.count <= 0) { //从数据库中取得的数组为空
+                if (responseCallback != nil) {
+                    NSMutableArray *mutableArr = [NSMutableArray array];
+                    NSString *string = [writer stringWithObject:mutableArr];
+                    responseCallback(string);
+                }
+            }
+            else {//从数据库中取得的数组不为空
+                if (responseCallback != nil) {
+                    NSString *string = [writer stringWithObject:array];
+                    responseCallback(string);
+                }
+            }
+            
+        }
+        else { //bookId不为空时
+            NSArray *array = [manager getBookMarkListWithBookId:bookId andBookType:bookMarkType andQueryId:targetId];
+            
+            if (array == nil || array.count <= 0) {
+                //实例化之后的数组为：[]
+                NSMutableArray *resultArr = [NSMutableArray array];
+                if (responseCallback != nil) {
+                    NSString *string = [writer stringWithObject:resultArr];
+                    responseCallback(string);
+                }
+                
+            }
+            
+            else {//从数据库中取得的bookMarkList不为空，返回数组
+                if (responseCallback != nil) {
+                    NSString *string = [writer stringWithObject:array];
+                    responseCallback(string);
+                }
+            }
+            
+            
+        }
+        
+        
+        
+    }];
+    
+    //****************************收藏的接口************************
+    //addCollection
+    [self.javascriptBridge registerHandler:@"addCollection" handler:^(id data ,WVJBResponseCallback responseCallback){
+        NSString *collectInfoStr = data;
+        if (collectInfoStr == nil || collectInfoStr.length <= 0) {
+            LogError(@"[FirstReuseViewController - removeBookmark]:addCollection failed because of info from Js is nil");
+            return;
+        }
+        //解析
+        SBJsonParser *parse = [[SBJsonParser alloc] init];
+        NSDictionary *infoDic = [parse objectWithString:collectInfoStr];
+        BOOL isSuccess = NO;
+        CollectionMeta *collectionMeta = [[CollectionMeta alloc] init];
+        UserRecordDataManager *userRecordManager = [UserRecordDataManager instance];
+        NSString *UUID = [NSString stringWithFormat:@"%@", [UUIDUtil getUUID]];
+        {
+            collectionMeta.bookId = [infoDic objectForKey:@"book_id"];
+            collectionMeta.contentQueryId = [infoDic objectForKey:@"content_query_id"];
+            collectionMeta.collectionType = [infoDic objectForKey:@"type"];
+            collectionMeta.content = [infoDic objectForKey:@"content"];
+            collectionMeta.collectionId = UUID;
+            isSuccess = [userRecordManager saveCollectionMeta:collectionMeta];
+        }
+        //
+        if (responseCallback != nil) {
+            if (isSuccess) {
+                responseCallback(UUID);
+            }
+            else {
+                responseCallback(@"0");
+            }
+        }
+        
+        
+    }];
+    
+    //getCollectionList
+    [self.javascriptBridge registerHandler:@"getCollectionList" handler:^(id data ,WVJBResponseCallback responseCallback){
+        //
+        NSString *infoDicStr = data;
+        if (infoDicStr == nil || infoDicStr.length <= 0) {
+            LogError(@"FirstReuseViewController - getCollectionList : getCollectionList failed because of data from JS is nil");
+        }
+        
+        UserRecordDataManager *userRecordManager = [UserRecordDataManager instance];
+        SBJsonParser *parse = [[SBJsonParser alloc] init];
+        NSDictionary *infoDic = [parse objectWithString:infoDicStr];
+        NSString *bookId = [infoDic objectForKey:@"book_id"];
+        SBJsonWriter *writer = [[SBJsonWriter alloc] init];
+        if (responseCallback != nil) {
+            if (bookId == nil || bookId.length <= 0 ) {
+                NSArray *collectionLists = [userRecordManager getAllCollectionList];
+                if (collectionLists == nil || collectionLists.count <= 0) {
+                    responseCallback(@"[]");//获取到的数组为空，则返回空数组
+                }
+                else {//获取到的数组非空
+                    NSString *collectionStr = [writer stringWithObject:collectionLists];
+                    responseCallback(collectionStr);
+                }
+                
+            }
+            else {//bookId不为空
+                NSArray *collectionListArr = [userRecordManager getCollectionListWithInfoDic:infoDic];
+                if (collectionListArr == nil || collectionListArr.count <= 0) {
+                    responseCallback(@"[]");//获取到的数组为空，则返回空数组
+                }
+                else {//获取到的数组非空
+//                    NSString *collectionStr = [writer stringWithObject:collectionListArr];
+                    NSError *error;
+                    NSString *returnStr = [writer stringWithObject:collectionListArr error:&error];
+                    LogError(@"FirstReuseViewController - getCollectionList : failed because of error :%@",error);
+                    responseCallback(returnStr);
+                    
+                }
+                
+            }
+        }
+        
+        
+    }];
+    
+    //removeCollectionList
+    [self.javascriptBridge registerHandler:@"removeCollectionList" handler:^(id data ,WVJBResponseCallback responseCallback){
+        //
+        NSString *infoDicStr = data;
+        if (infoDicStr == nil || infoDicStr.length <= 0 ) {
+            LogError(@"FirstReuseViewController - removeCollectionList : remove collection meta failed because data from is nil");
+//            return;
+        }
+        //解析
+        SBJsonParser *parse = [[SBJsonParser alloc] init];
+        NSDictionary *infoDic = [parse objectWithString:infoDicStr];
+        //删除“收藏”
+        UserRecordDataManager *userRecordManager = [UserRecordDataManager instance];
+        BOOL ret = [userRecordManager deleteCollectionMetaWithInfoDic:infoDic];
+        if (responseCallback != nil) {
+            if (ret) {
+                responseCallback(@"1");//成功
+            }
+            else {
+                responseCallback(@"0");//失败
+            }
+        }
+        
+    }];
+    
+    //************ 扫一扫接口 ***********
+    //startQRCodeScan
+    [self.javascriptBridge registerHandler:@"startQRCodeScan" handler:^(id data ,WVJBResponseCallback responseCallback){
+        NSString *infoDicStr = data;
+        if (infoDicStr == nil || infoDicStr.length <= 0) {
+            LogWarn(@"[FirstReuseViewController -  startQRCodeScan]: failed go to scan COntroller because of data from Js is nil ");
+            return;
+        }
+        SBJsonParser *parse = [[SBJsonParser alloc] init];
+        NSDictionary *dic = [parse objectWithString:infoDicStr];
+        //
+        [self goScanViewController:dic];
+        
+        
+    }];
+    
+    //************ 用户反馈 *************
+    //showAppPageByAction
+    [self.javascriptBridge registerHandler:@"showAppPageByAction" handler:^(id data, WVJBResponseCallback responseCallback) {
+        //
+        NSString *actionStr = data;
+        SBJsonParser *parse = [[SBJsonParser alloc] init];
+        NSDictionary *dic = [parse objectWithString:actionStr];
+        //根据Js传的参数来决定是否需要开新的WebView
+        [self showAppPageByaction:dic];
+    }];
+    
+    
+    //showURL 打开在线网页
+    [self.javascriptBridge registerHandler:@"showURL" handler:^(id data, WVJBResponseCallback responseCallback) {
+        //
+        NSString *dataStr = data;
+        SBJsonParser *parse = [[SBJsonParser alloc] init];
+        NSDictionary *dic = [parse objectWithString:dataStr];
+        self.needRefresh = [dic objectForKey:@"need_refresh"];//记录当前这个页面再次出现时是否需要刷新
+        if ([[dic objectForKey:@"target"] isEqualToString:@"activity"]) {
+            //新开controller 加载url
+            [self showSafeURL:[dic objectForKey:@"url"] withAnimation:[dic objectForKey:@"open_animate"]];
+        }
+        else
+        {
+            NSString *urlStr = [dic objectForKey:@"url"];
+            [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:urlStr]]];
+        }
+        
+    }];
+    
+    
+    
     return YES;
 }
 
@@ -256,48 +619,6 @@
     NSString *shareString=[shareDic objectForKey:@"content"];
     
     
-    /*
-     //(1)使用ui，分享url定义的图片
-     [[UMSocialData defaultData].urlResource setResourceType:UMSocialUrlResourceTypeImage url:imageString];
-     //(2)使用ui,分享截屏图片
-     //    UIImage *image = [[UMSocialScreenShoterDefault screenShoter] getScreenShot];
-     //不同的平台分享不同的内容
-     //新浪微博平台
-     [UMSocialData defaultData].extConfig.sinaData.shareText = @"分享到新浪微博内容";
-     //腾讯
-     [UMSocialData defaultData].extConfig.tencentData.shareImage = [UIImage imageNamed:@"meinv.jpg"]; //分享到腾讯微博图片
-     */
-    
-    /*1.0 used share scene
-     //1、分享到QQ
-     [UMSocialData defaultData].extConfig.qqData.shareText=shareString;
-     //分享到QQ的title
-     [UMSocialData defaultData].extConfig.qqData.title=titleAll;
-     //分享到QQ的image
-     [[UMSocialData defaultData].extConfig.qqData.urlResource setResourceType:UMSocialUrlResourceTypeImage url:weixinImageUrl];
-     //点击分享的内容跳转到的网站
-     [UMSocialData defaultData].extConfig.qqData.url = callBackUrl;
-     
-     
-     //2、分享到qq空间的图片
-     [[UMSocialData defaultData].extConfig.qzoneData.urlResource setResourceType:UMSocialUrlResourceTypeImage url:weixinImageUrl];
-     //分享qq空间的title
-     [UMSocialData defaultData].extConfig.qzoneData.title = titleAll;
-     //分享qq空间的内容
-     [UMSocialData defaultData].extConfig.qzoneData.shareText=shareString;
-     //回调的url
-     [UMSocialData defaultData].extConfig.qzoneData.url = callBackUrl;
-     
-     
-     //3、设置微信好友分享url图片
-     [[UMSocialData defaultData].extConfig.wechatSessionData.urlResource setResourceType:UMSocialUrlResourceTypeImage url:weixinImageUrl];
-     //设置微信的分享文字
-     [UMSocialData defaultData].extConfig.wechatSessionData.shareText=shareString;
-     //设置微信的title
-     [UMSocialData defaultData].extConfig.wechatSessionData.title=titleAll;
-     //回调的url
-     [UMSocialData defaultData].extConfig.wechatSessionData.url=callBackUrl;
-     */
     
     
     //2.0 share to wechatTimeline only
@@ -366,6 +687,9 @@
 //2.0中跳转到指定页面
 - (BOOL)showPageWithDictionary:(NSDictionary *)dic {
     NSString *target = dic[@"target"];
+    NSString *needRefreshStr = dic[@"need_refresh"];
+    self.needRefresh = needRefreshStr;//将是否需要刷新存到属性中
+    
     if ([target isEqualToString:@"self"]) {
         
         NSString *book_id = dic[@"book_id"];
@@ -419,8 +743,10 @@
                 urlStrWithParams = [NSString stringWithFormat:@"%@", urlStr];
                 
             }
+            //获取渲染页面时的值
+            NSString *animation = [dic objectForKey:@"open_animate"];
             //打开新的controller
-            return [self readBookWithSafeUrl:urlStrWithParams];
+            return [self readBookWithSafeUrl:urlStrWithParams andAnimation:animation];
             
         }
     }
@@ -428,29 +754,85 @@
     return YES;
     
 }
-//需要添加showUrl时再添加。
 
-/*
-- (BOOL)showSafeURL:(NSString *)urlStr {
-    
+
+- (BOOL)readBookWithSafeUrl:(NSString *)urlStr andAnimation:(NSString *)openAnimation{
     
     SecondReuseViewController *second = [[SecondReuseViewController alloc] init];
-    second.webUrl = urlStr;
-    [self.navigationController pushViewController:second animated:YES];
+    if (openAnimation != nil && openAnimation.length > 0) {
+        //自定义动画
+        CATransition *animation = [self customAnimation:openAnimation];
+        second.webUrl = urlStr;
+        [self.navigationController.view.layer addAnimation:animation forKey:nil];
+        [self.navigationController pushViewController:second animated:NO];
+    }
+    else {
+        
+        second.webUrl = urlStr;
+        [self.navigationController pushViewController:second animated:YES];
+        
+    }
+  
     return YES;
+    
 }
-*/
+//设置自定义的动画效果
+- (CATransition *)customAnimation:(NSString *)openAnimation {
+    
+    //根据JS传的参数来设置动画的切入，出方向。
+    CATransition *animation = [CATransition animation];
+    [animation setDuration:1];
+    [animation setType: kCATransitionPush];//设置为推入效果
+    if ([openAnimation isEqualToString:@"pull_left_out"] || [openAnimation isEqualToString:@"push_right_in"]) {
+        [animation setSubtype: kCATransitionFromRight];//设置方向
 
-- (BOOL)readBookWithSafeUrl:(NSString *)urlStr {
-    SecondReuseViewController *second = [[SecondReuseViewController alloc] init];
-    second.webUrl = urlStr;
-    [self.navigationController pushViewController:second animated:YES];
-    return YES;
+    }
+    else if ([openAnimation isEqualToString:@"pull_right_out"]|| [openAnimation isEqualToString:@"push_left_in"]) {
+        [animation setSubtype: kCATransitionFromLeft];//设置方向
+
+    }
+    [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionDefault]];
+    return animation;
+}
+
+
+#pragma mark goBack 接口调用的方法
+
+- (void)goBack:(NSDictionary *)backDictionary {
+   
+    //判断回去的方式
+    NSString *closeAnimation = [backDictionary objectForKey:@"close_animate"];
+    if (closeAnimation == nil || closeAnimation.length <= 0 ) {//返回动画要求为空
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+    else {//返回动画不为空
+        CATransition *animation = [self customAnimation:closeAnimation];
+        [self.navigationController.view.layer addAnimation:animation forKey:nil];
+        [self.navigationController popViewControllerAnimated:NO];
+    }
+    
+    
+}
+
+
+#pragma mark goScanViewController
+- (void)goScanViewController:(NSDictionary *)dic {
+    NSString *openAnimation = [dic objectForKey:@"open_animate"];
+    ScanQRCodeViewController *scanQrcodeViewController = [[ScanQRCodeViewController alloc] init];
+    if (openAnimation == nil || openAnimation.length <= 0 ) {//
+        [self.navigationController pushViewController:scanQrcodeViewController animated:YES];
+        
+    }
+    else {//开场动画不为空
+        CATransition *animation = [self customAnimation:openAnimation];
+        [self.navigationController.view.layer addAnimation:animation forKey:nil];
+        [self.navigationController pushViewController:scanQrcodeViewController animated:NO];
+    }
+
 }
 
 
 
-//
 #pragma mark - web view delegate methods
 
 -(BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
@@ -473,6 +855,61 @@
     NSString *jsString = [[NSString alloc] initWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:nil];
     [webView stringByEvaluatingJavaScriptFromString:jsString];
 }
+
+
+
+
+//用户反馈用到的方法
+#pragma mark showAppPageByAction methods
+- (void)showAppPageByaction:(NSDictionary *)dic {
+    NSString *target = [dic objectForKey:@"target"];
+    NSString *action = [dic objectForKey:@"action"];
+    NSString *urlStr = [PersionalCenterUrlConfig getUrlWithAction:action];
+    if ([urlStr isEqualToString:@"feedback"]) {
+        //进入到用户反馈页
+        [self showNativeFeedbackWithAppkey:[[StatisticsManager instance] appKeyFromUmeng]];
+        self.tabBarController.tabBar.hidden = YES;
+        return;
+    }
+    if (urlStr == nil) {
+        LogWarn(@"[RenderKnowledgeViewController - showAppPageByaction]:go to target web failed , urlStr is equal to nil");
+        return;
+    }
+    if ([target isEqualToString:@"activity"]) {
+        [self showSafeURL:urlStr withAnimation:nil];//在这个页面这些都不会被调用。
+    }
+    else {
+        [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:urlStr]]];
+    }
+}
+
+#pragma mark - UMdelegate
+- (void)showNativeFeedbackWithAppkey:(NSString *)appkey {
+    UMFeedbackViewController *feedbackViewController = [[UMFeedbackViewController alloc] initWithNibName:@"UMFeedbackViewController" bundle:nil];
+    feedbackViewController.appkey = appkey;
+    self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
+    self.navigationController.navigationBar.translucent = NO;
+    [self.navigationController pushViewController:feedbackViewController animated:YES];
+}
+
+
+
+/*在线网页接口showUrl 调用的接口方法说明：
+ *在看书的controller中需要打开在线网页时，跳到复用的SecondRenderKnowledgeViewController中
+ *FirstReuseViewController、SecondReuseViewController。看书过程之间的复用，跳转在两个controller中进行
+ *RenderKnowledgeViewController、SecondRenderKnowledgeViewController。除看书的内容外，所有的页面跳转，复用都在这两个controller中进行。
+ */
+
+- (BOOL)showSafeURL:(NSString *)urlStr withAnimation:(NSString *)openAnimation {
+    
+    SecondRenderKnowledgeViewController *secondRender = [[SecondRenderKnowledgeViewController alloc] init];
+    secondRender.webUrl = urlStr;
+//    secondRender.flag = self.flag;//每次都刷新，所以暂时在看书用的controller中不需要flag
+    [self.navigationController pushViewController:secondRender animated:YES];
+    
+    return YES;
+}
+
 
 
 @end

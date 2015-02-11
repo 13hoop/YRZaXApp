@@ -70,9 +70,18 @@ function dump(arr,level) {
         bridgeIOS.callOC( 'shareApp', data );
     };
     
-    bridgeIOS.goBack = function(data){
-        bridgeIOS.callOC( 'goBack', data );
+//    bridgeIOS.goBack = function(data){
+//        bridgeIOS.callOC( 'goBack', data );
+//    };
+    //goBack
+    bridgeIOS.goBack = function(data, callback) {
+        bridgeIOS.callOC('goBack', data, function(responseData){
+                         if (callback) {
+                         callback(responseData);
+                         }
+                         });
     };
+
     
     // playVideo() you
     bridgeIOS.playVideo = function(data, callback) {
@@ -97,6 +106,7 @@ function dump(arr,level) {
     
     //getData
     bridgeIOS.getData = function(data,callback){
+        
         bridgeIOS.callOC( 'getData',data,function(responseData){
                          if (callback) {
                          callback(responseData);
@@ -269,11 +279,77 @@ function dump(arr,level) {
     };
     
     
+    //addBookmark
+    bridgeIOS.addBookmark = function(data,callback){
+        bridgeIOS.callOC( 'addBookmark',data,function(responseData){
+                         if (callback) {
+                         callback(responseData);
+                         }
+                         }  );
+    };
+    
+    //removeBookmark
+    bridgeIOS.removeBookmark = function(data,callback){
+        bridgeIOS.callOC( 'removeBookmark',data,function(responseData){
+                         if (callback) {
+                         callback(responseData);
+                         }
+                         }  );
+    };
+    //updateBookmark
+    bridgeIOS.updateBookmark = function(data,callback){
+        bridgeIOS.callOC( 'updateBookmark',data,function(responseData){
+                         if (callback) {
+                         callback(responseData);
+                         }
+                         }  );
+    };
     
     
+    //getBookmarkList
+    bridgeIOS.getBookmarkList = function(data,callback){
+        bridgeIOS.callOC( 'getBookmarkList',data,function(responseData){
+                         if (callback) {
+                         callback(responseData);
+                         }
+                         }  );
+    };
     
+    //addCollection
+    bridgeIOS.addCollection = function(data,callback){
+        bridgeIOS.callOC( 'addCollection',data,function(responseData){
+                         if (callback) {
+                         callback(responseData);
+                         }
+                         }  );
+    };
     
+    //getCollectionList
+    bridgeIOS.getCollectionList = function(data,callback){
+        bridgeIOS.callOC( 'getCollectionList',data,function(responseData){
+                         if (callback) {
+                         callback(responseData);
+                         }
+                         }  );
+    };
     
+    //removeCollectionList
+    bridgeIOS.removeCollectionList = function(data,callback){
+        bridgeIOS.callOC( 'removeCollectionList',data,function(responseData){
+                         if (callback) {
+                         callback(responseData);
+                         }
+                         }  );
+    };
+    
+    //startQRCodeScan
+    bridgeIOS.startQRCodeScan = function(data,callback){
+        bridgeIOS.callOC( 'startQRCodeScan',data,function(responseData){
+                         if (callback) {
+                         callback(responseData);
+                         }
+                         }  );
+    };
     
     
 }();

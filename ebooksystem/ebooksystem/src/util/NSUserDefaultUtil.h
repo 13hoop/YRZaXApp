@@ -19,4 +19,8 @@
 //save HTTP request response 存一下response ，里面是否有session？
 + (BOOL)saveHttpResponse:(id)response;
 
+
+
+
+
 @end

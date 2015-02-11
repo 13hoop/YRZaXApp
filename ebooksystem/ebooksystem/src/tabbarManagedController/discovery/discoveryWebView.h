@@ -12,6 +12,7 @@
 
 - (void)controllerSwitchOver;
 - (void)showSafeUrl:(NSString *)url;
+@optional
 //addToNative
 - (void)addToNative:(NSString *)bookId;
 
@@ -22,5 +23,5 @@
 
 @property (nonatomic, strong) NSString *webUrl;
 
-@property (nonatomic ,strong) id<discoverDelegate>discoverDelegate;
+@property (nonatomic ,weak) id<discoverDelegate>discoverDelegate;
 @end

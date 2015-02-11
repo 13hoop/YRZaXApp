@@ -9,9 +9,12 @@
 #import "ScanQRCodeViewController.h"
 #import <AVFoundation/AVFoundation.h>
 #import "Config.h"
+#import "ScanQRCodeTabViewController.h"
+
+
 #define scanAreaWidthAndHeight 240
 #define scanAreaImageWidthAndHeight 300
-#define line_x ((self.view.frame.size.width-scanAreaImageWidthAndHeight)/2+30)
+#define line_x (self.view.frame.size.width - 195)/2
 #define shadowAlphaValue 0.4
 @interface ScanQRCodeViewController ()<AVCaptureMetadataOutputObjectsDelegate>
 {
@@ -38,6 +41,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    //设置导航条
+    self.navigationController.navigationBarHidden = YES;
+    
     self.view.backgroundColor = [UIColor lightGrayColor];
     [self makeUI];
     [self readQRCode];
@@ -48,6 +54,16 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+- (void)viewWillAppear:(BOOL)animated {
+    [[UIApplication sharedApplication] setStatusBarHidden:TRUE];
+    self.tabBarController.tabBar.hidden = YES;
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    //退出时将tabbar的hidden设置为NO
+    self.tabBarController.tabBar.hidden = NO;
+    
 }
 
 #pragma mark make UI
@@ -71,9 +87,9 @@
     upOrdown = NO;
     num =0;
     //适配6，6p---375*667 414*736
-    _line = [[UIImageView alloc] initWithFrame:CGRectMake(line_x, 110, 240, 2)];
+    _line = [[UIImageView alloc] initWithFrame:CGRectMake(line_x, 110, 195, 6)];
     
-    NSString *pathLine=[[[Config instance] drawableConfig] getImageFullPath:@"line.png"];
+    NSString *pathLine=[[[Config instance] drawableConfig] getImageFullPath:@"ScanLine.png"];
     UIImage *imageLine = [UIImage imageNamed:pathLine];
     _line.image = imageLine;
     [self.view addSubview:_line];
@@ -85,9 +101,9 @@
 {
     if (upOrdown == NO) {
         num ++;
-        _line.frame = CGRectMake(line_x, 110+2*num, 240, 2);
-        NSLog(@"aaaaa===%d",num);
-        if (2*num == 258) {
+        _line.frame = CGRectMake(line_x, 110+2*num, 195, 6);
+//        NSLog(@"aaaaa===%d",num);
+        if (2*num == 196) {
             upOrdown = YES;
         }
     }
@@ -139,7 +155,7 @@
     self.preview = [AVCaptureVideoPreviewLayer layerWithSession:self.session];
     self.preview.videoGravity = AVLayerVideoGravityResizeAspectFill;//设置图层的属性
 //    self.preview.frame = CGRectMake((self.view.frame.size.width-scanAreaWidthAndHeight)/2, 110,scanAreaWidthAndHeight,scanAreaWidthAndHeight);
-    self.preview.frame = CGRectMake(0, 44, self.view.frame.size.width, self.view.frame.size.height-44-44);
+    self.preview.frame = CGRectMake(0, 64, self.view.frame.size.width, self.view.frame.size.height-64);
     //制作阴影
     [self makeShadow];
     [self.view.layer insertSublayer:self.preview atIndex:0];
@@ -149,32 +165,66 @@
 }
 //制作阴影
 - (void)makeShadow {
+    //自定义导航栏
+    UIView *navgationView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 64)];
+    navgationView.backgroundColor = [UIColor blackColor];
+    navgationView.userInteractionEnabled = YES;
+    [self.view addSubview:navgationView];
+    //create 返回箭头
+    UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(10,(64-25)/2, 16, 25)];
+    UIImage *image = [UIImage imageNamed:[[[Config instance] drawableConfig] getImageFullPath:@"backNew.png"]];
+    imageView.image = image;
+    [navgationView addSubview:imageView];
+    //create 返回按钮,宽度设置的较大，保证返回的操作足够流畅
+    UIButton *backButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 100, 64)];
+    [backButton addTarget:self action:@selector(backToFrontPage) forControlEvents:UIControlEventTouchUpInside];
+    //
+    [navgationView addSubview:backButton];
+    //create title
+    UILabel *textLable = [[UILabel alloc] initWithFrame:CGRectMake((self.view.frame.size.width - 160)/2, 0, 160, 64)];
+    textLable.text = @"扫描二维码";
+    [textLable setTextAlignment:UITextAlignmentCenter];
+    textLable.textColor = [UIColor whiteColor];
+    [textLable setFont:[UIFont fontWithName:@"Courier" size:23.0f]];
+    [navgationView addSubview:textLable];
+    
+    
+    
+    //make shadow
+    
     //up
     UIView  *upView = [[UIView alloc] initWithFrame:CGRectMake(0, 64, self.view.frame.size.width, 44)];
     upView.backgroundColor = [UIColor blackColor];
     upView.alpha = shadowAlphaValue;
     [self.view addSubview:upView];
-    //left    暂定扫描区域的宽度是240*260 ---正方形
-    UIView *leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 64+44, (self.view.frame.size.width-240)/2, 260)];
+    //left    暂定扫描区域的宽度是201*201 ---正方形
+    UIView *leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 64+44, (self.view.frame.size.width-201)/2, 201)];
     leftView.backgroundColor = [UIColor blackColor];
     leftView.alpha = shadowAlphaValue;
     [self.view addSubview:leftView];
     //right
-    float rightView_x =240 + (self.view.frame.size.width-240)/2;
-    UIView *rightView = [[UIView alloc] initWithFrame:CGRectMake(rightView_x, 64+44, (self.view.frame.size.width-240)/2, 260)];
+    float rightView_x =201 + (self.view.frame.size.width-201)/2;
+    UIView *rightView = [[UIView alloc] initWithFrame:CGRectMake(rightView_x, 64+44, (self.view.frame.size.width-201)/2, 201)];
     rightView.backgroundColor = [UIColor blackColor];
     rightView.alpha = shadowAlphaValue;
     [self.view addSubview:rightView];
     NSLog(@"%f",rightView_x);
     //down
-    UIView *downView = [[UIView alloc] initWithFrame:CGRectMake(0, 64+44+260, self.view.frame.size.width, self.view.frame.size.height - 44 - 64+44+260)];
+    UIView *downView = [[UIView alloc] initWithFrame:CGRectMake(0, 64+44+201, self.view.frame.size.width, self.view.frame.size.height - 44 - 64+44+201)];
     downView.backgroundColor = [UIColor blackColor];
     downView.alpha = shadowAlphaValue;
     [self.view addSubview:downView];
+    //中间的imageView
+    UIImageView *scanImageView = [[UIImageView alloc] initWithFrame:CGRectMake((self.view.frame.size.width-201)/2, 64+44, 201, 201)];
+    UIImage *scanAreaImage = [UIImage imageNamed:[[[Config instance] drawableConfig] getImageFullPath:@"Scan.png"]];
+    scanImageView.image = scanAreaImage;
+    [self.view addSubview:scanImageView];
+    
+    
 //    tip lable
-    UILabel *tipLable = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 20)];
-    tipLable.text = @"咋学--扫一扫";
-    tipLable.font = [UIFont systemFontOfSize:14];
+    UILabel *tipLable = [[UILabel alloc] initWithFrame:CGRectMake(0, 30, self.view.frame.size.width, 20)];
+    tipLable.text = @"将二维码放入框内，即可自动扫描";
+    tipLable.font = [UIFont systemFontOfSize:15];
     [tipLable setTextAlignment:NSTextAlignmentCenter];
     tipLable.textColor = [UIColor whiteColor];
     [downView addSubview:tipLable];
@@ -195,8 +245,20 @@
     [self stopReadQRCode];
     [timer invalidate];
     
+    
     //get url
     NSString *URLString = [self getUrlFromString:stringValue];
+    
+    //通过代理将扫描结果传出来
+    [self.scanDelegate getScanInfo:URLString];
+    
+    //将扫描得到的结果传到落地页中
+    ScanQRCodeTabViewController *scanTabView = [[ScanQRCodeTabViewController alloc] init];
+    scanTabView.scanInfoStr = URLString;
+    [self.navigationController pushViewController:scanTabView animated:YES];
+    
+    
+    /*先注释掉，不做任何处理。
     if (URLString.length <= 0 || URLString == nil) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"扫描信息" message:stringValue delegate:nil cancelButtonTitle:nil otherButtonTitles:@"好", nil];
         [alert show];
@@ -204,7 +266,9 @@
     else {
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:URLString]];
     }
-
+     */
+    
+    /*  若是在上面push到下一个页面中，而在这里又回调用回到前一页的方法，会导致crash。
     //back front page
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW,
     
@@ -221,6 +285,7 @@
             [self.navigationController popViewControllerAnimated:YES];
         }
     });
+     */
 }
 
 - (void)stopReadQRCode {
@@ -252,4 +317,10 @@
     
     
 }
+
+#pragma mark  custom navigationbar method
+- (void)backToFrontPage {
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 @end

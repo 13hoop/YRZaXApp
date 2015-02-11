@@ -12,16 +12,25 @@
 #import "RenderKnowledgeViewController.h"
 #import "UpdateManager.h"
 #import "LogUtil.h"
+#import "SubjectChoose.h"
+#import "NSUserDefaultUtil.h"
+#import "ErrorManager.h"
 
-@interface DiscoveryViewController ()<discoverDelegate,UpdateManagerDelegate, UIAlertViewDelegate>
+
+
+
+@interface DiscoveryViewController ()<discoverDelegate,UpdateManagerDelegate, UIAlertViewDelegate,SubjectChooseDelegate>
 
 @property (nonatomic,strong) discoveryWebView *discoverWeb;
-@property(nonatomic,strong)NSString *updateAppURL;
+@property (nonatomic,strong) NSString *updateAppURL;
+@property (nonatomic,strong) SubjectChoose *subjectChooseView;
 
 @end
 
 @implementation DiscoveryViewController
 
+
+#pragma mark  - app life
 - (void)viewDidLoad {
     [super viewDidLoad];
 //    self.tabBarController.selectedIndex = 2;
@@ -29,16 +38,33 @@
     self.automaticallyAdjustsScrollViewInsets = NO;
    //隐藏掉状态栏
     [[UIApplication sharedApplication] setStatusBarHidden:TRUE];
-
-    [self makeWebView];
-    //检查更新
-    [self updateApp];
+    
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"firstLaunch"]) {
+        self.tabBarController.tabBar.hidden = YES;
+        [self makeSelectView];
+    }
+    else {
+        
+        [self makeWebView];
+        //检查更新
+        [self updateApp];
+    }
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [[UIApplication sharedApplication] setStatusBarHidden:TRUE];
 
 }
+- (void)viewDidAppear:(BOOL)animated {
+    // 回发error log
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [[ErrorManager instance] sendCrashToServer];
+    });
+}
+
+
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -55,12 +81,24 @@
      */
 }
 
+
+#pragma mark - 创建要显示的视图
+
 //创建webview
 - (void)makeWebView {
      self.discoverWeb = [[discoveryWebView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height-48)];
-    self.discoverWeb.discoverDelegate =self;
+    self.discoverWeb.discoverDelegate = self;
     [self.view addSubview:self.discoverWeb];
 }
+
+//创建选择view
+- (void)makeSelectView {
+
+    self.subjectChooseView = [[SubjectChoose alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height-48)];
+    self.subjectChooseView.userSelectedDelegate = self;
+    [self.view addSubview:self.subjectChooseView];
+}
+
 
 #pragma mark discoveryView delegate method
 
@@ -127,6 +165,25 @@
         
         [[UIApplication sharedApplication] openURL:requestURL];
     }
+}
+
+
+
+
+#pragma mark subjectChoose delegate method 
+- (void)setUserSelectedResult:(NSString *)result {
+    
+    if ([result isEqualToString:@"考研"]) {
+        [NSUserDefaultUtil setCurStudyTypeWithType:@"0"];
+    }
+    else if ([result isEqualToString:@"教师资格证"]) {
+        [NSUserDefaultUtil setCurStudyTypeWithType:@"1"];
+    }
+    [self.subjectChooseView removeFromSuperview];
+    self.tabBarController.tabBar.hidden = NO;
+    //创建新的页面
+    [self makeWebView];
+    
 }
 
 @end

@@ -8,6 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
+//扫描二维码的落地页
 @interface ScanQRCodeTabViewController : UIViewController
+
+@property (nonatomic, strong) NSString *scanInfoStr;
 
 @end

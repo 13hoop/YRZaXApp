@@ -75,7 +75,7 @@
         }
 //        _webUrl = [NSString stringWithFormat:@"%@%@ua=%@", _webUrl, connector, [Config instance].webConfig.userAgent];
         
-         _webUrl = [NSString stringWithFormat:@"%@", _webUrl];
+            _webUrl = [NSString stringWithFormat:@"%@", _webUrl];
 
     }
     
@@ -133,11 +133,16 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-    [self.webView reload];//
-     [[UIApplication sharedApplication] setStatusBarHidden:TRUE];//隐藏掉状态栏
+    //重新加载网页，因为个人中心页复用了这个webview
+    [self.webView reload];
+    //隐藏掉状态栏
+    [[UIApplication sharedApplication] setStatusBarHidden:TRUE];
+    //隐藏掉导航栏
     self.navigationController.navigationBarHidden = YES;
     
-    //判断
+    
+
+    //判断，书籍详情页也复用了这个controller,详情页中不需要隐藏tabbar
     if ([self.flag isEqualToString:@"discovery"]) {
         //
         self.tabBarController.tabBar.hidden = NO;
@@ -637,14 +642,7 @@
 #pragma mark - share
 
 - (void)share:(NSDictionary *)shareDic {
-    /*
-     url :
-     img_url :
-     weixin_img_url :
-     title :
-     content :
-     screen_shot : false
-     */
+    
     //title
     NSString *titleAll=[shareDic objectForKey:@"title"];
     //分享链接
@@ -659,18 +657,6 @@
     //分享内容
     NSString *shareString=[shareDic objectForKey:@"content"];
     
-    
-    /*
-     //(1)使用ui，分享url定义的图片
-     [[UMSocialData defaultData].urlResource setResourceType:UMSocialUrlResourceTypeImage url:imageString];
-     //(2)使用ui,分享截屏图片
-     //    UIImage *image = [[UMSocialScreenShoterDefault screenShoter] getScreenShot];
-     //不同的平台分享不同的内容
-     //新浪微博平台
-     [UMSocialData defaultData].extConfig.sinaData.shareText = @"分享到新浪微博内容";
-     //腾讯
-     [UMSocialData defaultData].extConfig.tencentData.shareImage = [UIImage imageNamed:@"meinv.jpg"]; //分享到腾讯微博图片
-     */
     
     //1、分享到QQ
     [UMSocialData defaultData].extConfig.qqData.shareText=shareString;
@@ -724,11 +710,6 @@
         return;
     }
     
-    // 不要加
-    //    [CustomURLProtocol injectURL:urlStr cookie:@"User-Agent:ZAXUE_IOS_POLITICS_APP"];
-    
-    // 播放
-    //    MPMoviePlayerViewController *playerViewController = [[MPMoviePlayerViewController alloc] initWithContentURL:url];
     
     DirectionMPMoviePlayerViewController *playerViewController = [[DirectionMPMoviePlayerViewController alloc] initWithContentURL:url];
     playerViewController.moviePlayer.controlStyle = MPMovieControlStyleFullscreen;
@@ -823,10 +804,10 @@
         }
         NSString *dicBookId = [entity valueForKey:@"dataId"];
         NSNumber *dicBookStatusNum = [entity valueForKey:@"dataStatus"];
-        int dicBookStatusInteger = [dicBookStatusNum intValue];
-        NSString *dicBookStatus = nil;
+        int bookStatusInt = [dicBookStatusNum intValue];
+        NSString *bookStatusStr = nil;
         NSString *downLoadStatus = nil;//该状态暂时未设置
-        /*
+        
          if (bookStatusInt >= 1 && bookStatusInt <= 3) {
          bookStatusStr = @"下载中";
          }
@@ -854,34 +835,25 @@
          else if (bookStatusInt == -1  || bookStatusInt > 15) {
          bookStatusStr = @"未下载";
          }
-         */
-        if (dicBookStatusInteger >= 1 && dicBookStatusInteger <=3  ) {
-            dicBookStatus = @"下载";
-        }
-        else if (dicBookStatusInteger >= 4 && dicBookStatusInteger <=6) {
-            dicBookStatus = @"解包";
-            //            downLoadStatus = @""
-        }
-        else if (dicBookStatusInteger == 10) {
-            dicBookStatus = @"完成";
-        }
-        else if (dicBookStatusInteger >= 8 && dicBookStatusInteger <= 9) {
-            dicBookStatus = @"更新本地文件";
-        }
-        else if (dicBookStatusInteger == -1 || dicBookStatusInteger > 15) {
-            dicBookStatus = @"未下载";
-        }
-      
-        else {
-            dicBookStatus = @"下载失败";
-        }
         
         NSString *dicBookStatusDetails = [entity valueForKey:@"dataStatusDesc"];
-        //
+        //将浮点型转换成integer型，再转换成字符串类型
+        NSString *downLoadProgressStr = nil;
+        CGFloat downLoadProgressFloat = [dicBookStatusDetails floatValue];
+        if (downLoadProgressFloat == 100) {
+             downLoadProgressStr = [NSString stringWithFormat:@"%@",@"100"];
+        }
+        else {
+            NSInteger downLoadProgress = (NSInteger)(downLoadProgressFloat*100);
+            downLoadProgressStr = [NSString stringWithFormat:@"%ld",(long)downLoadProgress];
+        }
+        
+       
+        //构造字典
         [dic setValue:dicBookId forKey:@"book_id"];
-        [dic setValue:dicBookStatus forKey:@"book_status"];
-        [dic setValue:dicBookStatusDetails forKey:@"book_status_detail"];
-        NSLog(@"总有一次点了是不能自动打开的==========这是的状态是%@ 下载进度是========%@ 下载的书是======%@",dicBookStatus,dicBookStatusDetails,dicBookId);
+        [dic setValue:bookStatusStr forKey:@"book_status"];
+        [dic setValue:downLoadProgressStr forKey:@"book_status_detail"];
+       
         
         
     }
@@ -920,12 +892,6 @@
 - (void)showNativeFeedbackWithAppkey:(NSString *)appkey {
     UMFeedbackViewController *feedbackViewController = [[UMFeedbackViewController alloc] initWithNibName:@"UMFeedbackViewController" bundle:nil];
     feedbackViewController.appkey = appkey;
-    //    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:feedbackViewController];
-    //    navigationController.navigationBar.barStyle = UIBarStyleBlack;
-    //    navigationController.navigationBar.translucent = NO;
-    //    [self presentModalViewController:navigationController animated:YES];
-    
-    
     self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
     self.navigationController.navigationBar.translucent = NO;
     [self.navigationController pushViewController:feedbackViewController animated:YES];
