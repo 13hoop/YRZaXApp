@@ -90,6 +90,8 @@
 		06CE7CF91A86F86500FEB1D7 /* CollectionMetaManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 06CE7CF81A86F86500FEB1D7 /* CollectionMetaManager.m */; };
 		06CE7CFC1A88573900FEB1D7 /* CollectionEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 06CE7CFB1A88573900FEB1D7 /* CollectionEntity.m */; };
 		06CE940E1A8B39750009D59B /* PersonalCenterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06CE940D1A8B39750009D59B /* PersonalCenterViewController.m */; };
+		06CE94121A8B561F0009D59B /* customNavigationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06CE94111A8B561F0009D59B /* customNavigationViewController.m */; };
+		06CE94151A8B5F6C0009D59B /* WebViewBridgeRegisterUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 06CE94141A8B5F6C0009D59B /* WebViewBridgeRegisterUtil.m */; };
 		06CEBA711A72410F00D8FE03 /* RenderKnowledgeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06CEBA701A72410F00D8FE03 /* RenderKnowledgeViewController.m */; };
 		06CEE6311A734E8C000ADCE3 /* SecondRenderKnowledgeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06CEE6301A734E8C000ADCE3 /* SecondRenderKnowledgeViewController.m */; };
 		06CF20B61A70D1A100DD2721 /* 封面图片-2-base64.txt in Resources */ = {isa = PBXBuildFile; fileRef = 06CF20B51A70D1A100DD2721 /* 封面图片-2-base64.txt */; };
@@ -469,6 +471,10 @@
 		06CE7CFB1A88573900FEB1D7 /* CollectionEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CollectionEntity.m; path = src/data/model/CollectionEntity.m; sourceTree = "<group>"; };
 		06CE940C1A8B39750009D59B /* PersonalCenterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PersonalCenterViewController.h; sourceTree = "<group>"; };
 		06CE940D1A8B39750009D59B /* PersonalCenterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PersonalCenterViewController.m; sourceTree = "<group>"; };
+		06CE94101A8B561F0009D59B /* customNavigationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = customNavigationViewController.h; sourceTree = "<group>"; };
+		06CE94111A8B561F0009D59B /* customNavigationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = customNavigationViewController.m; sourceTree = "<group>"; };
+		06CE94131A8B5F6C0009D59B /* WebViewBridgeRegisterUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WebViewBridgeRegisterUtil.h; path = src/util/WebViewBridgeRegisterUtil.h; sourceTree = "<group>"; };
+		06CE94141A8B5F6C0009D59B /* WebViewBridgeRegisterUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WebViewBridgeRegisterUtil.m; path = src/util/WebViewBridgeRegisterUtil.m; sourceTree = "<group>"; };
 		06CEBA6F1A72410F00D8FE03 /* RenderKnowledgeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RenderKnowledgeViewController.h; sourceTree = "<group>"; };
 		06CEBA701A72410F00D8FE03 /* RenderKnowledgeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RenderKnowledgeViewController.m; sourceTree = "<group>"; };
 		06CEE62F1A734E8C000ADCE3 /* SecondRenderKnowledgeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SecondRenderKnowledgeViewController.h; sourceTree = "<group>"; };
@@ -1869,6 +1875,16 @@
 			path = personalCenter;
 			sourceTree = "<group>";
 		};
+		06CE940F1A8B55F40009D59B /* customNavigationController */ = {
+			isa = PBXGroup;
+			children = (
+				06CE94101A8B561F0009D59B /* customNavigationViewController.h */,
+				06CE94111A8B561F0009D59B /* customNavigationViewController.m */,
+			);
+			name = customNavigationController;
+			path = src/customNavigationController;
+			sourceTree = "<group>";
+		};
 		06D418001A47AFEC007565F0 /* Test2.0 */ = {
 			isa = PBXGroup;
 			children = (
@@ -2578,6 +2594,7 @@
 		71860B6A19DC204C00D01AA9 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				06CE940F1A8B55F40009D59B /* customNavigationController */,
 				06CE7CE51A86139100FEB1D7 /* userRecordData */,
 				06DBBE021A83635E00BED5B7 /* scanQRcodeKnowledge */,
 				06B5FC0D1A5FB3820031DDB4 /* tabbarManagedController */,
@@ -2734,6 +2751,8 @@
 				7156B0D419F9012900B3A521 /* TimeWatcher.m */,
 				06D02C761A68A7F10047103A /* NSUserDefaultUtil.h */,
 				06D02C771A68A7F10047103A /* NSUserDefaultUtil.m */,
+				06CE94131A8B5F6C0009D59B /* WebViewBridgeRegisterUtil.h */,
+				06CE94141A8B5F6C0009D59B /* WebViewBridgeRegisterUtil.m */,
 			);
 			name = util;
 			sourceTree = "<group>";
@@ -3148,6 +3167,7 @@
 				06DBF0631A64BC2800804D66 /* ScanQRCodeViewController.m in Sources */,
 				7156B0BC19F8BC7700B3A521 /* MRActivityIndicatorView.m in Sources */,
 				713D864519EA96DD006446D5 /* ZipArchive.mm in Sources */,
+				06CE94121A8B561F0009D59B /* customNavigationViewController.m in Sources */,
 				710C035C19E1C90E00C27A33 /* SBJsonUTF8Stream.m in Sources */,
 				7118EB4819EF6B41002CF833 /* CLIColor.m in Sources */,
 				7118EB8019EF6BE3002CF833 /* Architecture.md in Sources */,
@@ -3214,6 +3234,7 @@
 				06CBC6191A8995D9000DADAE /* ScanQRCodeController.m in Sources */,
 				710C039C19E2ECA400C27A33 /* KnowledgeMeta.m in Sources */,
 				7156B0B019F8BC5100B3A521 /* UIImage+MRImageEffects.m in Sources */,
+				06CE94151A8B5F6C0009D59B /* WebViewBridgeRegisterUtil.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

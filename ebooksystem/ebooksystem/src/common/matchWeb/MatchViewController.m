@@ -32,6 +32,8 @@
 #import "RenderKnowledgeViewController.h"
 #import "FirstReuseViewController.h"
 
+#import "WebViewBridgeRegisterUtil.h"
+
 
 @interface MatchViewController () <UIWebViewDelegate>
 
@@ -87,6 +89,8 @@
     return _webView;
 }
 
+
+/*
 // bridge between webview and js
 -(WebViewJavascriptBridge *)javascriptBridge {
     if (_javascriptBridge == nil) {
@@ -99,16 +103,25 @@
     
     return _javascriptBridge;
 }
+*/
+
+
 
 #pragma mark - app life
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-//    [CustomURLProtocol register];
     //状态栏显示
-
-    [self initWebView];
+//    [self initWebView];
+    
+    WebViewBridgeRegisterUtil *webviewBridgeUtil = [[WebViewBridgeRegisterUtil alloc] init];
+    webviewBridgeUtil.webView = self.webView;
+    webviewBridgeUtil.controller = self;
+    webviewBridgeUtil.mainControllerView = self.view;
+    webviewBridgeUtil.navigationController = self.navigationController;
+    webviewBridgeUtil.tabBarController = self.tabBarController;
+    [webviewBridgeUtil initWebView];
     
     if ([self.shouldChangeBackground isEqualToString:@"needChange"]) {
         self.view.backgroundColor=[UIColor colorWithHexString:@"#242021" alpha:1];
@@ -139,14 +152,7 @@
     // Dispose of any resources that can be recreated.
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"WARNING" message:@"MemoryWarning,Please release memory immediately" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"ok", nil];
     [alert show];
-    /*
-    NSLog(@"MatchViewController didReceiveMemoryWarning");
     
-    if (self.isViewLoaded && self.view.window == nil) {
-        self.view = nil;
-        NSLog(@"MatchViewController warning");
-    }
-     */
 }
 
 
@@ -161,7 +167,7 @@
 
         [self.navigationController popViewControllerAnimated:YES];
     }];
-    
+    //share
     [self.javascriptBridge registerHandler:@"share" handler:^(id data, WVJBResponseCallback responseCallback) {
         LogDebug(@"MatchViewController::share() called: %@", data);
         
@@ -217,6 +223,8 @@
         [self showPageWithDictionary:dic];
         
     }];
+    
+    // ******* set && get current user study type **********
     //getCurStudyType
     [self.javascriptBridge registerHandler:@"getCurStudyType" handler:^(id data ,WVJBResponseCallback responseCallback){
         //在nsuserDefault中设置一个curStudyType字段，用来存储当前用户的学习状态
@@ -257,6 +265,7 @@
        
     }];
     
+    //************ get book status **********
     //getBookList
     [self.javascriptBridge registerHandler:@"getBookList" handler:^(id data,WVJBResponseCallback responseCallback){
         LogDebug(@"MatchViewController::getBookList() called: %@", data);
@@ -307,7 +316,6 @@
     //startDownload
     [self.javascriptBridge registerHandler:@"startDownload" handler:^(id data, WVJBResponseCallback responseCallback) {
         LogDebug(@"MatchViewController::startDownload() called: %@", data);
-                [self output];
         NSString *book_id = data;
         NSLog(@"调了=====%@",book_id);
         //下载的过程就是只有一步，拿到data_id后直接开始下载。（具体操作：1、根据book_id去下载 2、将下载的进度实时存到数据库中即可，不需要做读取的操作，也不需要将进度返回给JS。只需要告诉JS是否已经开始下载）。
@@ -396,9 +404,7 @@
     
     return YES;
 }
--(void)output {
-    NSLog(@"调了，调了");
-}
+
 
 #pragma mark 2.0调用的接口
 //2.0中跳转到指定页面
@@ -670,11 +676,7 @@
     [OperateCookie checkCookie];
 }
 
-#pragma mark test
-- (void)justForTest {
-    KnowledgeManager *manager = [KnowledgeManager instance];
-    [manager getUpdateInfoFileFromServerAndUpdateDataBase];
-}
+
 
 - (void)justForMoreDownloadTest {
     KnowledgeManager *manager = [KnowledgeManager instance];
@@ -707,9 +709,17 @@
 #pragma mark getknowledgeMeta
 //get dic :{book_id, book_status, book_status_detail}
 - (NSMutableDictionary *)getDicFormDataBase:(NSString *)bookId {
-    //
+    //限制dataType
     NSArray *bookArr = [[KnowledgeMetaManager instance] getKnowledgeMetaWithDataId:bookId andDataType:DATA_TYPE_DATA_SOURCE];
-//    NSArray *bookArr = [[KnowledgeMetaManager instance] getKnowledgeMetaWithDataId:bookId];
+    
+    //    NSArray *bookArr = [[KnowledgeMetaManager instance] getKnowledgeMetaWithDataId:bookId];
+    
+    
+    //1 数据库中没有bookId对应的记录，返回nil
+    if (bookArr == nil || bookArr.count <= 0) {
+        return nil;
+    }
+    //2 从数据库中查到对应的字段
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
     for (NSManagedObject *entity in bookArr) {
         if (entity == nil) {
@@ -717,36 +727,60 @@
         }
         NSString *dicBookId = [entity valueForKey:@"dataId"];
         NSNumber *dicBookStatusNum = [entity valueForKey:@"dataStatus"];
-        int dicBookStatusInteger = [dicBookStatusNum intValue];
-        NSString *dicBookStatus = nil;
-        NSString *downLoadStatus = nil;
-        if (dicBookStatusInteger >= 1 && dicBookStatusInteger <=3  ) {
-            dicBookStatus = @"下载";
+        int bookStatusInt = [dicBookStatusNum intValue];
+        NSString *bookStatusStr = nil;
+        NSString *downLoadStatus = nil;//该状态暂时未设置
+        
+        if (bookStatusInt >= 1 && bookStatusInt <= 3) {
+            bookStatusStr = @"下载中";
         }
-        else if (dicBookStatusInteger >= 4 && dicBookStatusInteger <=6) {
-            dicBookStatus = @"解包";
-//            downLoadStatus = @""
+        else if (bookStatusInt == 7) {
+            bookStatusStr = @"可更新";
         }
-        else if (dicBookStatusInteger == 10) {
-            dicBookStatus = @"完成";
+        else if (bookStatusInt == 8 || bookStatusInt ==9) {
+            bookStatusStr = @"更新中";
         }
-        else if (dicBookStatusInteger >= 8 && dicBookStatusInteger <= 9) {
-            dicBookStatus = @"更新本地文件";
+        else if (bookStatusInt == 10) {
+            bookStatusStr = @"完成";
+        }
+        else if (bookStatusInt == 11) {
+            bookStatusStr = @"APP版本过低";
+        }
+        else if (bookStatusInt == 12) {
+            bookStatusStr = @"APP版本过高";
+        }
+        else if (bookStatusInt == 14) {
+            bookStatusStr = @"下载失败";
+        }
+        else if (bookStatusInt == 15) {
+            bookStatusStr = @"下载暂停";
+        }
+        else if (bookStatusInt == -1  || bookStatusInt > 15) {
+            bookStatusStr = @"未下载";
+        }
+        
+        NSString *dicBookStatusDetails = [entity valueForKey:@"dataStatusDesc"];
+        //将浮点型转换成integer型，再转换成字符串类型
+        NSString *downLoadProgressStr = nil;
+        CGFloat downLoadProgressFloat = [dicBookStatusDetails floatValue];
+        if (downLoadProgressFloat == 100) {
+            downLoadProgressStr = [NSString stringWithFormat:@"%@",@"100"];
         }
         else {
-//            dicBookStatus = @"校验";
-            dicBookStatus = @"无权限";
+            NSInteger downLoadProgress = (NSInteger)(downLoadProgressFloat*100);
+            downLoadProgressStr = [NSString stringWithFormat:@"%ld",(long)downLoadProgress];
         }
-//        else {
-//            
-//        }
-        NSString *dicBookStatusDetails = [entity valueForKey:@"dataStatusDesc"];
-        //
+        
+        
+        //构造字典
         [dic setValue:dicBookId forKey:@"book_id"];
-        [dic setValue:dicBookStatus forKey:@"book_status"];
-        [dic setValue:dicBookStatusDetails forKey:@"book_status_detail"];
+        [dic setValue:bookStatusStr forKey:@"book_status"];
+        [dic setValue:downLoadProgressStr forKey:@"book_status_detail"];
+        
+        
         
     }
+    
     return dic;
     
 }
@@ -771,6 +805,8 @@
     }
     return coverSrc;
 }
+
+
 
 
  

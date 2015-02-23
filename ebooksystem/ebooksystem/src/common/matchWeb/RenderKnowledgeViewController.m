@@ -37,7 +37,7 @@
 #import "StatisticsManager.h"
 #import "UMFeedbackViewController.h"
 #import "FirstReuseViewController.h"
-
+#import "WebViewBridgeRegisterUtil.h"
 
 
 @interface RenderKnowledgeViewController ()<UIWebViewDelegate>
@@ -94,6 +94,8 @@
     return _webView;
 }
 
+
+/*
 // bridge between webview and js
 -(WebViewJavascriptBridge *)javascriptBridge {
     if (_javascriptBridge == nil) {
@@ -106,13 +108,25 @@
     
     return _javascriptBridge;
 }
+*/
+
 
 #pragma mark - app life
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
-    [self initWebView];
+//    [self initWebView];
+    
+    WebViewBridgeRegisterUtil *webviewBridgeUtil = [[WebViewBridgeRegisterUtil alloc] init];
+    webviewBridgeUtil.webView = self.webView;
+    webviewBridgeUtil.controller = self;
+    webviewBridgeUtil.mainControllerView = self.view;
+    webviewBridgeUtil.navigationController = self.navigationController;
+    webviewBridgeUtil.tabBarController = self.tabBarController;
+    [webviewBridgeUtil initWebView];
+    
+    
     
     if ([self.shouldChangeBackground isEqualToString:@"needChange"]) {
         self.view.backgroundColor=[UIColor colorWithHexString:@"#242021" alpha:1];
@@ -344,7 +358,7 @@
         
     }];
     
-    //queryBookStatus
+    //queryBookStatus -- 这个是可以使用的
     [self.javascriptBridge registerHandler:@"queryBookStatus" handler:^(id data, WVJBResponseCallback responseCallback) {
         LogDebug(@"RenderKnowledgeViewController::queryBookStatus() called: %@", data);
         
@@ -395,6 +409,10 @@
         }
         
     }];
+    
+    
+    
+    //************* 发现页接口 *************
     //showURL
     [self.javascriptBridge registerHandler:@"showURL" handler:^(id data, WVJBResponseCallback responseCallback) {
         //
@@ -434,6 +452,9 @@
         }
     }];
     
+    
+    
+    //  ******** 个人中心页面的接口 *************
     //showAppPageByAction
     [self.javascriptBridge registerHandler:@"showAppPageByAction" handler:^(id data, WVJBResponseCallback responseCallback) {
         //

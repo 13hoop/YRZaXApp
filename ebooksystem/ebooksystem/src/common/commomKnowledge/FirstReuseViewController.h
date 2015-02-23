@@ -19,4 +19,7 @@
 //判断本页是否需要刷新
 @property (nonatomic,strong) NSString *needRefresh;
 
+//判断是否需要横屏
+@property (nonatomic,strong) NSString *needOrientation;
+
 @end

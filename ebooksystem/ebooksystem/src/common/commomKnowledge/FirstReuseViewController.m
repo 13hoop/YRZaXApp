@@ -42,6 +42,8 @@
 #import "PersionalCenterUrlConfig.h"
 #import "SecondRenderKnowledgeViewController.h"
 
+#import "WebViewBridgeRegisterUtil.h"
+
 
 @interface FirstReuseViewController ()<UIWebViewDelegate>
 
@@ -92,6 +94,8 @@
     return _webView;
 }
 
+
+/*
 // bridge between webview and js
 -(WebViewJavascriptBridge *)javascriptBridge {
     if (_javascriptBridge == nil) {
@@ -104,12 +108,21 @@
     
     return _javascriptBridge;
 }
+ */
 
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self initWebView];
-    LogInfo(@"现在进入了FirstReusecontroller中");
+//    [self initWebView];
+    
+    WebViewBridgeRegisterUtil *webviewBridgeUtil = [[WebViewBridgeRegisterUtil alloc] init];
+    webviewBridgeUtil.webView = self.webView;
+    webviewBridgeUtil.controller = self;
+    webviewBridgeUtil.mainControllerView = self.view;
+    webviewBridgeUtil.navigationController = self.navigationController;
+    webviewBridgeUtil.tabBarController = self.tabBarController;
+    [webviewBridgeUtil initWebView];
+    
     if ([self.shouldChangeBackground isEqualToString:@"needChange"]) {
         self.view.backgroundColor=[UIColor colorWithHexString:@"#242021" alpha:1];
     }
@@ -142,6 +155,12 @@
     if([self.needRefresh isEqualToString:@"1"]) {
         [self.webView reload];//等于1是就刷新，反之不作处理
     }
+    //在当前页面渲染时，若是需要横屏，则横屏
+    if ([self.needOrientation isEqualToString:@"landscape"]) {
+        CGAffineTransform transform = CGAffineTransformIdentity;
+        transform = CGAffineTransformRotate(transform, M_PI/2);
+        self.view.transform = transform;
+    }
     
 }
 
@@ -170,9 +189,11 @@
 
 
 #pragma mark init Web view
-
+/*
 - (BOOL)initWebView {
     //    self.webView.delegate = self.javascriptBridge;
+    
+//    [self.bridge register];
     
     // goback()
     [self.javascriptBridge registerHandler:@"goBack" handler:^(id data, WVJBResponseCallback responseCallback) {
@@ -590,7 +611,7 @@
     
     return YES;
 }
-
+*/
 
 #pragma mark js -- native interface method
 
@@ -687,8 +708,11 @@
 //2.0中跳转到指定页面
 - (BOOL)showPageWithDictionary:(NSDictionary *)dic {
     NSString *target = dic[@"target"];
+    //是否需要刷新
     NSString *needRefreshStr = dic[@"need_refresh"];
     self.needRefresh = needRefreshStr;//将是否需要刷新存到属性中
+    //是否需要横屏
+    NSString *orientation = dic[@"orientation"];
     
     if ([target isEqualToString:@"self"]) {
         
@@ -717,6 +741,13 @@
         NSURL *urlWithParams = [[NSURL alloc] initWithString:urlStrWithParams];
         
         [self.webView loadRequest:[[NSURLRequest alloc] initWithURL:urlWithParams]];
+        //在当前页面渲染时，若是需要横屏，则横屏
+        if ([orientation isEqualToString:@"landscape"]) {
+            CGAffineTransform transform = CGAffineTransformIdentity;
+            transform = CGAffineTransformRotate(transform, M_PI/2);
+            self.view.transform = transform;
+        }
+        
         
         return YES;
     }
@@ -746,7 +777,7 @@
             //获取渲染页面时的值
             NSString *animation = [dic objectForKey:@"open_animate"];
             //打开新的controller
-            return [self readBookWithSafeUrl:urlStrWithParams andAnimation:animation];
+            return [self readBookWithSafeUrl:urlStrWithParams andAnimation:animation andOrientation:orientation];
             
         }
     }
@@ -756,18 +787,21 @@
 }
 
 
-- (BOOL)readBookWithSafeUrl:(NSString *)urlStr andAnimation:(NSString *)openAnimation{
+- (BOOL)readBookWithSafeUrl:(NSString *)urlStr andAnimation:(NSString *)openAnimation andOrientation:(NSString *)orientation {
     
     SecondReuseViewController *second = [[SecondReuseViewController alloc] init];
     if (openAnimation != nil && openAnimation.length > 0) {
         //自定义动画
         CATransition *animation = [self customAnimation:openAnimation];
         second.webUrl = urlStr;
+        //判断是否需要横屏，把JS传来的参数传到下一个页面上
+        second.needOrientation = orientation;
         [self.navigationController.view.layer addAnimation:animation forKey:nil];
         [self.navigationController pushViewController:second animated:NO];
     }
     else {
-        
+        //判断是否需要横屏，把JS传来的参数传到下一个页面上
+        second.needOrientation = orientation;
         second.webUrl = urlStr;
         [self.navigationController pushViewController:second animated:YES];
         

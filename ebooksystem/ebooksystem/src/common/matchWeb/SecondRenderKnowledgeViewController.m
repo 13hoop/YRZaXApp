@@ -34,6 +34,8 @@
 #import "UpdateManager.h"
 #import "AboutUsViewController.h"
 
+#import "WebViewBridgeRegisterUtil.h"
+
 
 @interface SecondRenderKnowledgeViewController ()<UIWebViewDelegate>
 
@@ -86,6 +88,7 @@
     return _webView;
 }
 
+/*
 // bridge between webview and js
 -(WebViewJavascriptBridge *)javascriptBridge {
     if (_javascriptBridge == nil) {
@@ -98,12 +101,25 @@
     
     return _javascriptBridge;
 }
+*/
+
 
 #pragma mark - app life
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self initWebView];
+//    [self initWebView];
+    
+    
+    WebViewBridgeRegisterUtil *webviewBridgeUtil = [[WebViewBridgeRegisterUtil alloc] init];
+    webviewBridgeUtil.webView = self.webView;
+    webviewBridgeUtil.controller = self;
+    webviewBridgeUtil.mainControllerView = self.view;
+    webviewBridgeUtil.navigationController = self.navigationController;
+    webviewBridgeUtil.tabBarController = self.tabBarController;
+    [webviewBridgeUtil initWebView];
+    
+    
     //设置背景色，防止隐藏掉tabbar时底部出现黑色条
     self.view.backgroundColor = [UIColor whiteColor];
     
@@ -534,7 +550,6 @@
         }
     }];
     
-    //分享到朋友圈 - share
     
     //showAboutPage
     [self.javascriptBridge registerHandler:@"showAboutPage" handler:^(id data, WVJBResponseCallback responseCallback) {
@@ -633,9 +648,6 @@
 
 
 - (BOOL)updateWebView {
-    // 在加载loadRuquest之前设置userAgent
-    //    [self checkUserAgent];
-    
     // load url
     NSURL *Url = [NSURL URLWithString:self.webUrl];
     NSURLRequest *request = [NSURLRequest requestWithURL:Url];
@@ -865,21 +877,6 @@
 // share
 
 - (void)share:(NSDictionary *)shareDic {
-    /* 1.0
-     url :
-     img_url :
-     weixin_img_url :
-     title :
-     content :
-     screen_shot : false
-     */
-    
-    /* 2.0
-     title          标题
-     content        内容
-     image_url      小图片url
-     target_url     目标页面url
-     */
     //title
     NSString *titleAll=[shareDic objectForKey:@"title"];
     //分享链接
