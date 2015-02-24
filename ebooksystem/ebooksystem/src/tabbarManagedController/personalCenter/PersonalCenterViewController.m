@@ -38,7 +38,7 @@
 #import "StatisticsManager.h"
 #import "UMFeedbackViewController.h"
 #import "FirstReuseViewController.h"
-
+#import "WebViewBridgeRegisterUtil.h"
 
 @interface PersonalCenterViewController ()<UIWebViewDelegate>
 
@@ -90,6 +90,8 @@
     return _webView;
 }
 
+
+/*
 // bridge between webview and js
 -(WebViewJavascriptBridge *)javascriptBridge {
     if (_javascriptBridge == nil) {
@@ -102,27 +104,26 @@
     
     return _javascriptBridge;
 }
+*/
+
 
 #pragma mark - app life
 
 - (void)viewDidLoad {
     self.view.backgroundColor = [UIColor whiteColor];
-    [self initWebView];
-    
-//    if ([self.shouldChangeBackground isEqualToString:@"needChange"]) {
-//        self.view.backgroundColor=[UIColor colorWithHexString:@"#242021" alpha:1];
-//    }
-//    else {
-//        self.view.backgroundColor = [UIColor colorWithHexString:@"#4C501D" alpha:1];
-//    }
+//    [self initWebView];
+    WebViewBridgeRegisterUtil *webviewBridgeUtil = [[WebViewBridgeRegisterUtil alloc] init];
+    webviewBridgeUtil.webView = self.webView;
+    webviewBridgeUtil.controller = self;
+    webviewBridgeUtil.mainControllerView = self.view;
+    webviewBridgeUtil.navigationController = self.navigationController;
+    webviewBridgeUtil.tabBarController = self.tabBarController;
+    [webviewBridgeUtil initWebView];
     
     self.automaticallyAdjustsScrollViewInsets = NO;
     
     self.webView.scrollView.bounces = NO;
     self.webView.scrollView.showsVerticalScrollIndicator = NO;
-    
-    //    [self injectJSToWebView:self.webView];
-    //    self.webview.delegate=self;
     [self updateWebView];
     
 }
@@ -145,6 +146,7 @@
 }
 
 #pragma mark - init
+/*
 - (BOOL)initWebView {
     // goback()
     [self.javascriptBridge registerHandler:@"goBack" handler:^(id data, WVJBResponseCallback responseCallback) {
@@ -286,6 +288,7 @@
 
     
 }
+*/
 
 - (BOOL)updateWebView {
     NSURL *Url = [NSURL URLWithString:self.webUrl];
@@ -295,8 +298,9 @@
     
     return YES;
 }
-#pragma mark - share
 
+/*
+#pragma mark - share
 - (void)share:(NSDictionary *)shareDic {
     
     //title
@@ -355,8 +359,6 @@
     [UMSocialSnsService presentSnsIconSheetView:self appKey:@"543dea72fd98c5fc98004e08" shareText:shareString shareImage:nil shareToSnsNames:[NSArray arrayWithObjects:UMShareToWechatSession,UMShareToWechatTimeline,UMShareToQzone,UMShareToQQ,nil] delegate:nil];
 }
 
-
-
 #pragma mark showAppPageByAction methods
 - (void)showAppPageByaction:(NSDictionary *)dic {
     NSString *target = [dic objectForKey:@"target"];
@@ -400,6 +402,8 @@
     
     return YES;
 }
+
+ */
 
 #pragma mark - web view delegate methods
 

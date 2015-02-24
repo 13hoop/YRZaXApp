@@ -31,7 +31,7 @@
 #import "KnowledgeMetaManager.h"
 #import "MatchViewController.h"
 #import "discoveryModel.h"
-
+#import "WebViewBridgeRegisterUtil.h"
 
 
 @interface discoveryWebView()<UIWebViewDelegate>
@@ -70,6 +70,7 @@
     return _webView;
 }
 
+
 // bridge between webview and js
 -(WebViewJavascriptBridge *)javascriptBridge {
     if (_javascriptBridge == nil) {
@@ -84,21 +85,26 @@
 }
 
 
+
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code
 //        self.userInteractionEnabled = YES;
-        [self initWebView];
-
         
+        [self initWebView];
     }
     return self;
 }
+
+
+#pragma mark 在发现页中使用封装好的类
+
 - (void)drawRect:(CGRect)rect {
     [self updateWebView];
 }
+
 
 - (BOOL)initWebView {
     //    self.webView.delegate = self.javascriptBridge;
@@ -360,6 +366,9 @@
 }
 
 
+
+
+
 #pragma mark 2.0调用的接口
 //2.0中跳转到指定页面
 - (BOOL)showPageWithDictionary:(NSDictionary *)dic {
@@ -605,6 +614,7 @@
     return jsonString;
 }
 
+//获取头像的图片
 - (NSString *)getImage {
     NSString *imagePath = [[NSBundle mainBundle] pathForResource:@"封面图片-2-base64" ofType:@"txt"];
     NSString *imageStr = [[NSString alloc] initWithContentsOfFile:imagePath encoding:NSUTF8StringEncoding error:nil];

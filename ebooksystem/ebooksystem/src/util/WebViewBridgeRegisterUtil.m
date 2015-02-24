@@ -48,7 +48,7 @@
 #import "UpdateManager.h"
 #import "AboutUsViewController.h"
 
-@interface WebViewBridgeRegisterUtil ()
+@interface WebViewBridgeRegisterUtil ()<UINavigationControllerDelegate,UIImagePickerControllerDelegate>
 
 #pragma mark - properties
 // bridge between webview and js
@@ -1262,4 +1262,50 @@
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:str]];
 }
 
+
+#pragma mark 打开相机 调用相册的方法
+//代理指定的self应该是self.controller
+//打开相机
+- (void)openCamera {
+    UIImagePickerControllerSourceType sourceType = UIImagePickerControllerSourceTypeCamera;
+    if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+        sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+    }
+    UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+    picker.delegate = self;
+    picker.allowsEditing = YES;
+    picker.sourceType = sourceType; 
+    [self.controller presentViewController:picker animated:YES completion:nil];//进入照相机界面
+    
+}
+//打开相册
+- (void)openPhotoLibrary {
+     UIImagePickerController *pickerImage = [[UIImagePickerController alloc] init];
+    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
+        if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]) {
+            pickerImage.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+            //pickerImage.sourceType = UIImagePickerControllerSourceTypeSavedPhotosAlbum;
+            pickerImage.mediaTypes = [UIImagePickerController availableMediaTypesForSourceType:pickerImage.sourceType];
+            
+        }
+        pickerImage.delegate = self;
+        pickerImage.allowsEditing = NO;
+        [self.controller presentViewController:pickerImage animated:YES completion:nil];
+    }
+    else {
+        
+    }
+}
+
+//点击相册中的图片或者照完相之后，（点击use后）会调用的代理方法
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
+    //得到图片
+    UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
+    
+}
+//取消的代理方法
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
+    //退出相机界面
+    [self.controller dismissMoviePlayerViewControllerAnimated];
+}
 @end

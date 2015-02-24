@@ -14,6 +14,8 @@
 #import "ScanQRCodeViewController.h"
 #import "SBJson.h"
 
+
+
 @interface QuestionAndAnswerViewController ()<UIWebViewDelegate>
 
 #pragma mark - properties
