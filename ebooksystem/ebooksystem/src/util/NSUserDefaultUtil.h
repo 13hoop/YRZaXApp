@@ -20,6 +20,9 @@
 + (BOOL)saveHttpResponse:(id)response;
 
 
+//设置UA字段
++ (BOOL)setUserAgent;
+
 
 
 

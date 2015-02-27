@@ -80,6 +80,8 @@
 
 - (void)initWebView {
     
+    
+    
     // goback()
     [self.javascriptBridge registerHandler:@"goBack" handler:^(id data, WVJBResponseCallback responseCallback) {
         LogDebug(@"WebViewBridgeRegisterUtil::goBack() called: %@", data);
@@ -645,18 +647,24 @@
         self.tabBarController.selectedIndex = 1;
     }];
     
-    /*
+    //************** ****
     //goUserSettingPage
     [self.javascriptBridge registerHandler:@"goUserSettingPage" handler:^(id data, WVJBResponseCallback responseCallback) {
+        /*
         //跳转到设置页面
         RenderKnowledgeViewController *render = [[RenderKnowledgeViewController alloc] init];
         NSString *bundlePath = [PathUtil getBundlePath];
         NSString *userCenterUrlStrWithParams = [NSString stringWithFormat:@"%@/%@/%@/%@", bundlePath, @"assets",@"native-html",@"user_center.html"];
         render.webUrl = userCenterUrlStrWithParams;
         [self.navigationController pushViewController:render animated:YES];
+        */
+        //测试相机使用
+        
+//        [self openCameraDelaied];
+        [self openPhotoLibrary];
         
     }];
-     */
+    
 
     // *******  发现页的接口 ********
     //showURL
@@ -1264,9 +1272,13 @@
 
 
 #pragma mark 打开相机 调用相册的方法
-//代理指定的self应该是self.controller
+//代理指定的self（而不是self.controller，因为UINavigationControllerDelegate,UIImagePickerControllerDelegate是在这里面遵守）
+//延迟调用camera
+- (void)openCameraDelaied {
+    [self performSelector:@selector(showcamera) withObject:nil afterDelay:0.3];
+}
 //打开相机
-- (void)openCamera {
+- (void)showcamera {
     UIImagePickerControllerSourceType sourceType = UIImagePickerControllerSourceTypeCamera;
     if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
         sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
@@ -1281,6 +1293,7 @@
 //打开相册
 - (void)openPhotoLibrary {
      UIImagePickerController *pickerImage = [[UIImagePickerController alloc] init];
+    //iphone
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
         if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]) {
             pickerImage.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
@@ -1289,23 +1302,53 @@
             
         }
         pickerImage.delegate = self;
-        pickerImage.allowsEditing = NO;
+        pickerImage.allowsEditing = YES;
         [self.controller presentViewController:pickerImage animated:YES completion:nil];
     }
     else {
+        //ipad
+        if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]) {
+            
+            UIImagePickerControllerSourceType sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+            //sourceType = UIImagePickerControllerSourceTypeSavedPhotosAlbum; //保存的相片
+            pickerImage.delegate = self;
+            pickerImage.allowsEditing = YES;//是否允许编辑
+            pickerImage.sourceType = sourceType;
+            [self.controller presentViewController:pickerImage animated:YES completion:nil];
+
+        }
         
     }
 }
 
-//点击相册中的图片或者照完相之后，（点击use后）会调用的代理方法
+//点击相册中的图片或者照完相之后，（点击use后或在允许编辑的状态下选中选取按钮后）会调用的代理方法
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
-    //得到图片
-    UIImage *image = [info objectForKey:UIImagePickerControllerOriginalImage];
+    //得到选择的图片（相机中）
+    UIImage *image = [info objectForKey:UIImagePickerControllerEditedImage];
+    if (!image) {
+        //从相册中取图片
+        image = [info objectForKey:UIImagePickerControllerOriginalImage];
+    }
+    //保存到相册中
+    UIImageWriteToSavedPhotosAlbum(image, self, @selector(image:didFinishSavingWithError:contextInfo:), NULL);
+    //关闭相册
+//    [self.controller dismissMoviePlayerViewControllerAnimated];
+    [self.controller dismissViewControllerAnimated:YES completion:nil];
+}
+
+//不是imagePickerController的代理方法，是自己定义的方法，用来检测是否保存成功。
+- (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void*)contextInfo {
+    if (error) {
+        LogError ( @"error info : %@",[error localizedDescription] );
+    }
+    else {
+        //nil时保存成功
+    }
     
 }
 //取消的代理方法
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
     //退出相机界面
-    [self.controller dismissMoviePlayerViewControllerAnimated];
+    [self.controller dismissViewControllerAnimated:YES completion:nil];
 }
 @end

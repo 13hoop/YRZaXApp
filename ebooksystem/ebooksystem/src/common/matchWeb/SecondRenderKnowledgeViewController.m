@@ -69,8 +69,11 @@
         if ([_webUrl hasSuffix:@"/"]) {
             connector = @"\?";
         }
+        //1 本地html页面加上UA后缀后无法加载
 //        _webUrl = [NSString stringWithFormat:@"%@%@ua=%@", _webUrl, connector, [Config instance].webConfig.userAgent];
+       
         _webUrl = [NSString stringWithFormat:@"%@", _webUrl];
+        
     }
     
     return _webUrl;
@@ -707,7 +710,7 @@
 
 -(BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
     if (request) {
-        LogDebug(@"[RenderKnowledgeViewController] Web request: UA: %@", [request valueForHTTPHeaderField:@"User-Agent"]);
+        LogDebug(@"[secondRenderKnowledgeViewController] Web request: UA: %@", [request valueForHTTPHeaderField:@"User-Agent"]);
     }
 //    [self injectJSToWebView:webView];
     NSLog(@" url === %@",request.URL);

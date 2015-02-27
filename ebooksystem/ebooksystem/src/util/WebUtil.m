@@ -22,8 +22,9 @@
     
     NSString *newUserAgent = [[NSString alloc] initWithFormat:@"%@ %@", originalUserAgent, [Config instance].webConfig.userAgent];
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:newUserAgent, @"UserAgent", nil];
+    [[NSUserDefaults standardUserDefaults] registerDefaults:@{@"UserAgent" : newUserAgent, @"User-Agent" : newUserAgent}];
     
-    [[NSUserDefaults standardUserDefaults] registerDefaults:dict];
+//    [[NSUserDefaults standardUserDefaults] registerDefaults:dict];
     
     return YES;
 }

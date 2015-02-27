@@ -164,9 +164,13 @@
     
     //在当前页面渲染时，若是需要横屏，则横屏
     if ([self.needOrientation isEqualToString:@"landscape"]) {
+        //1 将self.view旋转
         CGAffineTransform transform = CGAffineTransformIdentity;
         transform = CGAffineTransformRotate(transform, M_PI/2);
         self.view.transform = transform;
+        //2 self.view旋转后，重新设置webview的frame
+        CGRect rect = [[UIScreen mainScreen] bounds];
+        self.webView.frame = CGRectMake(0, 0, rect.size.height, rect.size.width);//将原始视图的宽高和新视图的宽高值互换
     }
    
 }

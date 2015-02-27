@@ -7,6 +7,7 @@
 //
 
 #import "NSUserDefaultUtil.h"
+#import "Config.h"
 
 @implementation NSUserDefaultUtil
 
@@ -44,5 +45,13 @@
     [userDefault synchronize];
     return YES;
 }
+
+#pragma mark 设置UA
++ (BOOL)setUserAgent {
+    NSString *UAString = [Config instance].webConfig.userAgent;
+    [[NSUserDefaults standardUserDefaults] registerDefaults:@{@"UserAgent" : UAString, @"User-Agent" : UAString}];
+    return YES;
+}
+
 
 @end
