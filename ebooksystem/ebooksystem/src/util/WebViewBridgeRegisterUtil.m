@@ -47,12 +47,18 @@
 #import "UserManager.h"
 #import "UpdateManager.h"
 #import "AboutUsViewController.h"
+#import "GTMBase64.h"
+#import "UpLoadUtil.h"
+
 
 @interface WebViewBridgeRegisterUtil ()<UINavigationControllerDelegate,UIImagePickerControllerDelegate>
 
 #pragma mark - properties
 // bridge between webview and js
 @property (nonatomic, strong) WebViewJavascriptBridge *javascriptBridge;
+//存储图片base64编码后的字符串
+@property (nonatomic, strong) NSString *imageString;
+@property (nonatomic, strong) NSData *upLoadData;
 
 @end
 
@@ -660,8 +666,8 @@
         */
         //测试相机使用
         
-//        [self openCameraDelaied];
-        [self openPhotoLibrary];
+        [self openCameraDelaied];
+//        [self openPhotoLibrary];
         
     }];
     
@@ -1326,13 +1332,22 @@
     //得到选择的图片（相机中）
     UIImage *image = [info objectForKey:UIImagePickerControllerEditedImage];
     if (!image) {
-        //从相册中取图片
+        //从（相册中）取图片
         image = [info objectForKey:UIImagePickerControllerOriginalImage];
     }
     //保存到相册中
     UIImageWriteToSavedPhotosAlbum(image, self, @selector(image:didFinishSavingWithError:contextInfo:), NULL);
+    //使用base64编码image
+    NSData *imageData = UIImageJPEGRepresentation(image, 1);
+    imageData = [GTMBase64 encodeData:imageData];
+    //将编码后的值赋值给属性。
+     self.imageString = [[NSString alloc] initWithData:imageData encoding:NSUTF8StringEncoding];
+    self.upLoadData = imageData;
+    //接口定义后，将这个字符串返回给JS
+    NSLog(@"图片编码后的字符串值是====%@",self.imageString);
+    [self upLoadImage];
+    
     //关闭相册
-//    [self.controller dismissMoviePlayerViewControllerAnimated];
     [self.controller dismissViewControllerAnimated:YES completion:nil];
 }
 
@@ -1346,9 +1361,27 @@
     }
     
 }
-//取消的代理方法
+//点击取消的代理方法
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
     //退出相机界面
     [self.controller dismissViewControllerAnimated:YES completion:nil];
 }
+
+#pragma mark 上传图片的方法
+- (BOOL)upLoadImage {
+    if (self.imageString == nil || self.imageString.length <= 0) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"您未选择将要上传的图片，请选择后再上传" delegate:nil cancelButtonTitle:@"好的" otherButtonTitles:nil, nil];
+        [alert show];
+        return NO;
+    }
+    //拼接parameter参数
+    NSString *tokenStr = @"EjjMt_17QP2QK6YUPIjtRdinWYH-lxEmFiyZgQUn:_3naJjNTL4LHVYKfvHRzK6kzR1Q=:eyJzY29wZSI6InNhbWEtZGF0YSIsImRlYWRsaW5lIjoxNDI1MDkyMjQzLCJjYWxsYmFja1VybCI6InRlc3QuemF4dWUxMDAuY29tXC9pbmRleC5waHA_Yz11cGxvYWRfZmlsZV9jdHJsJm09dXBsb2FkX2NhbGxiYWNrIiwiY2FsbGJhY2tCb2R5IjoibmFtZT0kKGZuYW1lKSZoYXNoPSQoZXRhZykmc2F2ZV9rZXk9X18yMDE1MDIyOC0xMDUyMjMtMjMwMDk3NiZ1aWQ9Iiwic2F2ZUtleSI6Il9fMjAxNTAyMjgtMTA1MjIzLTIzMDA5NzYifQ==";
+    //upload url
+    NSString *uploadUrl = @"http://test.zaxue100.com/index.php?c=upload_file_ctrl&m=upload_zaxue";
+    //upload
+    return [UpLoadUtil upLoadImage:self.upLoadData andToken:tokenStr toUploadUrl:uploadUrl];
+    
+    
+}
+
 @end

@@ -122,6 +122,7 @@
 		06DBF0631A64BC2800804D66 /* ScanQRCodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06DBF0621A64BC2800804D66 /* ScanQRCodeViewController.m */; };
 		06DBF0661A64D39300804D66 /* ScanQRCodeTabViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06DBF0651A64D39300804D66 /* ScanQRCodeTabViewController.m */; };
 		06DBF0701A650ADA00804D66 /* PurchaseTabViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06DBF06F1A650ADA00804D66 /* PurchaseTabViewController.m */; };
+		06DCE1C31AA162E800538724 /* UpLoadUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 06DCE1C21AA162E800538724 /* UpLoadUtil.m */; };
 		06DFC2901A60BC5400179C68 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06DFC28F1A60BC5400179C68 /* AVFoundation.framework */; };
 		06DFC2921A60BC6000179C68 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06DFC2911A60BC6000179C68 /* CoreMedia.framework */; };
 		06DFC2941A60BC7300179C68 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06DFC2931A60BC7300179C68 /* CoreVideo.framework */; };
@@ -529,6 +530,8 @@
 		06DBF0651A64D39300804D66 /* ScanQRCodeTabViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScanQRCodeTabViewController.m; sourceTree = "<group>"; };
 		06DBF06E1A650ADA00804D66 /* PurchaseTabViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PurchaseTabViewController.h; sourceTree = "<group>"; };
 		06DBF06F1A650ADA00804D66 /* PurchaseTabViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PurchaseTabViewController.m; sourceTree = "<group>"; };
+		06DCE1C11AA162E800538724 /* UpLoadUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UpLoadUtil.h; path = src/util/UpLoadUtil.h; sourceTree = "<group>"; };
+		06DCE1C21AA162E800538724 /* UpLoadUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UpLoadUtil.m; path = src/util/UpLoadUtil.m; sourceTree = "<group>"; };
 		06DFC28F1A60BC5400179C68 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		06DFC2911A60BC6000179C68 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		06DFC2931A60BC7300179C68 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
@@ -2753,6 +2756,8 @@
 				06D02C771A68A7F10047103A /* NSUserDefaultUtil.m */,
 				06CE94131A8B5F6C0009D59B /* WebViewBridgeRegisterUtil.h */,
 				06CE94141A8B5F6C0009D59B /* WebViewBridgeRegisterUtil.m */,
+				06DCE1C11AA162E800538724 /* UpLoadUtil.h */,
+				06DCE1C21AA162E800538724 /* UpLoadUtil.m */,
 			);
 			name = util;
 			sourceTree = "<group>";
@@ -3132,6 +3137,7 @@
 				710C035919E1C90E00C27A33 /* SBJsonStreamWriterAccumulator.m in Sources */,
 				06DBBE051A836FB100BED5B7 /* scanQRcodeDataManager.m in Sources */,
 				06D418141A47B804007565F0 /* IADownloadHandler.m in Sources */,
+				06DCE1C31AA162E800538724 /* UpLoadUtil.m in Sources */,
 				7134FB2319E4DE4E004AB7A8 /* KnowledgeSearchManager.m in Sources */,
 				06AA7F6819F4FC7E00570289 /* RegisterUserInfo.m in Sources */,
 				06D1D2B31A750ECD00F5B8FC /* discoveryWebView.m in Sources */,

@@ -308,7 +308,7 @@
             NSRange resultRange = [firstMatch rangeAtIndex:0];
             //从urlString中截取数据
             NSString *result1 = [str substringWithRange:resultRange];
-            NSLog(@"正则表达后的结果%@   ----我们需要在后面在进行住家com",result1);
+            NSLog(@"正则表达后的结果%@   ----需要在后面主动加.com",result1);
             return result1;
             
         }
