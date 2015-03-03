@@ -26,6 +26,8 @@
     
     //设置tabbar item 图片
     [self settingTabbarItemImage];
+    //使用属性字符串来设置tabbar的title
+    [self setTabBarItemTitleColor];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -50,8 +52,9 @@
     //问答页
     [self setItemWithIndex:2 andImageName:@"Q&A.png" andSelectedImageName:@"Q&ASelected.png"];
     
-    //二维码
-    [self setItemWithIndex:3 andImageName:@"scan.png" andSelectedImageName:@"scanSelected.png"];
+    //个人页
+    [self setItemWithIndex:3 andImageName:@"person.png" andSelectedImageName:@"personSelected.png"];
+    
 }
 
 //setting tabbar item image && selected image
@@ -65,6 +68,14 @@
     item.image = itemImage;
     item.selectedImage = itemImageSelected;
     //title可以设置属性字符串来改变title值，字体颜色等
+    
+
+}
+- (void)setTabBarItemTitleColor {
+    //ios5.0属性字符串的使用
+//    [[UITabBarItem appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor orangeColor],UITextAttributeTextColor,[UIColor redColor],UITextAttributeTextShadowColor,nil] forState:UIControlStateSelected];
+    //ios7.0及以上属性字符串的使用
+    [[UITabBarItem appearance] setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor orangeColor],NSForegroundColorAttributeName, nil] forState:UIControlStateSelected];
 }
 
 @end

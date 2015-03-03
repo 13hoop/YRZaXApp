@@ -41,7 +41,7 @@
 // bridge between webview and js
 @property (nonatomic, strong) WebViewJavascriptBridge *javascriptBridge;
 @property (nonatomic, strong) UIWebView *webView;
-@property (nonatomic,strong) NSString *oldUserAgent;
+@property (nonatomic, strong) NSString *oldUserAgent;
 
 
 
@@ -57,10 +57,6 @@
 @end
 
 @implementation MatchViewController
-
-//@synthesize webUrl = _webUrl;
-//@synthesize webView = _webView;
-//@synthesize javascriptBridge = _javascriptBridge;
 
 
 #pragma mark - properties

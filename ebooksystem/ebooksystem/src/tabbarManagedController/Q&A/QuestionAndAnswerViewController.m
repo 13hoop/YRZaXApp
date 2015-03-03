@@ -13,6 +13,7 @@
 #import "Config.h"
 #import "ScanQRCodeViewController.h"
 #import "SBJson.h"
+#import "WebViewBridgeRegisterUtil.h"
 
 
 
@@ -41,6 +42,10 @@
     
     NSString *questionAndAnswerNonParam = @"http://test.zaxue100.com/index.php?c=bbs_ctrl&m=bbs_pages";
     self.webUrl = questionAndAnswerNonParam;
+//    NSString *bundlePath = [PathUtil getBundlePath];
+//    NSString *userCenterUrlStrWithParams = [NSString stringWithFormat:@"%@/%@/%@/%@", bundlePath, @"assets",@"native-html",@"user_center.html"];
+//    self.webUrl = userCenterUrlStrWithParams;
+    
     if (_webUrl != nil && ![_webUrl hasSuffix:[Config instance].webConfig.userAgent]) {
         NSString *connector = @"&";
         if ([_webUrl hasSuffix:@"/"]) {
@@ -67,6 +72,7 @@
     return _webView;
 }
 
+/*
 // bridge between webview and js
 -(WebViewJavascriptBridge *)javascriptBridge {
     if (_javascriptBridge == nil) {
@@ -79,14 +85,21 @@
     
     return _javascriptBridge;
 }
-
+*/
 
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
     self.view.backgroundColor = [UIColor whiteColor];
-    [self initWebView];
+//    [self initWebView];
+    WebViewBridgeRegisterUtil *webviewBridgeUtil = [[WebViewBridgeRegisterUtil alloc] init];
+    webviewBridgeUtil.webView = self.webView;
+    webviewBridgeUtil.controller = self;
+    webviewBridgeUtil.mainControllerView = self.view;
+    webviewBridgeUtil.navigationController = self.navigationController;
+    webviewBridgeUtil.tabBarController = self.tabBarController;
+    [webviewBridgeUtil initWebView];
     
     
     self.automaticallyAdjustsScrollViewInsets = NO;
@@ -111,7 +124,7 @@
     // Dispose of any resources that can be recreated.
 }
 
-
+/*
 #pragma mark - init
 - (BOOL)initWebView {
     
@@ -133,14 +146,16 @@
     
     return YES;
 }
+ */
 
 #pragma mark - web view delegate methods
 
 -(BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
     if (request) {
-        LogDebug(@"[RenderKnowledgeViewController] Web request: UA: %@", [request valueForHTTPHeaderField:@"User-Agent"]);
+        LogDebug(@"[QuestionAndAnswerViewController] Web request: UA: %@", [request valueForHTTPHeaderField:@"User-Agent"]);
     }
-    
+//    [self injectJSToWebView:webView];
+
     return YES;
 }
 
@@ -149,7 +164,7 @@
 }
 
 - (void)webViewDidStartLoad:(UIWebView *)webView {
-    //    [self injectJSToWebView:webView];
+//        [self injectJSToWebView:webView];
 }
 #pragma mark - js injection
 
@@ -169,6 +184,7 @@
 }
 
 
+/*
 #pragma mark 问答页接口调用的方法
 #pragma mark goScanViewController
 - (void)goScanViewController:(NSDictionary *)dic {
@@ -204,6 +220,6 @@
     [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionDefault]];
     return animation;
 }
-
+*/
 
 @end

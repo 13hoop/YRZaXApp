@@ -27,7 +27,6 @@
 #import "UMSocialWechatHandler.h"
 #import "UMSocialQQHandler.h"
 #import "UMSocialSinaHandler.h"
-
 #import "UMessage.h"
 
 #import "ZBarSDK.h"
@@ -231,11 +230,14 @@
     //设置新浪微博
     [UMSocialSinaHandler openSSOWithRedirectURL:nil];
 }
-
+//友盟分享需要实现的两个系统回调的方法
 - (BOOL)application:(UIApplication *)application
             openURL:(NSURL *)url
   sourceApplication:(NSString *)sourceApplication
          annotation:(id)annotation {
+    return  [UMSocialSnsService handleOpenURL:url];
+}
+-(BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
     return  [UMSocialSnsService handleOpenURL:url];
 }
 

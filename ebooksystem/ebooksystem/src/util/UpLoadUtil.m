@@ -11,24 +11,30 @@
 #import "AFNetworking.h"
 #import "UIKit+AFNetworking.h"
 #import "SBJson.h"
+#import "NSUserDefaultUtil.h"
+
 
 @implementation UpLoadUtil
 
 + (BOOL)upLoadImage:(NSData *)imageData andToken:(NSString *)token toUploadUrl:(NSString *)upLoadUrl {
+    
     //判断要上传的图片是否存在
     if (imageData == nil || imageData.length <= 0) {
         LogError (@"[UpLoadUtil - upLaodImage: toUploadUrl: andUploadInfo:] upload image file failed ,imageData url is nil");
+        [NSUserDefaultUtil saveErrorMessage:@"图片文件不存在"];
+
     }
     //判断upload url是否存在
     if (upLoadUrl == nil || upLoadUrl.length <= 0) {
         LogError (@"[UpLoadUtil - upLaodImage: toUploadUrl: andUploadInfo:] upload image file failed ,upload url is nil");
+        [NSUserDefaultUtil saveErrorMessage:@"上传链接不存在"];
         return NO;
     }
     //
-   
+    NSDictionary *dic = [[NSDictionary alloc] initWithObjectsAndKeys:token,@"token", nil];
     AFHTTPRequestOperationManager *manager=[AFHTTPRequestOperationManager manager];
-    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
-    [manager POST:upLoadUrl parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+//    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObject:@"text/html"];
+    [manager POST:upLoadUrl parameters:dic constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
         
         NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
         formatter.dateFormat = @"yyyyMMddHHmmss";
@@ -38,10 +44,15 @@
         // 上传图片，以文件流的格式,form对应html中的表单。
         //上传图片只需要两个参数（对应到html就是表单中的元素） file和token
         [formData appendPartWithFileData:imageData name:@"file" fileName:fileName mimeType:@"image/jpeg"];
+    //token字段需要上传
     } success:^(AFHTTPRequestOperation *operation, id responseObject) {
         LogDebug (@"[UpLoadUtil - upLaodImage: toUploadUrl: andUploadInfo:] upload image file success success");
+        NSLog(@"Success: %@", [responseObject objectForKey:@"msg"]);
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         LogError (@"[UpLoadUtil - upLaodImage: toUploadUrl: andUploadInfo:] upload image file  failed with reason:%@",error);
+//        [NSUserDefaultUtil saveErrorMessage:(NSString *)error];
+       
+        
     }];
     
     return YES;

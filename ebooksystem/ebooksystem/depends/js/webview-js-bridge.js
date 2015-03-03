@@ -351,6 +351,38 @@ function dump(arr,level) {
                          }
                          }  );
     };
+    //curUserLogout
+    bridgeIOS.curUserLogout = function(data,callback){
+        bridgeIOS.callOC( 'startQRCodeScan',data,function(responseData){
+                         if (callback) {
+                         callback(responseData);
+                         }
+                         }  );
+    };
+    //openCam
+    bridgeIOS.openCam = function(data,callback){
+        bridgeIOS.callOC( 'openCam',data,function(responseData){
+                         if (callback) {
+                         callback(responseData);
+                         }
+                         }  );
+    };
+    //openAlbum
+    bridgeIOS.openAlbum = function(data,callback){
+        bridgeIOS.callOC( 'openAlbum',data,function(responseData){
+                         if (callback) {
+                         callback(responseData);
+                         }
+                         }  );
+    };
+    //uploadImage
+    bridgeIOS.uploadImage = function(data,callback){
+        bridgeIOS.callOC( 'uploadImage',data,function(responseData){
+                         if (callback) {
+                         callback(responseData);
+                         }
+                         }  );
+    };
     
     
 }();
@@ -412,6 +444,7 @@ function dump(arr,level) {
 
     
     window.samaBridgeReady = true;
+    
     
     var event;
     var eventName = 'SamaBridgeReady';

@@ -14,21 +14,37 @@
 #import "FirstReuseViewController.h"
 #import "LogUtil.h"
 #import "UserRecordDataManager.h"
+#import "WebViewBridgeRegisterUtil.h"
+
+@interface ScanQRCodeTabViewController ()<UITableViewDelegate,UITableViewDataSource,UIWebViewDelegate>
 
 
-@interface ScanQRCodeTabViewController ()<UITableViewDelegate,UITableViewDataSource>
-
-
-@property (nonatomic,strong) UITableView *tableView;//tableView
+@property (nonatomic, strong) UITableView *tableView;//tableView
 @property (nonatomic, strong) UITableViewCell *cell;
-@property (nonatomic,strong) NSMutableArray *dataArray;
+@property (nonatomic, strong) NSMutableArray *dataArray;
+
+//扫码：只加载扫码得到的url
+@property (nonatomic, strong) UIWebView *webView;
 
 @end
 
 @implementation ScanQRCodeTabViewController
 
+// webview
+- (UIWebView *)webView {
+    if (_webView == nil) {
+        _webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+        _webView.delegate = self;
+        
+        [self.view addSubview:_webView];
+    }
+    
+    return _webView;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
+    /*
     self.dataArray = [NSMutableArray array];
     self.dataArray = (NSMutableArray *)[self getScanResultItemArrayWithScanInfo];//获取数据源
 //
@@ -47,9 +63,40 @@
         self.tabBarController.selectedIndex = 1;
 
     }
+     */
+
+    //2 所有的操作都有服务端进行处理，native只需要加载拿到的url。
+    self.automaticallyAdjustsScrollViewInsets = NO;
+    self.webView.scrollView.bounces = NO;
+    self.webView.scrollView.showsVerticalScrollIndicator = NO;
+    
+    WebViewBridgeRegisterUtil *webviewBridgeUtil = [[WebViewBridgeRegisterUtil alloc] init];
+    webviewBridgeUtil.webView = self.webView;
+    webviewBridgeUtil.controller = self;
+    webviewBridgeUtil.mainControllerView = self.view;
+    webviewBridgeUtil.navigationController = self.navigationController;
+    webviewBridgeUtil.tabBarController = self.tabBarController;
+    [webviewBridgeUtil initWebView];
+    
+    //进到扫描页面就移除掉nav管理的view controller数组中的倒数第二个元素
+//    NSMutableArray *controllers = [[NSMutableArray alloc] initWithArray:self.navigationController.viewControllers];
+//    [controllers removeObjectAtIndex:controllers.count-2];
+//    [self.navigationController setViewControllers:controllers];
+    
+    
+    [self updateWebView];
+    
     
 
     
+}
+
+- (BOOL)updateWebView {
+    NSURL *myBagUrl = [NSURL URLWithString:self.scanInfoStr];
+    NSURLRequest *request = [NSURLRequest requestWithURL:myBagUrl];
+    [self.webView loadRequest:request];
+    
+    return YES;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -58,11 +105,18 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-    NSLog(@"%@",self.navigationController.viewControllers);
+    [[UIApplication sharedApplication] setStatusBarHidden:YES];
+    self.navigationController.navigationBarHidden = YES;
+    self.tabBarController.tabBar.hidden = YES;
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    self.tabBarController.tabBar.hidden = NO;
 }
 
 
-
+/*现在扫描得到的结果都有服务端来处理（注释部分的代码是native处理扫描到的结果的代码）
+ *
 //创建tableView
 - (void)createTableView {
     self.tabBarController.tabBar.hidden = YES;
@@ -152,9 +206,30 @@
     return itemArray;
 }
 
-#pragma mark 更新书签 progress
+*/
 
-//- (BOOL)updateBookMarkProgressWithBookId:(NSString *)bookId andWith
+#pragma mark webview delegate method
+-(BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
+    if (request) {
+        LogDebug(@"[MatchViewConroller] Web request: UA: %@", [request valueForHTTPHeaderField:@"User-Agent"]);
+    }
+    
+    //    [self injectJSToWebView:webView];
+    return YES;
+}
+
+- (void)webViewDidFinishLoad:(UIWebView *)webView {
+    [self injectJSToWebView:webView];
+}
+
+#pragma mark - js injection
+
+- (void)injectJSToWebView:(UIWebView *)webView {
+    NSString *filePath = [[NSBundle mainBundle] pathForResource:@"webview-js-bridge" ofType:@"js"];
+    NSString *jsString = [[NSString alloc] initWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:nil];
+    [webView stringByEvaluatingJavaScriptFromString:jsString];
+}
+
 
 
 @end

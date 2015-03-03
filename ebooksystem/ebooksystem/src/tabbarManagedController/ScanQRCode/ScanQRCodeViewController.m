@@ -58,6 +58,7 @@
 - (void)viewWillAppear:(BOOL)animated {
     [[UIApplication sharedApplication] setStatusBarHidden:TRUE];
     self.tabBarController.tabBar.hidden = YES;
+    
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -253,9 +254,20 @@
     [self.scanDelegate getScanInfo:URLString];
     
     //将扫描得到的结果传到落地页中
+    //A->B->C,当前页面时B,进到C中，使用pop返回到A的解决办法：
+    //获取当前navigation controller中的所有view controller
+    NSMutableArray *controllers = [[NSMutableArray alloc] initWithArray:self.navigationController.viewControllers];
+    //移除最后一个view controller
+    [controllers removeLastObject];
+    //实例化新的controller
     ScanQRCodeTabViewController *scanTabView = [[ScanQRCodeTabViewController alloc] init];
     scanTabView.scanInfoStr = URLString;
-    [self.navigationController pushViewController:scanTabView animated:YES];
+    [controllers addObject:scanTabView];
+    //设置新的controller集合
+    [self.navigationController setViewControllers:controllers];
+    //这是就不需要在push
+    //push到一个新的controller中
+//    [self.navigationController pushViewController:scanTabView animated:YES];
     
     
     /*先注释掉，不做任何处理。

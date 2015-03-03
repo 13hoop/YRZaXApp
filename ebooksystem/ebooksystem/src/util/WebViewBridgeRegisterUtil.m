@@ -13,7 +13,6 @@
 #import "UIColor+Hex.h"
 #import "UMSocial.h"
 #import "UMSocialSnsService.h"
-#import "UMSocialScreenShoter.h"
 
 #import "DirectionMPMoviePlayerViewController.h"
 #import "CustomURLProtocol.h"
@@ -51,6 +50,15 @@
 #import "UpLoadUtil.h"
 
 
+
+
+typedef enum {
+    FILE_NO_EXIT = 0,
+    
+} ERRORMESSAGE;
+
+
+
 @interface WebViewBridgeRegisterUtil ()<UINavigationControllerDelegate,UIImagePickerControllerDelegate>
 
 #pragma mark - properties
@@ -59,6 +67,14 @@
 //存储图片base64编码后的字符串
 @property (nonatomic, strong) NSString *imageString;
 @property (nonatomic, strong) NSData *upLoadData;
+
+//拍照接口用到的属性
+@property (nonatomic, strong) NSString *callIdString;
+@property (nonatomic, strong) NSString *uploadCallId;
+@property (nonatomic, strong) WVJBResponseCallback responseCall;
+@property (nonatomic, strong) WVJBResponseCallback upLoadresponseCallBack;
+@property (nonatomic, assign) BOOL upLoadSuccess;
+
 
 @end
 
@@ -526,6 +542,12 @@
     }];
     
     
+    //curUserLogout
+    [self.javascriptBridge registerHandler:@"setCurStudyType" handler:^(id data,WVJBResponseCallback responseCallback){
+        
+        NSLog(@"调了");
+    }];
+    
     
     //************ get book's all status **********
     //getBookList
@@ -560,7 +582,7 @@
         //返回0，1
         BOOL isStart = NO;
         {
-            dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                 [[KnowledgeManager instance] getUpdateInfoFileFromServerAndUpdateDataBase];
             });
             isStart = YES;
@@ -579,11 +601,10 @@
     [self.javascriptBridge registerHandler:@"startDownload" handler:^(id data, WVJBResponseCallback responseCallback) {
         LogDebug(@"WebViewBridgeRegisterUtil::startDownload() called: %@", data);
         NSString *book_id = data;
-        NSLog(@"调了=====%@",book_id);
         //下载的过程就是只有一步，拿到data_id后直接开始下载。（具体操作：1、根据book_id去下载 2、将下载的进度实时存到数据库中即可，不需要做读取的操作，也不需要将进度返回给JS。只需要告诉JS是否已经开始下载）。
         BOOL isStart = NO;
         {
-            dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                 BOOL ret = [[KnowledgeManager instance] startDownloadDataManagerWithDataId:book_id];
             });
             isStart = YES;
@@ -833,7 +854,151 @@
     //shareApp
     
     
+    // *********  问答页相关接口 **********
+    //openCam
+    [self.javascriptBridge registerHandler:@"openCam" handler:^(id data, WVJBResponseCallback responseCallback) {
+        //打开摄像头
+        NSString *callIdStr = data;
+        if (callIdStr == nil || callIdStr.length <= 0) {
+            LogWarn(@"[ WebViewBridgeRegisterUtil-initWebView ]:callId is nil");
+        }
+        
+        /*
+        //设置kvo
+//        [self addObserver:self forKeyPath:@"imageString" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:nil];
+//    self.responseCall = responseCallback;
+         */
+        
+        //保存callID，在Native调用JS时将callId返回给JS。
+        SBJsonParser *parse = [[SBJsonParser alloc] init];
+        NSDictionary *dataDic = [parse objectWithString:callIdStr];
+        NSString *callId = [dataDic objectForKey:@"call_id"];
+        self.callIdString = callId;
+        
+        //打开相机拍照，并将获得照片进行base64编码
+        [self openCameraDelaied];
+        
+        if (responseCallback != nil) {
+            responseCallback(@"1");
+        }
+        else {
+            responseCallback(@"0");
+        }
+        
+        
+    }];
+    //openAlbum
+    [self.javascriptBridge registerHandler:@"openAlbum" handler:^(id data, WVJBResponseCallback responseCallback) {
+        
+       //代开相册
+        NSString *callIdStr = data;
+        if (callIdStr == nil || callIdStr.length <= 0) {
+            LogWarn(@"[ WebViewBridgeRegisterUtil-initWebView ]:callId is nil");
+        }
+        
+        /*
+        //设置kvo
+//        [self addObserver:self forKeyPath:@"imageString" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:nil];
+     //        self.responseCall = responseCallback;
+         */
+        
+        //保存callID，在Native调用JS时将callId返回给JS。
+        SBJsonParser *parse = [[SBJsonParser alloc] init];
+        NSDictionary *dataDic = [parse objectWithString:callIdStr];
+        NSString *callId = [dataDic objectForKey:@"call_id"];
+        self.callIdString = callId;
+        
+        //打开相册，并将获得照片进行base64编码
+        [self openPhotoLibrary];
+        
+        if (responseCallback != nil) {
+            responseCallback(@"1");
+        }
+        else {
+            responseCallback(@"0");
+        }
+        
+    }];
+    
+    //uploadImage
+    [self.javascriptBridge registerHandler:@"uploadImage" handler:^(id data, WVJBResponseCallback responseCallback) {
+        //上传图片
+        NSString *metaInfo = data;
+        if (metaInfo == nil || metaInfo.length <= 0) {
+            LogWarn(@"[ WebViewBridgeRegisterUtil-initWebView ]:callId is nil");
+        }
+        SBJsonParser *parse = [[SBJsonParser alloc] init];
+        NSDictionary *metaInfoDic = [parse objectWithString:metaInfo];
+        NSString *callId = [metaInfoDic objectForKey:@"call_id"];
+        NSString *token = [metaInfoDic objectForKey:@"token"];
+        //保存callId，当native调用JS时讲这个参数传给JS
+        self.uploadCallId = callId;
+        
+        [self upLoadImageWithTokenString:token];
+        //回调
+        if (responseCallback != nil) {
+            responseCallback(@"1");
+        }
+        else {
+            responseCallback(@"0");
+        }
+        /*
+        //注册监听
+//        [self addObserver:self forKeyPath:@"upLoadSuccess" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:nil];
+        //回调
+//        self.upLoadresponseCallBack = responseCallback;
+        */
+        
+    }];
+    
+    
+    
 }
+
+//KVO实现监听
+/*
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+    if([keyPath isEqualToString:@"imageString"])
+    {
+        //将拿到的照片拼接成JSon
+        NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:self.callID,@"call_id",self.imageString,@"image_src", nil];
+        SBJsonWriter *writer = [[SBJsonWriter alloc] init];
+        NSString *imageInfoDicString = [writer stringWithObject:dic];
+        if (self.responseCall != nil) {
+            self.responseCall (imageInfoDicString);
+            [self removeObserver:self forKeyPath:@"imageString"];//在这里就移除监听
+        }
+        
+    }
+    if ([keyPath isEqualToString:@"upLoadSuccess"]) {
+        NSString *responseInfo = nil;
+        SBJsonWriter *writer = [[SBJsonWriter alloc] init];
+        if (self.upLoadSuccess == YES) {
+            
+            NSDictionary *successDic = [NSDictionary dictionaryWithObjectsAndKeys:self.uploadCallId,@"call_id",@"0",@"error_code",@"",@"error_msg", nil];
+            responseInfo = [writer stringWithObject:successDic];
+            self.upLoadresponseCallBack (responseInfo);
+        }
+        else {//上传失败
+            NSString *errorMessage = [[NSUserDefaults standardUserDefaults] objectForKey:@"errorMessage"];
+            NSString *errorCode = @"333";
+            NSDictionary *failedDic = [NSDictionary dictionaryWithObjectsAndKeys:self.uploadCallId,@"call_id",errorCode,@"error_code",errorMessage,@"error_msg", nil];
+            responseInfo = [writer stringWithObject:failedDic];
+            self.upLoadresponseCallBack (responseInfo);
+           
+        }
+    }
+}
+*/
+
+/*
+//移除监听
+- (void)dealloc {
+    [self removeObserver:self forKeyPath:@"imageString"];
+}
+*/
+
+
 
 #pragma mark goBack 接口调用的方法
 
@@ -1329,26 +1494,36 @@
 
 //点击相册中的图片或者照完相之后，（点击use后或在允许编辑的状态下选中选取按钮后）会调用的代理方法
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
-    //得到选择的图片（相机中）
+    
+    //得到选择的图片
     UIImage *image = [info objectForKey:UIImagePickerControllerEditedImage];
     if (!image) {
         //从（相册中）取图片
         image = [info objectForKey:UIImagePickerControllerOriginalImage];
+        
     }
     //保存到相册中
     UIImageWriteToSavedPhotosAlbum(image, self, @selector(image:didFinishSavingWithError:contextInfo:), NULL);
     //使用base64编码image
     NSData *imageData = UIImageJPEGRepresentation(image, 1);
-    imageData = [GTMBase64 encodeData:imageData];
-    //将编码后的值赋值给属性。
-     self.imageString = [[NSString alloc] initWithData:imageData encoding:NSUTF8StringEncoding];
+    //利用base64向HTML中添加插入图片需要在base64图片中插入前缀，否则不显示图片。
+    NSString *base64ImageString = [imageData base64EncodedStringWithOptions:0];
+    NSString *resultString = [NSString stringWithFormat:@"%@%@",@"data:image/png;base64, ",base64ImageString];
+    self.imageString = resultString;
     self.upLoadData = imageData;
-    //接口定义后，将这个字符串返回给JS
-    NSLog(@"图片编码后的字符串值是====%@",self.imageString);
-    [self upLoadImage];
     
+    
+    
+    //回调
+    if (self.imageString == nil || self.imageString.length <= 0) {
+        [self nativeCallHandleWithCallId:self.callIdString andErrorCode:@"1" andErrorMessage:@"图片文件不存在" andImageStr:self.imageString];
+    }
+    else {
+        [self nativeCallHandleWithCallId:self.callIdString andErrorCode:@"0" andErrorMessage:nil andImageStr:self.imageString];
+    }
     //关闭相册
     [self.controller dismissViewControllerAnimated:YES completion:nil];
+   
 }
 
 //不是imagePickerController的代理方法，是自己定义的方法，用来检测是否保存成功。
@@ -1368,20 +1543,54 @@
 }
 
 #pragma mark 上传图片的方法
-- (BOOL)upLoadImage {
+- (BOOL)upLoadImageWithTokenString:(NSString *)token {
+    if (token == nil || token.length <= 0) {
+        LogWarn (@"[WebViewBridgeRegisterUtil - upLoadImageWithTokenString] upload image file failed , token string is nil");
+    }
     if (self.imageString == nil || self.imageString.length <= 0) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"您未选择将要上传的图片，请选择后再上传" delegate:nil cancelButtonTitle:@"好的" otherButtonTitles:nil, nil];
         [alert show];
         return NO;
     }
     //拼接parameter参数
-    NSString *tokenStr = @"EjjMt_17QP2QK6YUPIjtRdinWYH-lxEmFiyZgQUn:_3naJjNTL4LHVYKfvHRzK6kzR1Q=:eyJzY29wZSI6InNhbWEtZGF0YSIsImRlYWRsaW5lIjoxNDI1MDkyMjQzLCJjYWxsYmFja1VybCI6InRlc3QuemF4dWUxMDAuY29tXC9pbmRleC5waHA_Yz11cGxvYWRfZmlsZV9jdHJsJm09dXBsb2FkX2NhbGxiYWNrIiwiY2FsbGJhY2tCb2R5IjoibmFtZT0kKGZuYW1lKSZoYXNoPSQoZXRhZykmc2F2ZV9rZXk9X18yMDE1MDIyOC0xMDUyMjMtMjMwMDk3NiZ1aWQ9Iiwic2F2ZUtleSI6Il9fMjAxNTAyMjgtMTA1MjIzLTIzMDA5NzYifQ==";
+    NSString *tokenStr = token;
     //upload url
-    NSString *uploadUrl = @"http://test.zaxue100.com/index.php?c=upload_file_ctrl&m=upload_zaxue";
+    NSString *uploadUrl = @"http://upload.qiniu.com/";
     //upload
-    return [UpLoadUtil upLoadImage:self.upLoadData andToken:tokenStr toUploadUrl:uploadUrl];
+    self.upLoadSuccess = [UpLoadUtil upLoadImage:self.upLoadData andToken:tokenStr toUploadUrl:uploadUrl];
+    
+    //将上传的结果返回给JS
+    NSString *errorMessage = [[NSUserDefaults standardUserDefaults] objectForKey:@"errorMessage"];
+    if (errorMessage == nil || errorMessage.length <= 0) {
+        [self nativeCallHandleWithCallId:self.uploadCallId andErrorCode:@"0" andErrorMessage:nil];//上传成功
+        
+    }
+    else {
+        [self nativeCallHandleWithCallId:self.uploadCallId andErrorCode:@"1" andErrorMessage:errorMessage];
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"errorMessage"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
+    
+    return self.upLoadSuccess;
     
     
+}
+
+#pragma mark native 调用 JS 的方法
+- (void)nativeCallHandleWithCallId:(NSString *)callId andErrorCode:(NSString *)errorCode andErrorMessage:(NSString *)errorMessage andImageStr:(NSString *)imageString {
+    
+    
+    NSString *jsStr = [NSString stringWithFormat:@"onGetImageFinish('%@','%@','%@','%@')",callId,errorCode,@"",imageString];
+    [self.webView stringByEvaluatingJavaScriptFromString:jsStr];
+   
+    
+    
+}
+//上传图片回调JS函数的方法
+- (void)nativeCallHandleWithCallId:(NSString *)callId andErrorCode:(NSString *)errorCode andErrorMessage:(NSString *)errorMessage {
+    
+    NSString *jsStr = [NSString stringWithFormat:@"onGetImageFinish('%@','%@','%@')",callId,errorCode,errorMessage];
+    [self.webView stringByEvaluatingJavaScriptFromString:jsStr];
 }
 
 @end

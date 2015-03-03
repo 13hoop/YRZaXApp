@@ -53,5 +53,12 @@
     return YES;
 }
 
+#pragma mark 储存error message
++ (BOOL)saveErrorMessage:(NSString *)errorMessage {
+    NSUserDefaults *userdefault = [NSUserDefaults standardUserDefaults];
+    [userdefault setObject:errorMessage forKey:@"errorMessage"];
+    [userdefault synchronize];
+    return YES;
+}
 
 @end

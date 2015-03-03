@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @interface NSUserDefaultUtil : NSObject
-//为了能够明确知道项目中在NSUserDefault存放了哪些内容，故写到一个方法中
+//为了能够明确知道项目中在NSUserDefault存放了哪些内容，故写到一个类中
 
 //save && change user current study type
 + (BOOL)setCurStudyTypeWithType:(NSString *)studyType;
@@ -23,7 +23,8 @@
 //设置UA字段
 + (BOOL)setUserAgent;
 
-
+//将上传图片时的错误信息储存到本地
++ (BOOL)saveErrorMessage:(NSString *)errorMessage;
 
 
 @end
