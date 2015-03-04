@@ -136,7 +136,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
 
-    [[UIApplication sharedApplication] setStatusBarHidden:false];
+    [[UIApplication sharedApplication] setStatusBarHidden:YES];
     self.navigationController.navigationBarHidden = YES;
     [self.webView reload];
 }

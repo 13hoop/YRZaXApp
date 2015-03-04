@@ -14,10 +14,14 @@
 #import "NSUserDefaultUtil.h"
 
 
+
 @implementation UpLoadUtil
 
-+ (BOOL)upLoadImage:(NSData *)imageData andToken:(NSString *)token toUploadUrl:(NSString *)upLoadUrl {
+- (BOOL)upLoadImage:(NSData *)imageData andToken:(NSString *)token toUploadUrl:(NSString *)upLoadUrl {
     
+    //保存传进来的block代码块
+//    self.successBlock = successBlock;
+//    self.failedBlock = failedBlock;
     //判断要上传的图片是否存在
     if (imageData == nil || imageData.length <= 0) {
         LogError (@"[UpLoadUtil - upLaodImage: toUploadUrl: andUploadInfo:] upload image file failed ,imageData url is nil");
@@ -47,17 +51,22 @@
     //token字段需要上传
     } success:^(AFHTTPRequestOperation *operation, id responseObject) {
         LogDebug (@"[UpLoadUtil - upLaodImage: toUploadUrl: andUploadInfo:] upload image file success success");
-        NSLog(@"Success: %@", [responseObject objectForKey:@"msg"]);
+        [self.uploadDelegte uploadSuccess];
+        
+    
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        LogError (@"[UpLoadUtil - upLaodImage: toUploadUrl: andUploadInfo:] upload image file  failed with reason:%@",error);
-//        [NSUserDefaultUtil saveErrorMessage:(NSString *)error];
-       
+        LogError (@"[UpLoadUtil - upLaodImage: toUploadUrl: andUploadInfo:] upload image file  failed with reason:%@",error.localizedDescription);
+        [self.uploadDelegte uploadFailedWithError:error];
         
     }];
+    
+    
     
     return YES;
     
     
 }
+
+
 
 @end

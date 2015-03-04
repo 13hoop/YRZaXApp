@@ -10,7 +10,7 @@
 #import <AVFoundation/AVFoundation.h>
 #import "Config.h"
 #import "ScanQRCodeTabViewController.h"
-
+#import "ScanResultInfoViewController.h"
 
 #define scanAreaWidthAndHeight 240
 #define scanAreaImageWidthAndHeight 300
@@ -252,52 +252,44 @@
     
     //通过代理将扫描结果传出来
     [self.scanDelegate getScanInfo:URLString];
+    //在跳转到落地页之前，进行判断（普通字符串，其他的URL，书中二维码对应的URL），分别作不同处理，防止程序crash
     
-    //将扫描得到的结果传到落地页中
-    //A->B->C,当前页面时B,进到C中，使用pop返回到A的解决办法：
-    //获取当前navigation controller中的所有view controller
-    NSMutableArray *controllers = [[NSMutableArray alloc] initWithArray:self.navigationController.viewControllers];
-    //移除最后一个view controller
-    [controllers removeLastObject];
-    //实例化新的controller
-    ScanQRCodeTabViewController *scanTabView = [[ScanQRCodeTabViewController alloc] init];
-    scanTabView.scanInfoStr = URLString;
-    [controllers addObject:scanTabView];
-    //设置新的controller集合
-    [self.navigationController setViewControllers:controllers];
-    //这是就不需要在push
-    //push到一个新的controller中
-//    [self.navigationController pushViewController:scanTabView animated:YES];
-    
-    
-    /*先注释掉，不做任何处理。
+    //非URL
     if (URLString.length <= 0 || URLString == nil) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"扫描信息" message:stringValue delegate:nil cancelButtonTitle:nil otherButtonTitles:@"好", nil];
-        [alert show];
-    }
-    else {
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:URLString]];
-    }
-     */
-    
-    /*  若是在上面push到下一个页面中，而在这里又回调用回到前一页的方法，会导致crash。
-    //back front page
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW,
-    
-    (int64_t)(0.51 * NSEC_PER_SEC)),
-    
-    dispatch_get_main_queue(), ^{
         
-//        if (![self.presentedViewController isBeingDismissed]) {
-//            
-//            [self dismissViewControllerAnimated:YES completion:nil];
-//            
-//        }
-        if (![self.navigationController.presentedViewController isBeingDismissed]) {
-            [self.navigationController popViewControllerAnimated:YES];
+        NSMutableArray *controllers = [[NSMutableArray alloc] initWithArray:self.navigationController.viewControllers];
+        //移除最后一个view controller
+        [controllers removeLastObject];
+        ScanResultInfoViewController *scanResult = [[ScanResultInfoViewController alloc] init];
+        scanResult.scanContext = stringValue;
+        [controllers addObject:scanResult];
+        [self.navigationController setViewControllers:controllers];
+    }
+    //URL
+    else {
+        if (![URLString hasPrefix:@"http://zaxue100.com"]) {
+            //不是以http://zaxue100.com为前缀的URL，则直接在浏览器打开
+            //跳到浏览器中打开网页
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:URLString]];
+        
         }
-    });
-     */
+    else {
+        //将扫描得到的结果传到落地页中
+        //A->B->C,当前页面时B,进到C中，使用pop返回到A的解决办法：
+        //获取当前navigation controller中的所有view controller
+        NSMutableArray *controllers = [[NSMutableArray alloc] initWithArray:self.navigationController.viewControllers];
+        //移除最后一个view controller
+        [controllers removeLastObject];
+        //实例化新的controller
+        ScanQRCodeTabViewController *scanTabView = [[ScanQRCodeTabViewController alloc] init];
+        scanTabView.scanInfoStr = URLString;
+        [controllers addObject:scanTabView];
+        //设置新的controller集合
+        [self.navigationController setViewControllers:controllers];
+    }
+    
+    }
+    
 }
 
 - (void)stopReadQRCode {

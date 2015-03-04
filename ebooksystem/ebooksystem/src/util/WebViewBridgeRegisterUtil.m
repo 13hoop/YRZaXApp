@@ -59,7 +59,7 @@ typedef enum {
 
 
 
-@interface WebViewBridgeRegisterUtil ()<UINavigationControllerDelegate,UIImagePickerControllerDelegate>
+@interface WebViewBridgeRegisterUtil ()<UINavigationControllerDelegate,UIImagePickerControllerDelegate,uploadDelegate>
 
 #pragma mark - properties
 // bridge between webview and js
@@ -863,12 +863,6 @@ typedef enum {
             LogWarn(@"[ WebViewBridgeRegisterUtil-initWebView ]:callId is nil");
         }
         
-        /*
-        //设置kvo
-//        [self addObserver:self forKeyPath:@"imageString" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:nil];
-//    self.responseCall = responseCallback;
-         */
-        
         //保存callID，在Native调用JS时将callId返回给JS。
         SBJsonParser *parse = [[SBJsonParser alloc] init];
         NSDictionary *dataDic = [parse objectWithString:callIdStr];
@@ -895,13 +889,6 @@ typedef enum {
         if (callIdStr == nil || callIdStr.length <= 0) {
             LogWarn(@"[ WebViewBridgeRegisterUtil-initWebView ]:callId is nil");
         }
-        
-        /*
-        //设置kvo
-//        [self addObserver:self forKeyPath:@"imageString" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:nil];
-     //        self.responseCall = responseCallback;
-         */
-        
         //保存callID，在Native调用JS时将callId返回给JS。
         SBJsonParser *parse = [[SBJsonParser alloc] init];
         NSDictionary *dataDic = [parse objectWithString:callIdStr];
@@ -933,7 +920,7 @@ typedef enum {
         NSString *token = [metaInfoDic objectForKey:@"token"];
         //保存callId，当native调用JS时讲这个参数传给JS
         self.uploadCallId = callId;
-        
+        //开始上传图片
         [self upLoadImageWithTokenString:token];
         //回调
         if (responseCallback != nil) {
@@ -942,12 +929,7 @@ typedef enum {
         else {
             responseCallback(@"0");
         }
-        /*
-        //注册监听
-//        [self addObserver:self forKeyPath:@"upLoadSuccess" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:nil];
-        //回调
-//        self.upLoadresponseCallBack = responseCallback;
-        */
+        
         
     }];
     
@@ -955,48 +937,9 @@ typedef enum {
     
 }
 
-//KVO实现监听
-/*
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
-    if([keyPath isEqualToString:@"imageString"])
-    {
-        //将拿到的照片拼接成JSon
-        NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:self.callID,@"call_id",self.imageString,@"image_src", nil];
-        SBJsonWriter *writer = [[SBJsonWriter alloc] init];
-        NSString *imageInfoDicString = [writer stringWithObject:dic];
-        if (self.responseCall != nil) {
-            self.responseCall (imageInfoDicString);
-            [self removeObserver:self forKeyPath:@"imageString"];//在这里就移除监听
-        }
-        
-    }
-    if ([keyPath isEqualToString:@"upLoadSuccess"]) {
-        NSString *responseInfo = nil;
-        SBJsonWriter *writer = [[SBJsonWriter alloc] init];
-        if (self.upLoadSuccess == YES) {
-            
-            NSDictionary *successDic = [NSDictionary dictionaryWithObjectsAndKeys:self.uploadCallId,@"call_id",@"0",@"error_code",@"",@"error_msg", nil];
-            responseInfo = [writer stringWithObject:successDic];
-            self.upLoadresponseCallBack (responseInfo);
-        }
-        else {//上传失败
-            NSString *errorMessage = [[NSUserDefaults standardUserDefaults] objectForKey:@"errorMessage"];
-            NSString *errorCode = @"333";
-            NSDictionary *failedDic = [NSDictionary dictionaryWithObjectsAndKeys:self.uploadCallId,@"call_id",errorCode,@"error_code",errorMessage,@"error_msg", nil];
-            responseInfo = [writer stringWithObject:failedDic];
-            self.upLoadresponseCallBack (responseInfo);
-           
-        }
-    }
-}
-*/
 
-/*
-//移除监听
-- (void)dealloc {
-    [self removeObserver:self forKeyPath:@"imageString"];
-}
-*/
+
+
 
 
 
@@ -1272,49 +1215,6 @@ typedef enum {
     NSString *shareString=[shareDic objectForKey:@"content"];
     
     
-    /*
-     //(1)使用ui，分享url定义的图片
-     [[UMSocialData defaultData].urlResource setResourceType:UMSocialUrlResourceTypeImage url:imageString];
-     //(2)使用ui,分享截屏图片
-     //    UIImage *image = [[UMSocialScreenShoterDefault screenShoter] getScreenShot];
-     //不同的平台分享不同的内容
-     //新浪微博平台
-     [UMSocialData defaultData].extConfig.sinaData.shareText = @"分享到新浪微博内容";
-     //腾讯
-     [UMSocialData defaultData].extConfig.tencentData.shareImage = [UIImage imageNamed:@"meinv.jpg"]; //分享到腾讯微博图片
-     */
-    
-    /*1.0 used share scene
-     //1、分享到QQ
-     [UMSocialData defaultData].extConfig.qqData.shareText=shareString;
-     //分享到QQ的title
-     [UMSocialData defaultData].extConfig.qqData.title=titleAll;
-     //分享到QQ的image
-     [[UMSocialData defaultData].extConfig.qqData.urlResource setResourceType:UMSocialUrlResourceTypeImage url:weixinImageUrl];
-     //点击分享的内容跳转到的网站
-     [UMSocialData defaultData].extConfig.qqData.url = callBackUrl;
-     
-     
-     //2、分享到qq空间的图片
-     [[UMSocialData defaultData].extConfig.qzoneData.urlResource setResourceType:UMSocialUrlResourceTypeImage url:weixinImageUrl];
-     //分享qq空间的title
-     [UMSocialData defaultData].extConfig.qzoneData.title = titleAll;
-     //分享qq空间的内容
-     [UMSocialData defaultData].extConfig.qzoneData.shareText=shareString;
-     //回调的url
-     [UMSocialData defaultData].extConfig.qzoneData.url = callBackUrl;
-     
-     
-     //3、设置微信好友分享url图片
-     [[UMSocialData defaultData].extConfig.wechatSessionData.urlResource setResourceType:UMSocialUrlResourceTypeImage url:weixinImageUrl];
-     //设置微信的分享文字
-     [UMSocialData defaultData].extConfig.wechatSessionData.shareText=shareString;
-     //设置微信的title
-     [UMSocialData defaultData].extConfig.wechatSessionData.title=titleAll;
-     //回调的url
-     [UMSocialData defaultData].extConfig.wechatSessionData.url=callBackUrl;
-     */
-    
     
     //2.0 share to wechatTimeline only
     //4、设置微信朋友圈的分享的URL图片
@@ -1538,6 +1438,9 @@ typedef enum {
 }
 //点击取消的代理方法
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
+    //取消时的处理，相当于选择图片成功
+    [self nativeCallHandleWithCallId:self.callIdString andErrorCode:@"0" andErrorMessage:nil andImageStr:self.imageString];
+    
     //退出相机界面
     [self.controller dismissViewControllerAnimated:YES completion:nil];
 }
@@ -1547,6 +1450,7 @@ typedef enum {
     if (token == nil || token.length <= 0) {
         LogWarn (@"[WebViewBridgeRegisterUtil - upLoadImageWithTokenString] upload image file failed , token string is nil");
     }
+    //在选择图片时若是取消选择图片，应该能能够上传，不能拦截
     if (self.imageString == nil || self.imageString.length <= 0) {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"您未选择将要上传的图片，请选择后再上传" delegate:nil cancelButtonTitle:@"好的" otherButtonTitles:nil, nil];
         [alert show];
@@ -1557,24 +1461,24 @@ typedef enum {
     //upload url
     NSString *uploadUrl = @"http://upload.qiniu.com/";
     //upload
-    self.upLoadSuccess = [UpLoadUtil upLoadImage:self.upLoadData andToken:tokenStr toUploadUrl:uploadUrl];
-    
-    //将上传的结果返回给JS
-    NSString *errorMessage = [[NSUserDefaults standardUserDefaults] objectForKey:@"errorMessage"];
-    if (errorMessage == nil || errorMessage.length <= 0) {
-        [self nativeCallHandleWithCallId:self.uploadCallId andErrorCode:@"0" andErrorMessage:nil];//上传成功
-        
-    }
-    else {
-        [self nativeCallHandleWithCallId:self.uploadCallId andErrorCode:@"1" andErrorMessage:errorMessage];
-        [[NSUserDefaults standardUserDefaults] removeObjectForKey:@"errorMessage"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-    }
-    
+    UpLoadUtil *upload = [[UpLoadUtil alloc] init];
+    upload.uploadDelegte = self;
+    self.upLoadSuccess = [upload upLoadImage:self.upLoadData andToken:tokenStr toUploadUrl:uploadUrl];
     return self.upLoadSuccess;
     
     
 }
+#pragma mark uploadUtil delegate method
+- (void)uploadSuccess {
+        [self nativeCallHandleWithCallId:self.uploadCallId andErrorCode:@"0" andErrorMessage:nil];//上传成功
+    
+}
+
+- (void)uploadFailedWithError:(NSError *)error {
+    NSString *errorCode = [NSString stringWithFormat:@"%ld",(long)error.code];
+    [self nativeCallHandleWithCallId:self.uploadCallId andErrorCode:errorCode andErrorMessage:error.localizedDescription];//上传失败
+}
+
 
 #pragma mark native 调用 JS 的方法
 - (void)nativeCallHandleWithCallId:(NSString *)callId andErrorCode:(NSString *)errorCode andErrorMessage:(NSString *)errorMessage andImageStr:(NSString *)imageString {
@@ -1589,8 +1493,11 @@ typedef enum {
 //上传图片回调JS函数的方法
 - (void)nativeCallHandleWithCallId:(NSString *)callId andErrorCode:(NSString *)errorCode andErrorMessage:(NSString *)errorMessage {
     
-    NSString *jsStr = [NSString stringWithFormat:@"onGetImageFinish('%@','%@','%@')",callId,errorCode,errorMessage];
-    [self.webView stringByEvaluatingJavaScriptFromString:jsStr];
+    NSString *jsMyAlert = [NSString stringWithFormat:@"setTimeout(function(){onUploadImageFinish('%@','%@','%@')}, 1);", callId,errorCode,errorMessage ];
+    [self.webView stringByEvaluatingJavaScriptFromString:jsMyAlert];
+    
 }
+
+
 
 @end

@@ -8,9 +8,23 @@
 
 #import <Foundation/Foundation.h>
 
+
+@protocol uploadDelegate <NSObject>
+
+@optional
+- (void)uploadSuccess;
+- (void)uploadFailedWithError:(NSError *)error;
+
+@end
+
 @interface UpLoadUtil : NSObject
+
+@property (nonatomic,weak) id <uploadDelegate> uploadDelegte;
+
 //上传图片
-+ (BOOL)upLoadImage:(NSData *)imageData andToken:(NSString *)token toUploadUrl:(NSString *)upLoadUrl;
+- (BOOL)upLoadImage:(NSData *)imageData andToken:(NSString *)token toUploadUrl:(NSString *)upLoadUrl;
+
+
 
 @end
 

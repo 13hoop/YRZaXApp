@@ -79,6 +79,7 @@
 		06CAA7AB1A4974DF00D3068A /* TestWebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 06CAA7A91A4974DF00D3068A /* TestWebViewController.xib */; };
 		06CBC6191A8995D9000DADAE /* ScanQRCodeController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06CBC6181A8995D9000DADAE /* ScanQRCodeController.m */; };
 		06CD041A1A6372BE008CD07B /* ZXingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06CD04191A6372BE008CD07B /* ZXingViewController.m */; };
+		06CD4C511AA6B99F00A20030 /* ScanResultInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06CD4C501AA6B99F00A20030 /* ScanResultInfoViewController.m */; };
 		06CD8D931A6CB4F100667432 /* selectCourseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06CD8D921A6CB4F100667432 /* selectCourseViewController.m */; };
 		06CE685C1A679E8100D10F51 /* QuestionAndAnswerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06CE685B1A679E8100D10F51 /* QuestionAndAnswerViewController.m */; };
 		06CE68601A679F2900D10F51 /* MySchoolBagViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06CE685F1A679F2900D10F51 /* MySchoolBagViewController.m */; };
@@ -448,6 +449,8 @@
 		06CBC6181A8995D9000DADAE /* ScanQRCodeController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScanQRCodeController.m; sourceTree = "<group>"; };
 		06CD04181A6372BE008CD07B /* ZXingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZXingViewController.h; sourceTree = "<group>"; };
 		06CD04191A6372BE008CD07B /* ZXingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZXingViewController.m; sourceTree = "<group>"; };
+		06CD4C4F1AA6B99F00A20030 /* ScanResultInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScanResultInfoViewController.h; sourceTree = "<group>"; };
+		06CD4C501AA6B99F00A20030 /* ScanResultInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScanResultInfoViewController.m; sourceTree = "<group>"; };
 		06CD8D911A6CB4F100667432 /* selectCourseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = selectCourseViewController.h; sourceTree = "<group>"; };
 		06CD8D921A6CB4F100667432 /* selectCourseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = selectCourseViewController.m; sourceTree = "<group>"; };
 		06CE685A1A679E8100D10F51 /* QuestionAndAnswerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuestionAndAnswerViewController.h; sourceTree = "<group>"; };
@@ -1970,6 +1973,8 @@
 				06DBF0651A64D39300804D66 /* ScanQRCodeTabViewController.m */,
 				06CBC6171A8995D9000DADAE /* ScanQRCodeController.h */,
 				06CBC6181A8995D9000DADAE /* ScanQRCodeController.m */,
+				06CD4C4F1AA6B99F00A20030 /* ScanResultInfoViewController.h */,
+				06CD4C501AA6B99F00A20030 /* ScanResultInfoViewController.m */,
 			);
 			path = ScanQRCode;
 			sourceTree = "<group>";
@@ -3127,6 +3132,7 @@
 				710C03A819E397B200C27A33 /* KnowledgeMetaManager.m in Sources */,
 				7118EB8919EF6BE3002CF833 /* LogFileManagement.md in Sources */,
 				7118EB8719EF6BE3002CF833 /* FineGrainedLogging.md in Sources */,
+				06CD4C511AA6B99F00A20030 /* ScanResultInfoViewController.m in Sources */,
 				7118EB5A19EF6B54002CF833 /* DDASLLogCapture.m in Sources */,
 				06D418151A47B804007565F0 /* IADownloadManager.m in Sources */,
 				06D418161A47B804007565F0 /* IADownloadOperation.m in Sources */,
