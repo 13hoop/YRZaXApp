@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ebooksystem/src/util/WebViewBridgeRegisterUtil.m"
-            timestampString = "447168375.471516"
+            timestampString = "447244616.935987"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1176"
-            endingLineNumber = "1176"
+            startingLineNumber = "1180"
+            endingLineNumber = "1180"
             landmarkName = "-playVideo:"
             landmarkType = "5">
          </BreakpointContent>
@@ -26,11 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ebooksystem/src/util/WebViewBridgeRegisterUtil.m"
-            timestampString = "447043418.245503"
+            timestampString = "447244616.935987"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "634"
-            endingLineNumber = "634"
+            startingLineNumber = "638"
+            endingLineNumber = "638"
             landmarkName = "-initWebView"
             landmarkType = "5">
          </BreakpointContent>
@@ -42,11 +42,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ebooksystem/src/util/WebViewBridgeRegisterUtil.m"
-            timestampString = "447126625.320313"
+            timestampString = "447244616.935987"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1038"
-            endingLineNumber = "1038"
+            startingLineNumber = "1042"
+            endingLineNumber = "1042"
             landmarkName = "-showPageWithDictionary:"
             landmarkType = "5">
          </BreakpointContent>
@@ -64,22 +64,6 @@
             startingLineNumber = "643"
             endingLineNumber = "643"
             landmarkName = "-showSafeURL:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ebooksystem/src/common/commomKnowledge/SecondReuseViewController.m"
-            timestampString = "446721652.846181"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "168"
-            endingLineNumber = "168"
-            landmarkName = "-viewWillAppear:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -138,11 +122,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ebooksystem/src/util/WebViewBridgeRegisterUtil.m"
-            timestampString = "447043418.245503"
+            timestampString = "447244373.760796"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "128"
-            endingLineNumber = "128"
+            startingLineNumber = "131"
+            endingLineNumber = "131"
             landmarkName = "-initWebView"
             landmarkType = "5">
          </BreakpointContent>
@@ -186,11 +170,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ebooksystem/src/util/WebViewBridgeRegisterUtil.m"
-            timestampString = "447043418.245503"
+            timestampString = "447244616.935987"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "548"
-            endingLineNumber = "548"
+            startingLineNumber = "552"
+            endingLineNumber = "552"
             landmarkName = "-initWebView"
             landmarkType = "5">
          </BreakpointContent>
@@ -202,11 +186,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ebooksystem/src/util/WebViewBridgeRegisterUtil.m"
-            timestampString = "447043418.245503"
+            timestampString = "447244616.935987"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "523"
-            endingLineNumber = "523"
+            startingLineNumber = "527"
+            endingLineNumber = "527"
             landmarkName = "-initWebView"
             landmarkType = "5">
          </BreakpointContent>
@@ -250,12 +234,60 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ebooksystem/src/tabbarManagedController/ScanQRCode/ScanQRCodeViewController.m"
-            timestampString = "447168657.581455"
+            timestampString = "447236171.2523"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "280"
-            endingLineNumber = "280"
+            startingLineNumber = "284"
+            endingLineNumber = "284"
             landmarkName = "-captureOutput:didOutputMetadataObjects:fromConnection:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ebooksystem/src/tabbarManagedController/Q&amp;A/QuestionAndAnswerViewController.m"
+            timestampString = "447239382.919567"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "161"
+            endingLineNumber = "161"
+            landmarkName = "-haveConnected"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ebooksystem/src/tabbarManagedController/discovery/discoveryModel.m"
+            timestampString = "447241629.789715"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "170"
+            endingLineNumber = "170"
+            landmarkName = "-coverImageFileOperation:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ebooksystem/src/tabbarManagedController/discovery/discoveryModel.m"
+            timestampString = "447242247.889705"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "127"
+            endingLineNumber = "127"
+            landmarkName = "-parseServerResponse:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

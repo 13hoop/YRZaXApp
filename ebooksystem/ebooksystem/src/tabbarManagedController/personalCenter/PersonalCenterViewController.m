@@ -83,6 +83,7 @@
         CGRect rect = [[UIScreen mainScreen] bounds];
         _webView = [[UIWebView alloc] initWithFrame:CGRectMake(0,0, rect.size.width, rect.size.height - 48)];
         _webView.delegate = self;
+//        _webView.dataDetectorTypes = UIDataDetectorTypeNone;//iOS7及以后禁掉将数字解析成电话号码
         
         [self.view addSubview:_webView];
     }

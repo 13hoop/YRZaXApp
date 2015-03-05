@@ -113,6 +113,7 @@
 }
 
 
+
 - (BOOL)initWebView {
     //    self.webView.delegate = self.javascriptBridge;
     
@@ -556,7 +557,6 @@
         LogDebug(@"[RenderKnowledgeViewController] Web request: UA: %@", [request valueForHTTPHeaderField:@"User-Agent"]);
     }
 //    [self injectJSToWebView:webView];
-    NSLog(@" url === %@",request.URL);
     return YES;
 }
 

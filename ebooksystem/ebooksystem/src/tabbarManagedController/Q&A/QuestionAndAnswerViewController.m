@@ -14,15 +14,14 @@
 #import "ScanQRCodeViewController.h"
 #import "SBJson.h"
 #import "WebViewBridgeRegisterUtil.h"
-
-
-
 #import "MRActivityIndicatorView.h"
+#import "DeviceStatusUtil.h"
 
 @interface QuestionAndAnswerViewController ()<UIWebViewDelegate>
 
 {
     MRActivityIndicatorView *activityIndicatorView;
+    NSTimer *timer;
 }
 
 #pragma mark - properties
@@ -71,7 +70,7 @@
         CGRect rect = [[UIScreen mainScreen] bounds];
         _webView = [[UIWebView alloc] initWithFrame:CGRectMake(0,0, rect.size.width, rect.size.height - 48)];
         _webView.delegate = self;
-        
+        _webView.dataDetectorTypes = UIDataDetectorTypeNone;//iOS7及以上禁止webview解析数字成电话号码
         [self.view addSubview:_webView];
     }
     
@@ -117,8 +116,18 @@
     self.webView.scrollView.bounces = NO;
     self.webView.scrollView.showsVerticalScrollIndicator = NO;
     [self updateWebView];
+    //判断是否连接网络
+    DeviceStatusUtil *cruDeviceStatus = [[DeviceStatusUtil alloc] init];
+    NSString *CruStatus = [cruDeviceStatus GetCurrntNet];
+    if ([CruStatus isEqualToString:@"no connect"]) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"检测到您的设备无网络连接，请检查您的网络" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"好", nil];
+        [alert show];
+        //开启定时器，进行检测
+        timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(haveConnected) userInfo:nil repeats:YES];
+    }
     //创建加载动画视图 创建视图的顺序必须是在创建webview之后
     [self createActivityIndicator];
+    
     
     
 }
@@ -130,12 +139,36 @@
     self.navigationController.navigationBarHidden = YES;
     //个人中心页需要显示tabbar
     self.tabBarController.tabBar.hidden = NO;
-    //要修改用户设置信息，所以每次显示这个页面时都需要重新加载一次
+    
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    //切换视图时要将加载动画关掉
+    [self hideProgressOfActivityIndicator];
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+#pragma mark 不断检测网络状态
+- (void)haveConnected {
+    DeviceStatusUtil *device = [[DeviceStatusUtil alloc] init];
+    NSString *cruStatus = [device GetCurrntNet];
+    if (![cruStatus isEqualToString:@"no connect"]) {
+        //有网络
+        //重新加载webview
+        [self.webView removeFromSuperview];
+         //重新创建
+        [self updateWebView];
+        //关闭定时器
+        [timer invalidate];
+        timer = nil;
+        
+    }
+}
+
+
 
 /*
 #pragma mark - init

@@ -66,6 +66,10 @@
     //退出时将tabbar的hidden设置为NO
     self.tabBarController.tabBar.hidden = NO;
     
+    //退出时将定时器关掉，否则会导致内存溢出
+    [timer invalidate];
+    timer = nil;
+    
 }
 
 #pragma mark make UI

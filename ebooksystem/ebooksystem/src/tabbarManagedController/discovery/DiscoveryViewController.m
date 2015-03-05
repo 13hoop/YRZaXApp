@@ -15,11 +15,14 @@
 #import "SubjectChoose.h"
 #import "NSUserDefaultUtil.h"
 #import "ErrorManager.h"
-
+#import "DeviceStatusUtil.h"
 
 
 
 @interface DiscoveryViewController ()<discoverDelegate,UpdateManagerDelegate, UIAlertViewDelegate,SubjectChooseDelegate>
+{
+    NSTimer *timer;
+}
 
 @property (nonatomic,strong) discoveryWebView *discoverWeb;
 @property (nonatomic,strong) NSString *updateAppURL;
@@ -38,19 +41,32 @@
     self.automaticallyAdjustsScrollViewInsets = NO;
    //隐藏掉状态栏
     [[UIApplication sharedApplication] setStatusBarHidden:TRUE];
-    
+    //判断是否是第一次加载
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"firstLaunch"]) {
         self.tabBarController.tabBar.hidden = YES;
         [self makeSelectView];
     }
     else {
-        
+        //加载发现页
         [self makeWebView];
         //检查更新
         [self updateApp];
     }
     
+    //判断当前网络连接
+    DeviceStatusUtil *cruDeviceStatus = [[DeviceStatusUtil alloc] init];
+    NSString *CruStatus = [cruDeviceStatus GetCurrntNet];
+    if ([CruStatus isEqualToString:@"no connect"]) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"检测到您的设备无网络连接，请检查您的网络" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"好", nil];
+        [alert show];
+        //开定时器，不断刷新，检测到网络连接后，重新加载webview
+        timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(haveConnected) userInfo:nil repeats:YES];
+        
+    }
+    
 }
+
+
 
 - (void)viewWillAppear:(BOOL)animated {
     [[UIApplication sharedApplication] setStatusBarHidden:TRUE];
@@ -68,8 +84,6 @@
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"WARNING" message:@"MemoryWarning,Please release memory immediately" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"ok", nil];
-    [alert show];
     
     /*
     NSLog(@"DiscoveryViewController didReceiveMemoryWarning");
@@ -79,6 +93,22 @@
         NSLog(@"DiscoveryViewController warning");
     }
      */
+}
+#pragma mark 不断检测网络状态
+- (void)haveConnected {
+    DeviceStatusUtil *device = [[DeviceStatusUtil alloc] init];
+    NSString *cruStatus = [device GetCurrntNet];
+    if (![cruStatus isEqualToString:@"no connect"]) {
+        //有网络
+        //移除掉已有的视图
+        [self.discoverWeb removeFromSuperview];
+        //添加新的视图
+        [self makeWebView];
+        //关闭定时器
+        [timer invalidate];
+        timer = nil;
+       
+    }
 }
 
 

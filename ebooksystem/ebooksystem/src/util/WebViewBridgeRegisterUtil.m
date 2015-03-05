@@ -53,9 +53,12 @@
 
 
 typedef enum {
-    FILE_NO_EXIT = 0,
+    UNKNOWN = -1,
+    SUCCESS,//操作成功
+    FAILED  //操作失败
     
-} ERRORMESSAGE;
+    
+} OPERATIONRESULT;
 
 
 
@@ -214,6 +217,7 @@ typedef enum {
         BOOL ret = [manager deleteBookMarkMetaWithUpdateInfoDic:dic];
         if (responseCallback != nil) {
             if (ret) {
+            
                 responseCallback(@"1");
             }
             else {
