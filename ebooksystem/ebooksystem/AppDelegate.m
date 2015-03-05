@@ -29,7 +29,7 @@
 #import "UMSocialSinaHandler.h"
 #import "UMessage.h"
 
-#import "ZBarSDK.h"
+
 
 
 #define UMAPPKEY @"543dea72fd98c5fc98004e08"
@@ -162,8 +162,7 @@
     
     
     
-    //使用Zbar进行二维码扫描
-    [ZBarReaderView class];
+    
     
     //设置app是否第一次启动
     if (![[NSUserDefaults standardUserDefaults] boolForKey:@"everLaunched"]) {

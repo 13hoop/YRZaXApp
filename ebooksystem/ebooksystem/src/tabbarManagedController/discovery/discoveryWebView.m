@@ -33,8 +33,14 @@
 #import "discoveryModel.h"
 #import "WebViewBridgeRegisterUtil.h"
 
+#import "MRActivityIndicatorView.h"
+
 
 @interface discoveryWebView()<UIWebViewDelegate>
+
+{
+    MRActivityIndicatorView *activityIndicatorView;
+}
 
 // bridge between webview and js
 @property (nonatomic, strong) WebViewJavascriptBridge *javascriptBridge;
@@ -103,6 +109,7 @@
 
 - (void)drawRect:(CGRect)rect {
     [self updateWebView];
+    [self createActivityIndicator];
 }
 
 
@@ -555,10 +562,13 @@
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
     [self injectJSToWebView:webView];
+    //结束网络加载的动画
+    [self hideProgressOfActivityIndicator];
 }
 
 - (void)webViewDidStartLoad:(UIWebView *)webView {
-//    [self injectJSToWebView:webView];
+    //开启网络加载的动画
+    [self showProgressAsActivityIndicator];
 }
 #pragma mark - js injection
 
@@ -674,6 +684,31 @@
 }
 
 
+#pragma mark 创建加载控件
+-(void)createActivityIndicator
+{
+    activityIndicatorView=[[MRActivityIndicatorView alloc] initWithFrame:CGRectMake((self.frame.size.width-30)/2, (self.frame.size.height-30)/2,30, 30)];
+    [self addSubview:activityIndicatorView];
+    
+}
 
+#pragma mark 加载提示动画view的开始结束动画方法
+
+- (void)showProgressAsActivityIndicator {
+    if (activityIndicatorView) {
+        activityIndicatorView.hidden = NO;
+        activityIndicatorView.hidesWhenStopped = YES;
+        activityIndicatorView.tintColor = [UIColor blueColor];
+        activityIndicatorView.backgroundColor = [UIColor clearColor];
+        [activityIndicatorView startAnimating];
+    }
+}
+
+- (void)hideProgressOfActivityIndicator {
+    if (activityIndicatorView) {
+        [activityIndicatorView stopAnimating];
+        //    activityIndicatorView.hidden = YES;
+    }
+}
 
 @end

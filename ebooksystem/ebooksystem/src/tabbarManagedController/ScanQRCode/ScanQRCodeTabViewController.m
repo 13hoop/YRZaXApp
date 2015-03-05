@@ -8,7 +8,6 @@
 
 #import "ScanQRCodeTabViewController.h"
 #import "ScanQRCodeViewController.h"
-#import "ZBarScanViewController.h"
 #import "scanQRcodeDataManager.h"
 #import "Config.h"
 #import "FirstReuseViewController.h"
@@ -16,8 +15,12 @@
 #import "UserRecordDataManager.h"
 #import "WebViewBridgeRegisterUtil.h"
 
-@interface ScanQRCodeTabViewController ()<UITableViewDelegate,UITableViewDataSource,UIWebViewDelegate>
+#import "MRActivityIndicatorView.h"
 
+@interface ScanQRCodeTabViewController ()<UITableViewDelegate,UITableViewDataSource,UIWebViewDelegate>
+{
+    MRActivityIndicatorView *activityIndicatorView;
+}
 
 @property (nonatomic, strong) UITableView *tableView;//tableView
 @property (nonatomic, strong) UITableViewCell *cell;
@@ -85,8 +88,8 @@
     
     
     [self updateWebView];
-    
-    
+    //创建网络加载视图
+    [self createActivityIndicator];
 
     
 }
@@ -218,8 +221,15 @@
     return YES;
 }
 
+- (void)webViewDidStartLoad:(UIWebView *)webView {
+    //开始网络加载的动画
+    [self showProgressAsActivityIndicator];
+}
+
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
     [self injectJSToWebView:webView];
+    //结束加载动画
+    [self hideProgressOfActivityIndicator];
 }
 
 #pragma mark - js injection
@@ -230,6 +240,31 @@
     [webView stringByEvaluatingJavaScriptFromString:jsString];
 }
 
+#pragma mark 创建加载动画视图
+-(void)createActivityIndicator
+{
+    activityIndicatorView=[[MRActivityIndicatorView alloc] initWithFrame:CGRectMake((self.view.frame.size.width-30)/2, (self.view.frame.size.height-30)/2,30, 30)];
+    [self.view addSubview:activityIndicatorView];
+    
+}
 
+#pragma mark 加载提示动画view的开始结束动画方法
+
+- (void)showProgressAsActivityIndicator {
+    if (activityIndicatorView) {
+        activityIndicatorView.hidden = NO;
+        activityIndicatorView.hidesWhenStopped = YES;
+        activityIndicatorView.tintColor = [UIColor blueColor];
+        activityIndicatorView.backgroundColor = [UIColor clearColor];
+        [activityIndicatorView startAnimating];
+    }
+}
+
+- (void)hideProgressOfActivityIndicator {
+    if (activityIndicatorView) {
+        [activityIndicatorView stopAnimating];
+        //    activityIndicatorView.hidden = YES;
+    }
+}
 
 @end

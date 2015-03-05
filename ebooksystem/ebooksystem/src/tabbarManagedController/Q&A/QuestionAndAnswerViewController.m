@@ -17,7 +17,13 @@
 
 
 
+#import "MRActivityIndicatorView.h"
+
 @interface QuestionAndAnswerViewController ()<UIWebViewDelegate>
+
+{
+    MRActivityIndicatorView *activityIndicatorView;
+}
 
 #pragma mark - properties
 // bridge between webview and js
@@ -92,6 +98,10 @@
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
     self.view.backgroundColor = [UIColor whiteColor];
+    
+    
+    
+    
 //    [self initWebView];
     WebViewBridgeRegisterUtil *webviewBridgeUtil = [[WebViewBridgeRegisterUtil alloc] init];
     webviewBridgeUtil.webView = self.webView;
@@ -107,6 +117,9 @@
     self.webView.scrollView.bounces = NO;
     self.webView.scrollView.showsVerticalScrollIndicator = NO;
     [self updateWebView];
+    //创建加载动画视图 创建视图的顺序必须是在创建webview之后
+    [self createActivityIndicator];
+    
     
 }
 
@@ -161,10 +174,14 @@
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
     [self injectJSToWebView:webView];
+    //结束网络加载提示
+    [self hideProgressOfActivityIndicator];
 }
 
 - (void)webViewDidStartLoad:(UIWebView *)webView {
-//        [self injectJSToWebView:webView];
+    //开启网络加载的提示
+     [self showProgressAsActivityIndicator];
+    
 }
 #pragma mark - js injection
 
@@ -183,6 +200,37 @@
     return YES;
 }
 
+
+
+
+#pragma mark 创建加载控件
+-(void)createActivityIndicator
+{
+    //    self.tbactivityView=[[TBActivityView alloc] initWithFrame:CGRectMake(0, (self.view.frame.size.height-30)/2, 320, 30)];
+    //    [self.view addSubview:self.tbactivityView];
+    activityIndicatorView=[[MRActivityIndicatorView alloc] initWithFrame:CGRectMake((self.view.frame.size.width-30)/2, (self.view.frame.size.height-30)/2,30, 30)];
+    [self.view addSubview:activityIndicatorView];
+    
+}
+
+#pragma mark 加载提示动画view的开始结束动画方法
+
+- (void)showProgressAsActivityIndicator {
+    if (activityIndicatorView) {
+        activityIndicatorView.hidden = NO;
+        activityIndicatorView.hidesWhenStopped = YES;
+        activityIndicatorView.tintColor = [UIColor blueColor];
+        activityIndicatorView.backgroundColor = [UIColor clearColor];
+        [activityIndicatorView startAnimating];
+    }
+}
+
+- (void)hideProgressOfActivityIndicator {
+    if (activityIndicatorView) {
+        [activityIndicatorView stopAnimating];
+        //    activityIndicatorView.hidden = YES;
+    }
+}
 
 /*
 #pragma mark 问答页接口调用的方法
