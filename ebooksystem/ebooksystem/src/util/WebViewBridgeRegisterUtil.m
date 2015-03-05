@@ -1093,8 +1093,12 @@ typedef enum {
     NSString *openAnimation = [dic objectForKey:@"open_animate"];
     ScanQRCodeViewController *scanQrcodeViewController = [[ScanQRCodeViewController alloc] init];
     if (openAnimation == nil || openAnimation.length <= 0 ) {//
-        [self.navigationController pushViewController:scanQrcodeViewController animated:YES];
-        
+//        [self.navigationController pushViewController:scanQrcodeViewController animated:YES];
+        //设置默认的打开动画 -- 解决：二维码扫描时，扫描controller中动画未加载完的情况下，就进入到下个controller中，出现界面卡死的问题。
+        NSString *defaultOpenAnimaytion = @"push_right_in";
+        CATransition *animation = [self customAnimation:defaultOpenAnimaytion];
+        [self.navigationController.view.layer addAnimation:animation forKey:nil];
+        [self.navigationController pushViewController:scanQrcodeViewController animated:NO];
     }
     else {//开场动画不为空
         CATransition *animation = [self customAnimation:openAnimation];

@@ -34,6 +34,7 @@
 @property (nonatomic,strong) AVCaptureVideoPreviewLayer *preview;
 @property (nonatomic,strong) UIImageView *line;
 
+@property (nonatomic,assign) BOOL transiting;
 @end
 
 @implementation ScanQRCodeViewController
@@ -260,18 +261,26 @@
         NSMutableArray *controllers = [[NSMutableArray alloc] initWithArray:self.navigationController.viewControllers];
         //移除最后一个view controller
         [controllers removeLastObject];
-        ScanResultInfoViewController *scanResult = [[ScanResultInfoViewController alloc] init];
-        scanResult.scanContext = stringValue;
-        [controllers addObject:scanResult];
+        ScanResultInfoViewController *scanhaoyu = [[ScanResultInfoViewController alloc] init];
+        scanhaoyu.scanContext = stringValue;
+        [controllers addObject:scanhaoyu];
         [self.navigationController setViewControllers:controllers];
+        
+
     }
     //URL
     else {
         if (![URLString hasPrefix:@"http://zaxue100.com"]) {
+            
             //不是以http://zaxue100.com为前缀的URL，则直接在浏览器打开
-            //跳到浏览器中打开网页
-            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:URLString]];
-        
+            NSMutableArray *controllerNew = [[NSMutableArray alloc] initWithArray:self.navigationController.viewControllers];
+            //移除最后一个view controller
+            [controllerNew removeLastObject];
+            ScanResultInfoViewController *scanResult = [[ScanResultInfoViewController alloc] init];
+            scanResult.urlString = URLString;
+            [controllerNew addObject:scanResult];
+            [self.navigationController setViewControllers:controllerNew];
+            
         }
     else {
         //将扫描得到的结果传到落地页中
@@ -326,5 +335,11 @@
 - (void)backToFrontPage {
     [self.navigationController popViewControllerAnimated:YES];
 }
+
+
+
+
+
+
 
 @end

@@ -18,16 +18,24 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
     [self customNav];
-    [self createUI];
+    if (self.scanContext != nil && self.scanContext.length > 0) {
+       [self createUI];
+    }
+    if (self.urlString != nil && self.urlString.length > 0 ) {
+        [self createWebview];
+    }
+    
+    
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }
 - (void)viewWillAppear:(BOOL)animated {
-    
+    self.navigationController.navigationBarHidden = YES;
+    self.tabBarController.tabBar.hidden = YES;
+    [[UIApplication sharedApplication] setStatusBarHidden:YES];
 }
 
 
@@ -100,8 +108,22 @@
 }
 
 - (void)backToFrontPage {
+//    NSMutableArray *controllers = [[NSMutableArray alloc] initWithArray:self.navigationController.viewControllers];
+//    
+//    [controllers removeObjectAtIndex:controllers.count -2];
+//    [self.navigationController setViewControllers:controllers];
     [self.navigationController popViewControllerAnimated:YES];
 }
+
+//创建webview
+- (void)createWebview {
+    CGRect rect = [[UIScreen mainScreen] bounds];
+    UIWebView *webview = [[UIWebView alloc] initWithFrame:CGRectMake(0, 64, self.view.frame.size.width, rect.size.height - 64)];
+    NSURLRequest *request = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:self.urlString]];
+    [webview loadRequest:request];
+    [self.view addSubview:webview];
+}
+
 
 
 @end

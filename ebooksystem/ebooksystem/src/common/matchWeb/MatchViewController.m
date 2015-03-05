@@ -146,8 +146,10 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"WARNING" message:@"MemoryWarning,Please release memory immediately" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"ok", nil];
+    
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"WARNING" message:@"手机内存使用率过高,Please release memory immediately" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"ok", nil];
     [alert show];
+    
     
 }
 
