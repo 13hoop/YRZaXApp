@@ -54,8 +54,8 @@
 
 typedef enum {
     UNKNOWN = -1,
+    FAILED, //操作失败
     SUCCESS,//操作成功
-    FAILED  //操作失败
     
     
 } OPERATIONRESULT;
@@ -217,11 +217,12 @@ typedef enum {
         BOOL ret = [manager deleteBookMarkMetaWithUpdateInfoDic:dic];
         if (responseCallback != nil) {
             if (ret) {
-            
-                responseCallback(@"1");
+                NSString *successStr = [NSString stringWithFormat:@"%d",SUCCESS];
+                responseCallback(successStr);//成功 1
             }
             else {
-                responseCallback(@"0");
+                NSString *failedStr = [NSString stringWithFormat:@"%d",FAILED];
+                responseCallback(failedStr);//失败 0
             }
         }
         
@@ -397,7 +398,9 @@ typedef enum {
                     //                    NSString *collectionStr = [writer stringWithObject:collectionListArr];
                     NSError *error;
                     NSString *returnStr = [writer stringWithObject:collectionListArr error:&error];
-                    LogError(@"FirstReuseViewController - getCollectionList : failed because of error :%@",error);
+                    if (error) {//判断转成JSON字符串时是否出错。
+                        LogError(@"WebViewBridgeRegisterUtil - getCollectionList : failed because of error :%@",error);
+                    }
                     responseCallback(returnStr);
                     
                 }
@@ -424,10 +427,12 @@ typedef enum {
         BOOL ret = [userRecordManager deleteCollectionMetaWithInfoDic:infoDic];
         if (responseCallback != nil) {
             if (ret) {
-                responseCallback(@"1");//成功
+                NSString *successStr = [NSString stringWithFormat:@"%d",SUCCESS];
+                responseCallback(successStr);//成功 1
             }
             else {
-                responseCallback(@"0");//失败
+                NSString *failedStr = [NSString stringWithFormat:@"%d",FAILED];
+                responseCallback(failedStr);//失败 0
             }
         }
         
@@ -528,19 +533,20 @@ typedef enum {
         if (curStudyType != nil && curStudyType.length > 0) {
             BOOL isSuccess = [NSUserDefaultUtil setCurStudyTypeWithType:curStudyType];
             if (isSuccess) {
-                NSString *data = @"1";
-                responseCallback(data);
+                
+                NSString *successStr = [NSString stringWithFormat:@"%d",SUCCESS];
+                responseCallback(successStr);//成功 1
             }
             else {
-                NSString *data = @"0";
-                responseCallback(data);
+                NSString *failedStr = [NSString stringWithFormat:@"%d",FAILED];
+                responseCallback(failedStr);//失败 0
             }
             
         }
         else {
             LogError(@"WebViewBridgeRegisterUtil::setCurStudyType() failed because of curStudyType is equal to nil");
-            NSString *data = @"0";
-            responseCallback(data);//失败返回0；
+            NSString *failedStr = [NSString stringWithFormat:@"%d",FAILED];
+            responseCallback(failedStr);//失败 0
         }
         
     }];
@@ -549,7 +555,7 @@ typedef enum {
     //curUserLogout
     [self.javascriptBridge registerHandler:@"setCurStudyType" handler:^(id data,WVJBResponseCallback responseCallback){
         
-        NSLog(@"调了");
+        NSLog(@"用户登出，方法体中只有这一句代码");
     }];
     
     
@@ -593,10 +599,14 @@ typedef enum {
         }
         if (responseCallback != nil) {
             if (isStart) {
-                responseCallback(@"1");
+                NSString *successStr = [NSString stringWithFormat:@"%d",SUCCESS];
+                responseCallback(successStr);//成功 1
             }
             else {
-                responseCallback(@"0");
+            
+                NSString *failedStr = [NSString stringWithFormat:@"%d",FAILED];
+                responseCallback(failedStr);//失败 0
+
             }
         }
     }];
@@ -615,10 +625,13 @@ typedef enum {
         }
         if (responseCallback != nil) {
             if (isStart) {
-                responseCallback(@"1");
+                NSString *successStr = [NSString stringWithFormat:@"%d",SUCCESS];
+                responseCallback(successStr);//成功 1
+                
             }
             else {
-                responseCallback(@"0");
+                NSString *failedStr = [NSString stringWithFormat:@"%d",FAILED];
+                responseCallback(failedStr);//失败 0
             }
         }
         
@@ -713,10 +726,12 @@ typedef enum {
         
         if (responseCallback != nil) {
             if (isSuccess) {
-                responseCallback(@"1");
+                NSString *successStr = [NSString stringWithFormat:@"%d",SUCCESS];
+                responseCallback(successStr);//成功 1
             }
             else {
-                responseCallback(@"0");
+                NSString *failedStr = [NSString stringWithFormat:@"%d",FAILED];
+                responseCallback(failedStr);//失败 0
             }
         }
     }];
@@ -787,10 +802,13 @@ typedef enum {
         UserManager *usermanager = [UserManager instance];
         BOOL setSuccess = [usermanager saveUserInfo:userInfo];
         if (setSuccess) {
-            responseCallback (@"1");
+            NSString *successStr = [NSString stringWithFormat:@"%d",SUCCESS];
+            responseCallback(successStr);//成功 1
         }
         else {
-            responseCallback (@"0");
+            
+            NSString *failedStr = [NSString stringWithFormat:@"%d",FAILED];
+            responseCallback(failedStr);//失败 0
         }
         
     }];
@@ -839,10 +857,12 @@ typedef enum {
         BOOL needUpdate = [manager updateAble];
         if (responseCallback != nil) {
             if (needUpdate == YES) {
-                responseCallback(@"1");
+                NSString *successStr = [NSString stringWithFormat:@"%d",SUCCESS];
+                responseCallback(successStr);//有更新返回 1
             }
             else {
-                responseCallback(@"0");
+                NSString *failedStr = [NSString stringWithFormat:@"%d",FAILED];
+                responseCallback(failedStr);//无更新返回 0
             }
             
         }
@@ -877,10 +897,13 @@ typedef enum {
         [self openCameraDelaied];
         
         if (responseCallback != nil) {
-            responseCallback(@"1");
+            NSString *successStr = [NSString stringWithFormat:@"%d",SUCCESS];
+            responseCallback(successStr);//成功 1
+            
         }
         else {
-            responseCallback(@"0");
+            NSString *failedStr = [NSString stringWithFormat:@"%d",FAILED];
+            responseCallback(failedStr);//失败 0
         }
         
         
@@ -903,10 +926,12 @@ typedef enum {
         [self openPhotoLibrary];
         
         if (responseCallback != nil) {
-            responseCallback(@"1");
+            NSString *successStr = [NSString stringWithFormat:@"%d",SUCCESS];
+            responseCallback(successStr);//成功 1
         }
         else {
-            responseCallback(@"0");
+            NSString *failedStr = [NSString stringWithFormat:@"%d",FAILED];
+            responseCallback(failedStr);//失败 0
         }
         
     }];
@@ -928,10 +953,13 @@ typedef enum {
         [self upLoadImageWithTokenString:token];
         //回调
         if (responseCallback != nil) {
-            responseCallback(@"1");
+            NSString *successStr = [NSString stringWithFormat:@"%d",SUCCESS];
+            responseCallback(successStr);//成功 1
         }
         else {
             responseCallback(@"0");
+            NSString *failedStr = [NSString stringWithFormat:@"%d",FAILED];
+            responseCallback(failedStr);//失败 0
         }
         
         
@@ -1133,6 +1161,7 @@ typedef enum {
     }
     else {
         [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:urlStr]]];
+
     }
 }
 
@@ -1233,7 +1262,8 @@ typedef enum {
     [UMSocialData defaultData].extConfig.wechatTimelineData.url=callBackUrl;
     
     [UMSocialSnsService presentSnsIconSheetView:self.controller appKey:@"543dea72fd98c5fc98004e08" shareText:shareString shareImage:nil shareToSnsNames:[NSArray arrayWithObjects:UMShareToWechatTimeline,nil] delegate:nil];//UMShareToWechatSession
-}
+    //
+    }
 
 #pragma mark change back ground
 -(void)changeBackgourndColorWithColor:(NSString *)colorString

@@ -17,6 +17,7 @@
 #import "ErrorManager.h"
 #import "DeviceStatusUtil.h"
 
+#import "CustomPromptView.h"
 
 
 @interface DiscoveryViewController ()<discoverDelegate,UpdateManagerDelegate, UIAlertViewDelegate,SubjectChooseDelegate>
@@ -27,6 +28,9 @@
 @property (nonatomic,strong) discoveryWebView *discoverWeb;
 @property (nonatomic,strong) NSString *updateAppURL;
 @property (nonatomic,strong) SubjectChoose *subjectChooseView;
+
+//
+@property (nonatomic,strong) CustomPromptView *promptView;
 
 @end
 
@@ -57,9 +61,12 @@
     DeviceStatusUtil *cruDeviceStatus = [[DeviceStatusUtil alloc] init];
     NSString *CruStatus = [cruDeviceStatus GetCurrntNet];
     if ([CruStatus isEqualToString:@"no connect"]) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"检测到您的设备无网络连接，请检查您的网络" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"好", nil];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"网络不给力，请检查网络连接后重试" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"好", nil];
         [alert show];
-        //开定时器，不断刷新，检测到网络连接后，重新加载webview
+        //1 创建提示界面
+        [self createNoConnectPromptView];
+        
+        //2 开定时器，不断刷新，检测到网络连接后，重新加载webview
         timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(haveConnected) userInfo:nil repeats:YES];
         
     }
@@ -77,6 +84,7 @@
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [[ErrorManager instance] sendCrashToServer];
     });
+
 }
 
 
@@ -94,12 +102,23 @@
     }
      */
 }
+
+#pragma mark 创建提示界面
+- (void)createNoConnectPromptView {
+    
+    self.promptView = [[CustomPromptView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height -44)];
+    [self.view addSubview:self.promptView];
+    
+}
+
 #pragma mark 不断检测网络状态
 - (void)haveConnected {
     DeviceStatusUtil *device = [[DeviceStatusUtil alloc] init];
     NSString *cruStatus = [device GetCurrntNet];
     if (![cruStatus isEqualToString:@"no connect"]) {
         //有网络
+        //移除掉提示视图
+        [self.promptView removeFromSuperview];
         //移除掉已有的视图
         [self.discoverWeb removeFromSuperview];
         //添加新的视图

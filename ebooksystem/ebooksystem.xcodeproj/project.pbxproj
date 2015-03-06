@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		062A367E1AA95E9C00D2A325 /* CustomPromptView.m in Sources */ = {isa = PBXBuildFile; fileRef = 062A367D1AA95E9C00D2A325 /* CustomPromptView.m */; };
 		0664AD9E1A4D602300145368 /* iconpng.png in Resources */ = {isa = PBXBuildFile; fileRef = 0664AD9D1A4D602300145368 /* iconpng.png */; };
 		0690781919CFD62700CD9C3D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0690781819CFD62700CD9C3D /* Foundation.framework */; };
 		0690781B19CFD62700CD9C3D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0690781A19CFD62700CD9C3D /* CoreGraphics.framework */; };
@@ -318,6 +319,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		062A367C1AA95E9C00D2A325 /* CustomPromptView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomPromptView.h; sourceTree = "<group>"; };
+		062A367D1AA95E9C00D2A325 /* CustomPromptView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomPromptView.m; sourceTree = "<group>"; };
 		0664AD9D1A4D602300145368 /* iconpng.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iconpng.png; sourceTree = "<group>"; };
 		0690781519CFD62700CD9C3D /* ebooksystem.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ebooksystem.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0690781819CFD62700CD9C3D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -1282,6 +1285,8 @@
 			children = (
 				06AAC9EA19F67C2900A758DB /* CustomNavigationBar.h */,
 				06AAC9EB19F67C2900A758DB /* CustomNavigationBar.m */,
+				062A367C1AA95E9C00D2A325 /* CustomPromptView.h */,
+				062A367D1AA95E9C00D2A325 /* CustomPromptView.m */,
 			);
 			name = view;
 			path = src/common/view;
@@ -2926,6 +2931,7 @@
 				7118EB5919EF6B54002CF833 /* DDAbstractDatabaseLogger.m in Sources */,
 				71860BE319DC754C00D01AA9 /* Config.m in Sources */,
 				06AA7F5019F4FC7E00570289 /* UMContactViewController.m in Sources */,
+				062A367E1AA95E9C00D2A325 /* CustomPromptView.m in Sources */,
 				06D4181E1A47B898007565F0 /* VideoDownloadItem.m in Sources */,
 				7156B0BE19F8BC7700B3A521 /* MRIconView.m in Sources */,
 				06CAA7AA1A4974DF00D3068A /* TestWebViewController.m in Sources */,

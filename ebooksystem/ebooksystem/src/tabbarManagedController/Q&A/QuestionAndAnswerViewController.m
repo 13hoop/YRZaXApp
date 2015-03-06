@@ -16,6 +16,8 @@
 #import "WebViewBridgeRegisterUtil.h"
 #import "MRActivityIndicatorView.h"
 #import "DeviceStatusUtil.h"
+#import "CustomPromptView.h"
+
 
 @interface QuestionAndAnswerViewController ()<UIWebViewDelegate>
 
@@ -28,8 +30,10 @@
 // bridge between webview and js
 @property (nonatomic, strong) WebViewJavascriptBridge *javascriptBridge;
 @property (nonatomic, strong) UIWebView *webView;
-@property (nonatomic,strong) NSString *oldUserAgent;
+@property (nonatomic, strong) NSString *oldUserAgent;
 
+//没网时的提示动画视图
+@property (nonatomic, strong) CustomPromptView *promptView;
 
 #pragma mark - methods
 - (BOOL)updateWebView;
@@ -116,17 +120,21 @@
     self.webView.scrollView.bounces = NO;
     self.webView.scrollView.showsVerticalScrollIndicator = NO;
     [self updateWebView];
+    //创建加载动画视图 创建视图的顺序必须是在创建webview之后
+    [self createActivityIndicator];
     //判断是否连接网络
     DeviceStatusUtil *cruDeviceStatus = [[DeviceStatusUtil alloc] init];
     NSString *CruStatus = [cruDeviceStatus GetCurrntNet];
     if ([CruStatus isEqualToString:@"no connect"]) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"检测到您的设备无网络连接，请检查您的网络" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"好", nil];
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"网络不给力，请检查网络连接后重试" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"好", nil];
         [alert show];
-        //开启定时器，进行检测
+        //1 创建提示视图
+        [self createPromptView];
+        
+        //2 开启定时器，进行检测
         timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(haveConnected) userInfo:nil repeats:YES];
     }
-    //创建加载动画视图 创建视图的顺序必须是在创建webview之后
-    [self createActivityIndicator];
+    
     
     
     
@@ -143,12 +151,17 @@
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
-    //切换视图时要将加载动画关掉
-    [self hideProgressOfActivityIndicator];
+    
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark 创建提示视图
+- (void)createPromptView {
+    self.promptView = [[CustomPromptView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height -44)];
+    [self.view addSubview:self.promptView];
 }
 
 #pragma mark 不断检测网络状态
@@ -157,10 +170,14 @@
     NSString *cruStatus = [device GetCurrntNet];
     if (![cruStatus isEqualToString:@"no connect"]) {
         //有网络
-        //重新加载webview
-        [self.webView removeFromSuperview];
-         //重新创建
-        [self updateWebView];
+
+        //移除掉提示视图
+        [self.promptView removeFromSuperview];
+        //重新加载
+        NSURL *Url = [NSURL URLWithString:self.webUrl];
+        NSURLRequest *request = [NSURLRequest requestWithURL:Url];
+        [self.webView loadRequest:request];
+
         //关闭定时器
         [timer invalidate];
         timer = nil;
