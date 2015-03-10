@@ -154,7 +154,7 @@
     return ret;
 }
 
-//获取收藏列表
+//获取收藏列表，2.0版中，book_id一定不为空，type，quewryIds可能为空
 - (NSArray *)getCollectionListWithInfoDic:(NSDictionary *)infoDic {
     //
     NSMutableArray *collctionListArr = [NSMutableArray array];
@@ -164,14 +164,9 @@
     NSString *collectionType = [infoDic objectForKey:@"type"];
     //进行二次解析
     NSString *queryIdsStr = [infoDic objectForKey:@"query_ids"];
-    SBJsonParser *parse = [[SBJsonParser alloc] init];
-    NSArray *queryIds = [parse objectWithString:queryIdsStr];
-    //根据参数来查询收藏列表
-    for (NSString *tempQueryId in queryIds) {
-        NSArray *tempArr = [manager getCollectionMetaWith:bookId andcollectionType:collectionType andQueryId:tempQueryId];
-        if (tempArr == nil || tempArr.count <= 0) {
-            continue;
-        }
+        //queryIds为空
+    if (queryIdsStr == nil || queryIdsStr.length <= 0) {
+        NSArray *tempArr = [manager getCollectionMetaWith:bookId andcollectionType:collectionType andQueryId:nil];
         for (NSManagedObject *tempObjc in tempArr) {
             if (tempObjc == nil) {//为空，则不作处理
                 continue;
@@ -179,6 +174,24 @@
             [collctionListArr addObject:tempObjc];
         }
     }
+    else {  //queryIds非空
+        SBJsonParser *parse = [[SBJsonParser alloc] init];
+        NSArray *queryIds = [parse objectWithString:queryIdsStr];
+        //根据参数来查询收藏列表
+        for (NSString *tempQueryId in queryIds) {
+            NSArray *tempArr = [manager getCollectionMetaWith:bookId andcollectionType:collectionType andQueryId:tempQueryId];
+            if (tempArr == nil || tempArr.count <= 0) {
+                continue;
+            }
+            for (NSManagedObject *tempObjc in tempArr) {
+                if (tempObjc == nil) {//为空，则不作处理
+                    continue;
+                }
+                [collctionListArr addObject:tempObjc];
+            }
+        }
+    }
+    
     //
     //转换收集到的“收藏列表”，并返回收集到的“收藏列表”
     return [self parseCollectionDicWithCollectionArray:collctionListArr];
