@@ -9,18 +9,39 @@
 #import "ScanResultInfoViewController.h"
 #import "Config.h"
 #import "UIColor+Hex.h"
+#import "LogUtil.h"
+#import "WebViewBridgeRegisterUtil.h"
 
-@interface ScanResultInfoViewController ()
+@interface ScanResultInfoViewController ()<UIWebViewDelegate>
+
+@property (nonatomic, strong) UIWebView *webView;
 
 @end
 
 @implementation ScanResultInfoViewController
 
+
+// webview
+- (UIWebView *)webView {
+    if (_webView == nil) {
+        CGRect rect = [[UIScreen mainScreen] bounds];
+        NSLog(@"扫码栏的高度 === %f",rect.size.height);
+        _webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, rect.size.height)];
+        _webView.delegate = self;
+        
+        [self.view addSubview:_webView];
+    }
+    
+    return _webView;
+}
+
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self customNav];
+   
     if (self.scanContext != nil && self.scanContext.length > 0) {
-       [self createUI];
+        [self customNav];
+        [self createUI];
     }
     if (self.urlString != nil && self.urlString.length > 0 ) {
         [self createWebview];
@@ -117,13 +138,44 @@
 
 //创建webview
 - (void)createWebview {
-    CGRect rect = [[UIScreen mainScreen] bounds];
-    UIWebView *webview = [[UIWebView alloc] initWithFrame:CGRectMake(0, 64, self.view.frame.size.width, rect.size.height - 64)];
+    WebViewBridgeRegisterUtil *webviewBridgeUtil = [[WebViewBridgeRegisterUtil alloc] init];
+    webviewBridgeUtil.webView = self.webView;
+    webviewBridgeUtil.controller = self;
+    webviewBridgeUtil.mainControllerView = self.view;
+    webviewBridgeUtil.navigationController = self.navigationController;
+    webviewBridgeUtil.tabBarController = self.tabBarController;
+    [webviewBridgeUtil initWebView];
+    
+    self.automaticallyAdjustsScrollViewInsets = NO;
+    self.webView.scrollView.bounces = NO;
+    self.webView.scrollView.showsVerticalScrollIndicator = NO;
+    
     NSURLRequest *request = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:self.urlString]];
-    [webview loadRequest:request];
-    [self.view addSubview:webview];
+    [self.webView loadRequest:request];
+    [self.view addSubview:self.webView];
 }
 
+#pragma mark - web view delegate methods
 
+-(BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
+    if (request) {
+        LogDebug(@"[MatchViewConroller] Web request: UA: %@", [request valueForHTTPHeaderField:@"User-Agent"]);
+    }
+    
+    //    [self injectJSToWebView:webView];
+    return YES;
+}
+
+- (void)webViewDidFinishLoad:(UIWebView *)webView {
+    [self injectJSToWebView:webView];
+}
+
+#pragma mark - js injection
+
+- (void)injectJSToWebView:(UIWebView *)webView {
+    NSString *filePath = [[NSBundle mainBundle] pathForResource:@"webview-js-bridge" ofType:@"js"];
+    NSString *jsString = [[NSString alloc] initWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:nil];
+    [webView stringByEvaluatingJavaScriptFromString:jsString];
+}
 
 @end

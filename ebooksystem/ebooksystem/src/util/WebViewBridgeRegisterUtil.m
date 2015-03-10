@@ -574,7 +574,7 @@ typedef enum {
         }
         SBJsonWriter *writer = [[SBJsonWriter alloc] init];
         NSString *string = [writer stringWithObject:arr];
-        NSLog(@"%@",string);
+        LogInfo(@"[WebViewBridgeRegisterUtil - getBookList]%@",string);
         
         if (responseCallback != nil) {
             responseCallback(string);//getBookList和queryBookStatus若是数组为空，都必须返回“[]”,格式字符串否则解析JS失败。
@@ -584,9 +584,9 @@ typedef enum {
         
     }];
     
-    //checkUpdate
-    [self.javascriptBridge registerHandler:@"checkUpdate" handler:^(id data,WVJBResponseCallback responseCallback){
-        LogDebug(@"WebViewBridgeRegisterUtil::checkUpdate() called: %@", data);
+    //checkDataUpdate
+    [self.javascriptBridge registerHandler:@"checkDataUpdate" handler:^(id data,WVJBResponseCallback responseCallback){
+        LogDebug(@"WebViewBridgeRegisterUtil::checkDataUpdate() called: %@", data);
         NSString *book_category = data;//值：0，1 还需要分类型吗？
         //检查某类书籍是否有更新，需要从数据库中查找（方法：1、获取更新数据的版本文件 2、把是否有更新的信息存储到数据库中，只需要返回给js是否开始检查的通知即可，不需要检查更新的结果给JS）。
         //返回0，1
@@ -842,6 +842,15 @@ typedef enum {
         }
         
     }];
+    // curUserLogout
+    [self.javascriptBridge registerHandler:@"curUserLogout" handler:^(id data, WVJBResponseCallback responseCallback) {
+      //logout
+        UserManager *usermanager = [UserManager instance];
+        [usermanager cruUserLogout];
+        if (responseCallback != nil) {
+            responseCallback(@"1");//需要回调，否则页面不能在登出后，返回到上一个页面
+        }
+    }];
     
     // ********* 设置页面接口 *******
     //voteForZaxue
@@ -876,6 +885,7 @@ typedef enum {
         
     }];
     //shareApp
+    //getSystemInfoList
     
     
     // *********  问答页相关接口 **********

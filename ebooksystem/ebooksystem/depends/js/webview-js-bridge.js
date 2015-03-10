@@ -142,8 +142,8 @@ function dump(arr,level) {
     };
 
     //checkUpdate
-    bridgeIOS.checkUpdate = function(data,callback){
-        bridgeIOS.callOC( 'checkUpdate',data,function(responseData){
+    bridgeIOS.checkDataUpdate = function(data,callback){
+        bridgeIOS.callOC( 'checkDataUpdate',data,function(responseData){
                          if (callback) {
                          callback(responseData);
                          }
@@ -382,6 +382,16 @@ function dump(arr,level) {
                          callback(responseData);
                          }
                          }  );
+    };
+    //curUserLogout
+    bridgeIOS.curUserLogout = function(callback){
+        //responseCallBack 回调时走下面的方法
+        bridgeIOS.callOC( 'curUserLogout',null,function(responseData){
+                         if (callback) {
+                         callback(responseData);
+                         }
+                         }  );
+        alert(444);
     };
     
     

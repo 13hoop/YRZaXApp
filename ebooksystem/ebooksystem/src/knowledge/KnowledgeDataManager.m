@@ -34,6 +34,7 @@
 
 @interface KnowledgeDataManager() <KnowledgeDownloadManagerDelegate>
 
+
 #pragma mark - 数据下载
 // 根据ServerResponseOfKnowledgeData, 启动下载更新
 - (BOOL)startDownloadWithResponse:(ServerResponseOfKnowledgeData *)response;
@@ -175,7 +176,7 @@
     
                 //2.0中将 准备解包  的状态存到数据库
                 dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                    [[KnowledgeMetaManager instance] setDataStatusTo:DATA_STATUS_UNPACK_PREPARING andDataStatusDescTo:@"100" forDataWithDataId:downloadItem.title andType:DATA_TYPE_DATA_SOURCE];
+                    [[KnowledgeMetaManager instance] setDataStatusTo:DATA_STATUS_UNPACK_PREPARING andDataStatusDescTo:@"92" forDataWithDataId:downloadItem.title andType:DATA_TYPE_DATA_SOURCE];
                 });
 
                 
@@ -189,7 +190,7 @@
                 ret = [za unzipFileTo:unpackPath overwrite:YES];
                 //2.0 解包中
                 dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                    [[KnowledgeMetaManager instance] setDataStatusTo:DATA_STATUS_UNPACK_IN_PROGRESS andDataStatusDescTo:@"100" forDataWithDataId:downloadItem.title andType:DATA_TYPE_DATA_SOURCE];
+                    [[KnowledgeMetaManager instance] setDataStatusTo:DATA_STATUS_UNPACK_IN_PROGRESS andDataStatusDescTo:@"94" forDataWithDataId:downloadItem.title andType:DATA_TYPE_DATA_SOURCE];
                 });
                 if (!ret) {
                     LogError(@"[KnowledgeDataManager:processDownloadedDataPack:] failed, since failed to unzip zip file: %@", downloadItem.savePath);
@@ -202,6 +203,11 @@
                 //H:判断指定的文件是否存在
                 BOOL existed = [[NSFileManager defaultManager] fileExistsAtPath:unpackPath isDirectory:&isDir];
                 if (existed) {
+                    //2.0 在这里将进度+5
+                    dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                        [[KnowledgeMetaManager instance] setDataStatusTo:DATA_STATUS_UNPACK_IN_PROGRESS andDataStatusDescTo:@"95" forDataWithDataId:downloadItem.title andType:DATA_TYPE_DATA_SOURCE];
+                    });
+                    
                     break; // 已解包成功
                 }
                 
@@ -288,7 +294,7 @@
                 ret = [self processZippedDataFile:zippedDataFilename withDecryptKey:downloadItem.tag withDownloadItemTitle:downloadItem.title];
                 
                 if (!ret) {
-                    LogError(@"[KnowledgeDataManager-processDownloadedDataPack:] failed, since failed to process zipped data file: %@", zippedDataFilename);
+                    LogError(@"[KnowledgeDataManager-processDownloadedDataPack:] since failed to process zipped data file: %@", zippedDataFilename);
                     ret = NO;
                     break;
                 }
@@ -302,6 +308,7 @@
     
     // 3. 返回
     LogInfo(@"[KnowledgeDataManager-processDownloadedDataPack:] end %@, file: %@", (ret ? @"successfully" : @"failed"), downloadItem.savePath);
+    
     return ret;
 }
 
@@ -321,7 +328,11 @@
             // 1.1 unzip
             ZipArchive *za = [[ZipArchive alloc] init];
             //H：解包时密码输入错误也是可以解出相应的目录的，只是每个目录下都是0字节的文件。
+            //正确写法：
             BOOL ret = [za unzipOpenFile:filename password:decryptedKey];
+            //测试写法：
+//            BOOL ret = [za unzipOpenFile:filename password:@"123"];
+            
             if (!ret) {
                 LogError(@"[KnowledgeDataManager-processZippedDataFile:] failed, since failed to open zip file: %@", filename);
                 ret = NO;
@@ -343,6 +354,22 @@
                             ret = NO;
                             break;
                         }
+            
+            
+            //******** unpackDataPath 是直接到具体书名的path ****
+            // 2.0 做解压失败的判断
+            BOOL unpackSuccess = [self checkResultWithFilePath:unpackedDataPath];
+            if (!unpackSuccess) {
+                //1 解包出现错误归类为下载失败，2 数据版本号不修改
+                dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                    [[KnowledgeMetaManager instance] setDataStatusTo:DATA_STATUS_DOWNLOAD_FAILED andDataStatusDescTo:@"0" forDataWithDataId:downloadTitle andType:DATA_TYPE_DATA_SOURCE];
+                //2 删除第一次解包得到的文件
+                [PathUtil deletePath:unpackPath];
+                });
+                return NO;//解包出现错误，在这里直接跳出该方法体。
+            }
+            
+            
             //2.0 解包成功（解包完成）
             dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                 [[KnowledgeMetaManager instance] setDataStatusTo:DATA_STATUS_UNPACK_COMPLETED andDataStatusDescTo:@"100" forDataWithDataId:downloadTitle andType:DATA_TYPE_DATA_SOURCE];
@@ -370,7 +397,7 @@
             }
             //后续需要写读文件内容，存到数据库中的操作。，存到数据库中的操作。存book的相对路径，修改book的版本号，修改dataStatus。（在调用该方法的函数内写）
             
-            //dataStatusDesc置为100
+            //1 dataStatusDesc置为100 2 状态为更新完成时才会将数据库中latestVersion字段赋值给cruVersion字段 。若是出现捷报错误，这段代码不会被执行。
             dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                 [[KnowledgeMetaManager instance]setDataStatusTo:DATA_STATUS_UPDATE_COMPLETED andDataStatusDescTo:@"100" andDataLatestVersion:nil andDataPath:downloadTitle andDataStorageType:DATA_STORAGE_INTERNAL_STORAGE forDataWithDataId:downloadTitle andType:DATA_TYPE_DATA_SOURCE];
             });
@@ -479,6 +506,8 @@
                 ret = NO;
                 return NO;
             }
+            
+
             //2.0解析出来的数据结构变了，不在是解压包的名字，而直接是data_id,所以下面的判断不起作用了
             //判断是否解包成功
             // 1.2 check whether unzip path exists
@@ -743,17 +772,17 @@
 
 - (BOOL)startDownloadWithResponse:(ServerResponseOfKnowledgeData *)response {
     if (response == nil || response.updateInfo == nil) {
-        LogError(@"[KnowledgeDataManager-startDownloadUpdateWithResponse:] failed because of invalid server response");
+        LogError(@"[KnowledgeDataManager-startDownloadWithResponse:] failed because of invalid server response");
         return NO;
     }
     
     if (response.updateInfo.status != 0) {
-        LogError(@"[KnowledgeDataManager-startDownloadUpdateWithResponse:] failed because of invalid server response, status: %ld, message: %@", response.updateInfo.status, response.updateInfo.message);
+        LogError(@"[KnowledgeDataManager-startDownloadWithResponse:] failed because of invalid server response, status: %ld, message: %@", response.updateInfo.status, response.updateInfo.message);
         return NO;
     }
     
     if (response.updateInfo.details == nil || response.updateInfo.details.count <= 0) {
-        LogError(@"[KnowledgeDataManager-startDownloadUpdateWithResponse:] failed because of invalid server response, no details");
+        LogError(@"[KnowledgeDataManager-startDownloadWithResponse:] failed because of invalid server response, no details");
         return NO;
     }
     
@@ -769,9 +798,15 @@
         NSString *dataId = [NSString stringWithFormat:@"%@", [detail valueForKey:@"data_id"]];
         NSString *title = [NSString stringWithFormat:@"%@", [detail valueForKey:@"data_id"]];
         NSString *desc = [NSString stringWithFormat:@"desc_dataId_%@", dataId];
+        //正确写法：
         NSString *downloadUrlStr = [NSString stringWithFormat:@"%@", [detail valueForKey:@"download_url"]];
-//        NSURL *downloadUrl = [NSURL URLWithString:[downloadUrlStr stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
         NSURL *downloadUrl = [[NSURL alloc] initWithString:downloadUrlStr];
+        /*
+        //测试写法：
+        NSString *haoyutestURL = @"http://test.zaxue100.com//1^ios_00101015^1.0.0.1.zip";
+        NSURL *downloadUrl = [NSURL URLWithString:[haoyutestURL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+         */
+        
         
         if (downloadUrl == nil) {
             continue;
@@ -782,7 +817,7 @@
         // 下载目录
         NSString *downloadRootPath = [Config instance].knowledgeDataConfig.knowledgeDataDownloadRootPathInDocuments;
         NSString *savePath = [NSString stringWithFormat:@"%@/%@-%@", downloadRootPath, title, [DateUtil timestamp]];
-        NSLog(@"下载目录是======%@",savePath);
+        LogInfo(@"下载目录是======%@",savePath);//在这里判断文件是否存，若存在则删除
         
         // 下载
         [KnowledgeDownloadManager instance].delegate = self;
@@ -1105,12 +1140,12 @@
                 
             }
         }
-        
+        /*
         //8.由更新模式决定是否需要自动更新
-        if ([Config instance].knowledgeDataConfig.knowledgeDataUpdateMode == DATA_UPDATE_MODE_CHECK) {
+        if ([Config instance].knowledgeDataConfig.knowledgeDataUpdateMode == DATA_UPDATE_MODE_CHECK_AND_UPDATE) {
             [self startDownloadWithResponse:response];
         }
-         
+        */
     });
          
         return YES;
@@ -1523,7 +1558,7 @@
         return nil;
     }
     
-    NSLog(@"lastError ===== %@",lastError);
+    LogInfo(@"[knowledgeDataManager - getDataUpdateInfo:] ===== %@",lastError);
     return response;
 }
             
@@ -1537,13 +1572,14 @@
     // 将下载进度更新到coreData
     dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [[KnowledgeMetaManager instance] setDataStatusTo:DATA_STATUS_DOWNLOAD_IN_PROGRESS andDataStatusDescTo:[NSString stringWithFormat:@"%lf", progress] forDataWithDataId:downloadItem.title andType:DATA_TYPE_DATA_SOURCE];
-        NSLog(@"进度=====%lf",progress);
+        NSLog(@"进度=====%lf",progress -10);
     });
     //H：自己方便写
     [self.dataStatusDelegate DownLoadKnowledgedataWithProgress:progress andDownloadItem:downloadItem];
 }
         
 // 下载成功/失败
+// 注：下载，解包，删除多余文件荣威一个整体的操作，下载完成后将进度减去10，解包和删除压缩文件的操作占总进度的10%
 - (void)knowledgeDownloadItem:(KnowledgeDownloadItem *)downloadItem didFinish:(BOOL)success response:(id)response {
     // log
     {
@@ -1570,7 +1606,7 @@
     
     // 将下载进度更新到coreData
     dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [[KnowledgeMetaManager instance] setDataStatusTo:DATA_STATUS_DOWNLOAD_COMPLETED andDataStatusDescTo:@"100" forDataWithDataId:downloadItem.title andType:DATA_TYPE_DATA_SOURCE];
+        [[KnowledgeMetaManager instance] setDataStatusTo:DATA_STATUS_DOWNLOAD_COMPLETED andDataStatusDescTo:@"90" forDataWithDataId:downloadItem.title andType:DATA_TYPE_DATA_SOURCE];
     });
     
     // 启动后台任务, 继续下载的后续操作
@@ -1713,5 +1749,41 @@
     return  arr;
     
 }
+
+#pragma mark 判断解压可能出现的错误
+- (BOOL)checkResultWithFilePath:(NSString *)unpackDataPath {
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    BOOL unpackSuccess = YES;
+    //1 判断解压完成后具体书籍的目录是否存在
+    BOOL isDir = NO;
+    BOOL existed = [fileManager fileExistsAtPath:unpackDataPath isDirectory:&isDir];
+    if (!existed) {
+        unpackSuccess = NO;
+        return unpackSuccess;
+    }
+    //2 目录存在，判断目录下是否有具体的分目录存在
+    NSError *error = nil;
+    NSArray *subDirsInUnpackDataPath = [fileManager contentsOfDirectoryAtPath:unpackDataPath error:&error];
+    if (subDirsInUnpackDataPath == nil || subDirsInUnpackDataPath.count <= 0) {
+        unpackSuccess = NO;
+        return unpackSuccess;
+    }
+    //3 判断shit文件是否为0，解压失败是出现的错误一般是：目录结构完好，但是具体每个文件的大小都为0
+    NSString *shitFilePath = [NSString stringWithFormat:@"%@/%@/%@",unpackDataPath,@"data",@"shit"];
+    //判断shit文件是否存在
+    BOOL shitExisted = [fileManager fileExistsAtPath:shitFilePath];
+    if (!shitExisted) {
+        unpackSuccess = NO;
+        return unpackSuccess;
+    }
+    //判断shit文件大小是否为0
+    NSString *shitFileContents = [NSString stringWithContentsOfFile:shitFilePath encoding:NSUTF8StringEncoding error:&error];
+    if (shitFileContents == nil || shitFileContents.length <= 0) {
+        unpackSuccess = NO;
+        return unpackSuccess;
+    }
+        return unpackSuccess;
+}
+
 
 @end

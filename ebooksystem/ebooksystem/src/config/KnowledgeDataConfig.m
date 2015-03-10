@@ -61,7 +61,9 @@
 //    return [NSString stringWithFormat:@"http://%@/kaoyan/app-update-pack/kaoyan_data_version.json", [Config instance].appConfig.httpDomainForData];
 //    return @"http://112.126.75.224:9713/index.php?c=check_update_platform_ctrl&m=get_download_url";
 //    return @"http://112.126.75.224:8296/ios_kaoyan_data_version.json";
-    return @"http://test.zaxue100.com/update_check/ios_data_version.json";
+//    return @"http://test.zaxue100.com/update_check/ios_data_version.json";
+//    return @"http://7u2rlu.com2.z0.glb.qiniucdn.com/ios_data_version.json";
+    return @"http://test.zaxue100.com/ios_data_version.json";
 }
 
 - (NSString *)dataUrlForUpdate {
@@ -176,8 +178,8 @@
 }
 
 - (DataUpdateMode)knowledgeDataUpdateMode {
-//    return DATA_UPDATE_MODE_CHECK;
-        return DATA_UPDATE_MODE_CHECK_AND_UPDATE;
+    return DATA_UPDATE_MODE_CHECK;
+//        return DATA_UPDATE_MODE_CHECK_AND_UPDATE;
 }
 
 

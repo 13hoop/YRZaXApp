@@ -27,11 +27,6 @@
             this.$modifyInfoBtn = $('.modify-info-btn');
             this.$loginBtn = $('.login-btn');
 
-            var $backBtn = $('.common-back');
-            $backBtn.on( 'tap', function(){
-                bridgeXXX.goBack();
-            } );
-
 
             this.$actionList = $('.action-list');
 

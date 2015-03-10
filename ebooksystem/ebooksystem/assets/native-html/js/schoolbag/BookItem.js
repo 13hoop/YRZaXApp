@@ -31,6 +31,7 @@
         this.$coverImage = $el.find('.cover-img');
         this.$downloadProgress = $el.find('.progress');
         this.$downloadProgressBg = $el.find('.progress-bg');
+        this.$downloadStep = $el.find('.downloading-step');
         this.$bookName = $el.find('.book-name');
         this.$bookEditor = $el.find('.book-editor');
 
@@ -154,10 +155,11 @@
             var progress = parseInt( state.book_status_detail, 10 );
             progress = Math.min( 100, progress );
             //TODO 添加下载错误的处理
-            this.$downloadProgress.text( state.book_status + ': ' + progress + '%');
+            this.$downloadProgress.text( progress + '%');
             this.$downloadProgressBg.css({
                 height : progress + '%'
             });
+            this.$downloadStep.text( state.book_status );
 
             if( state.book_status === BOOK_STATUS.BOOK_READY && progress >= 100 ){
                 //书籍已经下载、解压、更新数据库索引完成，可以访问了

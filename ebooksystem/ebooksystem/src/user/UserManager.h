@@ -50,6 +50,9 @@
 
 //set user info for 2.0
 //- (void)setCurUserInfo:(UserInfo *)userInfo;
+//logout for 2.0
+- (void)cruUserLogout;
+
 
 //getUserInfo
 -(UserInfo*)getUserInfo:(NSString *)userName;

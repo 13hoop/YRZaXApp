@@ -71,10 +71,10 @@
 
         _setupEvent : function(){
 
-            var $settingBtn = $('.setting-btn');
-            $settingBtn.on( 'tap', function(){
-                bridgeXXX.goUserSettingPage();
-            } );
+            //var $settingBtn = $('.setting-btn');
+            //$settingBtn.on( 'tap', function(){
+            //    bridgeXXX.goUserSettingPage();
+            //} );
         },
 
         showBookList : function( bookArr ){
@@ -183,6 +183,9 @@
             });
 
             downloadManager.startCheck();
+
+            //检查当前类目的书籍是否有更新
+            bridgeXXX.checkDataUpdate( this.studyType );
         },
 
         downloadBook : function( bookView ){

@@ -380,6 +380,9 @@
         },
         showAboutPage : function(){
             alert('关于咋学');
+        },
+        checkDataUpdate : function( type ){
+            alert('checkDataUpdate: ' + type );
         }
     };
 

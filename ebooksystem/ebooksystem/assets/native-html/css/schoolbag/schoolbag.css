@@ -3,8 +3,8 @@
 /*header*/
 .fragment-header{
     position: relative;
-    height: 62px;
-    line-height: 62px;
+    height: 60px;
+    line-height: 60px;
     background: url(./assets/3x/header-bg.png) repeat-x left bottom;
     background-size: 360px 62px;
 }
@@ -12,7 +12,7 @@
     color: #fffff3;
     height: 100%;
     text-align: center;
-    font-size: 24px;
+    font-size: 18px;
 }
 .setting-btn{
     position: absolute;
@@ -27,7 +27,7 @@
 }
 
 /*fragment body*/
-.fragment-body{
+.fake-native .fragment-body{
     position: absolute;
     left: 0;
     top: 62px;
@@ -111,15 +111,29 @@
 }
 .downloading-inner{
     position: absolute;
+    left: 0;
+    top: 50%;
+    width: 100%;
+    -webkit-transform: translateY(-50%);
+    overflow: hidden;
+
+}
+.downloading-circle{
+    position: relative;
     width: 40px;
     height: 40px;
     line-height: 40px;
-    left: 50%;
-    top: 50%;
-    -webkit-transform: translateX(-50%) translateY(-50%);
+    background-color: #d15124;
     border-radius: 100%;
     overflow: hidden;
-    background-color: #d15124;
+    margin: 0 auto;
+}
+.downloading-step{
+    height: 20px;
+    line-height: 20px;
+    color: #fff;
+    text-align: center;
+    font-size: 14px;
 }
 .progress-bg{
     position: absolute;
@@ -136,6 +150,7 @@
     line-height: inherit;
     z-index: 2;
     text-align: center;
+    font-size: 12px;
 }
 .book-downloading .downloading-wrap{
     display: block;

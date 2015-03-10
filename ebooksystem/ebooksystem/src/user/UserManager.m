@@ -230,7 +230,7 @@
 }
 
 //logout for 2.0
-- (void)logOut {
+- (void)cruUserLogout {
     NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
     /*
     NSString *cruUserName = [userDefault valueForKey:@"userInfoName"];
@@ -250,6 +250,7 @@
     //remove password
     [userDefault removeObjectForKey:@"userinfoPassword"];
     [userDefault synchronize];
+    
     
 }
 

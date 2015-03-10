@@ -63,7 +63,7 @@ html.fake-native, .fake-native body{
     color: #fffff3;
     line-height: 44px;
     z-index: 5;
-    border-bottom: 1px solid #bc3e03;
+    /*border-bottom: 1px solid #bc3e03;*/
 }
 .common-back{
     position: absolute;

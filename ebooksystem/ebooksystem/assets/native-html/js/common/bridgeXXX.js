@@ -108,10 +108,10 @@
     };
 
     //检查用户选择的 考试类型 下面的书籍是否有更新
-    bridgeXXX.checkUpdate = function( type ){
+    bridgeXXX.checkDataUpdate = function( type ){
         var bridge = bridgeXXX.getBridge();
         if( bridge ){
-            bridge.checkUpdate( type );
+            bridge.checkDataUpdate( type );
         }
     };
 
@@ -260,10 +260,12 @@
         bridge.showURL( args );
     };
 
-    bridgeXXX.goBack = function(){
+    bridgeXXX.goBack = function( args ){
+        args = args || {};
+        args = JSON.stringify( args );
         var bridge = bridgeXXX.getBridge();
 
-        bridge.goBack(  );
+        bridge.goBack( args );
     };
 
     bridgeXXX.goBackHistory = function(){
