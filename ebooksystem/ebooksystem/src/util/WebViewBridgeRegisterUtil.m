@@ -1261,6 +1261,11 @@ typedef enum {
     //分享内容
     NSString *shareString=[shareDic objectForKey:@"content"];
     
+    //2.0 分享到新浪微博
+    [[UMSocialData defaultData].urlResource setResourceType:UMSocialUrlResourceTypeImage url:imageString];
+    [UMSocialData defaultData].extConfig.sinaData.shareText = shareString;
+    
+
     
     
     //2.0 share to wechatTimeline only
@@ -1271,7 +1276,8 @@ typedef enum {
     //
     [UMSocialData defaultData].extConfig.wechatTimelineData.url=callBackUrl;
     
-    [UMSocialSnsService presentSnsIconSheetView:self.controller appKey:@"543dea72fd98c5fc98004e08" shareText:shareString shareImage:nil shareToSnsNames:[NSArray arrayWithObjects:UMShareToWechatTimeline,nil] delegate:nil];//UMShareToWechatSession
+    //
+    [UMSocialSnsService presentSnsIconSheetView:self.controller appKey:@"543dea72fd98c5fc98004e08" shareText:shareString shareImage:nil shareToSnsNames:[NSArray arrayWithObjects:UMShareToWechatTimeline,UMShareToSina,nil] delegate:nil];//UMShareToWechatSession
     //
     }
 

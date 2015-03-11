@@ -75,6 +75,15 @@
             //$settingBtn.on( 'tap', function(){
             //    bridgeXXX.goUserSettingPage();
             //} );
+
+            document.addEventListener('SamaPageShow', function(){
+                location.reload();
+                console.log('schoolbag:SamaPageShow');
+            }, false );
+
+            document.addEventListener('SamaPageHide', function(){
+                console.log('schoolbag:SamaPageHide');
+            }, false );
         },
 
         showBookList : function( bookArr ){
@@ -169,7 +178,8 @@
 
             $addBtn.css({
                 width : bookViewWidth + 'px',
-                height : 129 + 'px',
+                height : 116 + 'px',
+                'line-height' : '116px',
                 left : left + 'px',
                 top : top + 'px'
             });

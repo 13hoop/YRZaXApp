@@ -133,7 +133,7 @@
     line-height: 20px;
     color: #fff;
     text-align: center;
-    font-size: 14px;
+    font-size: 12px;
 }
 .progress-bg{
     position: absolute;
@@ -204,7 +204,7 @@
 }
 .add-book-inner{
     color: #e59d53;
-    font-size: 90px;
+    font-size: 61px;
     text-align: center;
     height: 100%;
 }

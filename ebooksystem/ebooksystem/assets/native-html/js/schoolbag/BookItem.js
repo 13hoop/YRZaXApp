@@ -76,7 +76,7 @@
             var imgHeight = metaJSON.cover_img_height;
 
             var offset = utils.zoomLimitMax( imgViewWidth, imgViewHeight, imgWidth, imgHeight );
-
+            offset.height = 116;
             this.$coverImage.parent().css({
                 left : offset.left + 'px',
                 top : '0',

@@ -133,7 +133,7 @@
         temp = JSON.parse( temp );
         temp.book_id = 'test_book_' + (i + 1 );
         temp.book_status = bookStatusList[ i % bookStatusList.length ];
-
+//temp.book_status = '可更新';
         bookList.push(  temp );
     }
 

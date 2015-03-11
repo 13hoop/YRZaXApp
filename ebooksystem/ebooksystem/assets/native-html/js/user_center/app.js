@@ -86,6 +86,26 @@
                     });
                 }
             } );
+
+            //补齐最后一行的格子
+            var cellNum = this.$actionList.children('.action-item').length;
+            var lastRowNum = cellNum % 3;
+            if( cellNum > 0 && lastRowNum > 0 ){
+                var html = '<div class="action-item"></div>';
+                if( 3 - lastRowNum > 1 ){
+                    html += '<div class="action-item"></div>';
+                }
+                this.$actionList.append( html );
+            }
+
+            document.addEventListener('SamaPageShow', function(){
+                location.reload();
+                console.log('user_center: SamaPageShow');
+            }, false );
+
+            document.addEventListener('SamaPageHide', function(){
+                console.log('user_center: SamaPageHide');
+            }, false );
         }
 
     };

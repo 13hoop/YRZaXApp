@@ -117,7 +117,7 @@
 //    [self.window makeKeyAndVisible];
 //    return YES;
     
-    
+    /*
     //友盟消息推送
     [UMessage startWithAppkey:UMAPPKEY launchOptions:launchOptions];
 #if __IPHONE_OS_VERSION_MAX_ALLOWED >= _IPHONE80_
@@ -159,7 +159,7 @@
     
     //for log
     [UMessage setLogEnabled:YES];
-    
+    */
     
     
     
@@ -173,15 +173,21 @@
         [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"firstLaunch"];
     }
     
+    
+    
     return YES;
     
 }
 #pragma mark umeng push used method
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+    /*
     [UMessage registerDeviceToken:deviceToken];
+    */
 }
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
+    /*
     [UMessage didReceiveRemoteNotification:userInfo];
+    */
 }
 
 //-(void)UmengMethod
@@ -222,10 +228,10 @@
 -(void)initUmengShare {
     [UMSocialData setAppKey:UMAPPKEY];
     //wechat---需要填写appkey 和 appSecret
-    [UMSocialWechatHandler setWXAppId:@"wxb4cfa6949e15a303" appSecret:@"42846370c09438a05448519e76952326" url:@"http://www.baidu.com"];
+    [UMSocialWechatHandler setWXAppId:@"wxb4cfa6949e15a303" appSecret:@"42846370c09438a05448519e76952326" url:@"http://www.zaxue100.com"];
     //qqzone ----需要注册，填写id和url
     //设置分享到QQ空间的应用Id，和分享url 链接
-    [UMSocialQQHandler setQQWithAppId:@"1102966210" appKey:@"RGudHqtJ5mvFYLsY" url:@"http://www.baidu.com"];
+    [UMSocialQQHandler setQQWithAppId:@"1102966210" appKey:@"RGudHqtJ5mvFYLsY" url:@"http://www.zaxue100.com"];
     //设置新浪微博
     [UMSocialSinaHandler openSSOWithRedirectURL:nil];
 }
