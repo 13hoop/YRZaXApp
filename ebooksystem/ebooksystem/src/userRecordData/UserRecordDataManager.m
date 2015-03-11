@@ -228,11 +228,18 @@
         NSString *content = [entity valueForKey:@"content"];
         NSDate *createDate = [entity valueForKey:@"collectionCreateTime"];
         //日期转换
+        /*
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
         [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
         [dateFormatter setTimeStyle:NSDateFormatterShortStyle];
         [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss.SSS"];
         NSString *createTimeStr = [dateFormatter stringFromDate:createDate];
+        */
+//        double dd = [createDate timeIntervalSince1970]*1000;
+//        NSString *createTimeStr = [NSString stringWithFormat:@"%f",dd];
+        //将date转换成秒的方法
+        NSString *createTimeStr = [NSString stringWithFormat:@"%lld",(long long)[createDate timeIntervalSince1970]];
+        
         NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:bookId,@"book_id",contentQueryId,@"content_query_id",collectionType,@"type",content,@"content",createTimeStr,@"create_time", nil];
         [dicArr addObject:dic];
     }

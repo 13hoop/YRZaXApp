@@ -88,7 +88,9 @@
     }
     
     //collectionCreateTime
-    [collectionEntity setValue:[NSDate date] forKey:@"collectionCreateTime"];
+
+    [collectionEntity setValue:[NSDate date]forKey:@"collectionCreateTime"];
+    
     //collectionDescInfo --备用字段
     if (self.collectionDescInfo == nil || self.collectionDescInfo.length <= 0) {
         [collectionEntity setValue:@"" forKey:@"collectionDescInfo"];
