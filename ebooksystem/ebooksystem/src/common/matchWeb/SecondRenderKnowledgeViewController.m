@@ -157,12 +157,18 @@
         CGRect rect = [[UIScreen mainScreen] bounds];
         self.webView.frame = CGRectMake(0,0, self.view.frame.size.width, rect.size.height);
     }
+    //触发JS事件
+    [self injectJSToWebview:self.webView andJSFileName:@"SamaPageShow"];
+
+    
 
 }
 
 
 - (void)viewWillDisappear:(BOOL)animated {
     self.tabBarController.tabBar.hidden = NO;
+    //触发JS事件
+    [self injectJSToWebview:self.webView andJSFileName:@"SamaPageHide"];
 }
 
 
@@ -728,6 +734,14 @@
 
 - (void)injectJSToWebView:(UIWebView *)webView {
     NSString *filePath = [[NSBundle mainBundle] pathForResource:@"webview-js-bridge" ofType:@"js"];
+    NSString *jsString = [[NSString alloc] initWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:nil];
+    [webView stringByEvaluatingJavaScriptFromString:jsString];
+}
+
+
+//给JS的响应事件，分别在viewWillAppear、viewWillDisAppear时触发。
+- (void)injectJSToWebview:(UIWebView *)webView andJSFileName:(NSString *)JSfileName {
+    NSString *filePath = [[NSBundle mainBundle] pathForResource:JSfileName ofType:@"js"];
     NSString *jsString = [[NSString alloc] initWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:nil];
     [webView stringByEvaluatingJavaScriptFromString:jsString];
 }

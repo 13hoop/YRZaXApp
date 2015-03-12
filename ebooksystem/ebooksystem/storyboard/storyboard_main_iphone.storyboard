@@ -190,8 +190,8 @@
             <objects>
                 <tabBarController id="rX9-oZ-o1w" customClass="CustomTabBarViewController" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" id="fuG-pI-eIp"/>
-                    <nil key="simulatedBottomBarMetrics"/>
-                    <tabBar key="tabBar" contentMode="scaleToFill" id="3Pl-oM-5y1">
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics" translucent="NO"/>
+                    <tabBar key="tabBar" contentMode="scaleToFill" translucent="NO" id="3Pl-oM-5y1">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -229,7 +229,7 @@
             <objects>
                 <viewController id="P4T-c9-K3F" customClass="MatchViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="bhZ-PT-GLS">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="519"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
@@ -276,7 +276,7 @@
             <objects>
                 <viewController id="QCI-pp-HAT" customClass="DiscoveryViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="O9C-dW-F7U">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="519"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
@@ -339,7 +339,7 @@
             <objects>
                 <viewController id="pkL-JJ-8d9" customClass="QuestionAndAnswerViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="6jk-JN-dto">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="519"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
@@ -371,7 +371,7 @@
             <objects>
                 <viewController id="C04-VL-fqk" customClass="PersonalCenterViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="6ch-M9-gJE">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="519"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>

@@ -147,6 +147,8 @@
 		06DFC2901A60BC5400179C68 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06DFC28F1A60BC5400179C68 /* AVFoundation.framework */; };
 		06DFC2921A60BC6000179C68 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06DFC2911A60BC6000179C68 /* CoreMedia.framework */; };
 		06DFC2941A60BC7300179C68 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 06DFC2931A60BC7300179C68 /* CoreVideo.framework */; };
+		06E426FD1AB11D2B003A22E2 /* SamaPageHide.js in Resources */ = {isa = PBXBuildFile; fileRef = 06E426FB1AB11D2B003A22E2 /* SamaPageHide.js */; };
+		06E426FE1AB11D2B003A22E2 /* SamaPageShow.js in Resources */ = {isa = PBXBuildFile; fileRef = 06E426FC1AB11D2B003A22E2 /* SamaPageShow.js */; };
 		710C02B119E0394100C27A33 /* SubjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 710C02B019E0394100C27A33 /* SubjectViewController.m */; };
 		710C02B519E03E4F00C27A33 /* KnowledgeSubject.m in Sources */ = {isa = PBXBuildFile; fileRef = 710C02B419E03E4F00C27A33 /* KnowledgeSubject.m */; };
 		710C02BA19E0457A00C27A33 /* SubjectTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 710C02B819E0457A00C27A33 /* SubjectTableViewCell.m */; };
@@ -568,6 +570,8 @@
 		06DFC28F1A60BC5400179C68 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		06DFC2911A60BC6000179C68 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		06DFC2931A60BC7300179C68 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
+		06E426FB1AB11D2B003A22E2 /* SamaPageHide.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = SamaPageHide.js; sourceTree = "<group>"; };
+		06E426FC1AB11D2B003A22E2 /* SamaPageShow.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = SamaPageShow.js; sourceTree = "<group>"; };
 		710C02AF19E0394100C27A33 /* SubjectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SubjectViewController.h; path = src/subject/controller/SubjectViewController.h; sourceTree = "<group>"; };
 		710C02B019E0394100C27A33 /* SubjectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SubjectViewController.m; path = src/subject/controller/SubjectViewController.m; sourceTree = "<group>"; };
 		710C02B319E03E4F00C27A33 /* KnowledgeSubject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KnowledgeSubject.h; path = src/subject/model/KnowledgeSubject.h; sourceTree = "<group>"; };
@@ -1105,6 +1109,8 @@
 		06A980151A0B609A004E7E6C /* js */ = {
 			isa = PBXGroup;
 			children = (
+				06E426FB1AB11D2B003A22E2 /* SamaPageHide.js */,
+				06E426FC1AB11D2B003A22E2 /* SamaPageShow.js */,
 				06A980161A0B609A004E7E6C /* webview-js-bridge.js */,
 			);
 			name = js;
@@ -1913,14 +1919,6 @@
 			path = src/common/commomKnowledge;
 			sourceTree = "<group>";
 		};
-		06DBACC81A7A08CF00B3A555 /* personalCenter */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = personalCenter;
-			path = src/common/personalCenter;
-			sourceTree = "<group>";
-		};
 		06DBBE021A83635E00BED5B7 /* scanQRcodeKnowledge */ = {
 			isa = PBXGroup;
 			children = (
@@ -2489,7 +2487,6 @@
 			isa = PBXGroup;
 			children = (
 				06D77BFB1A7F8B6500AC6F78 /* commomKnowledge */,
-				06DBACC81A7A08CF00B3A555 /* personalCenter */,
 				06A8A9E91A0A0B6C00407E89 /* matchWeb */,
 				06AA7EEC19F4FBBB00570289 /* color */,
 				06AA7EEF19F4FBBB00570289 /* CSUItextfield */,
@@ -2835,6 +2832,7 @@
 				06CF4D061AA41494000BE809 /* ios-social-sdk-shake.html in Resources */,
 				710C02C119E054B700C27A33 /* res in Resources */,
 				06CF4CFB1AA41494000BE809 /* UMShareEditViewControlleriPad.xib in Resources */,
+				06E426FE1AB11D2B003A22E2 /* SamaPageShow.js in Resources */,
 				06CF4CFA1AA41494000BE809 /* UMShareEditViewController.xib in Resources */,
 				06CF4CF71AA41494000BE809 /* UMSCommentDetailController.xib in Resources */,
 				710C02BD19E0547600C27A33 /* storyboard_main_iphone.storyboard in Resources */,
@@ -2854,6 +2852,7 @@
 				06CF4CFF1AA41494000BE809 /* UMSocialSDKResourcesNew.bundle in Resources */,
 				0690783019CFD62700CD9C3D /* Images.xcassets in Resources */,
 				06CF20B61A70D1A100DD2721 /* 封面图片-2-base64.txt in Resources */,
+				06E426FD1AB11D2B003A22E2 /* SamaPageHide.js in Resources */,
 				7116EEFD19FCE9E000336309 /* umFeedback.bundle in Resources */,
 				06CF4D031AA41494000BE809 /* TencentOpenApi_IOS_Bundle.bundle in Resources */,
 				06AA7F5319F4FC7E00570289 /* UMFeedbackViewController.xib in Resources */,

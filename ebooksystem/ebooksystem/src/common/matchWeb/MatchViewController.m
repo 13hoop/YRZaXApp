@@ -138,9 +138,17 @@
 
     [[UIApplication sharedApplication] setStatusBarHidden:YES];
     self.navigationController.navigationBarHidden = YES;
-    [self.webView reload];
+//    [self.webView reload];
+    
+    //触发JS事件
+    [self injectJSToWebview:self.webView andJSFileName:@"SamaPageShow"];
 }
 
+- (void)viewWillDisappear:(BOOL)animated {
+    //触发JS事件
+    [self injectJSToWebview:self.webView andJSFileName:@"SamaPageHide"];
+
+}
 
 - (void)didReceiveMemoryWarning
 {
@@ -646,7 +654,7 @@
 }
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
-    [self injectJSToWebView:webView];
+//    [self injectJSToWebView:webView];
 }
 
 #pragma mark - js injection
@@ -656,6 +664,14 @@
     NSString *jsString = [[NSString alloc] initWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:nil];
     [webView stringByEvaluatingJavaScriptFromString:jsString];
 }
+
+//给JS的响应事件，分别在viewWillAppear、viewWillDisAppear时触发。
+- (void)injectJSToWebview:(UIWebView *)webView andJSFileName:(NSString *)JSfileName {
+    NSString *filePath = [[NSBundle mainBundle] pathForResource:JSfileName ofType:@"js"];
+    NSString *jsString = [[NSString alloc] initWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:nil];
+    [webView stringByEvaluatingJavaScriptFromString:jsString];
+}
+
 
 #pragma mark - set User Agent
 

@@ -149,8 +149,10 @@
     [[UIApplication sharedApplication] setStatusBarHidden:YES];
     //隐藏navbar状态
     self.navigationController.navigationBarHidden = YES;
+    
     //JS传来的need_refresh参数为0,暂定为每次都要刷新。
-    [self.webView reload];
+//    [self.webView reload];
+    
     //根据JS传的need_refresh参数决定当前页面是否需要刷新
     if([self.needRefresh isEqualToString:@"1"]) {
         [self.webView reload];//等于1是就刷新，反之不作处理
@@ -168,11 +170,15 @@
         
 
     }
+   //触发JS事件
+    [self injectJSToWebview:self.webView andJSFileName:@"SamaPageShow"];
     
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     self.tabBarController.tabBar.hidden = NO;
+    //触发JS事件
+    [self injectJSToWebview:self.webView andJSFileName:@"SamaPageHide"];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -896,8 +902,12 @@
     NSString *jsString = [[NSString alloc] initWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:nil];
     [webView stringByEvaluatingJavaScriptFromString:jsString];
 }
-
-
+//给JS的响应事件，分别在viewWillAppear、viewWillDisAppear时触发。
+- (void)injectJSToWebview:(UIWebView *)webView andJSFileName:(NSString *)JSfileName {
+    NSString *filePath = [[NSBundle mainBundle] pathForResource:JSfileName ofType:@"js"];
+    NSString *jsString = [[NSString alloc] initWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:nil];
+    [webView stringByEvaluatingJavaScriptFromString:jsString];
+}
 
 
 //用户反馈用到的方法
