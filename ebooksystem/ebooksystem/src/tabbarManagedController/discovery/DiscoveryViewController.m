@@ -45,48 +45,32 @@
     self.automaticallyAdjustsScrollViewInsets = NO;
    //隐藏掉状态栏
     [[UIApplication sharedApplication] setStatusBarHidden:TRUE];
-    //判断是否是第一次加载
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"firstLaunch"]) {
-        self.tabBarController.tabBar.hidden = YES;
-        [self makeSelectView];
-    }
-    else {
-        //加载发现页
-        [self makeWebView];
-        //检查更新
-        [self updateApp];
-    }
     
-    //判断当前网络连接
-    DeviceStatusUtil *cruDeviceStatus = [[DeviceStatusUtil alloc] init];
-    NSString *CruStatus = [cruDeviceStatus GetCurrntNet];
-    if ([CruStatus isEqualToString:@"no connect"]) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"网络不给力，请检查网络连接后重试" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"好", nil];
-        [alert show];
-        //1 创建提示界面
-        [self createNoConnectPromptView];
-        
-        //2 开定时器，不断刷新，检测到网络连接后，重新加载webview
-        timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(haveConnected) userInfo:nil repeats:YES];
-        
-    }
-    
+    //开始启动
+    [self startUp];
 }
 
 
 
 - (void)viewWillAppear:(BOOL)animated {
     [[UIApplication sharedApplication] setStatusBarHidden:TRUE];
-
+    //触发JS事件
+    [self.discoverWeb samaPageShow];
+    
 }
 - (void)viewDidAppear:(BOOL)animated {
     // 回发error log
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [[ErrorManager instance] sendCrashToServer];
     });
-
+    
 }
 
+- (void)viewWillDisappear:(BOOL)animated {
+    //触发JS事件
+    [self.discoverWeb samaPageHide];
+    
+}
 
 
 - (void)didReceiveMemoryWarning
@@ -106,11 +90,16 @@
 #pragma mark 创建提示界面
 - (void)createNoConnectPromptView {
     
-    self.promptView = [[CustomPromptView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height -44)];
+    self.promptView = [[CustomPromptView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height -48)];
     [self.view addSubview:self.promptView];
     
 }
 
+//app第一次启动没网时的提示界面
+- (void)firstCreatePromptView {
+    self.promptView = [[CustomPromptView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height )];
+    [self.view addSubview:self.promptView];
+}
 #pragma mark 不断检测网络状态
 - (void)haveConnected {
     DeviceStatusUtil *device = [[DeviceStatusUtil alloc] init];
@@ -130,20 +119,38 @@
     }
 }
 
+- (void)haveConnectAtFirstStartUp {
+    DeviceStatusUtil *device = [[DeviceStatusUtil alloc] init];
+    NSString *cruStatus = [device GetCurrntNet];
+    if (![cruStatus isEqualToString:@"no connect"]) {
+        //有网络
+        //移除掉提示视图
+        [self.promptView removeFromSuperview];
+        
+        //添加新的视图
+        [self makeSelectView];
+        //关闭定时器
+        [timer invalidate];
+        timer = nil;
+        
+    }
+    
+}
 
 #pragma mark - 创建要显示的视图
 
 //创建webview
 - (void)makeWebView {
-     self.discoverWeb = [[discoveryWebView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height-48)];
+    CGRect rect = [[UIScreen mainScreen] bounds];
+     self.discoverWeb = [[discoveryWebView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, rect.size.height - 48)];
     self.discoverWeb.discoverDelegate = self;
     [self.view addSubview:self.discoverWeb];
 }
 
 //创建选择view
 - (void)makeSelectView {
-
-    self.subjectChooseView = [[SubjectChoose alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height-48)];
+    CGRect rect = [[UIScreen mainScreen] bounds];
+    self.subjectChooseView = [[SubjectChoose alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, rect.size.height)];
     self.subjectChooseView.userSelectedDelegate = self;
     [self.view addSubview:self.subjectChooseView];
 }
@@ -229,10 +236,53 @@
         [NSUserDefaultUtil setCurStudyTypeWithType:@"1"];
     }
     [self.subjectChooseView removeFromSuperview];
+    //显示出tabbar
     self.tabBarController.tabBar.hidden = NO;
     //创建新的页面
     [self makeWebView];
     
+}
+
+- (void)startUp {
+    //获取当前网络连接状况
+    DeviceStatusUtil *cruDeviceStatus = [[DeviceStatusUtil alloc] init];
+    NSString *CruStatus = [cruDeviceStatus GetCurrntNet];
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"firstLaunch"]) {//第一次加载
+        //判断是否有网络连接
+        if ([CruStatus isEqualToString:@"no connect"]) {//没有连接网络
+            //隐藏tabbar，显示没网的提示画面
+            self.tabBarController.tabBar.hidden = YES;
+            [self firstCreatePromptView];
+            //开启定时器
+            timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(haveConnectAtFirstStartUp) userInfo:nil repeats:YES];
+        }
+        else {//有网络连接
+            //隐藏tabbar，显示课程选择界面
+            self.tabBarController.tabBar.hidden = YES;
+            [self makeSelectView];
+        }
+        
+    }
+    else {//不是第一次加载
+       //判断是否有网络
+        if ([CruStatus isEqualToString:@"no connect"]) {//没有网络连接
+            //1 创建提示界面
+            [self createNoConnectPromptView];
+            
+            //2 开定时器，不断刷新，检测到网络连接后，重新加载webview
+            timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(haveConnected) userInfo:nil repeats:YES];
+        }
+        else {//已经联网
+            //加载发现页
+            [self makeWebView];
+            //检查更新
+            [self updateApp];
+            
+        }
+        
+    }
+    
+        
 }
 
 @end

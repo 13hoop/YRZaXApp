@@ -578,6 +578,14 @@
     [webView stringByEvaluatingJavaScriptFromString:jsString];
 }
 
+
+//给JS的响应事件，分别在viewWillAppear、viewWillDisAppear时触发。
+- (void)injectJSToWebview:(UIWebView *)webView andJSFileName:(NSString *)JSfileName {
+    NSString *filePath = [[NSBundle mainBundle] pathForResource:JSfileName ofType:@"js"];
+    NSString *jsString = [[NSString alloc] initWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:nil];
+    [webView stringByEvaluatingJavaScriptFromString:jsString];
+}
+
 #pragma mark - set User Agent
 
 - (BOOL)checkUserAgent {
@@ -711,4 +719,11 @@
     }
 }
 
+//触发JS的事件，在DiscoveryViewController中调用
+- (void)samaPageShow {
+    [self injectJSToWebview:self.webView andJSFileName:@"SamaPageShow"];
+}
+- (void)samaPageHide {
+    [self injectJSToWebview:self.webView andJSFileName:@"SamaPageHide"];
+}
 @end

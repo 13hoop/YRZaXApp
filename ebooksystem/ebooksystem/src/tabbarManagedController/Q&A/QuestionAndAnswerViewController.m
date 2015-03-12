@@ -147,11 +147,13 @@
     self.navigationController.navigationBarHidden = YES;
     //个人中心页需要显示tabbar
     self.tabBarController.tabBar.hidden = NO;
-    
+    //触发JS事件
+    [self injectJSToWebview:self.webView andJSFileName:@"SamaPageShow"];
+
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
-    
+    [self injectJSToWebview:self.webView andJSFileName:@"SamaPageHide"];
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -165,6 +167,7 @@
 }
 
 #pragma mark 不断检测网络状态
+
 - (void)haveConnected {
     DeviceStatusUtil *device = [[DeviceStatusUtil alloc] init];
     NSString *cruStatus = [device GetCurrntNet];
@@ -226,6 +229,8 @@
     [self injectJSToWebView:webView];
     //结束网络加载提示
     [self hideProgressOfActivityIndicator];
+    
+    
 }
 
 - (void)webViewDidStartLoad:(UIWebView *)webView {
@@ -240,6 +245,14 @@
     NSString *jsString = [[NSString alloc] initWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:nil];
     [webView stringByEvaluatingJavaScriptFromString:jsString];
 }
+
+//给JS的响应事件，分别在viewWillAppear、viewWillDisAppear时触发。
+- (void)injectJSToWebview:(UIWebView *)webView andJSFileName:(NSString *)JSfileName {
+    NSString *filePath = [[NSBundle mainBundle] pathForResource:JSfileName ofType:@"js"];
+    NSString *jsString = [[NSString alloc] initWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:nil];
+    [webView stringByEvaluatingJavaScriptFromString:jsString];
+}
+
 
 - (BOOL)updateWebView {
     NSURL *Url = [NSURL URLWithString:self.webUrl];

@@ -85,7 +85,7 @@
 // webview
 - (UIWebView *)webView {
     if (_webView == nil) {
-        _webView = [[UIWebView alloc] initWithFrame:CGRectMake(0,0, self.view.frame.size.width, self.view.frame.size.height - 48)];
+        _webView = [[UIWebView alloc] initWithFrame:CGRectMake(0,0, self.view.frame.size.width, self.view.frame.size.height)];
         _webView.delegate = self;
         
         [self.view addSubview:_webView];
@@ -159,7 +159,7 @@
     //判断，书籍详情页也复用了这个controller,详情页中不需要隐藏tabbar
     if ([self.flag isEqualToString:@"discovery"]) {
         //
-        self.tabBarController.tabBar.hidden = NO;
+        self.tabBarController.tabBar.hidden = YES;//书籍详情页需要将下面的tabbar隐藏掉
         
     }
     else {

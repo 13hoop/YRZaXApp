@@ -24,4 +24,9 @@
 @property (nonatomic, strong) NSString *webUrl;
 
 @property (nonatomic ,weak) id<discoverDelegate>discoverDelegate;
+
+//触发JS事件
+- (void)samaPageShow ;
+- (void)samaPageHide ;
+
 @end
