@@ -176,6 +176,7 @@
     }
     //触发JS事件
     [self injectJSToWebview:self.webView andJSFileName:@"SamaPageShow"];
+    self.tabBarController.tabBar.hidden = YES;
    
 }
 
@@ -187,7 +188,7 @@
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+//     Dispose of any resources that can be recreated.
 }
 
 #pragma mark update webView

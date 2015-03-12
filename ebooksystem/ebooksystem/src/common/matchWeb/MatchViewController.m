@@ -654,7 +654,7 @@
 }
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
-//    [self injectJSToWebView:webView];
+    [self injectJSToWebView:webView];
 }
 
 #pragma mark - js injection

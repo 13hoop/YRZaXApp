@@ -1,6 +1,6 @@
 
 ! function(){
-    alert('111');
+    
 	var event;
 	var eventName = 'SamaPageShow';
 
@@ -12,5 +12,6 @@
 	       event.initEvent( eventName, false, false  );
 	       document.dispatchEvent( event );
 	}
+   
 }();
 
