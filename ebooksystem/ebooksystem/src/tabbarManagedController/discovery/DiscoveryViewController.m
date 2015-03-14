@@ -54,6 +54,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [[UIApplication sharedApplication] setStatusBarHidden:TRUE];
+    self.navigationController.navigationBarHidden = YES;
     //触发JS事件
     [self.discoverWeb samaPageShow];
     

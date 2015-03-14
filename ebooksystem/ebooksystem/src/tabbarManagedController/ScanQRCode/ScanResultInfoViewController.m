@@ -133,7 +133,14 @@
 //    
 //    [controllers removeObjectAtIndex:controllers.count -2];
 //    [self.navigationController setViewControllers:controllers];
-    [self.navigationController popViewControllerAnimated:YES];
+    if ([self.fromController isEqualToString:@"mainPage"]) {
+        [self dismissViewControllerAnimated:YES completion:nil];
+        
+    }
+    else {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+    
 }
 
 //创建webview

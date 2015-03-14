@@ -13,4 +13,6 @@
 
 @property (nonatomic, strong) NSString *scanInfoStr;
 
+//判断从哪个页面进入到扫码页
+@property (nonatomic, strong) NSString *fromController;
 @end

@@ -19,6 +19,8 @@
         list : {},
 
         checkTimer : null,
+        //是否主动停止检查
+        stopped : false,
 
         downloadBook : function( bookView ){
             if( ! bookView || this.list[ bookView.getBookID() ] ){
@@ -45,7 +47,7 @@
             if( this.checkTimer ){
                 return false;
             }
-
+            this.stopped = false;
             this.checkTimer = window.setTimeout( this._doCheck.bind( this ), this.delay );
         },
 
@@ -105,9 +107,16 @@
                 }
             }
 
-            if( hasDownloading ){
+            if( hasDownloading && ! this.stopped ){
                 this.checkTimer = window.setTimeout( this._doCheck.bind( this ), this.delay );
             }
+        },
+
+        stop : function(){
+            this.list = {};
+            this.stopped = true;
+            clearTimeout( this.checkTimer );
+            this.checkTimer = null;
         }
     };
 

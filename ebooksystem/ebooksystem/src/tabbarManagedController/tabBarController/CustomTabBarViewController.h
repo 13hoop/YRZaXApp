@@ -10,4 +10,8 @@
 
 @interface CustomTabBarViewController : UITabBarController
 
+@property (nonatomic, strong) UINavigationController *globalNav;
+
+@property (nonatomic, retain) NSMutableArray *viewControllerArrar;
+
 @end

@@ -325,4 +325,13 @@
         bridge.showAboutPage(  );
     };
 
+    /**
+     * 网络出错时，调用此接口来重试刷新页面
+     */
+    bridgeXXX.refreshOnlinePage = function(){
+        var bridge = bridgeXXX.getBridge();
+
+        bridge.refreshOnlinePage(  );
+    };
+
 }( window );

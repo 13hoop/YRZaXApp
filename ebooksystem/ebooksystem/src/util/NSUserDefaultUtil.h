@@ -26,5 +26,7 @@
 //将上传图片时的错误信息储存到本地
 + (BOOL)saveErrorMessage:(NSString *)errorMessage;
 
-
+//存储设备的deviceToken
++ (BOOL)saveDeviceTokenStr:(NSData *)deviceToken;
++ (NSData *)getDeviceTokenStr;
 @end

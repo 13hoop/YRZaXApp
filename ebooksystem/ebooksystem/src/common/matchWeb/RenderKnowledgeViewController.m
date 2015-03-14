@@ -38,6 +38,7 @@
 #import "UMFeedbackViewController.h"
 #import "FirstReuseViewController.h"
 #import "WebViewBridgeRegisterUtil.h"
+#import "DeviceStatusUtil.h"
 
 
 @interface RenderKnowledgeViewController ()<UIWebViewDelegate>
@@ -142,8 +143,24 @@
     
     //    [self injectJSToWebView:self.webView];
     //    self.webview.delegate=self;
-    [self updateWebView];
-    [self checkCookie];
+    
+    //判断网络连接
+    DeviceStatusUtil *device = [[DeviceStatusUtil alloc] init];
+    NSString *cruStatus = [device GetCurrntNet];
+    if (![cruStatus isEqualToString:@"no connect"]) { //有网络连接
+        [self updateWebView];
+        [self checkCookie];
+        
+        
+        
+    } else {
+        NSString *bundlePath = [PathUtil getBundlePath];
+        NSString *noConnectionPromptUrl = [NSString stringWithFormat:@"%@/%@/%@/%@", bundlePath, @"assets",@"native-html",@"network_error.html"];
+        NSURL *myBagUrl = [NSURL URLWithString:noConnectionPromptUrl];
+        NSURLRequest *request = [NSURLRequest requestWithURL:myBagUrl];
+        [self.webView loadRequest:request];
+    }
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -171,6 +188,8 @@
     
     //触发JS事件
     [self injectJSToWebview:self.webView andJSFileName:@"SamaPageShow"];
+    
+    
     
 }
 

@@ -383,6 +383,9 @@
         },
         checkDataUpdate : function( type ){
             alert('checkDataUpdate: ' + type );
+        },
+        refreshOnlinePage : function(){
+            alert('refreshOnlinePage');
         }
     };
 

@@ -30,7 +30,11 @@
 #import "UMessage.h"
 
 
-
+#import "XGPush.h"
+#import "XGSetting.h"
+#import "NSUserDefaultUtil.h"
+#import "CustomTabBarViewController.h"
+#import "GlobalNavigationController.h"
 
 #define UMAPPKEY @"543dea72fd98c5fc98004e08"
 
@@ -58,6 +62,8 @@
 #pragma mark - app life
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    
+    
 //    // 友盟, 获取devideId, 用于集成测试
 //    Class cls = NSClassFromString(@"UMANUtil");
 //    SEL deviceIDSelector = @selector(openUDIDString);
@@ -99,23 +105,7 @@
 //    [[UpdateManager instance] checkUpdate];
 
     
-    // 设置navigationBar的背景色
-//    UIColor *color = [UIColor colorWithRed:107/255.0f green:211/255.0f blue:217/255.0f alpha:1.0f];
-//    [[UINavigationBar appearance] setBarTintColor:color];
-//    return YES;
     
-//    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-//    // Override point for customization after application launch.
-//    self.window.backgroundColor = [UIColor whiteColor];
-//    
-//    MainViewController *main=[[MainViewController alloc] init];
-//    
-//    UINavigationController *navigation=[[UINavigationController alloc] initWithRootViewController:main];
-//    [self UmengMethod];
-//    self.window.rootViewController=navigation;
-//    
-//    [self.window makeKeyAndVisible];
-//    return YES;
     
     /*
     //友盟消息推送
@@ -161,8 +151,28 @@
     [UMessage setLogEnabled:YES];
     */
     
+    // ********* 信鸽推送 *******
+    // 1 注册推送服务
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= _IPHONE80_
     
+    float sysVer = [[[UIDevice currentDevice] systemVersion] floatValue];
+    if(sysVer < 8){
+        [self registerPush];
+    }
+    else{
+        [self registerPushForIOS8];
+    }
+#else
+    //iOS8之前注册push方法
+    //注册Push服务，注册后才能收到推送
+    [self registerPush];
+#endif
+    // 2 初始化push信息
+    [XGPush startApp:2200094780 appKey:@"IA2DYL842Y1J"];
+//    [XGPush setAccount:@"400e64c4c72f24b47ed8a4d278c0737a"];
     
+    // 4.2 推送被打开效果统计
+    [XGPush handleLaunching: launchOptions];
     
     //设置app是否第一次启动
     if (![[NSUserDefaults standardUserDefaults] boolForKey:@"everLaunched"]) {
@@ -172,6 +182,11 @@
     else{
         [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"firstLaunch"];
     }
+    //问题：**********
+    CustomTabBarViewController *customTabbarController = [[CustomTabBarViewController alloc] init];
+    GlobalNavigationController *globalNavigationController = [[GlobalNavigationController alloc] initWithRootViewController:customTabbarController];
+    customTabbarController.globalNav = globalNavigationController;
+    self.window.rootViewController = globalNavigationController;
     
     
     
@@ -183,11 +198,49 @@
     /*
     [UMessage registerDeviceToken:deviceToken];
     */
+    
+    void (^successBlock)(void) = ^(void){
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"appdelegate"
+                                                        message:@"注册设备成功"
+                                                       delegate:nil
+                                              cancelButtonTitle:@"OK"
+                                              otherButtonTitles:nil];
+        [alert show];
+    };
+    
+    void (^errorBlock)(void) = ^(void){
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"appdelegate"
+                                                        message:@"注册设备失败"
+                                                       delegate:nil
+                                              cancelButtonTitle:@"OK"
+                                              otherButtonTitles:nil];
+        [alert show];
+    };
+
+    // 3 注册设备
+//    NSString * deviceTokenStr = [XGPush registerDevice:deviceToken];
+    NSString * deviceTokenStr = [XGPush registerDevice:deviceToken successCallback:successBlock errorCallback:errorBlock];
+    // 获取到deviceTokenStr后保存到NSUserDefault中
+    [NSUserDefaultUtil saveDeviceTokenStr:deviceToken];
+    
+//    NSLog(@"deviceTokenStr ==== %@",deviceTokenStr);
 }
+
+//如果deviceToken获取不到会进入此事件
+- (void)application:(UIApplication *)app didFailToRegisterForRemoteNotificationsWithError:(NSError *)err {
+    
+    NSString *str = [NSString stringWithFormat: @"Error（错误） === : %@",err];
+    
+    NSLog(@"%@",str);
+    
+}
+
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
     /*
     [UMessage didReceiveRemoteNotification:userInfo];
     */
+    //4 推送被打开效果统计
+     [XGPush handleReceiveNotification:userInfo];
 }
 
 //-(void)UmengMethod
@@ -232,8 +285,9 @@
     //qqzone ----需要注册，填写id和url
     //设置分享到QQ空间的应用Id，和分享url 链接
     [UMSocialQQHandler setQQWithAppId:@"1102966210" appKey:@"RGudHqtJ5mvFYLsY" url:@"http://www.zaxue100.com"];
-    //设置新浪微博
-    [UMSocialSinaHandler openSSOWithRedirectURL:nil];
+    //设置新浪微博  
+    [UMSocialSinaHandler openSSOWithRedirectURL:@"http://sns.whalecloud.com/sina2/callback"];
+    
 }
 //友盟分享需要实现的两个系统回调的方法
 - (BOOL)application:(UIApplication *)application
@@ -278,14 +332,7 @@
     [[StatisticsManager instance] event:@"app_exit" label:@""];
 }
 
-//// 跳转到app store去评分
-//-(void)goToAppStore
-//{
-//    NSString *str = [NSString stringWithFormat:
-//                     @"itms-apps://ax.itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?type=Purple+Software&id=%d",appID]; //appID 解释如下
-//    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:str]];
-//    
-//}
+
 
 #pragma mark - 更新 delegate  method
 //- (void)onCheckUpdateResult:(UpdateInfo *)updateInfo {
@@ -312,5 +359,50 @@
 //        }
 //    });
 //}
+
+
+//1 注册苹果推送服务
+//ios8及以上
+- (void)registerPushForIOS8{
+#if __IPHONE_OS_VERSION_MAX_ALLOWED >= _IPHONE80_
+    
+    //Types
+    UIUserNotificationType types = UIUserNotificationTypeBadge | UIUserNotificationTypeSound | UIUserNotificationTypeAlert;
+    
+    //Actions
+    UIMutableUserNotificationAction *acceptAction = [[UIMutableUserNotificationAction alloc] init];
+    
+    acceptAction.identifier = @"ACCEPT_IDENTIFIER";
+    acceptAction.title = @"Accept";
+    
+    acceptAction.activationMode = UIUserNotificationActivationModeForeground;
+    acceptAction.destructive = NO;
+    acceptAction.authenticationRequired = NO;
+    
+    //Categories
+    UIMutableUserNotificationCategory *inviteCategory = [[UIMutableUserNotificationCategory alloc] init];
+    
+    inviteCategory.identifier = @"INVITE_CATEGORY";
+    
+    [inviteCategory setActions:@[acceptAction] forContext:UIUserNotificationActionContextDefault];
+    
+    [inviteCategory setActions:@[acceptAction] forContext:UIUserNotificationActionContextMinimal];
+    
+    NSSet *categories = [NSSet setWithObjects:inviteCategory, nil];
+    
+    
+    UIUserNotificationSettings *mySettings = [UIUserNotificationSettings settingsForTypes:types categories:categories];
+    
+    [[UIApplication sharedApplication] registerUserNotificationSettings:mySettings];
+    
+    
+    [[UIApplication sharedApplication] registerForRemoteNotifications];
+#endif
+}
+//iOS8以下
+- (void)registerPush{
+    [[UIApplication sharedApplication] registerForRemoteNotificationTypes:(UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound)];
+}
+// 2 注册设备信息
 
 @end

@@ -16,6 +16,8 @@
 
 
 @interface ScanQRCodeViewController : UIViewController
+//判断是从哪个页面进到这个扫一扫界面
+@property (nonatomic, strong) NSString *fromController;
 
 @property (nonatomic, weak) id <scanQRCodeDelegate> scanDelegate;
 

@@ -262,13 +262,23 @@
     //非URL
     if (URLString.length <= 0 || URLString == nil) {
         
-        NSMutableArray *controllers = [[NSMutableArray alloc] initWithArray:self.navigationController.viewControllers];
-        //移除最后一个view controller
-        [controllers removeLastObject];
         ScanResultInfoViewController *scanhaoyu = [[ScanResultInfoViewController alloc] init];
         scanhaoyu.scanContext = stringValue;
-        [controllers addObject:scanhaoyu];
-        [self.navigationController setViewControllers:controllers];
+        if ([self.fromController isEqualToString:@"mainPage"]) {
+            scanhaoyu.fromController = @"mainPage";
+            [self presentViewController:scanhaoyu animated:YES completion:nil];
+        }
+        else {
+            NSMutableArray *controllers = [[NSMutableArray alloc] initWithArray:self.navigationController.viewControllers];
+            //移除最后一个view controller
+            [controllers removeLastObject];
+            
+            [controllers addObject:scanhaoyu];
+            
+            [self.navigationController setViewControllers:controllers];
+//            [self.navigationController pushViewController:scanhaoyu animated:YES];
+        }
+        
         
 
     }
@@ -277,28 +287,47 @@
         if (![URLString hasPrefix:@"http://zaxue100.com"]) {
             
             //不是以http://zaxue100.com为前缀的URL，则直接在浏览器打开
-            NSMutableArray *controllerNew = [[NSMutableArray alloc] initWithArray:self.navigationController.viewControllers];
-            //移除最后一个view controller
-            [controllerNew removeLastObject];
             ScanResultInfoViewController *scanResult = [[ScanResultInfoViewController alloc] init];
             scanResult.urlString = URLString;
-            [controllerNew addObject:scanResult];
-            [self.navigationController setViewControllers:controllerNew];
+            
+            if ([self.fromController isEqualToString:@"mainPage"]) {
+                scanResult.fromController = @"mainPage";
+                [self presentViewController:scanResult animated:YES completion:nil];
+            }
+            else {
+                NSMutableArray *controllerNew = [[NSMutableArray alloc] initWithArray:self.navigationController.viewControllers];
+                //移除最后一个view controller
+                [controllerNew removeLastObject];
+                
+                [controllerNew addObject:scanResult];
+                [self.navigationController setViewControllers:controllerNew];
+            }
+            
             
         }
     else {
         //将扫描得到的结果传到落地页中
         //A->B->C,当前页面时B,进到C中，使用pop返回到A的解决办法：
         //获取当前navigation controller中的所有view controller
-        NSMutableArray *controllers = [[NSMutableArray alloc] initWithArray:self.navigationController.viewControllers];
-        //移除最后一个view controller
-        [controllers removeLastObject];
-        //实例化新的controller
+        
         ScanQRCodeTabViewController *scanTabView = [[ScanQRCodeTabViewController alloc] init];
         scanTabView.scanInfoStr = URLString;
-        [controllers addObject:scanTabView];
-        //设置新的controller集合
-        [self.navigationController setViewControllers:controllers];
+        if ([self.fromController isEqualToString:@"mainPage"]) {
+            
+            scanTabView.fromController = @"mainPage";
+            [self presentViewController:scanTabView animated:YES completion:nil];
+        }
+        else {
+            NSMutableArray *controllers = [[NSMutableArray alloc] initWithArray:self.navigationController.viewControllers];
+            //移除最后一个view controller
+            [controllers removeLastObject];
+            //实例化新的controller
+            
+            [controllers addObject:scanTabView];
+            //设置新的controller集合
+            [self.navigationController setViewControllers:controllers];
+        }
+        
     }
     
     }
@@ -337,7 +366,13 @@
 
 #pragma mark  custom navigationbar method
 - (void)backToFrontPage {
-    [self.navigationController popViewControllerAnimated:YES];
+    if ([self.fromController isEqualToString:@"mainPage"]) {
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }
+    else {
+        [self.navigationController popViewControllerAnimated:YES];
+
+    }
 }
 
 

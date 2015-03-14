@@ -110,7 +110,7 @@
     
     //状态栏显示
 //    [self initWebView];
-    
+    self.view.backgroundColor = [UIColor whiteColor];
     WebViewBridgeRegisterUtil *webviewBridgeUtil = [[WebViewBridgeRegisterUtil alloc] init];
     webviewBridgeUtil.webView = self.webView;
     webviewBridgeUtil.controller = self;
@@ -118,13 +118,14 @@
     webviewBridgeUtil.navigationController = self.navigationController;
     webviewBridgeUtil.tabBarController = self.tabBarController;
     [webviewBridgeUtil initWebView];
-    
+    /*
     if ([self.shouldChangeBackground isEqualToString:@"needChange"]) {
         self.view.backgroundColor=[UIColor colorWithHexString:@"#242021" alpha:1];
     }
     else {
         self.view.backgroundColor = [UIColor colorWithHexString:@"#4C501D" alpha:1];
     }
+     */
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.webView.scrollView.bounces = NO;
     self.webView.scrollView.showsVerticalScrollIndicator = NO;

@@ -48,8 +48,8 @@
     $.extend( BookItem.prototype, {
 
         _setupEvent : function(){
-            this.$el.on( 'tap', '.download-btn', this.beginDownload.bind(this) );
-            this.$el.on( 'tap', '.cover-img', this._bookClick.bind( this ) );
+            this.$el.on( 'click', '.download-btn', this.beginDownload.bind(this) );
+            this.$el.on( 'click', '.cover-img', this._bookClick.bind( this ) );
         },
 
         render : function( data ){

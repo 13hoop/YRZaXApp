@@ -49,7 +49,8 @@
 #import "GTMBase64.h"
 #import "UpLoadUtil.h"
 
-
+#import "XGSetting.h"
+#import "XGPush.h"
 
 
 typedef enum {
@@ -768,6 +769,29 @@ typedef enum {
         }
         //userId
         userInfo.userId = userId;
+        //******** 登陆成功后要注册用户到XG后台 *********
+        [XGPush setAccount:userId];
+        //再次注册设备
+        NSData *deviceToken = [[NSUserDefaults standardUserDefaults] objectForKey:@"deviceToken"];
+        void (^successBlock)(void) = ^(void){
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"信鸽推送"
+                                                            message:@"注册设备成功"
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"OK"
+                                                  otherButtonTitles:nil];
+            [alert show];
+        };
+        
+        void (^errorBlock)(void) = ^(void){
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"信鸽推送"
+                                                            message:@"注册设备失败"
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"OK"
+                                                  otherButtonTitles:nil];
+            [alert show];
+        };
+
+        [XGPush registerDevice:deviceToken successCallback:successBlock errorCallback:errorBlock];
         //userName
         if (userName == nil || userName.length <= 0) {
             userInfo.username = @"";
@@ -973,6 +997,12 @@ typedef enum {
         }
         
         
+    }];
+    
+    // ********** 网络刷新 ************
+    //refreshOnlinePage
+    [self.javascriptBridge registerHandler:@"refreshOnlinePage" handler:^(id data, WVJBResponseCallback responseCallback) {
+        [self.webView reload];
     }];
     
     
@@ -1262,10 +1292,8 @@ typedef enum {
     NSString *shareString=[shareDic objectForKey:@"content"];
     
     //2.0 分享到新浪微博
-    [[UMSocialData defaultData].urlResource setResourceType:UMSocialUrlResourceTypeImage url:imageString];
+    [[UMSocialData defaultData].urlResource setResourceType:UMSocialUrlResourceTypeImage url:weixinImageUrl];
     [UMSocialData defaultData].extConfig.sinaData.shareText = shareString;
-    
-
     
     
     //2.0 share to wechatTimeline only

@@ -54,11 +54,25 @@
 }
 
 #pragma mark 储存error message
-+ (BOOL)saveErrorMessage:(NSString *)errorMessage {
++ (BOOL)saveErrorMessage:(NSData *)errorMessage {
     NSUserDefaults *userdefault = [NSUserDefaults standardUserDefaults];
     [userdefault setObject:errorMessage forKey:@"errorMessage"];
     [userdefault synchronize];
     return YES;
+}
+
+#pragma mark 储存设备的token
++ (BOOL)saveDeviceTokenStr:(NSData *)deviceToken {
+    NSUserDefaults *userdefault = [NSUserDefaults standardUserDefaults];
+    [userdefault setObject:deviceToken forKey:@"deviceToken"];
+    [userdefault synchronize];
+    return YES;
+}
+
++ (NSData *)getDeviceTokenStr {
+    NSUserDefaults *userdefault = [NSUserDefaults standardUserDefaults];
+    NSData *deviceStr = [userdefault objectForKey:@"deviceToken"];
+    return deviceStr;
 }
 
 @end

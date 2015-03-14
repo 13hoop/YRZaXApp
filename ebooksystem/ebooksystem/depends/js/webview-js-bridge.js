@@ -392,6 +392,15 @@ function dump(arr,level) {
                          }
                          }  );
     };
+    //refreshOnlinePage
+    bridgeIOS.curUserLogout = function(callback){
+        //responseCallBack 回调时走下面的方法
+        bridgeIOS.callOC( 'refreshOnlinePage',null{
+                         if (callback) {
+                         callback(responseData);
+                         }
+                         }  );
+    };
     
     
 }();

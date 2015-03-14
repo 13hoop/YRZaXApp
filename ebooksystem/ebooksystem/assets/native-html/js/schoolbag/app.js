@@ -40,6 +40,8 @@
 
 
     var singleton = {
+        //数据是否已经渲染
+        dataRendered : false,
 
         $win : null,
 
@@ -55,13 +57,11 @@
 
             this.$bookList = $('#book-list');
 
-            var listEl = document.querySelector('#book-list');
+            //var searchConf = utils.query2json( location.search );
 
-            var searchConf = utils.query2json( location.search );
-
-            //alert( '用户选择的考试类型： ' + searchConf.study_type );
-
-            this.studyType = searchConf.study_type;
+            //this.studyType = searchConf.study_type;
+            //android 4.0.3 不支持 assets 目录的HTML文件带 query parameter 加载，临时写死
+            this.studyType = '0';
 
             this._setupEvent();
 
@@ -71,19 +71,34 @@
 
         _setupEvent : function(){
 
-            //var $settingBtn = $('.setting-btn');
-            //$settingBtn.on( 'tap', function(){
-            //    bridgeXXX.goUserSettingPage();
-            //} );
+            var that = this;
 
             document.addEventListener('SamaPageShow', function(){
-                location.reload();
-                console.log('schoolbag:SamaPageShow');
+                that.handlePageShow();
             }, false );
 
             document.addEventListener('SamaPageHide', function(){
-                console.log('schoolbag:SamaPageHide');
+
+                that.handlePageHide();
             }, false );
+        },
+
+        handlePageShow : function(){
+            console.log('schoolbag:SamaPageShow');
+            if( this.dataRendered ){
+                return;
+            }
+
+            bridgeXXX.getBookList( this.studyType, this.showBookList.bind( this ) );
+        },
+
+        handlePageHide : function(){
+            console.log('schoolbag:SamaPageHide');
+            downloadManager.stop();
+            this.$bookList.empty().css({
+                height : 'auto'
+            });
+            this.dataRendered = false;
         },
 
         showBookList : function( bookArr ){
@@ -193,6 +208,8 @@
             });
 
             downloadManager.startCheck();
+            //书籍列表已经渲染了
+            this.dataRendered = true;
 
             //检查当前类目的书籍是否有更新
             bridgeXXX.checkDataUpdate( this.studyType );
