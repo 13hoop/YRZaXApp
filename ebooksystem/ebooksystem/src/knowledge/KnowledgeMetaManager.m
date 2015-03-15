@@ -376,6 +376,38 @@
     return metaArray;
 }
 
+/*
+//获取数据的状态
+- (NSUInteger)getDataStatusWithDataId:(NSString *)dataId {
+    NSMutableArray *metaArray = [[NSMutableArray alloc] init];
+    
+    
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    
+    // Entity
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"KnowledgeMetaEntity" inManagedObjectContext:[CoreDataUtil instance].managedObjectContext];
+    [fetchRequest setEntity:entity];
+    
+    // Predicate
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"dataId==%@", dataId];
+    [fetchRequest setPredicate:predicate];
+    
+    // Fetch
+    NSError *error = nil;
+    NSArray *fetchedObjects = [[CoreDataUtil instance].managedObjectContext executeFetchRequest:fetchRequest error:&error];
+    if (fetchedObjects != nil &&
+        fetchedObjects.count > 0) {
+        for (NSManagedObject *entity in fetchedObjects) {
+            if (entity == nil) {
+                continue;
+            }
+            KnowledgeMeta *bookMeta = [KnowledgeMeta fromKnowledgeMetaEntity:entity];
+            NSUInteger dataStatus = entity.
+        }
+    }
+}
+*/
+
 
 // get knowledge data version
 - (NSString *)getKnowledgeDataVersionWithDataId:(NSString *)dataId andDataType:(DataType)dataType {
@@ -553,6 +585,9 @@
     
     return saved;
 }
+
+
+
 
 
 

@@ -33,6 +33,8 @@
 
 
 @interface KnowledgeDataManager() <KnowledgeDownloadManagerDelegate>
+@property (nonatomic, strong) NSString *globalSavePath;
+@property (nonatomic, assign) BOOL originalBookHavedExist;
 
 
 #pragma mark - 数据下载
@@ -175,9 +177,9 @@
             for (NSString *password in passwords) {
     
                 //2.0中将 准备解包  的状态存到数据库
-                dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+//                dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                     [[KnowledgeMetaManager instance] setDataStatusTo:DATA_STATUS_UNPACK_PREPARING andDataStatusDescTo:@"92" forDataWithDataId:downloadItem.title andType:DATA_TYPE_DATA_SOURCE];
-                });
+//                });
 
                 
                 if (password == nil || password.length <= 0) {
@@ -189,9 +191,9 @@
                 
                 ret = [za unzipFileTo:unpackPath overwrite:YES];
                 //2.0 解包中
-                dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+//                dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                     [[KnowledgeMetaManager instance] setDataStatusTo:DATA_STATUS_UNPACK_IN_PROGRESS andDataStatusDescTo:@"94" forDataWithDataId:downloadItem.title andType:DATA_TYPE_DATA_SOURCE];
-                });
+//                });
                 if (!ret) {
                     LogError(@"[KnowledgeDataManager:processDownloadedDataPack:] failed, since failed to unzip zip file: %@", downloadItem.savePath);
                     ret = NO;
@@ -204,9 +206,9 @@
                 BOOL existed = [[NSFileManager defaultManager] fileExistsAtPath:unpackPath isDirectory:&isDir];
                 if (existed) {
                     //2.0 在这里将进度+5
-                    dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+//                    dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                         [[KnowledgeMetaManager instance] setDataStatusTo:DATA_STATUS_UNPACK_IN_PROGRESS andDataStatusDescTo:@"95" forDataWithDataId:downloadItem.title andType:DATA_TYPE_DATA_SOURCE];
-                    });
+//                    });
                     
                     break; // 已解包成功
                 }
@@ -361,19 +363,19 @@
             BOOL unpackSuccess = [self checkResultWithFilePath:unpackedDataPath];
             if (!unpackSuccess) {
                 //1 解包出现错误归类为下载失败，2 数据版本号不修改
-                dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+//                dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                     [[KnowledgeMetaManager instance] setDataStatusTo:DATA_STATUS_DOWNLOAD_FAILED andDataStatusDescTo:@"0" forDataWithDataId:downloadTitle andType:DATA_TYPE_DATA_SOURCE];
                 //2 删除第一次解包得到的文件
                 [PathUtil deletePath:unpackPath];
-                });
+//                });
                 return NO;//解包出现错误，在这里直接跳出该方法体。
             }
             
             
             //2.0 解包成功（解包完成）
-            dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+//            dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                 [[KnowledgeMetaManager instance] setDataStatusTo:DATA_STATUS_UNPACK_COMPLETED andDataStatusDescTo:@"100" forDataWithDataId:downloadTitle andType:DATA_TYPE_DATA_SOURCE];
-            });
+//            });
         }
         
         //2.0修改：做判断，若是存在op.lst文件则按照1.0中的逻辑走，否则按照2.0设计逻辑走
@@ -398,9 +400,9 @@
             //后续需要写读文件内容，存到数据库中的操作。，存到数据库中的操作。存book的相对路径，修改book的版本号，修改dataStatus。（在调用该方法的函数内写）
             
             //1 dataStatusDesc置为100 2 状态为更新完成时才会将数据库中latestVersion字段赋值给cruVersion字段 。若是出现捷报错误，这段代码不会被执行。
-            dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+//            dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                 [[KnowledgeMetaManager instance]setDataStatusTo:DATA_STATUS_UPDATE_COMPLETED andDataStatusDescTo:@"100" andDataLatestVersion:nil andDataPath:downloadTitle andDataStorageType:DATA_STORAGE_INTERNAL_STORAGE forDataWithDataId:downloadTitle andType:DATA_TYPE_DATA_SOURCE];
-            });
+//            });
             
             
         }
@@ -800,7 +802,11 @@
         NSString *desc = [NSString stringWithFormat:@"desc_dataId_%@", dataId];
         //正确写法：
         NSString *downloadUrlStr = [NSString stringWithFormat:@"%@", [detail valueForKey:@"download_url"]];
-        NSURL *downloadUrl = [[NSURL alloc] initWithString:downloadUrlStr];
+//        NSURL *downloadUrl = [[NSURL alloc] initWithString:downloadUrlStr];
+        NSURL *downloadUrl = [NSURL URLWithString:[downloadUrlStr stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+        
+        
+    
         /*
         //测试写法：
         NSString *haoyutestURL = @"http://test.zaxue100.com//1^ios_00101015^1.0.0.1.zip";
@@ -808,15 +814,55 @@
          */
         
         
-        if (downloadUrl == nil) {
+        if (downloadUrl == nil || downloadUrlStr.length <= 0) {
+            LogWarn(@"[KnowLedgeDataManager - startDownloadWithResponse] downlaodUrl is nil");
+            //解决下载失败后native同页面处理不同步的问题
+            if (dataId != nil && dataId.length > 0) {
+                //1 根据bookId获取对应数据的状态是否为可更新
+                NSArray *bookArr = [[KnowledgeMetaManager instance] getKnowledgeMetaWithDataId:dataId andDataType:DATA_TYPE_DATA_SOURCE];
+                for (id objc in bookArr) {
+//                    KnowledgeMeta *bookMeta = (KnowledgeMeta *)objc;
+                    KnowledgeMeta *bookMeta = [KnowledgeMeta fromKnowledgeMetaEntity:objc];
+
+                    if (bookMeta == nil) {
+                        continue;
+                    }
+                    //dataId是主键，只能查找到唯一一个元素
+                    //2 判断是否为可更新,若是则不做修改,反之修改数据库
+                    if (bookMeta.dataStatus != DATA_STATUS_UPDATE_DETECTED) {
+                        [[KnowledgeMetaManager instance] setDataStatusTo:DATA_STATUS_DOWNLOAD_FAILED andDataStatusDescTo:@"0" forDataWithDataId:dataId andType:DATA_TYPE_DATA_SOURCE];
+                    }
+                }
+                
+            }
+            
+            
             continue;
         }
+        
+        
+        
+        // *********** 存一个全局的变量，用于区分下载类型：普通下载、更新性质的下载 ***********
+        NSString *knowledgeDataInDocument = [[Config instance] knowledgeDataConfig].knowledgeDataRootPathInDocuments;
+        NSString *originalBookPath = [NSString stringWithFormat:@"%@/%@",knowledgeDataInDocument,dataId];
+        BOOL originalBookExist = [[NSFileManager defaultManager] fileExistsAtPath:originalBookPath];
+        self.originalBookHavedExist = originalBookExist;//判断是否为更新操作。有书籍存在，则判定为更新操作
+        
+        
+        
+        
+        
         
         NSString *decryptKey = [NSString stringWithFormat:@"%@", [detail valueForKey:@"data_encrypt_key"]];
         
         // 下载目录
         NSString *downloadRootPath = [Config instance].knowledgeDataConfig.knowledgeDataDownloadRootPathInDocuments;
         NSString *savePath = [NSString stringWithFormat:@"%@/%@-%@", downloadRootPath, title, [DateUtil timestamp]];
+        //将savePath存成全局的属性
+        self.globalSavePath = savePath;
+        
+        
+        
         LogInfo(@"下载目录是======%@",savePath);//在这里判断文件是否存，若存在则删除
         
         // 下载
@@ -970,6 +1016,36 @@
     ServerResponseOfKnowledgeData *response = [self getDataUpdateInfo:dataUpdateRequestInfo];
     if (response == nil || response.updateInfo == nil || response.updateInfo.status < 0) {
         LogError(@"[KnowledgeDataManager-startDownloadDataWithDataId] failed to get data update info, return");
+        
+        
+        
+        
+        // ******* 没网时服务器响应是空的，这时需要将下载状态改为下载失败 ******
+        
+        //解决下载失败后native同页面处理不同步的问题
+        if (dataId != nil && dataId.length > 0) {
+            //1 根据bookId获取对应数据的状态是否为可更新
+            NSArray *bookArr = [[KnowledgeMetaManager instance] getKnowledgeMetaWithDataId:dataId andDataType:DATA_TYPE_DATA_SOURCE];
+            for (id objc in bookArr) {
+//                KnowledgeMeta *bookMeta = (KnowledgeMeta *)objc;
+                KnowledgeMeta *bookMeta = [KnowledgeMeta fromKnowledgeMetaEntity:objc];
+
+                if (bookMeta == nil) {
+                    continue;
+                }
+                //dataId是主键，只能查找到唯一一个元素
+                //更新下载时，进行到这一步数据的状态是不会发生变化的（仍然为可更新）。
+                //2 判断是否为可更新,若是则不做修改,反之修改数据库
+                if (bookMeta.dataStatus != DATA_STATUS_UPDATE_DETECTED) {
+                    [[KnowledgeMetaManager instance] setDataStatusTo:DATA_STATUS_DOWNLOAD_FAILED andDataStatusDescTo:@"0" forDataWithDataId:dataId andType:DATA_TYPE_DATA_SOURCE];
+                }
+            }
+            
+        }
+        
+        
+        
+        
         return NO;
     }
     
@@ -1579,7 +1655,7 @@
 }
         
 // 下载成功/失败
-// 注：下载，解包，删除多余文件荣威一个整体的操作，下载完成后将进度减去10，解包和删除压缩文件的操作占总进度的10%
+// 注：下载，解包，删除多余文件组成一个整体的操作，下载完成后将进度减去10，解包和删除压缩文件的操作占总进度的10%
 - (void)knowledgeDownloadItem:(KnowledgeDownloadItem *)downloadItem didFinish:(BOOL)success response:(id)response {
     // log
     {
@@ -1597,17 +1673,39 @@
     if (!success) {
         //下载失败
         LogWarn(@"knowledgeDataManager -- knoeledgeDownloadItem:didFinish:response:  download failed");
-        //将下载失败的信息存储到数据库中
-        dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        // 1、将下载失败的信息存储到数据库中
+        // 1、2 若是在更新过程中下载失败，需要将数据状态置为可更新，以便用户能够继续阅读旧的书籍
+//        dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSString *knowledgeDataInDocument = [[Config instance] knowledgeDataConfig].knowledgeDataRootPathInDocuments;
+        NSString *originalBookPath = [NSString stringWithFormat:@"%@/%@",knowledgeDataInDocument,downloadItem.title];
+        BOOL originalBookExist = [[NSFileManager defaultManager] fileExistsAtPath:originalBookPath];
+        if (originalBookExist) {//在指定目录下有对应的书存在，则认定为是更新操作
+            [[KnowledgeMetaManager instance] setDataStatusTo:DATA_STATUS_UPDATE_DETECTED andDataStatusDescTo:@"更新时，下载失败" forDataWithDataId:downloadItem.title andType:DATA_TYPE_DATA_SOURCE];
+        }else {
+            //非更新时，下载失败
             [[KnowledgeMetaManager instance] setDataStatusTo:DATA_STATUS_DOWNLOAD_FAILED andDataStatusDescTo:@"0" forDataWithDataId:downloadItem.title andType:DATA_TYPE_DATA_SOURCE];
-        });
+        }
+        
+//        });
+        // 2、下载失败后，要将已经下载的内容清除掉
+        BOOL isDir;
+        BOOL existed = [[NSFileManager defaultManager] fileExistsAtPath:self.globalSavePath isDirectory:&isDir];
+        if (existed) {
+            NSFileManager *fileManager = [NSFileManager defaultManager];
+            BOOL removeSuccess = [fileManager removeItemAtPath:self.globalSavePath error:nil];
+            NSString *str = [NSString stringWithFormat:@"%@",removeSuccess];
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示信息" message: str delegate:nil cancelButtonTitle:nil otherButtonTitles:@"好的", nil];
+            [alert show];
+        }
+        
         return;
     }
     
     // 将下载进度更新到coreData
-    dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    
+//    dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [[KnowledgeMetaManager instance] setDataStatusTo:DATA_STATUS_DOWNLOAD_COMPLETED andDataStatusDescTo:@"90" forDataWithDataId:downloadItem.title andType:DATA_TYPE_DATA_SOURCE];
-    });
+//    });
     
     // 启动后台任务, 继续下载的后续操作
     dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{

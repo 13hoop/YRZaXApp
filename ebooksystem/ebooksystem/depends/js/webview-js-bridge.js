@@ -393,14 +393,24 @@ function dump(arr,level) {
                          }  );
     };
     //refreshOnlinePage
-    bridgeIOS.curUserLogout = function(callback){
+    bridgeIOS.refreshOnlinePage = function(callback){
         //responseCallBack 回调时走下面的方法
-        bridgeIOS.callOC( 'refreshOnlinePage',null{
+        bridgeIOS.callOC( 'refreshOnlinePage',null,function(responseData){
                          if (callback) {
                          callback(responseData);
                          }
                          }  );
     };
+    
+    //getNetworkType
+    bridgeIOS.getNetworkType = function(callback){
+        bridgeIOS.callOC( 'getNetworkType',null,function(responseData){
+                         if (callback) {
+                         callback(responseData);
+                         }
+                         }  );
+    };
+    
     
     
 }();

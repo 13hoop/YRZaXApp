@@ -125,6 +125,7 @@
     webviewBridgeUtil.mainControllerView = self.view;
     webviewBridgeUtil.navigationController = self.navigationController;
     webviewBridgeUtil.tabBarController = self.tabBarController;
+    webviewBridgeUtil.discoveryOnlineUrl = self.webUrl;
     [webviewBridgeUtil initWebView];
     
     

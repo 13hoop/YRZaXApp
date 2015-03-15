@@ -179,6 +179,7 @@
     if (self.delegate && [self.delegate respondsToSelector:@selector(knowledgeDownloadItem:didFinish:response:)]) {
         [self.delegate knowledgeDownloadItem:downloadItem didFinish:success response:response];
     }
+    
 }
 
 

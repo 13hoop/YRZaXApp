@@ -51,7 +51,7 @@
 
 #import "XGSetting.h"
 #import "XGPush.h"
-
+#import "DeviceStatusUtil.h"
 
 typedef enum {
     UNKNOWN = -1,
@@ -621,7 +621,9 @@ typedef enum {
         {
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                 BOOL ret = [[KnowledgeManager instance] startDownloadDataManagerWithDataId:book_id];
+                
             });
+            BOOL updateStatus = [self updateDownloadStatusWithDataId:book_id];
             isStart = YES;
         }
         if (responseCallback != nil) {
@@ -676,11 +678,18 @@ typedef enum {
     //getCoverSrc
     [self.javascriptBridge registerHandler:@"getCoverSrc" handler:^(id data, WVJBResponseCallback responseCallback) {
         //获取封面
+        
         NSString *book_id = data;
         if (responseCallback != nil) {
             NSString *partialPathInSandBox = [self getCoverImageFilePath:book_id];
             NSString *documentPath = [PathUtil getDocumentsPath];
             NSString *coverImagePathStr = [NSString stringWithFormat:@"%@/%@",documentPath,partialPathInSandBox];
+            if (coverImagePathStr == nil || coverImagePathStr.length <= 0) {
+                //将默认图片的SRC传给JS
+                NSString *defaultBookCoverPath = [[[Config instance] drawableConfig]getTabbarItemImageFullPath:@"default_book_cover.png"];
+                coverImagePathStr = defaultBookCoverPath;
+                
+            }
             responseCallback(coverImagePathStr);
         }
         //
@@ -1002,7 +1011,27 @@ typedef enum {
     // ********** 网络刷新 ************
     //refreshOnlinePage
     [self.javascriptBridge registerHandler:@"refreshOnlinePage" handler:^(id data, WVJBResponseCallback responseCallback) {
-        [self.webView reload];
+        NSURL *discoveryUrl = [NSURL URLWithString:self.discoveryOnlineUrl];
+        NSURLRequest *request = [[NSURLRequest alloc] initWithURL:discoveryUrl];
+        [self.webView loadRequest:request];
+        
+    }];
+    
+    // *********** 获取网络状况 **********
+    //getNetworkType
+    [self.javascriptBridge registerHandler:@"getNetworkType" handler:^(id data, WVJBResponseCallback responseCallback) {
+        DeviceStatusUtil *device = [[DeviceStatusUtil alloc] init];
+        NSString *cruStatus = [device GetCurrntNet];
+        if ([cruStatus isEqualToString:@"no connect"]) {
+            cruStatus = @"offline";
+        }
+        //
+        NSDictionary *networkStatusDic = [NSDictionary dictionaryWithObjectsAndKeys:cruStatus,@"network_status", nil];
+        SBJsonWriter *writer = [[SBJsonWriter alloc] init];
+        NSString *netWorkStatusStr = [writer stringWithObject:networkStatusDic];
+        if (responseCallback != nil) {
+            responseCallback (netWorkStatusStr);
+        }
     }];
     
     
@@ -1379,13 +1408,14 @@ typedef enum {
             NSInteger downLoadProgress = (NSInteger)(downLoadProgressFloat*100);
             downLoadProgressStr = [NSString stringWithFormat:@"%ld",(long)downLoadProgress];
         }
-        
-        
+        //获取封面图片的URL
+        NSString *bookCover = [entity valueForKey:@"coverSrc"];
         //构造字典
         [dic setValue:dicBookId forKey:@"book_id"];
         [dic setValue:bookStatusStr forKey:@"book_status"];
         [dic setValue:downLoadProgressStr forKey:@"book_status_detail"];
-        
+        //新加一个字段book_cover
+        [dic setValue:bookCover forKey:@"book_cover"];
         
         
     }
@@ -1580,6 +1610,36 @@ typedef enum {
     
 }
 
+
+//2.0 解决下载过程中下载失败时，页面获取下载状态同native修改下载状态不同步的问题
+- (BOOL)updateDownloadStatusWithDataId:(NSString *)dataId {
+    //1 获取dataId对应的数据的状态
+    NSArray *bookArr = [[KnowledgeMetaManager instance] getKnowledgeMetaWithDataId:dataId andDataType:DATA_TYPE_DATA_SOURCE];
+    if (bookArr == nil || bookArr.count <= 0) {
+        //调用startDownLoad接口时，数据库中这时一定是有dataId对应的数据
+        return NO;
+    }
+    //2 获取dataId对应的数据的状态
+    for (id obj in bookArr) {
+//        KnowledgeMeta *knowledgeMeta = (KnowledgeMeta *)obj;
+         KnowledgeMeta *knowledgeMeta = [KnowledgeMeta fromKnowledgeMetaEntity:obj];
+        if (knowledgeMeta == nil) {
+            continue;
+        }
+        //3 判断数据状态，并修改为下载中
+        if ((DataStatus)knowledgeMeta.dataStatus == DATA_STATUS_DOWNLOAD_FAILED || (DataStatus)knowledgeMeta.dataStatus == DATA_STATUS_DOWNLOAD_PAUSE) {
+            //修改下载状态未下载始终
+            return  [[KnowledgeMetaManager instance] setDataStatusTo:DATA_STATUS_DOWNLOAD_IN_PROGRESS andDataStatusDescTo:@"0" forDataWithDataId:dataId andType:DATA_TYPE_DATA_SOURCE];
+            
+        }
+        
+    }
+    
+    
+    
+    
+    return YES;
+}
 
 
 @end

@@ -25,6 +25,8 @@
 @property (nonatomic, strong) UIViewController *controller;
 @property (nonatomic, strong) UIView *mainControllerView;
 @property (nonatomic, strong) UITabBarController *tabBarController;
+//刷新  -- 发现页的url
+@property (nonatomic, strong) NSString *discoveryOnlineUrl;
 
 @property (nonatomic, weak) id<WebviewBridgeRegisterDelegate>delegate;
 
