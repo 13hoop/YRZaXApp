@@ -31,6 +31,10 @@
 
 //
 @property (nonatomic,strong) CustomPromptView *promptView;
+//
+@property (nonatomic,strong) UIButton *myBagButton;
+@property (nonatomic,strong) UIButton *discoverButton;
+
 
 @end
 
@@ -57,6 +61,33 @@
     self.navigationController.navigationBarHidden = YES;
     //触发JS事件
     [self.discoverWeb samaPageShow];
+    //切换tab
+    
+    
+    for (UIView *tempView in self.tabBarController.tabBar.subviews) {
+        if ([tempView isKindOfClass:[UIButton class]]) {
+            UIButton *current = (UIButton *)tempView;
+            if (current.tag == 1000) {
+                current.selected = NO;
+            }
+            if (current.tag == 1001) {
+                current.selected = YES;
+            }
+        }
+        
+    }
+    for (UIView *tempView in self.tabBarController.tabBar.subviews) {
+        if ([tempView isKindOfClass:[UILabel class]]) {
+            UILabel *currentLable = (UILabel *)tempView;
+            if (currentLable.tag == 2001) {//
+                currentLable.textColor = [UIColor orangeColor];
+            }
+            if (currentLable.tag == 2000) {
+                currentLable.textColor = [UIColor lightGrayColor];
+            }
+        }
+    }
+
     
 }
 - (void)viewDidAppear:(BOOL)animated {

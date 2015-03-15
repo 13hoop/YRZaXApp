@@ -699,6 +699,7 @@ typedef enum {
     [self.javascriptBridge registerHandler:@"goDiscoverPage" handler:^(id data, WVJBResponseCallback responseCallback) {
         //跳转到发现页
         self.tabBarController.selectedIndex = 1;
+        [self.delegate goDiscoverPage];//代理属性调用代理方法
     }];
     
     //************** ****
@@ -1011,9 +1012,16 @@ typedef enum {
     // ********** 网络刷新 ************
     //refreshOnlinePage
     [self.javascriptBridge registerHandler:@"refreshOnlinePage" handler:^(id data, WVJBResponseCallback responseCallback) {
-        NSURL *discoveryUrl = [NSURL URLWithString:self.discoveryOnlineUrl];
-        NSURLRequest *request = [[NSURLRequest alloc] initWithURL:discoveryUrl];
-        [self.webView loadRequest:request];
+        
+        DeviceStatusUtil *device = [[DeviceStatusUtil alloc] init];
+        NSString *cruStatus = [device GetCurrntNet];
+        if (![cruStatus isEqualToString:@"no connect"]) {//有网络连接
+//            [self.webView removeFromSuperview];
+            NSURL *discoveryUrl = [NSURL URLWithString:self.discoveryOnlineUrl];
+            NSURLRequest *request = [[NSURLRequest alloc] initWithURL:discoveryUrl];
+            [self.webView loadRequest:request];
+        }
+        
         
     }];
     

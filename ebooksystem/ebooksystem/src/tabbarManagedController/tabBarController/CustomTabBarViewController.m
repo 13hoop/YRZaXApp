@@ -39,13 +39,13 @@
     //使用属性字符串来设置tabbar的title
     [self setTabBarItemTitleColor];
     self.delegate= self;
-    
+   
     //自定义
-    //1
     [self createVC];
-    //2
+    //1
     [self createCustomTabbar];
-    //
+    
+    
     
     //创建扫一扫按钮
     [self createBUtton];
@@ -155,7 +155,7 @@
     [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionDefault]];
     return animation;
 }
-//作用：选中某一个tab时，不切换到对应的Tab页面的方法
+////作用：选中某一个tab时，不切换到对应的Tab页面的方法
 - (BOOL)tabBarController:(UITabBarController *)tabBarController shouldSelectViewController:(UIViewController *)viewController  {
     if ([[self.viewControllers objectAtIndex:2] isEqual:viewController] ) {
 //        [self showScanPage];
@@ -177,6 +177,7 @@
     //发现页
     DiscoveryViewController *discover = [[DiscoveryViewController alloc] init];
     UINavigationController *discoverNav = [[UINavigationController alloc] initWithRootViewController:discover];
+    
 //    discoverNav.title = @"发现";
     //扫一扫
     PurchaseTabViewController *purchase = [[PurchaseTabViewController alloc] init];
@@ -301,4 +302,8 @@
     }
     
 }
+
+
+
+
 @end

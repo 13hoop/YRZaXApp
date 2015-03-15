@@ -154,12 +154,13 @@
         
         
         
-    } else {
+    } else {//没有网络连接
         NSString *bundlePath = [PathUtil getBundlePath];
         NSString *noConnectionPromptUrl = [NSString stringWithFormat:@"%@/%@/%@/%@", bundlePath, @"assets",@"native-html",@"network_error.html"];
         NSURL *myBagUrl = [NSURL URLWithString:noConnectionPromptUrl];
         NSURLRequest *request = [NSURLRequest requestWithURL:myBagUrl];
         [self.webView loadRequest:request];
+        
     }
     
 }

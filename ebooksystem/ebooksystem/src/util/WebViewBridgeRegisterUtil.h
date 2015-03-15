@@ -13,7 +13,8 @@
 
 @optional
 - (void)goBackWithDic:(NSDictionary *)dic;
-
+//点击书包页的“+”时触发代理，切换tab
+- (void)goDiscoverPage;
 
 @end
 
