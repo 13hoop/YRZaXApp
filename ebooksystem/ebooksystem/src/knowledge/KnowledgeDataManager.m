@@ -317,7 +317,7 @@
     NSString *needDeleteBookId = [NSString stringWithFormat:@"%@-partial",downloadItem.title];
     
     //删除数据库中的记录
-    /*
+    
     NSArray *bookKnowLedgeArray = [[KnowledgeMetaManager instance] getKnowledgeMetaWithDataId:needDeleteBookId];
     if (bookKnowLedgeArray == nil || bookKnowLedgeArray.count <= 0) {//没有需要删除的试读数据
         LogInfo (@"[KnowledgeDataManager - processDownloadedDataPack:] no partial data need to delete");
@@ -327,7 +327,7 @@
     if (!deletePartialSuccess) {
         LogError(@"[KnowledgeDataManager - processDownloadedDataPack:] delete partial data from db failed ");
     }
-    */
+    
     //删除对应的试读书文件（删除不必要的文件，节省系统空间）
     NSString *knowledgeDataInDocument = [[Config instance] knowledgeDataConfig].knowledgeDataRootPathInDocuments;
     NSString *needDeletePartialPath = [NSString stringWithFormat:@"%@/%@",knowledgeDataInDocument,needDeleteBookId];
