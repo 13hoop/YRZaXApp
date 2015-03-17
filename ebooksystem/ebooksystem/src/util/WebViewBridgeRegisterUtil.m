@@ -784,21 +784,11 @@ typedef enum {
         //再次注册设备
         NSData *deviceToken = [[NSUserDefaults standardUserDefaults] objectForKey:@"deviceToken"];
         void (^successBlock)(void) = ^(void){
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"信鸽推送"
-                                                            message:@"注册设备成功"
-                                                           delegate:nil
-                                                  cancelButtonTitle:@"OK"
-                                                  otherButtonTitles:nil];
-            [alert show];
+            LogInfo(@"信鸽注册失败");
         };
         
         void (^errorBlock)(void) = ^(void){
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"信鸽推送"
-                                                            message:@"注册设备失败"
-                                                           delegate:nil
-                                                  cancelButtonTitle:@"OK"
-                                                  otherButtonTitles:nil];
-            [alert show];
+            LogInfo(@"信鸽注册失败");
         };
 
         [XGPush registerDevice:deviceToken successCallback:successBlock errorCallback:errorBlock];
@@ -850,7 +840,7 @@ typedef enum {
     //getCurUserInfo
     [self.javascriptBridge registerHandler:@"getCurUserInfo" handler:^(id data, WVJBResponseCallback responseCallback) {
         //默认图片
-        NSString *imageUrl = [[[Config instance] drawableConfig] getImageFullPath:@"default.jpg"];
+        NSString *imageUrl = [[[Config instance] drawableConfig] getImageFullPath:@"defaultPersonImage.png"];
         NSString *imageBundlePath = [[NSBundle mainBundle] bundlePath];
         NSString *fullpath = [NSString stringWithFormat:@"%@/%@",imageBundlePath,imageUrl];
         //其他用户信息
@@ -1418,12 +1408,16 @@ typedef enum {
         }
         //获取封面图片的URL
         NSString *bookCover = [entity valueForKey:@"coverSrc"];
+        NSString *documentPath = [PathUtil getDocumentsPath];
+        NSString *coverImagePathStr = [NSString stringWithFormat:@"%@/%@",documentPath,bookCover];
+        
+        
         //构造字典
         [dic setValue:dicBookId forKey:@"book_id"];
         [dic setValue:bookStatusStr forKey:@"book_status"];
         [dic setValue:downLoadProgressStr forKey:@"book_status_detail"];
         //新加一个字段book_cover
-        [dic setValue:bookCover forKey:@"book_cover"];
+        [dic setValue:coverImagePathStr forKey:@"book_cover"];
         
         
     }

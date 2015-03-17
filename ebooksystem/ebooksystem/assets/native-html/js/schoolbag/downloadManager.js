@@ -95,7 +95,7 @@
                 }
                 var bookView = viewList[bookID];
                 bookView.setDownloadProgress( info );
-                if( bookView.isBookReady() ){
+                if( bookView.isBookReady() || bookView.isBookFail() ){
                     try{
                         delete viewList[bookID];
                     }catch(e){

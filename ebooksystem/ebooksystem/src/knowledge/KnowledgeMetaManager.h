@@ -28,6 +28,8 @@
 
 // delete knowledge meta
 - (BOOL)deleteKnowledgeMetaWithDataId:(NSString *)dataId andDataType:(DataType)dataType;
+- (BOOL)deleteKnowledgeMetaWithDataId:(NSString *)dataId;
+
 
 // clear knowledge metas
 - (BOOL)clearKnowledgeMetas;

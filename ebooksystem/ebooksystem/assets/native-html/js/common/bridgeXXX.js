@@ -334,4 +334,21 @@
         bridge.refreshOnlinePage(  );
     };
 
+    /**
+     * 获取当前网络状况
+     * @param callback {Function}
+     * @return {String}  { network_status : 'wifi|3g|2g|wap|offline' }
+     */
+    bridgeXXX.getNetworkType = function( callback ){
+        var bridge = bridgeXXX.getBridge();
+        if( bridgeXXX.isAndroid() ){
+            var out = bridge.getNetworkType( );
+            if( typeof  callback === 'function' ){
+                callback( out );
+            }
+        }else if( bridgeXXX.isIOS() ){
+            bridge.getNetworkType( callback );
+        }
+    };
+
 }( window );

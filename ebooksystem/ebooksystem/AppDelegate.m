@@ -200,21 +200,12 @@
     */
     
     void (^successBlock)(void) = ^(void){
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"appdelegate"
-                                                        message:@"注册设备成功"
-                                                       delegate:nil
-                                              cancelButtonTitle:@"OK"
-                                              otherButtonTitles:nil];
-        [alert show];
-    };
+        //注掉alert
+        LogInfo(@"[Appdelegate - didRegisterForRemoteNotificationsWithDeviceToken]:信鸽推送之设备注册成功");
+           };
     
     void (^errorBlock)(void) = ^(void){
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"appdelegate"
-                                                        message:@"注册设备失败"
-                                                       delegate:nil
-                                              cancelButtonTitle:@"OK"
-                                              otherButtonTitles:nil];
-        [alert show];
+        LogInfo(@"[Appdelegate - didRegisterForRemoteNotificationsWithDeviceToken]:信鸽推送之设备注册失败");
     };
 
     // 3 注册设备

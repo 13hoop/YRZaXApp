@@ -15,7 +15,7 @@
 #import "QuestionAndAnswerViewController.h"
 #import "PersonalCenterViewController.h"
 #import "PurchaseTabViewController.h"
-
+#import "UIColor+Hex.h"
 
 
 @interface CustomTabBarViewController ()<UITabBarControllerDelegate>
@@ -118,12 +118,12 @@
     CGFloat width = self.view.frame.size.width/5;
     CGFloat height = self.tabBar.frame.size.height;
     btn.frame =CGRectMake(width*2, 0, width, height);
-    btn.backgroundColor = [UIColor orangeColor];
+//    btn.backgroundColor = [UIColor orangeColor];
     //正常显示的照片
-    UIImage *scanImage = [UIImage imageNamed:[[[Config instance] drawableConfig]getTabbarItemImageFullPath :@"scan.png"]];
+    UIImage *scanImage = [UIImage imageNamed:[[[Config instance] drawableConfig]getTabbarItemImageFullPath :@"scanTab.png"]];
     [btn setImage:scanImage forState:UIControlStateNormal];
     //选中后的照片
-    UIImage *scanImageSelect = [UIImage imageNamed:[[[Config instance] drawableConfig]getTabbarItemImageFullPath :@"scanSelected.png"]];
+    UIImage *scanImageSelect = [UIImage imageNamed:[[[Config instance] drawableConfig]getTabbarItemImageFullPath :@"scanTabSelected.png"]];
     [btn setImage:scanImageSelect forState:UIControlStateSelected];
 
     
@@ -203,7 +203,7 @@
 - (NSArray *)getImageNamePathArray {
     //正常显示的照片
     NSString *bagImagePath = [[[Config instance] drawableConfig]getTabbarItemImageFullPath:@"myBag.png"];
-    NSString *discoveryPath = [[[Config instance] drawableConfig]getTabbarItemImageFullPath :@"discovery.png"];
+    NSString *discoveryPath = [[[Config instance] drawableConfig]getTabbarItemImageFullPath :@"discoveryNew.png"];
     NSString *answerPath = [[[Config instance] drawableConfig]getTabbarItemImageFullPath:@"Q&A.png"];
     NSString *scanPath = [[[Config instance] drawableConfig]getTabbarItemImageFullPath:@"scan.png"];
     NSString *personPath = [[[Config instance] drawableConfig]getTabbarItemImageFullPath:@"person.png"];
@@ -213,7 +213,7 @@
 }
 - (NSArray *)getSelecetedImageNamePathArray {
     NSString *bagImagePath = [[[Config instance] drawableConfig]getTabbarItemImageFullPath:@"myBagSelected.png"];
-    NSString *discoveryPath = [[[Config instance] drawableConfig]getTabbarItemImageFullPath :@"discoverySelected.png"];
+    NSString *discoveryPath = [[[Config instance] drawableConfig]getTabbarItemImageFullPath :@"discoveryNewSelected.png"];
     NSString *answerPath = [[[Config instance] drawableConfig]getTabbarItemImageFullPath:@"Q&ASelected.png"];
     NSString *scanPath = [[[Config instance] drawableConfig]getTabbarItemImageFullPath:@"scanSelected.png"];
     NSString *personPath = [[[Config instance] drawableConfig]getTabbarItemImageFullPath:@"personSelected.png"];
@@ -236,7 +236,7 @@
     //图片数组
     NSArray *imageArr = [NSArray arrayWithArray:[self getImageNamePathArray]];
     NSArray *selectedImageArr = [NSArray arrayWithArray:[self getSelecetedImageNamePathArray]];
-    NSArray *titleArr = [NSArray arrayWithObjects:@"我的书包",@"发现",@"扫一扫",@"问答",@"我", nil];
+    NSArray *titleArr = [NSArray arrayWithObjects:@"我的书包",@"发现",@"",@"问答",@"我", nil];
     for (NSUInteger i = 0; i <5; i++) {
         //创建按钮
         UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(i*width, 0, width, height - 10)];
@@ -247,14 +247,14 @@
         [self.tabBar addSubview:btn];
 
         //创建title
-        UILabel *titleLable = [[UILabel alloc] initWithFrame:CGRectMake(i*width  , height - 10, width, 10)];
+        UILabel *titleLable = [[UILabel alloc] initWithFrame:CGRectMake(i*width  , height - 13, width, 9)];
         titleLable.text = [titleArr objectAtIndex:i];
 
-        titleLable.textColor = [UIColor lightGrayColor];
+        titleLable.textColor = [UIColor colorWithHexString:@"#666666"];
         [[UILabel appearance] setHighlightedTextColor:[UIColor orangeColor]];
         titleLable.tag = 2000+i;
         titleLable.textAlignment = NSTextAlignmentCenter;
-        titleLable.font = [UIFont systemFontOfSize:10.0f];
+        titleLable.font = [UIFont systemFontOfSize:11.0f];
         [self.tabBar addSubview:titleLable];
         
         if(i == 1)
@@ -296,7 +296,7 @@
                 currentLable.textColor = [UIColor orangeColor];
             }
             else {
-                currentLable.textColor = [UIColor lightGrayColor];
+                currentLable.textColor = [UIColor colorWithHexString:@"#666666"];
             }
         }
     }

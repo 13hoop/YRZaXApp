@@ -72,7 +72,7 @@
 - (UIWebView *)webView {
     if (_webView == nil) {
         CGRect rect = [[UIScreen mainScreen] bounds];
-        _webView = [[UIWebView alloc] initWithFrame:CGRectMake(0,0, rect.size.width, rect.size.height - 48)];
+        _webView = [[UIWebView alloc] initWithFrame:CGRectMake(0,20, rect.size.width, rect.size.height - 48)];
         _webView.delegate = self;
         _webView.dataDetectorTypes = UIDataDetectorTypeNone;//iOS7及以上禁止webview解析数字成电话号码
         [self.view addSubview:_webView];
@@ -99,7 +99,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = [UIColor whiteColor];
     self.view.backgroundColor = [UIColor whiteColor];
     
     
@@ -142,7 +141,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     //隐藏掉状态栏
-    [[UIApplication sharedApplication] setStatusBarHidden:YES];
+//    [[UIApplication sharedApplication] setStatusBarHidden:YES];
     //隐藏导航栏
     self.navigationController.navigationBarHidden = YES;
     //个人中心页需要显示tabbar

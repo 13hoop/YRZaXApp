@@ -14,14 +14,19 @@
         <section id="user-center-page" class="fragment">
             <header class="fragment-header">
                 <h1>个人中心</h1>
-                <img class="avatar-img" alt="头像" src="./css/user_center/assets/avatar-default.png"/>
-                <div class="info-item user-name"></div>
-                <div class="info-item balance"></div>
-                <div class="info-item modify-info-btn">修改账号信息<span class="right-arrow"></span></div>
-                <div class="info-item login-btn">立即登录<span class="right-arrow"></span></div>
             </header>
             <div class="fragment-body">
                 <div class="scroll-wrap">
+                    <div id="user-info-con">
+                        <img class="avatar-img" alt="头像" src="./css/user_center/assets/avatar-default.png"/>
+                        <div class="info-wrap">
+                            <div class="info-item user-name"></div>
+                            <div class="info-item balance"></div>
+                            <div class="info-item modify-info-btn">修改账号信息<span class="right-arrow"></span></div>
+                            <div class="info-item login-btn">立即登录<span class="right-arrow"></span></div>
+                        </div>
+
+                    </div>
                     <div class="action-list clearfix">
                         <!--<div class="action-item" data-action="note">-->
                             <!--<img class="action-img" src="./css/user_center/assets/biji.png" alt="笔记"/>-->
@@ -36,7 +41,6 @@
                             <!--<div class="action-name">系统消息</div>-->
                         <!--</div>-->
                         <div class="action-item" data-action="recharge">
-                            <img class="action-img" src="./css/user_center/assets/chongzhi.png" alt="笔记"/>
                             <div class="action-name">充值</div>
                         </div>
                         <!--<div class="action-item" data-action="showNotesPage">-->
@@ -44,15 +48,12 @@
                             <!--<div class="action-name">消费记录</div>-->
                         <!--</div>-->
                         <div class="action-item" data-action="feedback">
-                            <img class="action-img" src="./css/user_center/assets/wentifankui.png" alt="笔记"/>
                             <div class="action-name">意见反馈</div>
                         </div>
                         <div class="action-item" data-action="validate">
-                            <img class="action-img" src="./css/user_center/assets/zhengbanyanzheng.png" alt="笔记"/>
                             <div class="action-name">正版验证</div>
                         </div>
                         <div class="action-item" data-action="setting">
-                            <img class="action-img" src="./css/user_center/assets/shezhi.png" alt="笔记"/>
                             <div class="action-name">设置</div>
                         </div>
                         <!--<div class="action-item" data-action="showNotesPage">-->
@@ -70,6 +71,7 @@
     <script src="./js/lib/es5-shim.min.js"></script>
     <script src="./js/lib/EventEmitter-4.0.3.min.js"></script>
     <script src="./js/lib/zepto.min.js"></script>
+    <script src="./js/common/samaConfig.js"></script>
     <script src="./js/common/debug.js"></script>
     <script src="./js/common/utils.js"></script>
     <script src="./js/common/Dialog.js"></script>

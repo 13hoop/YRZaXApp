@@ -21,12 +21,18 @@
     CGAffineTransform transform = CGAffineTransformIdentity;
     transform = CGAffineTransformRotate(transform, M_PI/2);
     self.view.transform = transform;
+    
     // Do any additional setup after loading the view.
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    //去掉tabbar，否则播放时会显示tabbar
+    self.tabBarController.tabBar.hidden = YES;
 }
 
 /*

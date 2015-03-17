@@ -12,30 +12,39 @@ body{
     right: 2px;
 }
 .fragment-header{
-    height: 233px;
-    text-align: center;
-    padding: 28px 0 0;
-    background: url(./assets/top-bg.png) repeat-x 0 100%;
-    background-size: 360px 233px;
+
 }
 .fragment-header h1{
-    color: #fffff3;
-    height: 20px;
-    line-height: 20px;
-    font-size: 20px;
+
+}
+
+/*个人信息*/
+#user-info-con{
+    position: relative;
+    height: 122px;
+    overflow: hidden;
+    padding: 0 0 0 130px;
 }
 .avatar-img{
-    display: block;
+    position: absolute;
+    left: 38px;
+    top: 50%;
     width: 53px;
     height: 53px;
-    border-radius: 100%;
-    margin: 21px auto 14px;
+    -webkit-transform:  translateY(-50%);
+    border-radius: 53px;
+}
+.info-wrap{
+    position: absolute;
+    left: 130px;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
 }
 .info-item{
     display: none;
 }
 .user-name{
-    color: #fcfcfc;
+    color: #4A4A4A;
     margin: 8px auto;
     height: 20px;
     line-height: 20px;
@@ -50,32 +59,68 @@ body{
 }
 .modify-info-btn, .login-btn{
     position: relative;
-    color: #898989;
+    color: #4A90E2;
     height: 30px;
     line-height: 30px;
     padding: 0 14px 0 0;
+    font-size: 14px;
+}
+.modify-info-btn .right-arrow, .login-btn .right-arrow{
+    border-color: #4A90E2;
 }
 
 
 
 
 /*动作列表*/
+.action-list{
+    border-top: 1px solid #dcdcdc;
+}
 .action-item{
     float: left;
     color: #737373;
     text-align: center;
     width: 33.33333%;
     height: 120px;
+    padding: 79px 0 0;
     border-bottom: 1px solid #dcdcdc;
     border-right: 1px solid transparent;
-    background: #fcfcfc;
+    background: #fff url(./assets/shezhi.png) scroll no-repeat center 19px;
+    background-size: 60px 60px;
 }
 .action-item:nth-of-type(2n), .action-item:nth-of-type(2n + 1){
     border-right-color: #dcdcdc;
 }
-.action-img{
-    display: block;
-    width: 60px;
-    height: 60px;
-    margin: 19px auto 7px;
+
+.action-item[data-action=recharge]{
+    background-image: url(./assets/chongzhi.png);
+}
+.action-item[data-action=recharge]:active{
+    color: #FF6A00;
+    background-image: url(./assets/chongzhi-hover.png);
+}
+.action-item[data-action=feedback]{
+    background-image: url(./assets/yijianfankui.png);
+}
+.action-item[data-action=feedback]:active{
+    color: #FF6A00;
+    background-image: url(./assets/yijianfankui-hover.png);
+}
+.action-item[data-action=validate]{
+    background-image: url(./assets/zhengbanyanzheng.png);
+}
+.action-item[data-action=validate]:active{
+    color: #FF6A00;
+    background-image: url(./assets/zhengbanyanzheng-hover.png);
+}
+.action-item[data-action=setting]{
+    background-image: url(./assets/shezhi.png);
+}
+.action-item[data-action=setting]:active{
+    color: #FF6A00;
+    background-image: url(./assets/shezhi-hover.png);
+}
+
+.empty-holder{
+    background: #fff !important;
 }

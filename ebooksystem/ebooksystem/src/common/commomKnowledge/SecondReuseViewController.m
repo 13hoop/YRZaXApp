@@ -88,7 +88,7 @@
 // webview
 - (UIWebView *)webView {
     if (_webView == nil) {
-        _webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+        _webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 20, self.view.frame.size.width, self.view.frame.size.height - 20)];
         _webView.delegate = self;
         
         [self.view addSubview:_webView];
@@ -120,7 +120,7 @@
     [super viewDidLoad];
     LogInfo(@"现在进入了secondReusecontroller中");
 //    [self initWebView];
-    
+    self.view.backgroundColor = [UIColor colorWithHexString:@"#4A90E2"];
     
     WebViewBridgeRegisterUtil *webviewBridgeUtil = [[WebViewBridgeRegisterUtil alloc] init];
     webviewBridgeUtil.webView = self.webView;
@@ -130,12 +130,12 @@
     webviewBridgeUtil.tabBarController = self.tabBarController;
     [webviewBridgeUtil initWebView];
     
-    if ([self.shouldChangeBackground isEqualToString:@"needChange"]) {
-        self.view.backgroundColor=[UIColor colorWithHexString:@"#242021" alpha:1];
-    }
-    else {
-        self.view.backgroundColor = [UIColor colorWithHexString:@"#4C501D" alpha:1];
-    }
+//    if ([self.shouldChangeBackground isEqualToString:@"needChange"]) {
+//        self.view.backgroundColor=[UIColor colorWithHexString:@"#242021" alpha:1];
+//    }
+//    else {
+//        self.view.backgroundColor = [UIColor colorWithHexString:@"#4C501D" alpha:1];
+//    }
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.webView.scrollView.bounces = NO;
     self.webView.scrollView.showsVerticalScrollIndicator = NO;
@@ -152,7 +152,7 @@
     //隐藏tabbar状态
     self.tabBarController.tabBar.hidden = YES;
     //隐藏掉状态栏
-    [[UIApplication sharedApplication] setStatusBarHidden:YES];
+    [[UIApplication sharedApplication] setStatusBarHidden:TRUE];
     //隐藏navbar状态
     self.navigationController.navigationBarHidden = YES;
     
@@ -178,6 +178,11 @@
     [self injectJSToWebview:self.webView andJSFileName:@"SamaPageShow"];
     self.tabBarController.tabBar.hidden = YES;
    
+}
+//iOS7之后修改状态栏的方法
+-(UIStatusBarStyle)preferredStatusBarStyle
+{
+    return UIStatusBarStyleLightContent;
 }
 
 - (void)viewWillDisappear:(BOOL)animated {

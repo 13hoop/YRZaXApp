@@ -81,7 +81,7 @@
 - (UIWebView *)webView {
     if (_webView == nil) {
         CGRect rect = [[UIScreen mainScreen] bounds];
-        _webView = [[UIWebView alloc] initWithFrame:CGRectMake(0,0, rect.size.width, rect.size.height - 48)];
+        _webView = [[UIWebView alloc] initWithFrame:CGRectMake(0,20, rect.size.width, rect.size.height - 48)];
         _webView.delegate = self;
 //        _webView.dataDetectorTypes = UIDataDetectorTypeNone;//iOS7及以后禁掉将数字解析成电话号码
         
@@ -130,7 +130,7 @@
 }
 - (void)viewWillAppear:(BOOL)animated {
     //隐藏掉状态栏
-    [[UIApplication sharedApplication] setStatusBarHidden:YES];
+//    [[UIApplication sharedApplication] setStatusBarHidden:YES];
     //隐藏导航栏
     self.navigationController.navigationBarHidden = YES;
     //个人中心页需要显示tabbar
@@ -300,7 +300,7 @@
 - (BOOL)updateWebView {
     NSURL *Url = [NSURL URLWithString:self.webUrl];
     NSURLRequest *request = [NSURLRequest requestWithURL:Url];
-    
+    self.webView.dataDetectorTypes = UIDataDetectorTypeNone;//禁掉数字自动解析
     [self.webView loadRequest:request];
     
     return YES;

@@ -248,6 +248,28 @@
     return YES;
 }
 
+//根据dataId删除数据库中的记录
+- (BOOL)deleteKnowledgeMetaWithDataId:(NSString *)dataId {
+    NSArray *knowledgeMetaEntities = [self getKnowledgeMetaWithDataId:dataId];
+    if (knowledgeMetaEntities == nil || knowledgeMetaEntities.count <= 0) {
+        return YES; // nothing to delete, return YES
+    }
+    
+    for (id entity in knowledgeMetaEntities) {
+        [[CoreDataUtil instance].managedObjectContext deleteObject:entity];
+    }
+    
+    NSError *error = nil;
+    if (![[CoreDataUtil instance].managedObjectContext save:&error]) {
+        LogError(@"[KnowledgeMetaManager-deleteKnowledgeMetaWithDataId:andDataType:] failed when save to context, error: %@", [error localizedDescription]);
+        return NO;
+    }
+    
+    return YES;
+}
+
+
+
 // clear knowledge metas
 - (BOOL)clearKnowledgeMetas {
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];

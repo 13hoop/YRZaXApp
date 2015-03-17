@@ -8,6 +8,7 @@
     var $ = window.Zepto;
     var bridgeXXX = window.bridgeXXX;
     var Dialog = window.Dialog;
+    var samaConfig = window.samaConfig;
 
     var app = {
 
@@ -45,7 +46,7 @@
             $faqBtn.on( 'tap', function(){
                 bridgeXXX.showURL({
                     target : 'activity',
-                    url : 'http://test.zaxue100.com/index.php?c=discover_ctrl&m=faq_page'
+                    url : 'http://' + samaConfig.SERVER.HOST +  '/index.php?c=discover_ctrl&m=faq_page'
                 });
             } );
 

@@ -11,8 +11,13 @@
 #import "UIColor+Hex.h"
 #import "LogUtil.h"
 #import "WebViewBridgeRegisterUtil.h"
+#import "MRActivityIndicatorView.h"
+
 
 @interface ScanResultInfoViewController ()<UIWebViewDelegate>
+{
+    MRActivityIndicatorView *activityIndicatorView;
+}
 
 @property (nonatomic, strong) UIWebView *webView;
 
@@ -26,7 +31,7 @@
     if (_webView == nil) {
         CGRect rect = [[UIScreen mainScreen] bounds];
         NSLog(@"扫码栏的高度 === %f",rect.size.height);
-        _webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, rect.size.height)];
+        _webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 64, self.view.frame.size.width, rect.size.height - 64)];
         _webView.delegate = self;
         
         [self.view addSubview:_webView];
@@ -44,6 +49,7 @@
         [self createUI];
     }
     if (self.urlString != nil && self.urlString.length > 0 ) {
+         [self customNav];
         [self createWebview];
     }
     
@@ -160,6 +166,8 @@
     NSURLRequest *request = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:self.urlString]];
     [self.webView loadRequest:request];
     [self.view addSubview:self.webView];
+    //创建加载动画，在创建webview后面，否则看不到
+    [self createActivityIndicator];
 }
 
 #pragma mark - web view delegate methods
@@ -173,8 +181,15 @@
     return YES;
 }
 
+- (void)webViewDidStartLoad:(UIWebView *)webView {
+    //开始网络加载的动画
+    [self showProgressAsActivityIndicator];
+}
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
+    //注入JS
     [self injectJSToWebView:webView];
+    //结束加载动画
+    [self hideProgressOfActivityIndicator];
 }
 
 #pragma mark - js injection
@@ -183,6 +198,33 @@
     NSString *filePath = [[NSBundle mainBundle] pathForResource:@"webview-js-bridge" ofType:@"js"];
     NSString *jsString = [[NSString alloc] initWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:nil];
     [webView stringByEvaluatingJavaScriptFromString:jsString];
+}
+
+#pragma mark 创建加载动画视图
+-(void)createActivityIndicator
+{
+    activityIndicatorView=[[MRActivityIndicatorView alloc] initWithFrame:CGRectMake((self.view.frame.size.width-30)/2, (self.view.frame.size.height-30)/2,30, 30)];
+    [self.view addSubview:activityIndicatorView];
+    
+}
+
+
+#pragma mark 加载动画
+- (void)showProgressAsActivityIndicator {
+    if (activityIndicatorView) {
+        activityIndicatorView.hidden = NO;
+        activityIndicatorView.hidesWhenStopped = YES;
+        activityIndicatorView.tintColor = [UIColor blueColor];
+        activityIndicatorView.backgroundColor = [UIColor clearColor];
+        [activityIndicatorView startAnimating];
+    }
+}
+
+- (void)hideProgressOfActivityIndicator {
+    if (activityIndicatorView) {
+        [activityIndicatorView stopAnimating];
+        //    activityIndicatorView.hidden = YES;
+    }
 }
 
 @end

@@ -25,6 +25,7 @@
 
     //一本书可以处于的不同状态
     var BOOK_STATUS = samaConfig.BOOK_STATUS;
+    var NETWORK_TYPE = samaConfig.NETWORK_TYPE;
 
     function BookItem( args ){
         var $el = $( document.querySelector('#book-item-tpl').innerHTML );
@@ -48,8 +49,8 @@
     $.extend( BookItem.prototype, {
 
         _setupEvent : function(){
-            this.$el.on( 'click', '.download-btn', this.beginDownload.bind(this) );
-            this.$el.on( 'click', '.cover-img', this._bookClick.bind( this ) );
+            //this.$el.on( 'click', '.download-btn', this._bookClick.bind(this) );
+            this.$el.on( 'click', '.cover-wrap', this._bookClick.bind( this ) );
         },
 
         render : function( data ){
@@ -87,6 +88,11 @@
                 width : '100%',
                 height : '100%'
             });
+
+            if( metaJSON.is_weike === '1' ){
+                //书籍有微课
+                this.$coverImage.before('<span class="has-weike-icon"></span>');
+            }
 
             this.$bookName.text( metaJSON.book_name );
             this.$bookEditor.text( metaJSON.book_editor );
@@ -154,12 +160,25 @@
             }
             var progress = parseInt( state.book_status_detail, 10 );
             progress = Math.min( 100, progress );
-            //TODO 添加下载错误的处理
+            //下载错误的处理
+            if( state.book_status === BOOK_STATUS.DOWNLOAD_FAIL ){
+                this.$el.removeClass( downloadingClass );
+                Dialog.alert({
+                    content : '书籍下载失败'
+                });
+            }
+
+            if( state.book_cover ){
+                this.setCoverImageSrc( state.book_cover );
+            }
+
             this.$downloadProgress.text( progress + '%');
             this.$downloadProgressBg.css({
                 height : progress + '%'
             });
             this.$downloadStep.text( state.book_status );
+
+            this._data.book_status = state.book_status;
 
             if( state.book_status === BOOK_STATUS.BOOK_READY && progress >= 100 ){
                 //书籍已经下载、解压、更新数据库索引完成，可以访问了
@@ -173,6 +192,10 @@
         //书籍是否已经成功下载
         isBookReady : function(){
             return this._data.book_status === BOOK_STATUS.BOOK_READY ;
+        },
+        //书籍是否下载失败
+        isBookFail : function(){
+            return this._data.book_status === BOOK_STATUS.DOWNLOAD_FAIL ;
         },
 
         //正在下载中、正在更新中，都属于书籍处于 “下载进程”，需要轮训新的进度
@@ -193,18 +216,38 @@
                 return;
             }
             var that = this;
-            if( status === BOOK_STATUS.BOOK_NOT_DOWNLOAD ){
+            if( status === BOOK_STATUS.BOOK_NOT_DOWNLOAD || this.isBookFail() ){
                 //var out = window.confirm('书籍尚未下载到本地，是否立即下载？');
                 //if( out ){
                 //    this.beginDownload();
                 //    return;
                 //}
-                Dialog.confirm({
-                    content : '书籍尚未下载到本地，是否立即下载？',
-                    onOK : function(){
+                bridgeXXX.getNetworkType( function(data){
+                    try{
+                        data = JSON.parse( data );
+                    }catch(e){
                         that.beginDownload();
+                        return;
                     }
-                });
+                    if( data.network_status === NETWORK_TYPE.OFFLINE ){
+                        //没有网络
+                        Dialog.alert({
+                            content : '当前没有网络连接，请打开网络连接'
+                        });
+
+                    }else if( data.network_status === NETWORK_TYPE.WIFI ){
+                        that.beginDownload();
+                    }else{
+                        //处于移动网络，提示用户是否确认下载
+                        Dialog.confirm({
+                            content : '您正在使用 3G 网络，开始下载将耗费您的流量，是否继续？',
+                            onOK : function(){
+                                that.beginDownload();
+                            }
+                        });
+                    }
+                } );
+
                 return;
             }else if( status === BOOK_STATUS.BOOK_NEED_UPDATE ){
                 //var out = window.confirm('书籍有更新，是否立即更新？');
@@ -215,6 +258,8 @@
                 //}
                 Dialog.confirm({
                     content : '书籍有更新，是否立即更新？',
+                    okText : '立即更新',
+                    cancelText : '暂时不更新',
                     onOK : function(){
                         that.beginDownload();
                     },

@@ -29,8 +29,20 @@
         APP_TOO_HIGH : 'APP版本过高'
     };
 
+    var networkType = {
+        WIFI : 'wifi',
+        '3G' : '3g',
+        '2G' : '2g',
+        'WAP' : 'wap',
+        'OFFLINE' : 'offline'
+    };
+
     var singleton = {
-        BOOK_STATUS : bookStatus
+        BOOK_STATUS : bookStatus,
+        SERVER : {
+            HOST : 'test.zaxue100.com'
+        },
+        NETWORK_TYPE : networkType
     };
 
     window.samaConfig = singleton;

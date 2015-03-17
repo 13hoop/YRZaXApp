@@ -2,17 +2,8 @@
 
 /*header*/
 .fragment-header{
-    position: relative;
-    height: 60px;
-    line-height: 60px;
-    background: url(./assets/3x/header-bg.png) repeat-x left bottom;
-    background-size: 360px 62px;
 }
 .fragment-header h1{
-    color: #fffff3;
-    height: 100%;
-    text-align: center;
-    font-size: 18px;
 }
 .setting-btn{
     position: absolute;
@@ -28,11 +19,7 @@
 
 /*fragment body*/
 .fake-native .fragment-body{
-    position: absolute;
-    left: 0;
-    top: 62px;
-    bottom: 0;
-    width: 100%;
+
 }
 
 /**book list **/
@@ -51,6 +38,9 @@
 .book-item{
     position: absolute;
     overflow: hidden;
+}
+.book-item:active{
+    background: #F7F5F5;
 }
 /*封面*/
 .book-item .cover-container{
@@ -140,8 +130,10 @@
     left: 0;
     bottom: 0;
     width: 100%;
+    border-radius: 0 0 40px 40px;
     background-color: #ef9a01;
     -webkit-transition: height linear .5s;
+    overflow: hidden;
 }
 .progress{
     position: relative;
@@ -172,6 +164,16 @@
     margin-top: 8px;
 }
 /*有更新标记*/
+.book-can-update .update-icon{
+    position: absolute;
+    width: 74px;
+    height: 28px;
+    left: 50%;
+    top: 46px;
+    -webkit-transform: translateX(-50%);
+    background: url(./assets/3x/update-icon.png) scroll no-repeat 0 0;
+    background-size: 100% 100%;
+}
 .has-update{
     display: none;
     padding: 0 0 0 11px;
@@ -184,7 +186,7 @@
     content: '\020';
     width: 8px;
     height: 8px;
-    border-radius: 100%;
+    border-radius: 8px;
     background: #fe710c;
     position: absolute;
     top: 50%;
@@ -193,6 +195,18 @@
 }
 .book-can-update .has-update{
     display: block;
+}
+
+/*有微课*/
+.has-weike-icon{
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 30px;
+    height: 30px;
+    background: url(./assets/3x/weike-icon.png) scroll no-repeat 0 0;
+    background-size: 30px;
+    z-index: 2;
 }
 
 /*添加新书按钮*/

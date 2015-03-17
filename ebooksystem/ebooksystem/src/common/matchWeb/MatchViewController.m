@@ -76,7 +76,7 @@
 // webview
 - (UIWebView *)webView {
     if (_webView == nil) {
-        _webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+        _webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 20, self.view.frame.size.width, self.view.frame.size.height - 20)];
         _webView.delegate = self;
         
         [self.view addSubview:_webView];
@@ -136,8 +136,6 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-
-    [[UIApplication sharedApplication] setStatusBarHidden:YES];
     self.navigationController.navigationBarHidden = YES;
 //    [self.webView reload];
     
@@ -145,7 +143,13 @@
     [self injectJSToWebview:self.webView andJSFileName:@"SamaPageShow"];
 }
 
+-(UIStatusBarStyle)preferredStatusBarStyle
+{
+    return UIStatusBarStyleDefault;
+}
+
 - (void)viewWillDisappear:(BOOL)animated {
+    
     //触发JS事件
     [self injectJSToWebview:self.webView andJSFileName:@"SamaPageHide"];
 

@@ -18,7 +18,7 @@
 #import "DeviceStatusUtil.h"
 
 #import "CustomPromptView.h"
-
+#import "UIColor+Hex.h"
 
 @interface DiscoveryViewController ()<discoverDelegate,UpdateManagerDelegate, UIAlertViewDelegate,SubjectChooseDelegate>
 {
@@ -48,8 +48,8 @@
     //消除状态栏的20像素差
     self.automaticallyAdjustsScrollViewInsets = NO;
    //隐藏掉状态栏
-    [[UIApplication sharedApplication] setStatusBarHidden:TRUE];
-    
+//    [[UIApplication sharedApplication] setStatusBarHidden:TRUE];
+    self.view.backgroundColor = [UIColor whiteColor];
     //开始启动
     [self startUp];
 }
@@ -83,7 +83,7 @@
                 currentLable.textColor = [UIColor orangeColor];
             }
             if (currentLable.tag == 2000) {
-                currentLable.textColor = [UIColor lightGrayColor];
+                currentLable.textColor = [UIColor colorWithHexString:@"#666666"];
             }
         }
     }
@@ -174,7 +174,7 @@
 //创建webview
 - (void)makeWebView {
     CGRect rect = [[UIScreen mainScreen] bounds];
-     self.discoverWeb = [[discoveryWebView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, rect.size.height - 48)];
+     self.discoverWeb = [[discoveryWebView alloc] initWithFrame:CGRectMake(0, 20, self.view.frame.size.width, rect.size.height - 48)];
     self.discoverWeb.discoverDelegate = self;
     [self.view addSubview:self.discoverWeb];
 }
@@ -279,6 +279,7 @@
     //获取当前网络连接状况
     DeviceStatusUtil *cruDeviceStatus = [[DeviceStatusUtil alloc] init];
     NSString *CruStatus = [cruDeviceStatus GetCurrntNet];
+    /*
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"firstLaunch"]) {//第一次加载
         //判断是否有网络连接
         if ([CruStatus isEqualToString:@"no connect"]) {//没有连接网络
@@ -296,6 +297,7 @@
         
     }
     else {//不是第一次加载
+     */
        //判断是否有网络
         if ([CruStatus isEqualToString:@"no connect"]) {//没有网络连接
             //1 创建提示界面
@@ -315,6 +317,6 @@
     }
     
         
-}
+//}
 
 @end

@@ -81,6 +81,7 @@
     var bookMeta_1 = {
         book_name : '咋学考研政治测试版本的两行文字',
         book_editor : '商志 黄涛',
+        is_weike : '1',
         cover_img_width : 101,
         cover_img_height : 134
     };
@@ -253,7 +254,7 @@
 
             var data = JSON.stringify( userInfo );
 
-            data = '{}';
+            //data = '{}';
 
             if( typeof callback === 'function' ){
                 callback( data );

@@ -7,6 +7,7 @@
 
     var bridgeXXX = window.bridgeXXX;
     var Dialog = window.Dialog;
+    var samaConfig = window.samaConfig;
 
     var app = {
 
@@ -40,7 +41,7 @@
                     that.$loginBtn.on('tap', function(){
                         bridgeXXX.showURL({
                             target : 'activity',
-                            url : 'http://test.zaxue100.com/index.php?c=passportctrl&m=show_login_page&back_to_app=1'
+                            url : 'http://' + samaConfig.SERVER.HOST +  '/index.php?c=passportctrl&m=show_login_page&back_to_app=1'
                         });
                     } );
                     that.$loginBtn.css({
@@ -58,7 +59,7 @@
                     return;
                 }
 
-                that.$avatar.attr( 'src', data.avatar_src).show();
+                that.$avatar.attr( 'src', data.avatar_src);
                 that.$userName.text( data.user_name).show();
                 that.$modifyInfoBtn.css({
                     display : 'inline-block'
@@ -91,9 +92,9 @@
             var cellNum = this.$actionList.children('.action-item').length;
             var lastRowNum = cellNum % 3;
             if( cellNum > 0 && lastRowNum > 0 ){
-                var html = '<div class="action-item"></div>';
+                var html = '<div class="action-item empty-holder"></div>';
                 if( 3 - lastRowNum > 1 ){
-                    html += '<div class="action-item"></div>';
+                    html += '<div class="action-item empty-holder"></div>';
                 }
                 this.$actionList.append( html );
             }

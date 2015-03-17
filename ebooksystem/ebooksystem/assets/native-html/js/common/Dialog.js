@@ -49,11 +49,11 @@
 
         _setupEvent : function(){
 
-            this.$dialogBody.on( 'tap', function(e){
+            this.$dialogBody.on( 'click', function(e){
                 e.stopPropagation();
             }, false );
 
-            this.$el.on( 'tap', this.maskClick.bind( this ) );
+            this.$el.on( 'click', this.maskClick.bind( this ) );
         },
 
         show : function(){
@@ -70,7 +70,8 @@
         setContentHTML : function( html ){
             this.$dialogContent.html( html );
         },
-        maskClick : function(){
+        maskClick : function(e){
+            e && e.stopImmediatePropagation();
             this.hide();
         }
     } );
@@ -80,11 +81,11 @@
 
     function AlertDialog( args ){
 
+        this.$btnOK = null;
+
         Dialog.apply( this, arguments );
 
         this.onOK = this.config.onOK || null;
-
-        this.$btnOK = null;
 
     }
 
@@ -103,14 +104,19 @@
             Dialog.prototype._setupEvent.call( this );
 
             if( this.$btnOK ){
-                this.$btnOK.on( 'tap', this.ok.bind( this ) );
+                this.$btnOK.on( 'click', this.ok.bind( this ) );
             }
         },
-        ok : function(){
+        ok : function(e){
+            e && e.stopImmediatePropagation();
             if( typeof this.onOK === 'function' ){
                 this.onOK();
             }
             this.hide();
+        },
+        setOKText : function(str){
+            str = str || '确定';
+            this.$btnOK.text( str );
         }
     } );
 
@@ -131,16 +137,19 @@
         }
 
         alertDialog.setContentHTML( args.content );
+        alertDialog.setOKText( args.okText );
         alertDialog.show();
     };
 
 
     //////////////////////////////////  ConfirmDialog  单例 ///////
     function ConfirmDialog( args ){
+
+        this.$btnCancel = null;
+
         AlertDialog.call( this , args );
 
         this.onCancel = this.config.onCancel || null;
-        this.$btnCancel = null;
 
 
     }
@@ -158,16 +167,22 @@
         _setupEvent : function(){
             AlertDialog.prototype._setupEvent.call( this );
 
-            this.$btnCancel.on( 'tap', this.cancel.bind( this ) );
+            this.$btnCancel.on( 'click', this.cancel.bind( this ) );
         },
-        cancel : function(){
+        cancel : function(e){
+            e && e.stopImmediatePropagation();
             if($.isFunction( this.onCancel ) ){
                 this.onCancel();
             }
             this.hide();
         },
-        maskClick : function(){
+        maskClick : function(e){
+            e && e.stopImmediatePropagation();
             this.cancel();
+        },
+        setCancelText : function(str){
+            str = str || '取消';
+            this.$btnCancel.text( str );
         }
     } );
 
@@ -186,6 +201,8 @@
         confirmDialog.onOK = args.onOK;
         confirmDialog.onCancel = args.onCancel;
         confirmDialog.setContentHTML( args.content );
+        confirmDialog.setOKText( args.okText );
+        confirmDialog.setCancelText( args.cancelText );
         confirmDialog.show();
 
         return true;

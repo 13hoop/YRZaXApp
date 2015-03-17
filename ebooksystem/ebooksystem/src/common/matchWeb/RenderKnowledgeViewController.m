@@ -40,9 +40,12 @@
 #import "WebViewBridgeRegisterUtil.h"
 #import "DeviceStatusUtil.h"
 
+#import "MRActivityIndicatorView.h"
 
 @interface RenderKnowledgeViewController ()<UIWebViewDelegate>
-
+{
+    MRActivityIndicatorView *activityIndicatorView;
+}
 #pragma mark - properties
 // bridge between webview and js
 @property (nonatomic, strong) WebViewJavascriptBridge *javascriptBridge;
@@ -86,7 +89,7 @@
 // webview
 - (UIWebView *)webView {
     if (_webView == nil) {
-        _webView = [[UIWebView alloc] initWithFrame:CGRectMake(0,0, self.view.frame.size.width, self.view.frame.size.height)];
+        _webView = [[UIWebView alloc] initWithFrame:CGRectMake(0,20, self.view.frame.size.width, self.view.frame.size.height - 20)];
         _webView.delegate = self;
         
         [self.view addSubview:_webView];
@@ -130,12 +133,12 @@
     
     
     
-    if ([self.shouldChangeBackground isEqualToString:@"needChange"]) {
-        self.view.backgroundColor=[UIColor colorWithHexString:@"#242021" alpha:1];
-    }
-    else {
-        self.view.backgroundColor = [UIColor colorWithHexString:@"#4C501D" alpha:1];
-    }
+//    if ([self.shouldChangeBackground isEqualToString:@"needChange"]) {
+//        self.view.backgroundColor=[UIColor colorWithHexString:@"#242021" alpha:1];
+//    }
+//    else {
+//        self.view.backgroundColor = [UIColor colorWithHexString:@"#4C501D" alpha:1];
+//    }
     
     self.automaticallyAdjustsScrollViewInsets = NO;
    
@@ -162,6 +165,7 @@
         [self.webView loadRequest:request];
         
     }
+    [self createActivityIndicator];
     
 }
 
@@ -169,7 +173,7 @@
     //重新加载网页，因为个人中心页复用了这个webview
 //    [self.webView reload];
     //隐藏掉状态栏
-    [[UIApplication sharedApplication] setStatusBarHidden:TRUE];
+//    [[UIApplication sharedApplication] setStatusBarHidden:TRUE];
     //隐藏掉导航栏
     self.navigationController.navigationBarHidden = YES;
     
@@ -185,7 +189,7 @@
         //个人中心页和看书页都是需要隐藏掉tabbar
         self.tabBarController.tabBar.hidden = YES;
         CGRect rect = [[UIScreen mainScreen] bounds];
-        self.webView.frame = CGRectMake(0,0, self.view.frame.size.width, rect.size.height);
+        self.webView.frame = CGRectMake(0,20, self.view.frame.size.width, rect.size.height - 20);
     }
     
     //触发JS事件
@@ -194,12 +198,18 @@
     
     
 }
+//iOS7之后修改状态栏的颜色
+-(UIStatusBarStyle)preferredStatusBarStyle
+{
+    return UIStatusBarStyleDefault;
+}
 
 - (void)viewWillDisappear:(BOOL)animated {
     self.tabBarController.tabBar.hidden = NO;
     
     //触发JS事件
     [self injectJSToWebview:self.webView andJSFileName:@"SamaPageHide"];
+    [self hideProgressOfActivityIndicator];
 }
 
 - (void)didReceiveMemoryWarning
@@ -797,10 +807,16 @@
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
     [self injectJSToWebView:webView];
+    //结束加载动画
+    [self hideProgressOfActivityIndicator];
 }
 
 - (void)webViewDidStartLoad:(UIWebView *)webView {
 //    [self injectJSToWebView:webView];
+    //开始网络加载的动画
+    [self showProgressAsActivityIndicator];
+    
+    
 }
 #pragma mark - js injection
 
@@ -950,6 +966,34 @@
     self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
     self.navigationController.navigationBar.translucent = NO;
     [self.navigationController pushViewController:feedbackViewController animated:YES];
+}
+
+
+#pragma mark 创建加载动画视图
+-(void)createActivityIndicator
+{
+    activityIndicatorView=[[MRActivityIndicatorView alloc] initWithFrame:CGRectMake((self.view.frame.size.width-30)/2, (self.view.frame.size.height-30)/2,30, 30)];
+    [self.view addSubview:activityIndicatorView];
+    
+}
+
+
+#pragma mark 加载动画
+- (void)showProgressAsActivityIndicator {
+    if (activityIndicatorView) {
+        activityIndicatorView.hidden = NO;
+        activityIndicatorView.hidesWhenStopped = YES;
+        activityIndicatorView.tintColor = [UIColor blueColor];
+        activityIndicatorView.backgroundColor = [UIColor clearColor];
+        [activityIndicatorView startAnimating];
+    }
+}
+
+- (void)hideProgressOfActivityIndicator {
+    if (activityIndicatorView) {
+        [activityIndicatorView stopAnimating];
+        //    activityIndicatorView.hidden = YES;
+    }
 }
 
 

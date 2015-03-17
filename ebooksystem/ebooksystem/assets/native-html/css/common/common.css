@@ -55,15 +55,21 @@ html.fake-native, .fake-native body{
 
 /*header*/
 .fragment-header{
-    height: 60px;
+    height: 48px;
     text-align: center;
     position: relative;
     overflow: hidden;
-    background: #e95510;
-    color: #fffff3;
-    line-height: 59px;
+    background: #fff;
+    color: #4a4a4a;
+    line-height: 47px;
     z-index: 5;
-    /*border-bottom: 1px solid #bc3e03;*/
+    border-bottom: 1px solid #dcdcdc;
+}
+.fragment-header h1{
+    color: #4a4a4a;
+    height: 100%;
+    text-align: center;
+    font-size: 18px;
 }
 .common-back{
     position: absolute;
@@ -76,14 +82,14 @@ html.fake-native, .fake-native body{
 .common-back:before{
     position: absolute;
     content: '\020';
-    border: 0 solid #fff;
+    border: 0 solid #4a4a4a;
     border-width: 0 0 2px 2px;
     height: 13px;
     width: 13px;
     background: transparent;
     -webkit-transform: rotate(45deg);
     left: 17px;
-    top: 24px;
+    top: 17px;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
 }
@@ -95,7 +101,7 @@ html.fake-native, .fake-native body{
 .fake-native .fragment-body{
     position: absolute;
     left: 0;
-    top: 60px;
+    top: 48px;
     width: 100%;
     bottom: 0;
     overflow: hidden;

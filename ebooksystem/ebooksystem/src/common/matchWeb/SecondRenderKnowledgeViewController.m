@@ -82,7 +82,7 @@
 // webview
 - (UIWebView *)webView {
     if (_webView == nil) {
-        _webView = [[UIWebView alloc] initWithFrame:CGRectMake(0,0, self.view.frame.size.width, self.view.frame.size.height - 48)];
+        _webView = [[UIWebView alloc] initWithFrame:CGRectMake(0,20, self.view.frame.size.width, self.view.frame.size.height - 20)];
         _webView.delegate = self;
         
         [self.view addSubview:_webView];
@@ -112,7 +112,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 //    [self initWebView];
-    
+    self.view.backgroundColor = [UIColor whiteColor];
     
     WebViewBridgeRegisterUtil *webviewBridgeUtil = [[WebViewBridgeRegisterUtil alloc] init];
     webviewBridgeUtil.webView = self.webView;
@@ -126,12 +126,12 @@
     //设置背景色，防止隐藏掉tabbar时底部出现黑色条
     self.view.backgroundColor = [UIColor whiteColor];
     
-    if ([self.shouldChangeBackground isEqualToString:@"needChange"]) {
-        self.view.backgroundColor=[UIColor colorWithHexString:@"#242021" alpha:1];
-    }
-    else {
-        self.view.backgroundColor = [UIColor colorWithHexString:@"#4C501D" alpha:1];
-    }
+//    if ([self.shouldChangeBackground isEqualToString:@"needChange"]) {
+//        self.view.backgroundColor=[UIColor colorWithHexString:@"#242021" alpha:1];
+//    }
+//    else {
+//        self.view.backgroundColor = [UIColor colorWithHexString:@"#4C501D" alpha:1];
+//    }
     self.automaticallyAdjustsScrollViewInsets = NO;
     [[UIApplication sharedApplication] setStatusBarHidden:TRUE];//隐藏掉状态栏
     self.webView.scrollView.bounces = NO;
@@ -155,7 +155,7 @@
         //个人中心页和看书页都是需要隐藏掉tabbar
         self.tabBarController.tabBar.hidden = YES;
         CGRect rect = [[UIScreen mainScreen] bounds];
-        self.webView.frame = CGRectMake(0,0, self.view.frame.size.width, rect.size.height);
+        self.webView.frame = CGRectMake(0,20, self.view.frame.size.width, rect.size.height - 20);
     }
     //触发JS事件
     [self injectJSToWebview:self.webView andJSFileName:@"SamaPageShow"];
@@ -163,8 +163,11 @@
     
 
 }
-
-
+//iOS7之后修改状态栏的颜色
+-(UIStatusBarStyle)preferredStatusBarStyle
+{
+    return UIStatusBarStyleDefault;
+}
 - (void)viewWillDisappear:(BOOL)animated {
     self.tabBarController.tabBar.hidden = NO;
     //触发JS事件

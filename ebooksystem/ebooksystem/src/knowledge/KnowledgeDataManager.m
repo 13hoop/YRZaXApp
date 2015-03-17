@@ -311,6 +311,37 @@
     // 3. 返回
     LogInfo(@"[KnowledgeDataManager-processDownloadedDataPack:] end %@, file: %@", (ret ? @"successfully" : @"failed"), downloadItem.savePath);
     
+    //4.处理试读书
+    //(1)删除数据库中试读书的信息 (2)判断试读书文件是否存在，若存在，则删除
+    //不是所有的试读书都要删，只有在下载了整书后才需要删除试读书
+    NSString *needDeleteBookId = [NSString stringWithFormat:@"%@-partial",downloadItem.title];
+    
+    //删除数据库中的记录
+    /*
+    NSArray *bookKnowLedgeArray = [[KnowledgeMetaManager instance] getKnowledgeMetaWithDataId:needDeleteBookId];
+    if (bookKnowLedgeArray == nil || bookKnowLedgeArray.count <= 0) {//没有需要删除的试读数据
+        LogInfo (@"[KnowledgeDataManager - processDownloadedDataPack:] no partial data need to delete");
+        return ret;
+    }
+    BOOL deletePartialSuccess = [[KnowledgeMetaManager instance] deleteKnowledgeMetaWithDataId:needDeleteBookId];
+    if (!deletePartialSuccess) {
+        LogError(@"[KnowledgeDataManager - processDownloadedDataPack:] delete partial data from db failed ");
+    }
+    */
+    //删除对应的试读书文件（删除不必要的文件，节省系统空间）
+    NSString *knowledgeDataInDocument = [[Config instance] knowledgeDataConfig].knowledgeDataRootPathInDocuments;
+    NSString *needDeletePartialPath = [NSString stringWithFormat:@"%@/%@",knowledgeDataInDocument,needDeleteBookId];
+    BOOL needDeleteBookExist = [[NSFileManager defaultManager] fileExistsAtPath:needDeletePartialPath];
+    if (!needDeleteBookExist) {//需要删除的数据文件不存在,不需要做处理，直接返回
+        return ret;
+    }
+    NSError *deletePartialError;
+    BOOL deletePartialBookFileSuccess = [[NSFileManager defaultManager] removeItemAtPath:needDeletePartialPath error:&deletePartialError];
+    if (!deletePartialBookFileSuccess) {//删除本地文件失败，提示
+        LogError(@"[KnowledgeDataManager - processDownloadedDataPack]: delete partial book file failed with errorInfo %@",deletePartialError.localizedDescription);
+    }
+    
+    
     return ret;
 }
 
@@ -1693,9 +1724,7 @@
         if (existed) {
             NSFileManager *fileManager = [NSFileManager defaultManager];
             BOOL removeSuccess = [fileManager removeItemAtPath:self.globalSavePath error:nil];
-            NSString *str = [NSString stringWithFormat:@"%@",removeSuccess];
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示信息" message: str delegate:nil cancelButtonTitle:nil otherButtonTitles:@"好的", nil];
-            [alert show];
+            
         }
         
         return;
@@ -1882,6 +1911,10 @@
     }
         return unpackSuccess;
 }
+
+
+#pragma mark 删除试读书 
+
 
 
 @end
