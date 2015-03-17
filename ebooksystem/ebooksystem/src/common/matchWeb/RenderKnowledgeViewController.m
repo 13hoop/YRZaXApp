@@ -174,6 +174,8 @@
 //    [self.webView reload];
     //显示掉状态栏
     [[UIApplication sharedApplication] setStatusBarHidden:false];
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
+
     //隐藏掉导航栏
     self.navigationController.navigationBarHidden = YES;
     
@@ -691,7 +693,8 @@
     NSURLRequest *request = [NSURLRequest requestWithURL:Url];
     
     [self.webView loadRequest:request];
-    
+    self.webView.dataDetectorTypes = UIDataDetectorTypeNone;//禁掉数字自动解析
+
     return YES;
 }
 

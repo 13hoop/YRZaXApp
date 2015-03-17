@@ -33,6 +33,8 @@
 - (void)viewWillAppear:(BOOL)animated {
     //去掉tabbar，否则播放时会显示tabbar
     self.tabBarController.tabBar.hidden = YES;
+    //隐藏掉状态栏
+    [[UIApplication sharedApplication] setStatusBarHidden:TRUE];
 }
 
 /*

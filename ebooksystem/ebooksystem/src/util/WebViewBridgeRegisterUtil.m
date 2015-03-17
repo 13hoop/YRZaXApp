@@ -868,9 +868,12 @@ typedef enum {
     }];
     // curUserLogout
     [self.javascriptBridge registerHandler:@"curUserLogout" handler:^(id data, WVJBResponseCallback responseCallback) {
-      //logout
+        //logout
         UserManager *usermanager = [UserManager instance];
         [usermanager cruUserLogout];
+         //用户登出时，注销设备
+//        [XGPush unRegisterDevice];
+        
         if (responseCallback != nil) {
             responseCallback(@"1");//需要回调，否则页面不能在登出后，返回到上一个页面
         }

@@ -174,6 +174,9 @@
     // 4.2 推送被打开效果统计
     [XGPush handleLaunching: launchOptions];
     
+    // 5 角标清0
+    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
+
     //设置app是否第一次启动
     if (![[NSUserDefaults standardUserDefaults] boolForKey:@"everLaunched"]) {
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"everLaunched"];
@@ -232,6 +235,7 @@
     */
     //4 推送被打开效果统计
      [XGPush handleReceiveNotification:userInfo];
+    //获取到推送信息后，若是想弹一个对话框出来，对应的信息在userInfo中。
 }
 
 //-(void)UmengMethod

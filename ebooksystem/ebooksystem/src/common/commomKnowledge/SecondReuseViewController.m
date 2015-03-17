@@ -207,7 +207,8 @@
     LogInfo(@"self.webUrl ===== %@",self.webUrl);
     NSURL *Url = [NSURL URLWithString:self.webUrl];
     NSURLRequest *request = [NSURLRequest requestWithURL:Url];
-    
+    self.webView.dataDetectorTypes = UIDataDetectorTypeNone;//禁掉数字自动解析
+
     [self.webView loadRequest:request];
     return YES;
 }

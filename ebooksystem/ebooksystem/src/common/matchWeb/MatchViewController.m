@@ -140,6 +140,7 @@
 //    [self.webView reload];
     //显示状态栏
     [[UIApplication sharedApplication] setStatusBarHidden:false];
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
     //触发JS事件
     [self injectJSToWebview:self.webView andJSFileName:@"SamaPageShow"];
 }

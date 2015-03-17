@@ -142,6 +142,8 @@
 - (void)viewWillAppear:(BOOL)animated {
     //显示掉状态栏
     [[UIApplication sharedApplication] setStatusBarHidden:false];
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
+
     //隐藏导航栏
     self.navigationController.navigationBarHidden = YES;
     //个人中心页需要显示tabbar

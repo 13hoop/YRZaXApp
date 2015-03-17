@@ -147,6 +147,8 @@
     self.navigationController.navigationBarHidden = YES;
     //显示状态栏
     [[UIApplication sharedApplication] setStatusBarHidden:false];
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
+
     //判断
     if ([self.flag isEqualToString:@"discovery"]) {
         //发现页的内容是不需要隐藏掉tabbar的
@@ -665,7 +667,8 @@
     // load url
     NSURL *Url = [NSURL URLWithString:self.webUrl];
     NSURLRequest *request = [NSURLRequest requestWithURL:Url];
-    
+    self.webView.dataDetectorTypes = UIDataDetectorTypeNone;//禁掉数字自动解析
+
     [self.webView loadRequest:request];
     
     return YES;
