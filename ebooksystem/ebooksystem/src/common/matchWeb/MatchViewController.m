@@ -138,15 +138,16 @@
 - (void)viewWillAppear:(BOOL)animated {
     self.navigationController.navigationBarHidden = YES;
 //    [self.webView reload];
-    
+    //显示状态栏
+    [[UIApplication sharedApplication] setStatusBarHidden:false];
     //触发JS事件
     [self injectJSToWebview:self.webView andJSFileName:@"SamaPageShow"];
 }
 
--(UIStatusBarStyle)preferredStatusBarStyle
-{
-    return UIStatusBarStyleDefault;
-}
+//-(UIStatusBarStyle)preferredStatusBarStyle
+//{
+//    return UIStatusBarStyleDefault;
+//}
 
 - (void)viewWillDisappear:(BOOL)animated {
     

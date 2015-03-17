@@ -145,6 +145,8 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     self.navigationController.navigationBarHidden = YES;
+    //显示状态栏
+    [[UIApplication sharedApplication] setStatusBarHidden:false];
     //判断
     if ([self.flag isEqualToString:@"discovery"]) {
         //发现页的内容是不需要隐藏掉tabbar的

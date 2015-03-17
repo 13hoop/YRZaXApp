@@ -145,8 +145,9 @@
 - (void)viewWillAppear:(BOOL)animated {
     //隐藏tabbar状态
     self.tabBarController.tabBar.hidden = YES;
-    //隐藏掉状态栏
-    [[UIApplication sharedApplication] setStatusBarHidden:TRUE];
+//    //隐藏掉状态栏
+    [[UIApplication sharedApplication] setStatusBarHidden:false];
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
     //隐藏navbar状态
     self.navigationController.navigationBarHidden = YES;
     
@@ -167,8 +168,9 @@
         CGRect rect = [[UIScreen mainScreen] bounds];
         self.webView.frame = CGRectMake(0, 0, rect.size.height, rect.size.width);//将原始视图的宽高和新视图的宽高值互换
         
+        //旋转时隐藏掉状态栏
+        [[UIApplication sharedApplication] setStatusBarHidden:TRUE];
         
-
     }
    //触发JS事件
     [self injectJSToWebview:self.webView andJSFileName:@"SamaPageShow"];
@@ -178,6 +180,7 @@
 //iOS7之后修改状态栏的方法
 -(UIStatusBarStyle)preferredStatusBarStyle
 {
+    
     return UIStatusBarStyleLightContent;
 }
 

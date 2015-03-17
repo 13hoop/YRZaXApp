@@ -152,7 +152,8 @@
     //隐藏tabbar状态
     self.tabBarController.tabBar.hidden = YES;
     //隐藏掉状态栏
-    [[UIApplication sharedApplication] setStatusBarHidden:TRUE];
+    [[UIApplication sharedApplication] setStatusBarHidden:false];
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
     //隐藏navbar状态
     self.navigationController.navigationBarHidden = YES;
     
@@ -173,6 +174,10 @@
         //2 self.view旋转后，重新设置webview的frame
         CGRect rect = [[UIScreen mainScreen] bounds];
         self.webView.frame = CGRectMake(0, 0, rect.size.height, rect.size.width);//将原始视图的宽高和新视图的宽高值互换
+        
+        
+        //旋转时隐藏掉状态栏
+        [[UIApplication sharedApplication] setStatusBarHidden:TRUE];
     }
     //触发JS事件
     [self injectJSToWebview:self.webView andJSFileName:@"SamaPageShow"];

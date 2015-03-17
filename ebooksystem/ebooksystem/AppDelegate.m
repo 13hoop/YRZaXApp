@@ -77,7 +77,7 @@
     // 2.0 app 启动时检查下载进度，设置dataStatus
     [[KnowledgeManager instance] modifyDataStatusWithDataType];
     
-    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+//    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
 
     [self initUmengShare];
     

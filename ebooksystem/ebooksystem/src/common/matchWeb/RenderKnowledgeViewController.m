@@ -172,8 +172,8 @@
 - (void)viewWillAppear:(BOOL)animated {
     //重新加载网页，因为个人中心页复用了这个webview
 //    [self.webView reload];
-    //隐藏掉状态栏
-//    [[UIApplication sharedApplication] setStatusBarHidden:TRUE];
+    //显示掉状态栏
+    [[UIApplication sharedApplication] setStatusBarHidden:false];
     //隐藏掉导航栏
     self.navigationController.navigationBarHidden = YES;
     
