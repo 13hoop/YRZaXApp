@@ -410,7 +410,14 @@ function dump(arr,level) {
                          }
                          }  );
     };
-    
+    //removeLocalBooks
+    bridgeIOS.removeLocalBooks = function(data,callback){
+        bridgeIOS.callOC( 'removeLocalBooks',data,function(responseData){
+                         if (callback) {
+                         callback(responseData);
+                         }
+                         }  );
+    };
     
     
 }();

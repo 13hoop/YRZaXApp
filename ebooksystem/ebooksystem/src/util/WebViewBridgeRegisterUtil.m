@@ -783,6 +783,7 @@ typedef enum {
         [XGPush setAccount:userId];
         //再次注册设备
         NSData *deviceToken = [[NSUserDefaults standardUserDefaults] objectForKey:@"deviceToken"];
+        
         void (^successBlock)(void) = ^(void){
             LogInfo(@"信鸽注册失败");
         };
@@ -790,8 +791,11 @@ typedef enum {
         void (^errorBlock)(void) = ^(void){
             LogInfo(@"信鸽注册失败");
         };
+        
+        if (deviceToken != nil && deviceToken.length > 0) {//做一次判断，防止程序崩溃
+            [XGPush registerDevice:deviceToken successCallback:successBlock errorCallback:errorBlock];
+        }
 
-        [XGPush registerDevice:deviceToken successCallback:successBlock errorCallback:errorBlock];
         //userName
         if (userName == nil || userName.length <= 0) {
             userInfo.username = @"";
@@ -1035,8 +1039,35 @@ typedef enum {
         }
     }];
     
-    
-    
+    // ********* 删除书籍 ************
+    //removeLocalBooks
+    [self.javascriptBridge registerHandler:@"removeLocalBooks" handler:^(id data, WVJBResponseCallback responseCallback) {
+        NSString *bookIdArrayString = data;
+        if (bookIdArrayString == nil || bookIdArrayString.length <= 0) {
+            LogInfo(@"[WebViewBridgeRegisterUtil - removeLocalBooks]no data need delete");
+            NSString *successStr = [NSString stringWithFormat:@"%d",SUCCESS];
+            responseCallback(successStr);
+        }
+        //开始解析
+        SBJsonParser *parse = [[SBJsonParser alloc] init];
+        NSArray *bookIdArrays = [parse objectWithString:bookIdArrayString];
+        if (bookIdArrays == nil || bookIdArrays.count <= 0) {
+            LogInfo(@"[WebViewBridgeRegisterUtil - removeLocalBooks]no data need delete");
+            NSString *successStr = [NSString stringWithFormat:@"%d",SUCCESS];
+            responseCallback(successStr);
+        }
+        //根据JS传来的信息，进行解析
+        BOOL  removeSuccess = [self removeLocalBookWithBookIds:bookIdArrays];
+        if (removeSuccess) {
+            NSString *successStr = [NSString stringWithFormat:@"%d",SUCCESS];
+            responseCallback(successStr);
+        }
+        else {
+            NSString *failedStr = [NSString stringWithFormat:@"%d",FAILED];
+            responseCallback(failedStr);
+        }
+        
+    }];
 }
 
 
@@ -1643,6 +1674,80 @@ typedef enum {
     
     
     
+    return YES;
+}
+
+#pragma mark 删除本地书籍
+
+- (BOOL)removeLocalBookWithBookIds:(NSArray *)bookIds {
+    for (NSString *bookId in bookIds) {
+        //遍历数组，从数据库中查找相应的信息，并判断数据状态
+        if (bookId == nil || bookId.length <= 0) {
+            continue;
+        }
+        NSArray *bookMetaArray = [[KnowledgeMetaManager instance] getKnowledgeMetaWithDataId:bookId];
+        for (NSManagedObject *entity in bookMetaArray) {
+            if (entity == nil) {
+                continue;
+            }
+            NSNumber *dicBookStatusNum = [entity valueForKey:@"dataStatus"];
+            int bookStatusInt = [dicBookStatusNum intValue];
+            NSString *bookStatusStr = nil;
+            if (bookStatusInt >= 1 && bookStatusInt <= 3) {
+                bookStatusStr = @"下载中";
+            }
+            else if (bookStatusInt == 7) {
+                bookStatusStr = @"可更新";
+            }
+            else if (bookStatusInt == 8 || bookStatusInt ==9) {
+                bookStatusStr = @"更新中";
+            }
+            else if (bookStatusInt == 10) {
+                bookStatusStr = @"完成";
+            }
+            else if (bookStatusInt == 11) {
+                bookStatusStr = @"APP版本过低";
+            }
+            else if (bookStatusInt == 12) {
+                bookStatusStr = @"APP版本过高";
+            }
+            else if (bookStatusInt == 14) {
+                bookStatusStr = @"下载失败";
+            }
+            else if (bookStatusInt == 15) {
+                bookStatusStr = @"下载暂停";
+            }
+            else if (bookStatusInt == -1  || bookStatusInt > 15) {
+                bookStatusStr = @"未下载";
+            }
+
+            //1 根据数据状态,删除数据信息
+            if ([bookStatusStr isEqualToString:@"完成"]== YES || [bookStatusStr isEqualToString:@"未下载"]== YES || [bookStatusStr isEqualToString:@"下载失败"]== YES) {
+                BOOL isRemoveFromDataBase = [[KnowledgeMetaManager instance] deleteKnowledgeMetaWithDataId:bookId];
+                if (!isRemoveFromDataBase) {
+                    LogWarn(@"[WebviewBridgeRegisterUtil - removeLocalBookWithBookIds] remove local bookmeta info  failed");
+//                    return NO;//只要有一本删除失败，暂定为返回删除成功
+                }
+            }
+            //2 删除沙盒目录下的文件
+            NSString *knowledgeDataInDocument = [[Config instance] knowledgeDataConfig].knowledgeDataRootPathInDocuments;
+            NSString *needDeleteBookPath = [NSString stringWithFormat:@"%@/%@",knowledgeDataInDocument,bookId];
+            BOOL needDeleteBookExist = [[NSFileManager defaultManager] fileExistsAtPath:needDeleteBookPath];
+            if (!needDeleteBookExist) {//需要删除的数据文件不存在,不需要做处理，直接返回
+                continue;
+            }
+            NSError *deletePartialError;
+            BOOL deleteBookFileSuccess = [[NSFileManager defaultManager] removeItemAtPath:needDeleteBookPath error:&deletePartialError];
+            if (!deleteBookFileSuccess) {//删除本地文件失败，提示
+                LogError(@"[KnowledgeDataManager - processDownloadedDataPack]: delete book file failed with errorInfo %@",deletePartialError.localizedDescription);
+                //只要数据库中的信息成功清除，本地数据没有删除,返回成功下次
+                return NO;//
+            }
+
+    }
+        
+        
+    }
     return YES;
 }
 

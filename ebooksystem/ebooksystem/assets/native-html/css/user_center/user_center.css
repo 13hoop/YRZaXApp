@@ -69,7 +69,15 @@ body{
     border-color: #4A90E2;
 }
 
-
+.not-log-in .login-btn{
+    display: inline-block;
+}
+.user-log-in .user-name, .user-log-in .balance{
+    display: block;
+}
+.user-log-in .modify-info-btn{
+    display: inline-block;
+}
 
 
 /*动作列表*/

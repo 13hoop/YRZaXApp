@@ -98,6 +98,7 @@
     width: 100%;
     height: 100%;
     background-color: rgba( 0,0,0, .3);
+    z-index: 6;
 }
 .downloading-inner{
     position: absolute;
@@ -110,11 +111,9 @@
 }
 .downloading-circle{
     position: relative;
-    width: 40px;
-    height: 40px;
-    line-height: 40px;
+    height: 15px;
+    line-height: 15px;
     background-color: #d15124;
-    border-radius: 40px;
     overflow: hidden;
     margin: 0 auto;
 }
@@ -128,9 +127,8 @@
 .progress-bg{
     position: absolute;
     left: 0;
-    bottom: 0;
-    width: 100%;
-    border-radius: 0 0 40px 40px;
+    top: 0;
+    height: 100%;
     background-color: #ef9a01;
     -webkit-transition: height linear .5s;
     overflow: hidden;
@@ -153,7 +151,7 @@
 
 .book-name{
     color: #3c3b3c;
-    font-size: 16px;
+    font-size: 14px;
     line-height: 18px;
     height: 36px;
     overflow: hidden;
@@ -208,17 +206,90 @@
     background-size: 30px;
     z-index: 2;
 }
+/*选中*/
+.select-icon{
+    display: none;
+    position: absolute;
+    left: 3px;
+    top: 3px;
+    width: 25px;
+    height: 25px;
+    background: url(./assets/3x/select-default.png) scroll no-repeat 0 0;
+    background-size: 25px 25px;
+}
+.book-selected .select-icon{
+    background-image: url(./assets/3x/select-on.png);
+}
+.book-in-select-mode .select-icon{
+    display: block;
+}
+.book-downloading .select-icon{
+    display: none;
+}
 
 /*添加新书按钮*/
 .add-book-wrap{
     position: absolute;
     overflow: hidden;
     background: #f0eeee;
-    border: 1px solid #e59d53;
+    border: 1px dashed #CECECE;
 }
 .add-book-inner{
-    color: #e59d53;
+    color: #CECECE;
     font-size: 61px;
     text-align: center;
     height: 100%;
+}
+
+/*整理书籍相关*/
+.edit-all-btn{
+    position: absolute;
+    width: 80px;
+    height: 100%;
+    font-size: 16px;
+    text-align: center;
+    top: 0;
+}
+#select-all-btn{
+    left: 0;
+    display: none;
+}
+#toggle-edit-btn{
+    right: 0;
+}
+
+#book-edit-con{
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 57px;
+    width: 100%;
+    background: #e7e4e4;
+    border-top: 1px solid #dcdcdc;
+    text-align: center;
+    padding: 8px 0 0;
+    display: none;
+}
+.book-edit-btn{
+    float: left;
+    width: 33%;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    color: #fff;
+    border-radius: 6px;
+    font-size: 16px;
+}
+.book-del-btn{
+    background: #fe710c;
+    margin: 0 0 0 33%;
+}
+.book-del-btn:active{
+    background: #e95510;
+}
+.book-cancel-btn{
+    background: #8f8f8f;
+}
+.book-cancel-btn:active{
+    background: #7a7a7a;
 }

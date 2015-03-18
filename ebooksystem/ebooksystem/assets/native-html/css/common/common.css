@@ -115,6 +115,12 @@ html.fake-native, .fake-native body{
     overflow-y: auto;
 }
 
+/*修复部分Android下，可滚动区域的click事件不触发的bug*/
+.android-paint-fix{
+    -webkit-transform: translate3d(0,0,0);
+    transform: translate3d(0, 0, 0);
+}
+
 /****自定义对话框组件样式**/
 .dialog-mask{
     position: absolute;

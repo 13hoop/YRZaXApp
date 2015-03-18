@@ -23,3 +23,6 @@
     bottom: 15px;
     -webkit-transform: translateX(-50%);
 }
+#refresh-btn:active{
+    background: #E88400;
+}

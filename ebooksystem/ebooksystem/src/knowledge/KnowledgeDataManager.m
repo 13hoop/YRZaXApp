@@ -405,7 +405,7 @@
             
             //2.0 解包成功（解包完成）
 //            dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                [[KnowledgeMetaManager instance] setDataStatusTo:DATA_STATUS_UNPACK_COMPLETED andDataStatusDescTo:@"100" forDataWithDataId:downloadTitle andType:DATA_TYPE_DATA_SOURCE];
+                [[KnowledgeMetaManager instance] setDataStatusTo:DATA_STATUS_UNPACK_COMPLETED andDataStatusDescTo:@"99" forDataWithDataId:downloadTitle andType:DATA_TYPE_DATA_SOURCE];
 //            });
         }
         

@@ -13,6 +13,7 @@
     var BookItem = window.BookItem;
 
     var downloadManager = window.downloadManager;
+    var deleteController = window.deleteController;
 
     //显示书籍相关的参数设置
     var bookConfig = {
@@ -57,6 +58,10 @@
 
             this.$bookList = $('#book-list');
 
+            deleteController.init({
+                app : this
+            });
+
             //var searchConf = utils.query2json( location.search );
 
             //this.studyType = searchConf.study_type;
@@ -81,10 +86,41 @@
 
                 that.handlePageHide();
             }, false );
+
+            deleteController.on('enter-edit', function(){
+                that.enterEditMode();
+            } );
+            deleteController.on('exit-edit', function(){
+                that.exitEditMode();
+            } );
+            deleteController.on('select-all', function(){
+                that.selectAllBooks();
+            });
+            deleteController.on('unselect-all', function(){
+                that.unselectAllBooks();
+            });
+
+            deleteController.on('delete-success', function(){
+                that.reset();
+                that.refresh();
+            });
+
+            EventEmitter.eventCenter.on('book-select-toggle', function(){
+                deleteController.updateDelBtn();
+            });
         },
 
         handlePageShow : function(){
             console.log('schoolbag:SamaPageShow');
+            this.refresh();
+        },
+
+        handlePageHide : function(){
+            console.log('schoolbag:SamaPageHide');
+            this.reset();
+        },
+
+        refresh : function(){
             if( this.dataRendered ){
                 return;
             }
@@ -92,13 +128,14 @@
             bridgeXXX.getBookList( this.studyType, this.showBookList.bind( this ) );
         },
 
-        handlePageHide : function(){
-            console.log('schoolbag:SamaPageHide');
+        reset : function(){
             downloadManager.stop();
+            this.exitEditMode();
             this.$bookList.empty().css({
                 height : 'auto'
             });
             this.dataRendered = false;
+            this.bookViewList = [];
         },
 
         showBookList : function( bookArr ){
@@ -124,7 +161,7 @@
             var bookViewHeight = bookConfig.height;
             var bookViewWidth = ( width - bookConfig.bookContainerHorizonPadding * 2 - bookConfig.horizonMargin * 2 ) / bookConfig.cols;
 
-            var bookListView = this.bookViewList;
+            var bookViewList = this.bookViewList;
 
 
             var docFrag = document.createDocumentFragment();
@@ -154,6 +191,8 @@
                 addedNum++;
                 view.on( 'beginDownload', this.downloadBook.bind( this ) );
                 view.on( 'enterBook', this.enterBook.bind( this ) );
+
+                bookViewList.push( view );
 
                 if( view.isBookDownloading() ){
                     downloadManager.addDownloadingBook( view );
@@ -238,6 +277,47 @@
                     post_args : ''
                 });
             }
+        },
+
+        enterEditMode : function(){
+            deleteController.enterEditMode();
+
+            var viewList = this.bookViewList;
+            for( var i = 0, len = viewList.length; i < len; i++ ){
+                viewList[i].enterEditMode();
+            }
+        },
+        exitEditMode : function(){
+            deleteController.exitEditMode();
+            var viewList = this.bookViewList;
+            for( var i = 0, len = viewList.length; i < len; i++ ){
+                viewList[i].exitEditMode();
+            }
+        },
+        selectAllBooks : function(){
+            var viewList = this.bookViewList;
+            for( var i = 0, len = viewList.length; i < len; i++ ){
+                viewList[i].selectBook( false );
+            }
+            deleteController.updateDelBtn();
+        },
+        unselectAllBooks : function(){
+            var viewList = this.bookViewList;
+            for( var i = 0, len = viewList.length; i < len; i++ ){
+                viewList[i].unselectBook( false );
+            }
+            deleteController.updateDelBtn();
+        },
+        getSelectedIDs : function(){
+            var out = [];
+            var viewList = this.bookViewList;
+            for( var i = 0, len = viewList.length; i < len; i++ ){
+                var view = viewList[i];
+                if( view.isSelected() ){
+                    out.push( view.getBookID() );
+                }
+            }
+            return out;
         }
 
     };

@@ -9,8 +9,12 @@
     var Dialog = window.Dialog;
     var samaConfig = window.samaConfig;
 
+    var loginClass = 'user-log-in';
+    var notLoginClass = 'not-log-in';
+
     var app = {
 
+        $userInfoCon : null,
         $avatar : null,
         $userName : null,
         $balance : null,
@@ -22,6 +26,7 @@
 
         init : function(){
 
+            this.$userInfoCon = $('#user-info-con');
             this.$avatar = $('.avatar-img');
             this.$userName = $('.user-name');
             this.$balance = $('.balance');
@@ -33,40 +38,7 @@
 
             var that = this;
 
-            bridgeXXX.getCurUserInfo( function( data ){
-
-                var isNotLogin = data === '{}';
-                if( isNotLogin ){
-                    //用户未登录
-                    that.$loginBtn.on('tap', function(){
-                        bridgeXXX.showURL({
-                            target : 'activity',
-                            url : 'http://' + samaConfig.SERVER.HOST +  '/index.php?c=passportctrl&m=show_login_page&back_to_app=1'
-                        });
-                    } );
-                    that.$loginBtn.css({
-                        display : 'inline-block'
-                    });
-                    return;
-                }
-
-                try{
-                    data = JSON.parse( data );
-                }catch(e){
-                    Dialog.alert({
-                        content : '解析用户信息失败啦 :('
-                    });
-                    return;
-                }
-
-                that.$avatar.attr( 'src', data.avatar_src);
-                that.$userName.text( data.user_name).show();
-                that.$modifyInfoBtn.css({
-                    display : 'inline-block'
-                });
-                that.$balance.text( '余额：' + data.balance + ' 咋学币').show();
-
-            });
+            this.updateUserInfo();
 
             //点击 修改账户信息
             this.$modifyInfoBtn.on( 'tap', function(){
@@ -100,13 +72,53 @@
             }
 
             document.addEventListener('SamaPageShow', function(){
-                location.reload();
                 console.log('user_center: SamaPageShow');
+                that.updateUserInfo();
             }, false );
 
             document.addEventListener('SamaPageHide', function(){
                 console.log('user_center: SamaPageHide');
+                that.resetUserInfo();
             }, false );
+        },
+
+        resetUserInfo : function(){
+            this.$userInfoCon.removeClass( loginClass + ' ' + notLoginClass);
+        },
+
+        updateUserInfo : function(){
+            var that = this;
+            bridgeXXX.getCurUserInfo( function( data ){
+
+                var isNotLogin = data === '{}';
+                if( isNotLogin ){
+                    //用户未登录
+                    that.$loginBtn.on('tap', function(){
+                        bridgeXXX.showURL({
+                            target : 'activity',
+                            url : 'http://' + samaConfig.SERVER.HOST +  '/index.php?c=passportctrl&m=show_login_page&back_to_app=1'
+                        });
+                    } );
+                    that.$userInfoCon.removeClass( loginClass).addClass( notLoginClass );
+                    return;
+                }
+
+                try{
+                    data = JSON.parse( data );
+                }catch(e){
+                    Dialog.alert({
+                        content : '解析用户信息失败啦 :('
+                    });
+                    return;
+                }
+
+                that.$avatar.attr( 'src', data.avatar_src);
+                that.$userName.text( data.user_name);
+                that.$balance.text( '余额：' + data.balance + ' 咋学币');
+
+                that.$userInfoCon.removeClass( notLoginClass).addClass( loginClass );
+
+            });
         }
 
     };

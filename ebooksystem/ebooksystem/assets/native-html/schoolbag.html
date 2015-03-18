@@ -13,21 +13,27 @@
     <div id="main-wrap" class="activity">
         <section id="bag-page" class="fragment">
             <header class="fragment-header">
+                <span id="select-all-btn" class="edit-all-btn">全选</span>
                 <h1>我的书包</h1>
+                <span id="toggle-edit-btn" class="edit-all-btn">编辑</span>
             </header>
             <div class="fragment-body">
-                <div class="scroll-wrap">
+                <div class="scroll-wrap android-paint-fix">
                     <ul id="book-list" class="clearfix">
 
                     </ul>
                 </div>
 
             </div>
+            <aside id="book-edit-con" class="clearfix">
+                <span id="del-all-btn" class="book-del-btn book-edit-btn">删除</span>
+                <!--<span id="cancel-all-btn" class="book-cancel-btn book-edit-btn">取消</span>-->
+            </aside>
         </section>
     </div>
 
     <script type="text/tpl" id="book-item-tpl">
-        <li class="book-item" >
+        <li class="book-item " >
             <div class="cover-container">
                 <div class="cover-wrap">
                     <img class="cover-img" />
@@ -36,20 +42,20 @@
                     <div class="downloading-wrap">
                         <div class="downloading-inner">
                             <div class="downloading-circle">
-                                <div class="progress-bg"></div>
+                                <div class="progress-bg "></div>
                                 <div class="progress"></div>
                             </div>
                             <div class="downloading-step"></div>
 
                         </div>
                     </div>
+                    <span class="select-icon"></span>
                 </div>
 
             </div>
             <div class="book-info">
                 <div class="book-name"></div>
                 <div class="book-editor"></div>
-                <div class="has-update">有更新</div>
             </div>
         </li>
     </script>
@@ -64,6 +70,7 @@
     <script src="./js/common/bridgeXXX.js"></script>
     <script src="./js/schoolbag/BookItem.js"></script>
     <script src="./js/schoolbag/downloadManager.js"></script>
+    <script src="./js/schoolbag/deleteController.js"></script>
     <script src="./js/schoolbag/app.js"></script>
     <script>
         if( window.samaBridgeReady ){

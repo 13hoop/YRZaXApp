@@ -22,10 +22,18 @@
     var bookCanUpdateClass = 'book-can-update';
     //书籍正在更新中的样式
     var updatingClass = 'book-updating';
+    //书籍处于选中模式的class，但是否选中，未知
+    var selectModeClass = 'book-in-select-mode';
+    //书籍选中的class
+    var selectedClass = 'book-selected';
 
     //一本书可以处于的不同状态
     var BOOK_STATUS = samaConfig.BOOK_STATUS;
     var NETWORK_TYPE = samaConfig.NETWORK_TYPE;
+    //解压开始时，对应的总进度的百分比
+    var EXTRACT_START = 80;
+    //解压结束时，对应总进度的百分比
+    var EXTRACT_END = 85;
 
     function BookItem( args ){
         var $el = $( document.querySelector('#book-item-tpl').innerHTML );
@@ -38,8 +46,12 @@
 
         this.$el = $el;
 
+        //当前是否是 选中 模式
+        this.selectMode = false;
         this._data = null;
         this._metaJSON = null;
+        //上一次获取到解压进度的时间戳，单位 ms
+        this.lastExtractTimestamp = null;
 
         this._setupEvent();
     }
@@ -158,10 +170,28 @@
             if( ! this._data || ! state || this._data.book_id !== state.book_id ){
                 return;
             }
+            var bookStatus = state.book_status;
             var progress = parseInt( state.book_status_detail, 10 );
             progress = Math.min( 100, progress );
+
+            if( progress === EXTRACT_START  ){
+                //针对解压过程时间过长，前端将进度自动+1
+                var now = ( new Date() ).getTime();
+                if( this.lastExtractTimestamp === null ){
+                    this.lastExtractTimestamp = now;
+                }else{
+                    var timestamp = now - this.lastExtractTimestamp;
+                    var seconds = Math.round( timestamp / 1000 );
+                    var step = Math.round( seconds / 2);
+                    progress  = Math.min( EXTRACT_END, EXTRACT_START + step );
+                }
+            }else{
+                this.lastExtractTimestamp = null;
+            }
+
             //下载错误的处理
-            if( state.book_status === BOOK_STATUS.DOWNLOAD_FAIL ){
+            if( bookStatus === BOOK_STATUS.DOWNLOAD_FAIL ){
+                this.lastExtractTimestamp = null;
                 this.$el.removeClass( downloadingClass );
                 Dialog.alert({
                     content : '书籍下载失败'
@@ -172,18 +202,22 @@
                 this.setCoverImageSrc( state.book_cover );
             }
 
+
             this.$downloadProgress.text( progress + '%');
             this.$downloadProgressBg.css({
-                height : progress + '%'
+                width : progress + '%'
             });
-            this.$downloadStep.text( state.book_status );
+            this.$downloadStep.text( bookStatus );
 
-            this._data.book_status = state.book_status;
+            this._data.book_status = bookStatus;
 
-            if( state.book_status === BOOK_STATUS.BOOK_READY && progress >= 100 ){
+            if( bookStatus === BOOK_STATUS.BOOK_READY && progress >= 100 ){
                 //书籍已经下载、解压、更新数据库索引完成，可以访问了
                 this._data.book_status = BOOK_STATUS.BOOK_READY;
                 this.$el.removeClass( downloadingClass + ' ' + notOfflineClass + ' ' + bookCanUpdateClass );
+            }else if( bookStatus === BOOK_STATUS.BOOK_NEED_UPDATE ){
+                this._data.book_status = BOOK_STATUS.BOOK_NEED_UPDATE;
+                this.$el.removeClass( downloadingClass + ' ' + notOfflineClass).addClass( bookCanUpdateClass );
             }
 
             this._data.download_progress = progress;
@@ -191,7 +225,7 @@
 
         //书籍是否已经成功下载
         isBookReady : function(){
-            return this._data.book_status === BOOK_STATUS.BOOK_READY ;
+            return this._data.book_status === BOOK_STATUS.BOOK_READY || this._data.book_status === BOOK_STATUS.BOOK_NEED_UPDATE ;
         },
         //书籍是否下载失败
         isBookFail : function(){
@@ -209,8 +243,19 @@
         },
 
         _bookClick : function(){
+
+            if( this.selectMode ){
+                //下载中的书籍，不能删除
+                if( this.isBookDownloading() ){
+                    return;
+                }
+                //处于编辑模式下，禁用打开书籍功能
+                this.toggleSelect( true );
+                return;
+            }
+
             var status = this._data.book_status;
-            if( this.isBookReady() ){
+            if( status === BOOK_STATUS.BOOK_READY ){
                 //书籍已经离线到本地，可以正常进入学习
                 this.trigger( 'enterBook', [this]);
                 return;
@@ -270,6 +315,44 @@
                 return;
             }
             //TODO 针对APP版本和书籍版本不对应，提示
+        },
+        //切换到  选中书籍 模式，在选中模式下，禁用看书功能
+        enterEditMode : function(){
+            this.selectMode = true;
+            this.$el.addClass( selectModeClass );
+        },
+        exitEditMode : function(){
+            this.selectMode = false;
+            this.$el.removeClass( selectModeClass + ' ' + selectedClass );
+        },
+        selectBook : function(isTriggerEvent){
+            //下载中的书籍，不能删除
+            if( this.isBookDownloading() ){
+                return;
+            }
+            this.$el.addClass( selectedClass );
+            if( isTriggerEvent ){
+                EventEmitter.eventCenter.trigger('book-select-toggle');
+            }
+        },
+        unselectBook : function(isTriggerEvent){
+            //下载中的书籍，不能删除
+            if( this.isBookDownloading() ){
+                return;
+            }
+            this.$el.removeClass( selectedClass );
+            if( isTriggerEvent ){
+                EventEmitter.eventCenter.trigger('book-select-toggle');
+            }
+        },
+        toggleSelect : function(isTriggerEvent){
+            this.$el.toggleClass( selectedClass );
+            if( isTriggerEvent ){
+                EventEmitter.eventCenter.trigger('book-select-toggle');
+            }
+        },
+        isSelected : function(){
+            return this.$el.hasClass( selectedClass );
         }
 
     } );

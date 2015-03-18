@@ -350,5 +350,23 @@
             bridge.getNetworkType( callback );
         }
     };
+    /**
+     * 批量删除APP本地的书籍接口
+     * @param bookIDArray {Array} 要删除的书籍ID数组
+     * @param callback {Function} 回调
+     * @return {String} '1' 删除成功； '0' 删除失败
+     */
+    bridgeXXX.removeLocalBooks = function( bookIDArray, callback ){
+        bookIDArray = JSON.stringify( bookIDArray );
+        var bridge = bridgeXXX.getBridge();
+        if( bridgeXXX.isAndroid() ){
+            var out = bridge.removeLocalBooks( bookIDArray );
+            if( typeof  callback === 'function' ){
+                callback( out );
+            }
+        }else if( bridgeXXX.isIOS() ){
+            bridge.removeLocalBooks( bookIDArray, callback );
+        }
+    };
 
 }( window );

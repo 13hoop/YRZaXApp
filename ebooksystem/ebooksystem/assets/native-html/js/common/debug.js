@@ -220,7 +220,7 @@
                 out.push({
                     book_id : id,
                     download_status : '0',
-                    book_status : '下载',
+                    book_status : '下载中',
                     book_status_detail : ( '' + progress )
                 });
             }
@@ -387,6 +387,16 @@
         },
         refreshOnlinePage : function(){
             alert('refreshOnlinePage');
+        },
+        getNetworkType : function(){
+            var out = {
+                network_status : 'wifi'
+            };
+            return JSON.stringify( out );
+        },
+        removeLocalBooks : function( data ){
+            var out = window.confirm('是否确认删除以下书籍ID：' + data );
+            return out ? '1' : '0';
         }
     };
 
