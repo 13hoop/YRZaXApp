@@ -1722,7 +1722,7 @@ typedef enum {
             }
 
             //1 根据数据状态,删除数据信息
-            if ([bookStatusStr isEqualToString:@"完成"]== YES || [bookStatusStr isEqualToString:@"未下载"]== YES || [bookStatusStr isEqualToString:@"下载失败"]== YES) {
+            if ([bookStatusStr isEqualToString:@"完成"]== YES || [bookStatusStr isEqualToString:@"未下载"]== YES || [bookStatusStr isEqualToString:@"下载失败"]== YES || [bookStatusStr isEqualToString:@"可更新"]) {
                 BOOL isRemoveFromDataBase = [[KnowledgeMetaManager instance] deleteKnowledgeMetaWithDataId:bookId];
                 if (!isRemoveFromDataBase) {
                     LogWarn(@"[WebviewBridgeRegisterUtil - removeLocalBookWithBookIds] remove local bookmeta info  failed");
