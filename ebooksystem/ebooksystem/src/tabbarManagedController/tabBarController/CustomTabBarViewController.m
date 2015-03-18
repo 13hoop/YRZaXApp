@@ -31,7 +31,14 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     //设置tabbarcontroller默认选中的位置
-    self.selectedIndex= 1;
+    
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"firstLaunch"]) {//第一次加载
+        self.selectedIndex = 1;
+    }else {
+        self.selectedIndex = 0;
+    }
+    
+    
     //setting tabbar background
     self.tabBar.backgroundColor = [UIColor whiteColor];
     //设置tabbar item 图片
@@ -257,14 +264,27 @@
         titleLable.font = [UIFont systemFontOfSize:11.0f];
         [self.tabBar addSubview:titleLable];
         
-        if(i == 1)
-        {
-            btn.selected = YES;
-            self.selectedIndex = 1;
-            //获取对应的lable,并修改颜色
-            UILabel *lable = (UILabel *)[self.tabBar viewWithTag:2000+i];
-            lable.textColor = [UIColor orangeColor];
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"firstLaunch"]) {//第一次加载
+            if(i == 1)
+            {
+                btn.selected = YES;
+                self.selectedIndex = 1;
+                //获取对应的lable,并修改颜色
+                UILabel *lable = (UILabel *)[self.tabBar viewWithTag:2000+i];
+                lable.textColor = [UIColor orangeColor];
+            }
         }
+        else {//不是第一次加载时，显示书包页
+            if(i == 0)
+            {
+                btn.selected = YES;
+                self.selectedIndex = 0;
+                //获取对应的lable,并修改颜色
+                UILabel *lable = (UILabel *)[self.tabBar viewWithTag:2000+i];
+                lable.textColor = [UIColor orangeColor];
+            }
+        }
+        
         [btn addTarget:self action:@selector(btnDown:) forControlEvents:UIControlEventTouchUpInside];
         
     }

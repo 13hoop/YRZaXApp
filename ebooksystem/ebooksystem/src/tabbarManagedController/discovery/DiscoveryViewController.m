@@ -57,7 +57,7 @@
 
 
 - (void)viewWillAppear:(BOOL)animated {
-    //显示掉状态栏
+    //显示掉状态栏,指定状态栏的颜色（系统状态栏颜色只有两种选择，黑色和白色，底色可以自定义）
     [[UIApplication sharedApplication] setStatusBarHidden:false];
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
 
