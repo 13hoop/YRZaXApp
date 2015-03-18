@@ -21,7 +21,10 @@
 - (NSString *)urlForCheckUpdate {
     //    return [NSString stringWithFormat:@"http://s-115744.gotocdn.com:8296/index.php?c=apps_update_ctrl&m=get_update_info&appname=%@&channel=%@", [AppConfig instance].appNameForCheckUpdate, [AppConfig instance].channel];
     
-    return [NSString stringWithFormat:@"http://%@/index.php?c=apps_update_ctrl&m=get_update_info&appname=%@&channel=%@", [Config instance].appConfig.httpDomain, [AppConfig instance].appNameForCheckUpdate, [AppConfig instance].channel];
+    
+//    return [NSString stringWithFormat:@"http://%@/index.php?c=apps_update_ctrl&m=get_update_info&appname=%@&channel=%@", [Config instance].appConfig.httpDomain, [AppConfig instance].appNameForCheckUpdate, [AppConfig instance].channel];
+    return [NSString stringWithFormat:@"http://test.zaxue100.com/index.php?c=apps_update_ctrl&m=get_update_info&appname=zaxue_ios&channel=default"];
+    
 }
 
 

@@ -253,7 +253,6 @@
     if (buttonIndex != alertView.cancelButtonIndex) {
         //        [self.navigationController pushViewController:self.updateApp animated:YES];
         NSURL *requestURL = [NSURL URLWithString:[self.updateAppURL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-        
         [[UIApplication sharedApplication] openURL:requestURL];
     }
 }
