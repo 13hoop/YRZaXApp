@@ -76,4 +76,10 @@
     return [PaymentConfig instance];
 }
 
+#pragma mark 根据返回值决定是否在app内检查app更新
+- (NSString *)checkUpdateMode {
+    return @"InAppCheck";
+//    return @"AppleCheck";
+}
+
 @end

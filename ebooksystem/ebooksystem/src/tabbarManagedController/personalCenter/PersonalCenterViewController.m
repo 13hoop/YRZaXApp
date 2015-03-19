@@ -39,6 +39,8 @@
 #import "UMFeedbackViewController.h"
 #import "FirstReuseViewController.h"
 #import "WebViewBridgeRegisterUtil.h"
+#import "StatisticsManager.h"
+
 
 @interface PersonalCenterViewController ()<UIWebViewDelegate>
 
@@ -141,12 +143,15 @@
 //    [self.webView reload];
     //触发JS事件
     [self injectJSToWebview:self.webView andJSFileName:@"SamaPageShow"];
-    
+    //进入个人中心页的统计
+    [[StatisticsManager instance] beginLogPageView:@"personalCenterPage"];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     //触发JS事件
     [self injectJSToWebview:self.webView andJSFileName:@"SamaPageHide"];
+    //退出个人中心页的统计
+    [[StatisticsManager instance] endLogPageView:@"personalCenterPage"];
 }
 
 - (void)didReceiveMemoryWarning {

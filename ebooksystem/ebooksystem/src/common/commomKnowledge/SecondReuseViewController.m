@@ -43,7 +43,7 @@
 #import "PersionalCenterUrlConfig.h"
 #import "SecondRenderKnowledgeViewController.h"
 #import "WebViewBridgeRegisterUtil.h"
-
+#import "StatisticsManager.h"
 
 
 @interface SecondReuseViewController ()<UIWebViewDelegate>
@@ -182,6 +182,10 @@
     //触发JS事件
     [self injectJSToWebview:self.webView andJSFileName:@"SamaPageShow"];
     self.tabBarController.tabBar.hidden = YES;
+    
+    //进入读书页的统计
+    [[StatisticsManager instance] beginLogPageView:@"readPage"];
+    
    
 }
 //iOS7之后修改状态栏的方法
@@ -194,6 +198,8 @@
     self.tabBarController.tabBar.hidden = NO;
     //触发JS事件
     [self injectJSToWebview:self.webView andJSFileName:@"SamaPageHide"];
+    //退出读书页的统计
+    [[StatisticsManager instance] endLogPageView:@"readPage"];
 }
 
 - (void)didReceiveMemoryWarning {

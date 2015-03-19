@@ -621,9 +621,9 @@ typedef enum {
         {
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                 BOOL ret = [[KnowledgeManager instance] startDownloadDataManagerWithDataId:book_id];
-                
+                BOOL updateStatus = [self updateDownloadStatusWithDataId:book_id];
             });
-            BOOL updateStatus = [self updateDownloadStatusWithDataId:book_id];
+            
             isStart = YES;
         }
         if (responseCallback != nil) {
@@ -1552,8 +1552,18 @@ typedef enum {
     }
     //保存到相册中
     UIImageWriteToSavedPhotosAlbum(image, self, @selector(image:didFinishSavingWithError:contextInfo:), NULL);
+    
+    //手动压缩图片
+    
     //使用base64编码image
-    NSData *imageData = UIImageJPEGRepresentation(image, 1);
+    NSData *imageData = UIImageJPEGRepresentation(image, 0.4);
+    /*
+    NSData *imageDataFirst = UIImageJPEGRepresentation(image, 1);
+    UIImage *originalImage = [UIImage imageWithData:imageDataFirst];
+    UIImage *needImage = [self makeThumbnailFromImage:originalImage scale:0.5];
+    NSData *imageData = UIImageJPEGRepresentation(needImage, 0.3);
+    NSLog(@"图片的长度是========%lu",(unsigned long)imageData.length);
+    */
     //利用base64向HTML中添加插入图片需要在base64图片中插入前缀，否则不显示图片。
     NSString *base64ImageString = [imageData base64EncodedStringWithOptions:0];
     NSString *resultString = [NSString stringWithFormat:@"%@%@",@"data:image/png;base64, ",base64ImageString];
@@ -1611,7 +1621,8 @@ typedef enum {
     //upload
     UpLoadUtil *upload = [[UpLoadUtil alloc] init];
     upload.uploadDelegte = self;
-    self.upLoadSuccess = [upload upLoadImage:self.upLoadData andToken:tokenStr toUploadUrl:uploadUrl];
+//    self.upLoadSuccess = [upload upLoadImage:self.upLoadData andToken:tokenStr toUploadUrl:uploadUrl];
+    self.upLoadSuccess = [upload upoadImageWithImageData:self.upLoadData andToken:tokenStr uploadUrl:uploadUrl];
     return self.upLoadSuccess;
     
     
@@ -1750,6 +1761,31 @@ typedef enum {
     }
     return YES;
 }
+
+
+#pragma mark 手动压缩图片
+//对图片尺寸进行压缩
+
+- (UIImage *)makeThumbnailFromImage:(UIImage *)srcImage scale:(double)imageScale {
+    UIImage *thumbnail = nil;
+    CGSize imageSize = CGSizeMake(srcImage.size.width * imageScale, srcImage.size.height * imageScale);
+    if (srcImage.size.width != imageSize.width || srcImage.size.height != imageSize.height)
+    {
+        UIGraphicsBeginImageContext(imageSize);
+        CGRect imageRect = CGRectMake(0.0, 0.0, imageSize.width, imageSize.height);
+        [srcImage drawInRect:imageRect];
+        thumbnail = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+    }
+    else
+    {
+        thumbnail = srcImage;
+    }
+    return thumbnail;
+}
+
+
+
 
 
 @end

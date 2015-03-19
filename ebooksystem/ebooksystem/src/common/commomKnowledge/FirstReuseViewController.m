@@ -43,7 +43,7 @@
 #import "SecondRenderKnowledgeViewController.h"
 
 #import "WebViewBridgeRegisterUtil.h"
-
+#import "StatisticsManager.h"
 
 @interface FirstReuseViewController ()<UIWebViewDelegate>
 
@@ -175,6 +175,10 @@
    //触发JS事件
     [self injectJSToWebview:self.webView andJSFileName:@"SamaPageShow"];
     
+    //进入读书页统计
+    [[StatisticsManager instance] beginLogPageView:@"readPage"];
+    
+    
 }
 
 //iOS7之后修改状态栏的方法
@@ -189,6 +193,8 @@
     self.tabBarController.tabBar.hidden = NO;
     //触发JS事件
     [self injectJSToWebview:self.webView andJSFileName:@"SamaPageHide"];
+    //退出读书页统计
+    [[StatisticsManager instance] endLogPageView:@"readPage"];
 }
 
 - (void)didReceiveMemoryWarning {

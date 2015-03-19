@@ -177,10 +177,7 @@
             for (NSString *password in passwords) {
     
                 //2.0中将 准备解包  的状态存到数据库
-//                dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                     [[KnowledgeMetaManager instance] setDataStatusTo:DATA_STATUS_UNPACK_PREPARING andDataStatusDescTo:@"92" forDataWithDataId:downloadItem.title andType:DATA_TYPE_DATA_SOURCE];
-//                });
-
                 
                 if (password == nil || password.length <= 0) {
                     ret = [za unzipOpenFile:downloadItem.savePath];
@@ -191,9 +188,7 @@
                 
                 ret = [za unzipFileTo:unpackPath overwrite:YES];
                 //2.0 解包中
-//                dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                     [[KnowledgeMetaManager instance] setDataStatusTo:DATA_STATUS_UNPACK_IN_PROGRESS andDataStatusDescTo:@"94" forDataWithDataId:downloadItem.title andType:DATA_TYPE_DATA_SOURCE];
-//                });
                 if (!ret) {
                     LogError(@"[KnowledgeDataManager:processDownloadedDataPack:] failed, since failed to unzip zip file: %@", downloadItem.savePath);
                     ret = NO;
@@ -206,13 +201,21 @@
                 BOOL existed = [[NSFileManager defaultManager] fileExistsAtPath:unpackPath isDirectory:&isDir];
                 if (existed) {
                     //2.0 在这里将进度+5
-//                    dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                         [[KnowledgeMetaManager instance] setDataStatusTo:DATA_STATUS_UNPACK_IN_PROGRESS andDataStatusDescTo:@"95" forDataWithDataId:downloadItem.title andType:DATA_TYPE_DATA_SOURCE];
-//                    });
                     
                     break; // 已解包成功
                 }
-                
+                {
+                    // 2.0 解包后的文件不存在，认定为解包失败 1 修改数据库中的信息
+                    [[KnowledgeMetaManager instance] setDataStatusTo:DATA_STATUS_UNPACK_FAILED andDataStatusDescTo:@"0" forDataWithDataId:downloadItem.title andType:DATA_TYPE_DATA_SOURCE];
+                    //2 删除下载下来的文件
+                    NSError *removeDownloadFileError;
+                    [[NSFileManager defaultManager] removeItemAtPath:downloadItem.savePath error:&removeDownloadFileError];
+                    if (removeDownloadFileError) {
+                        LogWarn(@"[KnowledgeDataManager-processDownloadedDataPack:] 第一次解包失败后删除下载的文件失败，reason:%@",removeDownloadFileError.localizedDescription);
+                    }
+
+                }
                 LogWarn(@"[KnowledgeDataManager-processDownloadedDataPack:] failed, since there is no unzip file after unzip. The zip file is: %@, and password is %@", downloadItem.savePath, (password == nil ? @"nil" : password));
                 ret = NO;
             }
@@ -226,11 +229,22 @@
             
             // 1.3 check md5, and collect zipped data files
             {
+                NSError *deleteUnpackFileError;
+                //2.0 开始校验的状态
+                [[KnowledgeMetaManager instance] setDataStatusTo:DATA_STATUS_INCHECK andDataStatusDescTo:@"96" forDataWithDataId:downloadItem.title andType:DATA_TYPE_DATA_SOURCE];
+                
                 NSError *error = nil;
                 NSString *md5File = [NSString stringWithFormat:@"%@/%@", unpackPath, @"md5.txt"];
                 NSString *md5FileContents = [NSString stringWithContentsOfFile:md5File encoding:NSUTF8StringEncoding error:&error];
                 if (md5FileContents == nil || md5FileContents.length <= 0) {
                     LogError(@"[KnowledgeDataManager-processDownloadedDataPack:] failed, invalid md5 file. The zip file is: %@", downloadItem.savePath);
+                    //2.0 MD5校验失败，将校验失败的信息存到数据库
+                    [[KnowledgeMetaManager instance] setDataStatusTo:DATA_STATUS_CHECK_FAILED andDataStatusDescTo:@"0" forDataWithDataId:downloadItem.title andType:DATA_TYPE_DATA_SOURCE];
+                    // 2 删除已经解包的文件
+                    [[NSFileManager defaultManager] removeItemAtPath:unpackPath error:&deleteUnpackFileError];
+                    if (deleteUnpackFileError) {
+                        LogWarn(@"[KnowledgeDataManager-processDownloadedDataPack:]校验失败后删除已经解包文件失败，reason：%@",deleteUnpackFileError.localizedDescription);
+                    }
                     ret = NO;
                     break;
                 }
@@ -238,9 +252,20 @@
                 // check each file's md5
                 NSArray *lines = [md5FileContents componentsSeparatedByString:@"\n"];
                 if (lines == nil || lines.count <= 0) {
+                    
+                    //2.0 MD5校验失败，将校验失败的信息存到数据库
+                    [[KnowledgeMetaManager instance] setDataStatusTo:DATA_STATUS_CHECK_FAILED andDataStatusDescTo:@"0" forDataWithDataId:downloadItem.title andType:DATA_TYPE_DATA_SOURCE];
+                    // 2 删除已经解包的文件
+                    [[NSFileManager defaultManager] removeItemAtPath:unpackPath error:&deleteUnpackFileError];
+                    if (deleteUnpackFileError) {
+                        LogWarn(@"[KnowledgeDataManager-processDownloadedDataPack:]校验失败后删除已经解包文件失败，reason：%@",deleteUnpackFileError.localizedDescription);
+                    }
+                    
+                    
                     ret = NO;
                     break;
                 }
+                
                 
                 // 逐行解析
                 NSEnumerator *enumerator = [lines objectEnumerator];
@@ -260,6 +285,16 @@
                     
                     if (![md5FromApp isEqualToString:md5FromServer]) {
                         LogError(@"[KnowledgeDataManager-processDownloadedDataPack:] failed, sice md5 check failed. The failed file is: %@", filename);
+                        
+                        //2.0 MD5校验失败，将校验失败的信息存到数据库
+                        [[KnowledgeMetaManager instance] setDataStatusTo:DATA_STATUS_CHECK_FAILED andDataStatusDescTo:@"0" forDataWithDataId:downloadItem.title andType:DATA_TYPE_DATA_SOURCE];
+                        // 2 校验失败，删除已经下载的文件，删除unpackPath
+                        [[NSFileManager defaultManager] removeItemAtPath:unpackPath error:&deleteUnpackFileError];
+                        if (deleteUnpackFileError) {
+                            LogWarn(@"[KnowledgeDataManager-processDownloadedDataPack:]校验失败后删除已经解包文件失败，reason：%@",deleteUnpackFileError.localizedDescription);
+                        }
+                        
+                        
                         ret = NO;
                         break;
                     }
@@ -316,7 +351,7 @@
     //不是所有的试读书都要删，只有在下载了整书后才需要删除试读书
     NSString *needDeleteBookId = [NSString stringWithFormat:@"%@-partial",downloadItem.title];
     
-    //删除数据库中的记录
+    //1、 删除数据库中的记录
     
     NSArray *bookKnowLedgeArray = [[KnowledgeMetaManager instance] getKnowledgeMetaWithDataId:needDeleteBookId];
     if (bookKnowLedgeArray == nil || bookKnowLedgeArray.count <= 0) {//没有需要删除的试读数据
@@ -328,7 +363,7 @@
         LogError(@"[KnowledgeDataManager - processDownloadedDataPack:] delete partial data from db failed ");
     }
     
-    //删除对应的试读书文件（删除不必要的文件，节省系统空间）
+    //2、 删除对应的试读书文件（删除不必要的文件，节省系统空间）
     NSString *knowledgeDataInDocument = [[Config instance] knowledgeDataConfig].knowledgeDataRootPathInDocuments;
     NSString *needDeletePartialPath = [NSString stringWithFormat:@"%@/%@",knowledgeDataInDocument,needDeleteBookId];
     BOOL needDeleteBookExist = [[NSFileManager defaultManager] fileExistsAtPath:needDeletePartialPath];
@@ -368,6 +403,7 @@
             
             if (!ret) {
                 LogError(@"[KnowledgeDataManager-processZippedDataFile:] failed, since failed to open zip file: %@", filename);
+                
                 ret = NO;
                 break;
             }
@@ -375,6 +411,7 @@
             ret = [za unzipFileTo:unpackPath overwrite:YES];
             if (!ret) {
                 LogError(@"[KnowledgeDataManager-processZippedDataFile:] failed, since failed to unzip zip file: %@", filename);
+                
                 ret = NO;
                 return NO;
             }
@@ -384,6 +421,7 @@
                         BOOL existed = [[NSFileManager defaultManager] fileExistsAtPath:unpackedDataPath isDirectory:&isDir];
                         if (!existed) {
                             LogError(@"[KnowledgeDataManager-processZippedDataFile:] failed, since there is no unzip file after unzip. The zip file is: %@", filename);
+                            
                             ret = NO;
                             break;
                         }
@@ -394,19 +432,15 @@
             BOOL unpackSuccess = [self checkResultWithFilePath:unpackedDataPath];
             if (!unpackSuccess) {
                 //1 解包出现错误归类为下载失败，2 数据版本号不修改
-//                dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                    [[KnowledgeMetaManager instance] setDataStatusTo:DATA_STATUS_DOWNLOAD_FAILED andDataStatusDescTo:@"0" forDataWithDataId:downloadTitle andType:DATA_TYPE_DATA_SOURCE];
+                    [[KnowledgeMetaManager instance] setDataStatusTo:DATA_STATUS_UNPACK_FAILED andDataStatusDescTo:@"0" forDataWithDataId:downloadTitle andType:DATA_TYPE_DATA_SOURCE];
                 //2 删除第一次解包得到的文件
                 [PathUtil deletePath:unpackPath];
-//                });
                 return NO;//解包出现错误，在这里直接跳出该方法体。
             }
             
             
             //2.0 解包成功（解包完成）
-//            dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                 [[KnowledgeMetaManager instance] setDataStatusTo:DATA_STATUS_UNPACK_COMPLETED andDataStatusDescTo:@"99" forDataWithDataId:downloadTitle andType:DATA_TYPE_DATA_SOURCE];
-//            });
         }
         
         //2.0修改：做判断，若是存在op.lst文件则按照1.0中的逻辑走，否则按照2.0设计逻辑走
@@ -427,13 +461,17 @@
             BOOL ret = [PathUtil copyFilesFromPath:unpackedDataPath toPath:toPath];
             if (!ret) {
                 LogError(@"knowledgeDataManager -- processZippedDataFile:withDecryprtKey : copy file form path to purpose failed,please check");
+                // 2.0 移动数据失败，修改数据库状态
+                [[KnowledgeMetaManager instance]setDataStatusTo:DATA_MOVE_FAILED andDataStatusDescTo:@"0" andDataLatestVersion:nil andDataPath:downloadTitle andDataStorageType:DATA_STORAGE_INTERNAL_STORAGE forDataWithDataId:downloadTitle andType:DATA_TYPE_DATA_SOURCE];
+                //2 删除数据,两个目录下的内容都要清空
+                [PathUtil deletePath:unpackedDataPath];
+                [PathUtil deletePath:toPath];
+                
             }
             //后续需要写读文件内容，存到数据库中的操作。，存到数据库中的操作。存book的相对路径，修改book的版本号，修改dataStatus。（在调用该方法的函数内写）
             
             //1 dataStatusDesc置为100 2 状态为更新完成时才会将数据库中latestVersion字段赋值给cruVersion字段 。若是出现捷报错误，这段代码不会被执行。
-//            dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                 [[KnowledgeMetaManager instance]setDataStatusTo:DATA_STATUS_UPDATE_COMPLETED andDataStatusDescTo:@"100" andDataLatestVersion:nil andDataPath:downloadTitle andDataStorageType:DATA_STORAGE_INTERNAL_STORAGE forDataWithDataId:downloadTitle andType:DATA_TYPE_DATA_SOURCE];
-//            });
             
             
         }
@@ -1737,7 +1775,7 @@
 //    });
     
     // 启动后台任务, 继续下载的后续操作
-    dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [self processDownloadedDataPack:downloadItem];
     });
     
@@ -1820,6 +1858,8 @@
         NSString *bookMeta = nil;
         NSString *bookReadType = nil;
         NSString *completeBookId = nil;
+        NSString *updateStatus = nil;
+        NSString *bookAvail = nil;
         bookId = [entity valueForKey:@"dataId"];
         booKcategory = [entity valueForKey:@"bookCategory"];
         bookStatus = [entity valueForKey:@"dataStatus"];
@@ -1831,19 +1871,19 @@
             bookStatusStr = @"下载中";
         }
         else if (bookStatusInt == 7) {
-            bookStatusStr = @"可更新";
+            updateStatus = @"有更新";
         }
         else if (bookStatusInt == 8 || bookStatusInt ==9) {
-            bookStatusStr = @"更新中";
+//            bookStatusStr = @"更新中";
         }
         else if (bookStatusInt == 10) {
             bookStatusStr = @"完成";
         }
         else if (bookStatusInt == 11) {
-            bookStatusStr = @"APP版本过低";
+            updateStatus = @"有更新但APP版本过低";
         }
         else if (bookStatusInt == 12) {
-            bookStatusStr = @"APP版本过高";
+            updateStatus = @"有更新APP版本过高";
         }
         else if (bookStatusInt == 14) {
             bookStatusStr = @"下载失败";
@@ -1851,13 +1891,43 @@
         else if (bookStatusInt == 15) {
             bookStatusStr = @"下载暂停";
         }
-        else if (bookStatusInt == -1  || bookStatusInt > 15) {
+        else if (bookStatusInt == -1 ) {
             bookStatusStr = @"未下载";
+        }
+        else if (bookStatusInt == 4 || bookStatusInt == 5) {
+            bookStatusStr = @"解压中";
+        }
+        else if (bookStatusInt == 18){
+            bookStatusStr = @"解压失败";
+        }
+        else if (bookStatusInt == 19) {
+            bookStatusStr = @"校验中";
+        }
+        else if (bookStatusInt == 20) {
+            bookStatusStr = @"校验失败";
+        }
+        else if (bookStatusInt == 17) {
+            bookStatusStr = @"应用中";
+        }
+        else if (bookStatusInt == 16) {
+            bookStatusStr = @"应用失败";
         }
         
         
         curVersion = [entity valueForKey:@"curVersion"];
         bookMeta = [entity valueForKey:@"bookMeta"];
+        //获取update_status
+        //获取book_avail
+        NSString *knowledgeDataInDocument = [[Config instance] knowledgeDataConfig].knowledgeDataRootPathInDocuments;
+        NSString *bookPath = [NSString stringWithFormat:@"%@/%@",knowledgeDataInDocument,bookId];
+        BOOL isAvail = [self checkIsAvailableWithFilePath:bookPath];
+        
+        if (isAvail) {
+            bookAvail = @"1";
+        }
+        else {
+            bookAvail = @"0";
+        }
         //组成dic
         NSMutableDictionary *dic = [NSMutableDictionary dictionary];
         [dic setValue:bookId forKey:@"book_id"];
@@ -1867,8 +1937,9 @@
         [dic setValue:bookStatusStr forKey:@"book_status"];
         [dic setValue:curVersion forKey:@"cur_version"];
         [dic setValue:bookMeta forKey:@"book_meta_json"];
-        
-        //
+        //新添加的两个字段
+        [dic setValue:bookAvail forKey:@"book_avail"];
+//        [dic setValue: forKey:<#(NSString *)#>]
         [arr addObject: dic];
         
     }
@@ -1913,8 +1984,41 @@
 }
 
 
-#pragma mark 删除试读书 
+#pragma mark 获取数据是否可用
 
+- (BOOL)checkIsAvailableWithFilePath:(NSString *)bookPath {
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    BOOL unpackSuccess = YES;
+    //1 判断bookID对应的具体书籍的目录是否存在
+    BOOL isDir = NO;
+    BOOL existed = [fileManager fileExistsAtPath:bookPath isDirectory:&isDir];
+    if (!existed) {
+        unpackSuccess = NO;
+        return unpackSuccess;
+    }
+    //2 目录存在，判断目录下是否有具体的分目录存在
+    NSError *error = nil;
+    NSArray *subDirsInUnpackDataPath = [fileManager contentsOfDirectoryAtPath:bookPath error:&error];
+    if (subDirsInUnpackDataPath == nil || subDirsInUnpackDataPath.count <= 0) {
+        unpackSuccess = NO;
+        return unpackSuccess;
+    }
+    //3 判断shit文件是否为0，解压失败是出现的错误一般是：目录结构完好，但是具体每个文件的大小都为0
+    NSString *shitFilePath = [NSString stringWithFormat:@"%@/%@/%@",bookPath,@"data",@"shit"];
+    //判断shit文件是否存在
+    BOOL shitExisted = [fileManager fileExistsAtPath:shitFilePath];
+    if (!shitExisted) {
+        unpackSuccess = NO;
+        return unpackSuccess;
+    }
+    //判断shit文件大小是否为0
+    NSString *shitFileContents = [NSString stringWithContentsOfFile:shitFilePath encoding:NSUTF8StringEncoding error:&error];
+    if (shitFileContents == nil || shitFileContents.length <= 0) {
+        unpackSuccess = NO;
+        return unpackSuccess;
+    }
+    return unpackSuccess;
+}
 
 
 @end

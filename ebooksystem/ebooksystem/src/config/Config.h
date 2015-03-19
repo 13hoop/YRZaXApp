@@ -61,4 +61,9 @@
 // payment
 - (PaymentConfig *)paymentConfig;
 
+#pragma mark 是否自动检查app更新
+- (NSString *)checkUpdateMode;
+
+
+
 @end

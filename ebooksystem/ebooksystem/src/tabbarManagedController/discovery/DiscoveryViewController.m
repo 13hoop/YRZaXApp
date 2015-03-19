@@ -16,7 +16,7 @@
 #import "NSUserDefaultUtil.h"
 #import "ErrorManager.h"
 #import "DeviceStatusUtil.h"
-
+#import "Config.h"
 #import "CustomPromptView.h"
 #import "UIColor+Hex.h"
 
@@ -311,8 +311,14 @@
         else {//已经联网
             //加载发现页
             [self makeWebView];
-            //检查更新
-            [self updateApp];
+            
+            
+            //apple以自己提供检查更新的功能，做一个开关能够选择开关自动检查app更新功能
+            NSString *checkUpdateMode = [[Config instance] checkUpdateMode];
+            if ([checkUpdateMode isEqualToString:@"InAppCheck"]) {
+                [self updateApp];
+            }
+            
             
         }
         

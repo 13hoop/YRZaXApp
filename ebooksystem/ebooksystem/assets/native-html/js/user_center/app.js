@@ -41,14 +41,14 @@
             this.updateUserInfo();
 
             //点击 修改账户信息
-            this.$modifyInfoBtn.on( 'tap', function(){
+            this.$modifyInfoBtn.on( 'click', function(){
                 bridgeXXX.showAppPageByAction({
                     target : 'activity',
                     action : 'modify_user_info'
                 });
             } );
 
-            this.$actionList.on( 'tap', '.action-item', function(e){
+            this.$actionList.on( 'click', '.action-item', function(e){
                 var $target = $(e.currentTarget);
                 var action = $target.attr('data-action');
                 if( action ){
@@ -58,6 +58,13 @@
                         action : action
                     });
                 }
+            } );
+
+            this.$loginBtn.on('click', function(){
+                bridgeXXX.showURL({
+                    target : 'activity',
+                    url : 'http://' + samaConfig.SERVER.HOST +  '/index.php?c=passportctrl&m=show_login_page&back_to_app=1'
+                });
             } );
 
             //补齐最后一行的格子
@@ -93,12 +100,6 @@
                 var isNotLogin = data === '{}';
                 if( isNotLogin ){
                     //用户未登录
-                    that.$loginBtn.on('tap', function(){
-                        bridgeXXX.showURL({
-                            target : 'activity',
-                            url : 'http://' + samaConfig.SERVER.HOST +  '/index.php?c=passportctrl&m=show_login_page&back_to_app=1'
-                        });
-                    } );
                     that.$userInfoCon.removeClass( loginClass).addClass( notLoginClass );
                     return;
                 }

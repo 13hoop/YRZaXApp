@@ -94,7 +94,13 @@ typedef enum {
     APP_VERSION_HIGH,//app版本过高
     NO_PERMISSION,//没有权限
     DATA_STATUS_DOWNLOAD_FAILED,//数据下载失败
-    DATA_STATUS_DOWNLOAD_PAUSE //数据下载暂停
+    DATA_STATUS_DOWNLOAD_PAUSE, //数据下载暂停
+    DATA_MOVE_FAILED,//数据应用失败
+    DATA_STATUS_INMOVE,//数据应用中
+    DATA_STATUS_UNPACK_FAILED, //解包失败
+    DATA_STATUS_INCHECK,//数据校验中
+    DATA_STATUS_CHECK_FAILED,//校验失败
+    
     
 } DataStatus;
 

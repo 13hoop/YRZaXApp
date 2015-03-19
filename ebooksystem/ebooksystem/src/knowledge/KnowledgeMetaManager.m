@@ -764,7 +764,8 @@
                 if ([progress isEqualToString:@"100"]==NO && curDataStatus != 10) {
                     //dataStatus不等于DATA_STATUS_UPDATE_COMPLETED（10），progress不等于100，则设置为下载暂停的状态
                     
-                    [entity setValue:[NSNumber numberWithInteger:DATA_STATUS_DOWNLOAD_PAUSE] forKey:@"dataStatus"];
+//                    [entity setValue:[NSNumber numberWithInteger:DATA_STATUS_DOWNLOAD_PAUSE] forKey:@"dataStatus"];
+                    [entity setValue:[NSNumber numberWithInteger:DATA_STATUS_DOWNLOAD_FAILED] forKey:@"dataStatus"];
                 }
                 //save
                 if (![[CoreDataUtil instance].managedObjectContext save:&error]) {

@@ -58,7 +58,7 @@
         LogError (@"[UpLoadUtil - upLaodImage: toUploadUrl: andUploadInfo:] upload image file  failed with reason:%@",error.localizedDescription);
         [self.uploadDelegte uploadFailedWithError:error];
         
-    }];
+    } ];
     
     
     
@@ -67,6 +67,61 @@
     
 }
 
+
+//为了获取上传的进度，使用AFHTTPRequestSerializer类来实例化一个请求。
+- (BOOL)upoadImageWithImageData:(NSData*)imageData andToken:(NSString *)token uploadUrl:(NSString *)uploadUrl {
+    // 1. Create `AFHTTPRequestSerializer` which will create your request.
+    AFHTTPRequestSerializer *serializer = [AFHTTPRequestSerializer serializer];
+    
+    NSDictionary *dic = [[NSDictionary alloc] initWithObjectsAndKeys:token,@"token", nil];
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    formatter.dateFormat = @"yyyyMMddHHmmss";
+    NSString *str = [formatter stringFromDate:[NSDate date]];
+    NSString *fileName = [NSString stringWithFormat:@"%@.jpg", str];
+    // 2. Create an `NSMutableURLRequest`.
+    /*
+    NSMutableURLRequest *request =
+    [serializer multipartFormRequestWithMethod:@"POST" URLString:uploadUrl
+                                    parameters:dic
+                     constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+                         [formData appendPartWithFileData:imageData
+                                                     name:@"file"
+                                                 fileName:fileName
+                                                 mimeType:@"image/jpeg"];
+                     }];
+     */
+     NSMutableURLRequest *request =
+    [serializer multipartFormRequestWithMethod:@"POST" URLString:uploadUrl parameters:dic constructingBodyWithBlock:^(id<AFMultipartFormData> formData){
+        [formData appendPartWithFileData:imageData
+                                    name:@"file"
+                                fileName:fileName
+                                mimeType:@"image/jpeg"];
+    }  error:nil];
+    
+    
+    // 3. Create and use `AFHTTPRequestOperationManager` to create an `AFHTTPRequestOperation` from the `NSMutableURLRequest` that we just created.
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    AFHTTPRequestOperation *operation =
+    [manager HTTPRequestOperationWithRequest:request
+                                     success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                                         LogDebug (@"[UpLoadUtil - upLaodImage: toUploadUrl: andUploadInfo:] upload image file success success");
+                                         [self.uploadDelegte uploadSuccess];
+                                     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                         LogError (@"[UpLoadUtil - upLaodImage: toUploadUrl: andUploadInfo:] upload image file  failed with reason:%@",error.localizedDescription);
+                                         [self.uploadDelegte uploadFailedWithError:error];
+                                     }];
+    
+    // 4. Set the progress block of the operation.
+    [operation setUploadProgressBlock:^(NSUInteger __unused bytesWritten,
+                                        long long totalBytesWritten,
+                                        long long totalBytesExpectedToWrite) {
+        NSLog(@"上传的进度是 %lld/%lld", totalBytesWritten, totalBytesExpectedToWrite);
+    }];
+    
+    // 5. !!!
+    [operation start];
+    return YES;
+}
 
 
 @end

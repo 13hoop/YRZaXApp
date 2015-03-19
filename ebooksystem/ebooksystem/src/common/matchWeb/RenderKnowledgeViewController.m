@@ -41,6 +41,8 @@
 #import "DeviceStatusUtil.h"
 
 #import "MRActivityIndicatorView.h"
+#import "StatisticsManager.h"
+
 
 @interface RenderKnowledgeViewController ()<UIWebViewDelegate>
 {
@@ -196,6 +198,8 @@
     
     //触发JS事件
     [self injectJSToWebview:self.webView andJSFileName:@"SamaPageShow"];
+    //进入页面统计
+    [[StatisticsManager instance] beginLogPageView:@"renderPage"];
     
     
     
@@ -212,6 +216,8 @@
     //触发JS事件
     [self injectJSToWebview:self.webView andJSFileName:@"SamaPageHide"];
     [self hideProgressOfActivityIndicator];
+    //退出页面统计
+    [[StatisticsManager instance] endLogPageView:@"renderPage"];
 }
 
 - (void)didReceiveMemoryWarning

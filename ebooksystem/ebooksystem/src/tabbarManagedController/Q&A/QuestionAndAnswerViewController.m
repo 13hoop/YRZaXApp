@@ -18,6 +18,7 @@
 #import "DeviceStatusUtil.h"
 #import "CustomPromptView.h"
 
+#import "StatisticsManager.h"
 
 @interface QuestionAndAnswerViewController ()<UIWebViewDelegate>
 
@@ -150,11 +151,15 @@
     self.tabBarController.tabBar.hidden = NO;
     //触发JS事件
     [self injectJSToWebview:self.webView andJSFileName:@"SamaPageShow"];
+    //进入问答页的统计
+    [[StatisticsManager instance] beginLogPageView:@"questionAndAnswerPage"];
 
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     [self injectJSToWebview:self.webView andJSFileName:@"SamaPageHide"];
+    //退出问答页统计
+    [[StatisticsManager instance]endLogPageView:@"questionAndAnswerPage"];
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

@@ -22,9 +22,10 @@
 @property (nonatomic,weak) id <uploadDelegate> uploadDelegte;
 
 //上传图片
-- (BOOL)upLoadImage:(NSData *)imageData andToken:(NSString *)token toUploadUrl:(NSString *)upLoadUrl;
+//- (BOOL)upLoadImage:(NSData *)imageData andToken:(NSString *)token toUploadUrl:(NSString *)upLoadUrl;
 
-
+//
+- (BOOL)upoadImageWithImageData:(NSData*)imageData andToken:(NSString *)token uploadUrl:(NSString *)uploadUrl;
 
 @end
 

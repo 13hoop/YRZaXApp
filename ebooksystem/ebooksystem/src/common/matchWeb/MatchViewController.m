@@ -33,7 +33,7 @@
 #import "FirstReuseViewController.h"
 
 #import "WebViewBridgeRegisterUtil.h"
-
+#import "StatisticsManager.h"
 
 @interface MatchViewController () <UIWebViewDelegate>
 
@@ -143,6 +143,8 @@
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
     //触发JS事件
     [self injectJSToWebview:self.webView andJSFileName:@"SamaPageShow"];
+    //页面登陆统计
+    [[StatisticsManager instance] beginLogPageView:@"myBagPage"];
 }
 
 //-(UIStatusBarStyle)preferredStatusBarStyle
@@ -154,6 +156,8 @@
     
     //触发JS事件
     [self injectJSToWebview:self.webView andJSFileName:@"SamaPageHide"];
+    //关掉页面统计
+    [[StatisticsManager instance] endLogPageView:@"myBagPage"];
 
 }
 

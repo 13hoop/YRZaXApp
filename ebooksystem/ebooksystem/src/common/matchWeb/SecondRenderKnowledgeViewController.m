@@ -35,7 +35,7 @@
 #import "AboutUsViewController.h"
 
 #import "WebViewBridgeRegisterUtil.h"
-
+#import "StatisticsManager.h"
 
 @interface SecondRenderKnowledgeViewController ()<UIWebViewDelegate>
 
@@ -163,19 +163,24 @@
     }
     //触发JS事件
     [self injectJSToWebview:self.webView andJSFileName:@"SamaPageShow"];
-
+    //进入发现页面的统计
+    [[StatisticsManager instance] beginLogPageView:@"discoverPage"];
     
 
 }
+
 //iOS7之后修改状态栏的颜色
 -(UIStatusBarStyle)preferredStatusBarStyle
 {
     return UIStatusBarStyleDefault;
 }
+
 - (void)viewWillDisappear:(BOOL)animated {
     self.tabBarController.tabBar.hidden = NO;
     //触发JS事件
     [self injectJSToWebview:self.webView andJSFileName:@"SamaPageHide"];
+    //关闭掉发现页面
+    [[StatisticsManager instance] endLogPageView:@"discoverPage"];
 }
 
 

@@ -7,6 +7,7 @@
 //
 
 #import "DirectionMPMoviePlayerViewController.h"
+#import "StatisticsManager.h"
 
 @interface DirectionMPMoviePlayerViewController ()
 
@@ -35,8 +36,14 @@
     self.tabBarController.tabBar.hidden = YES;
     //隐藏掉状态栏
     [[UIApplication sharedApplication] setStatusBarHidden:TRUE];
+    //进入播放页的统计
+    [[StatisticsManager instance] beginLogPageView:@"playVideo"];
+    [[StatisticsManager instance] event:@"general_video_play" label:@""];
 }
 
+- (void)viewWillDisappear:(BOOL)animated {
+    [[StatisticsManager instance] endLogPageView:@"playVideo"];
+}
 /*
 #pragma mark - Navigation
 
