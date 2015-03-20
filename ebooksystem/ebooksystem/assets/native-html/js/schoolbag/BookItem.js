@@ -272,13 +272,32 @@
                 return;
             }
 
+            var that = this;
+
             var status = this._data.book_status;
+
+            if( this.canUpdate( this._data.update_status ) ){
+                
+                Dialog.confirm({
+                    content : '书籍有更新，是否立即更新？',
+                    okText : '立即更新',
+                    cancelText : '暂时不更新',
+                    onOK : function(){
+                        that.beginDownload();
+                    },
+                    onCancel : function(){
+                        that.trigger( 'enterBook', [that]);
+                    }
+                });
+                return;
+            }
+
             if( status === BOOK_STATUS.BOOK_READY || this._data.book_avail === BOOK_STATUS.BOOK_AVAILABLE ){
                 //书籍已经离线到本地，可以正常进入学习
                 this.trigger( 'enterBook', [this]);
                 return;
             }
-            var that = this;
+
             if( status === BOOK_STATUS.BOOK_NOT_DOWNLOAD || this.isBookFail() ){
                 //var out = window.confirm('书籍尚未下载到本地，是否立即下载？');
                 //if( out ){
@@ -311,25 +330,6 @@
                     }
                 } );
 
-                return;
-            }else if( this.canUpdate( this._data.update_status ) ){
-                //var out = window.confirm('书籍有更新，是否立即更新？');
-                //if( out ){
-                //    this.beginDownload();
-                //}else{
-                //    this.trigger( 'enterBook', [this]);
-                //}
-                Dialog.confirm({
-                    content : '书籍有更新，是否立即更新？',
-                    okText : '立即更新',
-                    cancelText : '暂时不更新',
-                    onOK : function(){
-                        that.beginDownload();
-                    },
-                    onCancel : function(){
-                        that.trigger( 'enterBook', [that]);
-                    }
-                });
                 return;
             }
             //TODO 针对APP版本和书籍版本不对应，提示
