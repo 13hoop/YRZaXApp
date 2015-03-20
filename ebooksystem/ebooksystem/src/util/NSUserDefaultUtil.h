@@ -29,4 +29,10 @@
 //存储设备的deviceToken
 + (BOOL)saveDeviceTokenStr:(NSData *)deviceToken;
 + (NSData *)getDeviceTokenStr;
+
+//在nsuserDefault中储存updateStatus
++ (BOOL)saveUpdateStatus:(NSString *)updateStatus;
++ (NSString *)getUpdateStataus;
++ (BOOL)removeUpdateStatus;
+
 @end

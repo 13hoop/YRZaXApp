@@ -75,4 +75,25 @@
     return deviceStr;
 }
 
+
+//
++ (BOOL)saveUpdateStatus:(NSString *)updateStatus {
+    NSUserDefaults *userdefault = [NSUserDefaults standardUserDefaults];
+    [userdefault setObject:updateStatus forKey:@"updateStatus"];
+    [userdefault synchronize];
+    return YES;
+}
+
++ (NSString *)getUpdateStataus {
+    NSUserDefaults *userdefault = [NSUserDefaults standardUserDefaults];
+    NSString *updateStatus = [userdefault objectForKey:@"updateStatus"];
+    return  updateStatus;
+}
+
++ (BOOL)removeUpdateStatus {
+    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+    [userDefault removeObjectForKey:@"updateStatus"];
+    [userDefault synchronize];
+    return YES;
+}
 @end

@@ -155,6 +155,14 @@ typedef enum {
         NSDictionary *dic = [parse objectWithString:data];
         [self showPageWithDictionary:dic];
         
+        //统计页面点击次数
+         NSString *book_id = dic[@"book_id"];
+         NSString *page_type = dic[@"page_type"];
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            NSString *urlString = [NSString stringWithFormat:@"http://log.zaxue100.com/pv.gif?t=book_click&k=%@&v=1&pageType=%@",book_id,page_type];
+            [[StatisticsManager instance] statisticWithUrl:urlString];
+        });
+        
     }];
     
     //************* 书签的接口 **************
@@ -622,10 +630,32 @@ typedef enum {
         //下载的过程就是只有一步，拿到data_id后直接开始下载。（具体操作：1、根据book_id去下载 2、将下载的进度实时存到数据库中即可，不需要做读取的操作，也不需要将进度返回给JS。只需要告诉JS是否已经开始下载）。
         BOOL isStart = NO;
         {
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                BOOL ret = [[KnowledgeManager instance] startDownloadDataManagerWithDataId:book_id];
+            dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+            dispatch_group_t group = dispatch_group_create();
+            dispatch_group_async(group, queue, ^{
+                
                 BOOL updateStatus = [self updateDownloadStatusWithDataId:book_id];
+                BOOL ret = [[KnowledgeManager instance] startDownloadDataManagerWithDataId:book_id];
+                
+                
+                //统计下载次数
+                [[StatisticsManager instance]statisticDownloadAndUpdateWithBookId:book_id andSuccess:nil];
+                
             });
+            /*
+            dispatch_async(dispatch_get_global_queue(0, 0), ^{
+            });
+            */
+            NSString *knowledgeDataInDocument = [[Config instance] knowledgeDataConfig].knowledgeDataRootPathInDocuments;
+            NSString *bookPath = [NSString stringWithFormat:@"%@/%@",knowledgeDataInDocument,book_id];
+            BOOL isAvail = [[KnowledgeDataManager instance] checkIsAvailableWithFilePath:bookPath];
+            if (isAvail) {
+                [NSUserDefaultUtil saveUpdateStatus:@"有更新"];
+            }
+            else {
+                [NSUserDefaultUtil saveUpdateStatus:@"无更新"];
+            }
+            
             
             isStart = YES;
         }
@@ -1401,38 +1431,9 @@ typedef enum {
         NSString *dicBookId = [entity valueForKey:@"dataId"];
         NSNumber *dicBookStatusNum = [entity valueForKey:@"dataStatus"];
         int bookStatusInt = [dicBookStatusNum intValue];
-        NSString *bookStatusStr = nil;
-        /*
-        if (bookStatusInt >= 1 && bookStatusInt <= 3) {
-            bookStatusStr = @"下载中";
-        }
-        else if (bookStatusInt == 7) {
-            bookStatusStr = @"可更新";
-        }
-        else if (bookStatusInt == 8 || bookStatusInt ==9) {
-            bookStatusStr = @"更新中";
-        }
-        else if (bookStatusInt == 10) {
-            bookStatusStr = @"完成";
-        }
-        else if (bookStatusInt == 11) {
-            bookStatusStr = @"APP版本过低";
-        }
-        else if (bookStatusInt == 12) {
-            bookStatusStr = @"APP版本过高";
-        }
-        else if (bookStatusInt == 14) {
-            bookStatusStr = @"下载失败";
-        }
-        else if (bookStatusInt == 15) {
-            bookStatusStr = @"下载暂停";
-        }
-        else if (bookStatusInt == -1  || bookStatusInt > 15) {
-            bookStatusStr = @"未下载";
-        }
-        */
         
-        
+        //获取数据的更新状态，在调用startDownload接口时，判断本地是否有数据，若有将update_status改为有更新。
+        NSString *bookStatusStr = [NSUserDefaultUtil getUpdateStataus];
         NSString *updateStatus = nil;
         NSString *bookAvail = nil;
         //修改接口后多加的操作
@@ -1446,113 +1447,68 @@ typedef enum {
         BOOL isAvail = [[KnowledgeDataManager instance] checkIsAvailableWithFilePath:bookPath];
         if (bookStatusInt >= 1 && bookStatusInt <= 3) {
             bookStatusStr = @"下载中";
-            if (isAvail) {
-                updateStatus = @"有更新";
-            }
-            else {
-                updateStatus = @"无更新";
-            }
+            
         }
         else if (bookStatusInt == 7) {//检测到有更新
             
             updateStatus = @"有更新";//有更新肯定数据库中是有数据的
             bookStatusStr = @"完成";
+            
         }
         else if (bookStatusInt == 8 || bookStatusInt ==9) {
             //            bookStatusStr = @"更新中";
-            if (isAvail) {
-                updateStatus = @"有更新";
-            }
-            else {
-                updateStatus = @"无更新";
-            }
+            
         }
         else if (bookStatusInt == 10) {
             bookStatusStr = @"完成";
             updateStatus = @"无更新";
+            [NSUserDefaultUtil removeUpdateStatus];//移除掉数据
         }
         else if (bookStatusInt == 11) {
             bookStatusStr = @"完成";
             updateStatus = @"有更新但APP版本过低";
+            [NSUserDefaultUtil removeUpdateStatus];
         }
         else if (bookStatusInt == 12) {
             bookStatusStr = @"完成";
             updateStatus = @"有更新APP版本过高";
+            [NSUserDefaultUtil removeUpdateStatus];
         }
         else if (bookStatusInt == 14) {
             bookStatusStr = @"下载失败";
-            if (isAvail) {
-                updateStatus = @"有更新";
-            }
-            else {
-                updateStatus = @"无更新";
-            }
+            
         }
         else if (bookStatusInt == 15) {
             bookStatusStr = @"下载暂停";
-            if (isAvail) {
-                updateStatus = @"有更新";
-            }
-            else {
-                updateStatus = @"无更新";
-            }
+            
         }
         else if (bookStatusInt == -1 ) {
             bookStatusStr = @"未下载";
         }
-        else if (bookStatusInt >= 4 || bookStatusInt <= 6) {
+        else if (bookStatusInt >= 4 && bookStatusInt <= 6) {
             bookStatusStr = @"解压中";
-            if (isAvail) {
-                updateStatus = @"有更新";
-            }
-            else {
-                updateStatus = @"无更新";
-            }
+            
+            
         }
         else if (bookStatusInt == 18){
             bookStatusStr = @"解压失败";
-            if (isAvail) {
-                updateStatus = @"有更新";
-            }
-            else {
-                updateStatus = @"无更新";
-            }
+            
         }
         else if (bookStatusInt == 19) {
             bookStatusStr = @"校验中";
-            if (isAvail) {
-                updateStatus = @"有更新";
-            }
-            else {
-                updateStatus = @"无更新";
-            }
+            
         }
         else if (bookStatusInt == 20) {
             bookStatusStr = @"校验失败";
-            if (isAvail) {
-                updateStatus = @"有更新";
-            }
-            else {
-                updateStatus = @"无更新";
-            }
+            
         }
         else if (bookStatusInt == 17) {
             bookStatusStr = @"应用中";
-            if (isAvail) {
-                updateStatus = @"有更新";
-            }
-            else {
-                updateStatus = @"无更新";
-            }
+            
         }
         else if (bookStatusInt == 16) {
             bookStatusStr = @"应用失败";
-            if (isAvail) {
-                updateStatus = @"有更新";
-            }
-            else {
-                updateStatus = @"无更新";
-            }
+            
         }
         
         
@@ -1812,11 +1768,11 @@ typedef enum {
             continue;
         }
         //3 判断数据状态，并修改为下载中
-        if ((DataStatus)knowledgeMeta.dataStatus == DATA_STATUS_DOWNLOAD_FAILED || (DataStatus)knowledgeMeta.dataStatus == DATA_STATUS_DOWNLOAD_PAUSE) {
-            //修改下载状态未下载始终
+//        if ((DataStatus)knowledgeMeta.dataStatus == DATA_STATUS_DOWNLOAD_FAILED || (DataStatus)knowledgeMeta.dataStatus == DATA_STATUS_DOWNLOAD_PAUSE) {
+            //修改下载状态未下载中
             return  [[KnowledgeMetaManager instance] setDataStatusTo:DATA_STATUS_DOWNLOAD_IN_PROGRESS andDataStatusDescTo:@"0" forDataWithDataId:dataId andType:DATA_TYPE_DATA_SOURCE];
             
-        }
+//        }
         
     }
     

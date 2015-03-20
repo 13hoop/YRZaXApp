@@ -19,6 +19,8 @@
 #import "Config.h"
 #import "CustomPromptView.h"
 #import "UIColor+Hex.h"
+#import "StatisticsManager.h"
+
 
 @interface DiscoveryViewController ()<discoverDelegate,UpdateManagerDelegate, UIAlertViewDelegate,SubjectChooseDelegate>
 {
@@ -90,7 +92,8 @@
             }
         }
     }
-
+    //统计设备的激活次数
+    [self registerDeviceAmount];
     
 }
 - (void)viewDidAppear:(BOOL)animated {
@@ -326,5 +329,13 @@
     
         
 //}
+
+#pragma mark 第一次启动，注册设备的激活量
+- (void)registerDeviceAmount {
+    
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"firstLaunch"]) {
+        [[StatisticsManager instance] statisticWithUrl:@"http://log.zaxue100.com/pv.gif?t=device&k=start&v=1"];
+    }
+}
 
 @end
