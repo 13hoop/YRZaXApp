@@ -90,5 +90,8 @@
 //2.0 get Book List
 - (NSArray *)getBookList:(NSString *)bookCategory;
 
+#pragma mark 检查数据是否可用
+- (BOOL)checkIsAvailableWithFilePath:(NSString *)bookPath;
+
 
 @end

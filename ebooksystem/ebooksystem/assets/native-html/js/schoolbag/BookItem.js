@@ -29,6 +29,8 @@
 
     //一本书可以处于的不同状态
     var BOOK_STATUS = samaConfig.BOOK_STATUS;
+    var BOOK_UPDATE_STATUS = samaConfig.BOOK_UPDATE_STATUS;
+
     var NETWORK_TYPE = samaConfig.NETWORK_TYPE;
     //解压开始时，对应的总进度的百分比
     var EXTRACT_START = 80;
@@ -120,13 +122,13 @@
 
             var className = '';
 
-            if( bookStatus === BOOK_STATUS.BOOK_NOT_DOWNLOAD || bookStatus === BOOK_STATUS.DOWNLOAD_FAIL ){
+            if( bookStatus === BOOK_STATUS.BOOK_NOT_DOWNLOAD || this.isBookFail( bookStatus) ){
                 //书籍未下载
                 className = notOfflineClass;
             }else if( this.isBookDownloading() ){
                 //下载中
                 className = downloadingClass;
-            }else if( bookStatus === BOOK_STATUS.BOOK_NEED_UPDATE ){
+            }else if( this.canUpdate( data.update_status ) ){
                 //有更新
                 className = bookCanUpdateClass;
             }
@@ -210,13 +212,13 @@
             this.$downloadStep.text( bookStatus );
 
             this._data.book_status = bookStatus;
+            var bookAvailable = this._data.book_avail = state.book_avail;
 
             if( bookStatus === BOOK_STATUS.BOOK_READY && progress >= 100 ){
                 //书籍已经下载、解压、更新数据库索引完成，可以访问了
                 this._data.book_status = BOOK_STATUS.BOOK_READY;
                 this.$el.removeClass( downloadingClass + ' ' + notOfflineClass + ' ' + bookCanUpdateClass );
-            }else if( bookStatus === BOOK_STATUS.BOOK_NEED_UPDATE ){
-                this._data.book_status = BOOK_STATUS.BOOK_NEED_UPDATE;
+            }else if( this.canUpdate( state.update_status) ){
                 this.$el.removeClass( downloadingClass + ' ' + notOfflineClass).addClass( bookCanUpdateClass );
             }
 
@@ -225,21 +227,37 @@
 
         //书籍是否已经成功下载
         isBookReady : function(){
-            return this._data.book_status === BOOK_STATUS.BOOK_READY || this._data.book_status === BOOK_STATUS.BOOK_NEED_UPDATE ;
+            return this._data.book_status === BOOK_STATUS.BOOK_READY
+            || this._data.book_avail === BOOK_STATUS.BOOK_AVAILABLE ;
+        },
+        isBookStatusReady : function(){
+            return this._data.book_status === BOOK_STATUS.BOOK_READY;
         },
         //书籍是否下载失败
-        isBookFail : function(){
-            return this._data.book_status === BOOK_STATUS.DOWNLOAD_FAIL ;
+        isBookFail : function( status ){
+            status = status || this._data.book_status;
+            return status === BOOK_STATUS.DOWNLOAD_FAIL
+                || status === BOOK_STATUS.EXTRACT_FAIL
+                || status === BOOK_STATUS.INVALIDATE_FAIL
+                || status === BOOK_STATUS.APPLY_FAIL;
         },
 
         //正在下载中、正在更新中，都属于书籍处于 “下载进程”，需要轮训新的进度
         isBookDownloading : function(){
-            return this._data.book_status === BOOK_STATUS.BOOK_IS_DOWNLOADING || this._data.book_status === BOOK_STATUS.BOOK_IS_UPDATING;
+            var status = this._data.book_status;
+            return status === BOOK_STATUS.BOOK_IS_DOWNLOADING
+            || status === BOOK_STATUS.EXTRACTING
+                || status === BOOK_STATUS.INVALIDATING
+                || status === BOOK_STATUS.APPLYING;
         },
 
         //是否上一次下载进程，被异常中断，如果异常中断，需要在进入“我的书包”页时，自动重启下载进程
         isLastDownloadInterrupted : function(){
             return this._data.book_status === BOOK_STATUS.LAST_DOWNLOAD_INTERRUPTED;
+        },
+        //书籍是否有更新
+        canUpdate : function( status ){
+            return status === BOOK_UPDATE_STATUS.BOOK_NEED_UPDATE;
         },
 
         _bookClick : function(){
@@ -255,7 +273,7 @@
             }
 
             var status = this._data.book_status;
-            if( status === BOOK_STATUS.BOOK_READY ){
+            if( status === BOOK_STATUS.BOOK_READY || this._data.book_avail === BOOK_STATUS.BOOK_AVAILABLE ){
                 //书籍已经离线到本地，可以正常进入学习
                 this.trigger( 'enterBook', [this]);
                 return;
@@ -294,7 +312,7 @@
                 } );
 
                 return;
-            }else if( status === BOOK_STATUS.BOOK_NEED_UPDATE ){
+            }else if( this.canUpdate( this._data.update_status ) ){
                 //var out = window.confirm('书籍有更新，是否立即更新？');
                 //if( out ){
                 //    this.beginDownload();

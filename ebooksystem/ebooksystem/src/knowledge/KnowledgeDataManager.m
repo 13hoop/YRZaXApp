@@ -1865,62 +1865,135 @@
         bookStatus = [entity valueForKey:@"dataStatus"];
         bookReadType = [entity valueForKey:@"bookReadType"];
         completeBookId = [entity valueForKey:@"completeBookId"];
+        
+        //修改接口后多加的操作
+        /*
+         处理流程：
+            判断沙盒中bookID对应的书籍是否存在，根据是否存本地书籍确定Updata_status的字段
+         */
+        NSString *knowledgeDataInDocument = [[Config instance] knowledgeDataConfig].knowledgeDataRootPathInDocuments;
+        NSString *bookPath = [NSString stringWithFormat:@"%@/%@",knowledgeDataInDocument,bookId];
+        //获取book_avail
+        BOOL isAvail = [self checkIsAvailableWithFilePath:bookPath];
+        
         //转换成int来判断
         int bookStatusInt = [bookStatus intValue];
         if (bookStatusInt >= 1 && bookStatusInt <= 3) {
             bookStatusStr = @"下载中";
+            if (isAvail) {
+                updateStatus = @"有更新";
+            }
+            else {
+                updateStatus = @"无更新";
+            }
         }
-        else if (bookStatusInt == 7) {
-            updateStatus = @"有更新";
+        else if (bookStatusInt == 7) {//检测到有更新
+            
+            updateStatus = @"有更新";//有更新肯定数据库中是有数据的
+            bookStatusStr = @"完成";
         }
         else if (bookStatusInt == 8 || bookStatusInt ==9) {
 //            bookStatusStr = @"更新中";
+            if (isAvail) {
+                updateStatus = @"有更新";
+            }
+            else {
+                updateStatus = @"无更新";
+            }
         }
         else if (bookStatusInt == 10) {
             bookStatusStr = @"完成";
+            updateStatus = @"无更新";
         }
         else if (bookStatusInt == 11) {
+            bookStatusStr = @"完成";
             updateStatus = @"有更新但APP版本过低";
         }
         else if (bookStatusInt == 12) {
+            bookStatusStr = @"完成";
             updateStatus = @"有更新APP版本过高";
         }
         else if (bookStatusInt == 14) {
             bookStatusStr = @"下载失败";
+            if (isAvail) {
+                updateStatus = @"有更新";
+            }
+            else {
+                updateStatus = @"无更新";
+            }
         }
         else if (bookStatusInt == 15) {
             bookStatusStr = @"下载暂停";
+            if (isAvail) {
+                updateStatus = @"有更新";
+            }
+            else {
+                updateStatus = @"无更新";
+            }
         }
         else if (bookStatusInt == -1 ) {
             bookStatusStr = @"未下载";
         }
         else if (bookStatusInt == 4 || bookStatusInt == 5) {
             bookStatusStr = @"解压中";
+            if (isAvail) {
+                updateStatus = @"有更新";
+            }
+            else {
+                updateStatus = @"无更新";
+            }
         }
         else if (bookStatusInt == 18){
             bookStatusStr = @"解压失败";
+            if (isAvail) {
+                updateStatus = @"有更新";
+            }
+            else {
+                updateStatus = @"无更新";
+            }
         }
         else if (bookStatusInt == 19) {
             bookStatusStr = @"校验中";
+            if (isAvail) {
+                updateStatus = @"有更新";
+            }
+            else {
+                updateStatus = @"无更新";
+            }
         }
         else if (bookStatusInt == 20) {
             bookStatusStr = @"校验失败";
+            if (isAvail) {
+                updateStatus = @"有更新";
+            }
+            else {
+                updateStatus = @"无更新";
+            }
         }
         else if (bookStatusInt == 17) {
             bookStatusStr = @"应用中";
+            if (isAvail) {
+                updateStatus = @"有更新";
+            }
+            else {
+                updateStatus = @"无更新";
+            }
         }
         else if (bookStatusInt == 16) {
             bookStatusStr = @"应用失败";
+            if (isAvail) {
+                updateStatus = @"有更新";
+            }
+            else {
+                updateStatus = @"无更新";
+            }
         }
         
         
         curVersion = [entity valueForKey:@"curVersion"];
         bookMeta = [entity valueForKey:@"bookMeta"];
         //获取update_status
-        //获取book_avail
-        NSString *knowledgeDataInDocument = [[Config instance] knowledgeDataConfig].knowledgeDataRootPathInDocuments;
-        NSString *bookPath = [NSString stringWithFormat:@"%@/%@",knowledgeDataInDocument,bookId];
-        BOOL isAvail = [self checkIsAvailableWithFilePath:bookPath];
+        
         
         if (isAvail) {
             bookAvail = @"1";
@@ -1939,7 +2012,7 @@
         [dic setValue:bookMeta forKey:@"book_meta_json"];
         //新添加的两个字段
         [dic setValue:bookAvail forKey:@"book_avail"];
-//        [dic setValue: forKey:<#(NSString *)#>]
+        [dic setValue:updateStatus forKey:@"update_status"];
         [arr addObject: dic];
         
     }
