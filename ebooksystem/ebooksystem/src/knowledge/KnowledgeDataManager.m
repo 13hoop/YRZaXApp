@@ -177,7 +177,7 @@
             for (NSString *password in passwords) {
     
                 //2.0中将 准备解包  的状态存到数据库
-                    [[KnowledgeMetaManager instance] setDataStatusTo:DATA_STATUS_UNPACK_PREPARING andDataStatusDescTo:@"92" forDataWithDataId:downloadItem.title andType:DATA_TYPE_DATA_SOURCE];
+                    [[KnowledgeMetaManager instance] setDataStatusTo:DATA_STATUS_UNPACK_PREPARING andDataStatusDescTo:@"0.9" forDataWithDataId:downloadItem.title andType:DATA_TYPE_DATA_SOURCE];
                 
                 if (password == nil || password.length <= 0) {
                     ret = [za unzipOpenFile:downloadItem.savePath];
@@ -188,7 +188,7 @@
                 
                 ret = [za unzipFileTo:unpackPath overwrite:YES];
                 //2.0 解包中
-                    [[KnowledgeMetaManager instance] setDataStatusTo:DATA_STATUS_UNPACK_IN_PROGRESS andDataStatusDescTo:@"94" forDataWithDataId:downloadItem.title andType:DATA_TYPE_DATA_SOURCE];
+                    [[KnowledgeMetaManager instance] setDataStatusTo:DATA_STATUS_UNPACK_IN_PROGRESS andDataStatusDescTo:@"0.92" forDataWithDataId:downloadItem.title andType:DATA_TYPE_DATA_SOURCE];
                 if (!ret) {
                     LogError(@"[KnowledgeDataManager:processDownloadedDataPack:] failed, since failed to unzip zip file: %@", downloadItem.savePath);
                     ret = NO;
@@ -200,8 +200,8 @@
                 //H:判断指定的文件是否存在
                 BOOL existed = [[NSFileManager defaultManager] fileExistsAtPath:unpackPath isDirectory:&isDir];
                 if (existed) {
-                    //2.0 在这里将进度+5
-                        [[KnowledgeMetaManager instance] setDataStatusTo:DATA_STATUS_UNPACK_IN_PROGRESS andDataStatusDescTo:@"95" forDataWithDataId:downloadItem.title andType:DATA_TYPE_DATA_SOURCE];
+                    //2.0 在这里将进度
+                        [[KnowledgeMetaManager instance] setDataStatusTo:DATA_STATUS_UNPACK_IN_PROGRESS andDataStatusDescTo:@"0.94" forDataWithDataId:downloadItem.title andType:DATA_TYPE_DATA_SOURCE];
                     
                     break; // 已解包成功
                 }
@@ -231,7 +231,7 @@
             {
                 NSError *deleteUnpackFileError;
                 //2.0 开始校验的状态
-                [[KnowledgeMetaManager instance] setDataStatusTo:DATA_STATUS_INCHECK andDataStatusDescTo:@"96" forDataWithDataId:downloadItem.title andType:DATA_TYPE_DATA_SOURCE];
+                [[KnowledgeMetaManager instance] setDataStatusTo:DATA_STATUS_INCHECK andDataStatusDescTo:@"0.96" forDataWithDataId:downloadItem.title andType:DATA_TYPE_DATA_SOURCE];
                 
                 NSError *error = nil;
                 NSString *md5File = [NSString stringWithFormat:@"%@/%@", unpackPath, @"md5.txt"];
@@ -440,7 +440,7 @@
             
             
             //2.0 解包成功（解包完成）
-                [[KnowledgeMetaManager instance] setDataStatusTo:DATA_STATUS_UNPACK_COMPLETED andDataStatusDescTo:@"99" forDataWithDataId:downloadTitle andType:DATA_TYPE_DATA_SOURCE];
+                [[KnowledgeMetaManager instance] setDataStatusTo:DATA_STATUS_UNPACK_COMPLETED andDataStatusDescTo:@"0.98" forDataWithDataId:downloadTitle andType:DATA_TYPE_DATA_SOURCE];
         }
         
         //2.0修改：做判断，若是存在op.lst文件则按照1.0中的逻辑走，否则按照2.0设计逻辑走
@@ -1716,8 +1716,8 @@
     
     // 将下载进度更新到coreData
     dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [[KnowledgeMetaManager instance] setDataStatusTo:DATA_STATUS_DOWNLOAD_IN_PROGRESS andDataStatusDescTo:[NSString stringWithFormat:@"%lf", progress] forDataWithDataId:downloadItem.title andType:DATA_TYPE_DATA_SOURCE];
-        NSLog(@"进度=====%lf",progress -10);
+        [[KnowledgeMetaManager instance] setDataStatusTo:DATA_STATUS_DOWNLOAD_IN_PROGRESS andDataStatusDescTo:[NSString stringWithFormat:@"%lf", progress ] forDataWithDataId:downloadItem.title andType:DATA_TYPE_DATA_SOURCE];
+        NSLog(@"进度=====%lf",progress );
     });
     //H：自己方便写
     [self.dataStatusDelegate DownLoadKnowledgedataWithProgress:progress andDownloadItem:downloadItem];
@@ -1771,7 +1771,7 @@
     // 将下载进度更新到coreData
     
 //    dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [[KnowledgeMetaManager instance] setDataStatusTo:DATA_STATUS_DOWNLOAD_COMPLETED andDataStatusDescTo:@"90" forDataWithDataId:downloadItem.title andType:DATA_TYPE_DATA_SOURCE];
+        [[KnowledgeMetaManager instance] setDataStatusTo:DATA_STATUS_DOWNLOAD_COMPLETED andDataStatusDescTo:@"0.94" forDataWithDataId:downloadItem.title andType:DATA_TYPE_DATA_SOURCE];
 //    });
     
     // 启动后台任务, 继续下载的后续操作
@@ -1934,7 +1934,7 @@
         else if (bookStatusInt == -1 ) {
             bookStatusStr = @"未下载";
         }
-        else if (bookStatusInt == 4 || bookStatusInt == 5) {
+        else if (bookStatusInt >= 4 || bookStatusInt <= 6) {
             bookStatusStr = @"解压中";
             if (isAvail) {
                 updateStatus = @"有更新";

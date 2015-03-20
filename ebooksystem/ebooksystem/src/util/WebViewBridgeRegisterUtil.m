@@ -651,7 +651,6 @@ typedef enum {
         
         SBJsonParser *parse = [[SBJsonParser alloc] init];
         NSArray *book_ids = [parse objectWithString:data];
-        NSLog(@"queryBookStatus 接口的返回值是%@",data);
         //操作：遍历获取到的book_id数组
         //根据book_ids来获取下载进度，需要从数据库中取到，（具体操作：1、根据book_id对数据库做读取操作 2、返回结果是一个json，其中downLoad_status需要返回汉字）。
         NSMutableArray *booksArray = [NSMutableArray array];
@@ -666,6 +665,7 @@ typedef enum {
             }
             [booksArray addObject:dic];
         }
+        NSLog(@"获取的数据状态===%@",booksArray);
         //返回的是数组类型的值，即使是空数组也要解析一下
         SBJsonWriter *writer = [[SBJsonWriter alloc] init];
         NSString *jsonStr = [writer stringWithObject:booksArray];
@@ -1500,7 +1500,7 @@ typedef enum {
         else if (bookStatusInt == -1 ) {
             bookStatusStr = @"未下载";
         }
-        else if (bookStatusInt == 4 || bookStatusInt == 5) {
+        else if (bookStatusInt >= 4 || bookStatusInt <= 6) {
             bookStatusStr = @"解压中";
             if (isAvail) {
                 updateStatus = @"有更新";
@@ -1585,6 +1585,8 @@ typedef enum {
         //构造字典
         [dic setValue:dicBookId forKey:@"book_id"];
         [dic setValue:bookStatusStr forKey:@"book_status"];
+        [dic setValue:updateStatus forKey:@"update_status"];
+        [dic setValue:bookAvail forKey:@"book_avail"];
         [dic setValue:downLoadProgressStr forKey:@"book_status_detail"];
         //新加一个字段book_cover
         [dic setValue:coverImagePathStr forKey:@"book_cover"];

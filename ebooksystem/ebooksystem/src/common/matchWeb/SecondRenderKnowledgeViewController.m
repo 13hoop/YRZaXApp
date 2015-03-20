@@ -36,8 +36,14 @@
 
 #import "WebViewBridgeRegisterUtil.h"
 #import "StatisticsManager.h"
+#import "DeviceStatusUtil.h"
+#import "MRActivityIndicatorView.h"
+
 
 @interface SecondRenderKnowledgeViewController ()<UIWebViewDelegate>
+{
+    MRActivityIndicatorView *activityIndicatorView;
+}
 
 #pragma mark - properties
 // bridge between webview and js
@@ -139,8 +145,28 @@
     
     //    [self injectJSToWebView:self.webView];
     //    self.webview.delegate=self;
-    [self updateWebView];
+//    [self updateWebView];
     [self checkCookie];
+    
+    //判断网络连接，确定是否显示加载动画
+    DeviceStatusUtil *device = [[DeviceStatusUtil alloc] init];
+    NSString *cruStatus = [device GetCurrntNet];
+    if (![cruStatus isEqualToString:@"no connect"]) { //有网络连接
+        [self updateWebView];
+        [self checkCookie];
+        
+        
+        
+    } else {//没有网络连接
+        NSString *bundlePath = [PathUtil getBundlePath];
+        NSString *noConnectionPromptUrl = [NSString stringWithFormat:@"%@/%@/%@/%@", bundlePath, @"assets",@"native-html",@"network_error.html"];
+        NSURL *myBagUrl = [NSURL URLWithString:noConnectionPromptUrl];
+        NSURLRequest *request = [NSURLRequest requestWithURL:myBagUrl];
+        [self.webView loadRequest:request];
+        
+    }
+    [self createActivityIndicator];
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -181,6 +207,11 @@
     [self injectJSToWebview:self.webView andJSFileName:@"SamaPageHide"];
     //关闭掉发现页面
     [[StatisticsManager instance] endLogPageView:@"discoverPage"];
+    
+    //webview正确释放
+//    self.webView.delegate = nil;
+//    [self.webView stopLoading];
+//    self.webView = nil;
 }
 
 
@@ -199,7 +230,6 @@
 }
 
 #pragma mark - init
-
 - (BOOL)initWebView {
     //    self.webView.delegate = self.javascriptBridge;
     
@@ -738,10 +768,14 @@
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
     [self injectJSToWebView:webView];
+    //结束加载
+    [self hideProgressOfActivityIndicator];
 }
 
 - (void)webViewDidStartLoad:(UIWebView *)webView {
 //    [self injectJSToWebView:webView];
+    //开始加载
+    [self showProgressAsActivityIndicator];
 }
 #pragma mark - js injection
 
@@ -994,6 +1028,32 @@
     */
 }
 
+#pragma mark 创建加载动画视图
+-(void)createActivityIndicator
+{
+    activityIndicatorView=[[MRActivityIndicatorView alloc] initWithFrame:CGRectMake((self.view.frame.size.width-30)/2, (self.view.frame.size.height-30)/2,30, 30)];
+    [self.view addSubview:activityIndicatorView];
+    
+}
+
+
+#pragma mark 加载动画
+- (void)showProgressAsActivityIndicator {
+    if (activityIndicatorView) {
+        activityIndicatorView.hidden = NO;
+        activityIndicatorView.hidesWhenStopped = YES;
+        activityIndicatorView.tintColor = [UIColor blueColor];
+        activityIndicatorView.backgroundColor = [UIColor clearColor];
+        [activityIndicatorView startAnimating];
+    }
+}
+
+- (void)hideProgressOfActivityIndicator {
+    if (activityIndicatorView) {
+        [activityIndicatorView stopAnimating];
+        //    activityIndicatorView.hidden = YES;
+    }
+}
 
 
 @end
