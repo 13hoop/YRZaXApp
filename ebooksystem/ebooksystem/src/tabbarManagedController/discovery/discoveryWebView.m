@@ -450,8 +450,7 @@
 //makeUI
 
 - (void)updateWebView {
-    NSString *webUrlStr = @"http://test.zaxue100.com/index.php?c=discovery_ctrl&m=index";
-//    self.webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
+    NSString *webUrlStr = @"http://www.zaxue100.com/index.php?c=discovery_ctrl&m=index";
     [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",webUrlStr]]]];
     self.webView.scrollView.bounces = NO;
     self.webView.scrollView.showsVerticalScrollIndicator = NO;

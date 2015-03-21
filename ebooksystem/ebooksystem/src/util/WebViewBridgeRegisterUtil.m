@@ -1462,17 +1462,17 @@ typedef enum {
         else if (bookStatusInt == 10) {
             bookStatusStr = @"完成";
             updateStatus = @"无更新";
-            [NSUserDefaultUtil removeUpdateStatus];//移除掉数据
+            [NSUserDefaultUtil saveUpdateStatus:@"无更新"];//移除掉数据
         }
         else if (bookStatusInt == 11) {
             bookStatusStr = @"完成";
             updateStatus = @"有更新但APP版本过低";
-            [NSUserDefaultUtil removeUpdateStatus];
+            [NSUserDefaultUtil saveUpdateStatus:@"无更新"];
         }
         else if (bookStatusInt == 12) {
             bookStatusStr = @"完成";
             updateStatus = @"有更新APP版本过高";
-            [NSUserDefaultUtil removeUpdateStatus];
+            [NSUserDefaultUtil saveUpdateStatus:@"无更新"];
         }
         else if (bookStatusInt == 14) {
             bookStatusStr = @"下载失败";
