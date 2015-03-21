@@ -208,7 +208,7 @@
     //关闭掉发现页面
     [[StatisticsManager instance] endLogPageView:@"discoverPage"];
     
-    //webview正确释放
+    //webview正确释放 -- 解决方法
 //    self.webView.delegate = nil;
 //    [self.webView stopLoading];
 //    self.webView = nil;

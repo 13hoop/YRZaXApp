@@ -118,6 +118,10 @@
 
 
 #pragma mark - app life
+//初步解决方法
+- (void)dealloc {
+    self.webView.delegate = self;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
