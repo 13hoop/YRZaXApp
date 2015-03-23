@@ -148,6 +148,8 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     
+    [super viewWillDisappear:YES];
+    
     NSLog(@"进入到第二个页面了");
     //隐藏tabbar状态
     self.tabBarController.tabBar.hidden = YES;
@@ -195,6 +197,8 @@
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:YES];
+    
     self.tabBarController.tabBar.hidden = NO;
     //触发JS事件
     [self injectJSToWebview:self.webView andJSFileName:@"SamaPageHide"];

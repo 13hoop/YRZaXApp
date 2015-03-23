@@ -393,6 +393,10 @@
     do {
         // 1. 解包
         {
+            
+            //打印当前线程的ID
+            NSThread *current = [NSThread currentThread];
+            NSLog(@"当前线程是cru Thread ID === %@",current);
             // 1.1 unzip
             ZipArchive *za = [[ZipArchive alloc] init];
             //H：解包时密码输入错误也是可以解出相应的目录的，只是每个目录下都是0字节的文件。
@@ -858,7 +862,6 @@
     }
     
     // 启动后台任务
-    //    dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
     for (id obj in response.updateInfo.details) {
         ServerResponseUpdateInfoDetail *detail = (ServerResponseUpdateInfoDetail *)obj;
         if (detail == nil) {
@@ -941,7 +944,6 @@
     }
     
     // 注: 后续操作位于KnowledgeDownloadManagerDelegate的相关方法中. 包括: 3. 解包 4. 拷贝文件, 更新数据库
-    //    });
     
     return YES;
 }
@@ -1059,6 +1061,11 @@
     //（1）js传一个dataId到 native ，native根据dataId从数据库中取出对应dataId的当前版本号
     NSString *dataCurVersion = nil;
     //限定dataType
+    
+    
+    //看一下当前线程
+    NSThread *current = [NSThread currentThread];
+    NSLog(@"开始下载时开辟的当前线程是======%@",current);
     
     dataCurVersion = [[KnowledgeMetaManager instance] getKnowledgeDataVersionWithDataId:dataId andDataType:DATA_TYPE_DATA_SOURCE];
     
@@ -1718,6 +1725,9 @@
     dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [[KnowledgeMetaManager instance] setDataStatusTo:DATA_STATUS_DOWNLOAD_IN_PROGRESS andDataStatusDescTo:[NSString stringWithFormat:@"%lf", progress ] forDataWithDataId:downloadItem.title andType:DATA_TYPE_DATA_SOURCE];
         NSLog(@"进度=====%lf",progress );
+        NSThread *Current = [NSThread currentThread];
+        NSLog(@"修改下载进度的线程是======%@",Current);
+        
     });
     //H：自己方便写
     [self.dataStatusDelegate DownLoadKnowledgedataWithProgress:progress andDownloadItem:downloadItem];
@@ -1726,69 +1736,88 @@
 // 下载成功/失败
 // 注：下载，解包，删除多余文件组成一个整体的操作，下载完成后将进度减去10，解包和删除压缩文件的操作占总进度的10%
 - (void)knowledgeDownloadItem:(KnowledgeDownloadItem *)downloadItem didFinish:(BOOL)success response:(id)response {
-    // log
-    {
-        NSString *info = nil;
-        if (success) {
-            info = @" successfully";
-        }
-        else {
-            info = [NSString stringWithFormat:@" failed, error: %@", response];
-        }
-        
-        LogInfo(@"download item, id %@, title %@, finished%@", downloadItem.itemId, downloadItem.title, info);
-    }
     
-    if (!success) {
-        //下载失败
-        LogWarn(@"knowledgeDataManager -- knoeledgeDownloadItem:didFinish:response:  download failed");
-        // 1、将下载失败的信息存储到数据库中
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         
-        // 1、添加了update_status字段后，不需要在做下面的处理，只要是下载失败，则修改数据库中的字段为下载失败
         
-        NSString *knowledgeDataInDocument = [[Config instance] knowledgeDataConfig].knowledgeDataRootPathInDocuments;
-        NSString *originalBookPath = [NSString stringWithFormat:@"%@/%@",knowledgeDataInDocument,downloadItem.title];
-        BOOL originalBookExist = [[NSFileManager defaultManager] fileExistsAtPath:originalBookPath];
-        /*
-        if (originalBookExist) {//在指定目录下有对应的书存在，则认定为是更新操作
-            [[KnowledgeMetaManager instance] setDataStatusTo:DATA_STATUS_UPDATE_DETECTED andDataStatusDescTo:@"更新时，下载失败" forDataWithDataId:downloadItem.title andType:DATA_TYPE_DATA_SOURCE];
-        }else {
-         */
+        // log
+        {
+            
+            
+            NSString *info = nil;
+            if (success) {
+                info = @" successfully";
+            }
+            else {
+                info = [NSString stringWithFormat:@" failed, error: %@", response];
+            }
+            
+            LogInfo(@"download item, id %@, title %@, finished%@", downloadItem.itemId, downloadItem.title, info);
+        }
+        
+        if (!success) {
+            //下载失败
+            LogWarn(@"knowledgeDataManager -- knoeledgeDownloadItem:didFinish:response:  download failed");
+            // 1、将下载失败的信息存储到数据库中
+            
+            // 1、添加了update_status字段后，不需要在做下面的处理，只要是下载失败，则修改数据库中的字段为下载失败
+            
+            NSString *knowledgeDataInDocument = [[Config instance] knowledgeDataConfig].knowledgeDataRootPathInDocuments;
+            NSString *originalBookPath = [NSString stringWithFormat:@"%@/%@",knowledgeDataInDocument,downloadItem.title];
+            BOOL originalBookExist = [[NSFileManager defaultManager] fileExistsAtPath:originalBookPath];
+            /*
+             if (originalBookExist) {//在指定目录下有对应的书存在，则认定为是更新操作
+             [[KnowledgeMetaManager instance] setDataStatusTo:DATA_STATUS_UPDATE_DETECTED andDataStatusDescTo:@"更新时，下载失败" forDataWithDataId:downloadItem.title andType:DATA_TYPE_DATA_SOURCE];
+             }else {
+             */
             //非更新时，下载失败
             [[KnowledgeMetaManager instance] setDataStatusTo:DATA_STATUS_DOWNLOAD_FAILED andDataStatusDescTo:@"0" forDataWithDataId:downloadItem.title andType:DATA_TYPE_DATA_SOURCE];
-//        }
-        
-        // 2、下载失败后，要将已经下载的内容清除掉
-        BOOL isDir;
-        BOOL existed = [[NSFileManager defaultManager] fileExistsAtPath:self.globalSavePath isDirectory:&isDir];
-        if (existed) {
-            NSFileManager *fileManager = [NSFileManager defaultManager];
-            BOOL removeSuccess = [fileManager removeItemAtPath:self.globalSavePath error:nil];
+            //        }
             
-        }
-        // 3、统计下载失败
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            // 2、下载失败后，要将已经下载的内容清除掉
+            BOOL isDir;
+            BOOL existed = [[NSFileManager defaultManager] fileExistsAtPath:self.globalSavePath isDirectory:&isDir];
+            if (existed) {
+                NSFileManager *fileManager = [NSFileManager defaultManager];
+                BOOL removeSuccess = [fileManager removeItemAtPath:self.globalSavePath error:nil];
+                
+            }
+            
+            
+            //下载失败后回到了主线程
+            NSThread *current = [NSThread currentThread];
+            NSLog(@"下载失败后的当前线程是cru Thread ID === %@",current);
+            // 3、统计下载失败
+            //        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             [[StatisticsManager instance]statisticDownloadAndUpdateWithBookId:downloadItem.title andSuccess:@"fail"];
-        });
+            //        });
+            
+            return;
+        }
         
-        return;
-    }
-    
-    // 将下载进度更新到coreData
-    
+        // 将下载进度更新到coreData
+        
         [[KnowledgeMetaManager instance] setDataStatusTo:DATA_STATUS_DOWNLOAD_COMPLETED andDataStatusDescTo:@"0.94" forDataWithDataId:downloadItem.title andType:DATA_TYPE_DATA_SOURCE];
-    
-    // 启动后台任务, 继续下载的后续操作
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSThread *SuccessDownloadCurrent = [NSThread currentThread];
+        NSLog(@"下载成功时的当前线程是======%@",SuccessDownloadCurrent);
+        
+        
+        // 启动后台任务, 继续下载的后续操作
+        //    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [self processDownloadedDataPack:downloadItem];
-    });
-    //下载成功后进行统计
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [[StatisticsManager instance]statisticDownloadAndUpdateWithBookId:downloadItem.title andSuccess:@"succ"];
+        NSThread *UnPackcurrent = [NSThread currentThread];
+        NSLog(@"开始解压操作时的线程是======%@",UnPackcurrent);
+        //    });
+        //下载成功后进行统计
+        //    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [[StatisticsManager instance] statisticDownloadAndUpdateWithBookId:downloadItem.title andSuccess:@"succ"];
+        //    });
+        
+        //H:使用代理，将下载完成的状态值传到knowledgeManager中
+        [self.dataStatusDelegate DownLoadKnowledgedata:success andDownLoadItem:downloadItem];
+        
     });
     
-    //H:使用代理，将下载完成的状态值传到knowledgeManager中
-    [self.dataStatusDelegate DownLoadKnowledgedata:success andDownLoadItem:downloadItem];
 }
 
 

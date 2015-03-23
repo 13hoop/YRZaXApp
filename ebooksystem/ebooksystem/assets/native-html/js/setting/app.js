@@ -7,12 +7,25 @@
 
     var $ = window.Zepto;
     var bridgeXXX = window.bridgeXXX;
+    var utils = window.utils;
     var Dialog = window.Dialog;
     var samaConfig = window.samaConfig;
 
+    //当前的白天、夜间模式
+    var renderMode = 'night';
+
     var app = {
 
+        inited : false,
+
         init : function(){
+
+            if( this.inited ){
+                return;
+            }
+            this.inited = true;
+
+            utils.restoreRenderMode();
 
             var $backBtn = $('.common-back');
 
@@ -24,6 +37,20 @@
 
             $backBtn.on('tap', function(){
                 bridgeXXX.goBack();
+            });
+
+            //切换夜间模式
+            var $body = $(document.body);
+            var $modeToggleBtn = $('#render-mode-btn');
+            $modeToggleBtn.on('tap', function(){
+                var current = $body.attr('data-mode');
+                if( current == 'night' ){
+                    current = 'day';
+                }else{
+                    current = 'night';
+                }
+                $body.attr('data-mode', current);
+                bridgeXXX.setOneGlobalData( samaConfig.RENDER_MODE, current );
             });
 
             //给咋学打分

@@ -418,6 +418,24 @@ function dump(arr,level) {
                          }
                          }  );
     };
+    //setGlobalData
+    bridgeIOS.setGlobalData = function(data,callback){
+        bridgeIOS.callOC( 'setGlobalData',data,function(responseData){
+                         if (callback) {
+                         callback(responseData);
+                         }
+                         }  );
+    };
+    
+    //getGlobalData
+    bridgeIOS.getGlobalData = function(data,callback){
+        bridgeIOS.callOC( 'getGlobalData',data,function(responseData){
+                         if (callback) {
+                         callback(responseData);
+                         }
+                         }  );
+    };
+    
     
     
 }();

@@ -134,6 +134,7 @@
         temp = JSON.parse( temp );
         temp.book_id = 'test_book_' + (i + 1 );
         temp.book_status = bookStatusList[ i % bookStatusList.length ];
+        //temp.update_status = '有更新';
 //temp.book_status = '可更新';
         bookList.push(  temp );
     }
@@ -397,6 +398,26 @@
         removeLocalBooks : function( data ){
             var out = window.confirm('是否确认删除以下书籍ID：' + data );
             return out ? '1' : '0';
+        },
+        setGlobalData : function( data ){
+            data = JSON.parse( data );
+            for( var i in data ){
+                if( i && data.hasOwnProperty(i) ){
+                    localStorage.setItem( i, data[i] );
+                }
+            }
+            return '1';
+        },
+        getGlobalData : function( data ){
+            data = JSON.parse( data );
+            var out = {};
+            for( var i = 0, len = data.length; i < len; i++ ){
+                var key = data[i];
+                var value = localStorage.getItem( key );
+                out[key] = value;
+            }
+            out = JSON.stringify( out );
+            return out;
         }
     };
 

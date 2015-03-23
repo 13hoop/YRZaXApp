@@ -36,6 +36,14 @@
 #import "MRActivityIndicatorView.h"
 
 
+typedef enum {
+    UNKNOWN = -1,
+    FAILED, //操作失败
+    SUCCESS,//操作成功
+    
+    
+} OPERATIONRESULT;
+
 @interface discoveryWebView()<UIWebViewDelegate>
 
 {
@@ -369,6 +377,57 @@
         先调queryBookStatus,获取该本书的状态，若是已经下载过，则直接打开，若是没有下载
         再调addtonative接口，将meta数据保存到数据库中，并讲试读书下载到本地，并打开。
      */
+    
+    //setGlobalData
+    [self.javascriptBridge registerHandler:@"setGlobalData" handler:^(id data ,WVJBResponseCallback responseCallback){
+        NSString *dataStr =data;
+        if (dataStr == nil || dataStr.length <= 0) {
+            LogError(@"[WebViewBridgeRegisterUtil - setGlobalData] no global data to set");
+        }
+        
+        SBJsonParser *parse = [[SBJsonParser alloc] init];
+        NSDictionary *dic = [parse objectWithString:dataStr];
+        
+        
+        
+        BOOL saveSuccess = [NSUserDefaultUtil setGlobalDataWithObject:dic];
+        if (saveSuccess) {
+            NSString *successStr = [NSString stringWithFormat:@"%d",SUCCESS];
+            responseCallback(successStr);
+        }
+        else {
+            NSString *failedStr = [NSString stringWithFormat:@"%d",FAILED];
+            responseCallback(failedStr);
+        }
+        
+    }];
+    
+    //getGlobalData
+    [self.javascriptBridge registerHandler:@"getGlobalData" handler:^(id data ,WVJBResponseCallback responseCallback){
+        NSString *dataStr = data;
+        if (dataStr == nil || dataStr.length <= 0) {
+            LogError (@"[WebViewBridgeRegisterUtil - setGlobalData] data is nil");
+        }
+        SBJsonParser *parse = [[SBJsonParser alloc] init];
+        NSArray *keyArray = [parse objectWithString:dataStr];
+        NSDictionary *dic = [NSUserDefaultUtil getGlobalDataWithKeyArray:keyArray];
+        SBJsonWriter *writer = [[SBJsonWriter alloc] init];
+        NSString *dicStr = [writer stringWithObject:dic];
+        if (dicStr == nil || dicStr.length <= 0) {
+            responseCallback(@"{}");
+        }
+        else {
+            responseCallback(dicStr);
+        }
+        
+        
+    }];
+
+    
+    
+    
+    
+    
     
     return YES;
 }

@@ -35,7 +35,7 @@
 #import "WebViewBridgeRegisterUtil.h"
 #import "StatisticsManager.h"
 
-@interface MatchViewController () <UIWebViewDelegate>
+@interface MatchViewController () <UIWebViewDelegate,WebviewBridgeRegisterDelegate>
 
 #pragma mark - properties
 // bridge between webview and js
@@ -117,6 +117,9 @@
     webviewBridgeUtil.mainControllerView = self.view;
     webviewBridgeUtil.navigationController = self.navigationController;
     webviewBridgeUtil.tabBarController = self.tabBarController;
+    
+    webviewBridgeUtil.delegate = self;
+    
     [webviewBridgeUtil initWebView];
     /*
     if ([self.shouldChangeBackground isEqualToString:@"needChange"]) {
@@ -133,9 +136,19 @@
 
     [self updateWebView];
     [self checkCookie];
+    
+    
+    //统计app启动次数
+    [[StatisticsManager instance] statisticWithUrl:@"http://log.zaxue100.com/pv.gif?t=device&k=start&v=1"];
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
+    
+    NSThread *current = [NSThread currentThread];
+    NSLog(@"回到书包页的当前线程是======%@",current);
+    
+    [super viewWillAppear:YES];
     self.navigationController.navigationBarHidden = YES;
 //    [self.webView reload];
     //显示状态栏
@@ -699,7 +712,9 @@
 
 #pragma  get session
 - (void)checkCookie {
+    [OperateCookie setCookieWithCustomKeyAndValue:nil];
     [OperateCookie checkCookie];
+    
 }
 
 
@@ -833,9 +848,35 @@
 }
 
 
+#pragma mark webviewJavascriptRegisterUtil delegate
+//修改tabbar的背景
+- (void)refreshTabbarBackgroundWithMode:(NSString *)mode {
+    if ([mode isEqualToString:@"night"]) {
+        for (UIView *tempView in self.tabBarController.tabBar.subviews) {
+            if ([tempView isKindOfClass:[UIButton class]]) {
+                UIButton *btn = (UIButton *)tempView;
+                [btn setBackgroundColor:[UIColor colorWithHexString:@"#373E4F"]];
+            }
+            if ([tempView isKindOfClass:[UILabel class]]) {
+                UILabel *currentLable = (UILabel *)tempView;
+                currentLable.backgroundColor = [UIColor colorWithHexString:@"#373E4F"];
+            }
+        }
+    }
+    else if ([mode isEqualToString:@"day"]) {
+        for (UIView *tempView in self.tabBarController.tabBar.subviews) {
+            if ([tempView isKindOfClass:[UIButton class]]) {
+                UIButton *btn = (UIButton *)tempView;
+                [btn setBackgroundColor:[UIColor whiteColor]];
+            }
+            if ([tempView isKindOfClass:[UILabel class]]) {
+                UILabel *currentLable = (UILabel *)tempView;
+                currentLable.backgroundColor = [UIColor whiteColor];
+            }
+        }
+    }
+}
 
-
- 
 
 
 @end

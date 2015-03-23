@@ -8,11 +8,14 @@
     var bridgeXXX = window.bridgeXXX;
     var Dialog = window.Dialog;
     var samaConfig = window.samaConfig;
+    var utils = window.utils;
 
     var loginClass = 'user-log-in';
     var notLoginClass = 'not-log-in';
 
     var app = {
+
+        inited : false,
 
         $userInfoCon : null,
         $avatar : null,
@@ -25,6 +28,13 @@
         $actionList : null,
 
         init : function(){
+
+            if( this.inited ){
+                return;
+            }
+            this.inited = true;
+
+            utils.restoreRenderMode();
 
             this.$userInfoCon = $('#user-info-con');
             this.$avatar = $('.avatar-img');
@@ -63,7 +73,7 @@
             this.$loginBtn.on('click', function(){
                 bridgeXXX.showURL({
                     target : 'activity',
-                    url : 'http://' + samaConfig.SERVER.HOST +  '/index.php?c=passportctrl&m=show_login_page&back_to_app=1'
+                    url : 'http://' + samaConfig.SERVER.HOST +  '/index.php?c=passportctrl&m=show_login_page&back_to_app=1&fr=user_center'
                 });
             } );
 
@@ -80,6 +90,7 @@
 
             document.addEventListener('SamaPageShow', function(){
                 console.log('user_center: SamaPageShow');
+                utils.restoreRenderMode();
                 that.updateUserInfo();
             }, false );
 

@@ -1,5 +1,5 @@
 
-#main{
+#network-main{
     position: absolute;
     width: 167px;
     height: 217px;
@@ -25,4 +25,9 @@
 }
 #refresh-btn:active{
     background: #E88400;
+}
+
+/*夜间*/
+body[data-mode=night] #network-main{
+    background-image: url(./assets/bg-night.png);
 }

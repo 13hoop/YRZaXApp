@@ -119,9 +119,9 @@
 
 #pragma mark - app life
 //初步解决方法
-- (void)dealloc {
-    self.webView.delegate = self;
-}
+//- (void)dealloc {
+//    self.webView.delegate = nil;
+//}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -176,6 +176,7 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:YES];
     //重新加载网页，因为个人中心页复用了这个webview
 //    [self.webView reload];
     //显示掉状态栏
@@ -215,6 +216,8 @@
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:YES];
+    
     self.tabBarController.tabBar.hidden = NO;
     
     //触发JS事件
@@ -239,371 +242,371 @@
 }
 
 #pragma mark - init
-
-- (BOOL)initWebView {
-    //    self.webView.delegate = self.javascriptBridge;
-    
-    // goback()
-    [self.javascriptBridge registerHandler:@"goBack" handler:^(id data, WVJBResponseCallback responseCallback) {
-        LogDebug(@"RenderKnowledgeViewController::goBack() called: %@", data);
-        
-        [self.navigationController popViewControllerAnimated:YES];
-    }];
-    
-    //share app
-    [self.javascriptBridge registerHandler:@"share" handler:^(id data, WVJBResponseCallback responseCallback) {
-        LogDebug(@"RenderKnowledgeViewController::share() called: %@", data);
-        
-        NSDictionary *shareDic = (NSDictionary *)data;
-        
-        [self share:shareDic];
-    }];
-    
-    // playVideo()
-    [self.javascriptBridge registerHandler:@"playVideo" handler:^(id dataId, WVJBResponseCallback responseCallback) {
-        LogDebug(@"RenderKnowledgeViewController::playVideo() called: %@", dataId);
-        
-        NSString *urlStr = (NSString *)dataId;
-        [self playVideo:urlStr];
-    }];
-    
-    //change Background
-    [self.javascriptBridge registerHandler:@"setStatusBarBackground" handler:^(id data, WVJBResponseCallback responseCallback) {
-        [self changeBackgourndColorWithColor:data];
-    }];
-    
-    
-    //js要求跳到新的页面时，调到这个里面：
-    //getData      ********     *********
-    [self.javascriptBridge registerHandler:@"getData" handler:^(id data,WVJBResponseCallback responseCallback){
-        LogDebug(@"RenderKnowledgeViewController::getData() called: %@", data);
-        SBJsonParser *parser = [[SBJsonParser alloc] init];
-        NSDictionary *dataDic = [parser objectWithString:data];
-        NSString *dataId = [dataDic objectForKey:@"book_id"];
-        NSString *queryId = [dataDic objectForKey:@"query_id"];
-        
-        if (responseCallback != nil) {
-            NSArray *dataArray = [[KnowledgeManager instance] getLocalDataWithDataId:dataId andQueryId:queryId andIndexFilename:nil];
-            NSString *data = nil;
-            for (NSString *dataStr in dataArray) {
-                if (dataStr == nil || dataStr.length <= 0) {
-                    continue;
-                }
-                data = dataStr;
-
-                break;
-            }
-            responseCallback(data);
-        }
-    }];
-    
-    
-    
-    //renderPage   *******       ********
-    [self.javascriptBridge registerHandler:@"renderPage" handler:^(id data,WVJBResponseCallback responseCallback){
-        LogDebug(@"RenderKnowledgeViewController::renderPage() called: %@", data);
-        SBJsonParser *parse = [[SBJsonParser alloc] init];
-        NSDictionary *dic = [parse objectWithString:data];
-        [self showPageWithDictionary:dic];
-        
-    }];
-    //getCurStudyType
-    [self.javascriptBridge registerHandler:@"getCurStudyType" handler:^(id data ,WVJBResponseCallback responseCallback){
-        //在nsuserDefault中设置一个curStudyType字段，用来存储当前用户的学习状态
-        LogDebug(@"RenderKnowledgeViewController::getCurStudyType() called: %@", data);
-        if (responseCallback != nil) {
-            NSString *data =nil;
-            NSString *curStudyType = [NSUserDefaultUtil getCurStudyType];
-            if (curStudyType != nil && curStudyType.length > 0) {
-                data = curStudyType;
-                
-                responseCallback(data);
-            }
-        }
-        
-    }];
-    
-    //setCurStudyType
-    [self.javascriptBridge registerHandler:@"setCurStudyType" handler:^(id data,WVJBResponseCallback responseCallback){
-        LogDebug(@"RenderKnowledgeViewController::setCurStudyType() called: %@", data);
-        NSString *curStudyType = data;
-        if (curStudyType != nil && curStudyType.length > 0) {
-            BOOL isSuccess = [NSUserDefaultUtil setCurStudyTypeWithType:curStudyType];
-            if (isSuccess) {
-                NSString *data = @"1";
-                responseCallback(data);
-            }
-            else {
-                NSString *data = @"0";
-                responseCallback(data);
-            }
-            
-        }
-        else {
-            LogError(@"RenderKnowledgeViewController::setCurStudyType() failed because of curStudyType is equal to nil");
-            NSString *data = @"0";
-            responseCallback(data);//失败返回0；
-        }
-        
-    }];
-    
-    //getBookList
-    [self.javascriptBridge registerHandler:@"getBookList" handler:^(id data,WVJBResponseCallback responseCallback){
-        LogDebug(@"RenderKnowledgeViewController::getBookList() called: %@", data);
-        NSString *book_category = data;//值：0，1
-        
-        
-        
-        
-    }];
-    
-    //checkUpdate
-    [self.javascriptBridge registerHandler:@"checkUpdate" handler:^(id data,WVJBResponseCallback responseCallback){
-        LogDebug(@"RenderKnowledgeViewController::checkUpdate() called: %@", data);
-        NSString *book_category = data;//值：0，1 还需要分类型吗？
-        //检查某类书籍是否有更新，需要从数据库中查找（方法：1、获取更新数据的版本文件 2、把是否有更新的信息存储到数据库中，只需要返回给js是否开始检查的通知即可，不需要检查更新的结果给JS）。
-        //返回0，1
-        BOOL isStart = NO;
-        {
-            dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                [[KnowledgeManager instance] getUpdateInfoFileFromServerAndUpdateDataBase];
-            });
-            isStart = YES;
-        }
-        if (responseCallback != nil) {
-            if (isStart) {
-                responseCallback(@"1");
-            }
-            else {
-                responseCallback(@"0");
-            }
-        }
-    }];
-    
-    //startDownload
-    [self.javascriptBridge registerHandler:@"startDownload" handler:^(id data, WVJBResponseCallback responseCallback) {
-        LogDebug(@"RenderKnowledgeViewController::startDownload() called: %@", data);
-        NSString *book_id = data;
-        NSLog(@"调了=====%@",book_id);
-        //下载的过程就是只有一步，拿到data_id后直接开始下载。（具体操作：1、根据book_id去下载 2、将下载的进度实时存到数据库中即可，不需要做读取的操作，也不需要将进度返回给JS。只需要告诉JS是否已经开始下载）。
-        BOOL isStart = NO;
-        {
-            dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                BOOL ret = [[KnowledgeManager instance] startDownloadDataManagerWithDataId:book_id];
-            });
-            isStart = YES;
-        }
-        if (responseCallback != nil) {
-            if (isStart) {
-                responseCallback(@"1");
-            }
-            else {
-                responseCallback(@"0");
-            }
-        }
-        
-        
-    }];
-    
-    //queryBookStatus -- 这个是可以使用的
-    [self.javascriptBridge registerHandler:@"queryBookStatus" handler:^(id data, WVJBResponseCallback responseCallback) {
-        LogDebug(@"RenderKnowledgeViewController::queryBookStatus() called: %@", data);
-        
-        SBJsonParser *parse = [[SBJsonParser alloc] init];
-        NSArray *book_ids = [parse objectWithString:data];
-        NSLog(@"queryBookStatus 接口的返回值是%@",data);
-        //操作：遍历获取到的book_id数组
-        //根据book_ids来获取下载进度，需要从数据库中取到，（具体操作：1、根据book_id对数据库做读取操作 2、返回结果是一个json，其中downLoad_status需要返回汉字）。
-        NSMutableArray *booksArray = [NSMutableArray array];
-        for (NSString *bookId in book_ids) {
-            if (bookId ==nil) {
-                continue;
-            }
-            //根据book_id从数据库中取相应的状态
-            NSMutableDictionary *dic = [self getDicFormDataBase:bookId];
-            if(dic == nil) {
-                continue;
-            }
-            [booksArray addObject:dic];
-        }
-        //返回的是数组类型的值，即使是空数组也要解析一下
-        SBJsonWriter *writer = [[SBJsonWriter alloc] init];
-        NSString *jsonStr = [writer stringWithObject:booksArray];
-        if (responseCallback != nil) {
-            responseCallback(jsonStr);
-        }
-        
-        
-        
-    }];
-    //goUserSettingPage
-    [self.javascriptBridge registerHandler:@"goUserSettingPage" handler:^(id data, WVJBResponseCallback responseCallback) {
-        //跳转到设置页面
-    }];
-    //goDiscoverPage
-    [self.javascriptBridge registerHandler:@"goDiscoverPage" handler:^(id data, WVJBResponseCallback responseCallback) {
-        //跳转到发现页
-    }];
-    //getCoverSrc
-    [self.javascriptBridge registerHandler:@"getCoverSrc" handler:^(id data, WVJBResponseCallback responseCallback) {
-        //获取封面
-        NSString *book_id = data;
-        if (responseCallback != nil) {
-            /*
-            NSString *imageStr = [self getImage];
-            responseCallback(imageStr);
-             */
-        }
-        
-    }];
-    
-    
-    
-    //************* 发现页接口 *************
-    //showURL
-    [self.javascriptBridge registerHandler:@"showURL" handler:^(id data, WVJBResponseCallback responseCallback) {
-        //
-        NSString *dataStr = data;
-        SBJsonParser *parse = [[SBJsonParser alloc] init];
-        NSDictionary *dic = [parse objectWithString:dataStr];
-        if ([[dic objectForKey:@"target"] isEqualToString:@"activity"]) {
-            [self showSafeURL:[dic objectForKey:@"url"]];
-        }
-        else
-        {
-            NSString *urlStr = [dic objectForKey:@"url"];
-            [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:urlStr]]];
-        }
-        
-    }];
-    
-    //addToNative  
-    [self.javascriptBridge registerHandler:@"addToNative" handler:^(id data, WVJBResponseCallback responseCallback) {
-        /*
-            1先调queryBookStatus接口，检查本地是否有这本书。（若是本地没有该书的记录，返回空数组）
-            2若是没有则掉addToNative接口
-         */
-        NSString *bookID = data;
-        //异步请求
-        discoveryModel *model = [[discoveryModel alloc] init];
-        NSArray *arr = [NSArray arrayWithObjects:bookID, nil];
-        BOOL isSuccess =  [model getBookInfoWithDataIds:arr];
-
-        if (responseCallback != nil) {
-            if (isSuccess) {
-                responseCallback(@"1");
-            }
-            else {
-                responseCallback(@"0");
-            }
-        }
-    }];
-    
-    
-    
-    //  ******** 个人中心页面的接口 *************
-    //showAppPageByAction
-    [self.javascriptBridge registerHandler:@"showAppPageByAction" handler:^(id data, WVJBResponseCallback responseCallback) {
-        //
-        NSString *actionStr = data;
-        SBJsonParser *parse = [[SBJsonParser alloc] init];
-        NSDictionary *dic = [parse objectWithString:actionStr];
-        //根据Js传的参数来决定是否需要开新的WebView
-        [self showAppPageByaction:dic];
-    }];
-    
-    //setCurUserInfo
-    [self.javascriptBridge registerHandler:@"setCurUserInfo" handler:^(id data, WVJBResponseCallback responseCallback) {
-        //设置当前用户信息
-        NSString *cruUserInfoStr = data;
-        SBJsonParser *parser = [[SBJsonParser alloc] init];
-        NSDictionary *cruUserInfoDic = [parser objectWithString:cruUserInfoStr];
-    
-        // 1 parse cruUserInfoDic
-        UserInfo *userInfo = [[UserInfo alloc] init];
-        NSString *userId = [cruUserInfoDic objectForKey:@"user_id"];
-        NSString *userName = [cruUserInfoDic objectForKey:@"user_name"];
-        NSString *balance = [cruUserInfoDic objectForKey:@"balance"];
-        NSString *mobile = [cruUserInfoDic objectForKey:@"mobile"];
-        NSString *sessionId = [cruUserInfoDic objectForKey:@"session_id"];
-        if (userId == nil || userId.length <= 0) {
-            LogError(@"[RenderKnowledgeViewController - setCur]");
-        }
-        //userId
-        userInfo.userId = userId;
-        //userName
-        if (userName == nil || userName.length <= 0) {
-            userInfo.username = @"";
-        }
-        else {
-            userInfo.username = userName;
-        }
-        //balance
-        if (balance == nil || balance.length <= 0) {
-            userInfo.balance = @"";
-        }
-        else {
-            userInfo.balance = balance;
-        }
-        //phoneNumber
-        if (mobile == nil || mobile.length <= 0) {
-            userInfo.phoneNumber = @"";
-        }
-        else {
-            userInfo.phoneNumber = mobile;
-        }
-        //sessionId
-        if (sessionId == nil || sessionId.length <= 0) {
-            userInfo.sessionId = @"";
-        }
-        else {
-            userInfo.sessionId = sessionId;
-        }
-        //password
-        userInfo.password = @"";
-        //2 save userInfo
-        UserManager *usermanager = [UserManager instance];
-        BOOL setSuccess = [usermanager saveUserInfo:userInfo];
-        if (setSuccess) {
-            responseCallback (@"1");
-        }
-        else {
-            responseCallback (@"0");
-        }
-        
-    }];
-    //getCurUserInfo
-    [self.javascriptBridge registerHandler:@"getCurUserInfo" handler:^(id data, WVJBResponseCallback responseCallback) {
-        //默认图片
-        NSString *imageUrl = [[[Config instance] drawableConfig] getImageFullPath:@"default.jpg"];
-        NSString *imageBundlePath = [[NSBundle mainBundle] bundlePath];
-        NSString *fullpath = [NSString stringWithFormat:@"%@/%@",imageBundlePath,imageUrl];
-        //其他用户信息
-        UserManager *userManager = [UserManager instance];
-        UserInfo *userinfo = [userManager getCurUser];
-        if (userinfo.userId == nil || userinfo.userId <= 0) {
-            if(responseCallback != nil) {
-                 responseCallback(@"{}");
-            }
-        }
-        else {
-            NSString *cruUserName = userinfo.username;
-            NSString *cruUserInfoBalance = userinfo.balance;
-            NSString *cruUserId = userinfo.userId;
-            NSString *cruPhone = userinfo.phoneNumber;
-            NSDictionary *userInfoDic = @{@"user_id":cruUserId,@"user_name":cruUserName,@"avatar_src":fullpath,@"balance":cruUserInfoBalance,@"mobile":cruPhone};
-            SBJsonWriter *writer = [[SBJsonWriter alloc] init];
-            NSString *userInfoStr = [writer stringWithObject:userInfoDic];
-            if (responseCallback != nil) {
-                responseCallback(userInfoStr);
-               
-            }
-        }
-        
-    }];
-    
-    return YES;
-}
+//
+//- (BOOL)initWebView {
+//    //    self.webView.delegate = self.javascriptBridge;
+//    
+//    // goback()
+//    [self.javascriptBridge registerHandler:@"goBack" handler:^(id data, WVJBResponseCallback responseCallback) {
+//        LogDebug(@"RenderKnowledgeViewController::goBack() called: %@", data);
+//        
+//        [self.navigationController popViewControllerAnimated:YES];
+//    }];
+//    
+//    //share app
+//    [self.javascriptBridge registerHandler:@"share" handler:^(id data, WVJBResponseCallback responseCallback) {
+//        LogDebug(@"RenderKnowledgeViewController::share() called: %@", data);
+//        
+//        NSDictionary *shareDic = (NSDictionary *)data;
+//        
+//        [self share:shareDic];
+//    }];
+//    
+//    // playVideo()
+//    [self.javascriptBridge registerHandler:@"playVideo" handler:^(id dataId, WVJBResponseCallback responseCallback) {
+//        LogDebug(@"RenderKnowledgeViewController::playVideo() called: %@", dataId);
+//        
+//        NSString *urlStr = (NSString *)dataId;
+//        [self playVideo:urlStr];
+//    }];
+//    
+//    //change Background
+//    [self.javascriptBridge registerHandler:@"setStatusBarBackground" handler:^(id data, WVJBResponseCallback responseCallback) {
+//        [self changeBackgourndColorWithColor:data];
+//    }];
+//    
+//    
+//    //js要求跳到新的页面时，调到这个里面：
+//    //getData      ********     *********
+//    [self.javascriptBridge registerHandler:@"getData" handler:^(id data,WVJBResponseCallback responseCallback){
+//        LogDebug(@"RenderKnowledgeViewController::getData() called: %@", data);
+//        SBJsonParser *parser = [[SBJsonParser alloc] init];
+//        NSDictionary *dataDic = [parser objectWithString:data];
+//        NSString *dataId = [dataDic objectForKey:@"book_id"];
+//        NSString *queryId = [dataDic objectForKey:@"query_id"];
+//        
+//        if (responseCallback != nil) {
+//            NSArray *dataArray = [[KnowledgeManager instance] getLocalDataWithDataId:dataId andQueryId:queryId andIndexFilename:nil];
+//            NSString *data = nil;
+//            for (NSString *dataStr in dataArray) {
+//                if (dataStr == nil || dataStr.length <= 0) {
+//                    continue;
+//                }
+//                data = dataStr;
+//
+//                break;
+//            }
+//            responseCallback(data);
+//        }
+//    }];
+//    
+//    
+//    
+//    //renderPage   *******       ********
+//    [self.javascriptBridge registerHandler:@"renderPage" handler:^(id data,WVJBResponseCallback responseCallback){
+//        LogDebug(@"RenderKnowledgeViewController::renderPage() called: %@", data);
+//        SBJsonParser *parse = [[SBJsonParser alloc] init];
+//        NSDictionary *dic = [parse objectWithString:data];
+//        [self showPageWithDictionary:dic];
+//        
+//    }];
+//    //getCurStudyType
+//    [self.javascriptBridge registerHandler:@"getCurStudyType" handler:^(id data ,WVJBResponseCallback responseCallback){
+//        //在nsuserDefault中设置一个curStudyType字段，用来存储当前用户的学习状态
+//        LogDebug(@"RenderKnowledgeViewController::getCurStudyType() called: %@", data);
+//        if (responseCallback != nil) {
+//            NSString *data =nil;
+//            NSString *curStudyType = [NSUserDefaultUtil getCurStudyType];
+//            if (curStudyType != nil && curStudyType.length > 0) {
+//                data = curStudyType;
+//                
+//                responseCallback(data);
+//            }
+//        }
+//        
+//    }];
+//    
+//    //setCurStudyType
+//    [self.javascriptBridge registerHandler:@"setCurStudyType" handler:^(id data,WVJBResponseCallback responseCallback){
+//        LogDebug(@"RenderKnowledgeViewController::setCurStudyType() called: %@", data);
+//        NSString *curStudyType = data;
+//        if (curStudyType != nil && curStudyType.length > 0) {
+//            BOOL isSuccess = [NSUserDefaultUtil setCurStudyTypeWithType:curStudyType];
+//            if (isSuccess) {
+//                NSString *data = @"1";
+//                responseCallback(data);
+//            }
+//            else {
+//                NSString *data = @"0";
+//                responseCallback(data);
+//            }
+//            
+//        }
+//        else {
+//            LogError(@"RenderKnowledgeViewController::setCurStudyType() failed because of curStudyType is equal to nil");
+//            NSString *data = @"0";
+//            responseCallback(data);//失败返回0；
+//        }
+//        
+//    }];
+//    
+//    //getBookList
+//    [self.javascriptBridge registerHandler:@"getBookList" handler:^(id data,WVJBResponseCallback responseCallback){
+//        LogDebug(@"RenderKnowledgeViewController::getBookList() called: %@", data);
+//        NSString *book_category = data;//值：0，1
+//        
+//        
+//        
+//        
+//    }];
+//    
+//    //checkUpdate
+//    [self.javascriptBridge registerHandler:@"checkUpdate" handler:^(id data,WVJBResponseCallback responseCallback){
+//        LogDebug(@"RenderKnowledgeViewController::checkUpdate() called: %@", data);
+//        NSString *book_category = data;//值：0，1 还需要分类型吗？
+//        //检查某类书籍是否有更新，需要从数据库中查找（方法：1、获取更新数据的版本文件 2、把是否有更新的信息存储到数据库中，只需要返回给js是否开始检查的通知即可，不需要检查更新的结果给JS）。
+//        //返回0，1
+//        BOOL isStart = NO;
+//        {
+//            dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+//                [[KnowledgeManager instance] getUpdateInfoFileFromServerAndUpdateDataBase];
+//            });
+//            isStart = YES;
+//        }
+//        if (responseCallback != nil) {
+//            if (isStart) {
+//                responseCallback(@"1");
+//            }
+//            else {
+//                responseCallback(@"0");
+//            }
+//        }
+//    }];
+//    
+//    //startDownload
+//    [self.javascriptBridge registerHandler:@"startDownload" handler:^(id data, WVJBResponseCallback responseCallback) {
+//        LogDebug(@"RenderKnowledgeViewController::startDownload() called: %@", data);
+//        NSString *book_id = data;
+//        NSLog(@"调了=====%@",book_id);
+//        //下载的过程就是只有一步，拿到data_id后直接开始下载。（具体操作：1、根据book_id去下载 2、将下载的进度实时存到数据库中即可，不需要做读取的操作，也不需要将进度返回给JS。只需要告诉JS是否已经开始下载）。
+//        BOOL isStart = NO;
+//        {
+//            dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+//                BOOL ret = [[KnowledgeManager instance] startDownloadDataManagerWithDataId:book_id];
+//            });
+//            isStart = YES;
+//        }
+//        if (responseCallback != nil) {
+//            if (isStart) {
+//                responseCallback(@"1");
+//            }
+//            else {
+//                responseCallback(@"0");
+//            }
+//        }
+//        
+//        
+//    }];
+//    
+//    //queryBookStatus -- 这个是可以使用的
+//    [self.javascriptBridge registerHandler:@"queryBookStatus" handler:^(id data, WVJBResponseCallback responseCallback) {
+//        LogDebug(@"RenderKnowledgeViewController::queryBookStatus() called: %@", data);
+//        
+//        SBJsonParser *parse = [[SBJsonParser alloc] init];
+//        NSArray *book_ids = [parse objectWithString:data];
+//        NSLog(@"queryBookStatus 接口的返回值是%@",data);
+//        //操作：遍历获取到的book_id数组
+//        //根据book_ids来获取下载进度，需要从数据库中取到，（具体操作：1、根据book_id对数据库做读取操作 2、返回结果是一个json，其中downLoad_status需要返回汉字）。
+//        NSMutableArray *booksArray = [NSMutableArray array];
+//        for (NSString *bookId in book_ids) {
+//            if (bookId ==nil) {
+//                continue;
+//            }
+//            //根据book_id从数据库中取相应的状态
+//            NSMutableDictionary *dic = [self getDicFormDataBase:bookId];
+//            if(dic == nil) {
+//                continue;
+//            }
+//            [booksArray addObject:dic];
+//        }
+//        //返回的是数组类型的值，即使是空数组也要解析一下
+//        SBJsonWriter *writer = [[SBJsonWriter alloc] init];
+//        NSString *jsonStr = [writer stringWithObject:booksArray];
+//        if (responseCallback != nil) {
+//            responseCallback(jsonStr);
+//        }
+//        
+//        
+//        
+//    }];
+//    //goUserSettingPage
+//    [self.javascriptBridge registerHandler:@"goUserSettingPage" handler:^(id data, WVJBResponseCallback responseCallback) {
+//        //跳转到设置页面
+//    }];
+//    //goDiscoverPage
+//    [self.javascriptBridge registerHandler:@"goDiscoverPage" handler:^(id data, WVJBResponseCallback responseCallback) {
+//        //跳转到发现页
+//    }];
+//    //getCoverSrc
+//    [self.javascriptBridge registerHandler:@"getCoverSrc" handler:^(id data, WVJBResponseCallback responseCallback) {
+//        //获取封面
+//        NSString *book_id = data;
+//        if (responseCallback != nil) {
+//            /*
+//            NSString *imageStr = [self getImage];
+//            responseCallback(imageStr);
+//             */
+//        }
+//        
+//    }];
+//    
+//    
+//    
+//    //************* 发现页接口 *************
+//    //showURL
+//    [self.javascriptBridge registerHandler:@"showURL" handler:^(id data, WVJBResponseCallback responseCallback) {
+//        //
+//        NSString *dataStr = data;
+//        SBJsonParser *parse = [[SBJsonParser alloc] init];
+//        NSDictionary *dic = [parse objectWithString:dataStr];
+//        if ([[dic objectForKey:@"target"] isEqualToString:@"activity"]) {
+//            [self showSafeURL:[dic objectForKey:@"url"]];
+//        }
+//        else
+//        {
+//            NSString *urlStr = [dic objectForKey:@"url"];
+//            [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:urlStr]]];
+//        }
+//        
+//    }];
+//    
+//    //addToNative  
+//    [self.javascriptBridge registerHandler:@"addToNative" handler:^(id data, WVJBResponseCallback responseCallback) {
+//        /*
+//            1先调queryBookStatus接口，检查本地是否有这本书。（若是本地没有该书的记录，返回空数组）
+//            2若是没有则掉addToNative接口
+//         */
+//        NSString *bookID = data;
+//        //异步请求
+//        discoveryModel *model = [[discoveryModel alloc] init];
+//        NSArray *arr = [NSArray arrayWithObjects:bookID, nil];
+//        BOOL isSuccess =  [model getBookInfoWithDataIds:arr];
+//
+//        if (responseCallback != nil) {
+//            if (isSuccess) {
+//                responseCallback(@"1");
+//            }
+//            else {
+//                responseCallback(@"0");
+//            }
+//        }
+//    }];
+//    
+//    
+//    
+//    //  ******** 个人中心页面的接口 *************
+//    //showAppPageByAction
+//    [self.javascriptBridge registerHandler:@"showAppPageByAction" handler:^(id data, WVJBResponseCallback responseCallback) {
+//        //
+//        NSString *actionStr = data;
+//        SBJsonParser *parse = [[SBJsonParser alloc] init];
+//        NSDictionary *dic = [parse objectWithString:actionStr];
+//        //根据Js传的参数来决定是否需要开新的WebView
+//        [self showAppPageByaction:dic];
+//    }];
+//    
+//    //setCurUserInfo
+//    [self.javascriptBridge registerHandler:@"setCurUserInfo" handler:^(id data, WVJBResponseCallback responseCallback) {
+//        //设置当前用户信息
+//        NSString *cruUserInfoStr = data;
+//        SBJsonParser *parser = [[SBJsonParser alloc] init];
+//        NSDictionary *cruUserInfoDic = [parser objectWithString:cruUserInfoStr];
+//    
+//        // 1 parse cruUserInfoDic
+//        UserInfo *userInfo = [[UserInfo alloc] init];
+//        NSString *userId = [cruUserInfoDic objectForKey:@"user_id"];
+//        NSString *userName = [cruUserInfoDic objectForKey:@"user_name"];
+//        NSString *balance = [cruUserInfoDic objectForKey:@"balance"];
+//        NSString *mobile = [cruUserInfoDic objectForKey:@"mobile"];
+//        NSString *sessionId = [cruUserInfoDic objectForKey:@"session_id"];
+//        if (userId == nil || userId.length <= 0) {
+//            LogError(@"[RenderKnowledgeViewController - setCur]");
+//        }
+//        //userId
+//        userInfo.userId = userId;
+//        //userName
+//        if (userName == nil || userName.length <= 0) {
+//            userInfo.username = @"";
+//        }
+//        else {
+//            userInfo.username = userName;
+//        }
+//        //balance
+//        if (balance == nil || balance.length <= 0) {
+//            userInfo.balance = @"";
+//        }
+//        else {
+//            userInfo.balance = balance;
+//        }
+//        //phoneNumber
+//        if (mobile == nil || mobile.length <= 0) {
+//            userInfo.phoneNumber = @"";
+//        }
+//        else {
+//            userInfo.phoneNumber = mobile;
+//        }
+//        //sessionId
+//        if (sessionId == nil || sessionId.length <= 0) {
+//            userInfo.sessionId = @"";
+//        }
+//        else {
+//            userInfo.sessionId = sessionId;
+//        }
+//        //password
+//        userInfo.password = @"";
+//        //2 save userInfo
+//        UserManager *usermanager = [UserManager instance];
+//        BOOL setSuccess = [usermanager saveUserInfo:userInfo];
+//        if (setSuccess) {
+//            responseCallback (@"1");
+//        }
+//        else {
+//            responseCallback (@"0");
+//        }
+//        
+//    }];
+//    //getCurUserInfo
+//    [self.javascriptBridge registerHandler:@"getCurUserInfo" handler:^(id data, WVJBResponseCallback responseCallback) {
+//        //默认图片
+//        NSString *imageUrl = [[[Config instance] drawableConfig] getImageFullPath:@"default.jpg"];
+//        NSString *imageBundlePath = [[NSBundle mainBundle] bundlePath];
+//        NSString *fullpath = [NSString stringWithFormat:@"%@/%@",imageBundlePath,imageUrl];
+//        //其他用户信息
+//        UserManager *userManager = [UserManager instance];
+//        UserInfo *userinfo = [userManager getCurUser];
+//        if (userinfo.userId == nil || userinfo.userId <= 0) {
+//            if(responseCallback != nil) {
+//                 responseCallback(@"{}");
+//            }
+//        }
+//        else {
+//            NSString *cruUserName = userinfo.username;
+//            NSString *cruUserInfoBalance = userinfo.balance;
+//            NSString *cruUserId = userinfo.userId;
+//            NSString *cruPhone = userinfo.phoneNumber;
+//            NSDictionary *userInfoDic = @{@"user_id":cruUserId,@"user_name":cruUserName,@"avatar_src":fullpath,@"balance":cruUserInfoBalance,@"mobile":cruPhone};
+//            SBJsonWriter *writer = [[SBJsonWriter alloc] init];
+//            NSString *userInfoStr = [writer stringWithObject:userInfoDic];
+//            if (responseCallback != nil) {
+//                responseCallback(userInfoStr);
+//               
+//            }
+//        }
+//        
+//    }];
+//    
+//    return YES;
+//}
 
 #pragma mark 2.0调用的接口
 //2.0中跳转到指定页面

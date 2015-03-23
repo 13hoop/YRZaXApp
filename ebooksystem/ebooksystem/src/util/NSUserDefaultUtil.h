@@ -35,4 +35,9 @@
 + (NSString *)getUpdateStataus;
 + (BOOL)removeUpdateStatus;
 
+
+//夜间模式
++ (BOOL)setGlobalDataWithObject:(NSDictionary *)dic;
++ (NSDictionary *)getGlobalDataWithKeyArray:(NSArray *)keyArray;
+
 @end

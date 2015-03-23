@@ -64,9 +64,11 @@
         BOOK_UPDATE_STATUS : bookUpdateStatus,
 
         SERVER : {
-            HOST : 'test.zaxue100.com'
+            HOST : 'www.zaxue100.com'
         },
-        NETWORK_TYPE : networkType
+        NETWORK_TYPE : networkType,
+        //白天、夜间模式的key
+        RENDER_MODE : 'render-mode'
     };
 
     window.samaConfig = singleton;

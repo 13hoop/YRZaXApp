@@ -8,11 +8,13 @@
 
     var $ = window.Zepto;
 
+    var samaConfig = window.samaConfig;
+
     var EventEmitter = window.EventEmitter;
 
-    var Dialog = window.Dialog;
+    var samaLog = window.samaLog;
 
-    //var artTemplate = window.template;
+    var Dialog = window.Dialog;
 
     //书籍未下载
     var notOfflineClass = 'book-not-offline';
@@ -33,9 +35,9 @@
 
     var NETWORK_TYPE = samaConfig.NETWORK_TYPE;
     //解压开始时，对应的总进度的百分比
-    var EXTRACT_START = 80;
+    var EXTRACT_START = 85;
     //解压结束时，对应总进度的百分比
-    var EXTRACT_END = 85;
+    var EXTRACT_END = 90;
 
     function BookItem( args ){
         var $el = $( document.querySelector('#book-item-tpl').innerHTML );
@@ -192,11 +194,11 @@
             }
 
             //下载错误的处理
-            if( bookStatus === BOOK_STATUS.DOWNLOAD_FAIL ){
+            if( this.isBookFail( bookStatus ) ){
                 this.lastExtractTimestamp = null;
                 this.$el.removeClass( downloadingClass );
                 Dialog.alert({
-                    content : '书籍下载失败'
+                    content : '书籍' + bookStatus
                 });
             }
 
@@ -212,13 +214,14 @@
             this.$downloadStep.text( bookStatus );
 
             this._data.book_status = bookStatus;
+            this._data.update_status = state.update_status;
             var bookAvailable = this._data.book_avail = state.book_avail;
 
             if( bookStatus === BOOK_STATUS.BOOK_READY && progress >= 100 ){
                 //书籍已经下载、解压、更新数据库索引完成，可以访问了
                 this._data.book_status = BOOK_STATUS.BOOK_READY;
                 this.$el.removeClass( downloadingClass + ' ' + notOfflineClass + ' ' + bookCanUpdateClass );
-            }else if( this.canUpdate( state.update_status) ){
+            }else if( ! this.isBookDownloading() && this.canUpdate( state.update_status) ){
                 this.$el.removeClass( downloadingClass + ' ' + notOfflineClass).addClass( bookCanUpdateClass );
             }
 
@@ -262,11 +265,13 @@
 
         _bookClick : function(){
 
+            //下载中的书籍，不能做任何操作
+            if( this.isBookDownloading() ){
+                return;
+            }
+
             if( this.selectMode ){
-                //下载中的书籍，不能删除
-                if( this.isBookDownloading() ){
-                    return;
-                }
+
                 //处于编辑模式下，禁用打开书籍功能
                 this.toggleSelect( true );
                 return;
@@ -275,17 +280,28 @@
             var that = this;
 
             var status = this._data.book_status;
+            var bookID = this.getBookID();
 
             if( this.canUpdate( this._data.update_status ) ){
-                
+
                 Dialog.confirm({
                     content : '书籍有更新，是否立即更新？',
                     okText : '立即更新',
                     cancelText : '暂时不更新',
                     onOK : function(){
+                        //统计更新次数
+                        samaLog.send({
+                            t : 'update',
+                            k : 'start',
+                            v : '1',
+                            book_id : bookID,
+                            fr : 'schoolbag'
+                        });
+
                         that.beginDownload();
                     },
                     onCancel : function(){
+
                         that.trigger( 'enterBook', [that]);
                     }
                 });
@@ -318,12 +334,31 @@
                         });
 
                     }else if( data.network_status === NETWORK_TYPE.WIFI ){
+                        //统计下载次数
+                        samaLog.send({
+                            t : 'download',
+                            k : 'start',
+                            v : '1',
+                            book_id : bookID,
+                            net : 'wifi',
+                            fr : 'schoolbag'
+                        });
                         that.beginDownload();
                     }else{
                         //处于移动网络，提示用户是否确认下载
                         Dialog.confirm({
                             content : '您正在使用 3G 网络，开始下载将耗费您的流量，是否继续？',
                             onOK : function(){
+                                //统计下载次数
+                                samaLog.send({
+                                    t : 'download',
+                                    k : 'start',
+                                    v : '1',
+                                    book_id : bookID,
+                                    net : '3g',
+                                    fr : 'schoolbag'
+                                });
+
                                 that.beginDownload();
                             }
                         });

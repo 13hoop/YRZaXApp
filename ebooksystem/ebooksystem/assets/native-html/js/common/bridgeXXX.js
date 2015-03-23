@@ -130,12 +130,7 @@
 
     //批量获取 bookIDArray 中的书籍对应的下载进度信息
     bridgeXXX.queryBookStatus = function( bookIDArray, callback ){
-        if( ! bookIDArray || ! utils.isArray( bookIDArray) || bookIDArray.length < 1 ){
-            if( typeof  callback === 'function' ){
-                callback( [] );
-            }
-            return;
-        }
+        bookIDArray = bookIDArray || [];
         var args = JSON.stringify( bookIDArray );
         var bridge = bridgeXXX.getBridge();
         if( bridgeXXX.isAndroid() ){
@@ -367,6 +362,66 @@
         }else if( bridgeXXX.isIOS() ){
             bridge.removeLocalBooks( bookIDArray, callback );
         }
+    };
+
+    /**
+     * 保存 JSON 数据到 APP native
+     * @param data {Object} { k1 : '', k2 : ''m k3 : ''}
+     * @param callback {Function} '1'保存成功； '0'保存失败
+     */
+    bridgeXXX.setGlobalData = function( data, callback){
+        data = data || {};
+        data = JSON.stringify( data );
+        var bridge = bridgeXXX.getBridge();
+        if( bridgeXXX.isAndroid() ){
+            var out = bridge.setGlobalData( data );
+            if( typeof  callback === 'function' ){
+                callback( out );
+            }
+        }else if( bridgeXXX.isIOS() ){
+            bridge.setGlobalData( data, callback );
+        }
+    };
+    /**
+     * 获取保存在 APP 内部的 全局数据
+     * @param data {Array} 要批量获取的字段key的数组 [ 'k1', 'k2', 'k3']
+     * @param callback {Function}
+     * @return {Object} { k1 : '', k2 : '', k3 : ''}
+     */
+    bridgeXXX.getGlobalData = function( data, callback ){
+        data = data || [];
+        data = JSON.stringify( data );
+        var bridge = bridgeXXX.getBridge();
+        if( bridgeXXX.isAndroid() ){
+            var out = bridge.getGlobalData( data );
+            if( typeof  callback === 'function' ){
+                callback( out );
+            }
+        }else if( bridgeXXX.isIOS() ){
+            bridge.getGlobalData( data, callback );
+        }
+    };
+    //保存一条数据
+    bridgeXXX.setOneGlobalData = function( key, value, callback ){
+        var data = {};
+        data[key] = value;
+        bridgeXXX.setGlobalData( data, callback );
+    };
+    //获取一条数据
+    bridgeXXX.getOneGlobalData = function( key, callback ){
+        var data = [ key ];
+        bridgeXXX.getGlobalData( data, function( out ){
+            try{
+                out = JSON.parse( out );
+            }catch(e){
+                console.error('bridgeXXX.getOneGlobalData parseJSON out FAIL');
+                out = {};
+            }
+            var value = out[key];
+            if( typeof callback === 'function' ){
+                callback( value );
+            }
+        } );
     };
 
 }( window );

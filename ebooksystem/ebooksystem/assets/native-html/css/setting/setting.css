@@ -9,7 +9,6 @@ body{
 }
 
 .action-list{
-
     padding: 10px 0;
 }
 .action-item{
@@ -36,4 +35,19 @@ body{
     right: 20px;
     height: 100%;
     color: #000;
+}
+
+/*夜间模式切换扭*/
+.mode-status{
+    position: absolute;
+    width: 40px;
+    height: 20px;
+    right: 20px;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+    background: url(./assets/night-close.png) scroll no-repeat center center;
+    background-size: 40px 20px;
+}
+body[data-mode=night] .mode-status{
+    background-image: url(./assets/night-open.png);
 }

@@ -67,6 +67,12 @@
 
 @implementation SecondRenderKnowledgeViewController
 
+
+//- (void)dealloc {
+//    self.webView.delegate = nil;
+//}
+
+
 #pragma mark - properties
 // webUrl
 - (NSString *)webUrl {
@@ -143,9 +149,7 @@
     self.webView.scrollView.bounces = NO;
     self.webView.scrollView.showsVerticalScrollIndicator = NO;
     
-    //    [self injectJSToWebView:self.webView];
-    //    self.webview.delegate=self;
-//    [self updateWebView];
+   
     [self checkCookie];
     
     //判断网络连接，确定是否显示加载动画
@@ -170,6 +174,8 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:YES];
+    
     self.navigationController.navigationBarHidden = YES;
     //显示状态栏
     [[UIApplication sharedApplication] setStatusBarHidden:false];
@@ -202,6 +208,8 @@
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillAppear:YES];
+    
     self.tabBarController.tabBar.hidden = NO;
     //触发JS事件
     [self injectJSToWebview:self.webView andJSFileName:@"SamaPageHide"];
@@ -230,6 +238,7 @@
 }
 
 #pragma mark - init
+/*
 - (BOOL)initWebView {
     //    self.webView.delegate = self.javascriptBridge;
     
@@ -615,7 +624,7 @@
     
     return YES;
 }
-
+*/
 
 #pragma mark 2.0调用的接口
 //2.0中跳转到指定页面

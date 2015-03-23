@@ -54,6 +54,8 @@
     self.view.backgroundColor = [UIColor whiteColor];
     //开始启动
     [self startUp];
+    
+    
 }
 
 

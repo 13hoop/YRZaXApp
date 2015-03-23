@@ -143,6 +143,7 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:YES];
     //隐藏tabbar状态
     self.tabBarController.tabBar.hidden = YES;
 //    //隐藏掉状态栏

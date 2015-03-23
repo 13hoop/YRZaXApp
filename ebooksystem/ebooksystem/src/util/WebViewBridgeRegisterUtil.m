@@ -630,35 +630,37 @@ typedef enum {
         //下载的过程就是只有一步，拿到data_id后直接开始下载。（具体操作：1、根据book_id去下载 2、将下载的进度实时存到数据库中即可，不需要做读取的操作，也不需要将进度返回给JS。只需要告诉JS是否已经开始下载）。
         BOOL isStart = NO;
         {
-            dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-            dispatch_group_t group = dispatch_group_create();
-            dispatch_group_async(group, queue, ^{
+//            dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+//            dispatch_group_t group = dispatch_group_create();
+//            dispatch_group_async(group, queue, ^{
+//            
+//                BOOL updateStatus = [self updateDownloadStatusWithDataId:book_id];
+//                BOOL ret = [[KnowledgeManager instance] startDownloadDataManagerWithDataId:book_id];
+//                
+//                
+//                //统计下载次数
+//                [[StatisticsManager instance]statisticDownloadAndUpdateWithBookId:book_id andSuccess:nil];
+//                //存储更新状态
+            
                 
+//            });
+            
+            dispatch_async(dispatch_get_global_queue(0, 0), ^{
                 BOOL updateStatus = [self updateDownloadStatusWithDataId:book_id];
                 BOOL ret = [[KnowledgeManager instance] startDownloadDataManagerWithDataId:book_id];
                 
                 
                 //统计下载次数
                 [[StatisticsManager instance]statisticDownloadAndUpdateWithBookId:book_id andSuccess:nil];
-                
+                NSThread *startDownlaodThread = [NSThread currentThread];
+                NSLog(@"书包点击下载处理的线程是====%@",startDownlaodThread);
             });
-            /*
-            dispatch_async(dispatch_get_global_queue(0, 0), ^{
-            });
-            */
-            NSString *knowledgeDataInDocument = [[Config instance] knowledgeDataConfig].knowledgeDataRootPathInDocuments;
-            NSString *bookPath = [NSString stringWithFormat:@"%@/%@",knowledgeDataInDocument,book_id];
-            BOOL isAvail = [[KnowledgeDataManager instance] checkIsAvailableWithFilePath:bookPath];
-            if (isAvail) {
-                [NSUserDefaultUtil saveUpdateStatus:@"有更新"];
-            }
-            else {
-                [NSUserDefaultUtil saveUpdateStatus:@"无更新"];
-            }
-            
             
             isStart = YES;
         }
+        
+        
+        
         if (responseCallback != nil) {
             if (isStart) {
                 NSString *successStr = [NSString stringWithFormat:@"%d",SUCCESS];
@@ -1101,6 +1103,58 @@ typedef enum {
         }
         
     }];
+    
+    
+    //setGlobalData
+    [self.javascriptBridge registerHandler:@"setGlobalData" handler:^(id data ,WVJBResponseCallback responseCallback){
+        NSString *dataStr =data;
+        if (dataStr == nil || dataStr.length <= 0) {
+            LogError(@"[WebViewBridgeRegisterUtil - setGlobalData] no global data to set");
+        }
+        
+        SBJsonParser *parse = [[SBJsonParser alloc] init];
+        NSDictionary *dic = [parse objectWithString:dataStr];
+        //白天夜间模式
+//        NSString *mode = [dic objectForKey:@"render-mode"];
+        //设置代理刷新tabbar的背景
+//        [self.delegate refreshTabbarBackgroundWithMode:mode];
+        
+        
+        BOOL saveSuccess = [NSUserDefaultUtil setGlobalDataWithObject:dic];
+        if (saveSuccess) {
+            NSString *successStr = [NSString stringWithFormat:@"%d",SUCCESS];
+            responseCallback(successStr);
+        }
+        else {
+            NSString *failedStr = [NSString stringWithFormat:@"%d",FAILED];
+            responseCallback(failedStr);
+        }
+        
+    }];
+    
+    //getGlobalData
+    [self.javascriptBridge registerHandler:@"getGlobalData" handler:^(id data ,WVJBResponseCallback responseCallback){
+        NSString *dataStr = data;
+        if (dataStr == nil || dataStr.length <= 0) {
+            LogError (@"[WebViewBridgeRegisterUtil - setGlobalData] data is nil");
+        }
+        SBJsonParser *parse = [[SBJsonParser alloc] init];
+        NSArray *keyArray = [parse objectWithString:dataStr];
+        NSDictionary *dic = [NSUserDefaultUtil getGlobalDataWithKeyArray:keyArray];
+        SBJsonWriter *writer = [[SBJsonWriter alloc] init];
+        NSString *dicStr = [writer stringWithObject:dic];
+        if (dicStr == nil || dicStr.length <= 0) {
+            responseCallback(@"{}");
+        }
+        else {
+            responseCallback(dicStr);
+        }
+        
+        
+    }];
+    
+    
+    
 }
 
 
@@ -1433,7 +1487,7 @@ typedef enum {
         int bookStatusInt = [dicBookStatusNum intValue];
         
         //获取数据的更新状态，在调用startDownload接口时，判断本地是否有数据，若有将update_status改为有更新。
-        NSString *bookStatusStr = [NSUserDefaultUtil getUpdateStataus];
+        NSString *bookStatusStr = nil;
         NSString *updateStatus = nil;
         NSString *bookAvail = nil;
         //修改接口后多加的操作
@@ -1445,70 +1499,116 @@ typedef enum {
         NSString *bookPath = [NSString stringWithFormat:@"%@/%@",knowledgeDataInDocument,bookId];
         //获取book_avail
         BOOL isAvail = [[KnowledgeDataManager instance] checkIsAvailableWithFilePath:bookPath];
+        
         if (bookStatusInt >= 1 && bookStatusInt <= 3) {
             bookStatusStr = @"下载中";
-            
+            if (isAvail) {
+                updateStatus = @"有更新";
+            }
+            else {
+                updateStatus = @"无更新";
+            }
         }
         else if (bookStatusInt == 7) {//检测到有更新
             
             updateStatus = @"有更新";//有更新肯定数据库中是有数据的
             bookStatusStr = @"完成";
-            
         }
         else if (bookStatusInt == 8 || bookStatusInt ==9) {
             //            bookStatusStr = @"更新中";
-            
+            if (isAvail) {
+                updateStatus = @"有更新";
+            }
+            else {
+                updateStatus = @"无更新";
+            }
         }
         else if (bookStatusInt == 10) {
             bookStatusStr = @"完成";
             updateStatus = @"无更新";
-            [NSUserDefaultUtil saveUpdateStatus:@"无更新"];//移除掉数据
         }
         else if (bookStatusInt == 11) {
             bookStatusStr = @"完成";
             updateStatus = @"有更新但APP版本过低";
-            [NSUserDefaultUtil saveUpdateStatus:@"无更新"];
         }
         else if (bookStatusInt == 12) {
             bookStatusStr = @"完成";
             updateStatus = @"有更新APP版本过高";
-            [NSUserDefaultUtil saveUpdateStatus:@"无更新"];
         }
         else if (bookStatusInt == 14) {
             bookStatusStr = @"下载失败";
-            
+            if (isAvail) {
+                updateStatus = @"有更新";
+            }
+            else {
+                updateStatus = @"无更新";
+            }
         }
         else if (bookStatusInt == 15) {
             bookStatusStr = @"下载暂停";
-            
+            if (isAvail) {
+                updateStatus = @"有更新";
+            }
+            else {
+                updateStatus = @"无更新";
+            }
         }
         else if (bookStatusInt == -1 ) {
             bookStatusStr = @"未下载";
         }
         else if (bookStatusInt >= 4 && bookStatusInt <= 6) {
             bookStatusStr = @"解压中";
-            
-            
+            if (isAvail) {
+                updateStatus = @"有更新";
+            }
+            else {
+                updateStatus = @"无更新";
+            }
         }
         else if (bookStatusInt == 18){
             bookStatusStr = @"解压失败";
-            
+            if (isAvail) {
+                updateStatus = @"有更新";
+            }
+            else {
+                updateStatus = @"无更新";
+            }
         }
         else if (bookStatusInt == 19) {
             bookStatusStr = @"校验中";
-            
+            if (isAvail) {
+                updateStatus = @"有更新";
+            }
+            else {
+                updateStatus = @"无更新";
+            }
         }
         else if (bookStatusInt == 20) {
             bookStatusStr = @"校验失败";
-            
+            if (isAvail) {
+                updateStatus = @"有更新";
+            }
+            else {
+                updateStatus = @"无更新";
+            }
         }
         else if (bookStatusInt == 17) {
             bookStatusStr = @"应用中";
-            
+            if (isAvail) {
+                updateStatus = @"有更新";
+            }
+            else {
+                updateStatus = @"无更新";
+            }
         }
         else if (bookStatusInt == 16) {
             bookStatusStr = @"应用失败";
-            
+            if (isAvail) {
+                updateStatus = @"有更新";
+            }
+            else {
+                updateStatus = @"无更新";
+            }
         }
         
         

@@ -5,6 +5,7 @@
 ! function(){
 
     var $ = window.Zepto;
+    var utils = window.utils;
 
     var isInited = false;
 
@@ -15,6 +16,8 @@
                 return;
             }
             isInited = true;
+
+            utils.restoreRenderMode();
 
             var $backBtn = $('.common-back');
             $backBtn.on('tap', function(){

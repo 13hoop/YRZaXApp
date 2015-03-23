@@ -1,0 +1,79 @@
+
+body[data-mode=night]{
+    background-color: #323846;
+}
+body[data-mode=night] .fragment-header{
+    background-color: #373e4f;
+    color: #f7f5f5;
+    border-bottom-color: #202632;
+}
+body[data-mode=night] .fragment-header h1{
+    color: #f7f5f5;
+}
+body[data-mode=night] .common-back:before{
+    border-color: #f7f5f5;
+}
+
+
+/*书包页*/
+body[data-mode=night] .book-name{
+    color: #fff;
+}
+body[data-mode=night] .book-editor{
+    color: #dcdcdc;
+}
+body[data-mode=night] .book-item:active{
+    background-color: #474c59;
+}
+body[data-mode=night] #book-edit-con{
+    border-top-color: #202632;
+    background: #373e4f;
+}
+
+/*设置页*/
+body[data-mode=night] .action-item{
+    background-color: #5a6378;
+    color: #dcdcdc;
+}
+body[data-mode=night] .action-item:active{
+    background-color: #474c59;
+}
+body[data-mode=night] .has-border-top, body[data-mode=night] .has-border-bottom{
+    border-color: #383d4a;
+}
+body[data-mode=night] .action-item .right-arrow{
+    border-color: #fff;
+}
+
+/*系统消息*/
+body[data-mode=night] #system-info-page .info-item{
+    background-color: #5a6378;
+    border-color: #383d4a;
+}
+body[data-mode=night] #system-info-page .info-item:active{
+    background-color: #474c59;
+}
+body[data-mode=night] #system-info-page .info-title{
+    color: #fff;
+}
+body[data-mode=night] #system-info-page .info-desc, body[data-mode=night] #system-info-page .info-time{
+    color: #dcdcdc;
+}
+
+/*个人中心*/
+body[data-mode=night] .user-name{
+    color: #fff;
+}
+
+body[data-mode=night] #user-center-page .action-list{
+    border-top-color: #383d4a;
+}
+body[data-mode=night] #user-center-page .action-item:nth-of-type(2n), body[data-mode=night] #user-center-page .action-item:nth-of-type(2n + 1){
+    border-right-color: #383d4a;
+}
+body[data-mode=night] #user-center-page .action-item{
+    border-bottom-color: #383d4a;
+}
+body[data-mode=night] #user-center-page .empty-holder{
+    background: #5a6378 !important;
+}

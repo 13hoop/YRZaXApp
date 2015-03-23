@@ -22,7 +22,7 @@
 
 - (BOOL)getBookInfoWithDataIds:(NSArray *)dataIds {
     
-    dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
     //data
     NSMutableArray *arr = [[NSMutableArray alloc] init];// [NSMutableArray array];
     if (dataIds == nil || dataIds.count <= 0) {
@@ -112,7 +112,8 @@
             LogError (@"[discoverModel - getBookInfoWithDataIds ]: parseServerResponse failed ");
             return;
         }
-    });
+        
+        });
     return YES;
 }
 
@@ -143,7 +144,9 @@
         //2 下载封面图片
         [self coverImageFileOperation:dic];
         //3 下载试读书
+        
         [[KnowledgeManager instance] startDownloadDataManagerWithDataId:bookId];
+        
         }
     
     return YES;

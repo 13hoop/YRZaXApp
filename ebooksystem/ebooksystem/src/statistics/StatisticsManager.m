@@ -127,24 +127,42 @@
     NSString *updateUrl = nil;
     if (!BookExist) {//书籍不存在，说明为非更新
             //只是更新的url
-        if ([successStr isEqualToString:@"succ"]) {
-            updateUrl = [NSString stringWithFormat:@"http://log.zaxue100.com/pv.gif?t=update&k=succ&v=1&book_id=%@",bookId];
-        }
-        if ([successStr isEqualToString:@"fail"]) {
-            updateUrl = [NSString stringWithFormat:@"http://log.zaxue100.com/pv.gif?t=update&k=fail&v=1&book_id=%@",bookId];
-        }
-        updateUrl = [NSString stringWithFormat:@"http://log.zaxue100.com/pv.gif?t=update&k=start&v=1&book_id=%@",bookId];
         
+        
+        if ([successStr isEqualToString:@"succ"]) {
+            updateUrl = [NSString stringWithFormat:@"http://log.zaxue100.com/pv.gif?t=download&k=succ&v=1&book_id=%@",bookId];
+            
+        }
+    
+        if ([successStr isEqualToString:@"fail"]) {
+            updateUrl = [NSString stringWithFormat:@"http://log.zaxue100.com/pv.gif?t=download&k=fail&v=1&book_id=%@",bookId];
+            
+        }
+    
+        updateUrl = [NSString stringWithFormat:@"http://log.zaxue100.com/pv.gif?t=download&k=start&v=1&book_id=%@",bookId];
+    
         
     }
     else {
+        
         if ([successStr isEqualToString:@"succ"]) {
-            updateUrl = [NSString stringWithFormat:@"http://log.zaxue100.com/pv.gif?t=download&k=succ&v=1&book_id=%@",bookId];
+            updateUrl = [NSString stringWithFormat:@"http://log.zaxue100.com/pv.gif?t=update&k=succ&v=1&book_id=%@",bookId];
+            return;
         }
         if ([successStr isEqualToString:@"fail"]) {
-            updateUrl = [NSString stringWithFormat:@"http://log.zaxue100.com/pv.gif?t=download&k=fail&v=1&book_id=%@",bookId];
+            updateUrl = [NSString stringWithFormat:@"http://log.zaxue100.com/pv.gif?t=update&k=fail&v=1&book_id=%@",bookId];
+            return;
         }
-        updateUrl = [NSString stringWithFormat:@"http://log.zaxue100.com/pv.gif?t=download&k=start&v=1&book_id=%@",bookId];
+        updateUrl = [NSString stringWithFormat:@"http://log.zaxue100.com/pv.gif?t=update&k=start&v=1&book_id=%@",bookId];
+    }
+    
+    
+    NSError *error = nil;
+    NSURL *statictisUrl = [NSURL URLWithString:updateUrl];
+    NSURLRequest *request = [NSURLRequest requestWithURL:statictisUrl];
+    NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:&error];
+    if (error) {
+        LogError (@"[StatisticsManager - statisticWithUrl] statistic failed with error:%@",error.localizedDescription);
     }
     
 }

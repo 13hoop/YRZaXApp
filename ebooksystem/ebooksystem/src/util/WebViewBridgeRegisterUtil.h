@@ -15,6 +15,8 @@
 - (void)goBackWithDic:(NSDictionary *)dic;
 //点击书包页的“+”时触发代理，切换tab
 - (void)goDiscoverPage;
+//根据白天夜间模式刷新tabbar
+- (void)refreshTabbarBackgroundWithMode:(NSString *)mode;
 
 @end
 

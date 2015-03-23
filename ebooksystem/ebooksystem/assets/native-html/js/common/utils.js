@@ -5,6 +5,9 @@
 
 ! function( window ){
 
+    var samaConfig = window.samaConfig;
+    var bridgeXXX = window.bridgeXXX;
+
     window.utils = window.utils || {};
 
     var utils = window.utils;
@@ -115,6 +118,18 @@
             left : left,
             top : top
         };
+    };
+
+    //读取之前设置的 白天、夜间 模式
+    utils.restoreRenderMode = function(){
+        bridgeXXX.getOneGlobalData( samaConfig.RENDER_MODE, function( mode ){
+            mode = mode || 'day';
+            if( mode ){
+                document.body.setAttribute('data-mode', mode );
+            }
+        } );
+
+
     };
 
 }( window );

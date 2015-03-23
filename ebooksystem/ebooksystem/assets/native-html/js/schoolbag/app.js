@@ -41,6 +41,9 @@
 
 
     var singleton = {
+
+        inited : false,
+
         //数据是否已经渲染
         dataRendered : false,
 
@@ -53,6 +56,13 @@
         bookViewList : [],
 
         init : function(){
+
+            if( this.inited ){
+                return;
+            }
+            this.inited = true;
+
+            utils.restoreRenderMode();
 
             this.$win = $(window);
 
@@ -124,7 +134,7 @@
             if( this.dataRendered ){
                 return;
             }
-
+            utils.restoreRenderMode();
             bridgeXXX.getBookList( this.studyType, this.showBookList.bind( this ) );
         },
 

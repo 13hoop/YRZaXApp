@@ -32,6 +32,8 @@
 #import "TimeWatcher.h"
 #import "SBJsonWriter.h"
 #import "KnowledgeDataTypes.h"
+#import "NSUserDefaultUtil.h"
+
 
 // KnowledgeManager
 @interface KnowledgeManager() <KnowledgeDataStatusDelegate> {

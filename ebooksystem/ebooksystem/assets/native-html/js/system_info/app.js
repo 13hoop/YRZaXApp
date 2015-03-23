@@ -7,13 +7,23 @@
 
     var $ = window.Zepto;
     var bridgeXXX = window.bridgeXXX;
+    var utils = window.utils;
     var Dialog = window.Dialog;
 
     var app = {
 
+        inited : false,
+
         $infoList : null,
 
         init : function(){
+
+            if( this.inited ){
+                return;
+            }
+            this.inited = true;
+
+            utils.restoreRenderMode();
 
             var $backBtn = $('.common-back');
             $backBtn.on('tap', function(){

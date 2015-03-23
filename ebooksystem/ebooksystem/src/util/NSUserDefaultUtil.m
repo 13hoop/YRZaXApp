@@ -78,9 +78,13 @@
 
 //
 + (BOOL)saveUpdateStatus:(NSString *)updateStatus {
+    if (updateStatus == nil || updateStatus.length <= 0) {
+        return NO;
+    }
     NSUserDefaults *userdefault = [NSUserDefaults standardUserDefaults];
     [userdefault setObject:updateStatus forKey:@"updateStatus"];
     [userdefault synchronize];
+    NSLog(@"我就想看看这个值存上了没有===%@",[userdefault objectForKey:@"updateStatus"]);
     return YES;
 }
 
@@ -96,4 +100,81 @@
     [userDefault synchronize];
     return YES;
 }
+
+
+//夜间模式
++ (BOOL)setGlobalDataWithObject:(NSDictionary *)dic {
+    //将页面传来的dic使用Key-value键值对形式存储,key（GlobalData）
+    if (dic == nil) {
+        return NO;
+    }
+    //先从nsuserDefault中查找是否已经存在具体的值
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSDictionary *globalValueDic = [userDefaults objectForKey:@"GlobalData"];
+    NSMutableDictionary *updateDic = [NSMutableDictionary dictionaryWithDictionary:[userDefaults objectForKey:@"GlobalData"]];
+    if (globalValueDic == nil) {
+        //本地没有数据，则直接保存
+        [userDefaults setObject:dic forKey:@"GlobalData"];
+        [userDefaults synchronize];
+        //判断是否保存成功
+        NSDictionary *dicExist =[userDefaults objectForKey:@"GlobalData"];
+        if (dicExist) {//保存成功
+            return YES;
+        }
+        else {
+            return NO;
+        }
+    }
+    //本地已经有global数据存储，则更新本地数据
+    NSArray *keyArray = [dic allKeys];//获取页面新传来的dic中的所有的key
+    NSArray *existedKeyArray = [globalValueDic allKeys];//获取已经存在dic中的key
+    if (keyArray == nil || keyArray.count <= 0 || existedKeyArray == nil || existedKeyArray.count <= 0) {
+        return NO;
+    }
+    for (NSString *tempKey in keyArray) {
+        NSString *existedValue = [updateDic valueForKey:tempKey];//这样取会不会崩掉？
+        NSString *updateValue = [dic valueForKey:tempKey];
+        if (existedValue == nil || existedValue.length <= 0) {
+            //原来数组中不存在这个字典，则添加
+            [updateDic setObject:updateValue forKey:tempKey];//若是原dic中无当前key对应的value，则添加，若是已经存在则修改
+        }
+        else {
+            //移除掉已经存在的数据
+            [updateDic removeObjectForKey:tempKey];
+            NSLog(@"%@",updateDic);
+            //保存新的数据
+            [updateDic setObject:updateValue forKey:tempKey];
+            
+        }
+    }
+    [userDefaults removeObjectForKey:@"GlobalData"];//移除原有的数据
+    [userDefaults setValue:updateDic forKey:@"GlobalData"];//保存新的数据
+    
+    [userDefaults synchronize];
+    return YES;
+    
+}
+
++ (NSDictionary *)getGlobalDataWithKeyArray:(NSArray *)keyArray {
+    if (keyArray == nil || keyArray.count <= 0) {
+        return nil;
+    }
+    
+    NSMutableDictionary *mutableDic = [[NSMutableDictionary alloc] init];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSDictionary *dic = [userDefaults objectForKey:@"GlobalData"];
+    for (NSString *tempKey in keyArray) {//遍历传来的数组，获取到对应value值，存到新的字典中
+        if (tempKey == nil || tempKey.length <= 0) {
+            continue;
+        }
+        NSString *tempValue = [dic objectForKey:tempKey];
+        [mutableDic setValue:tempValue forKey:tempKey];
+    }
+    
+    return mutableDic;
+    
+}
+
+
+
 @end

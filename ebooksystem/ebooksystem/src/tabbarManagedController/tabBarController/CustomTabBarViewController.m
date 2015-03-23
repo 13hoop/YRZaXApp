@@ -16,9 +16,9 @@
 #import "PersonalCenterViewController.h"
 #import "PurchaseTabViewController.h"
 #import "UIColor+Hex.h"
+#import "WebViewBridgeRegisterUtil.h"
 
-
-@interface CustomTabBarViewController ()<UITabBarControllerDelegate>
+@interface CustomTabBarViewController ()<UITabBarControllerDelegate,WebviewBridgeRegisterDelegate>
 
 
 
@@ -52,10 +52,13 @@
     //1
     [self createCustomTabbar];
     
-    
+    //为了刷新tabbar的背景
+    [self firstLanchWithChangeTabbarGround];
     
     //创建扫一扫按钮
     [self createBUtton];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults addObserver:self forKeyPath:@"GlobalData" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:nil];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -64,6 +67,8 @@
 }
 - (void)viewWillAppear:(BOOL)animated
 {
+    
+
     [super viewWillAppear:animated];
 }
 
@@ -237,6 +242,7 @@
     //背景图片
     UIView *tabbarView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.tabBar.frame.size.width, self.tabBar.frame.size.height)];
     tabbarView.backgroundColor = [UIColor whiteColor];
+    tabbarView.tag = 3000;
     [self.tabBar addSubview:tabbarView];
     
     
@@ -250,6 +256,7 @@
         [btn setImage:[UIImage imageNamed:[imageArr objectAtIndex:i]] forState:UIControlStateNormal];
         [btn setImage:[UIImage imageNamed:[selectedImageArr objectAtIndex:i]] forState:UIControlStateSelected];
         btn.tag = 1000+i;
+//        [btn setBackgroundColor:[UIColor colorWithHexString:@"#373E4F"]];
 //        btn.backgroundColor = [UIColor redColor];
         [self.tabBar addSubview:btn];
 
@@ -325,5 +332,87 @@
 
 
 
+#pragma mark kvo delegate method
+//kvo的代理方法
 
+-(void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+    NSString *mode = [[userDefault objectForKey:@"GlobalData"] objectForKey:@"render-mode"];
+    if([mode isEqualToString:@"night"])
+    {
+        for (UIView *tempView in self.tabBar.subviews) {
+            if ([tempView isKindOfClass:[UIButton class]]) {
+                UIButton *btn = (UIButton *)tempView;
+                [btn setBackgroundColor:[UIColor colorWithHexString:@"#373E4F"]];
+            }
+            if ([tempView isKindOfClass:[UILabel class]]) {
+                UILabel *currentLable = (UILabel *)tempView;
+                currentLable.backgroundColor = [UIColor colorWithHexString:@"#373E4F"];
+            }
+            if ([tempView isKindOfClass:[UIView class]]) {
+                UIView *tabbarView = (UIView *)tempView;
+                tabbarView.backgroundColor = [UIColor colorWithHexString:@"#373E4F"];
+            }
+        }
+    }
+    else if ([mode isEqualToString:@"day"]) {
+        for (UIView *tempView in self.tabBar.subviews) {
+            if ([tempView isKindOfClass:[UIButton class]]) {
+                UIButton *btn = (UIButton *)tempView;
+                [btn setBackgroundColor:[UIColor whiteColor]];
+            }
+            if ([tempView isKindOfClass:[UILabel class]]) {
+                UILabel *currentLable = (UILabel *)tempView;
+                currentLable.backgroundColor = [UIColor whiteColor];
+            }
+            if ([tempView isKindOfClass:[UIView class]]) {
+                UIView *tabbarView = (UIView *)tempView;
+                tabbarView.backgroundColor = [UIColor whiteColor];
+            }
+        }
+    }
+    
+}
+
+
+- (void)firstLanchWithChangeTabbarGround {
+    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+    NSString *mode = [[userDefault objectForKey:@"GlobalData"] objectForKey:@"render-mode"];
+    if([mode isEqualToString:@"night"])
+    {
+        for (UIView *tempView in self.tabBar.subviews) {
+            if ([tempView isKindOfClass:[UIButton class]]) {
+                UIButton *btn = (UIButton *)tempView;
+                [btn setBackgroundColor:[UIColor colorWithHexString:@"#373E4F"]];
+            }
+            if ([tempView isKindOfClass:[UILabel class]]) {
+                UILabel *currentLable = (UILabel *)tempView;
+                currentLable.backgroundColor = [UIColor colorWithHexString:@"#373E4F"];
+            }
+            if ([tempView isKindOfClass:[UIView class]]) {
+                UIView *tabbarView = (UIView *)tempView;
+                tabbarView.backgroundColor = [UIColor colorWithHexString:@"#373E4F"];
+            }
+            
+        }
+    }
+    else if ([mode isEqualToString:@"day"]) {
+        for (UIView *tempView in self.tabBar.subviews) {
+            if ([tempView isKindOfClass:[UIButton class]]) {
+                UIButton *btn = (UIButton *)tempView;
+                [btn setBackgroundColor:[UIColor whiteColor]];
+            }
+            if ([tempView isKindOfClass:[UILabel class]]) {
+                UILabel *currentLable = (UILabel *)tempView;
+                currentLable.backgroundColor = [UIColor whiteColor];
+            }
+            if ([tempView isKindOfClass:[UIView class]]) {
+                UIView *tabbarView = (UIView *)tempView;
+                tabbarView.backgroundColor = [UIColor whiteColor];
+            }
+            
+        }
+    }
+}
 @end
