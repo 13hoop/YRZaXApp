@@ -90,6 +90,7 @@
                                                  mimeType:@"image/jpeg"];
                      }];
      */
+    
      NSMutableURLRequest *request =
     [serializer multipartFormRequestWithMethod:@"POST" URLString:uploadUrl parameters:dic constructingBodyWithBlock:^(id<AFMultipartFormData> formData){
         [formData appendPartWithFileData:imageData

@@ -137,7 +137,8 @@
           totalBytesRead 这个参数是相对于本次request而言的，在这个请求中已经读取的字节数。
           totalBytesExpectedToRead 本次请求预计要读取的字节数。
      */
-     [op.operation setDownloadProgressBlock:^(NSUInteger bytesRead, long long totalBytesRead, long long totalBytesExpectedToRead) {
+    
+         [op.operation setDownloadProgressBlock:^(NSUInteger bytesRead, long long totalBytesRead, long long totalBytesExpectedToRead) {
          
          float progress;
          
@@ -149,8 +150,11 @@
          {
              progress = (double)(totalBytesRead + downloadedBytes) / (double) (totalBytesExpectedToRead + downloadedBytes);
          }
-         
-         progressBlock(progress, url);
+             
+             progressBlock(progress, url);
+                 
+
+        
      }];
     
     return op;

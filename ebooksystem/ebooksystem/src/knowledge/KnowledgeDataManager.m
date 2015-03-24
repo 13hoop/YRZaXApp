@@ -30,7 +30,7 @@
 #import "AppUtil.h"
 #import "LogUtil.h"
 #import "StatisticsManager.h"
-
+#import "NSUserDefaultUtil.h"
 
 @interface KnowledgeDataManager() <KnowledgeDownloadManagerDelegate>
 @property (nonatomic, strong) NSString *globalSavePath;
@@ -177,7 +177,7 @@
             for (NSString *password in passwords) {
     
                 //2.0中将 准备解包  的状态存到数据库
-                    [[KnowledgeMetaManager instance] setDataStatusTo:DATA_STATUS_UNPACK_PREPARING andDataStatusDescTo:@"0.92" forDataWithDataId:downloadItem.title andType:DATA_TYPE_DATA_SOURCE];
+                    [[KnowledgeMetaManager instance] setDataStatusTo:DATA_STATUS_UNPACK_PREPARING andDataStatusDescTo:@"0.96" forDataWithDataId:downloadItem.title andType:DATA_TYPE_DATA_SOURCE];
                 
                 if (password == nil || password.length <= 0) {
                     ret = [za unzipOpenFile:downloadItem.savePath];
@@ -188,7 +188,7 @@
                 
                 ret = [za unzipFileTo:unpackPath overwrite:YES];
                 //2.0 解包中
-                    [[KnowledgeMetaManager instance] setDataStatusTo:DATA_STATUS_UNPACK_IN_PROGRESS andDataStatusDescTo:@"0.92" forDataWithDataId:downloadItem.title andType:DATA_TYPE_DATA_SOURCE];
+                    [[KnowledgeMetaManager instance] setDataStatusTo:DATA_STATUS_UNPACK_IN_PROGRESS andDataStatusDescTo:@"0.96" forDataWithDataId:downloadItem.title andType:DATA_TYPE_DATA_SOURCE];
                 if (!ret) {
                     LogError(@"[KnowledgeDataManager:processDownloadedDataPack:] failed, since failed to unzip zip file: %@", downloadItem.savePath);
                     ret = NO;
@@ -201,7 +201,7 @@
                 BOOL existed = [[NSFileManager defaultManager] fileExistsAtPath:unpackPath isDirectory:&isDir];
                 if (existed) {
                     //2.0 在这里将进度
-                        [[KnowledgeMetaManager instance] setDataStatusTo:DATA_STATUS_UNPACK_IN_PROGRESS andDataStatusDescTo:@"0.94" forDataWithDataId:downloadItem.title andType:DATA_TYPE_DATA_SOURCE];
+                        [[KnowledgeMetaManager instance] setDataStatusTo:DATA_STATUS_UNPACK_IN_PROGRESS andDataStatusDescTo:@"0.96" forDataWithDataId:downloadItem.title andType:DATA_TYPE_DATA_SOURCE];
                     
                     break; // 已解包成功
                 }
@@ -444,7 +444,7 @@
             
             
             //2.0 解包成功（解包完成）
-                [[KnowledgeMetaManager instance] setDataStatusTo:DATA_STATUS_UNPACK_COMPLETED andDataStatusDescTo:@"0.98" forDataWithDataId:downloadTitle andType:DATA_TYPE_DATA_SOURCE];
+                [[KnowledgeMetaManager instance] setDataStatusTo:DATA_STATUS_INCHECK andDataStatusDescTo:@"0.98" forDataWithDataId:downloadTitle andType:DATA_TYPE_DATA_SOURCE];
         }
         
         //2.0修改：做判断，若是存在op.lst文件则按照1.0中的逻辑走，否则按照2.0设计逻辑走
@@ -472,9 +472,14 @@
                 [PathUtil deletePath:toPath];
                 
             }
+            
+            //所有的文件移动完成后设置一个标志，表示移动完成
+            [NSUserDefaultUtil saveMoveCompleteString];
+            
+            
             //后续需要写读文件内容，存到数据库中的操作。，存到数据库中的操作。存book的相对路径，修改book的版本号，修改dataStatus。（在调用该方法的函数内写）
             
-            //1 dataStatusDesc置为100 2 状态为更新完成时才会将数据库中latestVersion字段赋值给cruVersion字段 。若是出现捷报错误，这段代码不会被执行。
+            //1 dataStatusDesc置为100 2 状态为更新完成时才会将数据库中latestVersion字段赋值给cruVersion字段 。若是出现解包错误，这段代码不会被执行。
                 [[KnowledgeMetaManager instance]setDataStatusTo:DATA_STATUS_UPDATE_COMPLETED andDataStatusDescTo:@"100" andDataLatestVersion:nil andDataPath:downloadTitle andDataStorageType:DATA_STORAGE_INTERNAL_STORAGE forDataWithDataId:downloadTitle andType:DATA_TYPE_DATA_SOURCE];
             
             
@@ -1732,7 +1737,10 @@
     //H：自己方便写
     [self.dataStatusDelegate DownLoadKnowledgedataWithProgress:progress andDownloadItem:downloadItem];
 }
-        
+
+
+
+
 // 下载成功/失败
 // 注：下载，解包，删除多余文件组成一个整体的操作，下载完成后将进度减去10，解包和删除压缩文件的操作占总进度的10%
 - (void)knowledgeDownloadItem:(KnowledgeDownloadItem *)downloadItem didFinish:(BOOL)success response:(id)response {
@@ -2037,6 +2045,8 @@
         else {
             bookAvail = @"0";
         }
+        
+        
         //组成dic
         NSMutableDictionary *dic = [NSMutableDictionary dictionary];
         [dic setValue:bookId forKey:@"book_id"];
@@ -2122,12 +2132,15 @@
     }
     //判断shit文件大小是否为0
     NSString *shitFileContents = [NSString stringWithContentsOfFile:shitFilePath encoding:NSUTF8StringEncoding error:&error];
+    NSLog(@"检查的shit文件路径===%@",shitFilePath);
     if (shitFileContents == nil || shitFileContents.length <= 0) {
         unpackSuccess = NO;
         return unpackSuccess;
     }
     return unpackSuccess;
 }
+
+
 
 
 @end

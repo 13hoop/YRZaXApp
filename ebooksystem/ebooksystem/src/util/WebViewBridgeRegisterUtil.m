@@ -137,14 +137,22 @@ typedef enum {
         if (responseCallback != nil) {
             NSArray *dataArray = [[KnowledgeManager instance] getLocalDataWithDataId:dataId andQueryId:queryId andIndexFilename:nil];
             NSString *data = nil;
-            for (NSString *dataStr in dataArray) {
-                if (dataStr == nil || dataStr.length <= 0) {
-                    continue;
-                }
-                
-                data = dataStr;
-                break;
+            
+            if (dataArray == nil || dataArray.count <= 0) {
+                data = @"";
             }
+            else {
+                for (NSString *dataStr in dataArray) {
+                    if (dataStr == nil || dataStr.length <= 0) {
+                        continue;
+                    }
+                    
+                    data = dataStr;
+                    break;
+                }
+            }
+            
+            
             responseCallback(data);
         }
     }];
@@ -734,7 +742,7 @@ typedef enum {
     [self.javascriptBridge registerHandler:@"goDiscoverPage" handler:^(id data, WVJBResponseCallback responseCallback) {
         //跳转到发现页
         self.tabBarController.selectedIndex = 1;
-        [self.delegate goDiscoverPage];//代理属性调用代理方法
+//        [self.delegate goDiscoverPage];//代理属性调用代理方法
     }];
     
     //************** ****
@@ -1611,16 +1619,18 @@ typedef enum {
             }
         }
         
-        
+        NSString *completeString = [NSUserDefaultUtil getMoveCompleteString];
         //获取update_status
-        if (isAvail) {
+        if (isAvail && [completeString isEqualToString:@"completed"]== YES) {
+            
             bookAvail = @"1";
+            [NSUserDefaultUtil removeMoveCompleteString];
         }
         else {
             bookAvail = @"0";
         }
 
-        
+        NSLog(@"书籍可用状态===%@，bookStatus====%@",bookAvail,bookStatusStr);
         NSString *dicBookStatusDetails = [entity valueForKey:@"dataStatusDesc"];
         //将浮点型转换成integer型，再转换成字符串类型
         NSString *downLoadProgressStr = nil;
@@ -1791,7 +1801,7 @@ typedef enum {
 //点击取消的代理方法
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {
     //取消时的处理，相当于选择图片成功
-    [self nativeCallHandleWithCallId:self.callIdString andErrorCode:@"0" andErrorMessage:nil andImageStr:self.imageString];
+    [self nativeCallHandleWithCallId:self.callIdString andErrorCode:@"0" andErrorMessage:nil andImageStr:@""];
     
     //退出相机界面
     [self.controller dismissViewControllerAnimated:YES completion:nil];
@@ -1803,11 +1813,11 @@ typedef enum {
         LogWarn (@"[WebViewBridgeRegisterUtil - upLoadImageWithTokenString] upload image file failed , token string is nil");
     }
     //在选择图片时若是取消选择图片，应该能能够上传，不能拦截
-    if (self.imageString == nil || self.imageString.length <= 0) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"您未选择将要上传的图片，请选择后再上传" delegate:nil cancelButtonTitle:@"好的" otherButtonTitles:nil, nil];
-        [alert show];
-        return NO;
-    }
+//    if (self.imageString == nil || self.imageString.length <= 0) {
+//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"您未选择将要上传的图片，请选择后再上传" delegate:nil cancelButtonTitle:@"好的" otherButtonTitles:nil, nil];
+//        [alert show];
+//        return NO;
+//    }
     //拼接parameter参数
     NSString *tokenStr = token;
     //upload url

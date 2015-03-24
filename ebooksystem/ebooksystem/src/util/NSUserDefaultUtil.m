@@ -175,6 +175,25 @@
     
 }
 
+//存储文件移动的状态
 
++ (BOOL)saveMoveCompleteString {
+    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+    [userDefault setObject:@"completed" forKey:@"MoveComplete"];
+    [userDefault synchronize];
+    return YES;
+}
 
++ (NSString *)getMoveCompleteString {
+    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+    NSString *completeString = [userDefault objectForKey:@"MoveComplete"];
+    return completeString;
+}
+
++ (BOOL)removeMoveCompleteString {
+     NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+    [userDefault removeObjectForKey:@"MoveComplete"];
+    [userDefault synchronize];
+    return YES;
+}
 @end

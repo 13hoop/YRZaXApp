@@ -40,4 +40,10 @@
 + (BOOL)setGlobalDataWithObject:(NSDictionary *)dic;
 + (NSDictionary *)getGlobalDataWithKeyArray:(NSArray *)keyArray;
 
+//存储移动完成的标志
++ (BOOL)saveMoveCompleteString;
++ (NSString *)getMoveCompleteString;
++ (BOOL)removeMoveCompleteString;
+
+
 @end
