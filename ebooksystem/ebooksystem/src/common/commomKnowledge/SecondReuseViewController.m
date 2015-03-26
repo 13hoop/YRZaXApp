@@ -204,6 +204,7 @@
     [self injectJSToWebview:self.webView andJSFileName:@"SamaPageHide"];
     //退出读书页的统计
     [[StatisticsManager instance] endLogPageView:@"readPage"];
+    
 }
 
 - (void)didReceiveMemoryWarning {

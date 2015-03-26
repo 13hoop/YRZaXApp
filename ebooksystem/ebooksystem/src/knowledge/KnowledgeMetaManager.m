@@ -33,16 +33,23 @@
 
 @implementation KnowledgeMetaManager
 
+
+
 #pragma mark - singleton
 + (KnowledgeMetaManager *)instance {
     static KnowledgeMetaManager *sharedInstance = nil;
     static dispatch_once_t predicate;
     dispatch_once(&predicate, ^{
         sharedInstance = [[KnowledgeMetaManager alloc] init];
+        
     });
     
     return sharedInstance;
+    
 }
+
+
+
 
 
 // load knowledge meta
@@ -367,6 +374,7 @@
     return metaArray;
 }
 
+
 // get knowledge metas
 - (NSArray *)getKnowledgeMetaWithDataId:(NSString *)dataId andDataType:(DataType)dataType {
     NSMutableArray *metaArray = [[NSMutableArray alloc] init];
@@ -375,7 +383,19 @@
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     
     // Entity
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"KnowledgeMetaEntity" inManagedObjectContext:[CoreDataUtil instance].managedObjectContext];
+    
+    NSPersistentStoreCoordinator *coordinator = [CoreDataUtil instance].persistentStoreCoordinator;
+    
+        NSManagedObjectContext *managedObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
+        [managedObjectContext setPersistentStoreCoordinator:coordinator];
+    
+
+    
+    
+    
+    
+//    NSEntityDescription *entity = [NSEntityDescription entityForName:@"KnowledgeMetaEntity" inManagedObjectContext:[CoreDataUtil instance].managedObjectContext];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"KnowledgeMetaEntity" inManagedObjectContext:managedObjectContext];
     [fetchRequest setEntity:entity];
     
     // Predicate
@@ -384,7 +404,8 @@
     
     // Fetch
     NSError *error = nil;
-    NSArray *fetchedObjects = [[CoreDataUtil instance].managedObjectContext executeFetchRequest:fetchRequest error:&error];
+//    NSArray *fetchedObjects = [[CoreDataUtil instance].managedObjectContext executeFetchRequest:fetchRequest error:&error];
+    NSArray *fetchedObjects = [managedObjectContext executeFetchRequest:fetchRequest error:&error];
     if (fetchedObjects != nil &&
         fetchedObjects.count > 0) {
         for (NSManagedObject *entity in fetchedObjects) {
@@ -397,6 +418,36 @@
     }
     return metaArray;
 }
+
+
+/*////////////////
+- (NSArray *)getKnowledgeMetaWithDataId:(NSString *)dataId andDataType:(DataType)dataType {
+    NSMutableArray *metaArray = [[NSMutableArray alloc] init];
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"KnowledgeMetaEntity"];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"dataId==%@ and dataType=%@", dataId, [NSNumber numberWithInteger:DATA_TYPE_DATA_SOURCE]];
+    [fetchRequest setPredicate:predicate];
+    NSManagedObjectContext *context = [[NSManagedObjectContext alloc] init];
+    NSError *error = nil;
+    NSArray *fetchedObjects = [context executeFetchRequest:fetchRequest error:&error];
+    if (fetchedObjects != nil &&
+        fetchedObjects.count > 0) {
+        for (NSManagedObject *entity in fetchedObjects) {
+            [metaArray addObject:entity];
+        }
+    }
+    
+    if (metaArray == nil || metaArray.count <= 0) {
+        return nil;
+    }
+    return metaArray;
+    
+}
+
+*/
+
+
+
+
 
 /*
 //获取数据的状态
@@ -555,6 +606,8 @@
 #pragma mark - setter
 // 更新数据的状态及状态描述
 - (BOOL)setDataStatusTo:(DataStatus)status andDataStatusDescTo:(NSString *)desc forDataWithDataId:(NSString *)dataId andType:(DataType)dataType {
+    
+    
     if (dataId == nil) {
         return YES; // nothing to save, return YES
     }
@@ -594,6 +647,8 @@
                         [entity setValue:updateInfo forKey:@"updateInfo"];
                     }
                 }
+                
+                NSLog(@"后台其实还在运行，但是界面卡死====%d",status);
                 
                 if (![[CoreDataUtil instance].managedObjectContext save:&error]) {
                     LogError(@"[KnowledgeMetaManager-setDataStatusTo:andDataStatusDescTo:forDataWithDataId:andType:] update failed when save to context, error: %@", [error localizedDescription]);

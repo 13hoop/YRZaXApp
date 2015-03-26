@@ -33,8 +33,14 @@
 #import "NSUserDefaultUtil.h"
 
 @interface KnowledgeDataManager() <KnowledgeDownloadManagerDelegate>
+
 @property (nonatomic, strong) NSString *globalSavePath;
 @property (nonatomic, assign) BOOL originalBookHavedExist;
+
+//为加锁做准备
+@property (nonatomic, strong) NSLock *globalLock;
+@property (nonatomic, strong) NSUserDefaults *standUser;
+
 
 
 #pragma mark - 数据下载
@@ -231,7 +237,7 @@
             {
                 NSError *deleteUnpackFileError;
                 //2.0 开始校验的状态
-                [[KnowledgeMetaManager instance] setDataStatusTo:DATA_STATUS_INCHECK andDataStatusDescTo:@"0.96" forDataWithDataId:downloadItem.title andType:DATA_TYPE_DATA_SOURCE];
+                [[KnowledgeMetaManager instance] setDataStatusTo:DATA_STATUS_INCHECK andDataStatusDescTo:@"0.92" forDataWithDataId:downloadItem.title andType:DATA_TYPE_DATA_SOURCE];
                 
                 NSError *error = nil;
                 NSString *md5File = [NSString stringWithFormat:@"%@/%@", unpackPath, @"md5.txt"];
@@ -328,6 +334,9 @@
                 // process
                 
 //                ret = [self processZippedDataFile:zippedDataFilename withDecryptKey:downloadItem.tag];
+                //看一下这不操作是在那个线程里
+                NSThread *moveThread = [NSThread currentThread];
+                NSLog(@"移动文件的线程是在====%@",moveThread);
                 ret = [self processZippedDataFile:zippedDataFilename withDecryptKey:downloadItem.tag withDownloadItemTitle:downloadItem.title];
                 
                 if (!ret) {
@@ -347,6 +356,7 @@
     LogInfo(@"[KnowledgeDataManager-processDownloadedDataPack:] end %@, file: %@", (ret ? @"successfully" : @"failed"), downloadItem.savePath);
     
     //4.处理试读书
+    /*
     //(1)删除数据库中试读书的信息 (2)判断试读书文件是否存在，若存在，则删除
     //不是所有的试读书都要删，只有在下载了整书后才需要删除试读书
     NSString *needDeleteBookId = [NSString stringWithFormat:@"%@-partial",downloadItem.title];
@@ -355,7 +365,7 @@
     
     NSArray *bookKnowLedgeArray = [[KnowledgeMetaManager instance] getKnowledgeMetaWithDataId:needDeleteBookId];
     if (bookKnowLedgeArray == nil || bookKnowLedgeArray.count <= 0) {//没有需要删除的试读数据
-        LogInfo (@"[KnowledgeDataManager - processDownloadedDataPack:] no partial data need to delete");
+        LogInfo (@"[KnowledgeDataManager - processDownloadedDataPack:] update data success ,and no partial data need to delete");
         return ret;
     }
     BOOL deletePartialSuccess = [[KnowledgeMetaManager instance] deleteKnowledgeMetaWithDataId:needDeleteBookId];
@@ -375,7 +385,7 @@
     if (!deletePartialBookFileSuccess) {//删除本地文件失败，提示
         LogError(@"[KnowledgeDataManager - processDownloadedDataPack]: delete partial book file failed with errorInfo %@",deletePartialError.localizedDescription);
     }
-    
+    */
     
     return ret;
 }
@@ -1053,6 +1063,7 @@
         // 注: 后续操作位于KnowledgeDownloadManagerDelegate的相关方法中. 包括: (1) 解包 (2) 拷贝文件, 更新数据库
         //更新模式：（1）检查更新并将更新添加到数据库中（2）检查更新并将完成更新
         if ([Config instance].knowledgeDataConfig.knowledgeDataUpdateMode == DATA_UPDATE_MODE_CHECK_AND_UPDATE) {
+            
             [self startDownloadWithResponse:response];
         }
     });
@@ -1063,6 +1074,8 @@
 #pragma mark start download new book
 //2.0先注释掉 H:
 - (BOOL)startDownloadDataWithDataId:(NSString *)dataId {
+    
+    
     //（1）js传一个dataId到 native ，native根据dataId从数据库中取出对应dataId的当前版本号
     NSString *dataCurVersion = nil;
     //限定dataType
@@ -1127,7 +1140,7 @@
         
         
         
-        return NO;
+//        return NO;
     }
     
     if (response.updateInfo.details == nil || response.updateInfo.details.count <= 0) {
@@ -1136,7 +1149,9 @@
     }
    
     
-    
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    dispatch_group_t group = dispatch_group_create();
+    dispatch_group_async(group, queue, ^{
     // (4)H：根据服务器返回信息进行下载，下面两种方式都可以：
     //方法1：
         [self startDownloadWithResponse:response];
@@ -1165,6 +1180,7 @@
     }
     
     */
+                });
     
     return YES;
 
@@ -1653,7 +1669,7 @@
         */
         LogDebug(@"[KnowledgeDataManager-getDataUpdateInfo -- look is json String:] encryptedContent: %@", jsonOfDataUpdateRequestInfo);
 //        [data setValue:encryptedContent forKey:@"data"];
-        //data对应的需要是一个json字符串，浩哥上述操作是拼接了一个json格式的字符串
+        //data对应的需要是一个json字符串，上述操作是拼接了一个json格式的字符串
         [data setValue:jsonOfDataUpdateRequestInfo forKey:@"data"];
     }
     
@@ -1724,18 +1740,40 @@
 
 // 下载进度
 - (void)knowledgeDownloadItem:(KnowledgeDownloadItem *)downloadItem didProgress:(float)progress {
-    LogDebug(@"download item, id %@, title %@, progress: %@", downloadItem.itemId, downloadItem.title, downloadItem.downloadProgress);
-    
-    // 将下载进度更新到coreData
-    dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [[KnowledgeMetaManager instance] setDataStatusTo:DATA_STATUS_DOWNLOAD_IN_PROGRESS andDataStatusDescTo:[NSString stringWithFormat:@"%lf", progress ] forDataWithDataId:downloadItem.title andType:DATA_TYPE_DATA_SOURCE];
-        NSLog(@"进度=====%lf",progress );
-        NSThread *Current = [NSThread currentThread];
-        NSLog(@"修改下载进度的线程是======%@",Current);
+/*
+    self.standUser = [NSUserDefaults standardUserDefaults];
+    NSString *hadUsed = [self.standUser objectForKey:@"hadUsed"];
+    if (hadUsed == nil || hadUsed.length <= 0) {
+        //第一次进入到这个方法
+        [self.standUser setObject:@"hadUsed" forKey:@"hadUsed"];
+        [self.standUser synchronize];
+        //实例化全局的锁
+        self.globalLock = [[NSLock alloc] init];
         
-    });
+    }
+//    LogDebug(@"download item, id %@, title %@, progress: %@", downloadItem.itemId, downloadItem.title, downloadItem.downloadProgress);
+    
+ */
+    float tempProgress = progress;
+    if ((NSUInteger)(tempProgress*100)%20 == 0) {
+        // 将下载进度更新到coreData
+        dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+            [self.globalLock lock];
+            [[KnowledgeMetaManager instance] setDataStatusTo:DATA_STATUS_DOWNLOAD_IN_PROGRESS andDataStatusDescTo:[NSString stringWithFormat:@"%lf", progress ] forDataWithDataId:downloadItem.title andType:DATA_TYPE_DATA_SOURCE];
+            
+            [self.globalLock unlock];
+            
+            NSThread *Current = [NSThread currentThread];
+            NSLog(@"修改下载进度的线程是======%@",Current);
+            
+            LogDebug(@"[knowledgeDownloadItem:didProgress:]download item, id %@, title %@, progress: %@", downloadItem.itemId, downloadItem.title, downloadItem.downloadProgress);
+        });
+    }
+    
+    
     //H：自己方便写
-    [self.dataStatusDelegate DownLoadKnowledgedataWithProgress:progress andDownloadItem:downloadItem];
+//    [self.dataStatusDelegate DownLoadKnowledgedataWithProgress:progress andDownloadItem:downloadItem];
+    
 }
 
 
@@ -1745,12 +1783,12 @@
 // 注：下载，解包，删除多余文件组成一个整体的操作，下载完成后将进度减去10，解包和删除压缩文件的操作占总进度的10%
 - (void)knowledgeDownloadItem:(KnowledgeDownloadItem *)downloadItem didFinish:(BOOL)success response:(id)response {
     
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        
-        
+//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+
+    
+    
         // log
         {
-            
             
             NSString *info = nil;
             if (success) {
@@ -1791,10 +1829,6 @@
                 
             }
             
-            
-            //下载失败后回到了主线程
-            NSThread *current = [NSThread currentThread];
-            NSLog(@"下载失败后的当前线程是cru Thread ID === %@",current);
             // 3、统计下载失败
             //        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             [[StatisticsManager instance]statisticDownloadAndUpdateWithBookId:downloadItem.title andSuccess:@"fail"];
@@ -1804,18 +1838,13 @@
         }
         
         // 将下载进度更新到coreData
-        
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            
         [[KnowledgeMetaManager instance] setDataStatusTo:DATA_STATUS_DOWNLOAD_COMPLETED andDataStatusDescTo:@"0.94" forDataWithDataId:downloadItem.title andType:DATA_TYPE_DATA_SOURCE];
-        NSThread *SuccessDownloadCurrent = [NSThread currentThread];
-        NSLog(@"下载成功时的当前线程是======%@",SuccessDownloadCurrent);
-        
-        
         // 启动后台任务, 继续下载的后续操作
-        //    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [self processDownloadedDataPack:downloadItem];
-        NSThread *UnPackcurrent = [NSThread currentThread];
-        NSLog(@"开始解压操作时的线程是======%@",UnPackcurrent);
-        //    });
+            
+            });
         //下载成功后进行统计
         //    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [[StatisticsManager instance] statisticDownloadAndUpdateWithBookId:downloadItem.title andSuccess:@"succ"];
@@ -1824,7 +1853,7 @@
         //H:使用代理，将下载完成的状态值传到knowledgeManager中
         [self.dataStatusDelegate DownLoadKnowledgedata:success andDownLoadItem:downloadItem];
         
-    });
+//    });
     
 }
 
@@ -2138,6 +2167,18 @@
         return unpackSuccess;
     }
     return unpackSuccess;
+}
+
+
+#pragma mark stop\pause download data
+
+- (BOOL)stopDownloadData:(NSString *)dataId {
+    return [[KnowledgeDownloadManager instance] stopDownloadWithId:dataId];
+    
+}
+
+- (BOOL)pauseDownloadData:(NSString *)dataId {
+    return [[KnowledgeDownloadManager instance] pauseDownloadWithId:dataId];
 }
 
 

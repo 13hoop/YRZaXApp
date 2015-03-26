@@ -71,6 +71,8 @@
 
 @implementation RenderKnowledgeViewController
 
+
+
 #pragma mark - properties
 // webUrl
 - (NSString *)webUrl {
@@ -119,9 +121,12 @@
 
 #pragma mark - app life
 //初步解决方法
-//- (void)dealloc {
-//    self.webView.delegate = nil;
-//}
+- (void)dealloc {
+    self.webView.delegate = self;
+//    self.webView = nil;
+    NSLog(@"进到dealloc中了");
+    
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -135,6 +140,7 @@
     webviewBridgeUtil.navigationController = self.navigationController;
     webviewBridgeUtil.tabBarController = self.tabBarController;
     webviewBridgeUtil.discoveryOnlineUrl = self.webUrl;
+    webviewBridgeUtil.lastPage = @"BooKDetailPage";
     [webviewBridgeUtil initWebView];
     
     
@@ -208,6 +214,8 @@
     
     
     
+    
+    
 }
 //iOS7之后修改状态栏的颜色
 -(UIStatusBarStyle)preferredStatusBarStyle
@@ -225,6 +233,16 @@
     [self hideProgressOfActivityIndicator];
     //退出页面统计
     [[StatisticsManager instance] endLogPageView:@"renderPage"];
+    
+//    self.webView = nil;
+//    self.webView.delegate = nil;
+//    [self.webView removeFromSuperview];
+//    [self.view removeFromSuperview];
+//    [self removeFromParentViewController];
+//    [self willMoveToParentViewController:nil];
+//    [self.view removeFromSuperview];
+//    [self removeFromParentViewController];
+    
 }
 
 - (void)didReceiveMemoryWarning

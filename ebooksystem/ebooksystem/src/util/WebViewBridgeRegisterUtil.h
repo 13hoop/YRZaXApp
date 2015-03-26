@@ -33,6 +33,12 @@
 
 @property (nonatomic, weak) id<WebviewBridgeRegisterDelegate>delegate;
 
+//实现返回时检查书籍的状态
+@property (nonatomic, strong) NSString *lastPage;
+@property (nonatomic, strong) NSString *needCheckBookId;
+
+
++ (WebViewBridgeRegisterUtil *)instance;
 //注册js同native交互时会调用的接口
 - (void)initWebView;
 

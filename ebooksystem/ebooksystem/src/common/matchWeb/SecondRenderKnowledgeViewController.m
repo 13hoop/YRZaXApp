@@ -198,6 +198,8 @@
     //进入发现页面的统计
     [[StatisticsManager instance] beginLogPageView:@"discoverPage"];
     
+    //[
+//    [self removeFromParentViewController];
 
 }
 

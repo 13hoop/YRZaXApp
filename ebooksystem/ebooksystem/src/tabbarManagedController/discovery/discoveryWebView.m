@@ -299,6 +299,7 @@ typedef enum {
         
     }];
     
+    /*
     //queryBookStatus
     [self.javascriptBridge registerHandler:@"queryBookStatus" handler:^(id data, WVJBResponseCallback responseCallback) {
         LogDebug(@"discoveryWebView::startDownload() called: %@", data);
@@ -326,6 +327,8 @@ typedef enum {
         
         
     }];
+     
+     */
     //goUserSettingPage
     [self.javascriptBridge registerHandler:@"goUserSettingPage" handler:^(id data, WVJBResponseCallback responseCallback) {
         //跳转到设置页面

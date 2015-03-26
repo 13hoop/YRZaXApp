@@ -37,7 +37,7 @@
 @property (nonatomic,strong) UIButton *myBagButton;
 @property (nonatomic,strong) UIButton *discoverButton;
 
-
+@property (nonatomic, strong) RenderKnowledgeViewController *render;
 @end
 
 @implementation DiscoveryViewController
@@ -61,6 +61,12 @@
 
 
 - (void)viewWillAppear:(BOOL)animated {
+    
+//    if (self.discoverWeb == nil) {
+//        [self makeWebView];
+//    }
+    
+    
     //显示掉状态栏,指定状态栏的颜色（系统状态栏颜色只有两种选择，黑色和白色，底色可以自定义）
     [[UIApplication sharedApplication] setStatusBarHidden:false];
     [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleDefault];
@@ -97,6 +103,15 @@
     //统计设备的激活次数
     [self registerDeviceAmount];
     
+    if (self.render != nil) {
+        self.render = nil;
+    }
+  
+    //创建发现页
+    
+    
+    
+    
 }
 - (void)viewDidAppear:(BOOL)animated {
     // 回发error log
@@ -110,8 +125,16 @@
     //触发JS事件
     [self.discoverWeb samaPageHide];
     
+//    //每次退出时，移除视图
+//    self.discoverWeb.discoverDelegate = nil;
+//    self.discoverWeb = nil;
+//    self.view = nil;
+    
+    
 }
-
+- (void)dealloc {
+    NSLog(@"进到发现页中的dealloc");
+}
 
 - (void)didReceiveMemoryWarning
 {
@@ -200,10 +223,10 @@
 
 //在发现页开新的controller
 - (void)showSafeUrl:(NSString *)url {
-    RenderKnowledgeViewController *render = [[RenderKnowledgeViewController alloc] init];
-    render.webUrl = url;
-    render.flag = @"discovery";
-    [self.navigationController pushViewController:render animated:YES];
+    self.render = [[RenderKnowledgeViewController alloc] init];
+    self.render.webUrl = url;
+    self.render.flag = @"discovery";
+    [self.navigationController pushViewController:self.render animated:YES];
 }
 
 //切换视图，从nav中退出
@@ -244,7 +267,7 @@
                 NSString *title=[NSString stringWithFormat:@"有新版本可供更新%@",version];
                 NSString *msg=[NSString stringWithFormat:@"更新信息：%@",desc];
                 UIAlertView *alert=[[UIAlertView alloc] initWithTitle:title message:msg delegate:self cancelButtonTitle:@"忽略" otherButtonTitles:@"更新", nil];
-                [alert show];
+//                [alert show];
             }
         }
         else {

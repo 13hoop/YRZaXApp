@@ -66,7 +66,7 @@ typedef enum {
 
 
 
-@interface WebViewBridgeRegisterUtil ()<UINavigationControllerDelegate,UIImagePickerControllerDelegate,uploadDelegate>
+@interface WebViewBridgeRegisterUtil ()<UINavigationControllerDelegate,UIImagePickerControllerDelegate,uploadDelegate,UIAlertViewDelegate>
 
 #pragma mark - properties
 // bridge between webview and js
@@ -88,6 +88,19 @@ typedef enum {
 
 
 @implementation WebViewBridgeRegisterUtil
+
++ (WebViewBridgeRegisterUtil *)instance {
+    static WebViewBridgeRegisterUtil *sharedInstance = nil;
+    static dispatch_once_t predicate;
+    dispatch_once(&predicate, ^{
+        sharedInstance = [[WebViewBridgeRegisterUtil alloc] init];
+        
+    });
+    
+    return sharedInstance;
+}
+
+
 
 /*
     做两件事情：
@@ -121,8 +134,11 @@ typedef enum {
         if (dic == nil) {
             LogInfo(@"WebViewBridgeRegisterUtil::goBack() goback info is nil");
         }
+        //每次注入，都会导致WebviewRegisterUtil 持有一次controller对象，导致退出controller时，webviewRegisterUtil对象持有一次controller实例，导致从当前视图pop回去后无法释放，所以要在这里消除掉
+        
         //
         [self goBack:dic];
+        
         
     }];
     
@@ -685,33 +701,64 @@ typedef enum {
     }];
     
    
+    static int count = 0;
     //queryBookStatus
     [self.javascriptBridge registerHandler:@"queryBookStatus" handler:^(id data, WVJBResponseCallback responseCallback) {
         LogDebug(@"RenderKnowledgeViewController::queryBookStatus() called: %@", data);
         
-        SBJsonParser *parse = [[SBJsonParser alloc] init];
-        NSArray *book_ids = [parse objectWithString:data];
-        //操作：遍历获取到的book_id数组
-        //根据book_ids来获取下载进度，需要从数据库中取到，（具体操作：1、根据book_id对数据库做读取操作 2、返回结果是一个json，其中downLoad_status需要返回汉字）。
-        NSMutableArray *booksArray = [NSMutableArray array];
-        for (NSString *bookId in book_ids) {
-            if (bookId ==nil) {
-                continue;
+        ++count;
+        
+//        dispatch_async(dispatch_get_main_queue(), ^{
+        dispatch_async(dispatch_get_global_queue(0, 0), ^{
+
+            
+            SBJsonParser *parse = [[SBJsonParser alloc] init];
+            NSArray *book_ids = [parse objectWithString:data];
+            //操作：遍历获取到的book_id数组
+            //根据book_ids来获取下载进度，需要从数据库中取到，（具体操作：1、根据book_id对数据库做读取操作 2、返回结果是一个json，其中downLoad_status需要返回汉字）。
+            NSMutableArray *booksArray = [NSMutableArray array];
+            for (NSString *bookId in book_ids) {
+                if (bookId ==nil) {
+                    continue;
+                }
+                //根据book_id从数据库中取相应的状态
+                NSMutableDictionary *dic = nil;
+                
+                //if (count <= 20) {
+                    LogDebug(@"[queryBookStatus()] count: %d, branch 1", count);
+                 dic = [self getDicFormDataBase:bookId];
+                /*}
+                else {
+                    LogDebug(@"[queryBookStatus()] count: %d, branch 2", count);
+                 dic = [[NSMutableDictionary alloc] init];
+                //构造字典
+                [dic setValue:bookId forKey:@"book_id"];
+                [dic setValue:@"下载中" forKey:@"book_status"];
+                [dic setValue:@"无更新" forKey:@"update_status"];
+                [dic setValue:@"0" forKey:@"book_avail"];
+                
+                int progress = (arc4random() % 100) + 1;
+                [dic setValue:[NSString stringWithFormat:@"%d", progress] forKey:@"book_status_detail"];
+                //新加一个字段book_cover
+                [dic setValue:@"http://y1.ifengimg.com/a/2015_09/1d8401937113fd3.gif" forKey:@"book_cover"];
+                }*/
+                
+                if(dic == nil) {
+                    continue;
+                }
+                [booksArray addObject:dic];
             }
-            //根据book_id从数据库中取相应的状态
-            NSMutableDictionary *dic = [self getDicFormDataBase:bookId];
-            if(dic == nil) {
-                continue;
+            NSLog(@"获取的数据状态===%@",booksArray);
+            //返回的是数组类型的值，即使是空数组也要解析一下
+            SBJsonWriter *writer = [[SBJsonWriter alloc] init];
+            NSString *jsonStr = [writer stringWithObject:booksArray];
+            if (responseCallback != nil) {
+                responseCallback(jsonStr);
             }
-            [booksArray addObject:dic];
-        }
-        NSLog(@"获取的数据状态===%@",booksArray);
-        //返回的是数组类型的值，即使是空数组也要解析一下
-        SBJsonWriter *writer = [[SBJsonWriter alloc] init];
-        NSString *jsonStr = [writer stringWithObject:booksArray];
-        if (responseCallback != nil) {
-            responseCallback(jsonStr);
-        }
+            
+        });
+        
+        
         
         
         
@@ -771,12 +818,48 @@ typedef enum {
         /*
          1先调queryBookStatus接口，检查本地是否有这本书。（若是本地没有该书的记录，返回空数组）
          2若是没有则掉addToNative接口
+            (1)首先检查数据库中的记录，若是已经存在则返回成功
+            (2.1)若是不存在，则向数据库中add一条记录，并设置status为系在中，进度为0
+            (2.2)开始下载
          */
         NSString *bookID = data;
+        
+        
+        
         //异步请求
+        //1、检查数据库
+        NSArray *knowledgeMetaArray = [[KnowledgeMetaManager instance]getKnowledgeMetaWithDataId:bookID];
+        
+        BOOL isSuccess = NO ;
         discoveryModel *model = [[discoveryModel alloc] init];
         NSArray *arr = [NSArray arrayWithObjects:bookID, nil];
-        BOOL isSuccess =  [model getBookInfoWithDataIds:arr];
+        
+        if (knowledgeMetaArray == nil || knowledgeMetaArray.count <= 0) {
+            //数据库中没有记录（1）在数据库中添加一条
+            [[KnowledgeMetaManager instance] setDataStatusTo:DATA_STATUS_DOWNLOAD_IN_PROGRESS andDataStatusDescTo:@"0" forDataWithDataId:bookID andType:DATA_TYPE_DATA_SOURCE];
+            //（2）发起网络请求，并进行下载
+            self.needCheckBookId = bookID;//获取需要下载的书籍
+            isSuccess =  [model getBookInfoWithDataIds:arr];
+            
+        }
+        else {//数据库中有对应的记录
+            for (NSManagedObjectContext *entity in knowledgeMetaArray) {
+                if (entity == nil) {
+                    continue;
+                }
+                NSNumber *dicBookStatusNum = [entity valueForKey:@"dataStatus"];
+                int bookStatusInt = [dicBookStatusNum intValue];
+                if (bookStatusInt == 14 || bookStatusInt == 16 || bookStatusInt == 18 || bookStatusInt == 20) {//四种失败状态
+                    self.needCheckBookId = bookID;//获取需要下载的书籍
+                    isSuccess = [model getBookInfoWithDataIds:arr];
+                }
+                else {
+                    isSuccess = YES;
+                }
+            }
+            
+        }
+        
         
         if (responseCallback != nil) {
             if (isSuccess) {
@@ -1179,12 +1262,58 @@ typedef enum {
     //判断回去的方式
     NSString *closeAnimation = [backDictionary objectForKey:@"close_animate"];
     if (closeAnimation == nil || closeAnimation.length <= 0 ) {//返回动画要求为空
-        [self.navigationController popViewControllerAnimated:YES];
+        
+        if ([self.lastPage isEqualToString:@"BooKDetailPage"]) {
+            //bookId 一定可以在这个实例中获取到
+            if (self.needCheckBookId == nil || self.needCheckBookId.length <= 0) {
+                //没有开始下载书籍,则直接返回
+                [self.navigationController popViewControllerAnimated:YES];
+                
+            }
+            else {//有对应的bookid，需要从数据库中获取到对应的数据状态
+                
+                NSDictionary *bookInfoDic = [self getDicFormDataBase:self.needCheckBookId];
+                NSString *bookStatus = [bookInfoDic objectForKey:@"book_status"];
+                /*if ([bookStatus isEqualToString:@"下载中"]== YES  || [bookStatus isEqualToString:@"解压中"]== YES || [bookStatus isEqualToString:@"校验中"]== YES || [bookStatus isEqualToString:@"应用中"]== YES  ) {
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"下载提示" message:@"数据正在下载中，确定要结束下载" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+                    [alert show];
+                }
+                else*/ {
+                    [self.navigationController popViewControllerAnimated:YES];
+                }
+            }
+            
+        }
+        else {
+            [self.navigationController popViewControllerAnimated:YES];
+        }
+        
+        
+        
+        if (self.controller != nil) {
+            self.controller = nil;
+        }
+        if (self.webView != nil) {
+            self.webView = nil;
+        }
+        if (self.mainControllerView != nil) {
+            self.mainControllerView = nil;
+        }
     }
     else {//返回动画不为空
         CATransition *animation = [self customAnimation:closeAnimation];
         [self.navigationController.view.layer addAnimation:animation forKey:nil];
         [self.navigationController popViewControllerAnimated:NO];
+        
+        if (self.controller != nil) {
+            self.controller = nil;
+        }
+        if (self.webView != nil) {
+            self.webView = nil;
+        }
+        if (self.mainControllerView != nil) {
+            self.mainControllerView = nil;
+        }
     }
 }
 
@@ -1508,7 +1637,16 @@ typedef enum {
         //获取book_avail
         BOOL isAvail = [[KnowledgeDataManager instance] checkIsAvailableWithFilePath:bookPath];
         
-        if (bookStatusInt >= 1 && bookStatusInt <= 3) {
+        if (bookStatusInt == 0) {
+            bookStatusStr = @"未下载";
+            if (isAvail) {
+                updateStatus = @"有更新";
+            }
+            else {
+                updateStatus = @"无更新";
+            }
+        }
+        else if (bookStatusInt >= 1 && bookStatusInt <= 3) {
             bookStatusStr = @"下载中";
             if (isAvail) {
                 updateStatus = @"有更新";
@@ -1663,6 +1801,8 @@ typedef enum {
     return dic;
     
 }
+
+
 
 #pragma mark 获取封面图片调用的接口
 
@@ -1989,6 +2129,16 @@ typedef enum {
 }
 
 
+
+#pragma mark alertView delegate method
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex != alertView.cancelButtonIndex) {
+        //点击了确定按钮时会触发的代理
+        //1 停止下载 2 是否要删除数据 3 退出当前页面
+        BOOL stop = [[KnowledgeDataManager instance] stopDownloadData:self.needCheckBookId];
+        
+    }
+}
 
 
 

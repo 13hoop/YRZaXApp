@@ -22,6 +22,7 @@
 
 
 
+
 @end
 
 @implementation CustomTabBarViewController
@@ -30,6 +31,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
     //设置tabbarcontroller默认选中的位置
     
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"firstLaunch"]) {//第一次加载
@@ -129,7 +131,7 @@
     UIButton *btn = [[UIButton alloc] init];
     CGFloat width = self.view.frame.size.width/5;
     CGFloat height = self.tabBar.frame.size.height;
-    btn.frame =CGRectMake(width*2, 0, width, height);
+    btn.frame =CGRectMake(width*2, 0.5, width, height);
 //    btn.backgroundColor = [UIColor orangeColor];
     //正常显示的照片
     UIImage *scanImage = [UIImage imageNamed:[[[Config instance] drawableConfig]getTabbarItemImageFullPath :@"scanTab.png"]];
@@ -186,6 +188,7 @@
     UINavigationController *schoolBagNav = [[UINavigationController alloc] initWithRootViewController:match];
 //    schoolBagNav.title = @"我的书包";
     
+    
     //发现页
     DiscoveryViewController *discover = [[DiscoveryViewController alloc] init];
     UINavigationController *discoverNav = [[UINavigationController alloc] initWithRootViewController:discover];
@@ -239,11 +242,19 @@
     CGRect rect = [[UIScreen mainScreen] bounds];
     CGFloat width = rect.size.width/5;
     CGFloat height = self.tabBar.frame.size.height;
+    self.tabBar.userInteractionEnabled = YES;
+    //分割线
+    UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.tabBar.frame.size.width, 0.5)];
+    lineView.backgroundColor = [UIColor whiteColor];
+    lineView.tag = 5000;
+    [self.tabBar addSubview:lineView];
+
     //背景图片
-    UIView *tabbarView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.tabBar.frame.size.width, self.tabBar.frame.size.height)];
+    UIView *tabbarView = [[UIView alloc] initWithFrame:CGRectMake(0, 0.5, self.tabBar.frame.size.width, self.tabBar.frame.size.height)];
     tabbarView.backgroundColor = [UIColor whiteColor];
     tabbarView.tag = 3000;
     [self.tabBar addSubview:tabbarView];
+    
     
     
     //图片数组
@@ -252,7 +263,7 @@
     NSArray *titleArr = [NSArray arrayWithObjects:@"我的书包",@"发现",@"",@"问答",@"我", nil];
     for (NSUInteger i = 0; i <5; i++) {
         //创建按钮
-        UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(i*width, 0, width, height - 10)];
+        UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(i*width, 0.5, width, height - 10)];
         [btn setImage:[UIImage imageNamed:[imageArr objectAtIndex:i]] forState:UIControlStateNormal];
         [btn setImage:[UIImage imageNamed:[selectedImageArr objectAtIndex:i]] forState:UIControlStateSelected];
         btn.tag = 1000+i;
@@ -351,24 +362,37 @@
                 currentLable.backgroundColor = [UIColor colorWithHexString:@"#373E4F"];
             }
             if ([tempView isKindOfClass:[UIView class]]) {
-                UIView *tabbarView = (UIView *)tempView;
-                tabbarView.backgroundColor = [UIColor colorWithHexString:@"#373E4F"];
+                UIView *View = (UIView *)tempView;
+                if (View.tag == 3000) {
+                    View.backgroundColor = [UIColor colorWithHexString:@"#373E4F"];
+                }
+                else if (View.tag == 5000){
+                    View.backgroundColor = [UIColor colorWithHexString:@"#2A303E"];
+                }
+                
             }
+            
         }
     }
     else if ([mode isEqualToString:@"day"]) {
         for (UIView *tempView in self.tabBar.subviews) {
             if ([tempView isKindOfClass:[UIButton class]]) {
                 UIButton *btn = (UIButton *)tempView;
-                [btn setBackgroundColor:[UIColor whiteColor]];
+                [btn setBackgroundColor:[UIColor colorWithHexString:@"#F7F5F5"]];
             }
             if ([tempView isKindOfClass:[UILabel class]]) {
                 UILabel *currentLable = (UILabel *)tempView;
-                currentLable.backgroundColor = [UIColor whiteColor];
+                currentLable.backgroundColor = [UIColor colorWithHexString:@"#F7F5F5"];
             }
             if ([tempView isKindOfClass:[UIView class]]) {
-                UIView *tabbarView = (UIView *)tempView;
-                tabbarView.backgroundColor = [UIColor whiteColor];
+                UIView *View = (UIView *)tempView;
+                if (View.tag == 3000) {
+                    View.backgroundColor = [UIColor colorWithHexString:@"#F7F5F5"];
+                }
+                else if (View.tag == 5000){
+                    View.backgroundColor = [UIColor whiteColor];
+                }
+                
             }
         }
     }
@@ -391,8 +415,14 @@
                 currentLable.backgroundColor = [UIColor colorWithHexString:@"#373E4F"];
             }
             if ([tempView isKindOfClass:[UIView class]]) {
-                UIView *tabbarView = (UIView *)tempView;
-                tabbarView.backgroundColor = [UIColor colorWithHexString:@"#373E4F"];
+                UIView *View = (UIView *)tempView;
+                if (View.tag == 3000) {
+                    View.backgroundColor = [UIColor colorWithHexString:@"#373E4F"];
+                }
+                else if (View.tag == 5000){
+                    View.backgroundColor = [UIColor colorWithHexString:@"#2A303E"];
+                }
+                
             }
             
         }
@@ -401,15 +431,21 @@
         for (UIView *tempView in self.tabBar.subviews) {
             if ([tempView isKindOfClass:[UIButton class]]) {
                 UIButton *btn = (UIButton *)tempView;
-                [btn setBackgroundColor:[UIColor whiteColor]];
+                [btn setBackgroundColor:[UIColor colorWithHexString:@"#F7F5F5"]];
             }
             if ([tempView isKindOfClass:[UILabel class]]) {
                 UILabel *currentLable = (UILabel *)tempView;
-                currentLable.backgroundColor = [UIColor whiteColor];
+                currentLable.backgroundColor = [UIColor colorWithHexString:@"#F7F5F5"];
             }
             if ([tempView isKindOfClass:[UIView class]]) {
-                UIView *tabbarView = (UIView *)tempView;
-                tabbarView.backgroundColor = [UIColor whiteColor];
+                UIView *View = (UIView *)tempView;
+                if (View.tag == 3000) {
+                    View.backgroundColor = [UIColor colorWithHexString:@"#F7F5F5"];
+                }
+                else if (View.tag == 5000){
+                    View.backgroundColor = [UIColor whiteColor];
+                }
+                
             }
             
         }

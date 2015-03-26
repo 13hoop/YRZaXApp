@@ -137,7 +137,10 @@
           totalBytesRead 这个参数是相对于本次request而言的，在这个请求中已经读取的字节数。
           totalBytesExpectedToRead 本次请求预计要读取的字节数。
      */
+        //开线程进行进度回调
     
+        
+        
          [op.operation setDownloadProgressBlock:^(NSUInteger bytesRead, long long totalBytesRead, long long totalBytesExpectedToRead) {
          
          float progress;
@@ -156,6 +159,8 @@
 
         
      }];
+        
+    
     
     return op;
 }

@@ -71,6 +71,8 @@
 
 
 
+
+
 #pragma mark - search
 // search data
 - (NSArray *)searchData:(NSString *)searchId;
@@ -92,6 +94,12 @@
 
 #pragma mark 检查数据是否可用
 - (BOOL)checkIsAvailableWithFilePath:(NSString *)bookPath;
+
+
+
+#pragma mark - stop 、pause download data
+- (BOOL)stopDownloadData:(NSString *)dataId;
+- (BOOL)pauseDownloadData:(NSString *)dataId;
 
 
 @end

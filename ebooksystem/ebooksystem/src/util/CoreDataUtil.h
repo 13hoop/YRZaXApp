@@ -25,4 +25,6 @@
 - (void)saveContext;
 
 
+- (NSPersistentStoreCoordinator *)persistentStoreCoordinator;
+
 @end
