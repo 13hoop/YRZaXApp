@@ -22,11 +22,11 @@
 
 - (BOOL)getBookInfoWithDataIds:(NSArray *)dataIds {
     
-//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
     //data
     NSMutableArray *arr = [[NSMutableArray alloc] init];// [NSMutableArray array];
     if (dataIds == nil || dataIds.count <= 0) {
-        return NO;
+        return;
     }
     //js掉native接口传一个字符串参数
     for (NSString *bookId in dataIds) {
@@ -104,16 +104,16 @@
     NSString *serverResponseStr = [WebUtil sendRequestTo:url usingVerb:@"POST" withHeader:headers andData:data];
     if (serverResponseStr == nil || serverResponseStr.length <= 0) {
         LogError(@"[discoveryModel - getBookInfoWithDataIds]: request failed ,serverResponseStr is  equal to nil ");
-        return    NO;
+        return ;
     }
     //解析获取到的服务器响应信息
     BOOL success = [self parseServerResponse:serverResponseStr];
         if (!success) {
             LogError (@"[discoverModel - getBookInfoWithDataIds ]: parseServerResponse failed ");
-            return    NO;
+            return ;
         }
         
-//        });
+        });
     return YES;
 }
 

@@ -84,6 +84,56 @@
     }
 }
 
+#pragma mark - test multi thread \ core data
+- (NSManagedObjectContext*) childThreadContext
+{
+    if (_childThreadManagedObjectContext != nil)
+    {
+        return _childThreadManagedObjectContext;
+    }
+    
+    NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
+    if (coordinator != nil)
+    {
+        _childThreadManagedObjectContext = [[NSManagedObjectContext alloc] init];
+        [_childThreadManagedObjectContext setPersistentStoreCoordinator:coordinator];
+    }
+    else
+    {
+        NSLog(@"create child thread managed object context failed!");
+    }
+    
+    [_childThreadManagedObjectContext setStalenessInterval:0.0];
+    [_childThreadManagedObjectContext setMergePolicy:NSOverwriteMergePolicy];
+    
+    //////init entity description.
+    _pChildThreadEntityDec = [NSEntityDescription entityForName:@"KnowledgeMetaEntity" inManagedObjectContext:_childThreadManagedObjectContext];
+    if (_pChildThreadEntityDec == nil)
+    {
+        NSLog(@"error init entity description!");
+    }
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(mergeContextChangesForNotification:) name:NSManagedObjectContextDidSaveNotification object:_childThreadManagedObjectContext];
+    
+    return _childThreadManagedObjectContext;
+}
+
+- (void)mergeOnMainThread:(NSNotification *)aNotification
+{
+    [[self managedObjectContext] mergeChangesFromContextDidSaveNotification:aNotification];
+}
+
+- (void)mergeContextChangesForNotification:(NSNotification *)aNotification
+{
+    [self performSelectorOnMainThread:@selector(mergeOnMainThread:) withObject:aNotification waitUntilDone:YES];
+}
+
+
+
+
+
+
+
 #pragma mark - Core Data stack
 
 // Returns the managed object context for the application.

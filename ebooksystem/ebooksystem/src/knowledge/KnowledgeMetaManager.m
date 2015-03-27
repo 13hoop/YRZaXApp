@@ -382,14 +382,15 @@
     
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     
-    // Entity
+    
     
     NSPersistentStoreCoordinator *coordinator = [CoreDataUtil instance].persistentStoreCoordinator;
-    
-        NSManagedObjectContext *managedObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
-        [managedObjectContext setPersistentStoreCoordinator:coordinator];
-    
 
+    NSManagedObjectContext *managedObjectContext = [[CoreDataUtil instance]childThreadContext];
+//    [managedObjectContext setPersistentStoreCoordinator:coordinator];
+    
+    
+    
     
     
     
@@ -420,30 +421,13 @@
 }
 
 
-/*////////////////
-- (NSArray *)getKnowledgeMetaWithDataId:(NSString *)dataId andDataType:(DataType)dataType {
-    NSMutableArray *metaArray = [[NSMutableArray alloc] init];
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"KnowledgeMetaEntity"];
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"dataId==%@ and dataType=%@", dataId, [NSNumber numberWithInteger:DATA_TYPE_DATA_SOURCE]];
-    [fetchRequest setPredicate:predicate];
-    NSManagedObjectContext *context = [[NSManagedObjectContext alloc] init];
-    NSError *error = nil;
-    NSArray *fetchedObjects = [context executeFetchRequest:fetchRequest error:&error];
-    if (fetchedObjects != nil &&
-        fetchedObjects.count > 0) {
-        for (NSManagedObject *entity in fetchedObjects) {
-            [metaArray addObject:entity];
-        }
-    }
-    
-    if (metaArray == nil || metaArray.count <= 0) {
-        return nil;
-    }
-    return metaArray;
-    
-}
 
-*/
+
+
+
+
+
+
 
 
 

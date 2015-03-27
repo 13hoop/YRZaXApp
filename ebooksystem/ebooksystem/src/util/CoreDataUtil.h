@@ -14,6 +14,8 @@
 
 @property (readonly, nonatomic, strong) NSManagedObjectContext *managedObjectContext;
 
+@property (readonly ,nonatomic, strong) NSManagedObjectContext *childThreadManagedObjectContext;
+@property (readonly, nonatomic, strong) NSEntityDescription *pChildThreadEntityDec;
 
 
 #pragma mark - methods
@@ -26,5 +28,7 @@
 
 
 - (NSPersistentStoreCoordinator *)persistentStoreCoordinator;
+
+- (NSManagedObjectContext*) childThreadContext;
 
 @end
