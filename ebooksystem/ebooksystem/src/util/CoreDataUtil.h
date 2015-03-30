@@ -16,7 +16,8 @@
 
 @property (readonly ,nonatomic, strong) NSManagedObjectContext *childThreadManagedObjectContext;
 @property (readonly, nonatomic, strong) NSEntityDescription *pChildThreadEntityDec;
-
+@property (readonly,nonatomic, strong) NSManagedObjectContext *backgroundObjectContext;
+@property (readonly,nonatomic, strong) NSManagedObjectContext *temporaryContext;
 
 #pragma mark - methods
 
@@ -29,6 +30,14 @@
 
 - (NSPersistentStoreCoordinator *)persistentStoreCoordinator;
 
-- (NSManagedObjectContext*) childThreadContext;
+- (NSManagedObjectContext *) childThreadContext;
+- (NSManagedObjectContext *) backgroundContext;
+//- (NSManagedObjectContext *) temporaryContext;
+
+//创建工作context
+- (NSManagedObjectContext *)generatePrivateContextWithParent:(NSManagedObjectContext *)parentContext;
+
+//保存 context的变化
+- (void)saveContextWithWait:(BOOL)needWait;
 
 @end

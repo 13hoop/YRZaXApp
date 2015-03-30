@@ -121,8 +121,12 @@ typedef enum {
 }
 
 - (void)initWebView {
-    
-    
+    //保证在queue队列只创建一次
+    dispatch_queue_t queue = dispatch_queue_create("queryBookStatusThread", NULL);
+    //保证下载的queue只创建一次
+    dispatch_queue_t startDownloadQueue = dispatch_queue_create("startDownloadThread", NULL);
+    //
+    dispatch_queue_t getBookListQueue = dispatch_queue_create("startDownloadThread", NULL);
     
     // goback()
     [self.javascriptBridge registerHandler:@"goBack" handler:^(id data, WVJBResponseCallback responseCallback) {
@@ -602,19 +606,27 @@ typedef enum {
         NSString *book_category = data;//值：0，1
         //根据book_category遍历数据库，将数据拼成json格式返回给JS。（具体操作：1、就是根据book_category做遍历数据库的操作 2、book_status ：下载过程中用的download_Status字段（下载成功，下载失败，下载中）也是修改这个字段。）
         
-        NSMutableArray *arr = [NSMutableArray array];
-        NSArray *bookListArr = [[KnowledgeManager instance] getBookList:book_category];
-        if (bookListArr != nil || bookListArr.count > 0) {
-            //
-            arr = (NSMutableArray *)bookListArr;
-        }
-        SBJsonWriter *writer = [[SBJsonWriter alloc] init];
-        NSString *string = [writer stringWithObject:arr];
-        LogInfo(@"[WebViewBridgeRegisterUtil - getBookList]%@",string);
+//        dispatch_async(queue, ^{
         
-        if (responseCallback != nil) {
-            responseCallback(string);//getBookList和queryBookStatus若是数组为空，都必须返回“[]”,格式字符串否则解析JS失败。
-        }
+            NSMutableArray *arr = [NSMutableArray array];
+            NSArray *bookListArr = [[KnowledgeManager instance] getBookList:book_category];
+            if (bookListArr != nil || bookListArr.count > 0) {
+                //
+                arr = (NSMutableArray *)bookListArr;
+            }
+            SBJsonWriter *writer = [[SBJsonWriter alloc] init];
+            NSString *string = [writer stringWithObject:arr];
+            LogInfo(@"[WebViewBridgeRegisterUtil - getBookList]%@",string);
+            
+            if (responseCallback != nil) {
+                responseCallback(string);//getBookList和queryBookStatus若是数组为空，都必须返回“[]”,格式字符串否则解析JS失败。
+            }
+            
+            
+//        });
+        
+        
+        
         
         
         
@@ -669,7 +681,9 @@ typedef enum {
                 
 //            });
             
-            dispatch_async(dispatch_get_global_queue(0, 0), ^{
+//            dispatch_async(dispatch_get_global_queue(0, 0), ^{
+            dispatch_async(startDownloadQueue, ^{
+                
                 BOOL updateStatus = [self updateDownloadStatusWithDataId:book_id];
                 BOOL ret = [[KnowledgeManager instance] startDownloadDataManagerWithDataId:book_id];
                 
@@ -708,10 +722,10 @@ typedef enum {
         
         ++count;
         
-//        dispatch_async(dispatch_get_main_queue(), ^{
-        dispatch_async(dispatch_get_global_queue(0, 0), ^{
-
-            
+//        dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        
+        dispatch_async(queue, ^{//只开辟一条线程来串行的操作数据库（而不是开辟多条线程并发的操作数据库）
+        
             SBJsonParser *parse = [[SBJsonParser alloc] init];
             NSArray *book_ids = [parse objectWithString:data];
             //操作：遍历获取到的book_id数组
@@ -839,8 +853,12 @@ typedef enum {
             [[KnowledgeMetaManager instance] setDataStatusTo:DATA_STATUS_DOWNLOAD_IN_PROGRESS andDataStatusDescTo:@"0" forDataWithDataId:bookID andType:DATA_TYPE_DATA_SOURCE];
             //（2）发起网络请求，并进行下载
             self.needCheckBookId = bookID;//获取需要下载的书籍
-            isSuccess =  [model getBookInfoWithDataIds:arr];
+//            dispatch_async(startDownloadQueue, ^{
+//               
+//                [model getBookInfoWithDataIds:arr];
+//            });
             
+             isSuccess =  [model getBookInfoWithDataIds:arr];
         }
         else {//数据库中有对应的记录
             for (NSManagedObjectContext *entity in knowledgeMetaArray) {

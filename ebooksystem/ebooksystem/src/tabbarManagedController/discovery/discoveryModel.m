@@ -100,17 +100,17 @@
     
     
     // 发送web请求, 获取响应
-    NSURL *url = [NSURL URLWithString:@"http://test.zaxue100.com/index.php?c=book_meta_ctrl&m=get_book_meta"];
+    NSURL *url = [NSURL URLWithString:@"http://www.zaxue100.com/index.php?c=book_meta_ctrl&m=get_book_meta"];
     NSString *serverResponseStr = [WebUtil sendRequestTo:url usingVerb:@"POST" withHeader:headers andData:data];
     if (serverResponseStr == nil || serverResponseStr.length <= 0) {
         LogError(@"[discoveryModel - getBookInfoWithDataIds]: request failed ,serverResponseStr is  equal to nil ");
-        return ;
+        return;
     }
     //解析获取到的服务器响应信息
     BOOL success = [self parseServerResponse:serverResponseStr];
         if (!success) {
             LogError (@"[discoverModel - getBookInfoWithDataIds ]: parseServerResponse failed ");
-            return ;
+            return;
         }
         
         });
@@ -139,10 +139,10 @@
             continue;
         }
         NSString *bookId = [dic objectForKey:@"data_id"];
-        dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+//        dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
             //1 将data对应的数据存储到数据库中
             [[KnowledgeManager instance] registerBookMetaInfo:dic];
-        });
+//        });
         
         //2 下载封面图片
         [self coverImageFileOperation:dic];

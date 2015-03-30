@@ -1755,13 +1755,12 @@
     
  */
     float tempProgress = progress;
-    if ((NSUInteger)(tempProgress*100)%20 == 0) {
+    if ((NSUInteger)(tempProgress*100)%5 == 0) {
         // 将下载进度更新到coreData
-        dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
-            [self.globalLock lock];
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+            
             [[KnowledgeMetaManager instance] setDataStatusTo:DATA_STATUS_DOWNLOAD_IN_PROGRESS andDataStatusDescTo:[NSString stringWithFormat:@"%lf", progress ] forDataWithDataId:downloadItem.title andType:DATA_TYPE_DATA_SOURCE];
             
-            [self.globalLock unlock];
             
             NSThread *Current = [NSThread currentThread];
             NSLog(@"修改下载进度的线程是======%@",Current);

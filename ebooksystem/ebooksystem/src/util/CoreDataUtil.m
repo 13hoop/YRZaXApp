@@ -34,6 +34,8 @@
 @synthesize managedObjectModel = _managedObjectModel;
 @synthesize persistentStoreCoordinator = _persistentStoreCoordinator;
 
+@synthesize backgroundObjectContext = _backgroundObjectContext;
+@synthesize temporaryContext = _temporaryContext;
 
 #pragma mark - properties
 - (NSURL *)coreDataStoreUrl {
@@ -87,6 +89,7 @@
 #pragma mark - test multi thread \ core data
 - (NSManagedObjectContext*) childThreadContext
 {
+//    [self managedObjectContext];
     if (_childThreadManagedObjectContext != nil)
     {
         return _childThreadManagedObjectContext;
@@ -143,12 +146,97 @@
     if (_managedObjectContext == nil) {
         NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
         if (coordinator != nil) {
-            _managedObjectContext = [[NSManagedObjectContext alloc] init];
-            [_managedObjectContext setPersistentStoreCoordinator:coordinator];
+//            _managedObjectContext = [[NSManagedObjectContext alloc] init];
+//            [_managedObjectContext setPersistentStoreCoordinator:coordinator];
+            //测试
+            _managedObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
+            _managedObjectContext.parentContext = [self backgroundContext];
         }
     }
     return _managedObjectContext;
 }
+
+
+
+- (NSManagedObjectContext*) backgroundContext {
+    if(!_backgroundObjectContext){
+        NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
+        _backgroundObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
+        [_backgroundObjectContext setPersistentStoreCoordinator:coordinator];
+        
+    }
+    return _backgroundObjectContext;
+}
+
+- (NSManagedObjectContext *) temporaryContext {
+//    if (_temporaryContext == nil) {
+    _temporaryContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
+    _temporaryContext.parentContext = [self managedObjectContext];
+//        NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
+//
+//        _temporaryContext = [[NSManagedObjectContext alloc] init];
+//       [_temporaryContext setPersistentStoreCoordinator:coordinator];
+    
+//    }
+    return _temporaryContext;
+}
+
+//生成工作线程
+- (NSManagedObjectContext *)generatePrivateContextWithParent:(NSManagedObjectContext *)parentContext {
+    NSManagedObjectContext *privateContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
+    privateContext.parentContext = parentContext;
+    return privateContext;
+}
+
+//save context 变化
+- (void)saveContextWithWait:(BOOL)needWait
+{
+    NSManagedObjectContext *managedObjectContext = [self managedObjectContext];
+    NSManagedObjectContext *rootObjectContext = [self backgroundObjectContext];
+    
+    if (nil == managedObjectContext) {
+        return;
+    }
+    if ([managedObjectContext hasChanges]) {
+        NSLog(@"Main context need to save");
+//        [managedObjectContext performBlock:^{
+            [managedObjectContext performBlockAndWait:^{
+            NSError *error = nil;
+            if (![managedObjectContext save:&error]) {
+                NSLog(@"Save main context failed and error is %@", error);
+            }
+        }];
+    }
+    
+    if (nil == rootObjectContext) {
+        return;
+    }
+    
+    
+    
+    if ([rootObjectContext hasChanges]) {
+        NSLog(@"Root context need to save");
+        if (needWait) {
+//            [rootObjectContext performBlock:^{
+            [managedObjectContext performBlockAndWait:^{
+                NSError *saveRootError = nil;
+                if (![rootObjectContext save:&saveRootError]) {
+                    NSLog(@"save rootObjectRoot failed ,error=====%@",saveRootError.localizedDescription);
+                }
+            }];
+        }
+        else {
+            NSError *saveRootError = nil;
+            if (![rootObjectContext save:&saveRootError]) {
+                NSLog(@"save rootObjectRoot failed ,error=====%@",saveRootError.localizedDescription);
+            }
+        }
+    }
+}
+
+
+
+
 
 // Returns the managed object model for the application.
 // If the model doesn't already exist, it is created from the application's model.

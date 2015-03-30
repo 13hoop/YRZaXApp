@@ -263,15 +263,18 @@
     }
     
     for (id entity in knowledgeMetaEntities) {
+        
         [[CoreDataUtil instance].managedObjectContext deleteObject:entity];
+        
+        
     }
-    
     NSError *error = nil;
-    if (![[CoreDataUtil instance].managedObjectContext save:&error]) {
+        if (![[CoreDataUtil instance].managedObjectContext save:&error]) {
         LogError(@"[KnowledgeMetaManager-deleteKnowledgeMetaWithDataId:andDataType:] failed when save to context, error: %@", [error localizedDescription]);
         return NO;
     }
     
+
     return YES;
 }
 
@@ -351,7 +354,9 @@
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     
     // Entity
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"KnowledgeMetaEntity" inManagedObjectContext:[CoreDataUtil instance].managedObjectContext];
+//    NSEntityDescription *entity = [NSEntityDescription entityForName:@"KnowledgeMetaEntity" inManagedObjectContext:[CoreDataUtil instance].managedObjectContext];
+    //修改
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"KnowledgeMetaEntity" inManagedObjectContext:[CoreDataUtil instance].temporaryContext];
     [fetchRequest setEntity:entity];
     
     // Predicate
@@ -360,7 +365,9 @@
     
     // Fetch
     NSError *error = nil;
-    NSArray *fetchedObjects = [[CoreDataUtil instance].managedObjectContext executeFetchRequest:fetchRequest error:&error];
+//    NSArray *fetchedObjects = [[CoreDataUtil instance].managedObjectContext executeFetchRequest:fetchRequest error:&error];
+    NSArray *fetchedObjects = [[CoreDataUtil instance].temporaryContext executeFetchRequest:fetchRequest error:&error];
+    
     if (fetchedObjects != nil &&
         fetchedObjects.count > 0) {
         for (NSManagedObject *entity in fetchedObjects) {
@@ -371,6 +378,23 @@
     if (metaArray == nil || metaArray.count <= 0) {
         return nil;
     }
+    
+    //切换会主线程，保存context
+    if ([NSThread isMainThread]) {
+        NSLog(@"在主线程中，保存context");
+        [[CoreDataUtil instance] saveContextWithWait:NO];
+    }
+    else {
+        NSLog(@"回到主线程中保存context");
+//        [self performSelectorOnMainThread:@selector(handleResult) withObject:nil waitUntilDone:YES];
+                dispatch_sync(dispatch_get_main_queue(), ^{
+                    [[CoreDataUtil instance]saveContextWithWait:NO];
+                });//回到主线程
+        
+        
+        
+    }
+    
     return metaArray;
 }
 
@@ -384,19 +408,19 @@
     
     
     
-    NSPersistentStoreCoordinator *coordinator = [CoreDataUtil instance].persistentStoreCoordinator;
+//    NSPersistentStoreCoordinator *coordinator = [CoreDataUtil instance].persistentStoreCoordinator;
 
-    NSManagedObjectContext *managedObjectContext = [[CoreDataUtil instance]childThreadContext];
+//    NSManagedObjectContext *managedObjectContext = [[CoreDataUtil instance]childThreadContext];
 //    [managedObjectContext setPersistentStoreCoordinator:coordinator];
     
-    
-    
-    
-    
-    
-    
-//    NSEntityDescription *entity = [NSEntityDescription entityForName:@"KnowledgeMetaEntity" inManagedObjectContext:[CoreDataUtil instance].managedObjectContext];
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"KnowledgeMetaEntity" inManagedObjectContext:managedObjectContext];
+    //方法三：
+//    NSManagedObjectContext *workContext = [[CoreDataUtil instance] generatePrivateContextWithParent:[CoreDataUtil instance].managedObjectContext];
+//    NSEntityDescription *entity = [NSEntityDescription entityForName:@"KnowledgeMetaEntity" inManagedObjectContext:workContext];
+
+//最初的方法
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"KnowledgeMetaEntity" inManagedObjectContext:[CoreDataUtil instance].temporaryContext];
+    //方法二：使用通知
+//    NSEntityDescription *entity = [NSEntityDescription entityForName:@"KnowledgeMetaEntity" inManagedObjectContext:managedObjectContext];
     [fetchRequest setEntity:entity];
     
     // Predicate
@@ -405,8 +429,34 @@
     
     // Fetch
     NSError *error = nil;
-//    NSArray *fetchedObjects = [[CoreDataUtil instance].managedObjectContext executeFetchRequest:fetchRequest error:&error];
-    NSArray *fetchedObjects = [managedObjectContext executeFetchRequest:fetchRequest error:&error];
+    NSArray *fetchedObjects = [[CoreDataUtil instance].temporaryContext executeFetchRequest:fetchRequest error:&error];
+    //方法三
+//    NSArray *fetchedObjects = [workContext executeFetchRequest:fetchRequest error:&error];
+//    NSArray *fetchedObjects = [managedObjectContext executeFetchRequest:fetchRequest error:&error];
+    
+     
+     
+    
+    /*
+    //1、关联NSmanagermodel对象。
+    NSManagedObjectModel *model=[NSManagedObjectModel mergedModelFromBundles:nil];//把左边栏中所有的model全都拷贝下来了。
+    //2、创建协调者。这句创建完成后：协调者就可以协调entity和model类
+    NSPersistentStoreCoordinator *coordinator=[[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:model];
+    
+    NSString *path=[NSHomeDirectory() stringByAppendingPathComponent:@"Documents/core_data/ebooksystem.sqlite"];
+    NSURL *url=[NSURL fileURLWithPath:path];
+    [coordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:url options:nil error:nil];
+    NSManagedObjectContext *context = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
+    context.persistentStoreCoordinator = coordinator;
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"KnowledgeMetaEntity"];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"dataId==%@ and dataType=%@", dataId, [NSNumber numberWithInteger:DATA_TYPE_DATA_SOURCE]];
+    [fetchRequest setPredicate:predicate];
+    NSArray *fetchedObjects = [context executeFetchRequest:fetchRequest error:nil];
+    
+    */
+    
+    
+    
     if (fetchedObjects != nil &&
         fetchedObjects.count > 0) {
         for (NSManagedObject *entity in fetchedObjects) {
@@ -414,12 +464,41 @@
         }
     }
     
+    
+    //切换会主线程，保存context
+    if ([NSThread isMainThread]) {
+        NSLog(@"在主线程中，保存context");
+        [[CoreDataUtil instance] saveContextWithWait:NO];
+    }
+    else {
+        NSLog(@"回到主线程中保存context");
+//        [self performSelectorOnMainThread:@selector(handleResult) withObject:nil waitUntilDone:YES];
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            [[CoreDataUtil instance]saveContextWithWait:NO];
+        });//回到主线程
+    
+    
+        
+    }
+    
+    
     if (metaArray == nil || metaArray.count <= 0) {
         return nil;
     }
+    
+    
+    
+    
+    
     return metaArray;
+    
 }
 
+
+- (void)handleResult {
+    [[CoreDataUtil instance] saveContextWithWait:NO];
+
+}
 
 
 
@@ -474,7 +553,7 @@
     }
     
     // 确定数据的当前版本
-    NSString *dataCurVersion = nil;
+    NSString *dataCurVersion = @"";// nil;
     for (id obj in knowledgeMetas) {
         KnowledgeMeta *knowledgeMeta = (KnowledgeMeta *)obj;
         if (knowledgeMeta == nil) {
@@ -602,7 +681,16 @@
         NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
         
         // Entity
-        NSEntityDescription *entity = [NSEntityDescription entityForName:@"KnowledgeMetaEntity" inManagedObjectContext:[CoreDataUtil instance].managedObjectContext];
+//        NSEntityDescription *entity = [NSEntityDescription entityForName:@"KnowledgeMetaEntity" inManagedObjectContext:[CoreDataUtil instance].managedObjectContext];
+        
+        
+        
+        
+        NSManagedObjectContext *workContext = [[CoreDataUtil instance] generatePrivateContextWithParent:[CoreDataUtil instance].managedObjectContext];
+        NSEntityDescription *entity = [NSEntityDescription entityForName:@"KnowledgeMetaEntity" inManagedObjectContext:workContext];
+        
+        
+        
         [fetchRequest setEntity:entity];
         
         // Predicate
@@ -610,7 +698,9 @@
         [fetchRequest setPredicate:predicate];
         
         NSError *error = nil;
-        NSArray *fetchedObjects = [[CoreDataUtil instance].managedObjectContext executeFetchRequest:fetchRequest error:&error];
+//        NSArray *fetchedObjects = [[CoreDataUtil instance].managedObjectContext executeFetchRequest:fetchRequest error:&error];
+        NSArray *fetchedObjects = [workContext executeFetchRequest:fetchRequest error:&error];
+        
         if (fetchedObjects != nil &&
             fetchedObjects.count > 0) {
             // 若已有, 更新
@@ -632,9 +722,9 @@
                     }
                 }
                 
-                NSLog(@"后台其实还在运行，但是界面卡死====%d",status);
                 
-                if (![[CoreDataUtil instance].managedObjectContext save:&error]) {
+                //3 这里也修改成workContext
+                if (![workContext  save:&error]) {
                     LogError(@"[KnowledgeMetaManager-setDataStatusTo:andDataStatusDescTo:forDataWithDataId:andType:] update failed when save to context, error: %@", [error localizedDescription]);
                     return NO;
                 }
@@ -643,6 +733,28 @@
             saved = YES;
         }
     }
+    
+    
+    //保存save
+    //切换会主线程，保存context
+    if ([NSThread isMainThread]) {
+        NSLog(@"在主线程中，保存context");
+        [[CoreDataUtil instance] saveContextWithWait:NO];
+    }
+    else {
+        NSLog(@"回到主线程中保存context");
+//        [self performSelectorOnMainThread:@selector(handleResult) withObject:nil waitUntilDone:YES];
+                dispatch_sync(dispatch_get_main_queue(), ^{
+                    [[CoreDataUtil instance] saveContextWithWait:NO];
+                });//回到主线程
+        
+        
+        
+    }
+    
+    
+    
+    
     
     return saved;
 }
@@ -703,7 +815,15 @@
         NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
         
         // Entity
-        NSEntityDescription *entity = [NSEntityDescription entityForName:@"KnowledgeMetaEntity" inManagedObjectContext:[CoreDataUtil instance].managedObjectContext];
+//        NSEntityDescription *entity = [NSEntityDescription entityForName:@"KnowledgeMetaEntity" inManagedObjectContext:[CoreDataUtil instance].managedObjectContext];
+        
+        
+        //使用嵌套context
+        NSManagedObjectContext *workContext = [[CoreDataUtil instance] generatePrivateContextWithParent:[CoreDataUtil instance].managedObjectContext];
+        NSEntityDescription *entity = [NSEntityDescription entityForName:@"KnowledgeMetaEntity" inManagedObjectContext:workContext];
+        
+        
+        
         [fetchRequest setEntity:entity];
         
         // Predicate
@@ -711,7 +831,9 @@
         [fetchRequest setPredicate:predicate];
         
         NSError *error = nil;
-        NSArray *fetchedObjects = [[CoreDataUtil instance].managedObjectContext executeFetchRequest:fetchRequest error:&error];
+//        NSArray *fetchedObjects = [[CoreDataUtil instance].managedObjectContext executeFetchRequest:fetchRequest error:&error];
+        NSArray *fetchedObjects = [workContext executeFetchRequest:fetchRequest error:&error];
+        
         if (fetchedObjects != nil &&
             fetchedObjects.count > 0) {
             // 若已有, 更新
@@ -757,7 +879,7 @@
                 }
                 
                 
-                if (![[CoreDataUtil instance].managedObjectContext save:&error]) {
+                if (![workContext save:&error]) {
                     LogError(@"[KnowledgeMetaManager-setDataStatusTo:andDataStatusDescTo:forDataWithDataId:andType:] update failed when save to context, error: %@", [error localizedDescription]);
                     return NO;
                 }
@@ -766,6 +888,29 @@
             saved = YES;
         }
     }
+    
+    
+    //保存save
+    //切换会主线程，保存context
+    if ([NSThread isMainThread]) {
+        NSLog(@"在主线程中，保存context");
+        [[CoreDataUtil instance] saveContextWithWait:NO];
+    }
+    else {
+        NSLog(@"回到主线程中保存context");
+//        [self performSelectorOnMainThread:@selector(handleResult) withObject:nil waitUntilDone:YES];
+                dispatch_sync(dispatch_get_main_queue(), ^{
+                    [[CoreDataUtil instance] saveContextWithWait:NO];
+                });//回到主线程
+        
+        
+        
+    }
+    
+    
+    
+    
+    
     
     return saved;
 }
