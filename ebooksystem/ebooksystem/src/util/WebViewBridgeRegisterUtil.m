@@ -722,9 +722,9 @@ typedef enum {
         
         ++count;
         
-//        dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        dispatch_async(dispatch_get_global_queue(0, 0), ^{
         
-        dispatch_async(queue, ^{//只开辟一条线程来串行的操作数据库（而不是开辟多条线程并发的操作数据库）
+//        dispatch_async(queue, ^{//只开辟一条线程来串行的操作数据库（而不是开辟多条线程并发的操作数据库）
         
             SBJsonParser *parse = [[SBJsonParser alloc] init];
             NSArray *book_ids = [parse objectWithString:data];
