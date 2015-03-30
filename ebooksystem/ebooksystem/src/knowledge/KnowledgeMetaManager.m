@@ -354,10 +354,10 @@
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     
     // Entity
-//    NSEntityDescription *entity = [NSEntityDescription entityForName:@"KnowledgeMetaEntity" inManagedObjectContext:[CoreDataUtil instance].managedObjectContext];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"KnowledgeMetaEntity" inManagedObjectContext:[CoreDataUtil instance].managedObjectContext];
     //修改
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"KnowledgeMetaEntity" inManagedObjectContext:[CoreDataUtil instance].temporaryContext];
-    [fetchRequest setEntity:entity];
+//    NSEntityDescription *entity = [NSEntityDescription entityForName:@"KnowledgeMetaEntity" inManagedObjectContext:[CoreDataUtil instance].temporaryContext];
+//    [fetchRequest setEntity:entity];
     
     // Predicate
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"dataId==%@", dataId];
@@ -365,8 +365,8 @@
     
     // Fetch
     NSError *error = nil;
-//    NSArray *fetchedObjects = [[CoreDataUtil instance].managedObjectContext executeFetchRequest:fetchRequest error:&error];
-    NSArray *fetchedObjects = [[CoreDataUtil instance].temporaryContext executeFetchRequest:fetchRequest error:&error];
+    NSArray *fetchedObjects = [[CoreDataUtil instance].managedObjectContext executeFetchRequest:fetchRequest error:&error];
+//    NSArray *fetchedObjects = [[CoreDataUtil instance].temporaryContext executeFetchRequest:fetchRequest error:&error];
     
     if (fetchedObjects != nil &&
         fetchedObjects.count > 0) {
@@ -379,21 +379,21 @@
         return nil;
     }
     
-    //切换会主线程，保存context
-    if ([NSThread isMainThread]) {
-        NSLog(@"在主线程中，保存context");
-        [[CoreDataUtil instance] saveContextWithWait:NO];
-    }
-    else {
-        NSLog(@"回到主线程中保存context");
-//        [self performSelectorOnMainThread:@selector(handleResult) withObject:nil waitUntilDone:YES];
-                dispatch_sync(dispatch_get_main_queue(), ^{
-                    [[CoreDataUtil instance]saveContextWithWait:NO];
-                });//回到主线程
-        
-        
-        
-    }
+//    //切换会主线程，保存context
+//    if ([NSThread isMainThread]) {
+//        NSLog(@"在主线程中，保存context");
+//        [[CoreDataUtil instance] saveContextWithWait:NO];
+//    }
+//    else {
+//        NSLog(@"回到主线程中保存context");
+////        [self performSelectorOnMainThread:@selector(handleResult) withObject:nil waitUntilDone:YES];
+//                dispatch_sync(dispatch_get_main_queue(), ^{
+//                    [[CoreDataUtil instance]saveContextWithWait:NO];
+//                });//回到主线程
+//        
+//        
+//        
+//    }
     
     return metaArray;
 }
@@ -418,9 +418,9 @@
 //    NSEntityDescription *entity = [NSEntityDescription entityForName:@"KnowledgeMetaEntity" inManagedObjectContext:workContext];
 
 //最初的方法
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"KnowledgeMetaEntity" inManagedObjectContext:[CoreDataUtil instance].temporaryContext];
+//    NSEntityDescription *entity = [NSEntityDescription entityForName:@"KnowledgeMetaEntity" inManagedObjectContext:[CoreDataUtil instance].temporaryContext];
     //方法二：使用通知
-//    NSEntityDescription *entity = [NSEntityDescription entityForName:@"KnowledgeMetaEntity" inManagedObjectContext:managedObjectContext];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"KnowledgeMetaEntity" inManagedObjectContext:[CoreDataUtil instance].managedObjectContext];
     [fetchRequest setEntity:entity];
     
     // Predicate
@@ -429,10 +429,10 @@
     
     // Fetch
     NSError *error = nil;
-    NSArray *fetchedObjects = [[CoreDataUtil instance].temporaryContext executeFetchRequest:fetchRequest error:&error];
+//    NSArray *fetchedObjects = [[CoreDataUtil instance].temporaryContext executeFetchRequest:fetchRequest error:&error];
     //方法三
 //    NSArray *fetchedObjects = [workContext executeFetchRequest:fetchRequest error:&error];
-//    NSArray *fetchedObjects = [managedObjectContext executeFetchRequest:fetchRequest error:&error];
+    NSArray *fetchedObjects = [[CoreDataUtil instance].managedObjectContext executeFetchRequest:fetchRequest error:&error];
     
      
      
@@ -465,21 +465,21 @@
     }
     
     
-    //切换会主线程，保存context
-    if ([NSThread isMainThread]) {
-        NSLog(@"在主线程中，保存context");
-        [[CoreDataUtil instance] saveContextWithWait:NO];
-    }
-    else {
-        NSLog(@"回到主线程中保存context");
-//        [self performSelectorOnMainThread:@selector(handleResult) withObject:nil waitUntilDone:YES];
-        dispatch_sync(dispatch_get_main_queue(), ^{
-            [[CoreDataUtil instance]saveContextWithWait:NO];
-        });//回到主线程
-    
-    
-        
-    }
+//    //切换会主线程，保存context
+//    if ([NSThread isMainThread]) {
+//        NSLog(@"在主线程中，保存context");
+//        [[CoreDataUtil instance] saveContextWithWait:NO];
+//    }
+//    else {
+//        NSLog(@"回到主线程中保存context");
+////        [self performSelectorOnMainThread:@selector(handleResult) withObject:nil waitUntilDone:YES];
+//        dispatch_sync(dispatch_get_main_queue(), ^{
+//            [[CoreDataUtil instance]saveContextWithWait:NO];
+//        });//回到主线程
+//    
+//    
+//        
+//    }
     
     
     if (metaArray == nil || metaArray.count <= 0) {
