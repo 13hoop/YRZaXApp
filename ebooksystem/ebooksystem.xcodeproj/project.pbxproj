@@ -2805,7 +2805,7 @@
 				ORGANIZATIONNAME = sanweishuku;
 				TargetAttributes = {
 					0690781419CFD62700CD9C3D = {
-						DevelopmentTeam = 4S2TSG5MWB;
+						DevelopmentTeam = Y9JSEN3V7X;
 					};
 					0690783419CFD62700CD9C3D = {
 						TestTargetID = 0690781419CFD62700CD9C3D;
