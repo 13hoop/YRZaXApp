@@ -738,24 +738,10 @@ typedef enum {
                 //根据book_id从数据库中取相应的状态
                 NSMutableDictionary *dic = nil;
                 
-                //if (count <= 20) {
+              
                     LogDebug(@"[queryBookStatus()] count: %d, branch 1", count);
                  dic = [self getDicFormDataBase:bookId];
-                /*}
-                else {
-                    LogDebug(@"[queryBookStatus()] count: %d, branch 2", count);
-                 dic = [[NSMutableDictionary alloc] init];
-                //构造字典
-                [dic setValue:bookId forKey:@"book_id"];
-                [dic setValue:@"下载中" forKey:@"book_status"];
-                [dic setValue:@"无更新" forKey:@"update_status"];
-                [dic setValue:@"0" forKey:@"book_avail"];
                 
-                int progress = (arc4random() % 100) + 1;
-                [dic setValue:[NSString stringWithFormat:@"%d", progress] forKey:@"book_status_detail"];
-                //新加一个字段book_cover
-                [dic setValue:@"http://y1.ifengimg.com/a/2015_09/1d8401937113fd3.gif" forKey:@"book_cover"];
-                }*/
                 
                 if(dic == nil) {
                     continue;
@@ -1351,6 +1337,13 @@ typedef enum {
         [animation setSubtype: kCATransitionFromLeft];//设置方向
         
     }
+    else if ([openAnimation isEqualToString:@"push_bottom_in"]){
+        [animation setSubtype: kCATransitionFromBottom];//从底部推入
+        
+    }
+     else if ([openAnimation isEqualToString:@"pull_bottom_out"]){
+         [animation setSubtype: kCATransitionFromTop];//从顶部推入
+     }
     [animation setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionDefault]];
     return animation;
 }

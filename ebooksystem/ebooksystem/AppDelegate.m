@@ -63,6 +63,9 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     
+    //实例化队列线程
+    dispatch_queue_t startDownLoadQueue = dispatch_queue_create("startDownLoadQueue", NULL);
+    
     
 //    // 友盟, 获取devideId, 用于集成测试
 //    Class cls = NSClassFromString(@"UMANUtil");

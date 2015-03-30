@@ -251,6 +251,7 @@
         LogError(@"[KnowledgeMetaManager-deleteKnowledgeMetaWithDataId:andDataType:] failed when save to context, error: %@", [error localizedDescription]);
         return NO;
     }
+
     
     return YES;
 }
@@ -263,15 +264,35 @@
     }
     
     for (id entity in knowledgeMetaEntities) {
-        
+        if (entity == nil) {
+            continue;
+        }
         [[CoreDataUtil instance].managedObjectContext deleteObject:entity];
         
         
     }
     NSError *error = nil;
-        if (![[CoreDataUtil instance].managedObjectContext save:&error]) {
+    
+    if (![[CoreDataUtil instance].managedObjectContext save:&error]) {
         LogError(@"[KnowledgeMetaManager-deleteKnowledgeMetaWithDataId:andDataType:] failed when save to context, error: %@", [error localizedDescription]);
         return NO;
+    }
+    
+    
+    //save变化
+    //切换会主线程，保存context
+    if ([NSThread isMainThread]) {
+        NSLog(@"在主线程中，保存context");
+        [[CoreDataUtil instance] saveContextWithWait:NO];
+    }
+    else {
+        NSLog(@"回到主线程中保存context");
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            [[CoreDataUtil instance]saveContextWithWait:NO];
+        });//回到主线程
+        
+        
+        
     }
     
 
@@ -355,8 +376,9 @@
     
     // Entity
 //    NSEntityDescription *entity = [NSEntityDescription entityForName:@"KnowledgeMetaEntity" inManagedObjectContext:[CoreDataUtil instance].managedObjectContext];
+    
     //修改
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"KnowledgeMetaEntity" inManagedObjectContext:[CoreDataUtil instance].temporaryContext];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"KnowledgeMetaEntity" inManagedObjectContext:[CoreDataUtil instance].managedObjectContext];
     [fetchRequest setEntity:entity];
     
     // Predicate
@@ -365,9 +387,28 @@
     
     // Fetch
     NSError *error = nil;
-//    NSArray *fetchedObjects = [[CoreDataUtil instance].managedObjectContext executeFetchRequest:fetchRequest error:&error];
-    NSArray *fetchedObjects = [[CoreDataUtil instance].temporaryContext executeFetchRequest:fetchRequest error:&error];
     
+//    NSArray *fetchedObjects = [[CoreDataUtil instance].managedObjectContext executeFetchRequest:fetchRequest error:&error];
+    
+    NSArray *fetchedObjects = [[CoreDataUtil instance].managedObjectContext executeFetchRequest:fetchRequest error:&error];
+    
+    /*
+    //切换回主线程，保存context
+    if ([NSThread isMainThread]) {
+        NSLog(@"在主线程中，保存context");
+        [[CoreDataUtil instance] saveContextWithWait:NO];
+    }
+    else {
+        NSLog(@"回到主线程中保存context");
+        //        [self performSelectorOnMainThread:@selector(handleResult) withObject:nil waitUntilDone:YES];
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            [[CoreDataUtil instance]saveContextWithWait:NO];
+        });//回到主线程
+        
+    }
+    */
+    
+
     if (fetchedObjects != nil &&
         fetchedObjects.count > 0) {
         for (NSManagedObject *entity in fetchedObjects) {
@@ -379,21 +420,9 @@
         return nil;
     }
     
-    //切换会主线程，保存context
-    if ([NSThread isMainThread]) {
-        NSLog(@"在主线程中，保存context");
-        [[CoreDataUtil instance] saveContextWithWait:NO];
-    }
-    else {
-        NSLog(@"回到主线程中保存context");
-//        [self performSelectorOnMainThread:@selector(handleResult) withObject:nil waitUntilDone:YES];
-                dispatch_sync(dispatch_get_main_queue(), ^{
-                    [[CoreDataUtil instance]saveContextWithWait:NO];
-                });//回到主线程
-        
-        
-        
-    }
+    
+    
+    
     
     return metaArray;
 }
@@ -455,30 +484,27 @@
     
     */
     
-    
-    
-    if (fetchedObjects != nil &&
-        fetchedObjects.count > 0) {
-        for (NSManagedObject *entity in fetchedObjects) {
-            [metaArray addObject:entity];
-        }
-    }
-    
-    
-    //切换会主线程，保存context
+    /*
+    //切换回主线程，保存context
     if ([NSThread isMainThread]) {
         NSLog(@"在主线程中，保存context");
         [[CoreDataUtil instance] saveContextWithWait:NO];
     }
     else {
         NSLog(@"回到主线程中保存context");
-//        [self performSelectorOnMainThread:@selector(handleResult) withObject:nil waitUntilDone:YES];
+        //        [self performSelectorOnMainThread:@selector(handleResult) withObject:nil waitUntilDone:YES];
         dispatch_sync(dispatch_get_main_queue(), ^{
             [[CoreDataUtil instance]saveContextWithWait:NO];
         });//回到主线程
-    
-    
         
+    }
+    */
+    
+    if (fetchedObjects != nil &&
+        fetchedObjects.count > 0) {
+        for (NSManagedObject *entity in fetchedObjects) {
+            [metaArray addObject:entity];
+        }
     }
     
     
@@ -626,6 +652,7 @@
 
 }
 
+
 //  2.0 get knowledge meta according to bookCategory
 - (NSArray *)getKnowledgeMetaWithBookCategory:(NSString *)bookCategory {
     NSMutableArray *metaArray = [[NSMutableArray alloc] init];
@@ -683,9 +710,6 @@
         // Entity
 //        NSEntityDescription *entity = [NSEntityDescription entityForName:@"KnowledgeMetaEntity" inManagedObjectContext:[CoreDataUtil instance].managedObjectContext];
         
-        
-        
-        
         NSManagedObjectContext *workContext = [[CoreDataUtil instance] generatePrivateContextWithParent:[CoreDataUtil instance].managedObjectContext];
         NSEntityDescription *entity = [NSEntityDescription entityForName:@"KnowledgeMetaEntity" inManagedObjectContext:workContext];
         
@@ -733,7 +757,16 @@
             saved = YES;
         }
     }
-    
+    // 2. insert as new if not exists
+    if (saved == NO) {
+        KnowledgeMeta *knowledgeMeta = [[KnowledgeMeta alloc] init];
+        [knowledgeMeta setDataId:dataId];
+        [knowledgeMeta setDataType:dataType];
+        [knowledgeMeta setDataStatus:status];
+        [knowledgeMeta setDataStatusDesc:desc];
+        
+        [self saveKnowledgeMeta:knowledgeMeta];
+    }
     
     //保存save
     //切换会主线程，保存context
@@ -753,7 +786,7 @@
     }
     
     
-    
+
     
     
     return saved;
@@ -907,7 +940,7 @@
         
     }
     
-    
+
     
     
     

@@ -148,7 +148,7 @@
         if (coordinator != nil) {
 //            _managedObjectContext = [[NSManagedObjectContext alloc] init];
 //            [_managedObjectContext setPersistentStoreCoordinator:coordinator];
-            //测试
+//            //测试
             _managedObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
             _managedObjectContext.parentContext = [self backgroundContext];
         }
