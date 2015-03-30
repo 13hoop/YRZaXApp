@@ -17,7 +17,7 @@
 @property (readonly ,nonatomic, strong) NSManagedObjectContext *childThreadManagedObjectContext;
 @property (readonly, nonatomic, strong) NSEntityDescription *pChildThreadEntityDec;
 @property (readonly,nonatomic, strong) NSManagedObjectContext *backgroundObjectContext;
-//@property (readonly,nonatomic, strong) NSManagedObjectContext *temporaryContext;
+@property (readonly,nonatomic, strong) NSManagedObjectContext *temporaryContext;
 
 #pragma mark - methods
 

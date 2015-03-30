@@ -35,7 +35,7 @@
 @synthesize persistentStoreCoordinator = _persistentStoreCoordinator;
 
 @synthesize backgroundObjectContext = _backgroundObjectContext;
-//@synthesize temporaryContext = _temporaryContext;
+@synthesize temporaryContext = _temporaryContext;
 
 #pragma mark - properties
 - (NSURL *)coreDataStoreUrl {
@@ -167,18 +167,18 @@
     return _backgroundObjectContext;
 }
 
-//- (NSManagedObjectContext *) temporaryContext {
-////    if (_temporaryContext == nil) {
-//    _temporaryContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
-//    _temporaryContext.parentContext = [self managedObjectContext];
-////        NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
-////
-////        _temporaryContext = [[NSManagedObjectContext alloc] init];
-////       [_temporaryContext setPersistentStoreCoordinator:coordinator];
-//    
-////    }
-//    return _temporaryContext;
-//}
+- (NSManagedObjectContext *) temporaryContext {
+//    if (_temporaryContext == nil) {
+    _temporaryContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
+    _temporaryContext.parentContext = [self managedObjectContext];
+//        NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
+//
+//        _temporaryContext = [[NSManagedObjectContext alloc] init];
+//       [_temporaryContext setPersistentStoreCoordinator:coordinator];
+    
+//    }
+    return _temporaryContext;
+}
 
 //生成工作线程
 - (NSManagedObjectContext *)generatePrivateContextWithParent:(NSManagedObjectContext *)parentContext {
