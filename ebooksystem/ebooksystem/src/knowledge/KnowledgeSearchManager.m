@@ -29,7 +29,7 @@
 #pragma mark - search
 // search data
 - (NSArray *)searchData:(NSString *)searchId {
-	NSManagedObjectContext *context = [CoreDataUtil instance].temporaryContext;
+	NSManagedObjectContext *context = [[CoreDataUtil instance] temporaryContext];
 
 	NSMutableArray *searchArray = [[NSMutableArray alloc] init];
 

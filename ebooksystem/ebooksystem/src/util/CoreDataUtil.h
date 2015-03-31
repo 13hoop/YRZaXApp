@@ -20,7 +20,7 @@
 // 主线程中的context, 可用于读写
 @property (readonly, nonatomic, strong) NSManagedObjectContext *managedObjectContext;
 // 非主线程中的context, 用于写
-@property (readonly,nonatomic, strong) NSManagedObjectContext *temporaryContext;
+//@property (readonly, nonatomic, strong) NSManagedObjectContext *temporaryContext;
 
 #pragma mark - methods
 
@@ -35,7 +35,9 @@
 
 //- (NSManagedObjectContext *) childThreadContext;
 //- (NSManagedObjectContext *) backgroundContext;
-//- (NSManagedObjectContext *) temporaryContext;
+
+// 非主线程中的context, 用于写
+- (NSManagedObjectContext *)temporaryContext;
 
 //创建工作context
 //- (NSManagedObjectContext *)generatePrivateContextWithParent:(NSManagedObjectContext *)parentContext;

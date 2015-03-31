@@ -33,7 +33,7 @@
 
 	BOOL saved = NO;
 
-	NSManagedObjectContext *context = [CoreDataUtil instance].temporaryContext;
+	NSManagedObjectContext *context = [[CoreDataUtil instance] temporaryContext];
 	// 1. try update if exists
 	{
 		NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
@@ -126,7 +126,7 @@
 
 //根据bookId , collectionType ,queryId来查询数据库,三者都有可能为空，需要根据不同参数来构造不同的查询条件
 - (NSArray *)getCollectionMetaWith:(NSString *)bookId andcollectionType:(NSString *)collectionType andQueryId:(NSString *)queryId {
-	NSManagedObjectContext *context = [CoreDataUtil instance].temporaryContext;
+	NSManagedObjectContext *context = [[CoreDataUtil instance] temporaryContext];
 
 	NSMutableArray *metaArray = [[NSMutableArray alloc] init];
 
@@ -160,7 +160,7 @@
 
 //查询所有书签
 - (NSArray *)getAllCollectionMeta {
-	NSManagedObjectContext *context = [CoreDataUtil instance].temporaryContext;
+	NSManagedObjectContext *context = [[CoreDataUtil instance] temporaryContext];
 
 	NSMutableArray *metaArray = [[NSMutableArray alloc] init];
 
@@ -185,7 +185,7 @@
 
 //根据bookId , queryId获取collectionMeta信息
 - (NSArray *)getCollectionMetaWith:(NSString *)bookId andQueryId:(NSString *)queryId {
-	NSManagedObjectContext *context = [CoreDataUtil instance].temporaryContext;
+	NSManagedObjectContext *context = [[CoreDataUtil instance] temporaryContext];
 
 	NSMutableArray *metaArray = [[NSMutableArray alloc] init];
 
@@ -225,7 +225,7 @@
 		return YES; // nothing to delete, return YES
 	}
 
-	NSManagedObjectContext *context = [CoreDataUtil instance].temporaryContext;
+	NSManagedObjectContext *context = [[CoreDataUtil instance] temporaryContext];
 
 	for (id entity in collectionMetaEntities) {
 		[context deleteObject:entity];

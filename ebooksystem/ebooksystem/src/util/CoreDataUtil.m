@@ -38,7 +38,7 @@
 @synthesize persistentStoreCoordinator = _persistentStoreCoordinator;
 
 @synthesize backgroundObjectContext = _backgroundObjectContext;
-@synthesize temporaryContext = _temporaryContext;
+//@synthesize temporaryContext = _temporaryContext;
 
 #pragma mark - properties
 - (NSURL *)coreDataStoreUrl {
@@ -166,7 +166,7 @@
 }
 
 - (NSManagedObjectContext *) temporaryContext {
-    _temporaryContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
+    NSManagedObjectContext *_temporaryContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
     _temporaryContext.parentContext = [self managedObjectContext];
     
     return _temporaryContext;
