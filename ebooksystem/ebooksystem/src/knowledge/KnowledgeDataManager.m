@@ -867,7 +867,7 @@
     }
     
     if (response.updateInfo.status != 0) {
-        LogError(@"[KnowledgeDataManager-startDownloadWithResponse:] failed because of invalid server response, status: %ld, message: %@", response.updateInfo.status, response.updateInfo.message);
+        LogError(@"[KnowledgeDataManager-startDownloadWithResponse:] failed because of invalid server response, status: %ld, message: %@", (long)response.updateInfo.status, response.updateInfo.message);
         return NO;
     }
     
@@ -887,19 +887,9 @@
         NSString *dataId = [NSString stringWithFormat:@"%@", [detail valueForKey:@"data_id"]];
         NSString *title = [NSString stringWithFormat:@"%@", [detail valueForKey:@"data_id"]];
         NSString *desc = [NSString stringWithFormat:@"desc_dataId_%@", dataId];
-        //正确写法：
+        
         NSString *downloadUrlStr = [NSString stringWithFormat:@"%@", [detail valueForKey:@"download_url"]];
-//        NSURL *downloadUrl = [[NSURL alloc] initWithString:downloadUrlStr];
         NSURL *downloadUrl = [NSURL URLWithString:[downloadUrlStr stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-        
-        
-    
-        /*
-        //测试写法：
-        NSString *haoyutestURL = @"http://test.zaxue100.com//1^ios_00101015^1.0.0.1.zip";
-        NSURL *downloadUrl = [NSURL URLWithString:[haoyutestURL stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
-         */
-        
         
         if (downloadUrl == nil || downloadUrlStr.length <= 0) {
             LogWarn(@"[KnowLedgeDataManager - startDownloadWithResponse] downlaodUrl is nil");
@@ -920,25 +910,16 @@
                         [[KnowledgeMetaManager instance] setDataStatusTo:DATA_STATUS_DOWNLOAD_FAILED andDataStatusDescTo:@"0" forDataWithDataId:dataId andType:DATA_TYPE_DATA_SOURCE];
 //                    }
                 }
-                
             }
-            
             
             continue;
         }
-        
-        
         
         // *********** 存一个全局的变量，用于区分下载类型：普通下载、更新性质的下载 ***********
         NSString *knowledgeDataInDocument = [[Config instance] knowledgeDataConfig].knowledgeDataRootPathInDocuments;
         NSString *originalBookPath = [NSString stringWithFormat:@"%@/%@",knowledgeDataInDocument,dataId];
         BOOL originalBookExist = [[NSFileManager defaultManager] fileExistsAtPath:originalBookPath];
         self.originalBookHavedExist = originalBookExist;//判断是否为更新操作。有书籍存在，则判定为更新操作
-        
-        
-        
-        
-        
         
         NSString *decryptKey = [NSString stringWithFormat:@"%@", [detail valueForKey:@"data_encrypt_key"]];
         
@@ -952,9 +933,7 @@
         //将savePath存成全局的属性
         self.globalSavePath = savePath;
         
-        
-        
-        LogInfo(@"下载目录是======%@",savePath);//在这里判断文件是否存，若存在则删除
+//        LogInfo(@"下载目录是======%@",savePath);//在这里判断文件是否存，若存在则删除
         
         // 下载
         [KnowledgeDownloadManager instance].delegate = self;
@@ -966,6 +945,7 @@
     
     return YES;
 }
+
 // H:
 - (void)startDownloadWithUrl:(NSURL *)downloadUrl andTitle:(NSString *)title andDesc:(NSString *)desc andWithTag:(NSString *)tag andSavePath:(NSString *)path {
     [KnowledgeDownloadManager instance].delegate = self;
@@ -1078,16 +1058,12 @@
 #pragma mark start download new book
 //2.0先注释掉 H:
 - (BOOL)startDownloadDataWithDataId:(NSString *)dataId {
-    
-    
-    //（1）js传一个dataId到 native ，native根据dataId从数据库中取出对应dataId的当前版本号
+    //（1）js传一个dataId到 native，native根据dataId从数据库中取出对应dataId的当前版本号
     NSString *dataCurVersion = nil;
-    //限定dataType
     
-    
-    //看一下当前线程
-    NSThread *current = [NSThread currentThread];
-    NSLog(@"开始下载时开辟的当前线程是======%@",current);
+//    //看一下当前线程
+//    NSThread *current = [NSThread currentThread];
+//    NSLog(@"开始下载时开辟的当前线程是======%@",current);
     
     dataCurVersion = [[KnowledgeMetaManager instance] getKnowledgeDataVersionWithDataId:dataId andDataType:DATA_TYPE_DATA_SOURCE];
     
@@ -1115,14 +1091,11 @@
     if (response == nil || response.updateInfo == nil || response.updateInfo.status < 0) {
         LogError(@"[KnowledgeDataManager-startDownloadDataWithDataId] failed to get data update info, return");
         
-        
-        
-        
         // ******* 没网时服务器响应是空的，这时需要将下载状态改为下载失败 ******
         
         //解决下载失败后native同页面处理不同步的问题
         if (dataId != nil && dataId.length > 0) {
-            //1 根据bookId获取对应数据的状态是否为可更新
+            // 1. 根据bookId获取对应数据的状态是否为可更新
             NSArray *bookArr = [[KnowledgeMetaManager instance] getKnowledgeMetaWithDataId:dataId andDataType:DATA_TYPE_DATA_SOURCE];
             for (id objc in bookArr) {
 //                KnowledgeMeta *bookMeta = (KnowledgeMeta *)objc;
@@ -1133,16 +1106,12 @@
                 }
                 //dataId是主键，只能查找到唯一一个元素
                 //更新下载时，进行到这一步数据的状态是不会发生变化的（仍然为可更新）。
-                //2 判断是否为可更新,若是则不做修改,反之修改数据库
+                // 2. 判断是否为可更新,若是则不做修改,反之修改数据库
 //                if (bookMeta.dataStatus != DATA_STATUS_UPDATE_DETECTED) {
                     [[KnowledgeMetaManager instance] setDataStatusTo:DATA_STATUS_DOWNLOAD_FAILED andDataStatusDescTo:@"0" forDataWithDataId:dataId andType:DATA_TYPE_DATA_SOURCE];
 //                }
             }
-            
         }
-        
-        
-        
         
 //        return NO;
     }
@@ -1766,8 +1735,8 @@
             [[KnowledgeMetaManager instance] setDataStatusTo:DATA_STATUS_DOWNLOAD_IN_PROGRESS andDataStatusDescTo:[NSString stringWithFormat:@"%lf", progress ] forDataWithDataId:downloadItem.title andType:DATA_TYPE_DATA_SOURCE];
             
             
-            NSThread *Current = [NSThread currentThread];
-            NSLog(@"修改下载进度的线程是======%@",Current);
+//            NSThread *Current = [NSThread currentThread];
+//            NSLog(@"修改下载进度的线程是======%@",Current);
             
             LogDebug(@"[knowledgeDownloadItem:didProgress:]download item, id %@, title %@, progress: %@", downloadItem.itemId, downloadItem.title, downloadItem.downloadProgress);
         });

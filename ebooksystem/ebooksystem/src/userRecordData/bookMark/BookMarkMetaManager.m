@@ -29,13 +29,16 @@
     if (bookMarkMeta == nil) {
         return NO;
     }
+    
     BOOL saved = NO;
+    
+    NSManagedObjectContext *context = [CoreDataUtil instance].temporaryContext;
     // 1. try update if exists
     {
         NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
         
         // Entity
-        NSEntityDescription *entity = [NSEntityDescription entityForName:@"BookMarkEntity" inManagedObjectContext:[CoreDataUtil instance].managedObjectContext];
+        NSEntityDescription *entity = [NSEntityDescription entityForName:@"BookMarkEntity" inManagedObjectContext:context];
         [fetchRequest setEntity:entity];
         
         // Predicate
@@ -43,7 +46,7 @@
         [fetchRequest setPredicate:predicate];
         
         NSError *error = nil;
-        NSArray *fetchedObjects = [[CoreDataUtil instance].managedObjectContext executeFetchRequest:fetchRequest error:&error];
+        NSArray *fetchedObjects = [context executeFetchRequest:fetchRequest error:&error];
         if (fetchedObjects != nil &&
             fetchedObjects.count > 0) {
             // 若已有, 更新
@@ -55,7 +58,7 @@
                 }
                 
                 NSError *error = nil;
-                if (![[CoreDataUtil instance].managedObjectContext save:&error]) {
+                if (![context save:&error]) {
                     LogError(@"[KnowledgeMetaManager::saveKnowledgeMetaEntity()] update failed when save to context, error: %@", [error localizedDescription]);
                     return NO;
                 }
@@ -67,7 +70,7 @@
     
     // 2. insert as new
     if (saved == NO) {
-        NSManagedObject *entity = [NSEntityDescription insertNewObjectForEntityForName:@"BookMarkEntity" inManagedObjectContext:[CoreDataUtil instance].managedObjectContext];
+        NSManagedObject *entity = [NSEntityDescription insertNewObjectForEntityForName:@"BookMarkEntity" inManagedObjectContext:context];
         
         BOOL ret = [bookMarkMeta setValuesForEntity:entity];
         if (!ret) {
@@ -76,7 +79,7 @@
         }
         
         NSError *error = nil;
-        if (![[CoreDataUtil instance].managedObjectContext save:&error]) {
+        if (![context save:&error]) {
             LogError(@"[BookMarkMetaManager::saveBookMetaEntity()] insert failed when save to context, error: %@", [error localizedDescription]);
             return NO;
         }
@@ -92,6 +95,7 @@
 
 //get book mark by bookId , bookMarkId
 - (NSArray *)getBookMarkMetaWithBookId:(NSString *)bookId andBookMarkId:(NSString *)bookMarkId{
+    NSManagedObjectContext *context = [CoreDataUtil instance].temporaryContext;
     
     NSMutableArray *metaArray = [[NSMutableArray alloc] init];
     
@@ -99,7 +103,7 @@
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     
     // Entity
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"BookMarkEntity" inManagedObjectContext:[CoreDataUtil instance].managedObjectContext];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"BookMarkEntity" inManagedObjectContext:context];
     [fetchRequest setEntity:entity];
     
     // Predicate
@@ -108,7 +112,7 @@
     
     // Fetch
     NSError *error = nil;
-    NSArray *fetchedObjects = [[CoreDataUtil instance].managedObjectContext executeFetchRequest:fetchRequest error:&error];
+    NSArray *fetchedObjects = [context executeFetchRequest:fetchRequest error:&error];
     if (fetchedObjects != nil &&
         fetchedObjects.count > 0) {
         for (NSManagedObject *entity in fetchedObjects) {
@@ -126,13 +130,15 @@
 
 //get book mark by bookId , bookMarkType ,queryId
 - (NSArray *)getBookMarkMetaWithBookId:(NSString *)bookId andBookMarkType:(NSString *)bookMarkType andQueryId:(NSString *)queryId {
+    NSManagedObjectContext *context = [CoreDataUtil instance].temporaryContext;
+    
     NSMutableArray *metaArray = [[NSMutableArray alloc] init];
     
     
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     
     // Entity
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"BookMarkEntity" inManagedObjectContext:[CoreDataUtil instance].managedObjectContext];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"BookMarkEntity" inManagedObjectContext:context];
     [fetchRequest setEntity:entity];
     
     // Predicate
@@ -142,7 +148,7 @@
     
     // Fetch
     NSError *error = nil;
-    NSArray *fetchedObjects = [[CoreDataUtil instance].managedObjectContext executeFetchRequest:fetchRequest error:&error];
+    NSArray *fetchedObjects = [context executeFetchRequest:fetchRequest error:&error];
     if (fetchedObjects != nil &&
         fetchedObjects.count > 0) {
         for (NSManagedObject *entity in fetchedObjects) {
@@ -190,13 +196,15 @@
 
 //查询所有的书签 
 - (NSArray *)getAllBookMark {
+    NSManagedObjectContext *context = [CoreDataUtil instance].temporaryContext;
+    
     NSMutableArray *metaArray = [[NSMutableArray alloc] init];
 
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-     NSEntityDescription *entity=[NSEntityDescription entityForName:@"BookMarkEntity" inManagedObjectContext:[CoreDataUtil instance].managedObjectContext];
+     NSEntityDescription *entity=[NSEntityDescription entityForName:@"BookMarkEntity" inManagedObjectContext:context];
     [fetchRequest setEntity:entity];
     NSError *error = nil;
-    NSArray *fetchedObjects = [[CoreDataUtil instance].managedObjectContext executeFetchRequest:fetchRequest error:&error];
+    NSArray *fetchedObjects = [context executeFetchRequest:fetchRequest error:&error];
     if (fetchedObjects != nil &&
         fetchedObjects.count > 0) {
         for (NSManagedObject *entity in fetchedObjects) {
@@ -221,18 +229,19 @@
 
 //delete bookMark meta by bookid ,bookMarkId
 - (BOOL)deleteBookMarkMetaWithBookId:(NSString *)bookId andBookMarkId:(NSString *)bookMarkId {
-    
     NSArray *knowledgeMetaEntities = [self getBookMarkMetaWithBookId:bookId andBookMarkId:bookMarkId];
     if (knowledgeMetaEntities == nil || knowledgeMetaEntities.count <= 0) {
         return YES; // nothing to delete, return YES
     }
     
+    NSManagedObjectContext *context = [CoreDataUtil instance].temporaryContext;
+    
     for (id entity in knowledgeMetaEntities) {
-        [[CoreDataUtil instance].managedObjectContext deleteObject:entity];
+        [context deleteObject:entity];
     }
     
     NSError *error = nil;
-    if (![[CoreDataUtil instance].managedObjectContext save:&error]) {
+    if (![context save:&error]) {
         LogError(@"[BookMarkMetaManager-deleteBookMarkMetaWithBookId:andBookMarkId:] failed when save to context, error: %@", [error localizedDescription]);
         return NO;
     }
@@ -253,12 +262,14 @@
     
     BOOL saved = NO;
     
+    NSManagedObjectContext *context = [CoreDataUtil instance].temporaryContext;
+    
     //  try update if exists
     {
         NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
         
         // Entity
-        NSEntityDescription *entity = [NSEntityDescription entityForName:@"BookMarkEntity" inManagedObjectContext:[CoreDataUtil instance].managedObjectContext];
+        NSEntityDescription *entity = [NSEntityDescription entityForName:@"BookMarkEntity" inManagedObjectContext:context];
         [fetchRequest setEntity:entity];
         
         // Predicate
@@ -267,7 +278,7 @@
         [fetchRequest setPredicate:predicate];
         
         NSError *error = nil;
-        NSArray *fetchedObjects = [[CoreDataUtil instance].managedObjectContext executeFetchRequest:fetchRequest error:&error];
+        NSArray *fetchedObjects = [context executeFetchRequest:fetchRequest error:&error];
         if (fetchedObjects != nil &&
             fetchedObjects.count > 0) {
             // 若已有, 更新
@@ -313,7 +324,7 @@
                 
                 
                 //save
-                if (![[CoreDataUtil instance].managedObjectContext save:&error]) {
+                if (![context save:&error]) {
                     LogError(@"[BookMarkMetaManager-updateBookMarkMetaWithLatestBookMarkUpdateInfo:] update failed when save to context, error: %@", [error localizedDescription]);
                     return NO;
                 }
@@ -341,12 +352,14 @@
     
     BOOL saved = NO;
     
+    NSManagedObjectContext *context = [CoreDataUtil instance].temporaryContext;
+    
     //  try update if exists
     {
         NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
         
         // Entity
-        NSEntityDescription *entity = [NSEntityDescription entityForName:@"BookMarkEntity" inManagedObjectContext:[CoreDataUtil instance].managedObjectContext];
+        NSEntityDescription *entity = [NSEntityDescription entityForName:@"BookMarkEntity" inManagedObjectContext:context];
         [fetchRequest setEntity:entity];
         
         // Predicate
@@ -355,7 +368,7 @@
         [fetchRequest setPredicate:predicate];
         
         NSError *error = nil;
-        NSArray *fetchedObjects = [[CoreDataUtil instance].managedObjectContext executeFetchRequest:fetchRequest error:&error];
+        NSArray *fetchedObjects = [context executeFetchRequest:fetchRequest error:&error];
         if (fetchedObjects != nil &&
             fetchedObjects.count > 0) {
             // 若已有, 更新
@@ -385,7 +398,7 @@
                 
                 
                 //save
-                if (![[CoreDataUtil instance].managedObjectContext save:&error]) {
+                if (![context save:&error]) {
                     LogError(@"[BookMarkMetaManager-updateBookMarkMetaWithLatestBookMarkUpdateInfo:] update failed when save to context, error: %@", [error localizedDescription]);
                     return NO;
                 }
@@ -400,7 +413,7 @@
     if (saved == NO) {
         
         BookMarkMeta *bookMarkItem = [[BookMarkMeta alloc] init];
-        NSManagedObject *entity = [NSEntityDescription insertNewObjectForEntityForName:@"BookMarkEntity" inManagedObjectContext:[CoreDataUtil instance].managedObjectContext];
+        NSManagedObject *entity = [NSEntityDescription insertNewObjectForEntityForName:@"BookMarkEntity" inManagedObjectContext:context];
         
         
        
@@ -423,7 +436,7 @@
         }
         
         NSError *error = nil;
-        if (![[CoreDataUtil instance].managedObjectContext save:&error]) {
+        if (![context save:&error]) {
             LogError(@"[BookMarkMetaManager::saveBookMetaEntity()] insert failed when save to context, error: %@", [error localizedDescription]);
             return NO;
         }
