@@ -214,6 +214,15 @@
     
     
     
+    //切换白天夜间模式
+    NSString *globalMode = [NSUserDefaultUtil getGlobalMode];
+    if ([globalMode isEqualToString:@"day"]) {
+        self.view.backgroundColor = [UIColor whiteColor];
+    }
+    else if ([globalMode isEqualToString:@"night"]) {
+        self.view.backgroundColor = [UIColor colorWithHexString:@"#373E4F"];
+    }
+    
     
     
 }

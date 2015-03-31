@@ -237,7 +237,7 @@
             {
                 NSError *deleteUnpackFileError;
                 //2.0 开始校验的状态
-                [[KnowledgeMetaManager instance] setDataStatusTo:DATA_STATUS_INCHECK andDataStatusDescTo:@"0.92" forDataWithDataId:downloadItem.title andType:DATA_TYPE_DATA_SOURCE];
+                [[KnowledgeMetaManager instance] setDataStatusTo:DATA_STATUS_INCHECK andDataStatusDescTo:@"0.96" forDataWithDataId:downloadItem.title andType:DATA_TYPE_DATA_SOURCE];
                 
                 NSError *error = nil;
                 NSString *md5File = [NSString stringWithFormat:@"%@/%@", unpackPath, @"md5.txt"];
@@ -944,7 +944,11 @@
         
         // 下载目录
         NSString *downloadRootPath = [Config instance].knowledgeDataConfig.knowledgeDataDownloadRootPathInDocuments;
-        NSString *savePath = [NSString stringWithFormat:@"%@/%@-%@", downloadRootPath, title, [DateUtil timestamp]];
+        //为实现断点续传，需要将savePath存成固定的
+//        NSString *savePath = [NSString stringWithFormat:@"%@/%@-%@", downloadRootPath, title, [DateUtil timestamp]];
+        
+        NSString *savePath = [NSString stringWithFormat:@"%@/%@-%@", downloadRootPath, title, [MD5Util md5ForString:title]];
+        
         //将savePath存成全局的属性
         self.globalSavePath = savePath;
         
@@ -1819,6 +1823,8 @@
             [[KnowledgeMetaManager instance] setDataStatusTo:DATA_STATUS_DOWNLOAD_FAILED andDataStatusDescTo:@"0" forDataWithDataId:downloadItem.title andType:DATA_TYPE_DATA_SOURCE];
             //        }
             
+            
+            /*添加断点续传功能
             // 2、下载失败后，要将已经下载的内容清除掉
             BOOL isDir;
             BOOL existed = [[NSFileManager defaultManager] fileExistsAtPath:self.globalSavePath isDirectory:&isDir];
@@ -1828,6 +1834,13 @@
                 
             }
             
+             */
+            
+            //1 （网络断开导致的）下载失败，需要在一段时间内判断网络，超出时间限制再修改数据库
+            //2 不要删除已经下载的内容，检测到目录下的内容后会自动加上
+            
+            
+             
             // 3、统计下载失败
             //        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             [[StatisticsManager instance]statisticDownloadAndUpdateWithBookId:downloadItem.title andSuccess:@"fail"];

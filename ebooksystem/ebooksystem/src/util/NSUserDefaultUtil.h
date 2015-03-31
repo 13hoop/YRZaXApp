@@ -39,6 +39,11 @@
 //夜间模式
 + (BOOL)setGlobalDataWithObject:(NSDictionary *)dic;
 + (NSDictionary *)getGlobalDataWithKeyArray:(NSArray *)keyArray;
++ (NSString *)getGlobalMode;//获取当前的模式
+
+
+
+
 
 //存储移动完成的标志
 + (BOOL)saveMoveCompleteString;

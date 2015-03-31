@@ -175,6 +175,19 @@
     
 }
 
+//获取当前的白天夜间模式,现在字典中只有一个字段
++ (NSString *)getGlobalMode {
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    NSDictionary *dic = [userDefaults objectForKey:@"GlobalData"];
+    NSString *modeString = [dic objectForKey:@"render-mode"];
+    return modeString;
+}
+
+
+
+
+
+
 //存储文件移动的状态
 
 + (BOOL)saveMoveCompleteString {

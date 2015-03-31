@@ -19,6 +19,11 @@
 #import "CustomPromptView.h"
 
 #import "StatisticsManager.h"
+#import "NSUserDefaultUtil.h"
+#import "UIColor+Hex.h"
+
+
+
 
 @interface QuestionAndAnswerViewController ()<UIWebViewDelegate>
 
@@ -153,6 +158,16 @@
     [self injectJSToWebview:self.webView andJSFileName:@"SamaPageShow"];
     //进入问答页的统计
     [[StatisticsManager instance] beginLogPageView:@"questionAndAnswerPage"];
+    
+    
+    //切换白天夜间模式
+    NSString *globalMode = [NSUserDefaultUtil getGlobalMode];
+    if ([globalMode isEqualToString:@"day"]) {
+        self.view.backgroundColor = [UIColor whiteColor];
+    }
+    else if ([globalMode isEqualToString:@"night"]) {
+        self.view.backgroundColor = [UIColor colorWithHexString:@"#373E4F"];
+    }
 
 }
 
