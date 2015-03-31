@@ -212,6 +212,10 @@
                     break; // 已解包成功
                 }
                 {
+                    
+                    //解包失败 要将userDefault中的下载状态改为NOITEMDOWNLOAD
+                    [NSUserDefaultUtil saveInDownloadStatusWithStatus:@"NOITEMDOWNLOAD"];
+                    
                     // 2.0 解包后的文件不存在，认定为解包失败 1 修改数据库中的信息
                     [[KnowledgeMetaManager instance] setDataStatusTo:DATA_STATUS_UNPACK_FAILED andDataStatusDescTo:@"0" forDataWithDataId:downloadItem.title andType:DATA_TYPE_DATA_SOURCE];
                     //2 删除下载下来的文件
@@ -244,6 +248,10 @@
                 NSString *md5FileContents = [NSString stringWithContentsOfFile:md5File encoding:NSUTF8StringEncoding error:&error];
                 if (md5FileContents == nil || md5FileContents.length <= 0) {
                     LogError(@"[KnowledgeDataManager-processDownloadedDataPack:] failed, invalid md5 file. The zip file is: %@", downloadItem.savePath);
+                    
+                    //MD5校验失败 要将userDefault中的下载状态改为NOITEMDOWNLOAD
+                    [NSUserDefaultUtil saveInDownloadStatusWithStatus:@"NOITEMDOWNLOAD"];
+                    
                     //2.0 MD5校验失败，将校验失败的信息存到数据库
                     [[KnowledgeMetaManager instance] setDataStatusTo:DATA_STATUS_CHECK_FAILED andDataStatusDescTo:@"0" forDataWithDataId:downloadItem.title andType:DATA_TYPE_DATA_SOURCE];
                     // 2 删除已经解包的文件
@@ -258,6 +266,10 @@
                 // check each file's md5
                 NSArray *lines = [md5FileContents componentsSeparatedByString:@"\n"];
                 if (lines == nil || lines.count <= 0) {
+                    
+                    
+                    //校验失败 要将userDefault中的下载状态改为NOITEMDOWNLOAD
+                    [NSUserDefaultUtil saveInDownloadStatusWithStatus:@"NOITEMDOWNLOAD"];
                     
                     //2.0 MD5校验失败，将校验失败的信息存到数据库
                     [[KnowledgeMetaManager instance] setDataStatusTo:DATA_STATUS_CHECK_FAILED andDataStatusDescTo:@"0" forDataWithDataId:downloadItem.title andType:DATA_TYPE_DATA_SOURCE];
@@ -291,6 +303,9 @@
                     
                     if (![md5FromApp isEqualToString:md5FromServer]) {
                         LogError(@"[KnowledgeDataManager-processDownloadedDataPack:] failed, sice md5 check failed. The failed file is: %@", filename);
+                        
+                        //检验失败 要将userDefault中的下载状态改为NOITEMDOWNLOAD
+                        [NSUserDefaultUtil saveInDownloadStatusWithStatus:@"NOITEMDOWNLOAD"];
                         
                         //2.0 MD5校验失败，将校验失败的信息存到数据库
                         [[KnowledgeMetaManager instance] setDataStatusTo:DATA_STATUS_CHECK_FAILED andDataStatusDescTo:@"0" forDataWithDataId:downloadItem.title andType:DATA_TYPE_DATA_SOURCE];
@@ -334,9 +349,8 @@
                 // process
                 
 //                ret = [self processZippedDataFile:zippedDataFilename withDecryptKey:downloadItem.tag];
-                //看一下这不操作是在那个线程里
-                NSThread *moveThread = [NSThread currentThread];
-                NSLog(@"移动文件的线程是在====%@",moveThread);
+                //进行第二部解包操作
+                
                 ret = [self processZippedDataFile:zippedDataFilename withDecryptKey:downloadItem.tag withDownloadItemTitle:downloadItem.title];
                 
                 if (!ret) {
@@ -386,6 +400,10 @@
         LogError(@"[KnowledgeDataManager - processDownloadedDataPack]: delete partial book file failed with errorInfo %@",deletePartialError.localizedDescription);
     }
     */
+    
+    
+    //成功 要将userDefault中的下载状态改为NOITEMDOWNLOAD
+    [NSUserDefaultUtil saveInDownloadStatusWithStatus:@"NOITEMDOWNLOAD"];
     
     return ret;
 }
@@ -449,6 +467,9 @@
                     [[KnowledgeMetaManager instance] setDataStatusTo:DATA_STATUS_UNPACK_FAILED andDataStatusDescTo:@"0" forDataWithDataId:downloadTitle andType:DATA_TYPE_DATA_SOURCE];
                 //2 删除第一次解包得到的文件
                 [PathUtil deletePath:unpackPath];
+                //3 将下载中的字段置为无任务下载
+                [NSUserDefaultUtil saveInDownloadStatusWithStatus:@"NOITEMDOWNLOAD"];
+                
                 return NO;//解包出现错误，在这里直接跳出该方法体。
             }
             
@@ -476,6 +497,8 @@
             if (!ret) {
                 LogError(@"knowledgeDataManager -- processZippedDataFile:withDecryprtKey : copy file form path to purpose failed,please check");
                 // 2.0 移动数据失败，修改数据库状态
+                [NSUserDefaultUtil saveInDownloadStatusWithStatus:@"NOITEMDOWNLOAD"];
+                
                 [[KnowledgeMetaManager instance]setDataStatusTo:DATA_MOVE_FAILED andDataStatusDescTo:@"0" andDataLatestVersion:nil andDataPath:downloadTitle andDataStorageType:DATA_STORAGE_INTERNAL_STORAGE forDataWithDataId:downloadTitle andType:DATA_TYPE_DATA_SOURCE];
                 //2 删除数据,两个目录下的内容都要清空
                 [PathUtil deletePath:unpackedDataPath];
@@ -1728,7 +1751,13 @@
     
  */
     float tempProgress = progress;
+    
+    
+    
     if ((NSUInteger)(tempProgress*100)%5 == 0) {
+        //将下载的状态存到nsuseDefault中
+        [NSUserDefaultUtil saveInDownloadStatusWithStatus:@"ITEMDOWNLOADING"];
+        
         // 将下载进度更新到coreData
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
             
@@ -1807,7 +1836,8 @@
             
             //1 （网络断开导致的）下载失败，需要在一段时间内判断网络，超出时间限制再修改数据库
             //2 不要删除已经下载的内容，检测到目录下的内容后会自动加上
-            
+            //下载失败 要将userDefault中的下载状态改为NOITEMDOWNLOAD
+            [NSUserDefaultUtil saveInDownloadStatusWithStatus:@"NOITEMDOWNLOAD"];
             
              
             // 3、统计下载失败
@@ -1817,7 +1847,10 @@
             
             return;
         }
-        
+    
+    
+    
+    
         // 将下载进度更新到coreData
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             
@@ -1932,7 +1965,16 @@
         
         //转换成int来判断
         int bookStatusInt = [bookStatus intValue];
-        if (bookStatusInt >= 1 && bookStatusInt <= 3) {
+        if (bookStatusInt == 0) {
+            bookStatusStr = @"未下载";
+            if (isAvail) {
+                updateStatus = @"有更新";
+            }
+            else {
+                updateStatus = @"无更新";
+            }
+        }
+        else if (bookStatusInt >= 1 && bookStatusInt <= 3) {
             bookStatusStr = @"下载中";
             if (isAvail) {
                 updateStatus = @"有更新";
@@ -1942,12 +1984,11 @@
             }
         }
         else if (bookStatusInt == 7) {//检测到有更新
-            
             updateStatus = @"有更新";//有更新肯定数据库中是有数据的
             bookStatusStr = @"完成";
         }
-        else if (bookStatusInt == 8 || bookStatusInt ==9) {
-//            bookStatusStr = @"更新中";
+        else if (bookStatusInt == 8 || bookStatusInt == 9) {
+            //            bookStatusStr = @"更新中";
             if (isAvail) {
                 updateStatus = @"有更新";
             }
@@ -1985,7 +2026,7 @@
                 updateStatus = @"无更新";
             }
         }
-        else if (bookStatusInt == -1 ) {
+        else if (bookStatusInt == -1) {
             bookStatusStr = @"未下载";
         }
         else if (bookStatusInt >= 4 && bookStatusInt <= 6) {
@@ -1997,7 +2038,7 @@
                 updateStatus = @"无更新";
             }
         }
-        else if (bookStatusInt == 18){
+        else if (bookStatusInt == 18) {
             bookStatusStr = @"解压失败";
             if (isAvail) {
                 updateStatus = @"有更新";

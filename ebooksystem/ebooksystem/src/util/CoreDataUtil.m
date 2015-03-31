@@ -19,9 +19,6 @@
 @property (readonly, strong, nonatomic) NSManagedObjectModel *managedObjectModel;
 @property (readonly, strong, nonatomic) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 
-@property (readonly,nonatomic, strong) NSManagedObjectContext *backgroundObjectContext;
-
-
 #pragma mark - methods
 - (NSURL *)applicationDocumentsDirectory;
 
@@ -38,7 +35,7 @@
 @synthesize persistentStoreCoordinator = _persistentStoreCoordinator;
 
 @synthesize backgroundObjectContext = _backgroundObjectContext;
-//@synthesize temporaryContext = _temporaryContext;
+@synthesize temporaryContext = _temporaryContext;
 
 #pragma mark - properties
 - (NSURL *)coreDataStoreUrl {
@@ -90,49 +87,49 @@
 }
 
 #pragma mark - test multi thread \ core data
-//- (NSManagedObjectContext*) childThreadContext
-//{
-////    [self managedObjectContext];
-//    if (_childThreadManagedObjectContext != nil)
-//    {
-//        return _childThreadManagedObjectContext;
-//    }
-//    
-//    NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
-//    if (coordinator != nil)
-//    {
-//        _childThreadManagedObjectContext = [[NSManagedObjectContext alloc] init];
-//        [_childThreadManagedObjectContext setPersistentStoreCoordinator:coordinator];
-//    }
-//    else
-//    {
-//        NSLog(@"create child thread managed object context failed!");
-//    }
-//    
-//    [_childThreadManagedObjectContext setStalenessInterval:0.0];
-//    [_childThreadManagedObjectContext setMergePolicy:NSOverwriteMergePolicy];
-//    
-//    //////init entity description.
-//    _pChildThreadEntityDec = [NSEntityDescription entityForName:@"KnowledgeMetaEntity" inManagedObjectContext:_childThreadManagedObjectContext];
-//    if (_pChildThreadEntityDec == nil)
-//    {
-//        NSLog(@"error init entity description!");
-//    }
-//    
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(mergeContextChangesForNotification:) name:NSManagedObjectContextDidSaveNotification object:_childThreadManagedObjectContext];
-//    
-//    return _childThreadManagedObjectContext;
-//}
+- (NSManagedObjectContext*) childThreadContext
+{
+//    [self managedObjectContext];
+    if (_childThreadManagedObjectContext != nil)
+    {
+        return _childThreadManagedObjectContext;
+    }
+    
+    NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
+    if (coordinator != nil)
+    {
+        _childThreadManagedObjectContext = [[NSManagedObjectContext alloc] init];
+        [_childThreadManagedObjectContext setPersistentStoreCoordinator:coordinator];
+    }
+    else
+    {
+        NSLog(@"create child thread managed object context failed!");
+    }
+    
+    [_childThreadManagedObjectContext setStalenessInterval:0.0];
+    [_childThreadManagedObjectContext setMergePolicy:NSOverwriteMergePolicy];
+    
+    //////init entity description.
+    _pChildThreadEntityDec = [NSEntityDescription entityForName:@"KnowledgeMetaEntity" inManagedObjectContext:_childThreadManagedObjectContext];
+    if (_pChildThreadEntityDec == nil)
+    {
+        NSLog(@"error init entity description!");
+    }
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(mergeContextChangesForNotification:) name:NSManagedObjectContextDidSaveNotification object:_childThreadManagedObjectContext];
+    
+    return _childThreadManagedObjectContext;
+}
 
-//- (void)mergeOnMainThread:(NSNotification *)aNotification
-//{
-//    [[self managedObjectContext] mergeChangesFromContextDidSaveNotification:aNotification];
-//}
-//
-//- (void)mergeContextChangesForNotification:(NSNotification *)aNotification
-//{
-//    [self performSelectorOnMainThread:@selector(mergeOnMainThread:) withObject:aNotification waitUntilDone:YES];
-//}
+- (void)mergeOnMainThread:(NSNotification *)aNotification
+{
+    [[self managedObjectContext] mergeChangesFromContextDidSaveNotification:aNotification];
+}
+
+- (void)mergeContextChangesForNotification:(NSNotification *)aNotification
+{
+    [self performSelectorOnMainThread:@selector(mergeOnMainThread:) withObject:aNotification waitUntilDone:YES];
+}
 
 
 
@@ -147,9 +144,14 @@
 - (NSManagedObjectContext *)managedObjectContext
 {
     if (_managedObjectContext == nil) {
-        // create main thread MOC
-        _managedObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
-        _managedObjectContext.parentContext = [self backgroundContext];
+        NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
+        if (coordinator != nil) {
+//            _managedObjectContext = [[NSManagedObjectContext alloc] init];
+//            [_managedObjectContext setPersistentStoreCoordinator:coordinator];
+//            //测试
+            _managedObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
+            _managedObjectContext.parentContext = [self backgroundContext];
+        }
     }
     return _managedObjectContext;
 }
@@ -166,18 +168,24 @@
 }
 
 - (NSManagedObjectContext *) temporaryContext {
-    NSManagedObjectContext *_temporaryContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
+//    if (_temporaryContext == nil) {
+    _temporaryContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
     _temporaryContext.parentContext = [self managedObjectContext];
+//        NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
+//
+//        _temporaryContext = [[NSManagedObjectContext alloc] init];
+//       [_temporaryContext setPersistentStoreCoordinator:coordinator];
     
+//    }
     return _temporaryContext;
 }
 
-////生成工作线程
-//- (NSManagedObjectContext *)generatePrivateContextWithParent:(NSManagedObjectContext *)parentContext {
-//    NSManagedObjectContext *privateContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
-//    privateContext.parentContext = parentContext;
-//    return privateContext;
-//}
+//生成工作线程
+- (NSManagedObjectContext *)generatePrivateContextWithParent:(NSManagedObjectContext *)parentContext {
+    NSManagedObjectContext *privateContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
+    privateContext.parentContext = parentContext;
+    return privateContext;
+}
 
 //save context 变化
 - (void)saveContextWithWait:(BOOL)needWait
@@ -203,9 +211,12 @@
         return;
     }
     
+    
+    
     if ([rootObjectContext hasChanges]) {
         NSLog(@"Root context need to save");
         if (needWait) {
+//            [rootObjectContext performBlock:^{
             [managedObjectContext performBlockAndWait:^{
                 NSError *saveRootError = nil;
                 if (![rootObjectContext save:&saveRootError]) {
@@ -246,19 +257,8 @@
         return _persistentStoreCoordinator;
     }
     
-    // Add this block of code.  Basically, it forces all threads that reach this
-    // code to be processed in an ordered manner on the main thread.  The first
-    // one will initialize the data, and the rest will just return with that
-    // data.  However, it ensures the creation is not attempted multiple times.
-    if (![NSThread currentThread].isMainThread) {
-        dispatch_sync(dispatch_get_main_queue(), ^{
-            (void)[self persistentStoreCoordinator];
-        });
-        return _persistentStoreCoordinator;
-    }
-    
-    // construct
     NSURL *storeURL = self.coreDataStoreUrl;
+    
     LogInfo(@"[CoreDataUtil::persistentStoreCoordinator] Store url is %@", storeURL);
     
     // 设置选项, 支持data model version
@@ -269,8 +269,31 @@
     NSError *error = nil;
     _persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[self managedObjectModel]];
     if (![_persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:options error:&error]) {
+        /*
+         Replace this implementation with code to handle the error appropriately.
+         
+         abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+         
+         Typical reasons for an error here include:
+         * The persistent store is not accessible;
+         * The schema for the persistent store is incompatible with current managed object model.
+         Check the error message to determine what the actual problem was.
+         
+         
+         If the persistent store is not accessible, there is typically something wrong with the file path. Often, a file URL is pointing into the application's resources directory instead of a writeable directory.
+         
+         If you encounter schema incompatibility errors during development, you can reduce their frequency by:
+         * Simply deleting the existing store:
+         [[NSFileManager defaultManager] removeItemAtURL:storeURL error:nil]
+         
+         * Performing automatic lightweight migration by passing the following dictionary as the options parameter:
+         @{NSMigratePersistentStoresAutomaticallyOption:@YES, NSInferMappingModelAutomaticallyOption:@YES}
+         
+         Lightweight migration will only work for a limited set of schema changes; consult "Core Data Model Versioning and Data Migration Programming Guide" for details.
+         
+         */
         LogError(@"[CoreDataUtil::persistentStoreCoordinator] Unresolved error %@, %@", error, [error userInfo]);
-        abort();
+//        abort();
     }
     
     return _persistentStoreCoordinator;

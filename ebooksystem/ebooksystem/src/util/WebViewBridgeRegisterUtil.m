@@ -57,6 +57,7 @@
 
 
 typedef enum {
+    HADITEMDOWNLOAD = -2,
 	UNKNOWN = -1,
 	FAILED, //操作失败
 	SUCCESS,//操作成功
@@ -577,8 +578,7 @@ typedef enum {
 		}
 	    SBJsonWriter *writer = [[SBJsonWriter alloc] init];
 	    NSString *string = [writer stringWithObject:arr];
-	    LogInfo(@"[WebViewBridgeRegisterUtil - getBookList]%@", string);
-
+        NSLog(@"getBookList 接口返给JS的内容=====%@",string);
 	    if (responseCallback != nil) {
 	        responseCallback(string);    //getBookList和queryBookStatus若是数组为空，都必须返回“[]”,格式字符串否则解析JS失败。
 		}
@@ -614,25 +614,24 @@ typedef enum {
 
 	//startDownload
 	[self.javascriptBridge registerHandler:@"startDownload" handler: ^(id data, WVJBResponseCallback responseCallback) {
+        
+        //书包页中同样只允许下载一本
+        
+        NSString *hadItemDownloadStr = [NSUserDefaultUtil getDownLoadStatus];
+        if ([hadItemDownloadStr isEqualToString:@"ITEMDOWNLOADING"]) {//正在下载返回-2
+            NSString *hadItemDownload = [NSString stringWithFormat:@"%d", HADITEMDOWNLOAD];
+            responseCallback(hadItemDownload);//失败 0
+            return ;
+        }
+        
+        
+        
 	    LogDebug(@"WebViewBridgeRegisterUtil::startDownload() called: %@", data);
 	    NSString *book_id = data;
 	    //下载的过程就是只有一步，拿到data_id后直接开始下载。（具体操作：1、根据book_id去下载 2、将下载的进度实时存到数据库中即可，不需要做读取的操作，也不需要将进度返回给JS。只需要告诉JS是否已经开始下载）。
 	    BOOL isStart = NO;
 	    {
-//            dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-//            dispatch_group_t group = dispatch_group_create();
-//            dispatch_group_async(group, queue, ^{
-//
-//                BOOL updateStatus = [self updateDownloadStatusWithDataId:book_id];
-//                BOOL ret = [[KnowledgeManager instance] startDownloadDataManagerWithDataId:book_id];
-//
-//
-//                //统计下载次数
-//                [[StatisticsManager instance]statisticDownloadAndUpdateWithBookId:book_id andSuccess:nil];
-//                //存储更新状态
 
-
-//            });
 
 //            dispatch_async(dispatch_get_global_queue(0, 0), ^{
 	        dispatch_async(startDownloadQueue, ^{
@@ -755,6 +754,18 @@ typedef enum {
 	//showURL
 	//addToNative
 	[self.javascriptBridge registerHandler:@"addToNative" handler: ^(id data, WVJBResponseCallback responseCallback) {
+        
+        //addTonative时需要先判断是否有书籍正在下载
+        
+        NSString *hadItemDownloadStr = [NSUserDefaultUtil getDownLoadStatus];
+        if ([hadItemDownloadStr isEqualToString:@"ITEMDOWNLOADING"]) {//正在下载返回-2
+            NSString *hadItemDownload = [NSString stringWithFormat:@"%d", HADITEMDOWNLOAD];
+            responseCallback(hadItemDownload);//失败 0
+            return ;
+        }
+        
+        
+        
 	    /*
 	       1先调queryBookStatus接口，检查本地是否有这本书。（若是本地没有该书的记录，返回空数组）
 	       2若是没有则掉addToNative接口

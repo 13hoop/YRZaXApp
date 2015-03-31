@@ -50,5 +50,9 @@
 + (NSString *)getMoveCompleteString;
 + (BOOL)removeMoveCompleteString;
 
+//存储下载中的标志
++ (BOOL)saveInDownloadStatusWithStatus:(NSString *)DownloadStatus;
++ (NSString *)getDownLoadStatus;
+
 
 @end

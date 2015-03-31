@@ -97,7 +97,7 @@
 
 
 		// 发送web请求, 获取响应
-		NSURL *url = [NSURL URLWithString:@"http://www.zaxue100.com/index.php?c=book_meta_ctrl&m=get_book_meta"];
+		NSURL *url = [NSURL URLWithString:@"http://test.zaxue100.com/index.php?c=book_meta_ctrl&m=get_book_meta"];
 		NSString *serverResponseStr = [WebUtil sendRequestTo:url usingVerb:@"POST" withHeader:headers andData:data];
 		if (serverResponseStr == nil || serverResponseStr.length <= 0) {
 		    LogError(@"[discoveryModel - getBookInfoWithDataIds]: request failed ,serverResponseStr is  equal to nil ");

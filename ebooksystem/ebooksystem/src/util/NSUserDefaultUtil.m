@@ -209,4 +209,20 @@
     [userDefault synchronize];
     return YES;
 }
+
+//存储下载中的标志
++ (BOOL)saveInDownloadStatusWithStatus:(NSString *)DownloadStatus {
+    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+    [userDefault setObject:DownloadStatus forKey:@"DownLoadStatus"];
+    [userDefault synchronize];
+    return YES;
+}
+
+
++ (NSString *)getDownLoadStatus {
+    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+    NSString *downloadStatus = [userDefault objectForKey:@"DownLoadStatus"];
+    return downloadStatus;
+}
+
 @end

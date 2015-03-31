@@ -29,6 +29,10 @@
             bridgeXXX.startDownload( bookView.getBookID(), function(data){
                 if( data === '1' ){
                     this.list[ bookView.getBookID() ] = bookView;
+                }else if( data === '-2' ){
+                    //有其他书籍正在下载，提示用户
+                    bookView.interruptDownload('当前有其他书籍在下载，请稍后再试');
+                    return;
                 }
                 this.startCheck();
             }.bind( this ) );

@@ -124,7 +124,7 @@
 
             var className = '';
 
-            if( bookStatus === BOOK_STATUS.BOOK_NOT_DOWNLOAD || this.isBookFail( bookStatus) ){
+            if( data.book_avail === BOOK_STATUS.BOOK_NOT_AVAILABLE ){
                 //书籍未下载
                 className = notOfflineClass;
             }else if( this.isBookDownloading() ){
@@ -168,6 +168,15 @@
             this.trigger('beginDownload', [ this ]);
             this._data.book_status = BOOK_STATUS.BOOK_IS_DOWNLOADING;
             this.$el.addClass( downloadingClass );
+        },
+        //中止当前书籍的下载状态
+        interruptDownload : function( msg ){
+            this._data.book_status = BOOK_STATUS.BOOK_NOT_DOWNLOAD;
+            this.lastExtractTimestamp = null;
+            this.$el.removeClass( downloadingClass );
+            Dialog.alert({
+                content : msg
+            });
         },
         //设置书籍下载中的进度
         setDownloadProgress : function( state ){

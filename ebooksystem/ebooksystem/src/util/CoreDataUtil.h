@@ -12,15 +12,12 @@
 
 #pragma mark - properties
 
-
+@property (readonly, nonatomic, strong) NSManagedObjectContext *managedObjectContext;
 
 @property (readonly ,nonatomic, strong) NSManagedObjectContext *childThreadManagedObjectContext;
 @property (readonly, nonatomic, strong) NSEntityDescription *pChildThreadEntityDec;
-
-// 主线程中的context, 可用于读写
-@property (readonly, nonatomic, strong) NSManagedObjectContext *managedObjectContext;
-// 非主线程中的context, 用于写
-//@property (readonly, nonatomic, strong) NSManagedObjectContext *temporaryContext;
+@property (readonly,nonatomic, strong) NSManagedObjectContext *backgroundObjectContext;
+@property (readonly,nonatomic, strong) NSManagedObjectContext *temporaryContext;
 
 #pragma mark - methods
 
@@ -33,14 +30,12 @@
 
 - (NSPersistentStoreCoordinator *)persistentStoreCoordinator;
 
-//- (NSManagedObjectContext *) childThreadContext;
-//- (NSManagedObjectContext *) backgroundContext;
-
-// 非主线程中的context, 用于写
-- (NSManagedObjectContext *)temporaryContext;
+- (NSManagedObjectContext *) childThreadContext;
+- (NSManagedObjectContext *) backgroundContext;
+//- (NSManagedObjectContext *) temporaryContext;
 
 //创建工作context
-//- (NSManagedObjectContext *)generatePrivateContextWithParent:(NSManagedObjectContext *)parentContext;
+- (NSManagedObjectContext *)generatePrivateContextWithParent:(NSManagedObjectContext *)parentContext;
 
 //保存 context的变化
 - (void)saveContextWithWait:(BOOL)needWait;

@@ -73,7 +73,7 @@
             $faqBtn.on( 'tap', function(){
                 bridgeXXX.showURL({
                     target : 'activity',
-                    url : 'http://' + samaConfig.SERVER.HOST +  '/index.php?c=discover_ctrl&m=faq_page'
+                    url : 'http://' + samaConfig.SERVER.HOST +  '/index.php?c=discovery_ctrl&m=faq_page'
                 });
             } );
 

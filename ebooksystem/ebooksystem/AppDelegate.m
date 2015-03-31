@@ -62,9 +62,9 @@
 #pragma mark - app life
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    //每次启动app都要将是否有书籍在现在的状态设置为NOITEMDOWNLOAD
+    [NSUserDefaultUtil saveInDownloadStatusWithStatus:@"NOITEMDOWNLOAD"];
     
-    //实例化队列线程
-    dispatch_queue_t startDownLoadQueue = dispatch_queue_create("startDownLoadQueue", NULL);
     
     
 //    // 友盟, 获取devideId, 用于集成测试
