@@ -124,10 +124,12 @@
 
             var className = '';
 
-            if( data.book_avail === BOOK_STATUS.BOOK_NOT_AVAILABLE ){
+            var isDownloading = this.isBookDownloading();
+
+            if( ! isDownloading && data.book_avail === BOOK_STATUS.BOOK_NOT_AVAILABLE ){
                 //书籍未下载
                 className = notOfflineClass;
-            }else if( this.isBookDownloading() ){
+            }else if( isDownloading ){
                 //下载中
                 className = downloadingClass;
             }else if( this.canUpdate( data.update_status ) ){
