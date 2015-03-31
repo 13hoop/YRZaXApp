@@ -1145,9 +1145,9 @@
     }
    
     
-    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-    dispatch_group_t group = dispatch_group_create();
-    dispatch_group_async(group, queue, ^{
+//    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+//    dispatch_group_t group = dispatch_group_create();
+//    dispatch_group_async(group, queue, ^{
     // (4)H：根据服务器返回信息进行下载，下面两种方式都可以：
     //方法1：
         [self startDownloadWithResponse:response];
@@ -1176,7 +1176,7 @@
     }
     
     */
-                });
+//                });
     
     return YES;
 

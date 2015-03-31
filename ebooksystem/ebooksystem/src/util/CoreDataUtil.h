@@ -19,6 +19,11 @@
 @property (readonly,nonatomic, strong) NSManagedObjectContext *backgroundObjectContext;
 @property (readonly,nonatomic, strong) NSManagedObjectContext *temporaryContext;
 
+//创建recordDataContext
+@property (readonly,nonatomic, strong) NSManagedObjectContext *recordDataContext;
+
+
+
 #pragma mark - methods
 
 #pragma mark - singleton

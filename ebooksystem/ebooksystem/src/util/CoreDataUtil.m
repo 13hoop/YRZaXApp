@@ -19,6 +19,9 @@
 @property (readonly, strong, nonatomic) NSManagedObjectModel *managedObjectModel;
 @property (readonly, strong, nonatomic) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 
+
+
+
 #pragma mark - methods
 - (NSURL *)applicationDocumentsDirectory;
 
@@ -36,6 +39,9 @@
 
 @synthesize backgroundObjectContext = _backgroundObjectContext;
 @synthesize temporaryContext = _temporaryContext;
+@synthesize recordDataContext = _recordDataContext;
+
+
 
 #pragma mark - properties
 - (NSURL *)coreDataStoreUrl {
@@ -141,6 +147,21 @@
 
 // Returns the managed object context for the application.
 // If the context doesn't already exist, it is created and bound to the persistent store coordinator for the application.
+
+- (NSManagedObjectContext *)recordDataContext {
+    if (_recordDataContext == nil) {
+        NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
+        if (coordinator != nil) {
+            _recordDataContext = [[NSManagedObjectContext alloc] init];
+            [_recordDataContext setPersistentStoreCoordinator:coordinator];
+        }
+    }
+    return _recordDataContext;
+}
+
+
+
+
 - (NSManagedObjectContext *)managedObjectContext
 {
     if (_managedObjectContext == nil) {

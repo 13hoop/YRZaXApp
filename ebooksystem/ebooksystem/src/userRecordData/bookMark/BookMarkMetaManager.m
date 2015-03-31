@@ -32,7 +32,7 @@
     
     BOOL saved = NO;
     
-    NSManagedObjectContext *context = [CoreDataUtil instance].temporaryContext;
+    NSManagedObjectContext *context = [CoreDataUtil instance].recordDataContext;
     // 1. try update if exists
     {
         NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
@@ -95,7 +95,7 @@
 
 //get book mark by bookId , bookMarkId
 - (NSArray *)getBookMarkMetaWithBookId:(NSString *)bookId andBookMarkId:(NSString *)bookMarkId{
-    NSManagedObjectContext *context = [CoreDataUtil instance].temporaryContext;
+    NSManagedObjectContext *context = [CoreDataUtil instance].recordDataContext;
     
     NSMutableArray *metaArray = [[NSMutableArray alloc] init];
     
@@ -130,7 +130,7 @@
 
 //get book mark by bookId , bookMarkType ,queryId
 - (NSArray *)getBookMarkMetaWithBookId:(NSString *)bookId andBookMarkType:(NSString *)bookMarkType andQueryId:(NSString *)queryId {
-    NSManagedObjectContext *context = [CoreDataUtil instance].temporaryContext;
+    NSManagedObjectContext *context = [CoreDataUtil instance].recordDataContext;
     
     NSMutableArray *metaArray = [[NSMutableArray alloc] init];
     
@@ -196,7 +196,7 @@
 
 //查询所有的书签 
 - (NSArray *)getAllBookMark {
-    NSManagedObjectContext *context = [CoreDataUtil instance].temporaryContext;
+    NSManagedObjectContext *context = [CoreDataUtil instance].recordDataContext;
     
     NSMutableArray *metaArray = [[NSMutableArray alloc] init];
 
@@ -234,7 +234,7 @@
         return YES; // nothing to delete, return YES
     }
     
-    NSManagedObjectContext *context = [CoreDataUtil instance].temporaryContext;
+    NSManagedObjectContext *context = [CoreDataUtil instance].recordDataContext;
     
     for (id entity in knowledgeMetaEntities) {
         [context deleteObject:entity];
@@ -262,7 +262,7 @@
     
     BOOL saved = NO;
     
-    NSManagedObjectContext *context = [CoreDataUtil instance].temporaryContext;
+    NSManagedObjectContext *context = [CoreDataUtil instance].recordDataContext;
     
     //  try update if exists
     {
@@ -352,7 +352,7 @@
     
     BOOL saved = NO;
     
-    NSManagedObjectContext *context = [CoreDataUtil instance].temporaryContext;
+    NSManagedObjectContext *context = [CoreDataUtil instance].recordDataContext;
     
     //  try update if exists
     {
@@ -433,7 +433,7 @@
         if (!ret) {
             LogError(@"[BookMarkMetaManager::saveBookMetaEntity()] insert failed because of BookMarkMeta::setValuesForEntity() error");
             return NO;
-        }
+        }学习就欧诺个
         
         NSError *error = nil;
         if (![context save:&error]) {
