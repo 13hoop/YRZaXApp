@@ -94,7 +94,7 @@
     knowledgeMeta.dataSearchType = (DataSearchType)[knowledgeMetaEntity.dataSearchType integerValue];
     
     knowledgeMeta.dataStatus = (DataStatus)[knowledgeMetaEntity.dataStatus integerValue];
-    knowledgeMeta.dataStatusDesc = knowledgeMeta.dataStatusDesc;
+    knowledgeMeta.dataStatusDesc = knowledgeMetaEntity.dataStatusDesc;
     
     knowledgeMeta.parentId = knowledgeMetaEntity.parentId;
     knowledgeMeta.parentNameEn = knowledgeMetaEntity.parentNameEn;
