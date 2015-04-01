@@ -161,7 +161,7 @@ typedef enum {
     
     
     
-    [self checkCookie];
+//    [self checkCookie];
     
     
     //统计app启动次数

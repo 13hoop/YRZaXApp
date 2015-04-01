@@ -8,7 +8,7 @@
 
 #import "OperateCookie.h"
 #import "DeviceUtil.h"
-
+#import "AppUtil.h"
 
 @implementation OperateCookie
 //1 查看当前的cookie
@@ -30,18 +30,44 @@
     //cookie中的key字段是固定的，怎样保存sessionID
     
     NSString *device_id=[DeviceUtil getVendorId];
-    
+    NSString *currentVersion = [AppUtil getAppVersionStr];
+    NSString *appVersionString = [NSString stringWithFormat:@"%@-",currentVersion];
     NSMutableDictionary *cookieProperties = [NSMutableDictionary dictionary];
     [cookieProperties setObject:@"zaxue_did" forKey:NSHTTPCookieName];
     [cookieProperties setObject:device_id forKey:NSHTTPCookieValue];
-    [cookieProperties setObject:@"cnrainbird.com" forKey:NSHTTPCookieDomain];
-    [cookieProperties setObject:@"cnrainbird.com" forKey:NSHTTPCookieOriginURL];
+    [cookieProperties setObject:@".zaxue100.com" forKey:NSHTTPCookieDomain];
+    [cookieProperties setObject:@".zaxue100.com" forKey:NSHTTPCookieOriginURL];
     [cookieProperties setObject:@"/" forKey:NSHTTPCookiePath];
     [cookieProperties setObject:@"0" forKey:NSHTTPCookieVersion];
-    
-//    NSHTTPCookie *cookie = [NSHTTPCookie cookieWithProperties:cookieProperties];
     NSHTTPCookie *cookie = [[NSHTTPCookie alloc] initWithProperties:cookieProperties];
     [[NSHTTPCookieStorage sharedHTTPCookieStorage] setCookie:cookie];
+    
+    
+    
+    
+    NSMutableDictionary *secondCookieProperties = [NSMutableDictionary dictionary];
+    [secondCookieProperties setObject:@"zaxue_app_channel" forKey:NSHTTPCookieName];
+    [secondCookieProperties setObject:@"AppStore" forKey:NSHTTPCookieValue];
+    [secondCookieProperties setObject:@".zaxue100.com" forKey:NSHTTPCookieDomain];
+    [secondCookieProperties setObject:@".zaxue100.com" forKey:NSHTTPCookieOriginURL];
+    [secondCookieProperties setObject:@"/" forKey:NSHTTPCookiePath];
+    [secondCookieProperties setObject:@"0" forKey:NSHTTPCookieVersion];
+    NSHTTPCookie *cookie2 = [[NSHTTPCookie alloc] initWithProperties:secondCookieProperties];
+    [[NSHTTPCookieStorage sharedHTTPCookieStorage] setCookie:cookie2];
+
+    
+    
+    
+    NSMutableDictionary *thirdCookieProperties = [NSMutableDictionary dictionary];
+    
+    [thirdCookieProperties setObject:@"zaxue_app_version" forKey:NSHTTPCookieName];
+    [thirdCookieProperties setObject:appVersionString forKey:NSHTTPCookieValue];
+    [thirdCookieProperties setObject:@".zaxue100.com" forKey:NSHTTPCookieDomain];
+    [thirdCookieProperties setObject:@".zaxue100.com" forKey:NSHTTPCookieOriginURL];
+    [thirdCookieProperties setObject:@"/" forKey:NSHTTPCookiePath];
+    [thirdCookieProperties setObject:@"0" forKey:NSHTTPCookieVersion];
+    NSHTTPCookie *cookie3 = [[NSHTTPCookie alloc] initWithProperties:thirdCookieProperties];
+    [[NSHTTPCookieStorage sharedHTTPCookieStorage] setCookie:cookie3];
     NSLog(@"修改成功了木有========%@",[[NSHTTPCookieStorage sharedHTTPCookieStorage] cookies]);
     return YES;
 }

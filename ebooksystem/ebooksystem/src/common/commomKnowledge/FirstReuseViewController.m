@@ -123,6 +123,9 @@
     webviewBridgeUtil.tabBarController = self.tabBarController;
     [webviewBridgeUtil initWebView];
     
+    self.webView.dataDetectorTypes = UIDataDetectorTypeNone;//禁掉数字自动解析
+
+    
 //    if ([self.shouldChangeBackground isEqualToString:@"needChange"]) {
 //        self.view.backgroundColor=[UIColor colorWithHexString:@"#242021" alpha:1];
 //    }

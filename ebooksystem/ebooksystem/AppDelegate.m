@@ -35,6 +35,9 @@
 #import "NSUserDefaultUtil.h"
 #import "CustomTabBarViewController.h"
 #import "GlobalNavigationController.h"
+#import "OperateCookie.h"
+
+
 
 #define UMAPPKEY @"543dea72fd98c5fc98004e08"
 
@@ -64,7 +67,9 @@
 {
     //每次启动app都要将是否有书籍在现在的状态设置为NOITEMDOWNLOAD
     [NSUserDefaultUtil saveInDownloadStatusWithStatus:@"NOITEMDOWNLOAD"];
-    
+    //设置cookie
+    [OperateCookie setCookieWithCustomKeyAndValue:nil];
+    [OperateCookie checkCookie];
     
     
 //    // 友盟, 获取devideId, 用于集成测试

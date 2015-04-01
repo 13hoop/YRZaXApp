@@ -144,6 +144,9 @@
     //    self.webview.delegate=self;
     [self updateWebView];
 
+    self.webView.dataDetectorTypes = UIDataDetectorTypeNone;//禁掉数字自动解析
+
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated {

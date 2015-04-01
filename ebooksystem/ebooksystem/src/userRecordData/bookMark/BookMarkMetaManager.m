@@ -355,7 +355,7 @@
     NSManagedObjectContext *context = [CoreDataUtil instance].recordDataContext;
     
     //  try update if exists
-    {
+    {   
         NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
         
         // Entity
@@ -433,7 +433,7 @@
         if (!ret) {
             LogError(@"[BookMarkMetaManager::saveBookMetaEntity()] insert failed because of BookMarkMeta::setValuesForEntity() error");
             return NO;
-        }学习就欧诺个
+        }
         
         NSError *error = nil;
         if (![context save:&error]) {

@@ -72,6 +72,8 @@
     self.automaticallyAdjustsScrollViewInsets = NO;
     self.webView.scrollView.bounces = NO;
     self.webView.scrollView.showsVerticalScrollIndicator = NO;
+    self.webView.dataDetectorTypes = UIDataDetectorTypeNone;//禁掉数字自动解析
+    
     
     WebViewBridgeRegisterUtil *webviewBridgeUtil = [[WebViewBridgeRegisterUtil alloc] init];
     webviewBridgeUtil.webView = self.webView;

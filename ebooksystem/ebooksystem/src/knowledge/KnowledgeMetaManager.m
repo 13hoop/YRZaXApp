@@ -503,18 +503,31 @@
     if (fetchedObjects != nil &&
         fetchedObjects.count > 0) {
         for (NSManagedObject *entity in fetchedObjects) {
+            
+//            KnowledgeMeta *knowledgeMeta = nil;
+//            KnowledgeMetaEntity *knowledgeMetaEntity = (KnowledgeMetaEntity *)entity;
+//            if (knowledgeMetaEntity != nil) {
+//                knowledgeMeta = [KnowledgeMeta fromKnowledgeMetaEntity:knowledgeMetaEntity];
+//            }
+//            
+//            
+//            if (knowledgeMeta != nil) {
+//                [metaArray addObject:knowledgeMeta];
+//            }
+//        }
+            
+            if (entity == nil) {
+                continue;
+            }
             [metaArray addObject:entity];
         }
+    
     }
-    
-    
     if (metaArray == nil || metaArray.count <= 0) {
         return nil;
     }
     
-    
-    
-    
+
     
     return metaArray;
     
