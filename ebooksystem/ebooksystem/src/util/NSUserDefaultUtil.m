@@ -53,6 +53,8 @@
     return YES;
 }
 
+
+
 #pragma mark 储存error message
 + (BOOL)saveErrorMessage:(NSData *)errorMessage {
     NSUserDefaults *userdefault = [NSUserDefaults standardUserDefaults];

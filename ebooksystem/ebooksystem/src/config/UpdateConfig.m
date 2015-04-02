@@ -23,7 +23,7 @@
     
     
 //    return [NSString stringWithFormat:@"http://%@/index.php?c=apps_update_ctrl&m=get_update_info&appname=%@&channel=%@", [Config instance].appConfig.httpDomain, [AppConfig instance].appNameForCheckUpdate, [AppConfig instance].channel];
-    return [NSString stringWithFormat:@"http://test.zaxue100.com/index.php?c=apps_update_ctrl&m=get_update_info&appname=zaxue_ios&channel=default"];
+    return [NSString stringWithFormat:@"http://www.zaxue100.com/index.php?c=apps_update_ctrl&m=get_update_info&appname=zaxue_ios&channel=default"];
     
 }
 

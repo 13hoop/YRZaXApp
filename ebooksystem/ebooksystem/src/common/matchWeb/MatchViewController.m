@@ -128,6 +128,9 @@ typedef enum {
     
     self.flag = YES;
     
+    //统计app启动次数
+    [[StatisticsManager instance] statisticWithUrl:@"http://log.zaxue100.com/pv.gif?t=device&k=start&v=1"];
+    
 }
 
 - (void)createUI {
@@ -164,8 +167,7 @@ typedef enum {
 //    [self checkCookie];
     
     
-    //统计app启动次数
-    [[StatisticsManager instance] statisticWithUrl:@"http://log.zaxue100.com/pv.gif?t=device&k=start&v=1"];
+    
     
 }
 

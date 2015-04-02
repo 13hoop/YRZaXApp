@@ -20,7 +20,7 @@
 + (BOOL)checkUserAgent {
     NSString *originalUserAgent = [[[UIWebView alloc] init] stringByEvaluatingJavaScriptFromString:@"navigator.userAgent"];
     
-    NSString *newUserAgent = [[NSString alloc] initWithFormat:@"%@ %@", originalUserAgent, [Config instance].webConfig.userAgent];
+    NSString *newUserAgent = [[NSString alloc] initWithFormat:@"%@ %@", originalUserAgent,@"ios.zaxue.zaxue_ios"];
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:newUserAgent, @"UserAgent", nil];
     [[NSUserDefaults standardUserDefaults] registerDefaults:@{@"UserAgent" : newUserAgent, @"User-Agent" : newUserAgent}];
     
@@ -28,6 +28,13 @@
     
     return YES;
 }
+
+//+ (void)setUserAgent {
+//    NSDictionary *dictionnary = [[NSDictionary alloc] initWithObjectsAndKeys:@"ios.zaxue.zaxue_ios", @"UserAgent", nil];
+//    [[NSUserDefaults standardUserDefaults] registerDefaults:dictionnary];
+//}
+
+
 
 
 /**

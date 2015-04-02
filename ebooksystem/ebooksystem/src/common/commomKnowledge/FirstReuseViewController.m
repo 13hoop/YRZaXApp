@@ -76,7 +76,8 @@
         if ([_webUrl hasSuffix:@"/"]) {
             connector = @"\?";
         }
-        _webUrl = [NSString stringWithFormat:@"%@%@ua=%@", _webUrl, connector, [Config instance].webConfig.userAgent];
+//        _webUrl = [NSString stringWithFormat:@"%@%@ua=%@", _webUrl, connector, [Config instance].webConfig.userAgent];
+        _webUrl = [NSString stringWithFormat:@"%@", _webUrl];
     }
     
     return _webUrl;
