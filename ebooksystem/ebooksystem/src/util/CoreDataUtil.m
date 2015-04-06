@@ -20,6 +20,8 @@
 @property (readonly, strong, nonatomic) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 
 
+@property (readonly, nonatomic, strong) NSManagedObjectContext *backgroundObjectContext;
+
 
 
 #pragma mark - methods
@@ -93,49 +95,49 @@
 }
 
 #pragma mark - test multi thread \ core data
-- (NSManagedObjectContext*) childThreadContext
-{
-//    [self managedObjectContext];
-    if (_childThreadManagedObjectContext != nil)
-    {
-        return _childThreadManagedObjectContext;
-    }
-    
-    NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
-    if (coordinator != nil)
-    {
-        _childThreadManagedObjectContext = [[NSManagedObjectContext alloc] init];
-        [_childThreadManagedObjectContext setPersistentStoreCoordinator:coordinator];
-    }
-    else
-    {
-        NSLog(@"create child thread managed object context failed!");
-    }
-    
-    [_childThreadManagedObjectContext setStalenessInterval:0.0];
-    [_childThreadManagedObjectContext setMergePolicy:NSOverwriteMergePolicy];
-    
-    //////init entity description.
-    _pChildThreadEntityDec = [NSEntityDescription entityForName:@"KnowledgeMetaEntity" inManagedObjectContext:_childThreadManagedObjectContext];
-    if (_pChildThreadEntityDec == nil)
-    {
-        NSLog(@"error init entity description!");
-    }
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(mergeContextChangesForNotification:) name:NSManagedObjectContextDidSaveNotification object:_childThreadManagedObjectContext];
-    
-    return _childThreadManagedObjectContext;
-}
+//- (NSManagedObjectContext*) childThreadContext
+//{
+////    [self managedObjectContext];
+//    if (_childThreadManagedObjectContext != nil)
+//    {
+//        return _childThreadManagedObjectContext;
+//    }
+//    
+//    NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
+//    if (coordinator != nil)
+//    {
+//        _childThreadManagedObjectContext = [[NSManagedObjectContext alloc] init];
+//        [_childThreadManagedObjectContext setPersistentStoreCoordinator:coordinator];
+//    }
+//    else
+//    {
+//        NSLog(@"create child thread managed object context failed!");
+//    }
+//    
+//    [_childThreadManagedObjectContext setStalenessInterval:0.0];
+//    [_childThreadManagedObjectContext setMergePolicy:NSOverwriteMergePolicy];
+//    
+//    //////init entity description.
+//    _pChildThreadEntityDec = [NSEntityDescription entityForName:@"KnowledgeMetaEntity" inManagedObjectContext:_childThreadManagedObjectContext];
+//    if (_pChildThreadEntityDec == nil)
+//    {
+//        NSLog(@"error init entity description!");
+//    }
+//    
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(mergeContextChangesForNotification:) name:NSManagedObjectContextDidSaveNotification object:_childThreadManagedObjectContext];
+//    
+//    return _childThreadManagedObjectContext;
+//}
 
-- (void)mergeOnMainThread:(NSNotification *)aNotification
-{
-    [[self managedObjectContext] mergeChangesFromContextDidSaveNotification:aNotification];
-}
-
-- (void)mergeContextChangesForNotification:(NSNotification *)aNotification
-{
-    [self performSelectorOnMainThread:@selector(mergeOnMainThread:) withObject:aNotification waitUntilDone:YES];
-}
+//- (void)mergeOnMainThread:(NSNotification *)aNotification
+//{
+//    [[self managedObjectContext] mergeChangesFromContextDidSaveNotification:aNotification];
+//}
+//
+//- (void)mergeContextChangesForNotification:(NSNotification *)aNotification
+//{
+//    [self performSelectorOnMainThread:@selector(mergeOnMainThread:) withObject:aNotification waitUntilDone:YES];
+//}
 
 
 
@@ -189,16 +191,20 @@
 }
 
 - (NSManagedObjectContext *) temporaryContext {
-//    if (_temporaryContext == nil) {
-    _temporaryContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
-    _temporaryContext.parentContext = [self managedObjectContext];
-//        NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
-//
-//        _temporaryContext = [[NSManagedObjectContext alloc] init];
-//       [_temporaryContext setPersistentStoreCoordinator:coordinator];
+    NSManagedObjectContext *privateContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
+    privateContext.parentContext = [self managedObjectContext];
+    return privateContext;
     
-//    }
-    return _temporaryContext;
+////    if (_temporaryContext == nil) {
+//    _temporaryContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
+//    _temporaryContext.parentContext = [self managedObjectContext];
+////        NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
+////
+////        _temporaryContext = [[NSManagedObjectContext alloc] init];
+////       [_temporaryContext setPersistentStoreCoordinator:coordinator];
+//    
+////    }
+//    return _temporaryContext;
 }
 
 //生成工作线程

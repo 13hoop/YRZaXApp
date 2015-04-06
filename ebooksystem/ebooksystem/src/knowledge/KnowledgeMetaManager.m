@@ -430,6 +430,8 @@
 
 // get knowledge metas
 - (NSArray *)getKnowledgeMetaWithDataId:(NSString *)dataId andDataType:(DataType)dataType {
+    NSManagedObjectContext *context = [CoreDataUtil instance].temporaryContext;
+    
     NSMutableArray *metaArray = [[NSMutableArray alloc] init];
     
     
@@ -447,7 +449,7 @@
 //    NSEntityDescription *entity = [NSEntityDescription entityForName:@"KnowledgeMetaEntity" inManagedObjectContext:workContext];
 
 //最初的方法
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"KnowledgeMetaEntity" inManagedObjectContext:[CoreDataUtil instance].temporaryContext];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"KnowledgeMetaEntity" inManagedObjectContext:context];
     //方法二：使用通知
 //    NSEntityDescription *entity = [NSEntityDescription entityForName:@"KnowledgeMetaEntity" inManagedObjectContext:managedObjectContext];
     [fetchRequest setEntity:entity];
@@ -458,7 +460,7 @@
     
     // Fetch
     NSError *error = nil;
-    NSArray *fetchedObjects = [[CoreDataUtil instance].temporaryContext executeFetchRequest:fetchRequest error:&error];
+    NSArray *fetchedObjects = [context executeFetchRequest:fetchRequest error:&error];
     //方法三
 //    NSArray *fetchedObjects = [workContext executeFetchRequest:fetchRequest error:&error];
 //    NSArray *fetchedObjects = [managedObjectContext executeFetchRequest:fetchRequest error:&error];
@@ -716,6 +718,7 @@
     }
     
     BOOL saved = NO;
+    NSManagedObjectContext *context = [[CoreDataUtil instance] temporaryContext];
     // 1. try update if exists
     {
         NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
@@ -723,8 +726,8 @@
         // Entity
 //        NSEntityDescription *entity = [NSEntityDescription entityForName:@"KnowledgeMetaEntity" inManagedObjectContext:[CoreDataUtil instance].managedObjectContext];
         
-        NSManagedObjectContext *workContext = [[CoreDataUtil instance] generatePrivateContextWithParent:[CoreDataUtil instance].managedObjectContext];
-        NSEntityDescription *entity = [NSEntityDescription entityForName:@"KnowledgeMetaEntity" inManagedObjectContext:workContext];
+//        NSManagedObjectContext *workContext = [[CoreDataUtil instance] generatePrivateContextWithParent:[CoreDataUtil instance].managedObjectContext];
+        NSEntityDescription *entity = [NSEntityDescription entityForName:@"KnowledgeMetaEntity" inManagedObjectContext:context];
         
         
         
@@ -736,7 +739,7 @@
         
         NSError *error = nil;
 //        NSArray *fetchedObjects = [[CoreDataUtil instance].managedObjectContext executeFetchRequest:fetchRequest error:&error];
-        NSArray *fetchedObjects = [workContext executeFetchRequest:fetchRequest error:&error];
+        NSArray *fetchedObjects = [context executeFetchRequest:fetchRequest error:&error];
         
         if (fetchedObjects != nil &&
             fetchedObjects.count > 0) {
@@ -761,7 +764,7 @@
                 
                 
                 //3 这里也修改成workContext
-                if (![workContext  save:&error]) {
+                if (![context save:&error]) {
                     LogError(@"[KnowledgeMetaManager-setDataStatusTo:andDataStatusDescTo:forDataWithDataId:andType:] update failed when save to context, error: %@", [error localizedDescription]);
                     return NO;
                 }
@@ -856,6 +859,8 @@
     }
     
     BOOL saved = NO;
+    NSManagedObjectContext *context = [[CoreDataUtil instance] temporaryContext];
+    
     // 1. try update if exists
     {
         NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
@@ -865,8 +870,8 @@
         
         
         //使用嵌套context
-        NSManagedObjectContext *workContext = [[CoreDataUtil instance] generatePrivateContextWithParent:[CoreDataUtil instance].managedObjectContext];
-        NSEntityDescription *entity = [NSEntityDescription entityForName:@"KnowledgeMetaEntity" inManagedObjectContext:workContext];
+//        NSManagedObjectContext *workContext = [[CoreDataUtil instance] generatePrivateContextWithParent:[CoreDataUtil instance].managedObjectContext];
+        NSEntityDescription *entity = [NSEntityDescription entityForName:@"KnowledgeMetaEntity" inManagedObjectContext:context];
         
         
         
@@ -878,7 +883,7 @@
         
         NSError *error = nil;
 //        NSArray *fetchedObjects = [[CoreDataUtil instance].managedObjectContext executeFetchRequest:fetchRequest error:&error];
-        NSArray *fetchedObjects = [workContext executeFetchRequest:fetchRequest error:&error];
+        NSArray *fetchedObjects = [context executeFetchRequest:fetchRequest error:&error];
         
         if (fetchedObjects != nil &&
             fetchedObjects.count > 0) {
@@ -925,7 +930,7 @@
                 }
                 
                 
-                if (![workContext save:&error]) {
+                if (![context save:&error]) {
                     LogError(@"[KnowledgeMetaManager-setDataStatusTo:andDataStatusDescTo:forDataWithDataId:andType:] update failed when save to context, error: %@", [error localizedDescription]);
                     return NO;
                 }
