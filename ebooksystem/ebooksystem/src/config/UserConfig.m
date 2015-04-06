@@ -33,17 +33,17 @@
 
 // 登入url
 - (NSString *)urlForLogin {
-    return @"http://test.zaxue100.com:8296/index.php?c=passportctrl&m=show_login_page";
+    return @"http://www.zaxue100.com:8296/index.php?c=passportctrl&m=show_login_page";
 }
 
 // 登出url
 - (NSString *)urlForLogout {
-    return @"http://test.zaxue100.com:8296/index.php?c=passportctrl&m=show_logout_page";
+    return @"http://www.zaxue100.com:8296/index.php?c=passportctrl&m=show_logout_page";
 }
 
 // 充值url
 - (NSString *)urlForCharge {
-    return @"http://test.zaxue100.com:8296/index.php?c=passportctrl&m=show_charge_page";
+    return @"http://www.zaxue100.com:8296/index.php?c=passportctrl&m=show_charge_page";
 }
 
 #pragma mark - methods

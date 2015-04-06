@@ -63,13 +63,13 @@
 //    return @"http://112.126.75.224:8296/ios_kaoyan_data_version.json";
 //    return @"http://test.zaxue100.com/update_check/ios_data_version.json";
 //    return @"http://7u2rlu.com2.z0.glb.qiniucdn.com/ios_data_version.json";
-    return @"http://test.zaxue100.com/ios_data_version.json";
+    return @"http://sdata.zaxue100.com/common/ios_data_version.json";
 }
 
 - (NSString *)dataUrlForUpdate {
 //    return @"http://www.zaxue100.com/index.php?c=check_update_ctrl&m=get_update";
 //    return [NSString stringWithFormat:@"http://%@/index.php?c=check_update_ctrl&m=get_update", [Config instance].appConfig.httpDomain];
-    NSString *urlStr = [@"http://test.zaxue100.com/index.php?c=check_update_platform_ctrl&m=get_download_url" stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSString *urlStr = [@"http://www.zaxue100.com/index.php?c=check_update_platform_ctrl&m=get_download_url" stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     
     return urlStr;
     

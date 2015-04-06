@@ -55,7 +55,7 @@
 - (NSString *)webUrl {
     //加载本地的html
     
-    NSString *questionAndAnswerNonParam = @"http://test.zaxue100.com/index.php?c=bbs_ctrl&m=question_list_page";
+    NSString *questionAndAnswerNonParam = @"http://www.zaxue100.com/index.php?c=bbs_ctrl&m=question_list_page";
     self.webUrl = questionAndAnswerNonParam;
 //    NSString *bundlePath = [PathUtil getBundlePath];
 //    NSString *userCenterUrlStrWithParams = [NSString stringWithFormat:@"%@/%@/%@/%@", bundlePath, @"assets",@"native-html",@"user_center.html"];

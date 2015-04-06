@@ -25,17 +25,17 @@
     }
     //充值
     if ([action isEqualToString:@"recharge"]) {
-        NSString *rechargeUrlStr = @"http://test.zaxue100.com/index.php?c=salectrl&m=show_recharge_page";
+        NSString *rechargeUrlStr = @"http://www.zaxue100.com/index.php?c=salectrl&m=show_recharge_page";
         return rechargeUrlStr;
     }
     //正版验证
     if([action isEqualToString:@"validate"]) {
-        NSString *validateUrlStr = @"http://test.zaxue100.com/index.php?c=salectrl&m=show_verify_card_page";
+        NSString *validateUrlStr = @"http://www.zaxue100.com/index.php?c=salectrl&m=show_verify_card_page";
         return validateUrlStr;
     }
     //修改个人信息页
     if([action isEqualToString:@"modify_user_info"]) {
-        NSString *modifyUserInfoUrl = @"http://test.zaxue100.com/index.php?c=passportctrl&m=show_userinfo_page&back_to_app=1";
+        NSString *modifyUserInfoUrl = @"http://www.zaxue100.com/index.php?c=passportctrl&m=show_userinfo_page&back_to_app=1";
         return modifyUserInfoUrl;
     }
     //用户反馈页面

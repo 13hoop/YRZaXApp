@@ -22,6 +22,8 @@
 
 //设置UA字段
 + (BOOL)setUserAgent;
++ (BOOL)saveOriginalUserAgent;
+
 
 //将上传图片时的错误信息储存到本地
 + (BOOL)saveErrorMessage:(NSString *)errorMessage;
