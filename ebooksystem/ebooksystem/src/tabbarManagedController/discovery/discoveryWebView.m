@@ -705,13 +705,21 @@ typedef enum {
 - (NSMutableDictionary *)getDicFormDataBase:(NSString *)bookId {
     NSArray *bookArr = [[KnowledgeMetaManager instance] getKnowledgeMetaWithDataId:bookId andDataType:DATA_TYPE_DATA_SOURCE];
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
-    for (NSManagedObject *entity in bookArr) {
-        if (entity == nil) {
+    for (KnowledgeMeta *knowledgeMeta in bookArr) {
+        if (knowledgeMeta == nil) {
             continue;
         }
-        NSString *dicBookId = [entity valueForKey:@"dataId"];
-        NSNumber *dicBookStatusNum = [entity valueForKey:@"dataStatus"];
-        int dicBookStatusInteger = [dicBookStatusNum intValue];
+        NSString *dicBookId = knowledgeMeta.dataId;
+        int dicBookStatusInteger = (int)knowledgeMeta.dataStatus;
+        
+//    for (NSManagedObject *entity in bookArr) {
+//        if (entity == nil) {
+//            continue;
+//        }
+//        NSString *dicBookId = [entity valueForKey:@"dataId"];
+//        NSNumber *dicBookStatusNum = [entity valueForKey:@"dataStatus"];
+//        int dicBookStatusInteger = [dicBookStatusNum intValue];
+    
         NSString *dicBookStatus = nil;
         NSString *downLoadStatus = nil;
         if (dicBookStatusInteger >= 1 && dicBookStatusInteger <=3  ) {
@@ -733,7 +741,9 @@ typedef enum {
         //        else {
         //
         //        }
-        NSString *dicBookStatusDetails = [entity valueForKey:@"dataStatusDesc"];
+        
+        NSString *dicBookStatusDetails = knowledgeMeta.dataStatusDesc;
+//        NSString *dicBookStatusDetails = [entity valueForKey:@"dataStatusDesc"];
         //
         [dic setValue:dicBookId forKey:@"book_id"];
         [dic setValue:dicBookStatus forKey:@"book_status"];

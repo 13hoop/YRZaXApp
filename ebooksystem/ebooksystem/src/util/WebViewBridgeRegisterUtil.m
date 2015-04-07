@@ -777,7 +777,7 @@ typedef enum {
 
 	    //异步请求
 	    //1、检查数据库
-	    NSArray *knowledgeMetaArray = [[KnowledgeMetaManager instance] getKnowledgeMetaWithDataId:bookID];
+	    NSArray *knowledgeMetaArray = [[KnowledgeMetaManager instance] getKnowledgeMetaWithDataId:bookID andDataType:DATA_TYPE_UNKNOWN];
 
 	    BOOL isSuccess = NO;
 	    discoveryModel *model = [[discoveryModel alloc] init];
@@ -796,20 +796,35 @@ typedef enum {
 	        isSuccess =  [model getBookInfoWithDataIds:arr];
 		}
 	    else {//数据库中有对应的记录
-	        for (NSManagedObjectContext *entity in knowledgeMetaArray) {
-	            if (entity == nil) {
-	                continue;
-				}
-	            NSNumber *dicBookStatusNum = [entity valueForKey:@"dataStatus"];
-	            int bookStatusInt = [dicBookStatusNum intValue];
-	            if (bookStatusInt == 14 || bookStatusInt == 16 || bookStatusInt == 18 || bookStatusInt == 20) {//四种失败状态
-	                self.needCheckBookId = bookID;//获取需要下载的书籍
-	                isSuccess = [model getBookInfoWithDataIds:arr];
-				}
-	            else {
-	                isSuccess = YES;
-				}
-			}
+            for (KnowledgeMeta *knowledgeMeta in knowledgeMetaArray) {
+                if (knowledgeMeta == nil) {
+                    continue;
+                }
+                
+                NSNumber *dicBookStatusNum = [NSNumber numberWithInt:(int)knowledgeMeta.dataStatus];
+                int bookStatusInt = [dicBookStatusNum intValue];
+                if (bookStatusInt == 14 || bookStatusInt == 16 || bookStatusInt == 18 || bookStatusInt == 20) {//四种失败状态
+                    self.needCheckBookId = bookID;//获取需要下载的书籍
+                    isSuccess = [model getBookInfoWithDataIds:arr];
+                }
+                else {
+                    isSuccess = YES;
+                }
+            }
+//	        for (NSManagedObjectContext *entity in knowledgeMetaArray) {
+//	            if (entity == nil) {
+//	                continue;
+//				}
+//	            NSNumber *dicBookStatusNum = [entity valueForKey:@"dataStatus"];
+//	            int bookStatusInt = [dicBookStatusNum intValue];
+//	            if (bookStatusInt == 14 || bookStatusInt == 16 || bookStatusInt == 18 || bookStatusInt == 20) {//四种失败状态
+//	                self.needCheckBookId = bookID;//获取需要下载的书籍
+//	                isSuccess = [model getBookInfoWithDataIds:arr];
+//				}
+//	            else {
+//	                isSuccess = YES;
+//				}
+//			}
 		}
 
 
@@ -1515,13 +1530,21 @@ typedef enum {
 	}
 	//2 从数据库中查到对应的字段
 	NSMutableDictionary *dic = [NSMutableDictionary dictionary];
-	for (NSManagedObject *entity in bookArr) {
-		if (entity == nil) {
-			continue;
-		}
-		NSString *dicBookId = [entity valueForKey:@"dataId"];
-		NSNumber *dicBookStatusNum = [entity valueForKey:@"dataStatus"];
-		int bookStatusInt = [dicBookStatusNum intValue];
+    for (KnowledgeMeta *knowledgeMeta in bookArr) {
+        if (knowledgeMeta == nil) {
+            continue;
+        }
+        
+        NSString *dicBookId = knowledgeMeta.dataId;
+        int bookStatusInt = (int)knowledgeMeta.dataStatus;
+//	for (NSManagedObject *entity in bookArr) {
+//		if (entity == nil) {
+//			continue;
+//		}
+//        
+//		NSString *dicBookId = [entity valueForKey:@"dataId"];
+//		NSNumber *dicBookStatusNum = [entity valueForKey:@"dataStatus"];
+//		int bookStatusInt = [dicBookStatusNum intValue];
 
 		//获取数据的更新状态，在调用startDownload接口时，判断本地是否有数据，若有将update_status改为有更新。
 		NSString *bookStatusStr = nil;
@@ -1667,7 +1690,9 @@ typedef enum {
 		}
 
 		NSLog(@"书籍可用状态===%@，bookStatus====%@", bookAvail, bookStatusStr);
-		NSString *dicBookStatusDetails = [entity valueForKey:@"dataStatusDesc"];
+        NSString *dicBookStatusDetails = knowledgeMeta.dataStatusDesc;
+        
+//		NSString *dicBookStatusDetails = [entity valueForKey:@"dataStatusDesc"];
 		//将浮点型转换成integer型，再转换成字符串类型
 		NSString *downLoadProgressStr = nil;
 		CGFloat downLoadProgressFloat = [dicBookStatusDetails floatValue];
@@ -1679,7 +1704,8 @@ typedef enum {
 			downLoadProgressStr = [NSString stringWithFormat:@"%ld", (long)downLoadProgress];
 		}
 		//获取封面图片的URL
-		NSString *bookCover = [entity valueForKey:@"coverSrc"];
+        NSString *bookCover = knowledgeMeta.coverSrc;
+//		NSString *bookCover = [entity valueForKey:@"coverSrc"];
 		NSString *documentPath = [PathUtil getDocumentsPath];
 		NSString *coverImagePathStr = [NSString stringWithFormat:@"%@/%@", documentPath, bookCover];
 
@@ -1704,15 +1730,17 @@ typedef enum {
 	NSArray *bookArr = [[KnowledgeMetaManager instance] getKnowledgeMetaWithDataId:dataId andDataType:DATA_TYPE_DATA_SOURCE];
 	//    NSArray *bookArr = [[KnowledgeMetaManager instance] getKnowledgeMetaWithDataId:dataId];
 	NSString *coverSrc = nil;
-	for (NSManagedObject *entity in bookArr) {
-		if (entity == nil) {
-			continue;
-		}
-		coverSrc = [entity valueForKey:@"coverSrc"];
-		if (coverSrc == nil) {
-			LogInfo(@"[ WebViewBridgeRegisterUtil - getConverImageFilePath ]:get coverImage failed because of coverImage url is nil");
-			return nil;
-		}
+    for (KnowledgeMeta *knowledgeMeta in bookArr) {
+        if (knowledgeMeta != nil) {
+            coverSrc = knowledgeMeta.coverSrc;
+            break;
+        }
+
+//	for (NSManagedObject *entity in bookArr) {
+//		if (entity == nil) {
+//			continue;
+//		}
+//		coverSrc = [entity valueForKey:@"coverSrc"];
 	}
 	return coverSrc;
 }
@@ -1886,9 +1914,10 @@ typedef enum {
 		return NO;
 	}
 	//2 获取dataId对应的数据的状态
-	for (id obj in bookArr) {
-//        KnowledgeMeta *knowledgeMeta = (KnowledgeMeta *)obj;
-		KnowledgeMeta *knowledgeMeta = [KnowledgeMeta fromKnowledgeMetaEntity:obj];
+    for (KnowledgeMeta *knowledgeMeta in bookArr) {
+//	for (id obj in bookArr) {
+////        KnowledgeMeta *knowledgeMeta = (KnowledgeMeta *)obj;
+//		KnowledgeMeta *knowledgeMeta = [KnowledgeMeta fromKnowledgeMetaEntity:obj];
 		if (knowledgeMeta == nil) {
 			continue;
 		}
@@ -1914,12 +1943,19 @@ typedef enum {
 		if (bookId == nil || bookId.length <= 0) {
 			continue;
 		}
-		NSArray *bookMetaArray = [[KnowledgeMetaManager instance] getKnowledgeMetaWithDataId:bookId];
-		for (NSManagedObject *entity in bookMetaArray) {
-			if (entity == nil) {
-				continue;
-			}
-			NSNumber *dicBookStatusNum = [entity valueForKey:@"dataStatus"];
+		NSArray *bookMetaArray = [[KnowledgeMetaManager instance] getKnowledgeMetaWithDataId:bookId andDataType:DATA_TYPE_UNKNOWN];
+        for (KnowledgeMeta *knowledgeMeta in bookMetaArray) {
+            if (knowledgeMeta == nil) {
+                continue;
+            }
+            
+            NSNumber *dicBookStatusNum = [NSNumber numberWithInt:(int)knowledgeMeta.dataStatus];
+//		for (NSManagedObject *entity in bookMetaArray) {
+//			if (entity == nil) {
+//				continue;
+//			}
+//			NSNumber *dicBookStatusNum = [entity valueForKey:@"dataStatus"];
+        
 			int bookStatusInt = [dicBookStatusNum intValue];
 			NSString *bookStatusStr = nil;
 			if (bookStatusInt >= 1 && bookStatusInt <= 3) {
@@ -1952,12 +1988,13 @@ typedef enum {
 
 			//1 根据数据状态,删除数据信息
 			if ([bookStatusStr isEqualToString:@"完成"] == YES || [bookStatusStr isEqualToString:@"未下载"] == YES || [bookStatusStr isEqualToString:@"下载失败"] == YES || [bookStatusStr isEqualToString:@"可更新"]) {
-				BOOL isRemoveFromDataBase = [[KnowledgeMetaManager instance] deleteKnowledgeMetaWithDataId:bookId];
+				BOOL isRemoveFromDataBase = [[KnowledgeMetaManager instance] deleteKnowledgeMetaWithDataId:bookId andDataType:DATA_TYPE_UNKNOWN];
 				if (!isRemoveFromDataBase) {
 					LogWarn(@"[WebviewBridgeRegisterUtil - removeLocalBookWithBookIds] remove local bookmeta info  failed");
 //                    return NO;//只要有一本删除失败，暂定为返回删除成功
 				}
 			}
+            
 			//2 删除沙盒目录下的文件
 			NSString *knowledgeDataInDocument = [[Config instance] knowledgeDataConfig].knowledgeDataRootPathInDocuments;
 			NSString *needDeleteBookPath = [NSString stringWithFormat:@"%@/%@", knowledgeDataInDocument, bookId];

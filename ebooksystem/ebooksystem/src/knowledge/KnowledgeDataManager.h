@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "KnowledgeDownloadItem.h"
+#import "KnowledgeMeta.h"
 
 @class KnowledgeMetaEntity;
 
@@ -53,7 +54,7 @@
 
 #pragma mark - load data content
 // load knowledge data
-- (NSString *)loadKnowledgeData:(KnowledgeMetaEntity *)knowledgeMetaEntity;
+- (NSString *)loadKnowledgeData:(KnowledgeMeta *)knowledgeMeta;
 
 // 根据dataId, queryId, 和indexFilename加载knowledge data
 - (NSArray *)getLocalDataWithDataId:(NSString *)dataId andQueryId:(NSString *)queryId andIndexFilename:(NSString *)indexFilename;

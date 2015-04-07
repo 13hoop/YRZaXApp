@@ -912,13 +912,20 @@
     }
     //2 从数据库中查到对应的字段
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
-    for (NSManagedObject *entity in bookArr) {
-        if (entity == nil) {
+    for (KnowledgeMeta *knowledgeMeta in bookArr) {
+        if (knowledgeMeta == nil) {
             continue;
         }
-        NSString *dicBookId = [entity valueForKey:@"dataId"];
-        NSNumber *dicBookStatusNum = [entity valueForKey:@"dataStatus"];
-        int bookStatusInt = [dicBookStatusNum intValue];
+        NSString *dicBookId = knowledgeMeta.dataId;
+        int bookStatusInt = (int)knowledgeMeta.dataStatus;
+//    for (NSManagedObject *entity in bookArr) {
+//        if (entity == nil) {
+//            continue;
+//        }
+//        NSString *dicBookId = [entity valueForKey:@"dataId"];
+//        NSNumber *dicBookStatusNum = [entity valueForKey:@"dataStatus"];
+//        int bookStatusInt = [dicBookStatusNum intValue];
+    
         NSString *bookStatusStr = nil;
         NSString *downLoadStatus = nil;//该状态暂时未设置
         
@@ -950,7 +957,8 @@
          bookStatusStr = @"未下载";
          }
         
-        NSString *dicBookStatusDetails = [entity valueForKey:@"dataStatusDesc"];
+        NSString *dicBookStatusDetails = knowledgeMeta.dataStatusDesc;
+//        NSString *dicBookStatusDetails = [entity valueForKey:@"dataStatusDesc"];
         //将浮点型转换成integer型，再转换成字符串类型
         NSString *downLoadProgressStr = nil;
         CGFloat downLoadProgressFloat = [dicBookStatusDetails floatValue];
@@ -961,15 +969,11 @@
             NSInteger downLoadProgress = (NSInteger)(downLoadProgressFloat*100);
             downLoadProgressStr = [NSString stringWithFormat:@"%ld",(long)downLoadProgress];
         }
-        
        
         //构造字典
         [dic setValue:dicBookId forKey:@"book_id"];
         [dic setValue:bookStatusStr forKey:@"book_status"];
         [dic setValue:downLoadProgressStr forKey:@"book_status_detail"];
-       
-        
-        
     }
     
     return dic;

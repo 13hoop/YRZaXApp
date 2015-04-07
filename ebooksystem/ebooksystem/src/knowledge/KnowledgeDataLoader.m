@@ -257,21 +257,15 @@
 #pragma mark - load knowledge index file
 // 加载index文件
 - (BOOL)loadKnowledgeIndex:(NSString *)indexFilename forData:(NSString *)dataId {
-    NSArray *knowledgeMetaEntities = [[KnowledgeMetaManager instance] getKnowledgeMetaWithDataId:dataId];
+    NSArray *knowledgeMetas = [[KnowledgeMetaManager instance] getKnowledgeMetaWithDataId:dataId andDataType:DATA_TYPE_UNKNOWN];
     
     // add
-    if (knowledgeMetaEntities == nil || knowledgeMetaEntities.count <= 0) {
+    if (knowledgeMetas == nil || knowledgeMetas.count <= 0) {
         return NO;
     }
     
     KnowledgeMeta *targetKnowledgeMeta = nil;
-    for (id obj in knowledgeMetaEntities) {
-        KnowledgeMetaEntity *knowledgeMetaEntity = (KnowledgeMetaEntity *)obj;
-        if (knowledgeMetaEntity == nil) {
-            continue;
-        }
-        
-        KnowledgeMeta *knowledgeMeta = [KnowledgeMeta fromKnowledgeMetaEntity:knowledgeMetaEntity];
+    for (KnowledgeMeta *knowledgeMeta in knowledgeMetas) {
         if (knowledgeMeta) {
             targetKnowledgeMeta = knowledgeMeta;
             break;

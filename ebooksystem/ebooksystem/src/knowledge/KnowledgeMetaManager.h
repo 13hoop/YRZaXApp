@@ -28,7 +28,7 @@
 
 // delete knowledge meta
 - (BOOL)deleteKnowledgeMetaWithDataId:(NSString *)dataId andDataType:(DataType)dataType;
-- (BOOL)deleteKnowledgeMetaWithDataId:(NSString *)dataId;
+//- (BOOL)deleteKnowledgeMetaWithDataId:(NSString *)dataId;
 
 
 // clear knowledge metas
@@ -37,16 +37,16 @@
 #pragma mark - getter
 //get  all knowledge metas by dataType
 - (NSArray *)getKnowledgeMetaWithDataType:(DataType)dataType;
-//2.0 get knowledge metas
-- (NSArray *)getKnowledgeMetaWithDataId:(NSString *)dataId;
+////2.0 get knowledge metas
+//- (NSArray *)getKnowledgeMetaWithDataId:(NSString *)dataId;
 // get knowledge metas
 - (NSArray *)getKnowledgeMetaWithDataId:(NSString *)dataId andDataType:(DataType)dataType;
 
 // get knowledge data version
 - (NSString *)getKnowledgeDataVersionWithDataId:(NSString *)dataId andDataType:(DataType)dataType;
 
-//2.0 get knowledge data version by dataId
-- (NSString *)getKnowledgeDataVersionWithDataId:(NSString *)dataId;
+////2.0 get knowledge data version by dataId
+//- (NSString *)getKnowledgeDataVersionWithDataId:(NSString *)dataId;
 
 // get searchable knowledge metas
 - (NSArray *)getSearchableKnowledgeMetas;
