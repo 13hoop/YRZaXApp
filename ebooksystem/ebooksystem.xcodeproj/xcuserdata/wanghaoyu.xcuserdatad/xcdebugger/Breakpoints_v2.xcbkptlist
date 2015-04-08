@@ -63,7 +63,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "1263"
             endingLineNumber = "1263"
-            landmarkName = "-showPageWithDictionary:"
+            landmarkName = "-customAnimation:"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>

@@ -335,16 +335,15 @@
  */
 //H:支持从sandBox和bundle目录下获取：
 - (NSString *)getPagePath:(NSString *)pageId {
-    NSArray *metaArray = [[KnowledgeMetaManager instance] getKnowledgeMetaWithDataId:pageId];
+    NSArray *metaArray = [[KnowledgeMetaManager instance] getKnowledgeMetaWithDataId:pageId andDataType:DATA_TYPE_UNKNOWN];
 //        NSArray *metaArray = [[KnowledgeMetaManager instance] getKnowledgeMetaWithDataId:pageId andDataType:DATA_TYPE_DATA_SOURCE];
     if (metaArray == nil || metaArray.count <= 0) {
         return nil;
     }
     
     // 返回首个
-    for (id obj in metaArray) {
-        KnowledgeMetaEntity *knowledgeMetaEntity = (KnowledgeMetaEntity *)obj;
-        if (knowledgeMetaEntity == nil) {
+    for (KnowledgeMeta *knowledgeMeta in metaArray) {
+        if (knowledgeMeta == nil) {
             continue;
         }
         
@@ -356,7 +355,7 @@
         
         //判断最新数据是在app中还是sandBox中
         NSString *knowledgeDataRootPathInApp = nil;
-        if ([knowledgeMetaEntity.dataStorageType isEqualToNumber:[NSNumber numberWithInteger:DATA_STORAGE_APP_ASSETS]]) {
+        if (knowledgeMeta.dataStorageType == DATA_STORAGE_APP_ASSETS) {
 //            knowledgeDataRootPathInApp = [[Config instance] knowledgeDataConfig].knowledgeDataRootPathInApp;
             knowledgeDataRootPathInApp = [[Config instance] knowledgeDataConfig].knowledgeDataRootPathInAssets;
 
@@ -364,7 +363,7 @@
         }
         else {
             
-            if ([knowledgeMetaEntity.dataStorageType isEqualToNumber:[NSNumber numberWithInteger:DATA_STORAGE_INTERNAL_STORAGE]]) {
+            if (knowledgeMeta.dataStorageType == DATA_STORAGE_INTERNAL_STORAGE) {
                 //H:修改到沙盒中目录下：
                 knowledgeDataRootPathInApp = [[Config instance] knowledgeDataConfig].knowledgeDataRootPathInDocuments;
                 NSLog(@"读取sandBox中的html页面和数据===%@",knowledgeDataRootPathInApp);
@@ -372,7 +371,7 @@
             
         }
         
-        NSString *fullFilePath = [NSString stringWithFormat:@"%@/%@", knowledgeDataRootPathInApp, knowledgeMetaEntity.dataPath];
+        NSString *fullFilePath = [NSString stringWithFormat:@"%@/%@", knowledgeDataRootPathInApp, knowledgeMeta.dataPath];
         return fullFilePath;
     }
     
@@ -389,13 +388,12 @@
         return nil;
     }
     
-    for (id obj in metaArray) {
-        KnowledgeMetaEntity *knowledgeMetaEntity = (KnowledgeMetaEntity *)obj;
-        if (knowledgeMetaEntity == nil) {
+    for (KnowledgeMeta *knowledgeMeta in metaArray) {
+        if (knowledgeMeta == nil) {
             continue;
         }
         
-        return [[KnowledgeDataManager instance] loadKnowledgeData:knowledgeMetaEntity];
+        return [[KnowledgeDataManager instance] loadKnowledgeData:knowledgeMeta];
     }
     
     return nil;
@@ -505,8 +503,7 @@
         return status;
     }
     
-    for (id obj in knowledgeMetas) {
-        KnowledgeMeta *knowledgeMeta = (KnowledgeMeta *)obj;
+    for (KnowledgeMeta *knowledgeMeta in knowledgeMetas) {
         if (knowledgeMeta == nil) {
             continue;
         }

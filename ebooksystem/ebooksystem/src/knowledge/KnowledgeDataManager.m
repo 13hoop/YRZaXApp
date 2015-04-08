@@ -114,19 +114,19 @@
 }
 
 // load knowledge data
-- (NSString *)loadKnowledgeData:(KnowledgeMetaEntity *)knowledgeMetaEntity {
-    if (knowledgeMetaEntity == nil || knowledgeMetaEntity.dataPath == nil || knowledgeMetaEntity.dataPath.length <= 0) {
+- (NSString *)loadKnowledgeData:(KnowledgeMeta *)knowledgeMeta {
+    if (knowledgeMeta == nil || knowledgeMeta.dataPath == nil || knowledgeMeta.dataPath.length <= 0) {
         return nil;
     }
     
     NSString *knowledgeDataRootPathInApp = [[Config instance] knowledgeDataConfig].knowledgeDataRootPathInApp;
-    NSString *fullFilePath = [NSString stringWithFormat:@"%@/%@/%@", knowledgeDataRootPathInApp, knowledgeMetaEntity.dataPath, @"data.json"];
+    NSString *fullFilePath = [NSString stringWithFormat:@"%@/%@/%@", knowledgeDataRootPathInApp, knowledgeMeta.dataPath, @"data.json"];
         
     // read file line by line
     NSError *error = nil;
     NSString *fileContents = [NSString stringWithContentsOfFile:fullFilePath encoding:NSUTF8StringEncoding error:&error];
     if (fileContents == nil || fileContents.length <= 0) {
-        LogError(@"[KnowledgeDataManager-loadKnowledgeData:] failed, data id: %@, file: %@, error: %@", knowledgeMetaEntity.dataId, fullFilePath, error.localizedDescription);
+        LogError(@"[KnowledgeDataManager-loadKnowledgeData:] failed, data id: %@, file: %@, error: %@", knowledgeMeta.dataId, fullFilePath, error.localizedDescription);
         return nil;
     }
     
@@ -852,18 +852,17 @@
     
     BOOL ret = YES;
     
-    for (id obj in knowledgeMetas) {
-        KnowledgeMeta *knowledgeMeta = (KnowledgeMeta *)obj;
+    for (KnowledgeMeta *knowledgeMeta in knowledgeMetas) {
         if (knowledgeMeta == nil) {
             continue;
         }
         
-        NSArray *originalKnowledgeMetas = [[KnowledgeMetaManager instance] getKnowledgeMetaWithDataId:knowledgeMeta.dataId andDataType:DATA_TYPE_DATA_SOURCE];
-        if (originalKnowledgeMetas == nil || originalKnowledgeMetas.count <= 0) {
-            
-            LogWarn (@"[knowledgeDataManager-deleteDataAccordingToDataStorageType] delete original data failed because of no knowledgeMeta found from db");
-            
-        }
+//        NSArray *originalKnowledgeMetas = [[KnowledgeMetaManager instance] getKnowledgeMetaWithDataId:knowledgeMeta.dataId andDataType:DATA_TYPE_DATA_SOURCE];
+//        if (originalKnowledgeMetas == nil || originalKnowledgeMetas.count <= 0) {
+//            
+//            LogWarn (@"[knowledgeDataManager-deleteDataAccordingToDataStorageType] delete original data failed because of no knowledgeMeta found from db");
+//            
+//        }
         // 1. 将meta信息从coreData中删除
         ret = [[KnowledgeMetaManager instance] deleteKnowledgeMetaWithDataId:knowledgeMeta.dataId andDataType:DATA_TYPE_DATA_SOURCE];
     
@@ -920,11 +919,8 @@
             if (dataId != nil && dataId.length > 0) {
                 //1 根据bookId获取对应数据的状态是否为可更新
                 NSArray *bookArr = [[KnowledgeMetaManager instance] getKnowledgeMetaWithDataId:dataId andDataType:DATA_TYPE_DATA_SOURCE];
-                for (id objc in bookArr) {
-//                    KnowledgeMeta *bookMeta = (KnowledgeMeta *)objc;
-                    KnowledgeMeta *bookMeta = [KnowledgeMeta fromKnowledgeMetaEntity:objc];
-
-                    if (bookMeta == nil) {
+                for (KnowledgeMeta *knowledgeMeta in bookArr) {
+                    if (knowledgeMeta == nil) {
                         continue;
                     }
                     //dataId是主键，只能查找到唯一一个元素
@@ -1120,11 +1116,8 @@
         if (dataId != nil && dataId.length > 0) {
             // 1. 根据bookId获取对应数据的状态是否为可更新
             NSArray *bookArr = [[KnowledgeMetaManager instance] getKnowledgeMetaWithDataId:dataId andDataType:DATA_TYPE_DATA_SOURCE];
-            for (id objc in bookArr) {
-//                KnowledgeMeta *bookMeta = (KnowledgeMeta *)objc;
-                KnowledgeMeta *bookMeta = [KnowledgeMeta fromKnowledgeMetaEntity:objc];
-
-                if (bookMeta == nil) {
+            for (KnowledgeMeta *knowledgeMeta in bookArr) {
+                if (knowledgeMeta == nil) {
                     continue;
                 }
                 //dataId是主键，只能查找到唯一一个元素
