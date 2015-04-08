@@ -464,47 +464,7 @@
 	// Fetch
 	NSError *error = nil;
 	NSArray *fetchedObjects = [context executeFetchRequest:fetchRequest error:&error];
-	//方法三
-//    NSArray *fetchedObjects = [workContext executeFetchRequest:fetchRequest error:&error];
-//    NSArray *fetchedObjects = [managedObjectContext executeFetchRequest:fetchRequest error:&error];
-
-
-
-
-	/*
-	   //1、关联NSmanagermodel对象。
-	   NSManagedObjectModel *model=[NSManagedObjectModel mergedModelFromBundles:nil];//把左边栏中所有的model全都拷贝下来了。
-	   //2、创建协调者。这句创建完成后：协调者就可以协调entity和model类
-	   NSPersistentStoreCoordinator *coordinator=[[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:model];
-
-	   NSString *path=[NSHomeDirectory() stringByAppendingPathComponent:@"Documents/core_data/ebooksystem.sqlite"];
-	   NSURL *url=[NSURL fileURLWithPath:path];
-	   [coordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:url options:nil error:nil];
-	   NSManagedObjectContext *context = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
-	   context.persistentStoreCoordinator = coordinator;
-	   NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"KnowledgeMetaEntity"];
-	   NSPredicate *predicate = [NSPredicate predicateWithFormat:@"dataId==%@ and dataType=%@", dataId, [NSNumber numberWithInteger:DATA_TYPE_DATA_SOURCE]];
-	   [fetchRequest setPredicate:predicate];
-	   NSArray *fetchedObjects = [context executeFetchRequest:fetchRequest error:nil];
-
-	 */
-
-	/*
-	   //切换回主线程，保存context
-	   if ([NSThread isMainThread]) {
-	    NSLog(@"在主线程中，保存context");
-	    [[CoreDataUtil instance] saveContextWithWait:NO];
-	   }
-	   else {
-	    NSLog(@"回到主线程中保存context");
-	    //        [self performSelectorOnMainThread:@selector(handleResult) withObject:nil waitUntilDone:YES];
-	    dispatch_sync(dispatch_get_main_queue(), ^{
-	        [[CoreDataUtil instance]saveContextWithWait:NO];
-	    });//回到主线程
-
-	   }
-	 */
-
+	
 	if (fetchedObjects != nil &&
 	    fetchedObjects.count > 0) {
 		for (NSManagedObject *entity in fetchedObjects) {
@@ -772,6 +732,7 @@
 		[self saveKnowledgeMeta:knowledgeMeta];
 	}
 
+    /*
 	//保存save
 	//切换回主线程，保存context
 	if ([NSThread isMainThread]) {
@@ -785,7 +746,7 @@
 			[[CoreDataUtil instance] saveContextWithWait:NO];
 		});        //回到主线程
 	}
-
+*/
 
 
 
