@@ -284,7 +284,10 @@
 -(void)initUmengShare {
     [UMSocialData setAppKey:UMAPPKEY];
     //wechat---需要填写appkey 和 appSecret
-    [UMSocialWechatHandler setWXAppId:@"wxb4cfa6949e15a303" appSecret:@"42846370c09438a05448519e76952326" url:@"http://www.zaxue100.com"];
+    
+    //测试：
+    [UMSocialWechatHandler setWXAppId:@"wxdad47ee1006f4468" appSecret:@"69853b28deeda126cd7f71dcb0cc1c67" url:@"http://www.zaxue100.com"];
+//    [UMSocialWechatHandler setWXAppId:@"wxb4cfa6949e15a303" appSecret:@"42846370c09438a05448519e76952326" url:@"http://www.zaxue100.com"];
     //qqzone ----需要注册，填写id和url
     //设置分享到QQ空间的应用Id，和分享url 链接
     [UMSocialQQHandler setQQWithAppId:@"1102966210" appKey:@"RGudHqtJ5mvFYLsY" url:@"http://www.zaxue100.com"];

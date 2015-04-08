@@ -639,11 +639,7 @@ typedef enum {
 				BOOL ret = [[KnowledgeManager instance] startDownloadDataManagerWithDataId:book_id];
 
 
-				//统计下载次数
-				[[StatisticsManager instance]statisticDownloadAndUpdateWithBookId:book_id andSuccess:nil];
-				NSThread *startDownlaodThread = [NSThread currentThread];
-				NSLog(@"书包点击下载处理的线程是====%@", startDownlaodThread);
-			});
+            });
 
 	        isStart = YES;
 		}
@@ -857,6 +853,11 @@ typedef enum {
 		}
 	    //userId
 	    userInfo.userId = userId;
+        if (userId != nil && userId.length > 0) {
+            [NSUserDefaultUtil saveUserId:userId];
+        }
+        
+        
 	    //******** 登陆成功后要注册用户到XG后台 *********
 	    [XGPush setAccount:userId];
 	    //再次注册设备
@@ -961,7 +962,7 @@ typedef enum {
 	//voteForZaxue
 	[self.javascriptBridge registerHandler:@"voteForZaxue" handler: ^(id data, WVJBResponseCallback responseCallback) {
 	    //appId需要修改 -- App打分
-	    [self gotoAppStoreWithAppId:@"934792222"];
+	    [self gotoAppStoreWithAppId:@"982159280"];
 	}];
 	//checkAppUpdate
 	[self.javascriptBridge registerHandler:@"checkAppUpdate" handler: ^(id data, WVJBResponseCallback responseCallback) {

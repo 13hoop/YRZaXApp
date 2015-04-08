@@ -9,7 +9,7 @@
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.sanweishuku.$(PRODUCT_NAME:rfc1034identifier)</string>
+	<string>com.swsk.ebooksystem</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -63,7 +63,7 @@
 			<string>weixin</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>wxb4cfa6949e15a303</string>
+				<string>wxdad47ee1006f4468</string>
 			</array>
 		</dict>
 	</array>

@@ -227,4 +227,19 @@
     return downloadStatus;
 }
 
+
+//保存userId
++ (BOOL)saveUserId:(NSString *)userId {
+    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+    [userDefault setObject:userId forKey:@"ZAXUE_USERID"];
+    [userDefault synchronize];
+    return YES;
+}
+
++ (NSString *)getUserId {
+    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+    NSString *zaxueUserId = [userDefault objectForKey:@"ZAXUE_USERID"];
+    return zaxueUserId;
+}
+
 @end

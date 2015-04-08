@@ -56,5 +56,8 @@
 + (BOOL)saveInDownloadStatusWithStatus:(NSString *)DownloadStatus;
 + (NSString *)getDownLoadStatus;
 
+//存储userID
++ (BOOL)saveUserId:(NSString *)userId;
++ (NSString *)getUserId;
 
 @end

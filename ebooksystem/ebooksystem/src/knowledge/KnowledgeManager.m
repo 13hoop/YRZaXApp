@@ -33,7 +33,7 @@
 #import "SBJsonWriter.h"
 #import "KnowledgeDataTypes.h"
 #import "NSUserDefaultUtil.h"
-
+#import "StatisticsManager.h"
 
 // KnowledgeManager
 @interface KnowledgeManager() <KnowledgeDataStatusDelegate> {
@@ -619,6 +619,8 @@
 }
 //H:下载一本新书
 - (BOOL)startDownloadDataManagerWithDataId:(NSString *)dataId {
+    //统计开始下载和更新的次数
+    [[StatisticsManager instance]statisticDownloadAndUpdateWithBookId:dataId andSuccess:nil];
    return [[KnowledgeDataManager instance] startDownloadDataWithDataId:dataId];
 }
 //H:根据js传来的参数进行解析

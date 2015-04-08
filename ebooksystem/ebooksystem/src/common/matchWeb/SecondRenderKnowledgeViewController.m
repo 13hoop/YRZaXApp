@@ -604,7 +604,7 @@
     //voteForZaxue
     [self.javascriptBridge registerHandler:@"voteForZaxue" handler:^(id data, WVJBResponseCallback responseCallback) {
         //appId需要修改 -- App打分
-        [self gotoAppStoreWithAppId:@"934792222"];
+        [self gotoAppStoreWithAppId:@"982159280"];
         
     }];
     //checkAppUpdate
