@@ -238,7 +238,7 @@
     
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     
-    //最初的方法
+    //
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"KnowledgeMetaEntity" inManagedObjectContext:context];
     [fetchRequest setEntity:entity];
     

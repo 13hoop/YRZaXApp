@@ -9,6 +9,10 @@
 /* Begin PBXBuildFile section */
 		062A367E1AA95E9C00D2A325 /* CustomPromptView.m in Sources */ = {isa = PBXBuildFile; fileRef = 062A367D1AA95E9C00D2A325 /* CustomPromptView.m */; };
 		0664AD9E1A4D602300145368 /* iconpng.png in Resources */ = {isa = PBXBuildFile; fileRef = 0664AD9D1A4D602300145368 /* iconpng.png */; };
+		067CCC1B1AD533E1005DFC21 /* UserDataMetaManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 067CCC1A1AD533E1005DFC21 /* UserDataMetaManager.m */; };
+		067CCC1E1AD535B3005DFC21 /* UserDataMeta.m in Sources */ = {isa = PBXBuildFile; fileRef = 067CCC1D1AD535B3005DFC21 /* UserDataMeta.m */; };
+		067CCC211AD53612005DFC21 /* UserDataEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 067CCC201AD53612005DFC21 /* UserDataEntity.m */; };
+		067CCC241AD765EA005DFC21 /* HttpRequestUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 067CCC231AD765EA005DFC21 /* HttpRequestUtil.m */; };
 		0690781919CFD62700CD9C3D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0690781819CFD62700CD9C3D /* Foundation.framework */; };
 		0690781B19CFD62700CD9C3D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0690781A19CFD62700CD9C3D /* CoreGraphics.framework */; };
 		0690781D19CFD62700CD9C3D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0690781C19CFD62700CD9C3D /* UIKit.framework */; };
@@ -326,6 +330,14 @@
 		062A367C1AA95E9C00D2A325 /* CustomPromptView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomPromptView.h; sourceTree = "<group>"; };
 		062A367D1AA95E9C00D2A325 /* CustomPromptView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomPromptView.m; sourceTree = "<group>"; };
 		0664AD9D1A4D602300145368 /* iconpng.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iconpng.png; sourceTree = "<group>"; };
+		067CCC191AD533E1005DFC21 /* UserDataMetaManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserDataMetaManager.h; sourceTree = "<group>"; };
+		067CCC1A1AD533E1005DFC21 /* UserDataMetaManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserDataMetaManager.m; sourceTree = "<group>"; };
+		067CCC1C1AD535B3005DFC21 /* UserDataMeta.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserDataMeta.h; sourceTree = "<group>"; };
+		067CCC1D1AD535B3005DFC21 /* UserDataMeta.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserDataMeta.m; sourceTree = "<group>"; };
+		067CCC1F1AD53612005DFC21 /* UserDataEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserDataEntity.h; path = src/data/model/UserDataEntity.h; sourceTree = "<group>"; };
+		067CCC201AD53612005DFC21 /* UserDataEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserDataEntity.m; path = src/data/model/UserDataEntity.m; sourceTree = "<group>"; };
+		067CCC221AD765EA005DFC21 /* HttpRequestUtil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HttpRequestUtil.h; path = src/util/HttpRequestUtil.h; sourceTree = "<group>"; };
+		067CCC231AD765EA005DFC21 /* HttpRequestUtil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HttpRequestUtil.m; path = src/util/HttpRequestUtil.m; sourceTree = "<group>"; };
 		0690781519CFD62700CD9C3D /* ebooksystem.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ebooksystem.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0690781819CFD62700CD9C3D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		0690781A19CFD62700CD9C3D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -1008,6 +1020,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		067CCC141AD53229005DFC21 /* userData */ = {
+			isa = PBXGroup;
+			children = (
+				067CCC191AD533E1005DFC21 /* UserDataMetaManager.h */,
+				067CCC1A1AD533E1005DFC21 /* UserDataMetaManager.m */,
+				067CCC1C1AD535B3005DFC21 /* UserDataMeta.h */,
+				067CCC1D1AD535B3005DFC21 /* UserDataMeta.m */,
+			);
+			path = userData;
+			sourceTree = "<group>";
+		};
 		0690780C19CFD62700CD9C3D = {
 			isa = PBXGroup;
 			children = (
@@ -1705,6 +1728,7 @@
 		06CE7CE51A86139100FEB1D7 /* userRecordData */ = {
 			isa = PBXGroup;
 			children = (
+				067CCC141AD53229005DFC21 /* userData */,
 				06CE7CE61A86139100FEB1D7 /* bookMark */,
 				06CE7CEB1A86139100FEB1D7 /* collection */,
 				06CE7CEE1A86139100FEB1D7 /* UserRecordDataManager.h */,
@@ -2087,6 +2111,8 @@
 				06CF2ABE1A81E8140032CE5D /* BookMarkEntity.m */,
 				06CE7CFA1A88573900FEB1D7 /* CollectionEntity.h */,
 				06CE7CFB1A88573900FEB1D7 /* CollectionEntity.m */,
+				067CCC1F1AD53612005DFC21 /* UserDataEntity.h */,
+				067CCC201AD53612005DFC21 /* UserDataEntity.m */,
 			);
 			name = model;
 			sourceTree = "<group>";
@@ -2642,6 +2668,8 @@
 				06CE94141A8B5F6C0009D59B /* WebViewBridgeRegisterUtil.m */,
 				06DCE1C11AA162E800538724 /* UpLoadUtil.h */,
 				06DCE1C21AA162E800538724 /* UpLoadUtil.m */,
+				067CCC221AD765EA005DFC21 /* HttpRequestUtil.h */,
+				067CCC231AD765EA005DFC21 /* HttpRequestUtil.m */,
 			);
 			name = util;
 			sourceTree = "<group>";
@@ -2989,6 +3017,7 @@
 				71314D5E1A246D48004D1873 /* UpdateAppViewController.m in Sources */,
 				7164E6B71A26F3C000EA5C04 /* PaymentConfig.m in Sources */,
 				06CE7CF21A86139100FEB1D7 /* CollectionMeta.m in Sources */,
+				067CCC211AD53612005DFC21 /* UserDataEntity.m in Sources */,
 				71860BE919DC7B4300D01AA9 /* KnowledgeDataConfig.m in Sources */,
 				06CF7AF01A78FE680001F80D /* KnowledgeMetaEntity.m in Sources */,
 				06AA7E9319F4FAE100570289 /* SecurityUtil.m in Sources */,
@@ -3022,6 +3051,7 @@
 				06D418141A47B804007565F0 /* IADownloadHandler.m in Sources */,
 				06DCE1C31AA162E800538724 /* UpLoadUtil.m in Sources */,
 				7134FB2319E4DE4E004AB7A8 /* KnowledgeSearchManager.m in Sources */,
+				067CCC1E1AD535B3005DFC21 /* UserDataMeta.m in Sources */,
 				06AA7F6819F4FC7E00570289 /* RegisterUserInfo.m in Sources */,
 				06D1D2B31A750ECD00F5B8FC /* discoveryWebView.m in Sources */,
 				7118EB8C19EF6BE3002CF833 /* PerUserLogLevels.md in Sources */,
@@ -3067,6 +3097,7 @@
 				06AA7F4F19F4FC7E00570289 /* CustomAboutUsview.m in Sources */,
 				713D863E19E91654006446D5 /* DateUtil.m in Sources */,
 				715EE9A919E832ED005A4F78 /* JSONModelError.m in Sources */,
+				067CCC1B1AD533E1005DFC21 /* UserDataMetaManager.m in Sources */,
 				710C03A219E2EDB800C27A33 /* KnowledgeSearchEntity.m in Sources */,
 				7138C2EC1A19E259007789FE /* CustomURLProtocol.m in Sources */,
 				06AAC9F219F67C9800A758DB /* DeviceStatusUtil.m in Sources */,
@@ -3121,6 +3152,7 @@
 				7156B0A419F7AD0C00B3A521 /* UncaughtExceptionHandler.m in Sources */,
 				06CBC6191A8995D9000DADAE /* ScanQRCodeController.m in Sources */,
 				710C039C19E2ECA400C27A33 /* KnowledgeMeta.m in Sources */,
+				067CCC241AD765EA005DFC21 /* HttpRequestUtil.m in Sources */,
 				7156B0B019F8BC5100B3A521 /* UIImage+MRImageEffects.m in Sources */,
 				06CE94151A8B5F6C0009D59B /* WebViewBridgeRegisterUtil.m in Sources */,
 			);
@@ -3217,7 +3249,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LIBRARY_SEARCH_PATHS = "";
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "df0ef77a-dca2-4974-9884-85b1d70da485";
+				PROVISIONING_PROFILE = "0901a4e5-ad35-4fa7-a80c-0eaf91f9cee2";
 				SDKROOT = iphoneos;
 				VALID_ARCHS = "arm64 armv7 armv7s i386 x86_64";
 			};
@@ -3258,7 +3290,7 @@
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LIBRARY_SEARCH_PATHS = "";
-				PROVISIONING_PROFILE = "df0ef77a-dca2-4974-9884-85b1d70da485";
+				PROVISIONING_PROFILE = "0901a4e5-ad35-4fa7-a80c-0eaf91f9cee2";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 				VALID_ARCHS = "arm64 armv7 armv7s i386 x86_64";
@@ -3313,7 +3345,7 @@
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "df0ef77a-dca2-4974-9884-85b1d70da485";
+				PROVISIONING_PROFILE = "0901a4e5-ad35-4fa7-a80c-0eaf91f9cee2";
 				SKIP_INSTALL = NO;
 				TARGETED_DEVICE_FAMILY = 1;
 				VALID_ARCHS = "armv7 armv7s arm64";
@@ -3369,7 +3401,7 @@
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "df0ef77a-dca2-4974-9884-85b1d70da485";
+				PROVISIONING_PROFILE = "0901a4e5-ad35-4fa7-a80c-0eaf91f9cee2";
 				SKIP_INSTALL = NO;
 				TARGETED_DEVICE_FAMILY = 1;
 				VALID_ARCHS = "armv7 armv7s arm64";

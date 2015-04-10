@@ -14,6 +14,8 @@
 #import "CollectionMetaManager.h"
 #import "scanQRcodeDataManager.h"
 
+#import "UserDataMeta.h"
+#import "UserDataMetaManager.h"
 
 
 @interface UserRecordDataManager : NSObject
@@ -52,5 +54,13 @@
 - (BOOL)deleteCollectionMetaWithInfoDic:(NSDictionary *)infoDic;
 
 
+
+#pragma mark -- userData
+//保存用户数据
+- (BOOL)saveUserDataMeta:(UserDataMeta *)userDataMeta;
+//获取用户数据
+- (NSArray *)getUserDataWithDictionary:(NSDictionary *)keyDic andUserId:(NSString *)userId;
+//删除用户数据
+- (NSString *)deleteUserDataWithDictionary:(NSDictionary *)contentDic andUserId:(NSString *)userId;
 
 @end

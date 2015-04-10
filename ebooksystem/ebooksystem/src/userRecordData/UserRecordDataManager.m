@@ -275,4 +275,30 @@
 
 
 
+#pragma mark --  UserData
+
+//保存用户数据
+- (BOOL)saveUserDataMeta:(UserDataMeta *)userDataMeta {
+    UserDataMetaManager *userDataManager = [UserDataMetaManager instance];
+    BOOL isSaved = [userDataManager saveUserDataMeta:userDataMeta];
+    return isSaved;
+}
+
+//获取用户数据
+- (NSArray *)getUserDataWithDictionary:(NSDictionary *)keyDic andUserId:(NSString *)userId {
+    UserDataMetaManager *userDataManager = [UserDataMetaManager instance];
+    NSArray *userDataArray = [userDataManager getUserDataWithDictionary:keyDic andWithUserId:userId];
+    if (userDataArray == nil || userDataArray.count <= 0) {
+        return  nil;
+    }
+    return userDataArray;
+}
+
+- (NSString *)deleteUserDataWithDictionary:(NSDictionary *)contentDic andUserId:(NSString *)userId {
+    UserDataMetaManager *userDataManager = [UserDataMetaManager instance];
+    NSString *deleteAmount = [userDataManager deleteUserDataWithDictionary:contentDic andWithUserId:userId];
+    return deleteAmount;
+}
+
+
 @end

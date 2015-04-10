@@ -13,6 +13,7 @@
 #import "UIColor+Hex.h"
 #import "UMSocial.h"
 #import "UMSocialSnsService.h"
+#import "MobClick.h"
 
 #import "DirectionMPMoviePlayerViewController.h"
 #import "CustomURLProtocol.h"
@@ -53,6 +54,10 @@
 #import "XGPush.h"
 #import "DeviceStatusUtil.h"
 #import "KnowledgeDataManager.h"
+
+#import "UserDataMeta.h"
+#import "HttpRequestUtil.h"
+
 
 
 
@@ -1189,7 +1194,298 @@ typedef enum {
 	        responseCallback(dicStr);
 		}
 	}];
+    
+    //*********** 用户数据 ******************
+    
+    //setUserData
+    [self.javascriptBridge registerHandler:@"setUserData" handler: ^(id data, WVJBResponseCallback responseCallback) {
+        NSString *dataString = data;
+        if (dataString == nil || dataString.length <= 0) {
+            LogError(@"[WebViewBridgeRegisterUtil - setUserData] data is nil");
+        }
+        SBJsonParser *parse = [[SBJsonParser alloc] init];
+        NSArray *userDataArray = [parse objectWithString:dataString];
+        //获取userId
+        NSString *userId = [NSUserDefaultUtil getUserId];
+        if (userId == nil || userId.length <= 0) {
+            LogError(@"[[WebViewBridgeRegisterUtil - setUserData] userId is nil]");
+        }
+        UserRecordDataManager *userRecordManager = [UserRecordDataManager instance];
+        BOOL successSaved = NO;
+        for (NSDictionary *tempDic in userDataArray) {
+            if (tempDic == nil) {
+                continue;
+            }
+            {
+                UserDataMeta *usrDataMeta = [[UserDataMeta alloc] init];
+                usrDataMeta.userId = userId;
+                usrDataMeta.k1 = [tempDic objectForKey:@"k1"];
+                usrDataMeta.k2 = [tempDic objectForKey:@"k2"];
+                usrDataMeta.k3 = [tempDic objectForKey:@"k3"];
+                usrDataMeta.k4 = [tempDic objectForKey:@"k4"];
+                usrDataMeta.k5 = [tempDic objectForKey:@"k5"];
+                usrDataMeta.type = [tempDic objectForKey:@"type"];
+                usrDataMeta.value = [tempDic objectForKey:@"value"];
+                successSaved = [userRecordManager saveUserDataMeta:usrDataMeta];
+            }
+        }
+        //有一个存储出现错误，返回NO
+        if (successSaved) {
+            NSString *successStr = [NSString stringWithFormat:@"%d", SUCCESS];
+            responseCallback(successStr);
+        }
+        else {
+            NSString *failedStr = [NSString stringWithFormat:@"%d", FAILED];
+            responseCallback(failedStr);
+        }
+    }];
+    
+    //getUserData
+    [self.javascriptBridge registerHandler:@"getUserData" handler: ^(id data, WVJBResponseCallback responseCallback) {
+        NSString *dataString = data;
+        if (dataString == nil || dataString.length <= 0) {
+            LogError(@"[WebViewBridgeRegisterUtil - getUserData] data is nil");
+        }
+        //1 解析
+        SBJsonParser *parse = [[SBJsonParser alloc] init];
+        NSDictionary *userDataDic = [parse objectWithString:dataString];
+        //2 从数据库中查找对应的记录，并转换成指定格式
+        //获取userId
+        NSString *userId = [NSUserDefaultUtil getUserId];
+        NSArray *resultArray = [self getUserDataFromDBWithDictionary:userDataDic andUserId:userId];
+        if (resultArray == nil || resultArray.count <= 0) {
+            responseCallback(@"[]");
+        }
+        //3 encode成JSON字符串
+        SBJsonWriter *writer = [[SBJsonWriter alloc] init];
+        NSString *userDatasString = [writer stringWithObject:resultArray];
+        //4 将结果返还给JS
+        if (userDatasString == nil || userDatasString.length <= 0) {
+            responseCallback(@"[]");
+        }
+        else {
+            responseCallback(userDatasString);
+        }
+        
+        
+        
+        
+        
+    }];
+    
+    //getBatchUserData
+    [self.javascriptBridge registerHandler:@"getBatchUserData" handler: ^(id data, WVJBResponseCallback responseCallback) {
+        NSString *dataString = data;
+        if (dataString == nil || dataString.length <= 0) {
+            LogError(@"[WebViewBridgeRegisterUtil - getBatchUserData] data is nil");
+        }
+        NSMutableDictionary *batchUserDataDic = [[NSMutableDictionary alloc] init];
+        //1 解析JSON格式的数据
+        SBJsonParser *parse = [[SBJsonParser alloc] init];
+        NSDictionary *userDataDic = [parse objectWithString:dataString];
+        //2 从数据库中获取数据
+        NSString *userId = [NSUserDefaultUtil getUserId];
+        NSArray *keyArray = [userDataDic allKeys];
+        for (NSString *tempKey in keyArray) {
+            if (tempKey == nil || tempKey.length <= 0) {
+                continue;
+            }
+            NSDictionary *tempDic = [userDataDic objectForKey:tempKey];
+            //查找到指定的数组
+            NSArray *resultArray = [self getUserDataFromDBWithDictionary:tempDic andUserId:userId];
+            //拼成指定的键值对
+            if (resultArray == nil || resultArray.count <= 0) {//防止因为value值为nil导致程序崩掉
+               [batchUserDataDic setValue:@"" forKey:tempKey];
+            }
+            [batchUserDataDic setValue:resultArray forKey:tempKey];
+            
+        }
+        //3 encode成JSON字符串
+        SBJsonWriter *writer = [[SBJsonWriter alloc] init];
+        NSString *userDataDicString = [writer stringWithObject:batchUserDataDic];
+        //4 将结果返回给JS
+        if (userDataDicString == nil || userDataDicString.length <= 0) {
+            responseCallback(@"{}");
+        }
+        else {
+            responseCallback(userDataDicString);
+        }
+        
+        
+    }];
+    
+    //getBatchShitData
+    [self.javascriptBridge registerHandler:@"getBatchShitData" handler: ^(id data, WVJBResponseCallback responseCallback) {
+        
+        NSString *dataString = data;
+        if (dataString == nil || dataString.length <= 0) {
+            LogError(@"[WebViewBridgeRegisterUtil - getBatchShitData] data is nil");
+        }
+        NSMutableDictionary *resultDic = [[NSMutableDictionary alloc] init];
+        //1 解析JSON格式的数据
+        SBJsonParser *parse = [[SBJsonParser alloc] init];
+        NSDictionary *shitDic = [parse objectWithString:dataString];
+        //2 从shit 文件中查找指定的数据
+        NSArray *keyArray = [shitDic allKeys];
+        for (NSString *tempKey in keyArray) {
+            if (tempKey == nil || tempKey.length <= 0) {
+                continue;
+            }
+            //args参数对应dic
+            NSDictionary *tempDic = [shitDic objectForKey:tempKey];
+            //从shit中查找数据
+            NSString *bookId = [tempDic objectForKey:@"book_id"];
+            NSString *queryId = [tempDic objectForKey:@"query_id"];
+            NSArray *dataArray = [[KnowledgeManager instance] getLocalDataWithDataId:bookId andQueryId:queryId andIndexFilename:nil];
+            NSString *data = nil;
+            
+            if (dataArray == nil || dataArray.count <= 0) {
+                data = @"";
+            }
+            else {
+                for (NSString *dataStr in dataArray) {
+                    if (dataStr == nil || dataStr.length <= 0) {
+                        continue;
+                    }
+                    
+                    data = dataStr;//dataId，queryId只能获取到唯一的数据
+                    break;//跳出当前循环，多层循环，break只跳出一层循环
+                }
+            }
+            //将获取到的数据添加到字典中
+            [resultDic setValue:data forKey:tempKey];
+            
+        }
+        
+        //3 encode成指定格式的JSON字符串，并返回给JS
+        if (resultDic == nil) {
+            responseCallback(@"{}");
+        }
+        SBJsonWriter *writer = [[SBJsonWriter alloc] init];
+        NSString *shitDataString = [writer stringWithObject:resultDic];
+        if (shitDataString == nil || shitDataString.length <= 0) {
+            responseCallback(@"{}");
+        }
+        else {
+            responseCallback(shitDataString);
+        }
+        
+        
+    }];
+    
+    //deleteUserData
+    [self.javascriptBridge registerHandler:@"deleteUserData" handler: ^(id data, WVJBResponseCallback responseCallback) {
+        NSString *dataString = data;
+        if (dataString == nil || dataString.length <= 0) {
+            LogError(@"[WebViewBridgeRegisterUtil - deleteUserData] data is nil");
+        }
+        SBJsonParser *parse = [[SBJsonParser alloc] init];
+        NSDictionary *contentDic = [parse objectWithString:dataString];
+        //删除指定的userData
+        UserRecordDataManager *userRecordManager = [UserRecordDataManager instance];
+        NSString *userId = [NSUserDefaultUtil getUserId];
+        NSString *amount = [userRecordManager deleteUserDataWithDictionary:contentDic andUserId:userId];
+        if (responseCallback != nil) {
+            responseCallback(amount);
+        }
+        
+        
+    }];
+    
+    
+    
+    
+   
+    //httpGet
+    [self.javascriptBridge registerHandler:@"httpGet" handler: ^(id data, WVJBResponseCallback responseCallback) {
+        NSString *dataString = data;
+        if (dataString == nil || dataString.length <= 0) {
+            LogError(@"[WebViewBridgeRegisterUtil - httpGet] data is nil");
+        }
+        
+        SBJsonParser *parse = [[SBJsonParser alloc] init];
+        NSDictionary *dataDic = [parse objectWithString:dataString];
+        NSString *urlString = [[dataDic objectForKey:@"url"] objectForKey:@"gson_fix"];
+        NSDictionary *headerDic = [dataDic objectForKey:@"header"];
+        //开始get请求
+        [HttpRequestUtil httpGetWithUrl:urlString andHeader:headerDic andResponseCallBack:responseCallback];
+        
+        
+    }];
+    
+    //httpPost
+    [self.javascriptBridge registerHandler:@"httpPost" handler: ^(id data, WVJBResponseCallback responseCallback) {
+        
+        NSString *dataString = data;
+        if (dataString == nil || dataString.length <= 0) {
+            LogError(@"[WebViewBridgeRegisterUtil - httpPost] data is nil");
+        }
+        
+        SBJsonParser *parse = [[SBJsonParser alloc] init];
+        NSDictionary *dataDic = [parse objectWithString:dataString];
+        NSString *urlString = [[dataDic objectForKey:@"url"] objectForKey:@"gson_fix"];
+        NSDictionary *headerDic = [dataDic objectForKey:@"header"];
+        NSDictionary *bodyDic = [dataDic objectForKey:@"body"];
+        //开始post请求
+        [HttpRequestUtil httpPostWithUrl:urlString andHeader:headerDic andBody:bodyDic andResponseCallBack:responseCallback];
+        
+    }];
+    
+    //pageStatistic
+    [self.javascriptBridge registerHandler:@"pageStatistic" handler: ^(id data, WVJBResponseCallback responseCallback) {
+        NSString *dataString = data;
+        if (dataString == nil || dataString.length <= 0) {
+            LogError(@"[WebViewBridgeRegisterUtil - pageStatistic] data is nil");
+        }
+        //1 解析
+        SBJsonParser *parse = [[SBJsonParser alloc] init];
+        NSDictionary *dic = [parse objectWithString:dataString];
+        //事件名称
+        NSString *eventName = [[dic objectForKey:@"event_name"] objectForKey:@"gson_fix"];
+        //事件的参数
+        NSDictionary *paramDic = [dic objectForKey:@"value"];
+        //2 使用友盟进行统计
+        [MobClick event:eventName attributes:paramDic];
+        
+        
+    }];
+    
+    
+    
 }
+
+#pragma mark 用户数据接口用到的方法
+//将获取到的数组转成指定格式的数组
+- (NSArray*)getUserDataFromDBWithDictionary:(NSDictionary *)userDataDic andUserId:(NSString *)userId {
+    UserRecordDataManager *userRecordManager = [UserRecordDataManager instance];
+    //获取数据库中的记录
+    NSArray *userDataMetaArray  = [userRecordManager getUserDataWithDictionary:userDataDic andUserId:userId];
+    
+    //3 组装成指定格式的JSON
+    NSMutableArray *userDatas = [[NSMutableArray alloc] init];
+    if (userDataMetaArray == nil || userDataMetaArray.count <= 0) {
+        //直接返回
+        return nil;
+    }
+    
+    for (id objc in userDataMetaArray) {
+        if (objc == nil) {
+            continue;
+        }
+        UserDataMeta *tempMeta = (UserDataMeta *)objc;
+        NSDictionary *tempDic = [NSDictionary dictionaryWithObjectsAndKeys:tempMeta.k1,@"k1",tempMeta.k2,@"k2",tempMeta.k3,@"k3",tempMeta.k4,@"k4",tempMeta.k5,@"k5",tempMeta.type,@"type",tempMeta.value,@"value",tempMeta.createTime,@"create_time",tempMeta.updateTime,@"update_time", nil];
+        [userDatas addObject:tempDic];
+        
+    }
+    
+    if (userDatas == nil || userDatas.count <= 0) {
+        return  nil;
+    }
+    return userDatas;
+    
+}
+
+
 
 #pragma mark goBack 接口调用的方法
 
