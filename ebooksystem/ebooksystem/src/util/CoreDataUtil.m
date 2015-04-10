@@ -85,11 +85,25 @@
     NSError *error = nil;
     NSManagedObjectContext *managedObjectContext = self.managedObjectContext;
     if (managedObjectContext != nil) {
-        if ([managedObjectContext hasChanges] && ![managedObjectContext save:&error]) {
-            // Replace this implementation with code to handle the error appropriately.
-            // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-            LogError(@"Unresolved error %@, %@", error, [error userInfo]);
-//            abort();
+        if ([managedObjectContext hasChanges]) {
+            if (![managedObjectContext save:&error]) {
+                // Replace this implementation with code to handle the error appropriately.
+                // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+                LogError(@"Unresolved error %@, %@", error, [error userInfo]);
+                //            abort();
+            }
+        }
+    }
+    
+    NSManagedObjectContext *backgroundObjectContext = self.backgroundObjectContext;
+    if (backgroundObjectContext != nil) {
+        if ([backgroundObjectContext hasChanges]) {
+            if (![backgroundObjectContext save:&error]) {
+                // Replace this implementation with code to handle the error appropriately.
+                // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+                LogError(@"Unresolved error %@, %@", error, [error userInfo]);
+                //            abort();
+            }
         }
     }
 }
