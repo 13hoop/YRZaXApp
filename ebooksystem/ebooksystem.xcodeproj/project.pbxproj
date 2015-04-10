@@ -3249,7 +3249,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LIBRARY_SEARCH_PATHS = "";
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "0901a4e5-ad35-4fa7-a80c-0eaf91f9cee2";
+				PROVISIONING_PROFILE = "df0ef77a-dca2-4974-9884-85b1d70da485";
 				SDKROOT = iphoneos;
 				VALID_ARCHS = "arm64 armv7 armv7s i386 x86_64";
 			};
@@ -3290,7 +3290,7 @@
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LIBRARY_SEARCH_PATHS = "";
-				PROVISIONING_PROFILE = "0901a4e5-ad35-4fa7-a80c-0eaf91f9cee2";
+				PROVISIONING_PROFILE = "df0ef77a-dca2-4974-9884-85b1d70da485";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 				VALID_ARCHS = "arm64 armv7 armv7s i386 x86_64";
@@ -3345,7 +3345,7 @@
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "efdc3d3853ff2823b86003ede4dcdc16c8331093";
+				PROVISIONING_PROFILE = "df0ef77a-dca2-4974-9884-85b1d70da485";
 				SKIP_INSTALL = NO;
 				TARGETED_DEVICE_FAMILY = 1;
 				VALID_ARCHS = "armv7 armv7s arm64";
@@ -3401,10 +3401,7 @@
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-
-
-
-				PROVISIONING_PROFILE = "efdc3d3853ff2823b86003ede4dcdc16c8331093";
+				PROVISIONING_PROFILE = "df0ef77a-dca2-4974-9884-85b1d70da485";
 				SKIP_INSTALL = NO;
 				TARGETED_DEVICE_FAMILY = 1;
 				VALID_ARCHS = "armv7 armv7s arm64";
@@ -3500,4 +3497,4 @@
 /* End XCVersionGroup section */
 	};
 	rootObject = 0690780D19CFD62700CD9C3D /* Project object */;
-
+}
