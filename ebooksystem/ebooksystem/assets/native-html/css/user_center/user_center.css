@@ -51,6 +51,7 @@ body{
     font-size: 21px;
 }
 .balance{
+    visibility: hidden;
     color: #fe710c;
     margin: 8px auto 0;
     height: 20px;

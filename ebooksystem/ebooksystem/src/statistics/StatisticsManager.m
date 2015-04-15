@@ -133,11 +133,16 @@
     
     NSMutableURLRequest *mutableRequest = [NSMutableURLRequest requestWithURL:statictisUrl cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0];
     [mutableRequest setAllHTTPHeaderFields:requestHeaders];
-    
-    NSData *data = [NSURLConnection sendSynchronousRequest:mutableRequest returningResponse:nil error:&error];
-    if (error) {
-        LogError (@"[StatisticsManager - statisticWithUrl] statistic failed with error:%@",error.localizedDescription);
-    }
+    //同步
+//    NSData *data = [NSURLConnection sendSynchronousRequest:mutableRequest returningResponse:nil error:&error];
+    //异步
+    NSOperationQueue *queue = [[NSOperationQueue alloc] init];
+    [NSURLConnection sendAsynchronousRequest:mutableRequest queue:queue completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+        if (connectionError) {
+            LogError (@"[StatisticsManager - statisticWithUrl] statistic failed with error:%@",error.localizedDescription);
+        }
+        
+    }];
 }
 //按照下载和更新来区分统计的url
 - (void)statisticDownloadAndUpdateWithBookId:(NSString *)bookId andSuccess:(NSString *)successStr {
@@ -200,10 +205,17 @@
     [mutableRequest setAllHTTPHeaderFields:requestHeaders];
     
     
-    NSData *data = [NSURLConnection sendSynchronousRequest:mutableRequest returningResponse:nil error:&error];
-    if (error) {
-        LogError (@"[StatisticsManager - statisticWithUrl] statistic failed with error:%@",error.localizedDescription);
-    }
+//    NSData *data = [NSURLConnection sendSynchronousRequest:mutableRequest returningResponse:nil error:&error];
+    
+    //异步请求
+    NSOperationQueue *queue = [[NSOperationQueue alloc] init];
+    [NSURLConnection sendAsynchronousRequest:mutableRequest queue:queue completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+        if (connectionError) {
+            LogError (@"[StatisticsManager - statisticWithUrl] statistic failed with error:%@",error.localizedDescription);
+        }
+
+    }];
+    
     
 }
 

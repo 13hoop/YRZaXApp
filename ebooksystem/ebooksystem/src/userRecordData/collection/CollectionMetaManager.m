@@ -33,7 +33,7 @@
 
 	BOOL saved = NO;
 
-	NSManagedObjectContext *context = [[CoreDataUtil instance] recordDataContext];
+	NSManagedObjectContext *context = [[CoreDataUtil instance] temporaryContext];
 	// 1. try update if exists
 	{
 		NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
@@ -126,10 +126,11 @@
 
 //根据bookId , collectionType ,queryId来查询数据库,三者都有可能为空，需要根据不同参数来构造不同的查询条件
 - (NSArray *)getCollectionMetaWith:(NSString *)bookId andcollectionType:(NSString *)collectionType andQueryId:(NSString *)queryId {
-	NSManagedObjectContext *context = [[CoreDataUtil instance] recordDataContext];
+	NSManagedObjectContext *context = [[CoreDataUtil instance] temporaryContext];
 
 	NSMutableArray *metaArray = [[NSMutableArray alloc] init];
-
+    
+//    NSMutableArray *metaArrayTest = [[NSMutableArray alloc] init];
 
 	NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
 
@@ -139,7 +140,13 @@
 
 	// Predicate
 	//    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"bookId==%@ and bookMarkType=%@ and targetId=%@", bookId, bookMarkType,queryId];
+    //生成查询条件
 	NSPredicate *predicate = [self generatePresdicateWithBookId:bookId andWithCollectionType:collectionType andWithQueryId:queryId];
+    
+    //根据collectionCreateTime降序排列
+    NSSortDescriptor *sortByName = [NSSortDescriptor sortDescriptorWithKey:@"collectionCreateTime" ascending:NO];
+    fetchRequest.sortDescriptors = [NSArray arrayWithObject:sortByName];
+    
 	[fetchRequest setPredicate:predicate];
 
 	// Fetch
@@ -148,32 +155,48 @@
 	if (fetchedObjects != nil &&
 	    fetchedObjects.count > 0) {
 		for (NSManagedObject *entity in fetchedObjects) {
-			[metaArray addObject:entity];
+//			[metaArray addObject:entity];
+            CollectionMeta *meta = [CollectionMeta fromBookMarkEntity:(CollectionEntity*)entity];
+            if (meta != nil) {
+                [metaArray addObject:meta];
+            }
+            
 		}
 	}
-
+    
+    
 	if (metaArray == nil || metaArray.count <= 0) {
 		return nil;
 	}
+//    NSLog(@"%@",metaArrayTest);
 	return metaArray;
 }
 
 //查询所有书签
 - (NSArray *)getAllCollectionMeta {
-	NSManagedObjectContext *context = [[CoreDataUtil instance] recordDataContext];
+	NSManagedObjectContext *context = [[CoreDataUtil instance] temporaryContext];
 
 	NSMutableArray *metaArray = [[NSMutableArray alloc] init];
 
 	NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
 
 	NSEntityDescription *entity = [NSEntityDescription entityForName:@"CollectionEntity" inManagedObjectContext:context];
+    //根据collectionCreateTime降序排列
+    NSSortDescriptor *sortByName = [NSSortDescriptor sortDescriptorWithKey:@"collectionCreateTime" ascending:NO];
+    fetchRequest.sortDescriptors = [NSArray arrayWithObject:sortByName];
 	[fetchRequest setEntity:entity];
+    
+    
 	NSError *error = nil;
 	NSArray *fetchedObjects = [context executeFetchRequest:fetchRequest error:&error];
 	if (fetchedObjects != nil &&
 	    fetchedObjects.count > 0) {
 		for (NSManagedObject *entity in fetchedObjects) {
-			[metaArray addObject:entity];
+//			[metaArray addObject:entity];
+            CollectionMeta *meta = [CollectionMeta fromBookMarkEntity:(CollectionEntity *)entity];
+            if (meta != nil) {
+                [metaArray addObject:meta];
+            }
 		}
 	}
 
@@ -185,7 +208,7 @@
 
 //根据bookId , queryId获取collectionMeta信息
 - (NSArray *)getCollectionMetaWith:(NSString *)bookId andQueryId:(NSString *)queryId {
-	NSManagedObjectContext *context = [[CoreDataUtil instance] recordDataContext];
+	NSManagedObjectContext *context = [[CoreDataUtil instance] temporaryContext];
 
 	NSMutableArray *metaArray = [[NSMutableArray alloc] init];
 
@@ -225,7 +248,7 @@
 		return YES; // nothing to delete, return YES
 	}
 
-	NSManagedObjectContext *context = [[CoreDataUtil instance] recordDataContext];
+	NSManagedObjectContext *context = [[CoreDataUtil instance] temporaryContext];
 
 	for (id entity in collectionMetaEntities) {
 		[context deleteObject:entity];

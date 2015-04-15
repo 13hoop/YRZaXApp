@@ -82,6 +82,12 @@
 //    NSLog(@"{\"oid\": \"%@\"}", deviceID);
     
     
+    //友盟，获取统计要用的数据
+    
+    
+    
+    
+    
     // 2.0 app 启动时检查下载进度，设置dataStatus
     [[KnowledgeManager instance] modifyDataStatusWithDataType];
     

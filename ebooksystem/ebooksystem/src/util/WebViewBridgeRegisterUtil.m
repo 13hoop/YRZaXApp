@@ -58,6 +58,8 @@
 #import "UserDataMeta.h"
 #import "HttpRequestUtil.h"
 
+//测试
+#import "wordTestViewController.h"
 
 
 
@@ -185,10 +187,18 @@ typedef enum {
 	    //统计页面点击次数
 	    NSString *book_id = dic[@"book_id"];
 	    NSString *page_type = dic[@"page_type"];
-	    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+//	    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
 			NSString *urlString = [NSString stringWithFormat:@"http://log.zaxue100.com/pv.gif?t=book_click&k=%@&v=1&pageType=%@", book_id, page_type];
 			[[StatisticsManager instance] statisticWithUrl:urlString];
-		});
+        //发到友盟
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            NSDictionary *paramDic = [NSDictionary dictionaryWithObjectsAndKeys:book_id,@"book_id",page_type,@"page_type", nil];
+            [MobClick event:@"render_page" attributes:paramDic];
+        });
+        
+            
+            
+//		});
 	}];
 
 	//************* 书签的接口 **************
@@ -573,7 +583,7 @@ typedef enum {
 	    NSString *book_category = data;//值：0，1
 	    //根据book_category遍历数据库，将数据拼成json格式返回给JS。（具体操作：1、就是根据book_category做遍历数据库的操作 2、book_status ：下载过程中用的download_Status字段（下载成功，下载失败，下载中）也是修改这个字段。）
 
-//        dispatch_async(queue, ^{
+
 
 	    NSMutableArray *arr = [NSMutableArray array];
 	    NSArray *bookListArr = [[KnowledgeManager instance] getBookList:book_category];
@@ -589,7 +599,7 @@ typedef enum {
 		}
 
 
-//        });
+
 	}];
 
 	//checkDataUpdate
@@ -1199,12 +1209,17 @@ typedef enum {
     
     //setUserData
     [self.javascriptBridge registerHandler:@"setUserData" handler: ^(id data, WVJBResponseCallback responseCallback) {
+        //1 解析页面传来的数据
         NSString *dataString = data;
         if (dataString == nil || dataString.length <= 0) {
             LogError(@"[WebViewBridgeRegisterUtil - setUserData] data is nil");
         }
         SBJsonParser *parse = [[SBJsonParser alloc] init];
         NSArray *userDataArray = [parse objectWithString:dataString];
+//         [ { k1 : '', k2 : '', k3 : '', k4 : '', k5 : '', type : '', value : '' }, {}, {}  ]
+        
+        //2 开线程，保存用户数据
+        dispatch_async(dispatch_get_global_queue(0, 0), ^{
         //获取userId
         NSString *userId = [NSUserDefaultUtil getUserId];
         if (userId == nil || userId.length <= 0) {
@@ -1212,7 +1227,7 @@ typedef enum {
         }
         UserRecordDataManager *userRecordManager = [UserRecordDataManager instance];
         BOOL successSaved = NO;
-        for (NSDictionary *tempDic in userDataArray) {
+        for (NSDictionary *tempDic in userDataArray) {//得到最外层数组中的每一个dic
             if (tempDic == nil) {
                 continue;
             }
@@ -1227,9 +1242,12 @@ typedef enum {
                 usrDataMeta.type = [tempDic objectForKey:@"type"];
                 usrDataMeta.value = [tempDic objectForKey:@"value"];
                 successSaved = [userRecordManager saveUserDataMeta:usrDataMeta];
+                
+                //
+            
             }
         }
-        //有一个存储出现错误，返回NO
+        //3 有一个存储出现错误，返回NO
         if (successSaved) {
             NSString *successStr = [NSString stringWithFormat:@"%d", SUCCESS];
             responseCallback(successStr);
@@ -1238,6 +1256,8 @@ typedef enum {
             NSString *failedStr = [NSString stringWithFormat:@"%d", FAILED];
             responseCallback(failedStr);
         }
+            
+        });
     }];
     
     //getUserData
@@ -1249,16 +1269,18 @@ typedef enum {
         //1 解析
         SBJsonParser *parse = [[SBJsonParser alloc] init];
         NSDictionary *userDataDic = [parse objectWithString:dataString];
-        //2 从数据库中查找对应的记录，并转换成指定格式
+        //2 异步线程 ，从数据库中查找对应的记录，并转换成指定格式
+        dispatch_async(dispatch_get_global_queue(0, 0), ^{
         //获取userId
         NSString *userId = [NSUserDefaultUtil getUserId];
         NSArray *resultArray = [self getUserDataFromDBWithDictionary:userDataDic andUserId:userId];
-        if (resultArray == nil || resultArray.count <= 0) {
-            responseCallback(@"[]");
-        }
+        
         //3 encode成JSON字符串
         SBJsonWriter *writer = [[SBJsonWriter alloc] init];
         NSString *userDatasString = [writer stringWithObject:resultArray];
+            
+        NSLog(@"getUserData接口的返回值====%@",userDatasString);
+            
         //4 将结果返还给JS
         if (userDatasString == nil || userDatasString.length <= 0) {
             responseCallback(@"[]");
@@ -1267,7 +1289,7 @@ typedef enum {
             responseCallback(userDatasString);
         }
         
-        
+            });
         
         
         
@@ -1280,29 +1302,37 @@ typedef enum {
             LogError(@"[WebViewBridgeRegisterUtil - getBatchUserData] data is nil");
         }
         NSMutableDictionary *batchUserDataDic = [[NSMutableDictionary alloc] init];
-        //1 解析JSON格式的数据
+        //1 解析JS传来的JSON格式的数据
         SBJsonParser *parse = [[SBJsonParser alloc] init];
         NSDictionary *userDataDic = [parse objectWithString:dataString];
+        SBJsonWriter *writer = [[SBJsonWriter alloc] init];
         //2 从数据库中获取数据
+        dispatch_async(dispatch_get_global_queue(0, 0), ^{
+            
         NSString *userId = [NSUserDefaultUtil getUserId];
-        NSArray *keyArray = [userDataDic allKeys];
+        NSArray *keyArray = [userDataDic allKeys];//获取所有arg参数
         for (NSString *tempKey in keyArray) {
             if (tempKey == nil || tempKey.length <= 0) {
                 continue;
             }
             NSDictionary *tempDic = [userDataDic objectForKey:tempKey];
-            //查找到指定的数组
+            //查找数据库，得到指定的数组
             NSArray *resultArray = [self getUserDataFromDBWithDictionary:tempDic andUserId:userId];
             //拼成指定的键值对
             if (resultArray == nil || resultArray.count <= 0) {//防止因为value值为nil导致程序崩掉
-               [batchUserDataDic setValue:@"" forKey:tempKey];
+               [batchUserDataDic setValue:@"[]" forKey:tempKey];
+            }else {//从数据库中查找到的数组不为空
+                NSString *resultArrayString = [writer stringWithObject:resultArray];
+                [batchUserDataDic setValue:resultArrayString forKey:tempKey];
             }
-            [batchUserDataDic setValue:resultArray forKey:tempKey];
+            
             
         }
+            
         //3 encode成JSON字符串
-        SBJsonWriter *writer = [[SBJsonWriter alloc] init];
+        
         NSString *userDataDicString = [writer stringWithObject:batchUserDataDic];
+        NSLog(@"getBatchUserData接口返回给JS的字符串 =====%@",userDataDicString);
         //4 将结果返回给JS
         if (userDataDicString == nil || userDataDicString.length <= 0) {
             responseCallback(@"{}");
@@ -1311,7 +1341,7 @@ typedef enum {
             responseCallback(userDataDicString);
         }
         
-        
+        });
     }];
     
     //getBatchShitData
@@ -1321,11 +1351,15 @@ typedef enum {
         if (dataString == nil || dataString.length <= 0) {
             LogError(@"[WebViewBridgeRegisterUtil - getBatchShitData] data is nil");
         }
+        
+        
         NSMutableDictionary *resultDic = [[NSMutableDictionary alloc] init];
         //1 解析JSON格式的数据
         SBJsonParser *parse = [[SBJsonParser alloc] init];
         NSDictionary *shitDic = [parse objectWithString:dataString];
         //2 从shit 文件中查找指定的数据
+        dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        
         NSArray *keyArray = [shitDic allKeys];
         for (NSString *tempKey in keyArray) {
             if (tempKey == nil || tempKey.length <= 0) {
@@ -1363,25 +1397,29 @@ typedef enum {
         }
         SBJsonWriter *writer = [[SBJsonWriter alloc] init];
         NSString *shitDataString = [writer stringWithObject:resultDic];
+        NSLog(@"批量获取shit数据=====%@",shitDataString);
+        
         if (shitDataString == nil || shitDataString.length <= 0) {
             responseCallback(@"{}");
         }
         else {
             responseCallback(shitDataString);
         }
-        
+            
+        });
         
     }];
     
     //deleteUserData
     [self.javascriptBridge registerHandler:@"deleteUserData" handler: ^(id data, WVJBResponseCallback responseCallback) {
+        //1 解析页面上传来的数据
         NSString *dataString = data;
         if (dataString == nil || dataString.length <= 0) {
             LogError(@"[WebViewBridgeRegisterUtil - deleteUserData] data is nil");
         }
         SBJsonParser *parse = [[SBJsonParser alloc] init];
         NSDictionary *contentDic = [parse objectWithString:dataString];
-        //删除指定的userData
+        //2 删除指定的userData
         UserRecordDataManager *userRecordManager = [UserRecordDataManager instance];
         NSString *userId = [NSUserDefaultUtil getUserId];
         NSString *amount = [userRecordManager deleteUserDataWithDictionary:contentDic andUserId:userId];
@@ -1407,9 +1445,10 @@ typedef enum {
         NSDictionary *dataDic = [parse objectWithString:dataString];
         NSString *urlString = [[dataDic objectForKey:@"url"] objectForKey:@"gson_fix"];
         NSDictionary *headerDic = [dataDic objectForKey:@"header"];
-        //开始get请求
+        //开辟线程，进行get请求
+        dispatch_async(dispatch_get_global_queue(0, 0), ^{
         [HttpRequestUtil httpGetWithUrl:urlString andHeader:headerDic andResponseCallBack:responseCallback];
-        
+        });
         
     }];
     
@@ -1426,8 +1465,10 @@ typedef enum {
         NSString *urlString = [[dataDic objectForKey:@"url"] objectForKey:@"gson_fix"];
         NSDictionary *headerDic = [dataDic objectForKey:@"header"];
         NSDictionary *bodyDic = [dataDic objectForKey:@"body"];
-        //开始post请求
+        //开辟线程，进行post请求
+        dispatch_async(dispatch_get_global_queue(0, 0), ^{
         [HttpRequestUtil httpPostWithUrl:urlString andHeader:headerDic andBody:bodyDic andResponseCallBack:responseCallback];
+        });
         
     }];
     
@@ -1458,26 +1499,43 @@ typedef enum {
 //将获取到的数组转成指定格式的数组
 - (NSArray*)getUserDataFromDBWithDictionary:(NSDictionary *)userDataDic andUserId:(NSString *)userId {
     UserRecordDataManager *userRecordManager = [UserRecordDataManager instance];
-    //获取数据库中的记录
+    //1 获取数据库中的记录
     NSArray *userDataMetaArray  = [userRecordManager getUserDataWithDictionary:userDataDic andUserId:userId];
     
-    //3 组装成指定格式的JSON
+    //2 组装成指定格式的JSON
     NSMutableArray *userDatas = [[NSMutableArray alloc] init];
     if (userDataMetaArray == nil || userDataMetaArray.count <= 0) {
         //直接返回
         return nil;
     }
     
+    
     for (id objc in userDataMetaArray) {
         if (objc == nil) {
             continue;
         }
+        NSMutableDictionary *tempDic = [[NSMutableDictionary alloc] init];
         UserDataMeta *tempMeta = (UserDataMeta *)objc;
-        NSDictionary *tempDic = [NSDictionary dictionaryWithObjectsAndKeys:tempMeta.k1,@"k1",tempMeta.k2,@"k2",tempMeta.k3,@"k3",tempMeta.k4,@"k4",tempMeta.k5,@"k5",tempMeta.type,@"type",tempMeta.value,@"value",tempMeta.createTime,@"create_time",tempMeta.updateTime,@"update_time", nil];
-        [userDatas addObject:tempDic];
+        [tempDic setValue:tempMeta.k1 forKey:@"k1"];
+        [tempDic setValue:tempMeta.k2 forKey:@"k2"];
+        [tempDic setValue:tempMeta.k3 forKey:@"k3"];
+        [tempDic setValue:tempMeta.k4 forKey:@"k4"];
+        [tempDic setValue:tempMeta.k5 forKey:@"k5"];
+        [tempDic setValue:tempMeta.type forKey:@"type"];
+        [tempDic setValue:tempMeta.value forKey:@"value"];
+        //创建时间
+        NSString *createTimeStr = [NSString stringWithFormat:@"%lld",(long long)[tempMeta.createTime timeIntervalSince1970]];
+        [tempDic setValue:createTimeStr forKey:@"create_time"];
+        //更新时间
+        NSString *updateTimeStr = [NSString stringWithFormat:@"%lld",(long long)[tempMeta.updateTime timeIntervalSince1970]];
+        [tempDic setValue:updateTimeStr forKey:@"update_time"];
+        if (tempDic != nil) {
+            [userDatas addObject:tempDic];
+        }
+        
         
     }
-    
+    //3 返回结果
     if (userDatas == nil || userDatas.count <= 0) {
         return  nil;
     }
@@ -1587,15 +1645,21 @@ typedef enum {
 		}
 		NSString *page_type = dic[@"page_type"];
 
-		// 加载指定的html文件
-		NSURL *url = [[NSURL alloc] initFileURLWithPath:[NSString stringWithFormat:@"%@/%@/%@", htmlFilePath, page_type, @".html"]];
-
+		// 加载指定的html文件 --
+        //单词--新修改的
+        NSURL *url = [[NSURL alloc] initFileURLWithPath:[NSString stringWithFormat:@"%@/%@/%@%@", htmlFilePath,@"render", page_type, @".html"]];
+        
+        
 		NSString *urlStrWithParams = nil;
 		//        NSString *args = dic[@"getArgs"];
 		NSString *args = dic[@"get_args"];
 
 		if (args != nil && args.length > 0) {
-			urlStrWithParams = [NSString stringWithFormat:@"%@?%@", [url absoluteString], args];
+
+            //单词--新修改的
+            urlStrWithParams = [NSString stringWithFormat:@"%@%@", [url absoluteString], args];
+            
+            
 		}
 		else {
 			urlStrWithParams = [NSString stringWithFormat:@"%@", [url absoluteString]];

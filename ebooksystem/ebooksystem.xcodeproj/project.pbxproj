@@ -27,6 +27,7 @@
 		0690783A19CFD62700CD9C3D /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0690781E19CFD62700CD9C3D /* CoreData.framework */; };
 		0690784219CFD62700CD9C3D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0690784019CFD62700CD9C3D /* InfoPlist.strings */; };
 		0690784419CFD62700CD9C3D /* ebooksystemTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0690784319CFD62700CD9C3D /* ebooksystemTests.m */; };
+		06A6BC3D1ADBAD4900A1BE64 /* wordTestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06A6BC3C1ADBAD4900A1BE64 /* wordTestViewController.m */; };
 		06A8660E19D14473000BEAA7 /* 2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 06A8660D19D14473000BEAA7 /* 2@2x.png */; };
 		06A8A9EC1A0A0B9300407E89 /* MatchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 06A8A9EB1A0A0B9300407E89 /* MatchViewController.m */; };
 		06A980171A0B609A004E7E6C /* webview-js-bridge.js in Resources */ = {isa = PBXBuildFile; fileRef = 06A980161A0B609A004E7E6C /* webview-js-bridge.js */; };
@@ -355,6 +356,8 @@
 		0690783F19CFD62700CD9C3D /* ebooksystemTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ebooksystemTests-Info.plist"; sourceTree = "<group>"; };
 		0690784119CFD62700CD9C3D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		0690784319CFD62700CD9C3D /* ebooksystemTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ebooksystemTests.m; sourceTree = "<group>"; };
+		06A6BC3B1ADBAD4900A1BE64 /* wordTestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = wordTestViewController.h; path = src/test/controller/wordTestViewController.h; sourceTree = "<group>"; };
+		06A6BC3C1ADBAD4900A1BE64 /* wordTestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = wordTestViewController.m; path = src/test/controller/wordTestViewController.m; sourceTree = "<group>"; };
 		06A8660D19D14473000BEAA7 /* 2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "2@2x.png"; sourceTree = "<group>"; };
 		06A8A9EA1A0A0B9300407E89 /* MatchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MatchViewController.h; sourceTree = "<group>"; };
 		06A8A9EB1A0A0B9300407E89 /* MatchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MatchViewController.m; sourceTree = "<group>"; };
@@ -2501,6 +2504,8 @@
 			children = (
 				7164E6B21A26DABD00EA5C04 /* TestViewController.h */,
 				7164E6B31A26DABD00EA5C04 /* TestViewController.m */,
+				06A6BC3B1ADBAD4900A1BE64 /* wordTestViewController.h */,
+				06A6BC3C1ADBAD4900A1BE64 /* wordTestViewController.m */,
 			);
 			name = controller;
 			sourceTree = "<group>";
@@ -3152,6 +3157,7 @@
 				7156B0A419F7AD0C00B3A521 /* UncaughtExceptionHandler.m in Sources */,
 				06CBC6191A8995D9000DADAE /* ScanQRCodeController.m in Sources */,
 				710C039C19E2ECA400C27A33 /* KnowledgeMeta.m in Sources */,
+				06A6BC3D1ADBAD4900A1BE64 /* wordTestViewController.m in Sources */,
 				067CCC241AD765EA005DFC21 /* HttpRequestUtil.m in Sources */,
 				7156B0B019F8BC5100B3A521 /* UIImage+MRImageEffects.m in Sources */,
 				06CE94151A8B5F6C0009D59B /* WebViewBridgeRegisterUtil.m in Sources */,
@@ -3249,7 +3255,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LIBRARY_SEARCH_PATHS = "";
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "df0ef77a-dca2-4974-9884-85b1d70da485";
+				PROVISIONING_PROFILE = "51581c00-e002-4540-861e-df078a4c2154";
 				SDKROOT = iphoneos;
 				VALID_ARCHS = "arm64 armv7 armv7s i386 x86_64";
 			};
@@ -3290,7 +3296,7 @@
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LIBRARY_SEARCH_PATHS = "";
-				PROVISIONING_PROFILE = "df0ef77a-dca2-4974-9884-85b1d70da485";
+				PROVISIONING_PROFILE = "51581c00-e002-4540-861e-df078a4c2154";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 				VALID_ARCHS = "arm64 armv7 armv7s i386 x86_64";
@@ -3345,7 +3351,7 @@
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "df0ef77a-dca2-4974-9884-85b1d70da485";
+				PROVISIONING_PROFILE = "51581c00-e002-4540-861e-df078a4c2154";
 				SKIP_INSTALL = NO;
 				TARGETED_DEVICE_FAMILY = 1;
 				VALID_ARCHS = "armv7 armv7s arm64";
@@ -3401,7 +3407,7 @@
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "df0ef77a-dca2-4974-9884-85b1d70da485";
+				PROVISIONING_PROFILE = "51581c00-e002-4540-861e-df078a4c2154";
 				SKIP_INSTALL = NO;
 				TARGETED_DEVICE_FAMILY = 1;
 				VALID_ARCHS = "armv7 armv7s arm64";

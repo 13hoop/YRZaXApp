@@ -69,7 +69,7 @@
 - (NSString *)dataUrlForUpdate {
 //    return @"http://www.zaxue100.com/index.php?c=check_update_ctrl&m=get_update";
 //    return [NSString stringWithFormat:@"http://%@/index.php?c=check_update_ctrl&m=get_update", [Config instance].appConfig.httpDomain];
-    NSString *urlStr = [@"http://www.zaxue100.com/index.php?c=check_update_platform_ctrl&m=get_download_url" stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSString *urlStr = [@"http://test.zaxue100.com/index.php?c=check_update_platform_ctrl&m=get_download_url" stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     
     return urlStr;
     
@@ -180,6 +180,23 @@
 - (DataUpdateMode)knowledgeDataUpdateMode {
     return DATA_UPDATE_MODE_CHECK;
 //        return DATA_UPDATE_MODE_CHECK_AND_UPDATE;
+}
+
+
+
+#pragma mark -- 发现页的url
+
+- (NSString *)bookMetaUrl {
+    //获取数据的meta信息的url
+    //测试地址
+    return @"http://test.zaxue100.com/index.php?c=book_meta_ctrl&m=get_book_meta";
+    //线上地址
+//    return @"http://www.zaxue100.com/index.php?c=book_meta_ctrl&m=get_book_meta";
+}
+
+- (NSString *)discoverUrl {
+    return @"http://test.zaxue100.com/index.php?c=discovery_ctrl&m=index";
+//    return @"http://www.zaxue100.com/index.php?c=discovery_ctrl&m=index";
 }
 
 

@@ -167,11 +167,19 @@
         //queryIds为空
     if (queryIdsStr == nil || queryIdsStr.length <= 0) {
         NSArray *tempArr = [manager getCollectionMetaWith:bookId andcollectionType:collectionType andQueryId:nil];
+        /*
         for (NSManagedObject *tempObjc in tempArr) {
             if (tempObjc == nil) {//为空，则不作处理
                 continue;
             }
             [collctionListArr addObject:tempObjc];
+        }
+         */
+        for (CollectionMeta *meta in tempArr) {
+            if (meta == nil) {//为空，则不作处理
+                continue;
+            }
+            [collctionListArr addObject:meta];
         }
     }
     else {  //queryIds非空
@@ -183,12 +191,21 @@
             if (tempArr == nil || tempArr.count <= 0) {
                 continue;
             }
+            /*
             for (NSManagedObject *tempObjc in tempArr) {
                 if (tempObjc == nil) {//为空，则不作处理
                     continue;
                 }
                 [collctionListArr addObject:tempObjc];
             }
+             */
+            for (CollectionMeta *meta in tempArr) {
+                if (meta == nil) {//为空，则不作处理
+                    continue;
+                }
+                [collctionListArr addObject:meta];
+            }
+            
         }
     }
     
@@ -218,7 +235,7 @@
     }
      NSMutableArray *dicArr = [[NSMutableArray alloc] init];
     //
-    for (NSManagedObject *entity in entityArrays) {
+    for (CollectionMeta *entity in entityArrays) {
         if (entity == nil) {
             continue;
         }

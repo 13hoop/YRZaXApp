@@ -437,6 +437,81 @@ function dump(arr,level) {
     };
     
     
+    //setUserData
+    bridgeIOS.setUserData = function(data,callback){
+        bridgeIOS.callOC( 'setUserData',data,function(responseData){
+                         if (callback) {
+                         callback(responseData);
+                         }
+                         }  );
+    };
+    
+    //getUserData
+    bridgeIOS.getUserData = function(data,callback){
+        bridgeIOS.callOC( 'getUserData',data,function(responseData){
+                         if (callback) {
+                         callback(responseData);
+                         }
+                         }  );
+    };
+    
+    //getBatchUserData
+    bridgeIOS.getBatchUserData = function(data,callback){
+        bridgeIOS.callOC( 'getBatchUserData',data,function(responseData){
+                         if (callback) {
+                         callback(responseData);
+                         }
+                         }  );
+    };
+    
+    //getBatchShitData
+    bridgeIOS.getBatchShitData = function(data,callback){
+        bridgeIOS.callOC( 'getBatchShitData',data,function(responseData){
+                         if (callback) {
+                         callback(responseData);
+                         }
+                         }  );
+    };
+    
+    //deleteUserData
+    bridgeIOS.deleteUserData = function(data,callback){
+        bridgeIOS.callOC( 'deleteUserData',data,function(responseData){
+                         if (callback) {
+                         callback(responseData);
+                         }
+                         }  );
+    };
+    
+    
+    //httpGet
+    bridgeIOS.httpGet = function(data,callback){
+        bridgeIOS.callOC( 'httpGet',data,function(responseData){
+                         if (callback) {
+                         callback(responseData);
+                         }
+                         }  );
+    };
+    
+    //httpPost
+    bridgeIOS.httpPost = function(data,callback){
+        bridgeIOS.callOC( 'httpPost',data,function(responseData){
+                         if (callback) {
+                         callback(responseData);
+                         }
+                         }  );
+    };
+    
+    
+    //pageStatistic
+    bridgeIOS.pageStatistic = function(data,callback){
+        bridgeIOS.callOC( 'pageStatistic',data,function(responseData){
+                         if (callback) {
+                         callback(responseData);
+                         }
+                         }  );
+    };
+    
+    
     
 }();
 

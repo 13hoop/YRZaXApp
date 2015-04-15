@@ -58,7 +58,7 @@
             responseString = @"";
         }
         else {// 请求成功
-            responseString = (NSString *)data;
+            responseString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
         }
         
     }
@@ -66,7 +66,7 @@
         statusString = @"0";
         httpCodeString = [NSString stringWithFormat:@"%ld",(long)[(NSHTTPURLResponse *)response statusCode]];
         msgString = @"";
-        responseString = (NSString *)data;
+        responseString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
     }
     [resultDic setValue:statusString forKey:@"status"];
     [resultDic setValue:msgString forKey:@"msg"];
@@ -153,7 +153,7 @@
             responseString = @"";
         }
         else {// post请求成功
-            responseString = (NSString *)data;
+            responseString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
         }
         
     }
@@ -161,7 +161,7 @@
         statusString = @"0";
         httpCodeString = [NSString stringWithFormat:@"%ld",(long)[(NSHTTPURLResponse *)response statusCode]];
         msgString = @"";
-        responseString = (NSString *)data;
+        responseString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
     }
     [resultDic setValue:statusString forKey:@"status"];
     [resultDic setValue:msgString forKey:@"msg"];

@@ -512,7 +512,7 @@ typedef enum {
 //makeUI
 
 - (void)updateWebView {
-    NSString *webUrlStr = @"http://www.zaxue100.com/index.php?c=discovery_ctrl&m=index";
+    NSString *webUrlStr = [Config instance].knowledgeDataConfig.discoverUrl;
     [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",webUrlStr]]]];
     self.webView.scrollView.bounces = NO;
     self.webView.scrollView.showsVerticalScrollIndicator = NO;

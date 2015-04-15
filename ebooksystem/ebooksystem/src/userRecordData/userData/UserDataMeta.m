@@ -55,7 +55,9 @@
     }
     //userId  虽然是在native从本地获取，但是约定userId作为userDataMeta的一个属性传进来。
     if (self.userId == nil || self.userId.length <= 0) {//userId为空，则不保存该条记录
-        return NO;
+//        return NO;
+        self.userId = @"defaultUserId";
+        [userDataEntity setValue:self.userId forKey:@"userId"];
     }
     else {
         [userDataEntity setValue:self.userId forKey:@"userId"];
@@ -109,10 +111,19 @@
         [userDataEntity setValue:self.type forKey:@"type"];
     }
     
+    //value
+    if (self.value == nil || self.value.length <= 0 ) {
+        [userDataEntity setValue:@"" forKey:@"value"];
+    }
+    else {
+        [userDataEntity setValue:self.value forKey:@"value"];
+    }
+    
+    
     //createTime
     if (self.createTime != nil) {
         [userDataEntity setValue:[NSDate date] forKey:@"createTime"];
-        [userDataEntity setValue:@"" forKey:@"updateTime"];//创建时，updateTime置为空
+//        [userDataEntity setValue:[NSDate date] forKey:@"updateTime"];//创建时，updateTime置为空
     }
     
     //updateTime

@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html>
+<head >
+    <meta charset="UTF-8">
+    <title>测试native的接口</title>
+    <style>
+        #output{
+            display: block;
+            width: 100%;
+            min-height: 300px;
+        }
+    </style>
+</head>
+<body>
+    <h1>测试native接口</h1>
+
+    <textarea id="output" ></textarea>
+
+	<p><h2>UserData</h2>
+    	<button id="get-user-data">getUserData</button>
+    	<button id="get-batch-user-data">getBatchUserData</button>
+    	<button id="set-user-data">setUserData</button>
+    	<button id="delete-user-data">deleteUserData</button>
+    </p>
+    
+    <p><h2>ShitData</h2>
+    	<button id="get-batch-shit-data">getBatchShitData</button>
+    </p>
+    
+    <p><h2>Statistics</h2>
+    	<button id="page-statistic">pageStatistic</button>
+    </p>
+    
+    <p><h2>WebRequest</h2>
+    	<button id="http-get">httpGet</button>
+    	<button id="http-post">httpPost</button>   
+    </p>
+
+    <script>
+        ! function(){
+
+            var output = document.getElementById('output');
+            
+            
+            var getUserDataBtn = document.getElementById('get-user-data');
+            var getBatchUserDataBtn = document.getElementById('get-batch-user-data');
+            var setUserDataBtn = document.getElementById('set-user-data');
+            var deleteUserDataBtn = document.getElementById('delete-user-data');
+            
+            var getBatchShitDataBtn = document.getElementById('get-batch-shit-data');
+            
+            var pageStatisticBtn = document.getElementById('page-statistic');
+            
+            var httpGetBtn = document.getElementById('http-get');
+            var httpPostBtn = document.getElementById('http-post');
+
+            function clearOutput(){
+                output.value = '';
+            }
+
+            setUserDataBtn.onclick = function(){
+                clearOutput();
+
+                var data = [];
+                data.push({
+                    k1 : 'test-1',
+                    k2 : 'group-1',
+                    type : 'jindu',
+                    value : '111111111'
+                });
+                data.push({
+                    k1 : 'test-1',
+                    k2 : 'group-2',
+                    type : 'jindu',
+                    value : '2222222'
+                });
+                data.push({
+                    k1 : 'test-1',
+                    k2 : 'group-1',
+                    k3 : 'k3-of-group-1',
+                    type : 'jindu',
+                    value : '333333'
+                });
+
+//alert("raw data: \n" + data);
+                data = JSON.stringify( data );
+var out = bridgeIOS.setUserData( data ,function(out){
+    alert( 'setUserData 返回值：' + out );
+});
+
+            };
+            
+            getUserDataBtn.onclick = function(){
+                clearOutput();
+
+                var data = {};
+                data = {
+                    k1 : ['test-1'],
+                    k2 : ['group-1'],
+                    k3 : [],
+                    type : ['jindu'],
+                    value : ['111111111']
+                };
+
+//alert("raw data: \n" + data);
+                data = JSON.stringify( data );
+                //alert("json for data:\n" + data);
+var out = bridgeIOS.getUserData( data ,function(out){
+    output.value = out;
+});
+
+//                alert( 'getUserDataBtn 返回值：' + out );
+            };
+
+            getBatchUserDataBtn.onclick = function(){
+                clearOutput();
+
+                var data = {};
+                data.test_1 = {
+                    k1 : ['test-1'],
+                    k2 : ['group-1'],
+                    k3 : [],
+                    type : ['jindu'],
+                    value : []
+                };
+                data.test_2 = {
+                    k1 : ['test-1'],
+                    k2 : ['group-2'],
+                    k3 : [],
+                    type : ['jindu'],
+                    value : ['2222222']
+                };
+                data.test_3 = {
+                    k1 : ['test-1'],
+                    k2 : ['group-1'],
+                    k3 : ['k3-of-group-1'],
+                    type : ['jindu'],
+                    value : []
+                };
+
+//alert("raw data: \n" + data);
+                data = JSON.stringify( data );
+                //alert("json for data:\n" + data);
+var out = bridgeIOS.getBatchUserData( data ,function(out){
+output.value = out;
+});
+
+//                alert( 'getBatchUserDataBtn 返回值：' + out );
+            };
+            
+            deleteUserDataBtn.onclick = function(){
+                clearOutput();
+
+                var data = {};
+                data = {
+                    k1 : 'test-1',
+                    k2 : 'group-1',
+                    k3 : '',
+                    type : 'jindu',
+                    value : '111111111'
+                };
+
+//alert("raw data: \n" + data);
+                data = JSON.stringify( data );
+                //alert("json for data:\n" + data);
+var out = bridgeIOS.deleteUserData( data ,function(out){
+
+output.value = out;
+alert( 'deleteUserDataBtn 返回值：' + out );
+});
+
+            };
+
+            getBatchShitDataBtn.onclick = function(){
+                clearOutput();
+
+                var data = {};
+                data.test_1 = {
+                    book_id : 'android_00101015',
+                    query_id : 'top_page'
+                };
+                data.test_2 = {
+                    book_id : 'android_00101013',
+                    query_id : 'top_page'
+                };
+                data.test_3 = {
+                    book_id : 'android_00101014',
+                    query_id : 'top_page'
+                };
+
+//alert("raw data: \n" + data);
+                data = JSON.stringify( data );
+                //alert("json for data:\n" + data);
+var out = bridgeIOS.getBatchShitData( data ,function(out){
+
+ output.value = out;
+});
+
+            };
+            
+            pageStatisticBtn.onclick = function(){
+                clearOutput();
+
+                var data = {};
+                data.event_name = {
+                    gson_fix : 'open_top_page'
+                };
+                data.value = {
+                    book_id : 'android_00101014',
+                    query_id : 'top_page'
+                };
+
+//alert("raw data: \n" + data);
+                data = JSON.stringify( data );
+                //alert("json for data:\n" + data);
+var out = bridgeIOS.pageStatistic( data ,function(out){
+output.value = out;
+});
+
+            };
+            
+            httpGetBtn.onclick = function(){
+                clearOutput();
+
+                var data = {};
+                data.url = {
+                    gson_fix : 'http://www.ifeng.com'
+                };
+                data.header = {
+                    header_1 : 'test_header_1',
+                    header_2 : 'test_header_2'
+                };
+
+//alert("raw data: \n" + data);
+                data = JSON.stringify( data );
+                //alert("json for data:\n" + data);
+var out = bridgeIOS.httpGet( data ,function(out){
+output.value = out;
+});
+
+            };
+            
+            httpPostBtn.onclick = function(){
+                clearOutput();
+
+                var data = {};
+                data.url = {
+                    gson_fix : 'http://www.ifeng.com'
+                };
+                data.header = {
+                    header_1 : 'test_header_1',
+                    header_2 : 'test_header_2'
+                };
+                data.body = {
+                    body_1 : 'test_body_1',
+                    body_2 : 'test_body_2'
+                };
+
+//alert("raw data: \n" + data);
+                data = JSON.stringify( data );
+                //alert("json for data:\n" + data);
+var out = bridgeIOS.httpPost( data ,function(out){
+output.value = out;
+});
+
+            };
+
+        }();
+    </script>
+</body>
+</html>
