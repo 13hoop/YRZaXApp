@@ -83,9 +83,16 @@
 
 #pragma mark - download
 - (BOOL)startDownload {
-    [IADownloadManager downloadItemWithURL:self.downloadUrl useCache:YES saveToPath:self.savePath];
+    LogDebug(@"开始下载");
     
+    [IADownloadManager downloadItemWithURL:self.downloadUrl useCache:YES saveToPath:self.savePath];
     [IADownloadManager attachListener:self toURL:self.downloadUrl];
+    
+    /*
+    NSArray *array = [NSArray arrayWithObjects:self.downloadUrl, nil];
+    [IASequentialDownloadManager downloadItemWithURLs:array useCache:YES];
+    [IASequentialDownloadManager attachListener:self toURLs:array];
+    */
     
     self.startTime = [NSDate date];
     return YES;

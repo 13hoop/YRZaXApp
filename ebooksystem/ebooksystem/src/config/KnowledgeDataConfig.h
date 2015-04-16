@@ -60,4 +60,12 @@
 + (KnowledgeDataConfig *)instance;
 
 
+
+
+//发现页的url
+@property (nonatomic ,assign) NSString *discoverUrl;
+@property (nonatomic ,assign) NSString *bookMetaUrl;
+
+
+
 @end

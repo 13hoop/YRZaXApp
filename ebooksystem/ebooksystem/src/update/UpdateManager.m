@@ -88,5 +88,56 @@
     return YES;
 }
 
+- (BOOL)updateAble {
+    
+    NSURL *url = [NSURL URLWithString:[[Config instance].updateConfig.urlForCheckUpdate stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+    
+    // 下载更新信息文件
+    NSString *downloadRootPath = [Config instance].knowledgeDataConfig.knowledgeDataDownloadRootPathInDocuments;
+    NSString *savePath = [NSString stringWithFormat:@"%@/%@-%@", downloadRootPath, @"update_info", [DateUtil timestamp]];
+    
+    BOOL ret = [[KnowledgeDownloadManager instance] directDownloadWithUrl:url andSavePath:savePath];
+    if (!ret) {
+        LogError(@"[UpdateManager-checkUpdate] failed to download update info file");
+        return NO;
+    }
+    
+    // 读取更新信息文件
+    NSError *error = nil;
+    NSString *updateInfoFileContents = [NSString stringWithContentsOfFile:savePath encoding:NSUTF8StringEncoding error:&error];
+    if (updateInfoFileContents == nil || updateInfoFileContents.length <= 0) {
+        LogError(@"[UpdateManager-checkUpdate] failed to read update info file: %@", savePath);
+        return NO;
+    }
+    
+    // 解析json
+    JSONModelError *jsonModelError = nil;
+    UpdateInfo *updateInfo = [[UpdateInfo alloc] initWithString:updateInfoFileContents usingEncoding:NSUTF8StringEncoding error:&jsonModelError];
+    if (updateInfo == nil) {
+        LogError(@"[UpdateManager-checkUpdate] failed to parse update info from : %@", updateInfoFileContents);
+        return NO;
+    }
+    
+    BOOL updatable = NO;
+    // 判断是否有更新
+    if (updateInfo.appVersionStr != nil) {
+        NSString *curAppVersion = [AppUtil getAppVersionStr];
+        if (curAppVersion != nil) {
+            updatable = ([curAppVersion compare:updateInfo.appVersionStr options:NSNumericSearch] == NSOrderedAscending);
+            updateInfo.shouldUpdate = (updatable ? @"YES" : @"NO");
+        }
+    }
+    
+    [PathUtil deletePath:savePath];
+    
+    //返回是否需要更新
+    if (updatable == YES) {
+        return YES;
+    }
+    else {
+        return NO;
+    }
+    
+}
 
 @end

@@ -13,7 +13,8 @@
 #import "UMContactViewController.h"
 
 #import "StatisticsManager.h"
-
+#import "NSUserDefaultUtil.h"
+#import "UserManager.h"
 
 #define TOP_MARGIN 20.0f
 #define kNavigationBar_ToolBarBackGroundColor  [UIColor colorWithRed:0.149020 green:0.149020 blue:0.149020 alpha:1.0]
@@ -180,6 +181,8 @@ static UITapGestureRecognizer *tapRecognizer;
 
 }
 
+
+
 - (void)handleKeyboard {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
@@ -334,7 +337,29 @@ static UITapGestureRecognizer *tapRecognizer;
 - (IBAction)sendFeedback:(id)sender {
     if ([self.mTextField.text length]) {
         NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
-        [dictionary setObject:self.mTextField.text forKey:@"content"];
+        
+        NSString *contentString = self.mTextField.text;
+        //拼接用户的手机号：
+        UserManager *userManager = [UserManager instance];
+        UserInfo *userinfo = [userManager getCurUser];
+        NSString *cruPhone = userinfo.phoneNumber;
+        if ((cruPhone != nil && cruPhone.length > 0) || (self.remarkInfo != nil &&self.remarkInfo.length > 0)) {//只要两种填写信息的方式中有一种填写，就不弹出对话框
+            //电话号码不为空，则在反馈信息中拼接上用户手机号。
+            if (cruPhone != nil && cruPhone.length > 0) {
+                contentString = [NSString stringWithFormat:@"%@手机用户:%@",cruPhone,self.mTextField.text];
+            }
+            else {
+                //contentString不拼接其他任何信息
+            }
+            
+        }
+        else {//两种方式都未填写
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"温馨提示" message:@"填写您的联系方式有助于我们及时联系到您，解决您反馈的问题" delegate:nil cancelButtonTitle:@"好的" otherButtonTitles:nil, nil];
+            [alert show];
+            
+        }
+        //将要发送的消息拼接到字典中
+        [dictionary setObject:contentString forKey:@"content"];
 
         if ([self.mContactInfo length]) {
             [dictionary setObject:[NSDictionary dictionaryWithObjectsAndKeys:self.mContactInfo, @"plain", nil] forKey:@"contact"];
@@ -530,6 +555,7 @@ static UITapGestureRecognizer *tapRecognizer;
 -(void)viewWillAppear:(BOOL)animated
 {
     self.navigationController.navigationBarHidden=NO;
+    self.tabBarController.tabBar.hidden = YES;
     [super viewWillAppear:animated];
     
     [[StatisticsManager instance] beginLogPageView:@"PageFeedback"];
@@ -538,7 +564,7 @@ static UITapGestureRecognizer *tapRecognizer;
 -(void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    
+    self.tabBarController.tabBar.hidden = NO;
     [[StatisticsManager instance] endLogPageView:@"PageFeedback"];
 }
 @end

@@ -36,7 +36,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.view.backgroundColor=[UIColor colorWithHexString:@"#242021" alpha:1];
+    self.view.backgroundColor=[UIColor colorWithHexString:@"#e95510" alpha:1];
     [self creatCustomNavigationBar];
     [self createCustomAboutUs];
     
@@ -53,6 +53,7 @@
 {
     CustomNavigationBar *navigationBar=[[CustomNavigationBar alloc] initWithFrame:CGRectMake(0, 20, 320, 50)];
     navigationBar.title = @"关于咋学";
+    [navigationBar setTintColor:[UIColor colorWithHexString:@"#fffff3" alpha:1]];
     navigationBar.customNav_delegate = self;
     [self.view addSubview:navigationBar];
     
@@ -73,6 +74,8 @@
 {
     
     [super viewWillAppear:animated];
+    //页面开始渲染时将tabbar隐藏掉
+    self.tabBarController.tabBar.hidden = YES;
     
     [[StatisticsManager instance] beginLogPageView:@"PageAboutUs"];
 }
@@ -80,6 +83,8 @@
 -(void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
+    //页面消失时将tabbar显示出来
+    self.tabBarController.tabBar.hidden = NO;
     
     [[StatisticsManager instance] endLogPageView:@"PageAboutUs"];
 }

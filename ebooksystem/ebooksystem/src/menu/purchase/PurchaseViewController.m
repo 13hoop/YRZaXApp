@@ -90,7 +90,7 @@
 //    [self.tbactivityView stopAnimate];
     [self hideProgressOfActivityIndicator];
 }
-#pragma mark - KnowledgeManagerDelegate methods
+#pragma mark - 加载提示动画
 - (void)showProgressAsActivityIndicator {
     if (activityIndicatorView) {
         activityIndicatorView.hidden = NO;

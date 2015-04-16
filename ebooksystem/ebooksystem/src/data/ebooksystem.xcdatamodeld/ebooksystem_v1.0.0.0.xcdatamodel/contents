@@ -1,8 +1,35 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="6252" systemVersion="14A389" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="6735" systemVersion="14A389" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="BookMarkEntity" representedClassName="BookMarkEntity" syncable="YES">
+        <attribute name="bookId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="bookMarkContent" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="bookMarkDescInfo" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="bookMarkId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="bookMarkName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="bookMarkType" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="createBookMarkTime" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="gUserId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="targetId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="updateBookMarkTime" optional="YES" attributeType="Date" syncable="YES"/>
+    </entity>
+    <entity name="CollectionEntity" representedClassName="CollectionEntity" syncable="YES">
+        <attribute name="bookId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="collectionCreateTime" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="collectionDescInfo" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="collectionId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="collectionType" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="content" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="contentQueryId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="gUserId" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
     <entity name="KnowledgeMetaEntity" representedClassName="KnowledgeMetaEntity" syncable="YES">
+        <attribute name="bookCategory" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="bookMeta" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="bookReadType" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="checkTime" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="childIds" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="completeBookId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="coverSrc" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="curVersion" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="dataId" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="dataNameCh" optional="YES" attributeType="String" syncable="YES"/>
@@ -33,8 +60,25 @@
         <attribute name="dataNameEn" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="searchId" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
+    <entity name="UserDataEntity" representedClassName="UserDataEntity" syncable="YES">
+        <attribute name="backup1" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="backup2" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="createTime" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="k1" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="k2" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="k3" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="k4" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="k5" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="type" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="updateTime" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="userId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="value" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
     <elements>
-        <element name="KnowledgeMetaEntity" positionX="-63" positionY="-18" width="128" height="420"/>
+        <element name="BookMarkEntity" positionX="-54" positionY="135" width="128" height="193"/>
+        <element name="CollectionEntity" positionX="-54" positionY="135" width="128" height="163"/>
+        <element name="KnowledgeMetaEntity" positionX="-63" positionY="-18" width="128" height="495"/>
         <element name="KnowledgeSearchEntity" positionX="-54" positionY="144" width="128" height="105"/>
+        <element name="UserDataEntity" positionX="-9" positionY="180" width="128" height="223"/>
     </elements>
 </model>

@@ -2,8 +2,8 @@
 //  KnowledgeMetaEntity.m
 //  ebooksystem
 //
-//  Created by zhenghao on 10/26/14.
-//  Copyright (c) 2014 sanweishuku. All rights reserved.
+//  Created by wanghaoyu on 15/1/28.
+//  Copyright (c) 2015年 sanweishuku. All rights reserved.
 //
 
 #import "KnowledgeMetaEntity.h"
@@ -11,14 +11,19 @@
 
 @implementation KnowledgeMetaEntity
 
+@dynamic bookCategory;
+@dynamic bookMeta;
 @dynamic checkTime;
 @dynamic childIds;
+@dynamic completeBookId;
+@dynamic coverSrc;
 @dynamic curVersion;
 @dynamic dataId;
 @dynamic dataNameCh;
 @dynamic dataNameEn;
 @dynamic dataPath;
 @dynamic dataPathType;
+@dynamic dataSearchType;
 @dynamic dataStatus;
 @dynamic dataStatusDesc;
 @dynamic dataStorageType;
@@ -35,6 +40,6 @@
 @dynamic updateInfo;
 @dynamic updateTime;
 @dynamic updateType;
-@dynamic dataSearchType;
+@dynamic bookReadType;
 
 @end

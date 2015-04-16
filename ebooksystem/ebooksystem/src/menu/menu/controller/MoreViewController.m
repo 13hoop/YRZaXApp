@@ -33,6 +33,7 @@
 #import "CommonWebViewController.h"
 #import "TestViewController.h"
 #import "DeviceStatusUtil.h"
+#import "TestMainViewController.h"
 
 //#define UMENG_APPKEY @"5420c86efd98c51541017684"
 
@@ -232,7 +233,9 @@
         case VIEW_ITEM_TEST:
         {
             // 测试
-            [self showTestViewController];
+//            [self showTestViewController];
+            TestMainViewController *test = [[TestMainViewController alloc] init];
+            [self.navigationController pushViewController:test animated:YES];
 
         }
             break;

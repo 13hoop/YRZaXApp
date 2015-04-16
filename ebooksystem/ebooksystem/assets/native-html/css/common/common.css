@@ -1,0 +1,174 @@
+html, body, div, span, object, iframe,h1, h2, h3, h4, h5, h6, p, blockquote, pre,a, abbr, acronym, address, code, b,del, dfn, em, img, q, dl, dt, dd, ol, ul, li,fieldset, form, label, legend,table, caption, tbody, tfoot, thead, tr, th, td,article, aside, dialog, figure, footer, header,hgroup, nav, section{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: "微软雅黑", arial;
+    -webkit-tap-highlight-color:transparent;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    outline: none;
+}
+html{
+    -webkit-user-select: none;
+}
+ul,ol,dl{
+    list-style: none;
+}
+.clearfix:after{
+    content: '\020';
+    display: block;
+    clear: both;
+    visibility: hidden;
+    height: 0;
+    font-size: 0;
+}
+
+body{
+    background: #fcfcfc;
+}
+
+/*通用向右箭头*/
+.right-arrow{
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border: 1px solid #bbb;
+    border-width: 1px 1px 0 0;
+    -webkit-transform: rotate(45deg);
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    margin-top: -5px;
+}
+
+
+/***在模拟native时，用如下样式**/
+html.fake-native, .fake-native body{
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+}
+.fake-native .activity, .fake-native .fragment{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+/*header*/
+.fragment-header{
+    height: 48px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    background: #fff;
+    color: #4a4a4a;
+    line-height: 47px;
+    z-index: 5;
+    border-bottom: 1px solid #dcdcdc;
+}
+.fragment-header h1{
+    color: #4a4a4a;
+    height: 100%;
+    text-align: center;
+    font-size: 18px;
+}
+.common-back{
+    position: absolute;
+    height: 100%;
+    left: 0;
+    padding: 0 30px;
+    color: #ccc;
+    text-decoration: none;
+}
+.common-back:before{
+    position: absolute;
+    content: '\020';
+    border: 0 solid #4a4a4a;
+    border-width: 0 0 2px 2px;
+    height: 13px;
+    width: 13px;
+    background: transparent;
+    -webkit-transform: rotate(45deg);
+    left: 17px;
+    top: 17px;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+.fragment-title{
+    height: 100%;
+    font-size: 18px;
+}
+
+.fake-native .fragment-body{
+    position: absolute;
+    left: 0;
+    top: 48px;
+    width: 100%;
+    bottom: 0;
+    overflow: hidden;
+}
+.fake-native .scroll-wrap{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+}
+
+/*修复部分Android下，可滚动区域的click事件不触发的bug*/
+.android-paint-fix{
+    -webkit-transform: translate3d(0,0,0);
+    transform: translate3d(0, 0, 0);
+}
+
+/****自定义对话框组件样式**/
+.dialog-mask{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-color: rgba(0,0,0, .4);
+    z-index: 101;
+    display: none;
+}
+.dialog{
+    position: absolute;
+    width: 80%;
+    left: 50%;
+    top: 50%;
+    -webkit-transform: translate3d(-50%,-50%,0);
+    background: #fff;
+}
+.dialog-content{
+    padding: 15px;
+    font-size: 14px;
+}
+.dialog-btns{
+    padding: 10px;
+    text-align: center;
+}
+.btn{
+    display: inline-block;
+}
+.dialog .btn{
+    width: 70px;
+    height: 28px;
+    font-size: 13px;
+    line-height: 28px;
+    border-radius: 5px;
+
+}
+.dialog .btn-ok{
+    background-color: #ff6767;
+    color: #fff;
+}
+.dialog .btn-cancel{
+    background-color: #A09C9C;
+    color: #fff;
+    margin-right: 15px;
+}
+
+.dialog-show{
+    display: block;
+}

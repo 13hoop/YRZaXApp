@@ -59,6 +59,7 @@
     [userInfo setObject:self.contactInfo.text forKey:@"userContact"];
     [userInfo setObject:self.email.text forKey:@"userEmail"];
     [userInfo setObject:self.project.text forKey:@"chooseProject"];
+    [userInfo synchronize];
     
     
 }

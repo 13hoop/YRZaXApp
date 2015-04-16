@@ -7,6 +7,7 @@
 //
 
 #import "DirectionMPMoviePlayerViewController.h"
+#import "StatisticsManager.h"
 
 @interface DirectionMPMoviePlayerViewController ()
 
@@ -21,6 +22,7 @@
     CGAffineTransform transform = CGAffineTransformIdentity;
     transform = CGAffineTransformRotate(transform, M_PI/2);
     self.view.transform = transform;
+    
     // Do any additional setup after loading the view.
 }
 
@@ -29,6 +31,19 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    //去掉tabbar，否则播放时会显示tabbar
+    self.tabBarController.tabBar.hidden = YES;
+    //隐藏掉状态栏
+    [[UIApplication sharedApplication] setStatusBarHidden:TRUE];
+    //进入播放页的统计
+    [[StatisticsManager instance] beginLogPageView:@"playVideo"];
+    [[StatisticsManager instance] event:@"general_video_play" label:@""];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [[StatisticsManager instance] endLogPageView:@"playVideo"];
+}
 /*
 #pragma mark - Navigation
 

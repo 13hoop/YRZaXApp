@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html class="fake-native">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+    <title>系统消息</title>
+    <link rel="stylesheet" href="./css/common/reset.css"/>
+    <link rel="stylesheet" href="./css/common/common.css"/>
+    <link rel="stylesheet" href="./css/system_info/system_info.css"/>
+    <link rel="stylesheet" href="./css/common/night.css"/>
+</head>
+<body>
+
+    <div id="main-wrap" class="activity">
+        <section id="system-info-page" class="fragment">
+            <header class="fragment-header">
+                <span class="common-back"></span>
+                <h1>系统消息</h1>
+            </header>
+            <div class="fragment-body">
+                <div class="scroll-wrap">
+                    <ul class="info-list">
+
+                    </ul>
+                </div>
+
+            </div>
+        </section>
+    </div>
+
+
+    <script src="./js/lib/es5-shim.min.js"></script>
+    <script src="./js/lib/EventEmitter-4.0.3.min.js"></script>
+    <script src="./js/lib/zepto.min.js"></script>
+    <script src="./js/common/samaConfig.js"></script>
+    <script src="./js/common/debug.js"></script>
+    <script src="./js/common/bridgeXXX.js"></script>
+    <script src="./js/common/utils.js"></script>
+    <script src="./js/common/Dialog.js"></script>
+    <script src="./js/system_info/app.js"></script>
+    <script>
+        if( window.samaBridgeReady ){
+            app.init();
+        }else{
+            document.addEventListener('SamaBridgeReady', function(){
+                app.init();
+            }, false );
+        }
+    </script>
+</body>
+</html>

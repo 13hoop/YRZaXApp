@@ -55,74 +55,209 @@
     UserInfo *userInfo = [[UserInfo alloc] init];
     userInfo.username = @"defaultuser";
     userInfo.password = @"defaultpwd";
-    userInfo.email = @"";
+    userInfo.userId = @"";
     userInfo.balance = @"";
     
     return userInfo;
 }
 
-// get cur user
+// get cur user  for 2.0
 - (UserInfo *)getCurUser {
     UserInfo *userInfo = [[UserInfo alloc] init];
     NSUserDefaults *userDefault=[NSUserDefaults standardUserDefaults];
     userInfo.username=[userDefault objectForKey:@"userInfoName"];
     userInfo.password=[userDefault objectForKey:@"userinfoPassword"];
-    userInfo.email=[userDefault objectForKey:@"userInfoEmail"];
+    userInfo.userId=[userDefault objectForKey:@"userId"];
     userInfo.balance=[userDefault objectForKey:@"userInfoBalance"];
+    userInfo.phoneNumber = [userDefault objectForKey:@"userInfoPhone"];
+    userInfo.sessionId = [userDefault objectForKey:@"userInfoSessionId"];
     return userInfo;
 }
-//save userInfo
+//save userInfo for 2.0
 -(BOOL)saveUserInfo:(UserInfo *)userinfo {
-    index=0;
     if (userinfo == NULL) {
         return NO;
     }
     
-    //先遍历数组，判断是否有重合的数据
-    NSUserDefaults *userDefault=[NSUserDefaults standardUserDefaults];
-    NSMutableArray *tempArr=[NSMutableArray arrayWithCapacity:0];
+    //先遍历数组，判断用户信息已经存在
+    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+    NSMutableArray *tempArr = [NSMutableArray arrayWithCapacity:0];
     [tempArr addObjectsFromArray:[userDefault objectForKey:@"usedUserArray"]];
-    //判断用户是否已经存在，若存在获取他在数组中的下标
-    for (NSDictionary *userInfoDic in [userDefault objectForKey:@"usedUserArray"]) {
-        index++;
-        if ([[userInfoDic objectForKey:@"userInfoName"] isEqualToString:userinfo.username]) {
-            break;
+    //判断用户是否已经存在，若存在获取他所在数组中的下标
+    
+    for (int i = 0; i < tempArr.count; i++) {
+        
+        NSDictionary *userInfoDic = [tempArr objectAtIndex:i];
+        
+        if ([[userInfoDic objectForKey:@"userId"] isEqualToString:userinfo.userId]) {
+            //若是用户信息已经存在，则更新
+            //1 先取到原先的数据中的用户名和余额
+            NSString *originUserName = [userInfoDic objectForKey:@"userInfoName"];
+            NSString *originBalance = [userInfoDic objectForKey:@"userInfoBalance"];
+            NSString *originPhone = [userInfoDic objectForKey:@"userInfoPhone"];
+            NSString *originSessionId = [userInfoDic objectForKey:@"userInfoSessionId"];
+            //移除
+            [tempArr removeObjectAtIndex:i];
+            //2 js每次传过来的userInfo中不一定都有值，只有userId始终非空，name和balance可能为空。
+            NSString *userId = userinfo.userId;
+            NSString *curUserName = userinfo.username;
+            NSString *curBalance = userinfo.balance;
+            NSString *curPhone = userinfo.phoneNumber;
+            NSString *cruSessionId = userinfo.sessionId;
+            NSString *needSaveUserName = nil;
+            NSString *needSaveBalance = nil;
+            NSString *needSavePhone = nil;
+            NSString *needSaveSessionId = nil;
+            //3 判断是否为空
+            if (curUserName == nil || curUserName.length <= 0) {
+                needSaveUserName = originUserName;//保存之前的用户名
+            }
+            else {
+                needSaveUserName = curUserName;
+            }
+            
+            if (curBalance == nil || curBalance.length <= 0) {
+                needSaveBalance = originBalance;//保存之前的余额
+            }
+            else {
+                needSaveBalance = curBalance;
+            }
+            
+            if (curPhone == nil || curPhone.length <= 0) {
+                needSavePhone = originPhone;//保存之前的手机号
+            }
+            else {
+                needSavePhone = curPhone;
+            }
+            
+            if (cruSessionId == nil || cruSessionId.length <= 0) {
+                needSaveSessionId = originSessionId;//保存之前的sessionId
+            }
+            else {
+                needSaveSessionId = cruSessionId;
+            }
+            
+            //4 将最新信息存成字典
+            NSDictionary *userInfoDic=@{@"userInfoName":needSaveUserName,@"userinfoPassword":userinfo.password,@"userId":userinfo.userId,@"userInfoBalance":needSaveBalance,@"userInfoPhone":needSavePhone,@"userInfoSessionId":needSaveSessionId};
+            //加到字典中
+            [tempArr addObject:userInfoDic];
+            //移除本地的老数据
+            [userDefault removeObjectForKey:@"usedUserArray"];
+            //save新的数据
+            [userDefault setObject:tempArr forKey:@"usedUserArray"];
+            [userDefault synchronize];
+            
+            //5 设置当前用户
+            //userInfoName userinfoPassword userId userInfoBalance  nsuserdefault userInfoPhone 中存当前用户字段
+            {
+                NSUserDefaults *cruUserDefault = [NSUserDefaults standardUserDefaults];
+                [cruUserDefault setObject:needSaveUserName forKey:@"userInfoName"];
+                [cruUserDefault setObject:needSaveBalance forKey:@"userInfoBalance"];
+                [cruUserDefault setObject:userId forKey:@"userId"];
+                [cruUserDefault setObject:userinfo.password forKey:@"userinfoPassword"];
+                [cruUserDefault setObject:needSavePhone forKey:@"userInfoPhone"];
+                [cruUserDefault setObject:needSaveSessionId forKey:@"userInfoSessionId"];
+                [cruUserDefault synchronize];
+            }
+            return YES;
         }
+        
     }
     
-    if (index == tempArr.count) {
-        NSDictionary *userInfoDic=@{@"userInfoName":userinfo.username,@"userinfoPassword":userinfo.password,@"userInfoEmail":userinfo.email,@"userInfoBalance":userinfo.balance};
+    
+    {
+        NSString *userId = userinfo.userId;
+        NSString *curUserName = userinfo.username;
+        NSString *curBalance = userinfo.balance;
+        NSString *curPhone = userinfo.phoneNumber;
+        NSString *cruSessionId = userinfo.sessionId;
+        NSString *needSaveUserName = nil;
+        NSString *needSaveBalance = nil;
+        NSString *needSavePhone = nil;
+        NSString *needSaveSessionId = nil;
+        //3 判断是否为空
+        if (curUserName == nil || curUserName.length <= 0) {
+            needSaveUserName = @"";//不存在则置为空
+        }
+        else {
+            needSaveUserName = curUserName;
+        }
+        
+        if (curBalance == nil || curBalance.length <= 0) {
+            needSaveBalance = @"";//不存在则置为空
+        }
+        else {
+            needSaveBalance = curBalance;
+        }
+        
+        if (curPhone == nil || curPhone.length <= 0) {
+            needSavePhone = @"";//不存在则置为空
+        }
+        else {
+            needSavePhone = curPhone;
+        }
+        
+        if (cruSessionId == nil || cruSessionId.length <= 0) {
+            needSaveSessionId = @"";//不存在则置为空
+        }
+        else {
+            needSaveSessionId = cruSessionId;
+        }
+        
+
+        // 1 用户不存在，则add
+        NSDictionary *userInfoDic=@{@"userInfoName":userinfo.username,@"userinfoPassword":userinfo.password,@"userId":userinfo.userId,@"userInfoBalance":userinfo.balance,@"userInfoPhone":userinfo.phoneNumber,@"userInfoSessionId":userinfo.sessionId};
         [tempArr addObject:userInfoDic];
         //remove original data
         [userDefault removeObjectForKey:@"usedUserArray"];
         //save new data
         [userDefault setObject:tempArr forKey:@"usedUserArray"];
         [userDefault synchronize];
-    }
-    else {
-        //首先移除数组中的原始的用户信息
-        [tempArr removeObjectAtIndex:index-1];
-        //将最新信息存成字典
-        NSDictionary *userInfoDic=@{@"userInfoName":userinfo.username,@"userinfoPassword":userinfo.password,@"userInfoEmail":userinfo.email,@"userInfoBalance":userinfo.balance};
-        //加到字典中
-        [tempArr addObject:userInfoDic];
-        //移除本地的老数据
-        [userDefault removeObjectForKey:@"usedUserArray"];
-        //save新的数据
-        [userDefault setObject:tempArr forKey:@"usedUserArray"];
-        [userDefault synchronize];
-    }
     
-    //test save  is success
-    NSMutableArray *testArr=[userDefault objectForKey:@"usedUserArray"];
-    for (NSDictionary *tempDic in testArr) {
-        if ([[tempDic objectForKey:@"userInfoName"] isEqualToString:userinfo.username]) {
-            return YES;
-        }
+    // 2 用户不存在时，设置当前的用户信息
+    //userInfoName userinfoPassword userId userInfoBalance  nsuserdefault userInfoSessionId中存当前用户字段
+    NSUserDefaults *cruUserDefault = [NSUserDefaults standardUserDefaults];
+    [cruUserDefault setObject:userinfo.username forKey:@"userInfoName"];
+    [cruUserDefault setObject:userinfo.balance forKey:@"userInfoBalance"];
+    [cruUserDefault setObject:userinfo.userId forKey:@"userId"];
+    [cruUserDefault setObject:userinfo.password forKey:@"userinfoPassword"];
+    [cruUserDefault setObject:userinfo.phoneNumber forKey:@"userInfoPhone"];
+    [cruUserDefault setObject:userinfo.sessionId forKey:@"userInfoSessionId"];
+    [cruUserDefault synchronize];
+        
     }
-    
-    return NO;
+    return YES;
 }
+
+//logout for 2.0
+- (void)cruUserLogout {
+    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+    /*
+    NSString *cruUserName = [userDefault valueForKey:@"userInfoName"];
+    NSString *cruUserInfoBalance = [userDefault valueForKey:@"userInfoBalance"];
+    NSString *cruUserId = [userDefault valueForKey:@"userId"];
+    NSString *cruPassword = [userDefault valueForKey:@"userinfoPassword"];
+    NSString *cruPhone = [userDefault valueForKey:@"userInfoPhone"];
+     */
+    //remove userId
+    [userDefault removeObjectForKey:@"userId"];
+    //remove userName
+    [userDefault removeObjectForKey:@"userInfoName"];
+    //remove balance
+    [userDefault removeObjectForKey:@"userInfoBalance"];
+    //remove mobile
+    [userDefault removeObjectForKey:@"userInfoPhone"];
+    //remove password
+    [userDefault removeObjectForKey:@"userinfoPassword"];
+    [userDefault synchronize];
+    
+    
+}
+
+
+
+
+
 
 //get local Users
 -(NSMutableArray*)getUsers
@@ -136,7 +271,11 @@
     return usersArray;
 }
 
-//getUserInfo
+
+
+
+
+//getUserInfo  for 2.0
 -(UserInfo*)getUserInfo:(NSString *)userName{
     if (userName == NULL || [userName isEqualToString:@""]==YES) {
         return NULL;
@@ -151,7 +290,7 @@
             UserInfo *userinfo=[[UserInfo alloc] init];
             userinfo.username=dic[@"userInfoName"];
             userinfo.password=dic[@"userinfoPassword"];
-            userinfo.email=dic[@"userInfoEmail"];
+            userinfo.userId=dic[@"userId"];
             userinfo.balance=dic[@"userInfoBalance"];
             return userinfo;
         }
@@ -163,6 +302,9 @@
     return nil;
     
 }
+
+
+
 //set userInfo---仿写
 -(BOOL)setCurUser:(UserInfo*)userInfo
 {
@@ -181,10 +323,10 @@
     UserInfo *originalUserInfo=[self getUserInfo:userInfo.username];
     if (originalUserInfo != NULL) {
         // merge
-        NSString *email = (userInfo.email != NULL
-                        && [userInfo.email isEqualToString:@""]==NO ? userInfo.email
-                        : originalUserInfo.email);
-        userInfo.email = email;
+        NSString *userId = (userInfo.userId != NULL
+                        && [userInfo.userId isEqualToString:@""]==NO ? userInfo.userId
+                        : originalUserInfo.userId);
+        userInfo.userId = userId;
         
     }
     [self saveUserInfo:userInfo];

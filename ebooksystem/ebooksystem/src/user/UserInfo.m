@@ -12,11 +12,12 @@
 
 
 @synthesize username;
-@synthesize nickname;
+@synthesize userId;//全局的用户唯一的ID
 @synthesize password;
-@synthesize email;
 @synthesize balance;
-
+@synthesize phoneNumber;
+@synthesize email;
+@synthesize sessionId;
 
 
 @end

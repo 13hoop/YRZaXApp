@@ -19,6 +19,8 @@
 // 下载成功/失败
 - (void)knowledgeDownloadItem:(KnowledgeDownloadItem *)downloadItem didFinish:(BOOL)success response:(id)response;
 
+
+
 @end
 
 

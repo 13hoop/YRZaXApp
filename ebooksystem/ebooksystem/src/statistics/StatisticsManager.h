@@ -33,4 +33,7 @@
 // check update
 - (void)checkUpdate;
 
+//app自己的统计
+- (void)statisticWithUrl:(NSString *)url;
+- (void)statisticDownloadAndUpdateWithBookId:(NSString *)bookId andSuccess:(NSString *)successStr;
 @end

@@ -49,6 +49,7 @@
     return 1; // modify before release
 }
 
+
 // app mode
 - (AppMode)appMode {
     return (AppMode)APP_WITH_FULL_DATA;

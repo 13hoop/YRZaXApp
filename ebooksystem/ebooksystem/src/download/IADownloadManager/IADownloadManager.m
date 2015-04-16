@@ -93,6 +93,7 @@ void (^globalCompletionBlock)(BOOL success, id response, NSURL *url, IADownloadM
 - (void) attachNewHandlerWithListener:(id<IADownloadManagerDelegate>)listener
                                 toURL:(NSURL*)url
 {
+    
     //We should remove the old handler
     //Allow only 1 delegate to listen ot a set of URLs, maybe in the future we can have 1 delegate listening to more than a set of urls
     [self removeHandlerWithListener:listener];
@@ -137,7 +138,7 @@ void (^globalCompletionBlock)(BOOL success, id response, NSURL *url, IADownloadM
 
 #pragma mark Downloading
 #pragma mark -
-
+//这是IAdownload下载管理器对底层实现进行的一次封装
 - (void)startDownloadOperation:(NSURL*)url
                       useCache:(BOOL)useCache
                     saveToPath:(NSString *)path
@@ -165,6 +166,7 @@ void (^globalCompletionBlock)(BOOL success, id response, NSURL *url, IADownloadM
         [downloadingOperation start];
     
         //Add the new operation
+        //将下载操作对象加入到字典中
         [self.downloadOperations setObject:downloadingOperation forKey:url];
     }
 }

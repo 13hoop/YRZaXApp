@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html class="">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+    <title>个人中心</title>
+    <link rel="stylesheet" href="./css/common/reset.css"/>
+    <link rel="stylesheet" href="./css/common/common.css"/>
+    <link rel="stylesheet" href="./css/user_center/user_center.css"/>
+    <link rel="stylesheet" href="./css/common/night.css"/>
+</head>
+<body>
+
+    <div id="main-wrap" class="activity">
+        <section id="user-center-page" class="fragment">
+            <header class="fragment-header">
+                <h1>个人中心</h1>
+            </header>
+            <div class="fragment-body">
+                <div class="scroll-wrap">
+                    <div id="user-info-con">
+                        <img class="avatar-img" alt="头像" src="./css/user_center/assets/avatar-default.png"/>
+                        <div class="info-wrap">
+                            <div class="info-item user-name"></div>
+                            <div class="info-item balance"></div>
+                            <div class="info-item modify-info-btn">修改账号信息<span class="right-arrow"></span></div>
+                            <div class="info-item login-btn">立即登录<span class="right-arrow"></span></div>
+                        </div>
+
+                    </div>
+                    <div class="action-list clearfix">
+                        <!--<div class="action-item" data-action="note">-->
+                            <!--<img class="action-img" src="./css/user_center/assets/biji.png" alt="笔记"/>-->
+                            <!--<div class="action-name">笔记</div>-->
+                        <!--</div>-->
+                        <!--<div class="action-item" data-action="error_list">-->
+                            <!--<img class="action-img" src="./css/user_center/assets/cuotiji.png" alt="笔记"/>-->
+                            <!--<div class="action-name">错题集</div>-->
+                        <!--</div>-->
+                        <!--<div class="action-item" data-action="system_info">-->
+                            <!--<img class="action-img" src="./css/user_center/assets/xiaoxiliebiao.png" alt="笔记"/>-->
+                            <!--<div class="action-name">系统消息</div>-->
+                        <!--</div>-->
+                        <!--<div class="action-item" data-action="recharge">-->
+                            <!--<div class="action-name">充值</div>-->
+                        <!--</div>-->
+                        <!--<div class="action-item" data-action="showNotesPage">-->
+                            <!--<img class="action-img" src="./css/user_center/assets/xiaofeijilu.png" alt="笔记"/>-->
+                            <!--<div class="action-name">消费记录</div>-->
+                        <!--</div>-->
+                        <div class="action-item" data-action="feedback">
+                            <div class="action-name">意见反馈</div>
+                        </div>
+                        <div class="action-item" data-action="validate">
+                            <div class="action-name">正版验证</div>
+                        </div>
+                        <div class="action-item" data-action="setting">
+                            <div class="action-name">设置</div>
+                        </div>
+                        <!--<div class="action-item" data-action="showNotesPage">-->
+                            <!--<img class="action-img" src="./css/user_center/assets/shoucang.png" alt="笔记"/>-->
+                            <!--<div class="action-name">我的收藏</div>-->
+                        <!--</div>-->
+                    </div>
+                </div>
+
+            </div>
+        </section>
+    </div>
+
+
+    <script src="./js/lib/es5-shim.min.js"></script>
+    <script src="./js/lib/EventEmitter-4.0.3.min.js"></script>
+    <script src="./js/lib/zepto.min.js"></script>
+    <script src="./js/common/samaConfig.js"></script>
+    <script src="./js/common/debug.js"></script>
+    <script src="./js/common/bridgeXXX.js"></script>
+    <script src="./js/common/utils.js"></script>
+    <script src="./js/common/Dialog.js"></script>
+    <script src="./js/user_center/app.js"></script>
+    <script>
+        if( window.samaBridgeReady ){
+            app.init();
+        }else{
+            document.addEventListener('SamaBridgeReady', function(){
+                app.init();
+            }, false );
+        }
+    </script>
+</body>
+</html>

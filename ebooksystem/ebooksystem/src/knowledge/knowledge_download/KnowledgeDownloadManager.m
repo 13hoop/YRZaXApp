@@ -10,7 +10,7 @@
 
 #import "UUIDUtil.h"
 #import "LogUtil.h"
-
+#import "NSUserDefaultUtil.h"
 
 
 @interface KnowledgeDownloadManager() <KnowledgeDownloadItemDelegate> {
@@ -81,7 +81,12 @@
     }
     
     for(id key in [self.downloadItems allKeys]) {
+        /*
         if (key != itemId) {
+            continue;
+        }
+         */
+        if ([key isEqualToString:itemId] == NO) {
             continue;
         }
         
@@ -112,9 +117,11 @@
     }
     
     // 创建KnowledgeDownloadItem
-    NSString *itemId = [NSString stringWithFormat:@"%@", [UUIDUtil getUUID]];
+//    NSString *itemId = [NSString stringWithFormat:@"%@", [UUIDUtil getUUID]];
+    NSString *itemId = [NSString stringWithFormat:@"%@",title];//将itemId设置成为具体下载的书籍的Id
    
     KnowledgeDownloadItem *downloadItem = [[KnowledgeDownloadItem alloc] initWithItemId:itemId andTitle:title andDesc:desc andDownloadUrl:downloadUrl andSavePath:savePath andTag:tag];
+    //设置了一个可变字典类型的downloadItems属性，key:value(itemId:download对象)
     [self.downloadItems setObject:downloadItem forKey:downloadItem.itemId];
     
     // set delegate
@@ -179,6 +186,7 @@
     if (self.delegate && [self.delegate respondsToSelector:@selector(knowledgeDownloadItem:didFinish:response:)]) {
         [self.delegate knowledgeDownloadItem:downloadItem didFinish:success response:response];
     }
+    
 }
 
 

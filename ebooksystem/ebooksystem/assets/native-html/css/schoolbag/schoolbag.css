@@ -1,0 +1,295 @@
+
+
+/*header*/
+.fragment-header{
+}
+.fragment-header h1{
+}
+.setting-btn{
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 60px;
+    height: 100%;
+    color: #f7f5f5;
+    font-size: 18px;
+    background: url(./assets/3x/setting-icon.png) no-repeat 16px center;
+    background-size: 27px 27px;
+}
+
+/*fragment body*/
+.fake-native .fragment-body{
+
+}
+
+/**book list **/
+.fragment-body .scroll-wrap{
+    overflow-y: auto;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+}
+#book-list{
+    padding: 15px 18px;
+    position: relative;
+}
+.book-item{
+    position: absolute;
+    overflow: hidden;
+}
+.book-item:active{
+    background: #F7F5F5;
+}
+/*封面*/
+.book-item .cover-container{
+    height: 134px;
+    position: relative;
+    overflow: hidden;
+}
+.cover-wrap{
+    height: 129px;
+    position: relative;
+    overflow: hidden;
+}
+.cover-wrap:before, .cover-wrap:after{
+    display: block;
+    content: '\020';
+    position: absolute;
+    width: 1px;
+    height: 10px;
+    left: 2px;
+    background: #fff;
+    z-index: 5;
+}
+.cover-wrap:before{
+    top: 32px;
+}
+.cover-wrap:after{
+    bottom: 32px;
+}
+.cover-img{
+    display: block;
+    position: absolute;
+}
+
+/*下载按钮*/
+.download-btn{
+    display: none;
+    position: absolute;
+    right: 5px;
+    bottom: 6px;
+    width: 33px;
+    height: 33px;
+    background: url(./assets/3x/download-btn.png) no-repeat 0 0;
+    background-size: 33px 33px;
+}
+.book-not-offline .download-btn{
+    display: block;
+}
+
+/*下载中*/
+.downloading-wrap{
+    display: none;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba( 0,0,0, .3);
+    z-index: 6;
+}
+.downloading-inner{
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 100%;
+    -webkit-transform: translateY(-50%);
+    overflow: hidden;
+
+}
+.downloading-circle{
+    position: relative;
+    height: 15px;
+    line-height: 15px;
+    background-color: #d15124;
+    overflow: hidden;
+    margin: 0 auto;
+}
+.downloading-step{
+    height: 20px;
+    line-height: 20px;
+    color: #fff;
+    text-align: center;
+    font-size: 12px;
+}
+.progress-bg{
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    background-color: #ef9a01;
+    -webkit-transition: height linear .5s;
+    overflow: hidden;
+}
+.progress{
+    position: relative;
+    color: #fff;
+    height: 100%;
+    line-height: inherit;
+    z-index: 2;
+    text-align: center;
+    font-size: 12px;
+}
+.book-downloading .downloading-wrap{
+    display: block;
+}
+.book-downloading .download-btn{
+    display: none;
+}
+
+.book-name{
+    color: #3c3b3c;
+    font-size: 14px;
+    line-height: 18px;
+    height: 36px;
+    overflow: hidden;
+}
+.book-editor{
+    color: #5f5f5f;
+    font-size: 12px;
+    margin-top: 8px;
+}
+/*有更新标记*/
+.book-can-update .update-icon{
+    position: absolute;
+    width: 74px;
+    height: 28px;
+    left: 50%;
+    top: 46px;
+    -webkit-transform: translateX(-50%);
+    background: url(./assets/3x/update-icon.png) scroll no-repeat 0 0;
+    background-size: 100% 100%;
+}
+.has-update{
+    display: none;
+    padding: 0 0 0 11px;
+    position: relative;
+    color: #fe710c;
+    font-size: 12px;
+}
+.has-update:before{
+    display: block;
+    content: '\020';
+    width: 8px;
+    height: 8px;
+    border-radius: 8px;
+    background: #fe710c;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    -webkit-transform: translateY(-50%);
+}
+.book-can-update .has-update{
+    display: block;
+}
+
+/*有微课*/
+.has-weike-icon{
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 30px;
+    height: 30px;
+    background: url(./assets/3x/weike-icon.png) scroll no-repeat 0 0;
+    background-size: 30px;
+    z-index: 2;
+}
+/*选中*/
+.select-icon{
+    display: none;
+    position: absolute;
+    left: 3px;
+    top: 3px;
+    width: 25px;
+    height: 25px;
+    background: url(./assets/3x/select-default.png) scroll no-repeat 0 0;
+    background-size: 25px 25px;
+}
+.book-selected .select-icon{
+    background-image: url(./assets/3x/select-on.png);
+}
+.book-in-select-mode .select-icon{
+    display: block;
+}
+.book-downloading .select-icon{
+    display: none;
+}
+
+/*添加新书按钮*/
+.add-book-wrap{
+    position: absolute;
+    overflow: hidden;
+    background: #f0eeee;
+    border: 1px dashed #CECECE;
+}
+.add-book-inner{
+    color: #CECECE;
+    font-size: 61px;
+    text-align: center;
+    height: 100%;
+}
+
+/*整理书籍相关*/
+.edit-all-btn{
+    position: absolute;
+    width: 80px;
+    height: 100%;
+    font-size: 16px;
+    text-align: center;
+    top: 0;
+}
+#select-all-btn{
+    left: 0;
+    display: none;
+}
+#toggle-edit-btn{
+    right: 0;
+}
+
+#book-edit-con{
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 57px;
+    width: 100%;
+    background: #e7e4e4;
+    border-top: 1px solid #dcdcdc;
+    text-align: center;
+    padding: 8px 0 0;
+    display: none;
+}
+.book-edit-btn{
+    float: left;
+    width: 33%;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    color: #fff;
+    border-radius: 6px;
+    font-size: 16px;
+}
+.book-del-btn{
+    background: #fe710c;
+    margin: 0 0 0 33%;
+}
+.book-del-btn:active{
+    background: #e95510;
+}
+.book-cancel-btn{
+    background: #8f8f8f;
+}
+.book-cancel-btn:active{
+    background: #7a7a7a;
+}

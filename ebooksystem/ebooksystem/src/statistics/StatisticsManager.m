@@ -15,8 +15,7 @@
 
 #import "AppUtil.h"
 
-
-
+#import "LogUtil.h"
 
 @interface StatisticsManager ()
 
@@ -107,5 +106,121 @@
 - (void)checkUpdate {
     [MobClick checkUpdate:@"发现新版本" cancelButtonTitle:@"忽略" otherButtonTitles:@"更新"];
 }
+
+
+
+
+//统计更新
+- (void)statisticWithUrl:(NSString *)url {
+    NSError *error = nil;
+    NSURL *statictisUrl = [NSURL URLWithString:url];
+//    NSURLRequest *request = [NSURLRequest requestWithURL:statictisUrl];
+    
+    
+    NSString *contentType = @"text/html; charset=utf-8";
+    NSString *userAgent = [Config instance].webConfig.userAgent;//取得UA
+    NSMutableDictionary *requestHeaders = [[NSMutableDictionary alloc] init];
+    [requestHeaders setValue:contentType forKey:@"Content-Type"];
+    [requestHeaders setValue:@"text/html" forKey:@"Accept"];
+    [requestHeaders setValue:@"no-cache" forKey:@"Cache-Control"];
+    [requestHeaders setValue:@"no-cache" forKey:@"Pragma"];
+    [requestHeaders setValue:@"close" forKey:@"Connection"];
+    if (userAgent != nil && userAgent.length > 0 ) {
+        [requestHeaders setValue:userAgent forKey:@"User-Agent"];
+    }
+    
+    
+    
+    NSMutableURLRequest *mutableRequest = [NSMutableURLRequest requestWithURL:statictisUrl cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0];
+    [mutableRequest setAllHTTPHeaderFields:requestHeaders];
+    //同步
+//    NSData *data = [NSURLConnection sendSynchronousRequest:mutableRequest returningResponse:nil error:&error];
+    //异步
+    NSOperationQueue *queue = [[NSOperationQueue alloc] init];
+    [NSURLConnection sendAsynchronousRequest:mutableRequest queue:queue completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+        if (connectionError) {
+            LogError (@"[StatisticsManager - statisticWithUrl] statistic failed with error:%@",error.localizedDescription);
+        }
+        
+    }];
+}
+//按照下载和更新来区分统计的url
+- (void)statisticDownloadAndUpdateWithBookId:(NSString *)bookId andSuccess:(NSString *)successStr {
+   
+    NSString *knowledgeDataInDocument = [[Config instance] knowledgeDataConfig].knowledgeDataRootPathInDocuments;
+    NSString *BookPath = [NSString stringWithFormat:@"%@/%@",knowledgeDataInDocument,bookId];
+    BOOL BookExist = [[NSFileManager defaultManager] fileExistsAtPath:BookPath];
+    NSString *updateUrl = nil;
+    if (!BookExist) {//书籍不存在，说明为非更新
+        
+        updateUrl = [NSString stringWithFormat:@"http://log.zaxue100.com/pv.gif?t=download&k=start&v=1&book_id=%@",bookId];
+        
+        if ([successStr isEqualToString:@"succ"]) {
+            updateUrl = [NSString stringWithFormat:@"http://log.zaxue100.com/pv.gif?t=download&k=succ&v=1&book_id=%@",bookId];
+            
+        }
+    
+        if ([successStr isEqualToString:@"fail"]) {
+            updateUrl = [NSString stringWithFormat:@"http://log.zaxue100.com/pv.gif?t=download&k=fail&v=1&book_id=%@",bookId];
+            
+        }
+    
+        
+    
+        
+    }
+    else {
+        
+        updateUrl = [NSString stringWithFormat:@"http://log.zaxue100.com/pv.gif?t=update&k=start&v=1&book_id=%@",bookId];
+        
+        if ([successStr isEqualToString:@"succ"]) {
+            updateUrl = [NSString stringWithFormat:@"http://log.zaxue100.com/pv.gif?t=update&k=succ&v=1&book_id=%@",bookId];
+            
+        }
+        if ([successStr isEqualToString:@"fail"]) {
+            updateUrl = [NSString stringWithFormat:@"http://log.zaxue100.com/pv.gif?t=update&k=fail&v=1&book_id=%@",bookId];
+            
+        }
+        
+    }
+    
+    
+    NSError *error = nil;
+    NSURL *statictisUrl = [NSURL URLWithString:updateUrl];
+//    NSURLRequest *request = [NSURLRequest requestWithURL:statictisUrl];
+    
+    NSString *contentType = @"text/html; charset=utf-8";
+    NSString *userAgent = [Config instance].webConfig.userAgent;//取得UA
+    NSMutableDictionary *requestHeaders = [[NSMutableDictionary alloc] init];
+    [requestHeaders setValue:contentType forKey:@"Content-Type"];
+    [requestHeaders setValue:@"text/html" forKey:@"Accept"];
+    [requestHeaders setValue:@"no-cache" forKey:@"Cache-Control"];
+    [requestHeaders setValue:@"no-cache" forKey:@"Pragma"];
+    [requestHeaders setValue:@"close" forKey:@"Connection"];
+    if (userAgent != nil && userAgent.length > 0 ) {
+        [requestHeaders setValue:userAgent forKey:@"User-Agent"];
+    }
+    
+    NSMutableURLRequest *mutableRequest = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:updateUrl] cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:60.0];
+    [mutableRequest setAllHTTPHeaderFields:requestHeaders];
+    
+    
+//    NSData *data = [NSURLConnection sendSynchronousRequest:mutableRequest returningResponse:nil error:&error];
+    
+    //异步请求
+    NSOperationQueue *queue = [[NSOperationQueue alloc] init];
+    [NSURLConnection sendAsynchronousRequest:mutableRequest queue:queue completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+        if (connectionError) {
+            LogError (@"[StatisticsManager - statisticWithUrl] statistic failed with error:%@",error.localizedDescription);
+        }
+
+    }];
+    
+    
+}
+
+
+
+
 
 @end
