@@ -674,15 +674,15 @@ typedef enum {
 	}];
 
 
-	static int count = 0;
+	
 	//queryBookStatus
 	[self.javascriptBridge registerHandler:@"queryBookStatus" handler: ^(id data, WVJBResponseCallback responseCallback) {
 	    LogDebug(@"RenderKnowledgeViewController::queryBookStatus() called: %@", data);
 
-	    ++count;
+    
 
 	    dispatch_async(dispatch_get_global_queue(0, 0), ^{
-//        dispatch_async(queue, ^{//只开辟一条线程来串行的操作数据库（而不是开辟多条线程并发的操作数据库）
+            //只开辟一条线程来串行的操作数据库（而不是开辟多条线程并发的操作数据库）
 
 			SBJsonParser *parse = [[SBJsonParser alloc] init];
 			NSArray *book_ids = [parse objectWithString:data];
@@ -697,7 +697,6 @@ typedef enum {
 			    NSMutableDictionary *dic = nil;
 
 
-			    LogDebug(@"[queryBookStatus()] count: %d, branch 1", count);
 			    dic = [self getDicFormDataBase:bookId];
 
 
@@ -788,6 +787,8 @@ typedef enum {
 
 	    //异步请求
 	    //1、检查数据库
+        dispatch_async(dispatch_get_global_queue(0, 0), ^{
+
 	    NSArray *knowledgeMetaArray = [[KnowledgeMetaManager instance] getKnowledgeMetaWithDataId:bookID andDataType:DATA_TYPE_UNKNOWN];
 
 	    BOOL isSuccess = NO;
@@ -822,20 +823,7 @@ typedef enum {
                     isSuccess = YES;
                 }
             }
-//	        for (NSManagedObjectContext *entity in knowledgeMetaArray) {
-//	            if (entity == nil) {
-//	                continue;
-//				}
-//	            NSNumber *dicBookStatusNum = [entity valueForKey:@"dataStatus"];
-//	            int bookStatusInt = [dicBookStatusNum intValue];
-//	            if (bookStatusInt == 14 || bookStatusInt == 16 || bookStatusInt == 18 || bookStatusInt == 20) {//四种失败状态
-//	                self.needCheckBookId = bookID;//获取需要下载的书籍
-//	                isSuccess = [model getBookInfoWithDataIds:arr];
-//				}
-//	            else {
-//	                isSuccess = YES;
-//				}
-//			}
+//
 		}
 
 
@@ -849,6 +837,10 @@ typedef enum {
 	            responseCallback(failedStr);//失败 0
 			}
 		}
+            
+            
+            
+        });
 	}];
 
 
@@ -977,12 +969,14 @@ typedef enum {
 	}];
 	// curUserLogout
 	[self.javascriptBridge registerHandler:@"curUserLogout" handler: ^(id data, WVJBResponseCallback responseCallback) {
+
 	    //logout
 	    UserManager *usermanager = [UserManager instance];
 	    [usermanager cruUserLogout];
 	    //用户登出时，注销设备
 //        [XGPush unRegisterDevice];
-
+        //用户登出时，清掉用户记录
+        [NSUserDefaultUtil removeUserId];
 	    if (responseCallback != nil) {
 	        responseCallback(@"1");//需要回调，否则页面不能在登出后，返回到上一个页面
 		}
@@ -1279,7 +1273,6 @@ typedef enum {
         SBJsonWriter *writer = [[SBJsonWriter alloc] init];
         NSString *userDatasString = [writer stringWithObject:resultArray];
             
-        NSLog(@"getUserData接口的返回值====%@",userDatasString);
             
         //4 将结果返还给JS
         if (userDatasString == nil || userDatasString.length <= 0) {
@@ -1322,6 +1315,7 @@ typedef enum {
             if (resultArray == nil || resultArray.count <= 0) {//防止因为value值为nil导致程序崩掉
                [batchUserDataDic setValue:@"[]" forKey:tempKey];
             }else {//从数据库中查找到的数组不为空
+                //需要将数组转换成JSON格式的字符串
                 NSString *resultArrayString = [writer stringWithObject:resultArray];
                 [batchUserDataDic setValue:resultArrayString forKey:tempKey];
             }
@@ -1332,7 +1326,6 @@ typedef enum {
         //3 encode成JSON字符串
         
         NSString *userDataDicString = [writer stringWithObject:batchUserDataDic];
-        NSLog(@"getBatchUserData接口返回给JS的字符串 =====%@",userDataDicString);
         //4 将结果返回给JS
         if (userDataDicString == nil || userDataDicString.length <= 0) {
             responseCallback(@"{}");
@@ -1397,7 +1390,6 @@ typedef enum {
         }
         SBJsonWriter *writer = [[SBJsonWriter alloc] init];
         NSString *shitDataString = [writer stringWithObject:resultDic];
-        NSLog(@"批量获取shit数据=====%@",shitDataString);
         
         if (shitDataString == nil || shitDataString.length <= 0) {
             responseCallback(@"{}");
@@ -1412,6 +1404,8 @@ typedef enum {
     
     //deleteUserData
     [self.javascriptBridge registerHandler:@"deleteUserData" handler: ^(id data, WVJBResponseCallback responseCallback) {
+        //开辟线程进行操作
+        dispatch_async(dispatch_get_global_queue(0, 0), ^{
         //1 解析页面上传来的数据
         NSString *dataString = data;
         if (dataString == nil || dataString.length <= 0) {
@@ -1427,7 +1421,7 @@ typedef enum {
             responseCallback(amount);
         }
         
-        
+        });
     }];
     
     
@@ -1478,6 +1472,8 @@ typedef enum {
         if (dataString == nil || dataString.length <= 0) {
             LogError(@"[WebViewBridgeRegisterUtil - pageStatistic] data is nil");
         }
+        //开辟线程进行统计
+        dispatch_async(dispatch_get_global_queue(0, 0), ^{
         //1 解析
         SBJsonParser *parse = [[SBJsonParser alloc] init];
         NSDictionary *dic = [parse objectWithString:dataString];
@@ -1488,7 +1484,7 @@ typedef enum {
         //2 使用友盟进行统计
         [MobClick event:eventName attributes:paramDic];
         
-        
+        });
     }];
     
     
@@ -1788,7 +1784,6 @@ typedef enum {
  * RenderKnowledgeViewController、SecondRenderKnowledgeViewController。除看书的内容外，所有的页面跳转，复用都在这两个controller中进行。
  */
 
-//将js抽出来后怎么处理，怎样实现跳到不同的controller中？在线的页面每次都实例化一个secondRender对象
 - (BOOL)showSafeURL:(NSString *)urlStr withAnimation:(NSString *)openAnimation {
 	SecondRenderKnowledgeViewController *secondRender = [[SecondRenderKnowledgeViewController alloc] init];
 	secondRender.webUrl = urlStr;

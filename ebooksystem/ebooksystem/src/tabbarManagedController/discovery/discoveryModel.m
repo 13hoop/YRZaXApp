@@ -114,6 +114,10 @@
 }
 
 //解析服务器返回的响应，并下载试读书
+/*
+    下载：首先根据bookId构造post请求，获取到书籍的meta信息，并存到数据库中
+         再根据dataId获取downLoad url
+ */
 - (BOOL)parseServerResponse:(NSString *)responseStr {
 	if (responseStr == nil || responseStr.length <= 0) {
 		LogDebug(@"discoverModel -- parseServerResponse: server responseStr is equal to nil");

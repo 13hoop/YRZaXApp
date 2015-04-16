@@ -59,5 +59,5 @@
 //存储userID
 + (BOOL)saveUserId:(NSString *)userId;
 + (NSString *)getUserId;
-
++ (BOOL)removeUserId;
 @end

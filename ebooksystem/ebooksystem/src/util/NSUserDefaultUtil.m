@@ -235,11 +235,20 @@
     [userDefault synchronize];
     return YES;
 }
-
+//获取userId
 + (NSString *)getUserId {
     NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
     NSString *zaxueUserId = [userDefault objectForKey:@"ZAXUE_USERID"];
     return zaxueUserId;
 }
+//清空userId
++ (BOOL)removeUserId {
+    NSUserDefaults *userDefault = [NSUserDefaults standardUserDefaults];
+//    [userDefault setObject:@"" forKey:@"ZAXUE_USERID"];
+    [userDefault removeObjectForKey:@"ZAXUE_USERID"];
+    [userDefault synchronize];
+    return YES;
+}
+
 
 @end

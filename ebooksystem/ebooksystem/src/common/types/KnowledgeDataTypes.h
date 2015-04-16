@@ -223,6 +223,8 @@ typedef enum {
 //是否需要更新data
 @property (nonatomic, copy) NSString *need_update_data;
 
+//MD5
+//@property (nonatomic, copy) NSString *zip_md5;
 
 @end
 

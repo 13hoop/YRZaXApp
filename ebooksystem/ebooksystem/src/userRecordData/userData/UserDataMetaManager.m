@@ -50,7 +50,6 @@
         NSString *sqlString = [self generateGetUserDataSqlStringWithUserDataMeta:userDataMeta];
         // Predicate
         NSPredicate *predicate = [NSPredicate predicateWithFormat:sqlString];
-        NSLog(@"setUserData时的接口生成的sql语句====%@",sqlString);
         [fetchRequest setPredicate:predicate];
         
         NSError *error = nil;

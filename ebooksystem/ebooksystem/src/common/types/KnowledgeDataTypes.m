@@ -197,6 +197,8 @@
 @synthesize is_permissioned;
 //是否需要更新data
 @synthesize need_update_data;
+//MD5
+//@synthesize zip_md5;
 
 + (JSONKeyMapper*)keyMapper {
     return [[JSONKeyMapper alloc] initWithJSONToModelBlock:^NSString *(NSString *keyName) {
@@ -227,6 +229,9 @@
         else if ([keyName isEqual:@"data_release_time"]) {
             return @"releaseTime";
         }
+//        else if ([keyName isEqual:@"zip_md5"]) {
+//            return @"releaseTime";
+//        }
         else {
             return keyName;
         }

@@ -230,18 +230,32 @@
                 ret = NO;
             }
             
+        
+            //*****判断第一次解包是否成功*********
+            
             // 1.2 check whether unzip path exists
             if (!ret) {
                 LogError(@"[KnowledgeDataManager-processDownloadedDataPack:] failed to unzip file is: %@", downloadItem.savePath);
                 ret = NO;
+                //第一次解包失败,要做的处理:（1）将数据库中的状态置为“解压失败”
+                [[KnowledgeMetaManager instance] setDataStatusTo:DATA_STATUS_UNPACK_FAILED andDataStatusDescTo:@"0" forDataWithDataId:downloadItem.title andType:DATA_TYPE_DATA_SOURCE];
+                
+                 //（2）删除已经下载的文件，否则（由于断点续传）再次下载时，会判断之前是否已经下载部分文件，（到该处已经下载完成），不删除会导致继续解压错误的文件。
+
+                NSError *removeDownloadFileError;
+                [[NSFileManager defaultManager] removeItemAtPath:downloadItem.savePath error:&removeDownloadFileError];
+                
                 break;
+                
+                
+                
             }
             
             // 1.3 check md5, and collect zipped data files
             {
                 NSError *deleteUnpackFileError;
                 //2.0 开始校验的状态
-                [[KnowledgeMetaManager instance] setDataStatusTo:DATA_STATUS_INCHECK andDataStatusDescTo:@"0.96" forDataWithDataId:downloadItem.title andType:DATA_TYPE_DATA_SOURCE];
+                [[KnowledgeMetaManager instance] setDataStatusTo:DATA_STATUS_INCHECK andDataStatusDescTo:@"0.97" forDataWithDataId:downloadItem.title andType:DATA_TYPE_DATA_SOURCE];
                 
                 NSError *error = nil;
                 NSString *md5File = [NSString stringWithFormat:@"%@/%@", unpackPath, @"md5.txt"];
@@ -1080,13 +1094,9 @@
     //（1）js传一个dataId到 native，native根据dataId从数据库中取出对应dataId的当前版本号
     NSString *dataCurVersion = nil;
     
-//    //看一下当前线程
-//    NSThread *current = [NSThread currentThread];
-//    NSLog(@"开始下载时开辟的当前线程是======%@",current);
     
     dataCurVersion = [[KnowledgeMetaManager instance] getKnowledgeDataVersionWithDataId:dataId andDataType:DATA_TYPE_DATA_SOURCE];
-    
-//    dataCurVersion = [[KnowledgeMetaManager instance] getKnowledgeDataVersionWithDataId:dataId];
+
     
     if (dataCurVersion == nil || dataCurVersion.length <=0) {//下载一本新书
         LogDebug(@"Debug | [KnowLedgeDataManager-startDownloadDataWithDataId] : get current version info failed because of no data found");
@@ -1757,16 +1767,11 @@
             [[KnowledgeMetaManager instance] setDataStatusTo:DATA_STATUS_DOWNLOAD_IN_PROGRESS andDataStatusDescTo:[NSString stringWithFormat:@"%lf", progress ] forDataWithDataId:downloadItem.title andType:DATA_TYPE_DATA_SOURCE];
             
             
-//            NSThread *Current = [NSThread currentThread];
-//            NSLog(@"修改下载进度的线程是======%@",Current);
-            
             LogDebug(@"[knowledgeDownloadItem:didProgress:]download item, id %@, title %@, progress: %@", downloadItem.itemId, downloadItem.title, downloadItem.downloadProgress);
         });
     }
     
     
-    //H：自己方便写
-//    [self.dataStatusDelegate DownLoadKnowledgedataWithProgress:progress andDownloadItem:downloadItem];
     
 }
 
@@ -1815,7 +1820,7 @@
             //        }
             
             
-            /*添加断点续传功能
+            /*添加断点续传功能,故注掉以下内容：
             // 2、下载失败后，要将已经下载的内容清除掉
             BOOL isDir;
             BOOL existed = [[NSFileManager defaultManager] fileExistsAtPath:self.globalSavePath isDirectory:&isDir];

@@ -115,7 +115,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 //    [self initWebView];
-    self.view.backgroundColor = [UIColor colorWithHexString:@"#4A90E2"];
+//    self.view.backgroundColor = [UIColor colorWithHexString:@"#4A90E2"];
+    self.view.backgroundColor = [UIColor blackColor];
     WebViewBridgeRegisterUtil *webviewBridgeUtil = [[WebViewBridgeRegisterUtil alloc] init];
     webviewBridgeUtil.webView = self.webView;
     webviewBridgeUtil.controller = self;
