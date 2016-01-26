@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "2A8A29A3E5A450A6F322167DF959681AC7BC690E",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "8fb29d72-f352-44e4-b356-548a4d6ac5c3++6670" : 0,
+    "2A8A29A3E5A450A6F322167DF959681AC7BC690E" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "69CF9E92-9166-49A3-8933-DF231559010A",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "8fb29d72-f352-44e4-b356-548a4d6ac5c3++6670" : "app-ios-ebooksystemebooksystem\/ebooksystem\/depends\/Security",
+    "2A8A29A3E5A450A6F322167DF959681AC7BC690E" : "app-ios-ebooksystem"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "ebooksystem",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "ebooksystem\/ebooksystem.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "ssh:\/\/118.244.235.155:22000\/app-ios-ebooksystem.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "2A8A29A3E5A450A6F322167DF959681AC7BC690E"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "http:\/\/10.20.0.15\/project\/cn\/ChiefSign",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Subversion",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "8fb29d72-f352-44e4-b356-548a4d6ac5c3++6670"
+    }
+  ]
+}
